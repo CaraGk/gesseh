@@ -1,0 +1,63 @@
+# config/schema.yml
+propel:
+ gesseh_param:
+  id:           ~
+  name:         { type: varchar(255), required: true }
+  value:        { type: varchar(255), required: true }
+
+ gesseh_category:
+  id:           ~
+  name:         { type: varchar(255), required: true }
+
+ gesseh_location:
+  id:           ~
+  name:         { type: varchar(255), required: true }
+  address:      { type: varchar(255) } 
+  phone:        { type: varchar(20) }
+  url:          { type: varchar(255) } 
+
+ gesseh_stage_info:
+  id:           ~
+  location_id:  { type: integer, foreignTable: gesseh_location, foreignReference: id, required: true }
+  category_id:  { type: integer, foreignTable: gesseh_category, foreignReference: id, required: true }
+  group_id:     { type: integer, foreignTable: gesseh_group, foreignReference: id, required: true }
+  patron:       { type: varchar(255) }
+  phone:        { type: varchar(20) }
+  is_open:      { type: boolean, required: true, default: 0 }
+
+ gesseh_student:
+  id:           ~
+  name:         { type: varchar(255), required: true }
+  lastname:     { type: varchar(255), required: true }
+  group_id:     { type: integer, foreignTable: gesseh_group, foreignReference: id, required: true }
+  phone:        { type: varchar(20) }
+
+ gesseh_group:
+  id:           ~
+  name:         { type: varchar(255), required: true }
+
+ gesseh_period:
+  id:           ~
+  begin:        { type: varchar(255), required: true }
+  last:         { type: varchar(255), required: true }
+
+ gesseh_stage_taken:
+  id:           ~
+  stage_info_id: { type: integer, foreignTable: gesseh_stage_info, foreignReference: id, required: true }
+  period_id:    { type: integer, foreignTable: gesseh_period, foreignReference: id, required: true }
+  student_id:   { type: integer, foreignTable: gesseh_student, foreignReference: id, required: true }
+
+ gesseh_eval_point:
+  id:           ~
+  name:         { type: varchar(255), required: true }
+  type:         { type: varchar(255), required: true }
+  map:          { type: varchar(255), required: true }
+  position:     { type: integer, required: true }
+
+ gesseh_eval:
+  id:           ~
+  eval_point_id: { type: integer, foreignTable: gesseh_stage_info, foreignReference: id, required: true }
+  stage_taken_id: { type: integer, foreignTable: gesseh_stage_info, foreignReference: id, required: true }
+  value:        { type: varchar(255), required: true }
+  created_at:   ~
+
