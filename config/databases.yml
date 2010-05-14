@@ -1,19 +1,10 @@
-dev:
-  propel:
-    param:
-      classname: DebugPDO
-test:
-  propel:
-    param:
-      classname: DebugPDO
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/07-Databases
+
 all:
-  propel:
-    class: sfPropelDatabase
+  doctrine:
+    class: sfDoctrineDatabase
     param:
-      classname: PropelPDO
-      dsn: 'mysql:host=localhost;dbname=gesseh'
-      username: gesseh
-      password: cataract
-      encoding: utf8
-      persistent: true
-      pooling: true
+      dsn:      mysql:host=localhost;dbname=gesseh
+      username: root
+      password: 
