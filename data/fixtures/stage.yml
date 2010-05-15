@@ -1,0 +1,9 @@
+GessehStage:
+  stage_pilou:
+    GessehTerrain: castaigne
+    GessehPeriode: stage2
+    GessehEtudiant: pilou
+  stage_pilou2:
+    GessehTerrain: baglin
+    GessehEtudiant: pilou
+    GessehPeriode: stage1

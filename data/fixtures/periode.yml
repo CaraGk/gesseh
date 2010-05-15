@@ -1,0 +1,14 @@
+GessehPeriode:
+  stage1:
+    debut: 2009-10-01
+    fin: 2009-12-15
+  stage2:
+    debut: 2009-12-16
+    fin: 2010-02-01
+  stage3:
+    debut: 2010-03-01
+    fin: 2010-05-15
+  stage4:
+    debut: 2010-05-15
+    fin: 2010-10-01
+

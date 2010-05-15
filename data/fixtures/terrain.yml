@@ -1,0 +1,38 @@
+GessehTerrain:
+  baglin:
+    GessehHopital: apare
+    filiere: Médecine interne et néphrologie
+    patron: Professeur Alain Baglin
+  orl:
+    GessehHopital: foch
+    filiere: ORL et chirurgie maxillofaciale
+    patron: Professeur Chabolle
+    localisation: Etage B (-2)
+  castaigne:
+    GessehHopital: mignot
+    filiere: Hémato-oncologie
+    patron: Professeur S. Castaigne
+    localisation : 5ème étage, droite
+  chevalier:
+    GessehHopital: apare
+    filiere: Pédiatrie
+    patron: Professeur Chevalier
+    localisation: 7ème étage, ailes B, C et D
+  annane:
+    GessehHopital: garches
+    filiere: Réanimation médicale
+    patron: Professeur Djilali Annane
+    localisation : Bâtiment Widal, 4ème étage
+  hugel:
+    GessehHopital: medge
+    filiere: Médecine générale
+    patron: Docteur Stéphane Hugel
+    localisation: 7 rue de la Princesse de Clèves, 78xxx Guyancourt
+    form_id: 2
+  bontemps:
+    GessehHopital: medge
+    filiere: Médecine générale
+    patron: Docteur Bontemps
+    localisation: Elisabethville, 78xxx Aubergenville
+    form_id: 2
+
