@@ -19,11 +19,22 @@ class evalActions extends sfActions
 
   public function executeShow(sfWebRequest $request)
   {
-    $this->gesseh_eval = Doctrine::getTable('GessehEval')->find(array($request->getParameter('id')));
+/*    $this->gesseh_eval = Doctrine::getTable('GessehStage')->find(array($request->getParameter('id'))); */
+    $this->gesseh_eval = Doctrine_Query::create()
+    ->from('GessehStage a')
+    ->leftjoin('a.GessehTerrain b')
+    ->where('a.id = ?', $request->getParameter('id'))
+    ->limit(1)
+    ->fetchOne();
     $this->forward404Unless($this->gesseh_eval);
+
+    $this->gesseh_criteres = Doctrine::getTable('GessehCritere')
+    ->createQuery('a')
+    ->where('form = ?', $this->gesseh_eval->getGessehTerrain()->getFormId())
+    ->execute();
   }
 
-  public function executeNew(sfWebRequest $request)
+/*  public function executeNew(sfWebRequest $request)
   {
     $this->form = new GessehEvalForm();
   }
@@ -63,8 +74,8 @@ class evalActions extends sfActions
     $this->forward404Unless($gesseh_eval = Doctrine::getTable('GessehEval')->find(array($request->getParameter('id'))), sprintf('Object gesseh_eval does not exist (%s).', $request->getParameter('id')));
     $gesseh_eval->delete();
 
-    $this->redirect('eval/index');
-  }
+    $this->redirect('eval/index'); 
+  } */
 
   protected function processForm(sfWebRequest $request, sfForm $form)
   {

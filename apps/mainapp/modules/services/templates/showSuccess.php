@@ -46,4 +46,4 @@
 
 <hr />
 
-<a href="<?php echo url_for('services/index') ?>">Retour</a>
+<a href="<?php echo url_for('@homepage') ?>">Retour</a>

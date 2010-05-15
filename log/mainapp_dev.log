@@ -5154,3 +5154,1040 @@ May 15 19:22:09 symfony [info] {sfWebDebugLogger} Action "services/index" 63.69 
 May 15 19:22:09 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
 May 15 19:22:09 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 25.64 ms (1)
 May 15 19:22:09 symfony [info] {sfWebResponse} Send content (35973 o)
+May 15 20:39:58 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /services with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:39:58 symfony [info] {myUser} Automatic user logout due to timeout
+May 15 20:39:58 symfony [info] {myUser} User is not authenticated
+May 15 20:39:58 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:39:58 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:39:58 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:39:58 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:39:58 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:39:58 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:39:58 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:39:58 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:39:58 symfony [info] {main} Get slot "title"
+May 15 20:39:58 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:39:58 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:39:58 symfony [info] {sfWebDebugLogger} Configuration 4.37 ms (9)
+May 15 20:39:58 symfony [info] {sfWebDebugLogger} Factories 210.94 ms (1)
+May 15 20:39:58 symfony [info] {sfWebDebugLogger} Action "services/index" 299.97 ms (1)
+May 15 20:39:58 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:39:58 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 64.21 ms (1)
+May 15 20:39:58 symfony [info] {sfWebResponse} Send content (36713 o)
+May 15 20:40:15 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /services/show/id/1 with parameters array (  'module' => 'services',  'action' => 'show',  'id' => '1',)
+May 15 20:40:15 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:40:15 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:40:15 symfony [info] {servicesActions} Call "servicesActions->executeShow()"
+May 15 20:40:16 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:40:16 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id WHERE (g.id = ?) LIMIT 1 - (1)
+May 15 20:40:16 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (1)
+May 15 20:40:16 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/showSuccess.php"
+May 15 20:40:16 symfony [info] {main} Set slot "title"
+May 15 20:40:16 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:40:16 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:40:16 symfony [info] {main} Get slot "title"
+May 15 20:40:16 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:40:16 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:40:16 symfony [info] {sfWebDebugLogger} Configuration 4.11 ms (9)
+May 15 20:40:16 symfony [info] {sfWebDebugLogger} Factories 26.18 ms (1)
+May 15 20:40:16 symfony [info] {sfWebDebugLogger} Action "services/show" 542.17 ms (1)
+May 15 20:40:16 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.02 ms (3)
+May 15 20:40:16 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 38.57 ms (1)
+May 15 20:40:16 symfony [info] {sfWebResponse} Send content (41629 o)
+May 15 20:40:31 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /services with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:40:31 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:40:31 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:40:31 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:40:31 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:40:31 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:40:31 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:40:31 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:40:31 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:40:31 symfony [info] {main} Get slot "title"
+May 15 20:40:31 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:40:31 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:40:31 symfony [info] {sfWebDebugLogger} Configuration 7.50 ms (9)
+May 15 20:40:31 symfony [info] {sfWebDebugLogger} Factories 9.67 ms (1)
+May 15 20:40:31 symfony [info] {sfWebDebugLogger} Action "services/index" 42.98 ms (1)
+May 15 20:40:31 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:40:31 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 16.74 ms (1)
+May 15 20:40:31 symfony [info] {sfWebResponse} Send content (35971 o)
+May 15 20:49:35 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 359 (copy(/home/pilou/data/documents/projets/gesseh/cache/mainapp/dev/config/config_routing.yml.php) [<a href='function.copy'>function.copy</a>]: failed to open stream: Permission denied)
+May 15 20:49:35 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 365 (chmod() [<a href='function.chmod'>function.chmod</a>]: Operation not permitted)
+May 15 20:49:35 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'default',  'action' => 'index',)
+May 15 20:49:35 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/storage/sfSessionStorage.class.php on line 93 (session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:49:35 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:49:35 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:49:35 symfony [info] {defaultActions} Call "defaultActions->executeIndex()"
+May 15 20:49:35 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/indexSuccess.php"
+May 15 20:49:35 symfony [info] {sfPHPView} Decorate content with "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:49:35 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:49:35 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 336 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:49:35 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:49:35 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 357 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:49:35 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:49:35 symfony [info] {sfWebDebugLogger} Configuration 70.66 ms (10)
+May 15 20:49:35 symfony [info] {sfWebDebugLogger} Factories 184.95 ms (1)
+May 15 20:49:35 symfony [info] {sfWebDebugLogger} Action "default/index" 0.12 ms (1)
+May 15 20:49:35 symfony [info] {sfWebDebugLogger} View "Success" for "default/index" 21.96 ms (1)
+May 15 20:49:35 symfony [info] {sfWebResponse} Send content (28713 o)
+May 15 20:50:13 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 359 (copy(/home/pilou/data/documents/projets/gesseh/cache/mainapp/dev/config/config_routing.yml.php) [<a href='function.copy'>function.copy</a>]: failed to open stream: Permission denied)
+May 15 20:50:13 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 365 (chmod() [<a href='function.chmod'>function.chmod</a>]: Operation not permitted)
+May 15 20:50:13 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'default',  'action' => 'index',)
+May 15 20:50:13 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/storage/sfSessionStorage.class.php on line 93 (session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:50:13 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:50:13 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:50:13 symfony [info] {defaultActions} Call "defaultActions->executeIndex()"
+May 15 20:50:13 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/indexSuccess.php"
+May 15 20:50:13 symfony [info] {sfPHPView} Decorate content with "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:50:13 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:50:13 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 336 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:50:13 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:50:13 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 357 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:50:13 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:50:13 symfony [info] {sfWebDebugLogger} Configuration 50.33 ms (10)
+May 15 20:50:13 symfony [info] {sfWebDebugLogger} Factories 59.40 ms (1)
+May 15 20:50:13 symfony [info] {sfWebDebugLogger} Action "default/index" 0.12 ms (1)
+May 15 20:50:13 symfony [info] {sfWebDebugLogger} View "Success" for "default/index" 5.31 ms (1)
+May 15 20:50:13 symfony [info] {sfWebResponse} Send content (28743 o)
+May 15 20:50:15 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 359 (copy(/home/pilou/data/documents/projets/gesseh/cache/mainapp/dev/config/config_routing.yml.php) [<a href='function.copy'>function.copy</a>]: failed to open stream: Permission denied)
+May 15 20:50:15 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 365 (chmod() [<a href='function.chmod'>function.chmod</a>]: Operation not permitted)
+May 15 20:50:15 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'default',  'action' => 'index',)
+May 15 20:50:15 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/storage/sfSessionStorage.class.php on line 93 (session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:50:15 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:50:15 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:50:15 symfony [info] {defaultActions} Call "defaultActions->executeIndex()"
+May 15 20:50:15 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/indexSuccess.php"
+May 15 20:50:15 symfony [info] {sfPHPView} Decorate content with "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:50:15 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:50:15 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 336 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:50:15 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:50:15 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 357 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:50:15 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:50:15 symfony [info] {sfWebDebugLogger} Configuration 45.06 ms (10)
+May 15 20:50:15 symfony [info] {sfWebDebugLogger} Factories 54.34 ms (1)
+May 15 20:50:15 symfony [info] {sfWebDebugLogger} Action "default/index" 0.12 ms (1)
+May 15 20:50:15 symfony [info] {sfWebDebugLogger} View "Success" for "default/index" 7.40 ms (1)
+May 15 20:50:15 symfony [info] {sfWebResponse} Send content (28743 o)
+May 15 20:50:25 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 359 (copy(/home/pilou/data/documents/projets/gesseh/cache/mainapp/dev/config/config_routing.yml.php) [<a href='function.copy'>function.copy</a>]: failed to open stream: Permission denied)
+May 15 20:50:25 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 365 (chmod() [<a href='function.chmod'>function.chmod</a>]: Operation not permitted)
+May 15 20:50:25 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'default',  'action' => 'index',)
+May 15 20:50:25 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/storage/sfSessionStorage.class.php on line 93 (session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:50:25 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:50:25 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:50:25 symfony [info] {defaultActions} Call "defaultActions->executeIndex()"
+May 15 20:50:25 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/indexSuccess.php"
+May 15 20:50:25 symfony [info] {sfPHPView} Decorate content with "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:50:25 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:50:25 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 336 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:50:25 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:50:25 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 357 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:50:25 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:50:25 symfony [info] {sfWebDebugLogger} Configuration 96.82 ms (10)
+May 15 20:50:25 symfony [info] {sfWebDebugLogger} Factories 96.97 ms (1)
+May 15 20:50:25 symfony [info] {sfWebDebugLogger} Action "default/index" 0.12 ms (1)
+May 15 20:50:25 symfony [info] {sfWebDebugLogger} View "Success" for "default/index" 9.20 ms (1)
+May 15 20:50:25 symfony [info] {sfWebResponse} Send content (28743 o)
+May 15 20:51:09 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 359 (copy(/home/pilou/data/documents/projets/gesseh/cache/mainapp/dev/config/config_routing.yml.php) [<a href='function.copy'>function.copy</a>]: failed to open stream: Permission denied)
+May 15 20:51:09 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 365 (chmod() [<a href='function.chmod'>function.chmod</a>]: Operation not permitted)
+May 15 20:51:09 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'default',  'action' => 'index',)
+May 15 20:51:09 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/storage/sfSessionStorage.class.php on line 93 (session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:51:09 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:51:09 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:51:09 symfony [info] {defaultActions} Call "defaultActions->executeIndex()"
+May 15 20:51:09 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/indexSuccess.php"
+May 15 20:51:09 symfony [info] {sfPHPView} Decorate content with "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:51:09 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:51:09 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 336 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:51:09 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:51:09 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 357 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:51:09 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:51:09 symfony [info] {sfWebDebugLogger} Configuration 40.08 ms (10)
+May 15 20:51:09 symfony [info] {sfWebDebugLogger} Factories 52.23 ms (1)
+May 15 20:51:09 symfony [info] {sfWebDebugLogger} Action "default/index" 0.11 ms (1)
+May 15 20:51:09 symfony [info] {sfWebDebugLogger} View "Success" for "default/index" 5.92 ms (1)
+May 15 20:51:09 symfony [info] {sfWebResponse} Send content (28743 o)
+May 15 20:51:15 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 359 (copy(/home/pilou/data/documents/projets/gesseh/cache/mainapp/dev/config/config_routing.yml.php) [<a href='function.copy'>function.copy</a>]: failed to open stream: Permission denied)
+May 15 20:51:15 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 365 (chmod() [<a href='function.chmod'>function.chmod</a>]: Operation not permitted)
+May 15 20:51:15 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /services with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:51:15 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/storage/sfSessionStorage.class.php on line 93 (session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:51:15 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:51:15 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:51:15 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:51:15 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:51:15 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:51:15 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:51:15 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:51:15 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:51:15 symfony [info] {main} Get slot "title"
+May 15 20:51:15 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 336 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:51:15 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:51:15 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 357 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:51:15 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:51:15 symfony [info] {sfWebDebugLogger} Configuration 75.04 ms (10)
+May 15 20:51:15 symfony [info] {sfWebDebugLogger} Factories 84.93 ms (1)
+May 15 20:51:15 symfony [info] {sfWebDebugLogger} Action "services/index" 88.72 ms (1)
+May 15 20:51:15 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:51:15 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 15.88 ms (1)
+May 15 20:51:16 symfony [info] {sfWebResponse} Send content (35891 o)
+May 15 20:52:26 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 359 (copy(/home/pilou/data/documents/projets/gesseh/cache/mainapp/dev/config/config_routing.yml.php) [<a href='function.copy'>function.copy</a>]: failed to open stream: Permission denied)
+May 15 20:52:26 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 365 (chmod() [<a href='function.chmod'>function.chmod</a>]: Operation not permitted)
+May 15 20:52:26 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /services with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:52:26 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/storage/sfSessionStorage.class.php on line 93 (session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:52:26 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:52:26 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:52:26 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:52:26 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:52:26 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:52:26 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:52:26 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:52:26 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:52:26 symfony [info] {main} Get slot "title"
+May 15 20:52:26 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 336 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:52:26 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:52:26 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 357 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:52:26 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:52:26 symfony [info] {sfWebDebugLogger} Configuration 69.58 ms (10)
+May 15 20:52:26 symfony [info] {sfWebDebugLogger} Factories 84.52 ms (1)
+May 15 20:52:26 symfony [info] {sfWebDebugLogger} Action "services/index" 32.75 ms (1)
+May 15 20:52:26 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:52:26 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 21.72 ms (1)
+May 15 20:52:26 symfony [info] {sfWebResponse} Send content (35892 o)
+May 15 20:52:31 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 359 (copy(/home/pilou/data/documents/projets/gesseh/cache/mainapp/dev/config/config_routing.yml.php) [<a href='function.copy'>function.copy</a>]: failed to open stream: Permission denied)
+May 15 20:52:31 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/config/sfConfigCache.class.php on line 365 (chmod() [<a href='function.chmod'>function.chmod</a>]: Operation not permitted)
+May 15 20:52:31 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'default',  'action' => 'index',)
+May 15 20:52:31 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/storage/sfSessionStorage.class.php on line 93 (session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:52:31 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:52:31 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:52:31 symfony [info] {defaultActions} Call "defaultActions->executeIndex()"
+May 15 20:52:31 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/indexSuccess.php"
+May 15 20:52:31 symfony [info] {sfPHPView} Decorate content with "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:52:31 symfony [info] {sfPHPView} Render "/usr/share/php/symfony/controller/default/templates/defaultLayout.php"
+May 15 20:52:31 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 336 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:52:31 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:52:31 symfony [warning] {sfWebDebugLogger}  Warning at /usr/share/php/symfony/response/sfWebResponse.class.php on line 357 (Cannot modify header information - headers already sent by (output started at /usr/share/php/symfony/config/sfConfigCache.class.php:359))
+May 15 20:52:31 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:52:31 symfony [info] {sfWebDebugLogger} Configuration 101.71 ms (10)
+May 15 20:52:31 symfony [info] {sfWebDebugLogger} Factories 94.79 ms (1)
+May 15 20:52:31 symfony [info] {sfWebDebugLogger} Action "default/index" 0.12 ms (1)
+May 15 20:52:31 symfony [info] {sfWebDebugLogger} View "Success" for "default/index" 6.07 ms (1)
+May 15 20:52:31 symfony [info] {sfWebResponse} Send content (28712 o)
+May 15 20:55:35 symfony [err] {sfError404Exception} Empty module and/or action after parsing the URL "/services/" (/).
+May 15 20:55:35 symfony [info] {sfWebResponse} Send status "HTTP/1.1 404 Not Found"
+May 15 20:55:35 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:55:35 symfony [info] {sfWebDebugLogger} Configuration 229.11 ms (5)
+May 15 20:55:35 symfony [info] {sfWebDebugLogger} Factories 135.86 ms (1)
+May 15 20:55:42 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /services with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:55:42 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:55:42 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:55:42 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:55:42 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:55:42 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:55:42 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:55:42 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:55:42 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:55:42 symfony [info] {main} Get slot "title"
+May 15 20:55:42 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:55:42 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:55:42 symfony [info] {sfWebDebugLogger} Configuration 59.54 ms (10)
+May 15 20:55:42 symfony [info] {sfWebDebugLogger} Factories 46.03 ms (1)
+May 15 20:55:42 symfony [info] {sfWebDebugLogger} Action "services/index" 33.69 ms (1)
+May 15 20:55:42 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:55:42 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 19.11 ms (1)
+May 15 20:55:42 symfony [info] {sfWebResponse} Send content (35859 o)
+May 15 20:55:48 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:55:48 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:55:48 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:55:48 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:55:48 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:55:48 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:55:48 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:55:48 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:55:48 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:55:48 symfony [info] {main} Get slot "title"
+May 15 20:55:48 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:55:48 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:55:48 symfony [info] {sfWebDebugLogger} Configuration 14.10 ms (9)
+May 15 20:55:48 symfony [info] {sfWebDebugLogger} Factories 30.64 ms (1)
+May 15 20:55:48 symfony [info] {sfWebDebugLogger} Action "services/index" 42.68 ms (1)
+May 15 20:55:48 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:55:48 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 15.75 ms (1)
+May 15 20:55:48 symfony [info] {sfWebResponse} Send content (35747 o)
+May 15 20:55:52 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /services/show/id/6 with parameters array (  'module' => 'services',  'action' => 'show',  'id' => '6',)
+May 15 20:55:52 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:55:52 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:55:52 symfony [info] {servicesActions} Call "servicesActions->executeShow()"
+May 15 20:55:52 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:55:52 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id WHERE (g.id = ?) LIMIT 1 - (6)
+May 15 20:55:52 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (6)
+May 15 20:55:52 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/showSuccess.php"
+May 15 20:55:52 symfony [info] {main} Set slot "title"
+May 15 20:55:52 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:55:52 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:55:52 symfony [info] {main} Get slot "title"
+May 15 20:55:52 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:55:52 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:55:52 symfony [info] {sfWebDebugLogger} Configuration 3.44 ms (9)
+May 15 20:55:52 symfony [info] {sfWebDebugLogger} Factories 11.28 ms (1)
+May 15 20:55:52 symfony [info] {sfWebDebugLogger} Action "services/show" 79.89 ms (1)
+May 15 20:55:52 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 20:55:52 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 8.47 ms (1)
+May 15 20:55:52 symfony [info] {sfWebResponse} Send content (40467 o)
+May 15 20:55:56 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:55:56 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:55:56 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:55:56 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:55:56 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:55:56 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:55:56 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:55:56 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:55:56 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:55:56 symfony [info] {main} Get slot "title"
+May 15 20:55:56 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:55:56 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:55:56 symfony [info] {sfWebDebugLogger} Configuration 3.33 ms (9)
+May 15 20:55:56 symfony [info] {sfWebDebugLogger} Factories 10.51 ms (1)
+May 15 20:55:56 symfony [info] {sfWebDebugLogger} Action "services/index" 32.64 ms (1)
+May 15 20:55:56 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:55:56 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 13.10 ms (1)
+May 15 20:55:56 symfony [info] {sfWebResponse} Send content (35896 o)
+May 15 20:55:59 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /services/show/id/5 with parameters array (  'module' => 'services',  'action' => 'show',  'id' => '5',)
+May 15 20:55:59 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:55:59 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:55:59 symfony [info] {servicesActions} Call "servicesActions->executeShow()"
+May 15 20:55:59 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:55:59 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id WHERE (g.id = ?) LIMIT 1 - (5)
+May 15 20:55:59 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (5)
+May 15 20:55:59 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/showSuccess.php"
+May 15 20:55:59 symfony [info] {main} Set slot "title"
+May 15 20:55:59 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:55:59 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:55:59 symfony [info] {main} Get slot "title"
+May 15 20:55:59 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:55:59 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:55:59 symfony [info] {sfWebDebugLogger} Configuration 3.39 ms (9)
+May 15 20:55:59 symfony [info] {sfWebDebugLogger} Factories 14.90 ms (1)
+May 15 20:55:59 symfony [info] {sfWebDebugLogger} Action "services/show" 46.33 ms (1)
+May 15 20:55:59 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 20:55:59 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 10.63 ms (1)
+May 15 20:55:59 symfony [info] {sfWebResponse} Send content (40407 o)
+May 15 20:56:01 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:56:01 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:56:01 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:56:01 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:56:01 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:56:01 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:56:01 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:56:01 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:56:01 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:56:01 symfony [info] {main} Get slot "title"
+May 15 20:56:01 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:56:01 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:56:01 symfony [info] {sfWebDebugLogger} Configuration 3.76 ms (9)
+May 15 20:56:01 symfony [info] {sfWebDebugLogger} Factories 17.78 ms (1)
+May 15 20:56:01 symfony [info] {sfWebDebugLogger} Action "services/index" 32.61 ms (1)
+May 15 20:56:01 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:56:01 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 14.30 ms (1)
+May 15 20:56:01 symfony [info] {sfWebResponse} Send content (35897 o)
+May 15 20:58:32 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:58:32 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:58:32 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:58:32 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:58:32 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:58:32 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:58:32 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:58:32 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:58:32 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:58:32 symfony [info] {main} Get slot "title"
+May 15 20:58:32 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:58:32 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:58:32 symfony [info] {sfWebDebugLogger} Configuration 3.79 ms (9)
+May 15 20:58:32 symfony [info] {sfWebDebugLogger} Factories 29.58 ms (1)
+May 15 20:58:32 symfony [info] {sfWebDebugLogger} Action "services/index" 33.26 ms (1)
+May 15 20:58:32 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:58:32 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 15.16 ms (1)
+May 15 20:58:33 symfony [info] {sfWebResponse} Send content (35929 o)
+May 15 20:58:34 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:58:34 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:58:34 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:58:34 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:58:34 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:58:34 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:58:34 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:58:34 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:58:34 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:58:34 symfony [info] {main} Get slot "title"
+May 15 20:58:34 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:58:34 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:58:34 symfony [info] {sfWebDebugLogger} Configuration 3.63 ms (9)
+May 15 20:58:34 symfony [info] {sfWebDebugLogger} Factories 9.18 ms (1)
+May 15 20:58:34 symfony [info] {sfWebDebugLogger} Action "services/index" 31.29 ms (1)
+May 15 20:58:34 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:58:34 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 16.79 ms (1)
+May 15 20:58:34 symfony [info] {sfWebResponse} Send content (35877 o)
+May 15 20:58:49 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /services/show/id/5 with parameters array (  'module' => 'services',  'action' => 'show',  'id' => '5',)
+May 15 20:58:49 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:58:49 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:58:49 symfony [info] {servicesActions} Call "servicesActions->executeShow()"
+May 15 20:58:49 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:58:49 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id WHERE (g.id = ?) LIMIT 1 - (5)
+May 15 20:58:49 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:58:49 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (5)
+May 15 20:58:49 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/showSuccess.php"
+May 15 20:58:49 symfony [info] {main} Set slot "title"
+May 15 20:58:49 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:58:49 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:58:49 symfony [info] {main} Get slot "title"
+May 15 20:58:49 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:58:49 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:58:49 symfony [info] {sfWebDebugLogger} Configuration 3.40 ms (9)
+May 15 20:58:49 symfony [info] {sfWebDebugLogger} Factories 15.81 ms (1)
+May 15 20:58:49 symfony [info] {sfWebDebugLogger} Action "services/show" 131.06 ms (1)
+May 15 20:58:49 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.02 ms (3)
+May 15 20:58:49 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 12.65 ms (1)
+May 15 20:58:49 symfony [info] {sfWebResponse} Send content (40407 o)
+May 15 20:58:49 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:58:49 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:58:49 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:58:49 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:58:49 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:58:49 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:58:49 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:58:49 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:58:49 symfony [info] {main} Get slot "title"
+May 15 20:58:49 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:58:49 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:58:49 symfony [info] {sfWebDebugLogger} Configuration 5.73 ms (9)
+May 15 20:58:49 symfony [info] {sfWebDebugLogger} Factories 127.04 ms (1)
+May 15 20:58:49 symfony [info] {sfWebDebugLogger} Action "services/index" 47.55 ms (1)
+May 15 20:58:49 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:58:49 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 30.39 ms (1)
+May 15 20:58:50 symfony [info] {sfWebResponse} Send content (35912 o)
+May 15 20:59:06 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 20:59:06 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:59:06 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:59:06 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 20:59:06 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:59:06 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 20:59:06 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 20:59:06 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:59:06 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:59:06 symfony [info] {main} Get slot "title"
+May 15 20:59:06 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:59:06 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:59:06 symfony [info] {sfWebDebugLogger} Configuration 4.19 ms (9)
+May 15 20:59:06 symfony [info] {sfWebDebugLogger} Factories 13.91 ms (1)
+May 15 20:59:06 symfony [info] {sfWebDebugLogger} Action "services/index" 33.57 ms (1)
+May 15 20:59:06 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 20:59:06 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 16.22 ms (1)
+May 15 20:59:06 symfony [info] {sfWebResponse} Send content (35879 o)
+May 15 20:59:37 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /services/show/id/1 with parameters array (  'module' => 'services',  'action' => 'show',  'id' => '1',)
+May 15 20:59:37 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 20:59:37 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 20:59:37 symfony [info] {servicesActions} Call "servicesActions->executeShow()"
+May 15 20:59:37 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 20:59:37 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id WHERE (g.id = ?) LIMIT 1 - (1)
+May 15 20:59:37 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (1)
+May 15 20:59:37 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/showSuccess.php"
+May 15 20:59:37 symfony [info] {main} Set slot "title"
+May 15 20:59:37 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:59:37 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 20:59:37 symfony [info] {main} Get slot "title"
+May 15 20:59:37 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 20:59:37 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 20:59:37 symfony [info] {sfWebDebugLogger} Configuration 7.96 ms (9)
+May 15 20:59:37 symfony [info] {sfWebDebugLogger} Factories 27.94 ms (1)
+May 15 20:59:37 symfony [info] {sfWebDebugLogger} Action "services/show" 85.95 ms (1)
+May 15 20:59:37 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 20:59:37 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 22.72 ms (1)
+May 15 20:59:37 symfony [info] {sfWebResponse} Send content (41582 o)
+May 15 21:03:14 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 21:03:14 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:03:14 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:03:14 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 21:03:14 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:03:14 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 21:03:14 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 21:03:14 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:03:14 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:03:14 symfony [info] {main} Get slot "title"
+May 15 21:03:14 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:03:14 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:03:14 symfony [info] {sfWebDebugLogger} Configuration 61.33 ms (10)
+May 15 21:03:14 symfony [info] {sfWebDebugLogger} Factories 68.76 ms (1)
+May 15 21:03:14 symfony [info] {sfWebDebugLogger} Action "services/index" 35.75 ms (1)
+May 15 21:03:14 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:03:14 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 13.20 ms (1)
+May 15 21:03:14 symfony [info] {sfWebResponse} Send content (35745 o)
+May 15 21:03:18 symfony [info] {sfPatternRouting} Match route "gesseh_show_stage" (/stage/:id) for /stage/6 with parameters array (  'module' => 'services',  'action' => 'show',  'id' => '6',)
+May 15 21:03:18 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:03:18 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:03:18 symfony [info] {servicesActions} Call "servicesActions->executeShow()"
+May 15 21:03:18 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:03:18 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id WHERE (g.id = ?) LIMIT 1 - (6)
+May 15 21:03:18 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (6)
+May 15 21:03:18 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/showSuccess.php"
+May 15 21:03:18 symfony [info] {main} Set slot "title"
+May 15 21:03:18 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:03:18 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:03:18 symfony [info] {main} Get slot "title"
+May 15 21:03:18 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:03:18 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:03:18 symfony [info] {sfWebDebugLogger} Configuration 4.29 ms (9)
+May 15 21:03:18 symfony [info] {sfWebDebugLogger} Factories 9.61 ms (1)
+May 15 21:03:18 symfony [info] {sfWebDebugLogger} Action "services/show" 49.04 ms (1)
+May 15 21:03:18 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 21:03:18 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 11.14 ms (1)
+May 15 21:03:18 symfony [info] {sfWebResponse} Send content (40418 o)
+May 15 21:03:23 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 21:03:23 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:03:23 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:03:23 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 21:03:23 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:03:23 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 21:03:23 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 21:03:23 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:03:23 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:03:23 symfony [info] {main} Get slot "title"
+May 15 21:03:23 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:03:23 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:03:23 symfony [info] {sfWebDebugLogger} Configuration 3.27 ms (9)
+May 15 21:03:23 symfony [info] {sfWebDebugLogger} Factories 11.03 ms (1)
+May 15 21:03:23 symfony [info] {sfWebDebugLogger} Action "services/index" 32.52 ms (1)
+May 15 21:03:23 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:03:23 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 16.08 ms (1)
+May 15 21:03:23 symfony [info] {sfWebResponse} Send content (35731 o)
+May 15 21:03:25 symfony [info] {sfPatternRouting} Match route "gesseh_show_stage" (/stage/:id) for /stage/5 with parameters array (  'module' => 'services',  'action' => 'show',  'id' => '5',)
+May 15 21:03:25 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:03:25 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:03:25 symfony [info] {servicesActions} Call "servicesActions->executeShow()"
+May 15 21:03:25 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:03:25 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id WHERE (g.id = ?) LIMIT 1 - (5)
+May 15 21:03:25 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (5)
+May 15 21:03:25 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/showSuccess.php"
+May 15 21:03:25 symfony [info] {main} Set slot "title"
+May 15 21:03:25 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:03:25 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:03:25 symfony [info] {main} Get slot "title"
+May 15 21:03:25 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:03:25 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:03:25 symfony [info] {sfWebDebugLogger} Configuration 7.69 ms (9)
+May 15 21:03:25 symfony [info] {sfWebDebugLogger} Factories 9.99 ms (1)
+May 15 21:03:25 symfony [info] {sfWebDebugLogger} Action "services/show" 43.75 ms (1)
+May 15 21:03:25 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 21:03:25 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 8.29 ms (1)
+May 15 21:03:25 symfony [info] {sfWebResponse} Send content (40354 o)
+May 15 21:03:30 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 21:03:30 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:03:30 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:03:30 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 21:03:30 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:03:30 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 21:03:30 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 21:03:30 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:03:30 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:03:30 symfony [info] {main} Get slot "title"
+May 15 21:03:30 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:03:30 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:03:30 symfony [info] {sfWebDebugLogger} Configuration 4.66 ms (9)
+May 15 21:03:30 symfony [info] {sfWebDebugLogger} Factories 11.47 ms (1)
+May 15 21:03:30 symfony [info] {sfWebDebugLogger} Action "services/index" 32.60 ms (1)
+May 15 21:03:30 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:03:30 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 13.08 ms (1)
+May 15 21:03:30 symfony [info] {sfWebResponse} Send content (35732 o)
+May 15 21:04:46 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 21:04:46 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:04:46 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:04:46 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 21:04:47 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:04:47 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 21:04:47 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 21:04:47 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:04:47 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:04:47 symfony [info] {main} Get slot "title"
+May 15 21:04:47 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:04:47 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:04:47 symfony [info] {sfWebDebugLogger} Configuration 3.83 ms (9)
+May 15 21:04:47 symfony [info] {sfWebDebugLogger} Factories 11.65 ms (1)
+May 15 21:04:47 symfony [info] {sfWebDebugLogger} Action "services/index" 39.73 ms (1)
+May 15 21:04:47 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:04:47 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 14.50 ms (1)
+May 15 21:04:47 symfony [info] {sfWebResponse} Send content (35724 o)
+May 15 21:04:50 symfony [info] {sfPatternRouting} Match route "gesseh_show_stage" (/stage/:id) for /stage/7 with parameters array (  'module' => 'services',  'action' => 'show',  'id' => '7',)
+May 15 21:04:50 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:04:50 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:04:50 symfony [info] {servicesActions} Call "servicesActions->executeShow()"
+May 15 21:04:50 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:04:50 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id WHERE (g.id = ?) LIMIT 1 - (7)
+May 15 21:04:50 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (7)
+May 15 21:04:50 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/showSuccess.php"
+May 15 21:04:50 symfony [info] {main} Set slot "title"
+May 15 21:04:50 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:04:50 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:04:50 symfony [info] {main} Get slot "title"
+May 15 21:04:50 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:04:50 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:04:50 symfony [info] {sfWebDebugLogger} Configuration 3.82 ms (9)
+May 15 21:04:50 symfony [info] {sfWebDebugLogger} Factories 16.17 ms (1)
+May 15 21:04:50 symfony [info] {sfWebDebugLogger} Action "services/show" 76.51 ms (1)
+May 15 21:04:50 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.02 ms (3)
+May 15 21:04:50 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 12.04 ms (1)
+May 15 21:04:50 symfony [info] {sfWebResponse} Send content (40397 o)
+May 15 21:04:53 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 21:04:53 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:04:53 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:04:53 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 21:04:53 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:04:53 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 21:04:53 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 21:04:53 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:04:53 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:04:53 symfony [info] {main} Get slot "title"
+May 15 21:04:53 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:04:53 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:04:53 symfony [info] {sfWebDebugLogger} Configuration 4.00 ms (9)
+May 15 21:04:53 symfony [info] {sfWebDebugLogger} Factories 11.18 ms (1)
+May 15 21:04:53 symfony [info] {sfWebDebugLogger} Action "services/index" 30.96 ms (1)
+May 15 21:04:53 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:04:53 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 13.59 ms (1)
+May 15 21:04:53 symfony [info] {sfWebResponse} Send content (35732 o)
+May 15 21:09:55 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /monstage with parameters array (  'module' => 'monstage',  'action' => 'index',)
+May 15 21:09:55 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:09:55 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:09:55 symfony [info] {monstageActions} Call "monstageActions->executeIndex()"
+May 15 21:09:55 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:09:55 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_stage g - ()
+May 15 21:09:55 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/monstage/templates/indexSuccess.php"
+May 15 21:09:55 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:09:55 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:09:55 symfony [info] {main} Get slot "title"
+May 15 21:09:55 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:09:55 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:09:55 symfony [info] {sfWebDebugLogger} Configuration 63.38 ms (10)
+May 15 21:09:55 symfony [info] {sfWebDebugLogger} Factories 216.30 ms (1)
+May 15 21:09:55 symfony [info] {sfWebDebugLogger} Action "monstage/index" 91.60 ms (1)
+May 15 21:09:55 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:09:55 symfony [info] {sfWebDebugLogger} View "Success" for "monstage/index" 64.48 ms (1)
+May 15 21:09:55 symfony [info] {sfWebResponse} Send content (33224 o)
+May 15 21:31:21 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 21:31:21 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:31:21 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:31:21 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 21:31:21 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:31:21 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 21:31:21 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 21:31:21 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:31:21 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:31:21 symfony [info] {main} Get slot "title"
+May 15 21:31:21 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:31:21 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:31:21 symfony [info] {sfWebDebugLogger} Configuration 53.75 ms (10)
+May 15 21:31:21 symfony [info] {sfWebDebugLogger} Factories 147.87 ms (1)
+May 15 21:31:21 symfony [info] {sfWebDebugLogger} Action "services/index" 124.05 ms (1)
+May 15 21:31:21 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:31:21 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 17.51 ms (1)
+May 15 21:31:21 symfony [info] {sfWebResponse} Send content (35663 o)
+May 15 21:31:25 symfony [info] {sfPatternRouting} Match route "gesseh_show_stage" (/stage/:id) for /stage/1 with parameters array (  'module' => 'services',  'action' => 'show',  'id' => '1',)
+May 15 21:31:25 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:31:25 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:31:25 symfony [info] {servicesActions} Call "servicesActions->executeShow()"
+May 15 21:31:25 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:31:25 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id WHERE (g.id = ?) LIMIT 1 - (1)
+May 15 21:31:25 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (1)
+May 15 21:31:25 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/showSuccess.php"
+May 15 21:31:25 symfony [info] {main} Set slot "title"
+May 15 21:31:25 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:31:25 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:31:25 symfony [info] {main} Get slot "title"
+May 15 21:31:25 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:31:25 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:31:25 symfony [info] {sfWebDebugLogger} Configuration 20.09 ms (9)
+May 15 21:31:25 symfony [info] {sfWebDebugLogger} Factories 10.79 ms (1)
+May 15 21:31:25 symfony [info] {sfWebDebugLogger} Action "services/show" 94.04 ms (1)
+May 15 21:31:25 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 21:31:25 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 20.49 ms (1)
+May 15 21:31:25 symfony [info] {sfWebResponse} Send content (41533 o)
+May 15 21:31:32 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 21:31:32 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:31:32 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:31:32 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 21:31:32 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:31:32 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 21:31:32 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 21:31:32 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:31:32 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:31:32 symfony [info] {main} Get slot "title"
+May 15 21:31:32 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:31:32 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:31:32 symfony [info] {sfWebDebugLogger} Configuration 21.57 ms (9)
+May 15 21:31:32 symfony [info] {sfWebDebugLogger} Factories 15.22 ms (1)
+May 15 21:31:32 symfony [info] {sfWebDebugLogger} Action "services/index" 36.35 ms (1)
+May 15 21:31:32 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:31:32 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 13.51 ms (1)
+May 15 21:31:32 symfony [info] {sfWebResponse} Send content (35734 o)
+May 15 21:31:59 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /monstage with parameters array (  'module' => 'monstage',  'action' => 'index',)
+May 15 21:31:59 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:31:59 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:31:59 symfony [info] {monstageActions} Call "monstageActions->executeIndex()"
+May 15 21:31:59 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:31:59 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.nom AS g3__nom, g3.adresse AS g3__adresse, g3.telephone AS g3__telephone, g3.web AS g3__web, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.debut AS g4__debut, g4.fin AS g4__fin, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at, g5.id AS g5__id, g5.nom AS g5__nom, g5.prenom AS g5__prenom, g5.promo_id AS g5__promo_id, g5.email AS g5__email, g5.created_at AS g5__created_at, g5.updated_at AS g5__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id LEFT JOIN gesseh_hopital g3 ON g2.hopital_id = g3.id LEFT JOIN gesseh_periode g4 ON g.periode_id = g4.id LEFT JOIN gesseh_etudiant g5 ON g.etudiant_id = g5.id WHERE (g5.id = ?) ORDER BY g4.debut ASC - ()
+May 15 21:31:59 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/monstage/templates/indexSuccess.php"
+May 15 21:31:59 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:31:59 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:31:59 symfony [info] {main} Get slot "title"
+May 15 21:31:59 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:31:59 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:31:59 symfony [info] {sfWebDebugLogger} Configuration 4.31 ms (9)
+May 15 21:31:59 symfony [info] {sfWebDebugLogger} Factories 101.78 ms (1)
+May 15 21:31:59 symfony [info] {sfWebDebugLogger} Action "monstage/index" 138.12 ms (1)
+May 15 21:31:59 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:31:59 symfony [info] {sfWebDebugLogger} View "Success" for "monstage/index" 26.96 ms (1)
+May 15 21:31:59 symfony [info] {sfWebResponse} Send content (37556 o)
+May 15 21:32:07 symfony [info] {sfPatternRouting} Match route "gesseh_index_monstage" (/monstage/:id) for /monstage/1 with parameters array (  'module' => 'monstage',  'action' => 'index',  'id' => '1',)
+May 15 21:32:07 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:32:07 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:32:07 symfony [info] {monstageActions} Call "monstageActions->executeIndex()"
+May 15 21:32:07 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:32:07 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.nom AS g3__nom, g3.adresse AS g3__adresse, g3.telephone AS g3__telephone, g3.web AS g3__web, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.debut AS g4__debut, g4.fin AS g4__fin, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at, g5.id AS g5__id, g5.nom AS g5__nom, g5.prenom AS g5__prenom, g5.promo_id AS g5__promo_id, g5.email AS g5__email, g5.created_at AS g5__created_at, g5.updated_at AS g5__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id LEFT JOIN gesseh_hopital g3 ON g2.hopital_id = g3.id LEFT JOIN gesseh_periode g4 ON g.periode_id = g4.id LEFT JOIN gesseh_etudiant g5 ON g.etudiant_id = g5.id WHERE (g5.id = ?) ORDER BY g4.debut ASC - (1)
+May 15 21:32:07 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/monstage/templates/indexSuccess.php"
+May 15 21:32:07 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:32:07 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:32:07 symfony [info] {main} Get slot "title"
+May 15 21:32:07 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:32:07 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:32:07 symfony [info] {sfWebDebugLogger} Configuration 3.21 ms (9)
+May 15 21:32:07 symfony [info] {sfWebDebugLogger} Factories 24.30 ms (1)
+May 15 21:32:07 symfony [info] {sfWebDebugLogger} Action "monstage/index" 75.30 ms (1)
+May 15 21:32:07 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:32:07 symfony [info] {sfWebDebugLogger} View "Success" for "monstage/index" 10.34 ms (1)
+May 15 21:32:07 symfony [info] {sfWebResponse} Send content (38065 o)
+May 15 21:32:12 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 21:32:12 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:32:12 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:32:12 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 21:32:12 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:32:12 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_eval g WHERE (g.id = ?) LIMIT 1 - (2)
+May 15 21:32:12 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/eval/templates/showSuccess.php"
+May 15 21:32:12 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:32:12 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:32:12 symfony [info] {main} Get slot "title"
+May 15 21:32:12 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:32:12 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:32:12 symfony [info] {sfWebDebugLogger} Configuration 28.40 ms (10)
+May 15 21:32:12 symfony [info] {sfWebDebugLogger} Factories 11.79 ms (1)
+May 15 21:32:12 symfony [info] {sfWebDebugLogger} Action "eval/show" 36.59 ms (1)
+May 15 21:32:12 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:32:12 symfony [info] {sfWebDebugLogger} View "Success" for "eval/show" 48.06 ms (1)
+May 15 21:32:12 symfony [info] {sfWebResponse} Send content (33016 o)
+May 15 21:37:41 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /monstage/new with parameters array (  'module' => 'monstage',  'action' => 'new',)
+May 15 21:37:41 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:37:41 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:37:41 symfony [info] {monstageActions} Call "monstageActions->executeNew()"
+May 15 21:37:41 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/monstage/templates/newSuccess.php"
+May 15 21:37:41 symfony [info] {sfPartialView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/monstage/templates/_form.php"
+May 15 21:37:41 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:37:41 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_terrain g - ()
+May 15 21:37:41 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.debut AS g__debut, g.fin AS g__fin, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_periode g - ()
+May 15 21:37:41 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.nom AS g__nom, g.prenom AS g__prenom, g.promo_id AS g__promo_id, g.email AS g__email, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_etudiant g - ()
+May 15 21:37:41 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:37:41 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:37:41 symfony [info] {main} Get slot "title"
+May 15 21:37:41 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:37:41 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:37:41 symfony [info] {sfWebDebugLogger} Configuration 13.24 ms (9)
+May 15 21:37:41 symfony [info] {sfWebDebugLogger} Factories 18.03 ms (1)
+May 15 21:37:41 symfony [info] {sfWebDebugLogger} Action "monstage/new" 187.63 ms (1)
+May 15 21:37:41 symfony [info] {sfWebDebugLogger} View "Success" for "monstage/new" 130.39 ms (1)
+May 15 21:37:41 symfony [info] {sfWebDebugLogger} Partial "monstage/_form" 106.90 ms (1)
+May 15 21:37:41 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.02 ms (4)
+May 15 21:37:41 symfony [info] {sfWebResponse} Send content (52911 o)
+May 15 21:57:49 symfony [info] {sfPatternRouting} Match route "gesseh_index_monstage" (/monstage/:id) for /monstage/1 with parameters array (  'module' => 'monstage',  'action' => 'index',  'id' => '1',)
+May 15 21:57:49 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:57:49 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:57:49 symfony [info] {monstageActions} Call "monstageActions->executeIndex()"
+May 15 21:57:49 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:57:49 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.nom AS g3__nom, g3.adresse AS g3__adresse, g3.telephone AS g3__telephone, g3.web AS g3__web, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.debut AS g4__debut, g4.fin AS g4__fin, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at, g5.id AS g5__id, g5.nom AS g5__nom, g5.prenom AS g5__prenom, g5.promo_id AS g5__promo_id, g5.email AS g5__email, g5.created_at AS g5__created_at, g5.updated_at AS g5__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id LEFT JOIN gesseh_hopital g3 ON g2.hopital_id = g3.id LEFT JOIN gesseh_periode g4 ON g.periode_id = g4.id LEFT JOIN gesseh_etudiant g5 ON g.etudiant_id = g5.id WHERE (g5.id = ?) ORDER BY g4.debut ASC - (1)
+May 15 21:57:49 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/monstage/templates/indexSuccess.php"
+May 15 21:57:49 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:57:49 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 21:57:49 symfony [info] {main} Get slot "title"
+May 15 21:57:49 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 21:57:49 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:57:49 symfony [info] {sfWebDebugLogger} Configuration 4.36 ms (9)
+May 15 21:57:49 symfony [info] {sfWebDebugLogger} Factories 14.98 ms (1)
+May 15 21:57:49 symfony [info] {sfWebDebugLogger} Action "monstage/index" 82.03 ms (1)
+May 15 21:57:49 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 21:57:49 symfony [info] {sfWebDebugLogger} View "Success" for "monstage/index" 10.82 ms (1)
+May 15 21:57:49 symfony [info] {sfWebResponse} Send content (38055 o)
+May 15 21:57:52 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 21:58:20 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 21:58:48 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 21:58:48 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:58:48 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:58:48 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 21:59:10 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 21:59:10 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:59:10 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:59:10 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 21:59:10 symfony [err] {Doctrine_Exception} Couldn't find class GessehStages
+May 15 21:59:10 symfony [info] {sfWebResponse} Send status "HTTP/1.1 500 Internal Server Error"
+May 15 21:59:10 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:59:10 symfony [info] {sfWebDebugLogger} Configuration 85.21 ms (10)
+May 15 21:59:10 symfony [info] {sfWebDebugLogger} Factories 20.37 ms (1)
+May 15 21:59:10 symfony [info] {sfWebDebugLogger} Action "eval/show" 542.00 ms (1)
+May 15 21:59:48 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 21:59:48 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 21:59:48 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 21:59:48 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 21:59:48 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 21:59:48 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id WHERE (g.id = ?) LIMIT 1 - (2)
+May 15 21:59:49 symfony [err] {Doctrine_Record_UnknownPropertyException} Unknown record property / related component "getGessehTerrain" on "GessehStage"
+May 15 21:59:49 symfony [info] {sfWebResponse} Send status "HTTP/1.1 500 Internal Server Error"
+May 15 21:59:49 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 21:59:49 symfony [info] {sfWebDebugLogger} Configuration 3.57 ms (8)
+May 15 21:59:49 symfony [info] {sfWebDebugLogger} Factories 18.64 ms (1)
+May 15 21:59:49 symfony [info] {sfWebDebugLogger} Action "eval/show" 164.27 ms (1)
+May 15 21:59:49 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 22:00:30 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 22:00:30 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:00:30 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:00:30 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 22:00:30 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:00:30 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id WHERE (g.id = ?) LIMIT 1 - (2)
+May 15 22:00:30 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.form AS g__form, g.titre AS g__titre, g.type AS g__type, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_critere g WHERE (g.form = ?) - (1)
+May 15 22:00:30 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/eval/templates/showSuccess.php"
+May 15 22:00:30 symfony [err] {Doctrine_Record_UnknownPropertyException} Unknown record property / related component "stage_id" on "GessehStage"
+May 15 22:00:30 symfony [info] {sfWebResponse} Send status "HTTP/1.1 500 Internal Server Error"
+May 15 22:00:30 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:00:30 symfony [info] {sfWebDebugLogger} Configuration 4.85 ms (9)
+May 15 22:00:30 symfony [info] {sfWebDebugLogger} Factories 17.03 ms (1)
+May 15 22:00:30 symfony [info] {sfWebDebugLogger} Action "eval/show" 59.42 ms (1)
+May 15 22:00:30 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 22:00:30 symfony [info] {sfWebDebugLogger} View "Success" for "eval/show" 121.00 ms (1)
+May 15 22:06:11 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 22:06:11 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:06:11 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:06:11 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 22:06:11 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:06:11 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id WHERE (g.id = ?) LIMIT 1 - (2)
+May 15 22:06:11 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.form AS g__form, g.titre AS g__titre, g.type AS g__type, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_critere g WHERE (g.form = ?) - (1)
+May 15 22:06:11 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/eval/templates/showSuccess.php"
+May 15 22:06:11 symfony [err] {Doctrine_Record_UnknownPropertyException} Unknown record property / related component "valeur" on "GessehCritere"
+May 15 22:06:11 symfony [info] {sfWebResponse} Send status "HTTP/1.1 500 Internal Server Error"
+May 15 22:06:11 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:06:11 symfony [info] {sfWebDebugLogger} Configuration 14.89 ms (9)
+May 15 22:06:11 symfony [info] {sfWebDebugLogger} Factories 23.00 ms (1)
+May 15 22:06:11 symfony [info] {sfWebDebugLogger} Action "eval/show" 47.43 ms (1)
+May 15 22:06:11 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 22:06:11 symfony [info] {sfWebDebugLogger} View "Success" for "eval/show" 98.53 ms (1)
+May 15 22:06:40 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 22:06:40 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:06:40 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:06:40 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 22:06:40 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:06:40 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id WHERE (g.id = ?) LIMIT 1 - (2)
+May 15 22:06:40 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.form AS g__form, g.titre AS g__titre, g.type AS g__type, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_critere g WHERE (g.form = ?) - (1)
+May 15 22:06:40 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/eval/templates/showSuccess.php"
+May 15 22:06:40 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:06:40 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:06:40 symfony [info] {main} Get slot "title"
+May 15 22:06:40 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:06:40 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:06:40 symfony [info] {sfWebDebugLogger} Configuration 4.15 ms (9)
+May 15 22:06:40 symfony [info] {sfWebDebugLogger} Factories 16.76 ms (1)
+May 15 22:06:40 symfony [info] {sfWebDebugLogger} Action "eval/show" 51.79 ms (1)
+May 15 22:06:40 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 22:06:40 symfony [info] {sfWebDebugLogger} View "Success" for "eval/show" 13.42 ms (1)
+May 15 22:06:40 symfony [info] {sfWebResponse} Send content (39319 o)
+May 15 22:08:23 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 22:08:23 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:08:23 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:08:23 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 22:08:23 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:08:23 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id WHERE (g.id = ?) LIMIT 1 - (2)
+May 15 22:08:23 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.form AS g__form, g.titre AS g__titre, g.type AS g__type, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_critere g WHERE (g.form = ?) - (1)
+May 15 22:08:23 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/eval/templates/showSuccess.php"
+May 15 22:08:23 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:08:23 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:08:23 symfony [info] {main} Get slot "title"
+May 15 22:08:23 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:08:23 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:08:23 symfony [info] {sfWebDebugLogger} Configuration 48.20 ms (10)
+May 15 22:08:23 symfony [info] {sfWebDebugLogger} Factories 57.04 ms (1)
+May 15 22:08:23 symfony [info] {sfWebDebugLogger} Action "eval/show" 43.63 ms (1)
+May 15 22:08:23 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 22:08:23 symfony [info] {sfWebDebugLogger} View "Success" for "eval/show" 13.68 ms (1)
+May 15 22:08:23 symfony [info] {sfWebResponse} Send content (39322 o)
+May 15 22:08:27 symfony [info] {sfPatternRouting} Match route "gesseh_index_monstage" (/monstage/:id) for /monstage/1 with parameters array (  'module' => 'monstage',  'action' => 'index',  'id' => '1',)
+May 15 22:08:27 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:08:27 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:08:27 symfony [info] {monstageActions} Call "monstageActions->executeIndex()"
+May 15 22:08:27 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:08:27 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.nom AS g3__nom, g3.adresse AS g3__adresse, g3.telephone AS g3__telephone, g3.web AS g3__web, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.debut AS g4__debut, g4.fin AS g4__fin, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at, g5.id AS g5__id, g5.nom AS g5__nom, g5.prenom AS g5__prenom, g5.promo_id AS g5__promo_id, g5.email AS g5__email, g5.created_at AS g5__created_at, g5.updated_at AS g5__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id LEFT JOIN gesseh_hopital g3 ON g2.hopital_id = g3.id LEFT JOIN gesseh_periode g4 ON g.periode_id = g4.id LEFT JOIN gesseh_etudiant g5 ON g.etudiant_id = g5.id WHERE (g5.id = ?) ORDER BY g4.debut ASC - (1)
+May 15 22:08:27 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/monstage/templates/indexSuccess.php"
+May 15 22:08:27 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:08:27 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:08:27 symfony [info] {main} Get slot "title"
+May 15 22:08:27 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:08:27 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:08:27 symfony [info] {sfWebDebugLogger} Configuration 7.76 ms (9)
+May 15 22:08:27 symfony [info] {sfWebDebugLogger} Factories 16.19 ms (1)
+May 15 22:08:27 symfony [info] {sfWebDebugLogger} Action "monstage/index" 62.59 ms (1)
+May 15 22:08:27 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 22:08:27 symfony [info] {sfWebDebugLogger} View "Success" for "monstage/index" 19.90 ms (1)
+May 15 22:08:27 symfony [info] {sfWebResponse} Send content (38056 o)
+May 15 22:08:30 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/1 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '1',)
+May 15 22:08:30 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:08:30 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:08:30 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 22:08:30 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:08:30 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id WHERE (g.id = ?) LIMIT 1 - (1)
+May 15 22:08:30 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.form AS g__form, g.titre AS g__titre, g.type AS g__type, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_critere g WHERE (g.form = ?) - (1)
+May 15 22:08:30 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/eval/templates/showSuccess.php"
+May 15 22:08:30 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:08:30 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:08:30 symfony [info] {main} Get slot "title"
+May 15 22:08:30 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:08:30 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:08:30 symfony [info] {sfWebDebugLogger} Configuration 4.12 ms (9)
+May 15 22:08:30 symfony [info] {sfWebDebugLogger} Factories 8.30 ms (1)
+May 15 22:08:30 symfony [info] {sfWebDebugLogger} Action "eval/show" 47.62 ms (1)
+May 15 22:08:30 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 22:08:30 symfony [info] {sfWebDebugLogger} View "Success" for "eval/show" 12.80 ms (1)
+May 15 22:08:30 symfony [info] {sfWebResponse} Send content (39286 o)
+May 15 22:08:36 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 22:08:36 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:08:36 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:08:36 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 22:08:36 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:08:36 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id WHERE (g.id = ?) LIMIT 1 - (2)
+May 15 22:08:36 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.form AS g__form, g.titre AS g__titre, g.type AS g__type, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_critere g WHERE (g.form = ?) - (1)
+May 15 22:08:36 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/eval/templates/showSuccess.php"
+May 15 22:08:36 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:08:36 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:08:36 symfony [info] {main} Get slot "title"
+May 15 22:08:36 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:08:36 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:08:36 symfony [info] {sfWebDebugLogger} Configuration 11.59 ms (9)
+May 15 22:08:36 symfony [info] {sfWebDebugLogger} Factories 17.30 ms (1)
+May 15 22:08:36 symfony [info] {sfWebDebugLogger} Action "eval/show" 57.18 ms (1)
+May 15 22:08:36 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 22:08:36 symfony [info] {sfWebDebugLogger} View "Success" for "eval/show" 23.59 ms (1)
+May 15 22:08:36 symfony [info] {sfWebResponse} Send content (39289 o)
+May 15 22:10:29 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'services',  'action' => 'index',)
+May 15 22:10:29 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:10:29 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:10:29 symfony [info] {servicesActions} Call "servicesActions->executeIndex()"
+May 15 22:10:29 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:10:29 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id ORDER BY g2.nom, g.filiere ASC - ()
+May 15 22:10:29 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/indexSuccess.php"
+May 15 22:10:29 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:10:29 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:10:29 symfony [info] {main} Get slot "title"
+May 15 22:10:29 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:10:29 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:10:29 symfony [info] {sfWebDebugLogger} Configuration 3.30 ms (9)
+May 15 22:10:29 symfony [info] {sfWebDebugLogger} Factories 20.66 ms (1)
+May 15 22:10:29 symfony [info] {sfWebDebugLogger} Action "services/index" 32.74 ms (1)
+May 15 22:10:29 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 22:10:29 symfony [info] {sfWebDebugLogger} View "Success" for "services/index" 14.37 ms (1)
+May 15 22:10:29 symfony [info] {sfWebResponse} Send content (35743 o)
+May 15 22:10:31 symfony [info] {sfPatternRouting} Match route "gesseh_index_monstage" (/monstage/:id) for /monstage/1 with parameters array (  'module' => 'monstage',  'action' => 'index',  'id' => '1',)
+May 15 22:10:31 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:10:31 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:10:31 symfony [info] {monstageActions} Call "monstageActions->executeIndex()"
+May 15 22:10:31 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:10:31 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.nom AS g3__nom, g3.adresse AS g3__adresse, g3.telephone AS g3__telephone, g3.web AS g3__web, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.debut AS g4__debut, g4.fin AS g4__fin, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at, g5.id AS g5__id, g5.nom AS g5__nom, g5.prenom AS g5__prenom, g5.promo_id AS g5__promo_id, g5.email AS g5__email, g5.created_at AS g5__created_at, g5.updated_at AS g5__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id LEFT JOIN gesseh_hopital g3 ON g2.hopital_id = g3.id LEFT JOIN gesseh_periode g4 ON g.periode_id = g4.id LEFT JOIN gesseh_etudiant g5 ON g.etudiant_id = g5.id WHERE (g5.id = ?) ORDER BY g4.debut ASC - (1)
+May 15 22:10:31 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/monstage/templates/indexSuccess.php"
+May 15 22:10:31 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:10:31 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:10:31 symfony [info] {main} Get slot "title"
+May 15 22:10:31 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:10:31 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:10:31 symfony [info] {sfWebDebugLogger} Configuration 3.04 ms (9)
+May 15 22:10:31 symfony [info] {sfWebDebugLogger} Factories 12.07 ms (1)
+May 15 22:10:31 symfony [info] {sfWebDebugLogger} Action "monstage/index" 44.62 ms (1)
+May 15 22:10:31 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 22:10:31 symfony [info] {sfWebDebugLogger} View "Success" for "monstage/index" 13.50 ms (1)
+May 15 22:10:31 symfony [info] {sfWebResponse} Send content (38140 o)
+May 15 22:10:35 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 22:10:35 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:10:35 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:10:35 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 22:10:35 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:10:35 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id WHERE (g.id = ?) LIMIT 1 - (2)
+May 15 22:10:35 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.form AS g__form, g.titre AS g__titre, g.type AS g__type, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_critere g WHERE (g.form = ?) - (1)
+May 15 22:10:35 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/eval/templates/showSuccess.php"
+May 15 22:10:35 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:10:35 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:10:35 symfony [info] {main} Get slot "title"
+May 15 22:10:35 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:10:35 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:10:35 symfony [info] {sfWebDebugLogger} Configuration 19.36 ms (9)
+May 15 22:10:35 symfony [info] {sfWebDebugLogger} Factories 24.45 ms (1)
+May 15 22:10:35 symfony [info] {sfWebDebugLogger} Action "eval/show" 45.04 ms (1)
+May 15 22:10:35 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 22:10:35 symfony [info] {sfWebDebugLogger} View "Success" for "eval/show" 11.63 ms (1)
+May 15 22:10:35 symfony [info] {sfWebResponse} Send content (39289 o)
+May 15 22:11:52 symfony [info] {sfPatternRouting} Match route "gesseh_index_monstage" (/monstage/:id) for /monstage/1 with parameters array (  'module' => 'monstage',  'action' => 'index',  'id' => '1',)
+May 15 22:11:52 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:11:52 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:11:52 symfony [info] {monstageActions} Call "monstageActions->executeIndex()"
+May 15 22:11:52 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:11:52 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.nom AS g3__nom, g3.adresse AS g3__adresse, g3.telephone AS g3__telephone, g3.web AS g3__web, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.debut AS g4__debut, g4.fin AS g4__fin, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at, g5.id AS g5__id, g5.nom AS g5__nom, g5.prenom AS g5__prenom, g5.promo_id AS g5__promo_id, g5.email AS g5__email, g5.created_at AS g5__created_at, g5.updated_at AS g5__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id LEFT JOIN gesseh_hopital g3 ON g2.hopital_id = g3.id LEFT JOIN gesseh_periode g4 ON g.periode_id = g4.id LEFT JOIN gesseh_etudiant g5 ON g.etudiant_id = g5.id WHERE (g5.id = ?) ORDER BY g4.debut ASC - (1)
+May 15 22:11:52 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/monstage/templates/indexSuccess.php"
+May 15 22:11:52 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:11:52 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:11:52 symfony [info] {main} Get slot "title"
+May 15 22:11:52 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:11:52 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:11:52 symfony [info] {sfWebDebugLogger} Configuration 4.06 ms (9)
+May 15 22:11:52 symfony [info] {sfWebDebugLogger} Factories 17.78 ms (1)
+May 15 22:11:52 symfony [info] {sfWebDebugLogger} Action "monstage/index" 47.74 ms (1)
+May 15 22:11:52 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 22:11:52 symfony [info] {sfWebDebugLogger} View "Success" for "monstage/index" 12.30 ms (1)
+May 15 22:11:52 symfony [info] {sfWebResponse} Send content (38172 o)
+May 15 22:11:56 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/show/id/2 with parameters array (  'module' => 'eval',  'action' => 'show',  'id' => '2',)
+May 15 22:11:56 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:11:56 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:11:56 symfony [info] {evalActions} Call "evalActions->executeShow()"
+May 15 22:11:56 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:11:56 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.terrain_id AS g__terrain_id, g.periode_id AS g__periode_id, g.etudiant_id AS g__etudiant_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.hopital_id AS g2__hopital_id, g2.filiere AS g2__filiere, g2.patron AS g2__patron, g2.localisation AS g2__localisation, g2.form_id AS g2__form_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_stage g LEFT JOIN gesseh_terrain g2 ON g.terrain_id = g2.id WHERE (g.id = ?) LIMIT 1 - (2)
+May 15 22:11:56 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.form AS g__form, g.titre AS g__titre, g.type AS g__type, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_critere g WHERE (g.form = ?) - (1)
+May 15 22:11:56 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/eval/templates/showSuccess.php"
+May 15 22:11:56 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:11:56 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:11:56 symfony [info] {main} Get slot "title"
+May 15 22:11:56 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:11:56 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:11:56 symfony [info] {sfWebDebugLogger} Configuration 3.37 ms (9)
+May 15 22:11:56 symfony [info] {sfWebDebugLogger} Factories 16.54 ms (1)
+May 15 22:11:56 symfony [info] {sfWebDebugLogger} Action "eval/show" 55.06 ms (1)
+May 15 22:11:56 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (3)
+May 15 22:11:56 symfony [info] {sfWebDebugLogger} View "Success" for "eval/show" 11.87 ms (1)
+May 15 22:11:56 symfony [info] {sfWebResponse} Send content (39287 o)
+May 15 22:12:04 symfony [info] {sfPatternRouting} Match route "default" (/:module/:action/*) for /eval/edit/id/2 with parameters array (  'module' => 'eval',  'action' => 'edit',  'id' => '2',)
+May 15 22:12:04 symfony [info] {sfFrontWebController} Action "eval/edit" does not exist
+May 15 22:12:04 symfony [err] {sfError404Exception} Action "eval/edit" does not exist.
+May 15 22:12:04 symfony [info] {sfWebResponse} Send status "HTTP/1.1 404 Not Found"
+May 15 22:12:04 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:12:04 symfony [info] {sfWebDebugLogger} Configuration 1.41 ms (5)
+May 15 22:12:04 symfony [info] {sfWebDebugLogger} Factories 11.05 ms (1)
+May 15 22:12:09 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /eval with parameters array (  'module' => 'eval',  'action' => 'index',)
+May 15 22:12:09 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 15 22:12:09 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 15 22:12:09 symfony [info] {evalActions} Call "evalActions->executeIndex()"
+May 15 22:12:09 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 15 22:12:09 symfony [info] {Doctrine_Connection_Mysql} query : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at FROM gesseh_eval g - ()
+May 15 22:12:09 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/eval/templates/indexSuccess.php"
+May 15 22:12:09 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:12:09 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 15 22:12:09 symfony [info] {main} Get slot "title"
+May 15 22:12:09 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 15 22:12:09 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 15 22:12:09 symfony [info] {sfWebDebugLogger} Configuration 3.39 ms (9)
+May 15 22:12:09 symfony [info] {sfWebDebugLogger} Factories 14.46 ms (1)
+May 15 22:12:09 symfony [info] {sfWebDebugLogger} Action "eval/index" 46.02 ms (1)
+May 15 22:12:09 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.01 ms (2)
+May 15 22:12:09 symfony [info] {sfWebDebugLogger} View "Success" for "eval/index" 13.83 ms (1)
+May 15 22:12:09 symfony [info] {sfWebResponse} Send content (33922 o)

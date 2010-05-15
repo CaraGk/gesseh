@@ -1,17 +1,15 @@
 <table>
   <tbody>
+<?php foreach ($gesseh_criteres as $gesseh_critere): ?>
     <tr>
-      <th>Stage:</th>
-      <td><?php echo $gesseh_eval->getStageId() ?></td>
+      <th>Critère d'évaluation :</th>
+      <td><?php echo $gesseh_critere->getTitre() ?></td>
     </tr>
     <tr>
-      <th>Critere:</th>
-      <td><?php echo $gesseh_eval->getCritereId() ?></td>
+      <th>Type :</th>
+      <td><?php echo $gesseh_critere->getType() ?></td>
     </tr>
-    <tr>
-      <th>Valeur:</th>
-      <td><?php echo $gesseh_eval->getValeur() ?></td>
-    </tr>
+<?php endforeach; ?>
   </tbody>
 </table>
 

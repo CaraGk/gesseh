@@ -4,10 +4,29 @@
 # default rules
 homepage:
   url:   /
-  param: { module: default, action: index }
+  param: { module: services, action: index }
 
 # generic rules
 # please, remove them by adding more specific rules
+
+gesseh_show_stage:
+  url: /stage/:id
+  param: { module: services, action: show }
+  requirements:
+    id: \d+
+
+gesseh_index_monstage:
+  url: /monstage/:id
+  param: { module: monstage, action: index }
+  requirements:
+    id: \d+
+
+gesseh_show_formulaire:
+  url: /eval/:id
+  param: { module: monstage, action: show }
+  requirements:
+    id: \d+
+
 default_index:
   url:   /:module
   param: { action: index }

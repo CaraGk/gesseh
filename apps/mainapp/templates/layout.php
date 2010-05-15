@@ -12,12 +12,12 @@
     <div id="container">
       <div id="header">
         <div class="content">
-	  <h1><a href="<?php echo url_for('services/index') ?>"><img src="/images/gesseh_logo.png" alt="Gesseh, session de test" /> Titre du site de gestion</a></h1>
+	  <h1><a href="<?php echo url_for('@homepage') ?>"><img src="/images/gesseh_logo.png" alt="Gesseh, session de test" /> Titre du site de gestion</a></h1>
 	  
 	  <div id="menu">
 	    <ul>
-	      <li><a href="<?php echo url_for('services/index') ?>">Accueil</a></li>
-	      <li><a href="<?php echo url_for('services/index') ?>">S'identifier</a></li>
+	      <li><a href="<?php echo url_for('@homepage') ?>">Accueil</a></li>
+	      <li><a href="<?php echo url_for('monstage/1') ?>">S'identifier</a></li>
 	      <li><a href="<?php echo url_for('services/index') ?>">Administrer</a></li>
 	    </ul>
 	  </div>
