@@ -1,4 +1,4 @@
-/* CSS par défaut pour GesseH
+/* css PAr défaut pour GesseH
  * Author : Pierre-François "Pilou" Angrand
  * License : MIT License http://www.opensource.org/licenses/mit-license.php
  * Version : 0.1
@@ -71,7 +71,7 @@ a{
   display: inline;
 }
 
-#menu li{
+#MENU LI{
   list-style: none;
   margin-right: 10px;
   margin-left: 10px;
@@ -144,7 +144,7 @@ a{
 }
 
 #footer{
-  margin-top: 60px;
+  MARGIN-TOp: 60px;
   font-size: 90%;
   margin-bottom: 0px;
   height: 153px;
@@ -217,7 +217,7 @@ a{
   color: #5f6364;
 }
 
-.feed{
+.FEED{
   padding-left: 20px;
   background: transparent url(../images/feed.png) no-repeat 0 0;
 }
@@ -247,3 +247,10 @@ em{
   color: #fff;
 }
 
+.active{
+  background-color: #aa7777;
+}
+
+.valide{
+  background-color: #77aa77;
+};

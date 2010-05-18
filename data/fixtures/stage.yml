@@ -7,3 +7,13 @@ GessehStage:
     GessehTerrain: baglin
     GessehEtudiant: pilou
     GessehPeriode: stage1
+    is_active: 0
+  stage_pilou3:
+    GessehTerrain: hugel
+    GessehEtudiant: pilou
+    GessehPeriode: stage1
+    is_active: 0
+  stage_pilou4:
+    GessehTerrain: annane
+    GessehEtudiant: pilou
+    GessehPeriode: stage1
