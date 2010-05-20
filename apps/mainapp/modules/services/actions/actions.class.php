@@ -5,41 +5,22 @@
  *
  * @package    gesseh
  * @subpackage services
- * @author     Your name here
+ * @author     Pierre-François "Pilou/ Angrand
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
 class servicesActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
-      $this->gesseh_terrains = Doctrine_Query::create()
-      ->from('GessehTerrain a')
-      ->leftjoin('a.GessehHopital b')
-      ->addOrderBy('b.nom, a.filiere ASC')
-      ->execute();
+     $this->gesseh_terrains = Doctrine_Core::getTable('GessehTerrain')->getListeTerrains();
   }
 
   public function executeShow(sfWebRequest $request)
   {
-/*    $this->gesseh_terrain = Doctrine::getTable('GessehTerrain')->find(array($request->getParameter('id'))); */
-    $this->gesseh_terrain = Doctrine_Query::create()
-    ->from('GessehTerrain a')
-    ->leftjoin('a.GessehHopital b')
-    ->where('a.id = ?', $request->getParameter('id'))
-    ->limit(1)
-    ->fetchOne();
+    $this->gesseh_terrain = Doctrine::getTable('GessehTerrain')->getTerrainUnique($request);
     $this->forward404Unless($this->gesseh_terrain);
 
-    $this->gesseh_evals = Doctrine_Query::create()
-    ->from('GessehEval a')
-    ->leftjoin('a.GessehStage b')
-    ->leftjoin('b.GessehPeriode c')
-    ->leftjoin('a.GessehCritere d')
-    ->where('b.terrain_id = ?', $request->getParameter('id'))
-    ->addOrderBy('c.debut DESC, b.etudiant_id ASC, a.critere_id ASC')
-    ->execute();
-    $this->forward404Unless($this->gesseh_evals);
-    
+    $this->gesseh_evals = Doctrine::getTable('GessehEval')->getEvals($request);
   }
 
 /*  public function executeNew(sfWebRequest $request)

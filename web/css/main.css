@@ -71,7 +71,7 @@ a{
   display: inline;
 }
 
-#MENU LI{
+#menu li{
   list-style: none;
   margin-right: 10px;
   margin-left: 10px;
@@ -252,5 +252,5 @@ em{
 }
 
 .valide{
-  background-color: #77aa77;
+  BACKGROUNd-color: #77aa77;
 };

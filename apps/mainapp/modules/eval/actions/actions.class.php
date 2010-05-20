@@ -5,7 +5,7 @@
  *
  * @package    gesseh
  * @subpackage eval
- * @author     Your name here
+ * @author     Pierre-François "Pilou" Angrand
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
 class evalActions extends sfActions
@@ -19,19 +19,10 @@ class evalActions extends sfActions
 
   public function executeShow(sfWebRequest $request)
   {
-/*    $this->gesseh_eval = Doctrine::getTable('GessehStage')->find(array($request->getParameter('id'))); */
-    $this->gesseh_eval = Doctrine_Query::create()
-    ->from('GessehStage a')
-    ->leftjoin('a.GessehTerrain b')
-    ->where('a.id = ?', $request->getParameter('id'))
-    ->limit(1)
-    ->fetchOne();
+    $this->gesseh_eval = Doctrine::getTable('GessehStage')->getStageUniqueEtudiant($request);
     $this->forward404Unless($this->gesseh_eval);
 
-    $this->gesseh_criteres = Doctrine::getTable('GessehCritere')
-    ->createQuery('a')
-    ->where('form = ?', $this->gesseh_eval->getGessehTerrain()->getFormId())
-    ->execute();
+    $this->gesseh_criteres = Doctrine::getTable('GessehCritere')->getCriteres($this->gesseh_eval->getGessehTerrain()->getFormId());
   }
 
 /*  public function executeNew(sfWebRequest $request)
