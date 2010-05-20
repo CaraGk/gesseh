@@ -20,7 +20,8 @@ class servicesActions extends sfActions
     $this->gesseh_terrain = Doctrine::getTable('GessehTerrain')->getTerrainUnique($request);
     $this->forward404Unless($this->gesseh_terrain);
 
-    $this->gesseh_evals = Doctrine::getTable('GessehEval')->getEvals($request);
+    $this->gesseh_evals = Doctrine::getTable('GessehEval')->calcMoyenne($request);
+    $this->gesseh_comments = Doctrine::getTable('GessehEval')->getEvalsComments($request->getParameter('id'));
   }
 
 /*  public function executeNew(sfWebRequest $request)

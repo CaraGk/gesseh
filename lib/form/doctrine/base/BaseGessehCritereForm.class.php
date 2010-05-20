@@ -19,6 +19,7 @@ abstract class BaseGessehCritereForm extends BaseFormDoctrine
       'form'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('GessehTerrain'), 'add_empty' => false)),
       'titre'      => new sfWidgetFormInputText(),
       'type'       => new sfWidgetFormInputText(),
+      'ratio'      => new sfWidgetFormInputText(),
       'created_at' => new sfWidgetFormDateTime(),
       'updated_at' => new sfWidgetFormDateTime(),
     ));
@@ -28,6 +29,7 @@ abstract class BaseGessehCritereForm extends BaseFormDoctrine
       'form'       => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('GessehTerrain'))),
       'titre'      => new sfValidatorString(array('max_length' => 255)),
       'type'       => new sfValidatorString(array('max_length' => 255)),
+      'ratio'      => new sfValidatorInteger(array('required' => false)),
       'created_at' => new sfValidatorDateTime(),
       'updated_at' => new sfValidatorDateTime(),
     ));

@@ -30,19 +30,33 @@
 </table>
 <hr />
 
+<div id="eval">
+  <div class="titre">Moyenne des évaluations chiffrées :</div>
+  <div class="content">
+    <?php foreach ($gesseh_evals as $critere): ?>
+      <?php echo $critere['titre']; ?> : <?php echo $critere['moyenne']; ?><br />
+    <?php endforeach; ?>
+  </div>
+</div>
+
+<hr />
+
+<div id="comments">
 <?php $etudiant = -1; ?>
-<?php foreach ($gesseh_evals as $gesseh_eval): ?>
+<?php foreach ($gesseh_comments as $gesseh_eval): ?>
   <?php if ($gesseh_eval->getGessehStage()->getEtudiantId() != $etudiant): ?>
     <?php if ($etudiant): ?>
       </div></div>
     <?php endif; ?>
-    <div class="eval">
-      <div class="titre">Evaluation : stage du <?php echo $gesseh_eval->getGessehStage()->getGessehPeriode()->getDebut() ?> au <?php echo $gesseh_eval->getGessehStage()->getGessehPeriode()->getFin() ?>.</div>
+    <div class="contents">
+      <div class="titre">Stage du <?php echo $gesseh_eval->getGessehStage()->getGessehPeriode()->getDebut() ?> au <?php echo $gesseh_eval->getGessehStage()->getGessehPeriode()->getFin() ?>.</div>
       <div class="content">
   <?php endif; ?>
       <?php echo $gesseh_eval->getGessehCritere()->getTitre() ?> : <?php echo $gesseh_eval->getValeur() ?><br />
       <?php $etudiant = $gesseh_eval->getGessehStage()->getEtudiantId(); ?>
 <?php endforeach; ?>
+</div></div>
+</div>
 
 <hr />
 

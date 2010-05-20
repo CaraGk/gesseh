@@ -8,17 +8,20 @@
  * @property integer $form
  * @property string $titre
  * @property string $type
+ * @property integer $ratio
  * @property Doctrine_Collection $GessehTerrain
  * @property Doctrine_Collection $GessehEval
  * 
  * @method integer             getForm()          Returns the current record's "form" value
  * @method string              getTitre()         Returns the current record's "titre" value
  * @method string              getType()          Returns the current record's "type" value
+ * @method integer             getRatio()         Returns the current record's "ratio" value
  * @method Doctrine_Collection getGessehTerrain() Returns the current record's "GessehTerrain" collection
  * @method Doctrine_Collection getGessehEval()    Returns the current record's "GessehEval" collection
  * @method GessehCritere       setForm()          Sets the current record's "form" value
  * @method GessehCritere       setTitre()         Sets the current record's "titre" value
  * @method GessehCritere       setType()          Sets the current record's "type" value
+ * @method GessehCritere       setRatio()         Sets the current record's "ratio" value
  * @method GessehCritere       setGessehTerrain() Sets the current record's "GessehTerrain" collection
  * @method GessehCritere       setGessehEval()    Sets the current record's "GessehEval" collection
  * 
@@ -45,6 +48,9 @@ abstract class BaseGessehCritere extends sfDoctrineRecord
              'type' => 'string',
              'notnull' => true,
              'length' => 255,
+             ));
+        $this->hasColumn('ratio', 'integer', null, array(
+             'type' => 'integer',
              ));
     }
 

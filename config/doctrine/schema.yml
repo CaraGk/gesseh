@@ -58,6 +58,7 @@ GessehCritere:
     form: { type: integer, notnull: true }
     titre: { type: string(255), notnull: true }
     type: { type: string(255), notnull: true }
+    ratio: { type: integer }
 
 GessehEval:
   actAs: { Timestampable: ~ }

@@ -2,71 +2,88 @@ GessehCritere:
   lit_malade:
     form: 1
     titre: Enseignement au lit du malade
-    type: radio(5)
+    type: radio
+    ratio: 5
   stage: 
     form: 1
     titre: Enseignement en cours sur les lieux du stage
-    type: radio(5)
+    type: radio
+    ratio: 5
   seminaire:
     form: 1
     titre: Enseignement en séminaire
-    type: radio(5)
+    type: radio
+    ratio: 5
   consultation:
     form : 1
     titre: Enseignement en consultation
-    type: radio(5)
+    type: radio
+    ratio: 5
   eramen:
     form: 1
     titre: Analyse d'examens complémentaires
-    type: radio(5)
+    type: radio
+    ratio: 5
   ethique:
     form: 1
     titre: Ethique médicale
-    type: radio(5)
+    type: radio
+    ratio: 5
   interne:
     form: 1
     titre: Encadrement par l'interne
-    type: radio(5)
+    type: radio
+    ratio: 5
   chef:
     form: 1
     titre: Encadrement par le chef de clinique
-    type: radio(5)
+    type: radio
+    ratio: 5
   senior:
     form: 1
     titre: Encadrement par le senior
-    type: radio(5)
+    type: radio
+    ratio: 5
   gestes:
     form: 1
     titre: Gestes techniques
-    type: radio(5)
+    type: radio
+    ratio: 5
   travail:
     form: 1
     titre: Quantité de travail
-    type: radio(5)
+    type: radio
+    ratio: 5
   formation:
     form: 1
     titre: Valeur formatrice
-    type: radio(5)
+    type: radio
+    ratio: 5
   gardes:
     form: 1
     titre: Nombre de gardes par mois
-    type: radio(5)
+    type: radio
+    ratio: 5
   garde_travail:
     form: 1
     titre: Quantité de travail en garde
-    type: radio(5)
+    type: radio
+    ratio: 5
   garde_formation:
     form: 1
     titre: Valeur formatrice des gardes
-    type: radio(5)
+    type: radio
+    ratio: 5
   astreine_samedi:
     form: 1
     titre: Nombre de samedis d'astreinte par mois
-    type: radio(5)
+    type: radio
+    ratio: 5
   astreinte_dimanche:
     form: 1
     titre: Nombre de dimanches d'astreinte par mois
-    type: radio(5)
+    type: radio
+    ratio: 5
   comment:
     form: 1
     titre: Commentaires libres

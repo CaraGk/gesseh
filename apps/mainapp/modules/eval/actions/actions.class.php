@@ -22,7 +22,7 @@ class evalActions extends sfActions
     $this->gesseh_eval = Doctrine::getTable('GessehStage')->getStageUniqueEtudiant($request);
     $this->forward404Unless($this->gesseh_eval);
 
-    $this->gesseh_criteres = Doctrine::getTable('GessehCritere')->getCriteres($this->gesseh_eval->getGessehTerrain()->getFormId());
+    $this->gesseh_criteres = Doctrine::getTable('GessehCritere')->getCriteres($this->gesseh_eval->getGessehTerrain()->getFormId(), 'radio(5)');
   }
 
 /*  public function executeNew(sfWebRequest $request)

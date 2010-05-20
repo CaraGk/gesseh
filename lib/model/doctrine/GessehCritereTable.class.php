@@ -18,4 +18,11 @@ class GessehCritereTable extends Doctrine_Table
       return $q->execute();
     }
 
+    public function getComments()
+    {
+      
+    }
+
+
+
 }
