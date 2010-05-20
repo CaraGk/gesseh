@@ -14,7 +14,7 @@ class GessehTerrainTable extends Doctrine_Table
       $q = $this->gesseh_terrains = Doctrine_Query::create()
       ->from('GessehTerrain a')
       ->leftjoin('a.GessehHopital b')
-      ->addOrderBy('b.nom, a.filiere ASC');
+      ->OrderBy('b.nom, a.filiere ASC');
       
       return $q->execute();
     }

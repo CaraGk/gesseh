@@ -18,7 +18,7 @@ class GessehStageTable extends Doctrine_Table
       ->leftjoin('a.GessehPeriode c')
       ->leftjoin('a.GessehEtudiant d')
       ->where('d.id = ?', $etudiant->getParameter('id'))
-      ->addOrderBy('a.is_active DESC, c.debut ASC');
+      ->OrderBy('a.is_active DESC, c.debut ASC');
 
       return $q->execute();
     }

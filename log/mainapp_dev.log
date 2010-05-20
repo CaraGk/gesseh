@@ -8109,3 +8109,24 @@ May 20 20:55:53 symfony [info] {sfWebDebugLogger} Action "services/show" 215.53 
 May 20 20:55:53 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.02 ms (4)
 May 20 20:55:53 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 25.00 ms (1)
 May 20 20:55:54 symfony [info] {sfWebResponse} Send content (47121 o)
+May 20 21:03:10 symfony [info] {sfPatternRouting} Match route "gesseh_show_stage" (/stage/:id) for /stage/1 with parameters array (  'module' => 'services',  'action' => 'show',  'id' => '1',)
+May 20 21:03:11 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+May 20 21:03:11 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+May 20 21:03:11 symfony [info] {servicesActions} Call "servicesActions->executeShow()"
+May 20 21:03:11 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'UTF8' - ()
+May 20 21:03:11 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.hopital_id AS g__hopital_id, g.filiere AS g__filiere, g.patron AS g__patron, g.localisation AS g__localisation, g.form_id AS g__form_id, g.is_active AS g__is_active, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.nom AS g2__nom, g2.adresse AS g2__adresse, g2.telephone AS g2__telephone, g2.web AS g2__web, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at FROM gesseh_terrain g LEFT JOIN gesseh_hopital g2 ON g.hopital_id = g2.id WHERE (g.id = ?) LIMIT 1 - (1)
+May 20 21:03:11 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.ratio AS g4__ratio, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ? AND g4.type = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (1, radio)
+May 20 21:03:11 symfony [info] {Doctrine_Connection_Statement} execute : SELECT g.id AS g__id, g.stage_id AS g__stage_id, g.critere_id AS g__critere_id, g.valeur AS g__valeur, g.created_at AS g__created_at, g.updated_at AS g__updated_at, g2.id AS g2__id, g2.terrain_id AS g2__terrain_id, g2.periode_id AS g2__periode_id, g2.etudiant_id AS g2__etudiant_id, g2.is_active AS g2__is_active, g2.created_at AS g2__created_at, g2.updated_at AS g2__updated_at, g3.id AS g3__id, g3.debut AS g3__debut, g3.fin AS g3__fin, g3.created_at AS g3__created_at, g3.updated_at AS g3__updated_at, g4.id AS g4__id, g4.form AS g4__form, g4.titre AS g4__titre, g4.type AS g4__type, g4.ratio AS g4__ratio, g4.created_at AS g4__created_at, g4.updated_at AS g4__updated_at FROM gesseh_eval g LEFT JOIN gesseh_stage g2 ON g.stage_id = g2.id LEFT JOIN gesseh_periode g3 ON g2.periode_id = g3.id LEFT JOIN gesseh_critere g4 ON g.critere_id = g4.id WHERE (g2.terrain_id = ? AND g4.type = ?) ORDER BY g3.debut DESC, g2.etudiant_id ASC, g.critere_id ASC - (1, text)
+May 20 21:03:11 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/modules/services/templates/showSuccess.php"
+May 20 21:03:11 symfony [info] {main} Set slot "title"
+May 20 21:03:11 symfony [info] {sfPHPView} Decorate content with "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 20 21:03:11 symfony [info] {sfPHPView} Render "/home/pilou/data/documents/projets/gesseh/apps/mainapp/templates/layout.php"
+May 20 21:03:11 symfony [info] {main} Get slot "title"
+May 20 21:03:11 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+May 20 21:03:11 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+May 20 21:03:11 symfony [info] {sfWebDebugLogger} Configuration 3.64 ms (9)
+May 20 21:03:11 symfony [info] {sfWebDebugLogger} Factories 26.88 ms (1)
+May 20 21:03:11 symfony [info] {sfWebDebugLogger} Action "services/show" 210.63 ms (1)
+May 20 21:03:11 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.02 ms (4)
+May 20 21:03:11 symfony [info] {sfWebDebugLogger} View "Success" for "services/show" 22.50 ms (1)
+May 20 21:03:11 symfony [info] {sfWebResponse} Send content (47121 o)

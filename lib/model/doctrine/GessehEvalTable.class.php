@@ -17,7 +17,7 @@ class GessehEvalTable extends Doctrine_Table
       ->leftjoin('b.GessehPeriode c')
       ->leftjoin('a.GessehCritere d')
       ->where('b.terrain_id = ?', $request->getParameter('id'))
-      ->addOrderBy('c.debut DESC, b.etudiant_id ASC, a.critere_id ASC');
+      ->OrderBy('c.debut DESC, b.etudiant_id ASC, a.critere_id ASC');
 
       return $q->execute();
     }
@@ -31,7 +31,7 @@ class GessehEvalTable extends Doctrine_Table
       ->leftjoin('a.GessehCritere d')
       ->where('b.terrain_id = ?', $request->getParameter('id'))
       ->andWhere('d.type = ?', 'radio')
-      ->addOrderBy('c.debut DESC, b.etudiant_id ASC, a.critere_id ASC');
+      ->OrderBy('c.debut DESC, b.etudiant_id ASC, a.critere_id ASC');
       
       return $q->execute();
     }
@@ -65,7 +65,7 @@ class GessehEvalTable extends Doctrine_Table
       ->leftjoin('a.GessehCritere d')
       ->where('b.terrain_id = ?', $terrain)
       ->andWhere('d.type = ?', 'text')
-      ->addOrderBy('c.debut DESC, b.etudiant_id ASC, a.critere_id ASC');
+      ->OrderBy('c.debut DESC, b.etudiant_id ASC, a.critere_id ASC');
       
       return $q->execute();
     } 
