@@ -50,7 +50,7 @@ class GessehEvalTable extends Doctrine_Table
 	$criteres_moyenne[$eval->getGessehCritere()->getId()]['total'] += $eval->getValeur();
 	$criteres_moyenne[$eval->getGessehCritere()->getId()]['ratio'] = $eval->getGessehCritere()->getRatio();
 	$criteres_moyenne[$eval->getGessehCritere()->getId()]['evals'] ++;
-	$criteres_moyenne[$eval->getGessehCritere()->getId()]['moyenne'] = $criteres_moyenne[$eval->getGessehCritere()->getId()]['total'] / $criteres_moyenne[$eval->getGessehCritere()->getId()]['evals'];
+	$criteres_moyenne[$eval->getGessehCritere()->getId()]['moyenne'] = round($criteres_moyenne[$eval->getGessehCritere()->getId()]['total'] / $criteres_moyenne[$eval->getGessehCritere()->getId()]['evals'], 1);
       }
 
       return $criteres_moyenne;

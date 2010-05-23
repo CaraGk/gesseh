@@ -1,20 +1,18 @@
-<table>
-  <tbody>
-<?php foreach ($gesseh_criteres as $gesseh_critere): ?>
-    <tr>
-      <th>Critère d'évaluation :</th>
-      <td><?php echo $gesseh_critere->getTitre() ?></td>
-    </tr>
-    <tr>
-      <th>Type :</th>
-      <td><?php echo $gesseh_critere->getType() ?></td>
-    </tr>
-<?php endforeach; ?>
-  </tbody>
-</table>
+  <table>
+    <tfoot>
+      <tr>
+        <td colspan="2">
+	  &nbsp;<a href="<?php echo url_for('monstage/1') ?>">Liste</a>
+	</td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr>
+        <td>
+	</td>
+      </tr>
+    </tbody>
+  </table>
+</form>
 
-<hr />
-
-<a href="<?php echo url_for('eval/edit?id='.$gesseh_eval->getId()) ?>">Editer</a>
-&nbsp;
 <a href="<?php echo url_for('eval/index') ?>">Liste</a>

@@ -1,5 +1,5 @@
-<?php use_stylesheets_for_form($form) ?>
-<?php use_javascripts_for_form($form) ?>
+<!-- <?php use_stylesheets_for_form($form) ?>
+<?php use_javascripts_for_form($form) ?> -->
 
 <form action="<?php echo url_for('eval/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
 <?php if (!$form->getObject()->isNew()): ?>
@@ -9,16 +9,13 @@
     <tfoot>
       <tr>
         <td colspan="2">
-          &nbsp;<a href="<?php echo url_for('eval/index') ?>">Back to list</a>
-          <?php if (!$form->getObject()->isNew()): ?>
-            &nbsp;<?php echo link_to('Delete', 'eval/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
-          <?php endif; ?>
-          <input type="submit" value="Save" />
+          &nbsp;<a href="<?php echo url_for('monstage/1') ?>">Retour</a>
+          <input type="submit" value="Enregistrer" />
         </td>
       </tr>
     </tfoot>
     <tbody>
-      <?php echo $form ?>
+        <?php echo $form ?>
     </tbody>
   </table>
 </form>

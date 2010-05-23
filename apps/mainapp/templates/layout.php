@@ -23,7 +23,7 @@
 	  </div>
 	</div>
 	
-	<div id="search">
+<!--	<div id="search">
           <form action="" method="get">
 	    Terrains de stage :
 	    <select name="terrain">
@@ -33,7 +33,7 @@
             <input type="submit" value="search" />
 	  </form>
 	</div>
-
+-->
       </div>
   
       <div id="content">

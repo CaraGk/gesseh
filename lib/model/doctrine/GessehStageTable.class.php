@@ -33,4 +33,14 @@ class GessehStageTable extends Doctrine_Table
       
       return $q->fetchOne();
     }
+
+    public function valideActiveStage($stage_id)
+    {
+      $q = $this->gesseh_stages = Doctrine_Query::create()
+        ->update('GessehStage a')
+        ->set('a.is_active', '?', '0')
+	->where('a.id = ?', $stage_id);
+
+      return $q->execute();
+    }
 }

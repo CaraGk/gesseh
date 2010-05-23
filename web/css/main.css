@@ -1,4 +1,4 @@
-/* css PAr défaut pour GesseH
+/* CSS par défaut pour GesseH
  * Author : Pierre-François "Pilou" Angrand
  * License : MIT License http://www.opensource.org/licenses/mit-license.php
  * Version : 0.1
@@ -144,11 +144,11 @@ a{
 }
 
 #footer{
-  MARGIN-TOp: 60px;
+  margin-top: 60px;
   font-size: 90%;
   margin-bottom: 0px;
-  height: 153px;
   padding-top: 10px;
+  height: 30px;
   position: relative;
 }
 
