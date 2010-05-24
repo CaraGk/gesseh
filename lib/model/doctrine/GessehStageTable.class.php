@@ -17,18 +17,18 @@ class GessehStageTable extends Doctrine_Table
       ->leftjoin('b.GessehHopital e')
       ->leftjoin('a.GessehPeriode c')
       ->leftjoin('a.GessehEtudiant d')
-      ->where('d.id = ?', $etudiant->getParameter('id'))
+      ->where('d.id = ?', $etudiant)
       ->OrderBy('a.is_active DESC, c.debut ASC');
 
       return $q->execute();
     }
 
-    public function getStageUniqueEtudiant($request)
+    public function getStageUniqueEtudiant($stage_id)
     {
       $q = $this->gesseh_eval = Doctrine_Query::create()
       ->from('GessehStage a')
       ->leftjoin('a.GessehTerrain b')
-      ->where('a.id = ?', $request->getParameter('id'))
+      ->where('a.id = ?', $stage_id)
       ->limit(1);
       
       return $q->fetchOne();

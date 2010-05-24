@@ -16,16 +16,24 @@ gesseh_show_stage:
     id: \d+
 
 gesseh_index_monstage:
-  url: /monstage/:id
+  url: /monstage/:iduser
   param: { module: monstage, action: index }
   requirements:
-    id: \d+
+    iduser: \d+
 
 gesseh_show_formulaire:
-  url: /eval/:id
-  param: { module: monstage, action: show }
+  url: /monstage/:iduser/:idstage
+  param: { module: eval, action: show }
   requirements:
-    id: \d+
+    iduser: \d+
+    idstage: \d+
+
+gesseh_new_formulaire:
+  url: /monstage/:iduser/:idstage/new
+  param: { module: eval, action: new }
+  requirements:
+    iduser: \d+
+    idstage: \d+
 
 default_index:
   url:   /:module

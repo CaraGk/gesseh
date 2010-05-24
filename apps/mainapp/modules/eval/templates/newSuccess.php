@@ -19,5 +19,3 @@
     </tbody>
   </table>
 </form>
-
-<a href="<?php echo url_for('eval/index') ?>">Liste</a>
