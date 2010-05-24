@@ -19,12 +19,13 @@ class evalActions extends sfActions
 
   public function executeShow(sfWebRequest $request)
   {
+    $this->user = $this->getUser()->getUsername();
     $this->gesseh_evals = Doctrine::getTable('GessehEval')->getEvalsFromStage($request->getParameter('idstage'));
-//    $this->getUser()->setFlash('notice', 'Formulaire d\'évaluation correctement soumis, merci.');
   }
 
   public function executeNew(sfWebRequest $request)
   {
+    $this->user = $this->getUser()->getUsername();
     $this->gesseh_stage = Doctrine::getTable('GessehStage')->getStageUniqueEtudiant($request->getParameter('idstage'));
     $this->forward404Unless($this->gesseh_stage);
 
@@ -42,9 +43,9 @@ class evalActions extends sfActions
 
   public function executeCreate(sfWebRequest $request)
   {
+    $this->user = $this->getUser()->getUsername();
     $this->forward404Unless($request->isMethod(sfRequest::POST));
-
-    $this->gesseh_stage = Doctrine::getTable('GessehStage')->getStageUniqueEtudiant($request->getParameter('iduser'));
+    $this->gesseh_stage = Doctrine::getTable('GessehStage')->getStageUniqueEtudiant($request->getParameter('idstage'));
     $this->gesseh_criteres = Doctrine::getTable('GessehCritere')->getCriteres($this->gesseh_stage->getGessehTerrain()->getFormId());
     foreach($this->gesseh_criteres as $critere)
     {
@@ -62,12 +63,14 @@ class evalActions extends sfActions
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form, $criteres)
-  {
+  { 
+    $this->user = $this->getUser()->getUsername();
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
       $id = $form->embdedSave($criteres);
-      $this->redirect('eval/show?iduser=1&idstage='.$id);
+      $this->getUser()->setFlash('notice', 'Formulaire d\'évaluation correctement soumis, merci.');
+      $this->redirect('eval/show?iduser='.$this->user.'&idstage='.$id);
     }
   }
 }

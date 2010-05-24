@@ -25,7 +25,7 @@ class GessehStageTable extends Doctrine_Table
 
     public function getStageUniqueEtudiant($stage_id)
     {
-      $q = $this->gesseh_eval = Doctrine_Query::create()
+      $q = Doctrine_Query::create()
       ->from('GessehStage a')
       ->leftjoin('a.GessehTerrain b')
       ->where('a.id = ?', $stage_id)
@@ -36,7 +36,7 @@ class GessehStageTable extends Doctrine_Table
 
     public function valideActiveStage($stage_id)
     {
-      $q = $this->gesseh_stages = Doctrine_Query::create()
+      $q = Doctrine_Query::create()
         ->update('GessehStage a')
         ->set('a.is_active', '?', '0')
 	->where('a.id = ?', $stage_id);

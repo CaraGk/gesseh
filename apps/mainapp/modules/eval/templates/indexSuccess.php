@@ -19,4 +19,4 @@
   </tbody>
 </table>
 
-  <a href="<?php echo url_for('messtages/1') ?>">Nouvelle évaluation</a>
+  <a href="<?php echo url_for('messtages/'.$user) ?>">Nouvelle évaluation</a>

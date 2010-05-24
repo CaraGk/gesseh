@@ -10,4 +10,4 @@
 
 <hr />
 
-<a href="<?php echo url_for('monstage/1') ?>">Retour</a>
+<a href="<?php echo url_for('monstage/'.$user) ?>">Retour</a>

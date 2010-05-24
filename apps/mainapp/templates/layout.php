@@ -17,7 +17,12 @@
 	  <div id="menu">
 	    <ul>
 	      <li><a href="<?php echo url_for('@homepage') ?>">Accueil</a></li>
-	      <li><a href="<?php echo url_for('monstage/1') ?>">S'identifier</a></li>
+	      <?php if ($sf_user->isAuthenticated()): ?>
+	      <li><a href="<?php echo url_for('monstage/'.$sf_user->getUsername()); ?>">Mes évaluations de stage</a></li>
+	      <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
+	      <?php else: ?>
+	      <li><?php echo link_to('Se connecter', 'sf_guard_signin'); ?></li>
+	      <?php endif; ?>
 	      <li><a href="<?php echo url_for('services/index') ?>">Administrer</a></li>
 	    </ul>
 	  </div>

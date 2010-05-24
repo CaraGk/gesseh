@@ -35,6 +35,13 @@ gesseh_new_formulaire:
     iduser: \d+
     idstage: \d+
 
+gesseh_create_formulaire:
+  url: /monstage/:iduser/:idstage/create
+  param: { module: eval, action: create }
+  requirements:
+    iduser: \d+
+    idstage: \d+
+
 default_index:
   url:   /:module
   param: { action: index }
