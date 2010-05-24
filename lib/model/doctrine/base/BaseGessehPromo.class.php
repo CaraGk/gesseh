@@ -36,8 +36,5 @@ abstract class BaseGessehPromo extends sfDoctrineRecord
         $this->hasMany('GessehEtudiant', array(
              'local' => 'id',
              'foreign' => 'promo_id'));
-
-        $timestampable0 = new Doctrine_Template_Timestampable();
-        $this->actAs($timestampable0);
     }
 }

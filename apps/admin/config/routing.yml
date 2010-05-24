@@ -1,3 +1,48 @@
+gesseh_eval:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                GessehEval
+    module:               admEval
+    prefix_path:          /admEval
+    column:               id
+    with_wildcard_routes: true
+
+gesseh_stage:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                GessehStage
+    module:               admStage
+    prefix_path:          /admStage
+    column:               id
+    with_wildcard_routes: true
+
+gesseh_periode:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                GessehPeriode
+    module:               admPeriode
+    prefix_path:          /admPeriode
+    column:               id
+    with_wildcard_routes: true
+
+gesseh_etudiant:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                GessehEtudiant
+    module:               admEtudiant
+    prefix_path:          /admEtudiant
+    column:               id
+    with_wildcard_routes: true
+
+gesseh_terrain:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                GessehTerrain
+    module:               admTerrain
+    prefix_path:          /admTerrain
+    column:               id
+    with_wildcard_routes: true
+
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 

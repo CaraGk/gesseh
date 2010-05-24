@@ -42,8 +42,5 @@ abstract class BaseGessehPeriode extends sfDoctrineRecord
         $this->hasMany('GessehStage', array(
              'local' => 'id',
              'foreign' => 'periode_id'));
-
-        $timestampable0 = new Doctrine_Template_Timestampable();
-        $this->actAs($timestampable0);
     }
 }

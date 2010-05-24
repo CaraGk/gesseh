@@ -21,6 +21,8 @@ class evalActions extends sfActions
   {
     $this->gesseh_stage = Doctrine::getTable('GessehStage')->getStageUniqueEtudiant($request);
     $this->forward404Unless($this->gesseh_stage);
+//    $this->gesseh_criteres = Doctrine::getTable('GessehCritere')->getCriteres($this->gesseh_stage->getFormId());
+    $this->gesseh_evals = Doctrine::getTable('GessehEval')->getEvalsFromStage($this->gesseh_stage->getGessehTerrain()->getFormId());
   }
 
   public function executeNew(sfWebRequest $request)

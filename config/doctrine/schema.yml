@@ -2,16 +2,16 @@ GessehHopital:
   actAs: { Timestampable: ~ }
   columns:
     nom: { type: string(255), notnull: true, unique: true }
-    adresse: { type: string(255), notnull: true}
-    telephone: { type: string(255)}
-    web: { type: string(255)}
+    adresse: { type: string(255), notnull: true }
+    telephone: { type: string(255) }
+    web: { type: string(255) }
 
 GessehTerrain:
   actAs: { Timestampable: ~ }    
   columns:
     hopital_id: { type: integer, notnull: true }
-    filiere: { type: string(255), notnull: true}
-    patron: { type: string(255), notnull: true}
+    filiere: { type: string(255), notnull: true }
+    patron: { type: string(255), notnull: true }
     localisation: { type: string(255), notnull: true}
     form_id: { type: integer, notnull: true, default: 1 }
     is_active: { type: boolean, notnull: true, default: 1 }
@@ -23,14 +23,14 @@ GessehEtudiant:
   actAs: { Timestampable: ~ }
   columns:
     nom: { type: string(255), notnull: true}
-    prenom: { type: string(255), notnull: true}
+    prenom: { type: string(255), notnull: true }
     promo_id: { type: integer, notnull: true }
-    email: { type: string(255), notnull: true}
+    email: { type: string(255), notnull: true }
   relations:
     GessehPromo:  { onDelete: CASCADE, local: promo_id, foreign: id }
 
 GessehPromo:
-  actAs: { Timestampable: ~ }
+  actAs: { }
   columns:
     titre: { type: string(255), notnull: true}
 
@@ -47,7 +47,7 @@ GessehStage:
     GessehEtudiant:  { onDelete: CASCADE, local: etudiant_id, foreign: id }
 
 GessehPeriode:
-  actAs: { Timestampable: ~ }
+  actAs: { }
   columns:
     debut: { type: date, notnull: true }
     fin: { type: date, notnull: true }
