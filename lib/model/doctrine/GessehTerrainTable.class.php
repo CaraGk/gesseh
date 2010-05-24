@@ -9,12 +9,21 @@ class GessehTerrainTable extends Doctrine_Table
         return Doctrine_Core::getTable('GessehTerrain');
     }
 
-    public function getListeTerrains()
+    public function getListeTerrains($tri = false, $order = false)
     {
       $q = $this->gesseh_terrains = Doctrine_Query::create()
       ->from('GessehTerrain a')
-      ->leftjoin('a.GessehHopital b')
-      ->OrderBy('b.nom, a.filiere ASC');
+      ->leftjoin('a.GessehHopital b');
+
+      if(!isset($order))
+        $order = 'asc';
+
+      if($tri == 'hopital')
+        $q->OrderBy('b.nom '.$order);
+      elseif($tri == 'terrain')
+        $q->OrderBy('a.filiere '.$order);
+      else
+        $q->OrderBy('b.nom asc, a.filiere asc');
       
       return $q->execute();
     }

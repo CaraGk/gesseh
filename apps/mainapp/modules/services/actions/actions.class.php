@@ -12,7 +12,12 @@ class servicesActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
-     $this->gesseh_terrains = Doctrine_Core::getTable('GessehTerrain')->getListeTerrains();
+     if($request->getParameter('order') == 'asc')
+       $this->order = 'desc';
+     else
+       $this->order = 'asc';
+
+     $this->gesseh_terrains = Doctrine_Core::getTable('GessehTerrain')->getListeTerrains($request->getParameter('tri'), $request->getParameter('order'));
   }
 
   public function executeShow(sfWebRequest $request)

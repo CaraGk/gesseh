@@ -9,6 +9,18 @@ homepage:
 # generic rules
 # please, remove them by adding more specific rules
 
+gesseh_index:
+  url: /
+  param: { module: services, action: index }
+
+gesseh_index_tri:
+  url: /:tri
+  param: { module: services, action: index }
+
+gesseh_index_tri_order:
+  url: /:tri/:order
+  param: { module: services, action: index }
+
 gesseh_show_stage:
   url: /stage/:id
   param: { module: services, action: show }
