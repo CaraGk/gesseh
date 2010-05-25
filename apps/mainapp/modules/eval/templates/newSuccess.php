@@ -9,7 +9,7 @@
     <tfoot>
       <tr>
         <td colspan="2">
-	  &nbsp;<a href="<?php echo url_for('monstage/'.$user) ?>">Retour</a>
+	  &nbsp;<a href="<?php echo url_for('etudiant'.$user) ?>">Retour</a>
 	  <input type="submit" value="Enregistrer" />
 	</td>
       </tr>

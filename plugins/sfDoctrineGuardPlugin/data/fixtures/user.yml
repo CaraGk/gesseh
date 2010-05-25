@@ -1,0 +1,18 @@
+sfGuardUser:
+  pilou:
+    username: 20402395
+    password: cataract
+    is_super_admin: false
+  admin:
+    username: admin
+    password: nimda
+    is_super_admin: true
+
+sfGuardUserGroup:
+  pilou:
+    sfGuardGroup: etudiant
+    sfGuardUser: pilou
+  admin:
+    sfGuardGroup: admin
+    sfGuardUser: admin
+
