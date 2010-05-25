@@ -3,7 +3,7 @@
   <head>
     <?php include_http_metas() ?>
     <?php include_metas() ?>
-    <title><?php include_slot('title', 'GESSEH') ?></title>
+    <title><?php include_slot('title', 'GESSEH Administration') ?></title>
     <link rel="shortcut icon" href="/images/favicon.ico" />
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
@@ -16,47 +16,30 @@
 	  
 	  <div id="menu">
 	    <ul>
-	      <li><a href="<?php echo url_for('@homepage') ?>">Accueil</a></li>
-	      <li><a href="<?php echo url_for('monstage/1') ?>">S'identifier</a></li>
-	      <li><a href="<?php echo url_for('services/index') ?>">Administrer</a></li>
+	      <?php if ($sf_user->isAuthenticated()): ?>
+	      <li><a href="<?php echo url_for('admEtudiant/index'); ?>">Etudiants</a></li>
+	      <li><a href="<?php echo url_for('admCritere/index'); ?>">Formulaires d'évaluation</a></li>
+	      <li><a href="<?php echo url_for('admTerrain/index'); ?>">Terrains de stage</a></li>
+	      <li><a href="<?php echo url_for('admPeriode/index'); ?>">Périodes de stage</a></li>
+	      <li><a href="<?php echo url_for('admEval/index'); ?>">Modérer les commentaires</a></li>
+	      <li><a href="<?php echo url_for('admStage/index'); ?>">Evaluations en attente</a></li>
+	      <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
+	      <?php endif; ?>
 	    </ul>
 	  </div>
 	</div>
-	
-<!--	<div id="search">
-          <form action="" method="get">
-	    Terrains de stage :
-	    <select name="terrain">
-	      <option value="" selected></option>
-	      <option value="test">test</option>
-	    </select>
-            <input type="submit" value="search" />
-	  </form>
-	</div>
--->
       </div>
-  
+	
       <div id="content">
-        <?php if ($sf_user->hasFlash('notice')): ?>
-          <div class="flash_notice"><?php echo $sf_user->getFlash('notice') ?></div>
-        <?php endif; ?>
-        <?php if ($sf_user->hasFlash('error')): ?>
-          <div class="flash_error"><?php echo $sf_user->getFlash('error') ?></div>
-        <?php endif; ?>
-    
-        <div class="content">
            <?php echo $sf_content ?>
-        </div>
       </div>
   
       <div id="footer">
         <div class="content">
-          <span class="symfony"><img src="/images/gesseh_logo_small.png" /> powered by <a href="http://www.symfony-project.org/"><img src="/images/symfony.gif" alt="symfony framework" /></a></span>
+          <span class="symfony"><a href="http://code.google.com/p/gesseh/"><img src="/images/gesseh_logo_small.png" alt="gesseh" /></a> powered by <a href="http://www.symfony-project.org/"><img src="/images/symfony.gif" alt="symfony framework" /></a></span>
           <ul>
-            <li><a href="">About GESSEH</a></li>
-            <li class="feed"><a href="">Full feed</a></li>
-            <li><a href="">GESSEH API</a></li>
-	    <li class="last"><a href="">Affiliates</a></li>
+            <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug</a></li>
+            <li><a href="http://code.google.com/p/gesseh/w/list">Assistance</a></li>
 	  </ul>
 	</div>
       </div>

@@ -1,3 +1,12 @@
+gesseh_critere:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                GessehCritere
+    module:               admCritere
+    prefix_path:          /admCritere
+    column:               id
+    with_wildcard_routes: true
+
 gesseh_eval:
   class: sfDoctrineRouteCollection
   options:
@@ -49,7 +58,7 @@ gesseh_terrain:
 # default rules
 homepage:
   url:   /
-  param: { module: default, action: index }
+  param: { module: admStage, action: index }
 
 # generic rules
 # please, remove them by adding more specific rules

@@ -23,7 +23,7 @@
 	      <?php else: ?>
 	      <li><?php echo link_to('Se connecter', 'sf_guard_signin'); ?></li>
 	      <?php endif; ?>
-	      <li><a href="<?php echo url_for('services/index') ?>">Administrer</a></li>
+	      <li><a href="admin_dev.php">Administrer</a></li>
 	    </ul>
 	  </div>
 	</div>
