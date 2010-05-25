@@ -10,4 +10,4 @@
 
 <hr />
 
-<a href="<?php echo url_for('etudiant/'.$user) ?>">Retour</a>
+<a href="<?php echo url_for('etudiant/index?iduser='.$user) ?>">Retour à la liste des stages</a>

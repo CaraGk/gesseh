@@ -9,7 +9,7 @@
     <tfoot>
       <tr>
         <td colspan="2">
-	  &nbsp;<a href="<?php echo url_for('etudiant'.$user) ?>">Retour</a>
+	  &nbsp;<a href="<?php echo url_for('etudiant/index?iduser='.$user) ?>">Retour à la liste des stages</a>
 	  <input type="submit" value="Enregistrer" />
 	</td>
       </tr>
