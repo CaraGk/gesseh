@@ -1,7 +1,0 @@
-sfGuardGroup:
-  etudiant:
-    name: etudiant
-    description: Groupe des étudiants
-  admin:
-    name: admin
-    description: Groupe d'administration

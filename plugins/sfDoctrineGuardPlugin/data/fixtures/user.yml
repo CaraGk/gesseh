@@ -1,18 +1,43 @@
 sfGuardUser:
-  pilou:
+  sgu_pilou:
     username: 20402395
     password: cataract
     is_super_admin: false
-  admin:
+  sgu_admin:
     username: admin
     password: nimda
     is_super_admin: true
 
+sfGuardGroup:
+  sgg_etudiant:
+    name: etudiant
+    description: Groupe des étudiants
+  sgg_admin:
+    name: admin
+    description: Groupe d'administration
+
+sfGuardPermission:
+  sgp_admin:
+    name:           admin
+    description:    Permission administrateur
+  sgp_etudiant:
+    name: etudiant
+    description: Permission etudiant
+
+sfGuardGroupPermission:
+  sggp_admin:
+    sfGuardGroup:       sgg_admin
+    sfGuardPermission:  sgp_admin
+  sggp_etudiant:
+    sfGuardGroup: sgg_etudiant
+    sfGuardPermission: sgp_etudiant
+
+
 sfGuardUserGroup:
-  pilou:
-    sfGuardGroup: etudiant
-    sfGuardUser: pilou
-  admin:
-    sfGuardGroup: admin
-    sfGuardUser: admin
+  sgug_pilou:
+    sfGuardGroup: sgg_etudiant
+    sfGuardUser: sgu_pilou
+  sgug_admin:
+    sfGuardGroup: sgg_admin
+    sfGuardUser: sgu_admin
 

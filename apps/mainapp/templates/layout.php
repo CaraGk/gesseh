@@ -12,7 +12,7 @@
     <div id="container">
       <div id="header">
         <div class="content">
-	  <h1><a href="<?php echo url_for('@homepage') ?>"><img src="/images/gesseh_logo.png" alt="Gesseh, session de test" /> Titre du site de gestion</a></h1>
+	  <h1><a href="<?php echo url_for('@homepage') ?>"><img src="images/gesseh_logo.png" alt="Gesseh, session de test" /> Titre du site de gestion</a></h1>
 	  
 	  <div id="menu">
 	    <ul>
@@ -56,12 +56,10 @@
   
       <div id="footer">
         <div class="content">
-          <span class="symfony"><img src="/images/gesseh_logo_small.png" /> powered by <a href="http://www.symfony-project.org/"><img src="/images/symfony.gif" alt="symfony framework" /></a></span>
-          <ul>
-            <li><a href="">About GESSEH</a></li>
-            <li class="feed"><a href="">Full feed</a></li>
-            <li><a href="">GESSEH API</a></li>
-	    <li class="last"><a href="">Affiliates</a></li>
+	  <span class="symfony"><a href="http://code.google.com/p/gesseh/"><img src="images/gesseh_logo_small.png" alt="gesseh" /></a> powered by <a href="http://www.symfony-project.org/"><img src="/images/symfony.gif" alt="symfony framework" /></a></span>
+	  <ul>
+	    <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug</a></li>
+	    <li><a href="http://code.google.com/p/gesseh/w/list">Assistance</a></li>
 	  </ul>
 	</div>
       </div>

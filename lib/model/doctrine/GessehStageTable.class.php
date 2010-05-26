@@ -11,7 +11,7 @@ class GessehStageTable extends Doctrine_Table
 
     public function getStagesEtudiant($etudiant)
     {
-      $q = $this->gesseh_stages = Doctrine_Query::create()
+      $q = Doctrine_Query::create()
       ->from('GessehStage a')
       ->leftjoin('a.GessehTerrain b')
       ->leftjoin('b.GessehHopital e')
@@ -32,6 +32,21 @@ class GessehStageTable extends Doctrine_Table
       ->limit(1);
       
       return $q->fetchOne();
+    }
+
+    public function getActiveStages()
+    {
+      $q = Doctrine_Query::create()
+        ->from('GessehStage a')
+	->leftjoin('a.GessehTerrain b')
+	->leftjoin('b.GessehHopital e')
+	->leftjoin('a.GessehPeriode c')
+	->leftjoin('a.GessehEtudiant d')
+	->leftjoin('d.GessehPromo f')
+	->where('a.is_active = ?', '1')
+	->OrderBy('d.nom asc, d.prenom asc, c.debut ASC');
+      
+      return $q->execute();
     }
 
     public function valideActiveStage($stage_id)

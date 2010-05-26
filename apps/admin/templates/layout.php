@@ -14,19 +14,28 @@
         <div class="content">
 	  <h1><a href="<?php echo url_for('@homepage') ?>"><img src="/images/gesseh_logo.png" alt="Gesseh, session de test" /> Titre du site de gestion</a></h1>
 	  
+	  <?php if ($sf_user->isAuthenticated()): ?>
 	  <div id="menu">
 	    <ul>
-	      <?php if ($sf_user->isAuthenticated()): ?>
+	      <li>Administration basique :</li>
+	      <li><a href="<?php echo url_for('@homepage'); ?>">Promo supérieure</a></li>
+	      <li><a href="<?php echo url_for('gestion/index'); ?>">Evaluations non rendues</a></li>
+	      <li><a href="<?php echo url_for('@homepage'); ?>">Nouvelle promo d'étudiants</a></li>
+	      <li><a href="<?php echo url_for('@homepage'); ?>">Import des stages</a></li>
+	      <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
+	    </ul>
+	    <ul>
+	      <li>Administration avancée :</li>
 	      <li><a href="<?php echo url_for('admEtudiant/index'); ?>">Etudiants</a></li>
-	      <li><a href="<?php echo url_for('admCritere/index'); ?>">Formulaires d'évaluation</a></li>
+	      <li><a href="<?php echo url_for('admCritere/index'); ?>">Critères d'évaluation</a></li>
 	      <li><a href="<?php echo url_for('admTerrain/index'); ?>">Terrains de stage</a></li>
 	      <li><a href="<?php echo url_for('admPeriode/index'); ?>">Périodes de stage</a></li>
-	      <li><a href="<?php echo url_for('admEval/index'); ?>">Modérer les commentaires</a></li>
-	      <li><a href="<?php echo url_for('admStage/index'); ?>">Evaluations en attente</a></li>
-	      <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
-	      <?php endif; ?>
+	      <li><a href="<?php echo url_for('admEval/index'); ?>">Evaluations</a></li>
+	      <li><a href="<?php echo url_for('admStage/index'); ?>">Attributions de stage</a></li>
+	      <li><?php echo link_to('Identifiants', 'sf_guard_user'); ?></li>
 	    </ul>
 	  </div>
+	  <?php endif; ?>
 	</div>
       </div>
 	
