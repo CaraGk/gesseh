@@ -31,7 +31,7 @@ L'évaluation en ligne du stage : {$stage->getGessehTerrain()->getFiliere()} à 
 
 Nous vous rappelons que l'évaluation des stages est obligatoire et nous vous invitons à le faire dans les plus brefs délais en cliquant sur le lien suivant :
 
-http://test.angrand.fr/sandbox/mainapp.php/etudiant
+http://test.angrand.fr/sandbox/web/index.php/etudiant
 
 L'administration de la faculté de médecine Paris-Ile-de-France-Ouest.
 
@@ -43,20 +43,20 @@ EOF
     }
 
     $this->getUser()->setFlash('notice', sprintf('Vous venez d\'envoyer %s mails de rappel.', $this->count));
-//    $this->redirect('gestion/index');
-    $this->setTemplate('index');
+    $this->redirect('gestion/index');
   }
 
   public function executeNew(sfWebRequest $request)
   {
-    $this->form = new GessehEtudiantForm();
+//    $this->gesseh_criteres = Doctrine::getTable('GessehCritere');
+    $this->form = new gestionForm();
   }
 
   public function executeCreate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST));
 
-    $this->form = new GessehEtudiantForm();
+    $this->form = new GestionForm();
 
     $this->processForm($request, $this->form);
 

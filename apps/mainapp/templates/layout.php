@@ -4,7 +4,7 @@
     <?php include_http_metas() ?>
     <?php include_metas() ?>
     <title><?php include_slot('title', 'GESSEH') ?></title>
-    <link rel="shortcut icon" href="/images/favicon.ico" />
+    <link rel="shortcut icon" href="images/favicon.ico" />
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
   </head>
@@ -56,10 +56,10 @@
   
       <div id="footer">
         <div class="content">
-	  <span class="symfony"><a href="http://code.google.com/p/gesseh/"><img src="images/gesseh_logo_small.png" alt="gesseh" /></a> powered by <a href="http://www.symfony-project.org/"><img src="/images/symfony.gif" alt="symfony framework" /></a></span>
+	  <span class="symfony"><a href="http://code.google.com/p/gesseh/"><img src="images/gesseh_logo_small.png" alt="gesseh" /></a> powered by <a href="http://www.symfony-project.org/"><img src="images/symfony.gif" alt="symfony framework" /></a></span>
 	  <ul>
-	    <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug</a></li>
-	    <li><a href="http://code.google.com/p/gesseh/w/list">Assistance</a></li>
+	    <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug ou un souhait</a></li>
+	    <li><a href="http://code.google.com/p/gesseh/w/list">Assistance - documentation</a></li>
 	  </ul>
 	</div>
       </div>
