@@ -9,4 +9,5 @@ GessehPromo:
     titre: DCEM 3
   dcem4:
     titre: DCEM 4
-
+  hors:
+    titre: Hors Promos

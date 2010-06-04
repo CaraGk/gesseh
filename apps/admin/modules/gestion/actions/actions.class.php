@@ -8,6 +8,7 @@
  * @author     Pierre-FrançoisPilouAngrand
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
+
 class gestionActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
@@ -48,15 +49,26 @@ EOF
 
   public function executeNew(sfWebRequest $request)
   {
-//    $this->gesseh_criteres = Doctrine::getTable('GessehCritere');
-    $this->form = new gestionForm();
+    $this->gesseh_promos = Doctrine::getTable('GessehPromo')
+      ->createQuery('a')
+      ->orderBy('a.id desc')
+      ->execute();
+    $this->count_promos = $this->gesseh_promos->count();
+    $this->form = new GestionForm();
+    $this->form->configureForm($this->gesseh_promos, Doctrine::getTable('GessehPromo')->getChoices());
   }
 
   public function executeCreate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST));
 
+    $this->gesseh_promos = Doctrine::getTable('GessehPromo')
+      ->createQuery('a')
+      ->orderBy('a.id desc')
+      ->execute();
+    $this->count_promos = $this->gesseh_promos->count();
     $this->form = new GestionForm();
+    $this->form->configureForm($this->gesseh_promos, Doctrine::getTable('GessehPromo')->getChoices());
 
     $this->processForm($request, $this->form);
 
@@ -95,9 +107,10 @@ EOF
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
-      $gesseh_etudiant = $form->save();
+      $form->updatePromo();
+      $form->saveFichier();
 
-      $this->redirect('gestion/edit?id='.$gesseh_etudiant->getId());
+      $this->redirect('admEtudiant/index');
     }
   }
 }

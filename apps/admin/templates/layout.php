@@ -18,9 +18,8 @@
 	  <div id="menu">
 	    <ul>
 	      <li>Administration basique :</li>
-	      <li><a href="<?php echo url_for('@homepage'); ?>">Promo supérieure</a></li>
 	      <li><a href="<?php echo url_for('gestion/index'); ?>">Evaluations non rendues</a></li>
-	      <li><a href="<?php echo url_for('@homepage'); ?>">Nouvelle promo d'étudiants</a></li>
+	      <li><a href="<?php echo url_for('gestion/new'); ?>">Changement d'année</a></li>
 	      <li><a href="<?php echo url_for('@homepage'); ?>">Import des stages</a></li>
 	      <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
 	    </ul>

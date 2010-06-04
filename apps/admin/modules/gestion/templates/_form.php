@@ -1,65 +1,37 @@
 <?php use_stylesheets_for_form($form) ?>
 <?php use_javascripts_for_form($form) ?>
 
-<form action="<?php echo url_for('gestion/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
-<?php if (!$form->getObject()->isNew()): ?>
-<input type="hidden" name="sf_method" value="put" />
-<?php endif; ?>
+<form action="<?php echo url_for('gestion/create') ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
   <table>
     <tfoot>
       <tr>
-        <td colspan="2">
+        <td colspan="3">
           <?php echo $form->renderHiddenFields(false) ?>
-          &nbsp;<a href="<?php echo url_for('gestion/index') ?>">Back to list</a>
-          <?php if (!$form->getObject()->isNew()): ?>
-            &nbsp;<?php echo link_to('Delete', 'gestion/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
-          <?php endif; ?>
-          <input type="submit" value="Save" />
+          <input type="submit" value="Valider" />
         </td>
       </tr>
     </tfoot>
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
+        <?php for($i=1 ; $i < $count_promos ; $i++): ?>
       <tr>
-        <th><?php echo $form['nom']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['nom']->renderError() ?>
-          <?php echo $form['nom'] ?>
-        </td>
+        <th><?php echo $form['promo_debut_'.$i]->renderLabel() ?></th>
+	<td>
+	  <?php echo $form['promo_debut_'.$i]->renderError() ?>
+	  <?php echo $form['promo_debut_'.$i] ?>
+	</td>
+	<td>
+	  >>>
+	  <?php echo $form['promo_fin_'.$i]->renderError() ?>
+	  <?php echo $form['promo_fin_'.$i] ?>
+	</td>
       </tr>
+	<?php endfor; ?>
       <tr>
-        <th><?php echo $form['prenom']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['prenom']->renderError() ?>
-          <?php echo $form['prenom'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['promo_id']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['promo_id']->renderError() ?>
-          <?php echo $form['promo_id'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['email']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['email']->renderError() ?>
-          <?php echo $form['email'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['created_at']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['created_at']->renderError() ?>
-          <?php echo $form['created_at'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['updated_at']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['updated_at']->renderError() ?>
-          <?php echo $form['updated_at'] ?>
+        <th><?php echo $form['fichier']->renderLabel() ?></th>
+        <td colspan="2">
+          <?php echo $form['fichier']->renderError() ?>
+          <?php echo $form['fichier'] ?>
         </td>
       </tr>
     </tbody>
