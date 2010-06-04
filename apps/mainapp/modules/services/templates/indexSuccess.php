@@ -1,6 +1,6 @@
 <h1>Liste des terrains de stage</h1>
 
-<table>
+<table class="list">
   <thead>
     <tr>
       <th><a href=<?php echo url_for('services/index?tri=hopital&order='.$order); ?>>Hopital</a></th>

@@ -5,6 +5,7 @@
     <tr>
       <th>Période</th>
       <th>Stage</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -16,13 +17,15 @@
         echo 'valide';
       endif; ?>">
       <td><?php echo $gesseh_stage->getGessehPeriode()->getDebut().' - '.$gesseh_stage->getGessehPeriode()->getFin(); ?></td>
-      <td><a href="
-        <?php if($gesseh_stage->getIsActive()):
-	    echo url_for('eval/new?iduser='.$user.'&idstage='.$gesseh_stage->getId()); 
-	  else:
-	    echo url_for('eval/show?iduser='.$user.'&idstage='.$gesseh_stage->getId());
-	  endif; ?>
-	  "><?php echo $gesseh_stage->getGessehTerrain()->getFiliere() ?> à <?php echo $gesseh_stage->getGessehTerrain()->getGessehHopital()->getNom(); ?> (<?php echo $gesseh_stage->getGessehTerrain()->getPatron(); ?>)</a></td>
+      <td><?php echo $gesseh_stage->getGessehTerrain()->getFiliere() ?> à <?php echo $gesseh_stage->getGessehTerrain()->getGessehHopital()->getNom(); ?> (<?php echo $gesseh_stage->getGessehTerrain()->getPatron(); ?>)</td>
+      <td>
+        <?php if($gesseh_stage->getIsActive()): ?>
+	  <a href="<?php echo url_for('eval/new?iduser='.$user.'&idstage='.$gesseh_stage->getId()); ?>">Evaluer</a>
+	<?php else: ?>
+	  <a href="<?php echo url_for('eval/show?iduser='.$user.'&idstage='.$gesseh_stage->getId()); ?>">Voir</a>
+	<?php endif; ?>
+      </td>
+      </a>
     </tr>
     <?php endforeach; ?>
   </tbody>

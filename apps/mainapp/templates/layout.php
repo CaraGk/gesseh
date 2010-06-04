@@ -4,15 +4,14 @@
     <?php include_http_metas() ?>
     <?php include_metas() ?>
     <title><?php include_slot('title', 'GESSEH') ?></title>
-    <link rel="shortcut icon" href="images/favicon.ico" />
+    <link rel="shortcut icon" href="<?php echo $sf_request->getRelativeUrlRoot() ?>/images/favicon.ico" />
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
   </head>
   <body>
     <div id="container">
       <div id="header">
-        <div class="content">
-	  <h1><a href="<?php echo url_for('@homepage') ?>"><img src="images/gesseh_logo.png" alt="Gesseh, session de test" /> Titre du site de gestion</a></h1>
+	<a href="<?php echo url_for('@homepage') ?>"><?php echo image_tag('gesseh_logo.png', 'alt=GesseH'); ?><h1>Titre du site de gestion</h1></a>
 	  
 	  <div id="menu">
 	    <ul>
@@ -39,8 +38,6 @@
 	  </form>
 	</div>
 -->
-      </div>
-  
       <div id="content">
         <?php if ($sf_user->hasFlash('notice')): ?>
           <div class="flash_notice"><?php echo $sf_user->getFlash('notice') ?></div>
@@ -56,7 +53,7 @@
   
       <div id="footer">
         <div class="content">
-	  <span class="symfony"><a href="http://code.google.com/p/gesseh/"><img src="images/gesseh_logo_small.png" alt="gesseh" /></a> powered by <a href="http://www.symfony-project.org/"><img src="images/symfony.gif" alt="symfony framework" /></a></span>
+	  <span class="miniature"><a href="http://code.google.com/p/gesseh/"><?php echo image_tag('gesseh_logo_small.png', 'alt=gesseh'); ?></a> powered by <a href="http://www.symfony-project.org/"><?php echo image_tag('symfony.gif', 'alt=symfony framework'); ?></a></span>
 	  <ul>
 	    <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug ou un souhait</a></li>
 	    <li><a href="http://code.google.com/p/gesseh/w/list">Assistance - documentation</a></li>

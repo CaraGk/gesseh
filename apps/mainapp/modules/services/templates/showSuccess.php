@@ -4,7 +4,7 @@
 
 <h1><?php echo $gesseh_terrain->getFiliere() ?> à <?php echo $gesseh_terrain->getGessehHopital()->getNom() ?>.</h1>
 
-<table>
+<table class="infos">>
   <tbody>
     <tr>
       <th>Hopital :</th>
@@ -28,21 +28,27 @@
     </tr>
   </tbody>
 </table>
-<hr />
 
-<div id="eval">
-  <div class="titre">Moyenne des évaluations chiffrées :</div>
-  <div class="content">
-    <?php foreach ($gesseh_evals as $critere): ?>
-      <?php echo $critere['titre']; ?> : <?php echo $critere['moyenne']; ?><br />
-    <?php endforeach; ?>
-  </div>
-</div>
+<?php $ligne = 0; ?>
+<table class="evals">
+  <thead>
+    <th colspan="6">Moyenne des évaluations chiffrées</th>
+  </thead>
+  <tbody>
+    <tr>
+      <?php foreach ($gesseh_evals as $critere): ?>
+        <?php if($ligne == 3): $ligne = 0; ?>
+          </tr><tr>
+        <?php endif; ?>
+        <td><?php echo $critere['titre']; ?> : </td><td><?php echo $critere['moyenne']; ?></td>
+        <?php $ligne++; ?>
+      <?php endforeach; ?>
+    </tr>
+  </tbody>
+</table>
 
-<hr />
-
-<div id="comments">
-  <?php $etudiant = -1; ?>
+<div class="comments">
+  <?php $etudiant = false; ?>
   <?php foreach ($gesseh_comments as $gesseh_eval): ?>
     <?php if ($gesseh_eval->getGessehStage()->getEtudiantId() != $etudiant): ?>
       <?php if ($etudiant): ?>
@@ -52,13 +58,9 @@
         <div class="titre">Stage du <?php echo $gesseh_eval->getGessehStage()->getGessehPeriode()->getDebut() ?> au <?php echo $gesseh_eval->getGessehStage()->getGessehPeriode()->getFin() ?>.</div>
         <div class="content">
     <?php endif; ?>
-          <?php echo $gesseh_eval->getGessehCritere()->getTitre() ?> : <?php echo $gesseh_eval->getValeur() ?><br />
+          <em><?php echo $gesseh_eval->getGessehCritere()->getTitre() ?></em> : <?php echo $gesseh_eval->getValeur() ?><br />
           <?php $etudiant = $gesseh_eval->getGessehStage()->getEtudiantId(); ?>
   <?php endforeach; ?>
         </div>
       </div>
 </div>
-
-<hr />
-
-<a href="<?php echo url_for('@homepage') ?>">Retour</a>
