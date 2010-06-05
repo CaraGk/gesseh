@@ -20,9 +20,9 @@
       <td><?php echo $gesseh_stage->getGessehTerrain()->getFiliere() ?> à <?php echo $gesseh_stage->getGessehTerrain()->getGessehHopital()->getNom(); ?> (<?php echo $gesseh_stage->getGessehTerrain()->getPatron(); ?>)</td>
       <td>
         <?php if($gesseh_stage->getIsActive()): ?>
-	  <a href="<?php echo url_for('eval/new?iduser='.$user.'&idstage='.$gesseh_stage->getId()); ?>">Evaluer</a>
+	  <a href="<?php echo url_for('eval/new?idstage='.$gesseh_stage->getId()); ?>">Evaluer</a>
 	<?php else: ?>
-	  <a href="<?php echo url_for('eval/show?iduser='.$user.'&idstage='.$gesseh_stage->getId()); ?>">Voir</a>
+	  <a href="<?php echo url_for('eval/show?idstage='.$gesseh_stage->getId()); ?>">Voir</a>
 	<?php endif; ?>
       </td>
       </a>

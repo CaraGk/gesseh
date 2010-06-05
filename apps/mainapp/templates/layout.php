@@ -17,12 +17,14 @@
 	    <ul>
 	      <li><a href="<?php echo url_for('@homepage') ?>">Accueil</a></li>
 	      <?php if ($sf_user->isAuthenticated()): ?>
-	      <li><a href="<?php echo url_for('etudiant/index?iduser='.$sf_user->getUsername()); ?>">Mes évaluations de stage</a></li>
+	      <li><a href="<?php echo url_for('etudiant/index'); ?>">Mes évaluations de stage</a></li>
+	      <li><a href="<?php echo url_for('@homepage'); ?>">Mes évaluations d'enseignement</a></li>
+	      <li><a href="<?php echo url_for('etudiant/edit'); ?>">Mes paramètres</a></li>
 	      <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
 	      <?php else: ?>
 	      <li><?php echo link_to('Se connecter', 'sf_guard_signin'); ?></li>
 	      <?php endif; ?>
-	      <li><a href="admin_dev.php">Administrer</a></li>
+	      <li><a href="<?php echo $sf_request->getRelativeUrlRoot() ?>/admin_dev.php">Administrer</a></li>
 	    </ul>
 	  </div>
 	</div>

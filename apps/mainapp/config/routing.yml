@@ -28,31 +28,45 @@ gesseh_show_stage:
     id: \d+
 
 gesseh_index_etudiant:
-  url: /etudiant/:iduser
+  url: /etudiant/
   param: { module: etudiant, action: index }
-  requirements:
-    iduser: \d+
 
 gesseh_show_formulaire:
-  url: /etudiant/:iduser/:idstage
+  url: /etudiant/:idstage
   param: { module: eval, action: show }
   requirements:
-    iduser: \d+
     idstage: \d+
 
 gesseh_new_formulaire:
-  url: /etudiant/:iduser/:idstage/new
+  url: /etudiant/:idstage/new
   param: { module: eval, action: new }
   requirements:
-    iduser: \d+
     idstage: \d+
 
 gesseh_create_formulaire:
-  url: /etudiant/:iduser/:idstage/create
+  url: /etudiant/:idstage/create
   param: { module: eval, action: create }
   requirements:
-    iduser: \d+
     idstage: \d+
+
+gesseh_edit_etudiant:
+  url: /etudiant/edit/
+  param: { module: etudiant, action: edit }
+
+gesseh_edit_etudiant_process:
+  url: /etudiant/update/
+  param: { module: etudiant, action: update }
+
+gesseh_test_mail:
+  url: /etudiant/test
+  param: { module: etudiant, action: mail }
+
+gesseh_token_mail:
+  url: /etudiant/test/:userid/:token
+  param: { module: etudiant, action: mail }
+  requirements:
+    userid: \d+
+    token: \w+
 
 #default_index:
 #  url:   /:module

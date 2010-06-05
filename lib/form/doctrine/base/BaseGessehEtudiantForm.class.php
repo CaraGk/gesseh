@@ -20,6 +20,8 @@ abstract class BaseGessehEtudiantForm extends BaseFormDoctrine
       'prenom'     => new sfWidgetFormInputText(),
       'promo_id'   => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('GessehPromo'), 'add_empty' => false)),
       'email'      => new sfWidgetFormInputText(),
+      'token_mail' => new sfWidgetFormInputText(),
+      'tel'        => new sfWidgetFormInputText(),
       'created_at' => new sfWidgetFormDateTime(),
       'updated_at' => new sfWidgetFormDateTime(),
     ));
@@ -30,6 +32,8 @@ abstract class BaseGessehEtudiantForm extends BaseFormDoctrine
       'prenom'     => new sfValidatorString(array('max_length' => 255)),
       'promo_id'   => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('GessehPromo'))),
       'email'      => new sfValidatorString(array('max_length' => 255)),
+      'token_mail' => new sfValidatorString(array('max_length' => 255)),
+      'tel'        => new sfValidatorString(array('max_length' => 14, 'required' => false)),
       'created_at' => new sfValidatorDateTime(),
       'updated_at' => new sfValidatorDateTime(),
     ));

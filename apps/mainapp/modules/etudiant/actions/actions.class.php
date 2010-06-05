@@ -16,47 +16,44 @@ class etudiantActions extends sfActions
     $this->gesseh_stages = Doctrine::getTable('GessehStage')->getStagesEtudiant($this->user);
   }
 
-  public function executeNew(sfWebRequest $request)
-  {
-    $this->form = new GessehStageForm();
-  }
-
-  public function executeCreate(sfWebRequest $request)
-  {
-    $this->forward404Unless($request->isMethod(sfRequest::POST));
-
-    $this->form = new GessehStageForm();
-
-    $this->processForm($request, $this->form);
-
-    $this->setTemplate('new');
-  }
-
   public function executeEdit(sfWebRequest $request)
   {
-    $this->forward404Unless($gesseh_stage = Doctrine::getTable('GessehStage')->find(array($request->getParameter('id'))), sprintf('Object gesseh_stage does not exist (%s).', $request->getParameter('id')));
-    $this->form = new GessehStageForm($gesseh_stage);
+//    $this->forward404Unless($gesseh_stage = Doctrine::getTable('GessehStage')->find(array($request->getParameter('id'))), sprintf('Object gesseh_stage does not exist (%s).', $request->getParameter('id')));
+    $gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array('id' => $this->getUser()->getUsername()));
+    $this->form = new GessehEtudiantForm($gesseh_etudiant);
   }
 
   public function executeUpdate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
-    $this->forward404Unless($gesseh_stage = Doctrine::getTable('GessehStage')->find(array($request->getParameter('id'))), sprintf('Object gesseh_stage does not exist (%s).', $request->getParameter('id')));
-    $this->form = new GessehStageForm($gesseh_stage);
+    $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array($request->getParameter('id'))), sprintf('Object gesseh_etudiant does not exist (%s).', $request->getParameter('id')));
+    $this->form = new GessehEtudiantForm($gesseh_etudiant);
 
     $this->processForm($request, $this->form);
 
     $this->setTemplate('edit');
   }
 
-  public function executeDelete(sfWebRequest $request)
+  public function executeMail(sfWebRequest $request)
   {
-    $request->checkCSRFProtection();
-
-    $this->forward404Unless($gesseh_stage = Doctrine::getTable('GessehStage')->find(array($request->getParameter('id'))), sprintf('Object gesseh_stage does not exist (%s).', $request->getParameter('id')));
-    $gesseh_stage->delete();
-
-    $this->redirect('etudiant/index');
+    if (isset($request['token']))
+      Doctrine::getTable('GessehEtudiant')->validTokenMail($request['iduser'], $request['token']);
+      
+    $gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array('id' => $this->getUser()->getUsername()));
+    if ($gesseh_etudiant->getEmail() == null)
+    {
+      $this->getUser()->setFlash('error','Vous n\'avez pas encore enregistré d\'adresse email.');
+      $this->redirect('etudiant/edit');
+    }
+    elseif ($gesseh_etudiant->getTokenMail() != null)
+    {
+      $this->getUser()->setFlash('error','Votre email n\'a pas été validé.');
+      $this->redirect('etudiant/edit');
+    }
+    else
+    {
+      $this->redirect('etudiant/index');
+    }
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form)
@@ -64,9 +61,32 @@ class etudiantActions extends sfActions
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
-      $gesseh_stage = $form->save();
+    echo $form;
+      if ($form->getValue('cmdp') != null)
+      {
+        if($this->getUser()->getGuardUser()->checkPassword($form->getValue('cmdp')))
+	{
+	  if($form->getValue('nmdp') == $form->getValue('vnmdp'))
+	  {
+	    $this->getUser()->getGuardUser()->setPassword($form->getValue('nmdp'));
+	    $this->getUser()->getGuardUser()->save();
+	    $this->getUser()->setFlash('notice','Mot de passe changé avec succès.');
+	  }
+	  else
+	  {
+	    $this->getUser()->setFlash('error','Erreur : les 2 mots de passes ne sont pas identiques.');
+	  }
+	}
+	else
+	{
+	  $this->getUser()->setFlash('error','Erreur : le mot de passe est erroné.');
+	}
+      }
 
-      $this->redirect('etudiant/edit?id='.$gesseh_stage->getId());
+      $form->save();
+//      $this->getUser()->setFlash('notice','Mise à jour du profil effectuée.');
+
+      $this->redirect('etudiant/edit');
     }
   }
 }

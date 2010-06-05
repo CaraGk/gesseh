@@ -12,5 +12,15 @@ class GessehEtudiantForm extends BaseGessehEtudiantForm
 {
   public function configure()
   {
+    $this->embedForm('MdP', new UserChangePassForm());
+
+//    $this->useFields(array('nom', 'prenom', 'email', 'cmdp', 'nmdp', 'vnmdp'));
+    unset($this['promo_id'], $this['created_at'], $this['updated_at'], $this['token_mail']);
+
+    $this->validatorSchema['email'] = new sfValidatorAnd(array(
+      $this->validatorSchema['email'],
+      new sfValidatorEmail(),
+    ));
   }
+
 }

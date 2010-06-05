@@ -19,4 +19,4 @@
   </tbody>
 </table>
 
-  <a href="<?php echo url_for('messtages/'.$user) ?>">Nouvelle évaluation</a>
+  <a href="<?php echo url_for('/etudiant/') ?>">Nouvelle évaluation</a>

@@ -9,20 +9,29 @@
  * @property string $prenom
  * @property integer $promo_id
  * @property string $email
+ * @property string $token_mail
+ * @property string $tel
  * @property GessehPromo $GessehPromo
+ * @property sfGuardUser $sfGuardUser
  * @property Doctrine_Collection $GessehStage
  * 
  * @method string              getNom()         Returns the current record's "nom" value
  * @method string              getPrenom()      Returns the current record's "prenom" value
  * @method integer             getPromoId()     Returns the current record's "promo_id" value
  * @method string              getEmail()       Returns the current record's "email" value
+ * @method string              getTokenMail()   Returns the current record's "token_mail" value
+ * @method string              getTel()         Returns the current record's "tel" value
  * @method GessehPromo         getGessehPromo() Returns the current record's "GessehPromo" value
+ * @method sfGuardUser         getSfGuardUser() Returns the current record's "sfGuardUser" value
  * @method Doctrine_Collection getGessehStage() Returns the current record's "GessehStage" collection
  * @method GessehEtudiant      setNom()         Sets the current record's "nom" value
  * @method GessehEtudiant      setPrenom()      Sets the current record's "prenom" value
  * @method GessehEtudiant      setPromoId()     Sets the current record's "promo_id" value
  * @method GessehEtudiant      setEmail()       Sets the current record's "email" value
+ * @method GessehEtudiant      setTokenMail()   Sets the current record's "token_mail" value
+ * @method GessehEtudiant      setTel()         Sets the current record's "tel" value
  * @method GessehEtudiant      setGessehPromo() Sets the current record's "GessehPromo" value
+ * @method GessehEtudiant      setSfGuardUser() Sets the current record's "sfGuardUser" value
  * @method GessehEtudiant      setGessehStage() Sets the current record's "GessehStage" collection
  * 
  * @package    gesseh
@@ -54,6 +63,16 @@ abstract class BaseGessehEtudiant extends sfDoctrineRecord
              'notnull' => true,
              'length' => 255,
              ));
+        $this->hasColumn('token_mail', 'string', 255, array(
+             'type' => 'string',
+             'notnull' => true,
+             'length' => 255,
+             ));
+        $this->hasColumn('tel', 'string', 14, array(
+             'type' => 'string',
+             'notnull' => false,
+             'length' => 14,
+             ));
     }
 
     public function setUp()
@@ -63,6 +82,10 @@ abstract class BaseGessehEtudiant extends sfDoctrineRecord
              'local' => 'promo_id',
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
+
+        $this->hasOne('sfGuardUser', array(
+             'local' => 'id',
+             'foreign' => 'username'));
 
         $this->hasMany('GessehStage', array(
              'local' => 'id',

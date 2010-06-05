@@ -46,6 +46,7 @@ em{ font-style: italic; }
 #content table.evals{ width: 98%; }
 #content table.evals th{ text-center: left; text-decoration: underline; font-size: 105%; padding-bottom: 5px; }
 #content table.infos{ }
+#content table.infos th{ text-align: left; }
 #content ol.infos{ display: inline; }
 #content ol.infos li{ display: inline; list-style: decimal; margin-right: 5px; }
 #content table.list{ width: 98%; }

@@ -70,7 +70,7 @@ class evalActions extends sfActions
     {
       $id = $form->embdedSave($criteres);
       $this->getUser()->setFlash('notice', 'Formulaire d\'évaluation correctement soumis, merci.');
-      $this->redirect('eval/show?iduser='.$this->user.'&idstage='.$id);
+      $this->redirect('eval/show?idstage='.$id);
     }
   }
 }

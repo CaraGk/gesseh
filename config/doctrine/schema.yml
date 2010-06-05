@@ -26,8 +26,11 @@ GessehEtudiant:
     prenom: { type: string(255), notnull: true }
     promo_id: { type: integer, notnull: true }
     email: { type: string(255), notnull: true }
+    token_mail: { type: string(255), notnull: true }
+    tel: { type: string(14), notnull: false }
   relations:
     GessehPromo:  { onDelete: CASCADE, local: promo_id, foreign: id }
+    sfGuardUser: { local: id, foreign: username }
 
 GessehPromo:
   actAs: { }

@@ -9,4 +9,4 @@
   <?php endforeach; ?>
 </table>
 
-<a href="<?php echo url_for('etudiant/index?iduser='.$user) ?>">Retour à la liste des stages</a>
+<a href="<?php echo url_for('etudiant/index') ?>">Retour à la liste des stages</a>

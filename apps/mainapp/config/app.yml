@@ -4,7 +4,7 @@
 # default values
 all:
   sf_guard_plugin:
-#    success_signin_url:      etudiant?iduser=<?php // echo $sf_user->getUsername()."\n"; ?>
+    success_signin_url:      etudiant/mail
     success_signout_url:     @homepage
     remember_key_expiration_age:  86400   # 1 day in seconds
     remember_cookie_name:         GessehRemember
