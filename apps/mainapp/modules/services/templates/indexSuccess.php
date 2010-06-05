@@ -3,8 +3,8 @@
 <table class="list">
   <thead>
     <tr>
-      <th><a href=<?php echo url_for('services/index?tri=hopital&order='.$order); ?>>Hopital</a></th>
-      <th><a href=<?php echo url_for('services/index?tri=terrain&order='.$order); ?>>Filiere</a></th>
+      <th><a href=<?php echo url_for('services/index?'.$tri['hopital']); ?>>Hopital</a></th>
+      <th><a href=<?php echo url_for('services/index?'.$tri['filiere']); ?>>Filiere</a></th>
       <th>Patron</th>
     </tr>
   </thead>

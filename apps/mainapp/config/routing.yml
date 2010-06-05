@@ -17,8 +17,12 @@ homepage:
 #  url: /:tri
 #  param: { module: services, action: index }
 
-gesseh_index_tri_order:
-  url: /tri/:tri/:order
+gesseh_index_tri:
+  url: /tri/:tri1/:order1
+  param: { module: services, action: index }
+
+gesseh_index_tri2:
+  url: /tri/:tri1/:order1/:tri2/:order2
   param: { module: services, action: index }
 
 gesseh_show_stage:

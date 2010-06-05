@@ -24,7 +24,6 @@
 	      <?php else: ?>
 	      <li><?php echo link_to('Se connecter', 'sf_guard_signin'); ?></li>
 	      <?php endif; ?>
-	      <li><a href="<?php echo $sf_request->getRelativeUrlRoot() ?>/admin_dev.php">Administrer</a></li>
 	    </ul>
 	  </div>
 	</div>
@@ -59,6 +58,7 @@
 	  <ul>
 	    <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug ou un souhait</a></li>
 	    <li><a href="http://code.google.com/p/gesseh/w/list">Assistance - documentation</a></li>
+	    <li><a href="<?php echo $sf_request->getRelativeUrlRoot() ?>/admin_dev.php">Administrer</a></li>
 	  </ul>
 	</div>
       </div>

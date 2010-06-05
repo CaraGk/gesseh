@@ -11,20 +11,15 @@ class GessehEtudiantTable extends Doctrine_Table
 
     public function save(Doctrine_Connection $conn)
     {
-      if (!$this->getTokenMail())
-      {
-        if ($this->getEmail() != $this->getActiveUserEmail())
-	{
-	  $this->setTokenMail(sha1($this->getValue('email').rand(11111, 99999)));
-	  $this->sendMailToken($this->getEmail(), $this->getToken());
-	}
-      }
+        if ($this->getEmail() != $this->getTokenMail() and $this->getTokenMail())
+	  $this->sendMailValidation($this->getTokenMail());
 
       return parent::save($conn);
     }
 
-    public function sendMailToken($mail, $token)
+    public function sendMailValidation($email)
     {
+      $token = sha1(sfContext::getInstance()->getUser()->getUsername().$email);
       $message = sfContext::getInstance()->getMailer()->compose(
         array('tmp@angrand.fr' => 'Administration Paris-Ouest'),
 	  $email,
@@ -32,7 +27,7 @@ class GessehEtudiantTable extends Doctrine_Table
 	  <<<EOF
 Bonjour,
 
-Vous venez de changer votre adresse mail sur le gestionnaire d'évaluation de la faculté. Pour confirmer le changement d'adresse e-mail, nous vous prions de bien vouloir cliquer sur le lien suivant :
+Vous venez de changer votre adresse mail sur le gestionnaire d'évaluations de la faculté. Pour confirmer le changement d'adresse e-mail, nous vous prions de bien vouloir cliquer sur le lien suivant :
 
 {$sf_request->getRelativeUrlRoot()}/etudiant/mail/{sfContext::getInstance()->getUser()->getUsername()}/{$token}
 
@@ -46,16 +41,6 @@ EOF
       $this->getMailer()->send($message);
     }
 
-    public function getActiveUserEmail()
-    {
-      $q = Doctrine_Query::create()
-        ->from('GessehEtudiant a')
-	->select('a.email')
-	->where('a.nom = ?', sfContext::getInstance()->getUser()->getUsername())
-	->fetchOne();
-      return $q;
-    }
-
     public function validTokenMail($user, $token)
     {
       $q = Doctrine_Query::create()
@@ -64,16 +49,32 @@ EOF
 	->where('a.id = ?', $user)
 	->fetchOne();
 
-      if($q == $token)
+      if ($token == sha1(sfContext::getInstance()->getUser()->getUsername().$q))
       {
         Doctrine_Query::create()
 	  ->update('GessehEtudiant a')
 	  ->set('a.token_mail', '?', null)
+	  ->set('a.email', '?', $q)
 	  ->execute();
 	return true;
       }
       else
         return false;
+    }
+
+    public function checkValidMail($user)
+    {
+      $q = Doctrine_Query::create()
+        ->from('GessehEtudiant a')
+	->select('a.email, a.token_mail')
+	->where('a.id = ?', $user)
+	->limit(1)
+	->fetchOne();
+      
+      if (!$q->getEmail() or $q->getTokenMail())
+        return false;
+      else
+        return true;
     }
 
     public static function changePromo($promo_depart, $promo_arrivee)

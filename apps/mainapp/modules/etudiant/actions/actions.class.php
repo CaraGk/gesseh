@@ -18,8 +18,8 @@ class etudiantActions extends sfActions
 
   public function executeEdit(sfWebRequest $request)
   {
-//    $this->forward404Unless($gesseh_stage = Doctrine::getTable('GessehStage')->find(array($request->getParameter('id'))), sprintf('Object gesseh_stage does not exist (%s).', $request->getParameter('id')));
-    $gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array('id' => $this->getUser()->getUsername()));
+    $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array('id' => $this->getUser()->getUsername())), sprintf('Utilisateur inconnu : (%s).', $this->getUser()->getUsername()));
+    $gesseh_etudiant->setTokenMail($gesseh_etudiant->getEmail());
     $this->form = new GessehEtudiantForm($gesseh_etudiant);
   }
 
@@ -38,21 +38,15 @@ class etudiantActions extends sfActions
   {
     if (isset($request['token']))
       Doctrine::getTable('GessehEtudiant')->validTokenMail($request['iduser'], $request['token']);
-      
-    $gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array('id' => $this->getUser()->getUsername()));
-    if ($gesseh_etudiant->getEmail() == null)
+    
+    if (Doctrine::getTable('GessehEtudiant')->checkValidMail($this->getUser()->getUsername()))
     {
-      $this->getUser()->setFlash('error','Vous n\'avez pas encore enregistré d\'adresse email.');
-      $this->redirect('etudiant/edit');
-    }
-    elseif ($gesseh_etudiant->getTokenMail() != null)
-    {
-      $this->getUser()->setFlash('error','Votre email n\'a pas été validé.');
-      $this->redirect('etudiant/edit');
+      $this->redirect('etudiant/index');
     }
     else
     {
-      $this->redirect('etudiant/index');
+      $this->getUser()->setFlash('error','Adresse email non fournie ou non validée !');
+      $this->redirect('etudiant/edit');
     }
   }
 
