@@ -7,7 +7,7 @@
  * 
  * @package    gesseh
  * @subpackage model
- * @author     Your name here
+ * @author     Pierre-FrançoisPilouAngrand
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
 class GessehEtudiant extends BaseGessehEtudiant
@@ -15,6 +15,42 @@ class GessehEtudiant extends BaseGessehEtudiant
   public function __toString()
   {
     return sprintf('%s %s', $this->getNom(), $this->getPrenom());
+  }
+
+  public function save(Doctrine_Connection $conn = null)
+  {
+    if ($this->getEmail() != $this->getTokenMail() and $this->getTokenMail())
+      $this->sendMailValidation($this->getTokenMail());
+    else
+      $this->setTokenMail('');
+    
+    return parent::save($conn);
+  }
+  
+  public function sendMailValidation($email)
+  {
+    $user = sfContext::getInstance()->getUser()->getUsername();
+//    $url = sfWebRequest::getRelativeUrlRoot();
+    $token = sha1(sfContext::getInstance()->getUser()->getUsername().$email);
+    $message = sfContext::getInstance()->getMailer()->compose(
+      array('tmp@angrand.fr' => 'Administration Paris-Ouest'),
+      $email,
+      '[Paris-Ouest] Validation de votre nouvelle adresse mail',
+      <<<EOF
+      Bonjour,
+      
+      Vous venez de changer votre adresse mail sur le gestionnaire d'évaluations de la faculté. Pour confirmer le changement d'adresse e-mail, nous vous prions de bien vouloir cliquer sur le lien suivant :
+      
+{$url}/etudiant/test/{$user}/{$token}
+      
+      Merci.
+      
+      L'administration de la faculté de médecine Paris-Ile-de-France-Ouest.
+      
+      Ce message a été généré automatiquement, merci de ne pas y répondre.
+EOF
+      );
+      sfContext::getInstance()->getMailer()->send($message);
   }
 
 }

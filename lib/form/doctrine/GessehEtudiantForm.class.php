@@ -15,14 +15,14 @@ class GessehEtudiantForm extends BaseGessehEtudiantForm
     $this->embedForm('MdP', new UserChangePassForm());
 
 //    $this->useFields(array('nom', 'prenom', 'email', 'cmdp', 'nmdp', 'vnmdp'));
-    unset($this['promo_id'], $this['created_at'], $this['updated_at'], $this['email']);
+    unset($this['promo_id'], $this['created_at'], $this['updated_at']);
 
     $this->validatorSchema['token_mail'] = new sfValidatorAnd(array(
       $this->validatorSchema['token_mail'],
       new sfValidatorEmail(),
     ));
 
-    $this->widgetSchema->setHidden('email', true);
+    $this->widgetSchema['email'] = new sfWidgetFormInputHidden();
     $this->widgetSchema->setLabel('token_mail', 'Email');
   }
 

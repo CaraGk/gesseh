@@ -8,6 +8,7 @@
  * @author     Pierre-FrançoisPilouAngrand
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
+
 class etudiantActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
@@ -19,14 +20,15 @@ class etudiantActions extends sfActions
   public function executeEdit(sfWebRequest $request)
   {
     $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array('id' => $this->getUser()->getUsername())), sprintf('Utilisateur inconnu : (%s).', $this->getUser()->getUsername()));
-    $gesseh_etudiant->setTokenMail($gesseh_etudiant->getEmail());
+    if(!$gesseh_etudiant->getTokenMail())
+      $gesseh_etudiant->setTokenMail($gesseh_etudiant->getEmail());
     $this->form = new GessehEtudiantForm($gesseh_etudiant);
   }
 
   public function executeUpdate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
-    $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array($request->getParameter('id'))), sprintf('Object gesseh_etudiant does not exist (%s).', $request->getParameter('id')));
+    $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array($this->getUser()->getUsername())), sprintf('Object gesseh_etudiant does not exist (%s).', $request->getParameter('id')));
     $this->form = new GessehEtudiantForm($gesseh_etudiant);
 
     $this->processForm($request, $this->form);
@@ -55,29 +57,10 @@ class etudiantActions extends sfActions
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
-    echo $form;
-      if ($form->getValue('cmdp') != null)
-      {
-        if($this->getUser()->getGuardUser()->checkPassword($form->getValue('cmdp')))
-	{
-	  if($form->getValue('nmdp') == $form->getValue('vnmdp'))
-	  {
-	    $this->getUser()->getGuardUser()->setPassword($form->getValue('nmdp'));
-	    $this->getUser()->getGuardUser()->save();
-	    $this->getUser()->setFlash('notice','Mot de passe changé avec succès.');
-	  }
-	  else
-	  {
-	    $this->getUser()->setFlash('error','Erreur : les 2 mots de passes ne sont pas identiques.');
-	  }
-	}
-	else
-	{
-	  $this->getUser()->setFlash('error','Erreur : le mot de passe est erroné.');
-	}
-      }
-
       $form->save();
+      $form_pass = $form->getEmbeddedForm('MdP');
+      $form_pass->bind($form->getValue('MdP'));
+      $form_pass->save();
 //      $this->getUser()->setFlash('notice','Mise à jour du profil effectuée.');
 
       $this->redirect('etudiant/edit');

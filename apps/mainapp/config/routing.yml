@@ -54,11 +54,11 @@ gesseh_create_formulaire:
     idstage: \d+
 
 gesseh_edit_etudiant:
-  url: /etudiant/edit/
+  url: /etudiant/edit
   param: { module: etudiant, action: edit }
 
 gesseh_edit_etudiant_process:
-  url: /etudiant/update/
+  url: /etudiant/update
   param: { module: etudiant, action: update }
 
 gesseh_test_mail:

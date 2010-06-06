@@ -33,5 +33,29 @@ class UserChangePassForm extends sfForm
     $this->widgetSchema->setNameFormat('mdp[%s]');
   }
 
+  public function save()
+  {
+    if ($this->getValue('cmdp') != null)
+    {
+      if(sfContent::getInstance()->getUser()->getGuardUser()->checkPassword($this->getValue('cmdp')))
+      {
+        if($this->getValue('nmdp') == $this->getValue('vnmdp'))
+	{
+	  sfContent::getInstance()->getUser()->getGuardUser()->setPassword($this->getValue('nmdp'));
+	  sfContent::getInstance()->getUser()->getGuardUser()->save();
+	  sfContent::getInstance()->getUser()->setFlash('notice','Mot de passe changé avec succès.');
+	}
+	else
+	{
+	  sfContent::getInstance()->getUser()->setFlash('error','Erreur : les 2 mots de passes ne sont pas identiques.');
+	}
+      }
+      else
+      {
+        sfContent::getInstance()->getUser()->setFlash('error','Erreur : le mot de passe est erroné.');
+      }
+    }
+  }
+
 }
 

@@ -11,8 +11,10 @@ class GessehEtudiantTable extends Doctrine_Table
 
     public function save(Doctrine_Connection $conn)
     {
-        if ($this->getEmail() != $this->getTokenMail() and $this->getTokenMail())
-	  $this->sendMailValidation($this->getTokenMail());
+      if ($this->getEmail() != $this->getTokenMail() and $this->getTokenMail())
+        $this->sendMailValidation($this->getTokenMail());
+      else
+        $this->setTokenMail('');
 
       return parent::save($conn);
     }
@@ -49,7 +51,7 @@ EOF
 	->where('a.id = ?', $user)
 	->fetchOne();
 
-      if ($token == sha1(sfContext::getInstance()->getUser()->getUsername().$q))
+      if ($token == sha1($user.$q))
       {
         Doctrine_Query::create()
 	  ->update('GessehEtudiant a')
@@ -86,7 +88,7 @@ EOF
       return $q->execute();
     }
 
-    public static function importPromo($fichier)
+    public static function importFichier($fichier)
     {
     }
 }

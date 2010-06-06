@@ -1,4 +1,9 @@
 GessehEtudiant:
+  anonyme:
+    id: 0
+    nom: Anonyme
+    prenom: Anonyme
+    GessehPromo: hors
   pilou:
     id: 20402395
     nom: Angrand
