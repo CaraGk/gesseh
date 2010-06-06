@@ -58,7 +58,7 @@ class GessehEvalTable extends Doctrine_Table
 
     public function getEvalsComments($terrain)
     {
-      $q = $this->gesseh_evals = Doctrine_Query::create()
+      $q = Doctrine_Query::create()
       ->from('GessehEval a')
       ->leftjoin('a.GessehStage b')
       ->leftjoin('b.GessehPeriode c')
@@ -68,5 +68,20 @@ class GessehEvalTable extends Doctrine_Table
       ->OrderBy('c.debut DESC, b.etudiant_id ASC, a.critere_id ASC');
       
       return $q->execute();
-    } 
+    }
+
+    public function getAllComments()
+    {
+      $q = Doctrine_Query::create()
+        ->from('GessehEval a')
+	->leftjoin('a.GessehStage b')
+	->leftjoin('b.GessehPeriode c')
+	->leftjoin('a.GessehCritere d')
+	->leftjoin('b.GessehTerrain e')
+	->leftjoin('e.GessehHopital f')
+	->where('d.type = ?', 'text')
+	->OrderBy('a.created_at desc');
+      
+      return $q->execute();
+    }
 }

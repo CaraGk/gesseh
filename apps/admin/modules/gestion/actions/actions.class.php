@@ -56,6 +56,11 @@ EOF
     $this->count_promos = $this->gesseh_promos->count();
     $this->form = new GestionForm();
     $this->form->configureForm($this->gesseh_promos, Doctrine::getTable('GessehPromo')->getChoices());
+    $this->form->embedForm('PromoP2', new ImportForm());
+    $this->form->embedForm('Periode1', new GessehPeriodeForm());
+    $this->form->embedForm('Periode2', new GessehPeriodeForm());
+    $this->form->embedForm('Periode3', new GessehPeriodeForm());
+    $this->form->embedForm('Periode4', new GessehPeriodeForm());
   }
 
   public function executeCreate(sfWebRequest $request)
@@ -69,48 +74,57 @@ EOF
     $this->count_promos = $this->gesseh_promos->count();
     $this->form = new GestionForm();
     $this->form->configureForm($this->gesseh_promos, Doctrine::getTable('GessehPromo')->getChoices());
+    $this->form->embedForm('PromoP2', new ImportForm());
+    $this->form->embedForm('Periode1', new GessehPeriodeForm());
+    $this->form->embedForm('Periode2', new GessehPeriodeForm());
+    $this->form->embedForm('Periode3', new GessehPeriodeForm());
+    $this->form->embedForm('Periode4', new GessehPeriodeForm());
 
-    $this->processForm($request, $this->form);
+    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
+    if ($form->isValid())
+    {
+      $form->changePromo();
+      $form->saveEmbeddedForms();
+      
+//      $this->redirect('admEtudiant/index');
+    }
 
     $this->setTemplate('new');
   }
 
-  public function executeEdit(sfWebRequest $request)
+  public function executeImport(sfWebRequest $request)
   {
-    $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array($request->getParameter('id'))), sprintf('Object gesseh_etudiant does not exist (%s).', $request->getParameter('id')));
-    $this->form = new GessehEtudiantForm($gesseh_etudiant);
+    $this->form = new ImportForm();
   }
 
-  public function executeUpdate(sfWebRequest $request)
+  public function executeImportCreate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
-    $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array($request->getParameter('id'))), sprintf('Object gesseh_etudiant does not exist (%s).', $request->getParameter('id')));
-    $this->form = new GessehEtudiantForm($gesseh_etudiant);
+    $this->form = new ImportForm();
 
-    $this->processForm($request, $this->form);
+    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
+    if ($form->isValid())
+    {
+      $form->save('GessehStage');
+      $this->redirect('admStage/index');
+    }
 
-    $this->setTemplate('edit');
+    $this->setTemplate('import');
   }
 
+  public function executeComments(sfWebRequest $request)
+  {
+    $this->gesseh_evals = Doctrine::getTable('GessehEval')->getAllComments();
+  }
+  
   public function executeDelete(sfWebRequest $request)
   {
     $request->checkCSRFProtection();
 
-    $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array($request->getParameter('id'))), sprintf('Object gesseh_etudiant does not exist (%s).', $request->getParameter('id')));
-    $gesseh_etudiant->delete();
+    $this->forward404Unless($gesseh_eval = Doctrine::getTable('GessehEval')->find(array($request->getParameter('id'))), sprintf('Object eval don\'t exist (%s).', $request->getParameter('id')));
+    $gesseh_eval->delete();
 
-    $this->redirect('gestion/index');
+    $this->redirect('gestion/comments');
   }
 
-  protected function processForm(sfWebRequest $request, sfForm $form)
-  {
-    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
-    if ($form->isValid())
-    {
-      $form->updatePromo();
-      $form->saveFichier();
-
-      $this->redirect('admEtudiant/index');
-    }
-  }
 }

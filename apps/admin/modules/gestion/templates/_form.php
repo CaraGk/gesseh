@@ -28,11 +28,31 @@
       </tr>
 	<?php endfor; ?>
       <tr>
-        <th><?php echo $form['fichier']->renderLabel() ?></th>
+        <th><?php echo $form['PromoP2']->renderLabel() ?></th>
         <td colspan="2">
-          <?php echo $form['fichier']->renderError() ?>
-          <?php echo $form['fichier'] ?>
+          <?php echo $form['PromoP2']['fichier']->renderError() ?>
+          <?php echo $form['PromoP2']['fichier'] ?>
         </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['Periode1']->renderLabel(); ?></th>
+	<td><?php echo $form['Periode1']['debut'] ?></td>
+	<td><?php echo $form['Periode1']['fin'] ?></td>
+      </tr>
+      <tr>
+        <th><?php echo $form['Periode2']->renderLabel(); ?></th>
+	<td><?php echo $form['Periode2']['debut'] ?></td>
+	<td><?php echo $form['Periode2']['fin'] ?></td>
+      </tr>
+      <tr>
+        <th><?php echo $form['Periode3']->renderLabel(); ?></th>
+	<td><?php echo $form['Periode3']['debut'] ?></td>
+	<td><?php echo $form['Periode3']['fin'] ?></td>
+      </tr>
+      <tr>
+        <th><?php echo $form['Periode4']->renderLabel(); ?></th>
+	<td><?php echo $form['Periode4']['debut'] ?></td>
+	<td><?php echo $form['Periode4']['fin'] ?></td>
       </tr>
     </tbody>
   </table>

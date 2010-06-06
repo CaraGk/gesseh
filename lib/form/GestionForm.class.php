@@ -5,7 +5,7 @@
  * 
  * @package    gesseh
  * @subpackage form
- * @author     Pierre-François "Pilou" Angrand
+ * @author     Pierre-FrançoisPilouAngrand
  * @version    SVN: $Id: GestionForm.class.php 20147 2010-06-01 11:46:57Z PierreFrançoisPilouAngrand $
  */
 
@@ -17,12 +17,8 @@ class GestionForm extends sfForm
   
   public function configureForm(Doctrine_Collection $gesseh_promos, array $choices_promo)
   {
-    $widgets = array(
-      'fichier' => new sfWidgetFormInputFile(array('label' => 'Nouvelle promo PCEM 2')),
-      );
-    $validators = array(
-      'fichier' => new sfValidatorFile(),
-      );
+    $widgets = array();
+    $validators = array();
    
     $count = 1;
     foreach($gesseh_promos as $promo)
@@ -57,40 +53,39 @@ class GestionForm extends sfForm
     return 'GessehPromo';
   }
 
-/*  public function getConnection()
-  {
-    return parent::getConnection();
-  }
-
-  protected function doUpdateObject($values)
-  {
-    return parent::doUpdateObject($values);
-  }
-
-  public function processValues($values)
-  {
-    return parent::processValues($values);
-  }
-*/
-
-  public function updatePromo()
+  public function changePromo()
   {
     $max_promo = Doctrine::getTable('GessehPromo')->count();
     for($i=1 ; $i < $max_promo ; $i++)
       Doctrine::getTable('GessehEtudiant')->changePromo($this->getValue('promo_debut_'.$i), $this->getValue('promo_fin_'.$i));
   }
 
-  public function saveFichier()
+  public function saveEmbeddedForms($con = null, $forms = null)
   {
-//    if (file_exists($this->getObject()->getFile()))
-//      unlink($this->getObject()->getFile());
-    
-    $file = $this->getValue('fichier');
-    $filename = sha1($file->getOriginalName()).$file->getExtension($file->getOriginalExtension());
-    $file->save(sfConfig::get('sf_upload_dir').'/'.$filename);
+    if (is_null($forms))
+      $forms = $this->getEmbeddedForms();
+    foreach ($forms as $key => $form)
+    {
+      if ($form instanceof sfFormDoctrine)
+      {
+        $form->bind($this->values[$key]);
+	$form->save($con);
+	$form->saveEmbeddedForms($con);
+      }
+      elseif ($form instanceof sfForm)
+      {
+        if($form->isMultipart())
+          $form->bind($this->values[$key], $this->values[$key]);
+	else
+	  $form->bind($this->values[$key]);
+	if($form->isBound())
+          $form->save();
+	$form->saveEmbeddedForms($con);
+      }
+      else
+        $this->saveEmbeddedForms($con, $form->getEmbeddedForms());
+    }
+  } 
 
-    if($file->isSaved())
-      Doctrine::getTable('GessehEtudiant')->importPromo(sfConfig::get('sf_upload_dir').'/'.$filename);
-  }
 }
 
