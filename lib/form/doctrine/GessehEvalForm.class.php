@@ -63,6 +63,7 @@ class GessehEvalForm extends BaseGessehEvalForm
       elseif($critere->getType() == 'text')
       {
         $this->widgetSchema['valeur'.$critere->getId()] = new sfWidgetFormTextarea(array('label' => $critere->getTitre()));
+	$this->validatorSchema['valeur'.$critere->getId()]->setOption('required', false);
       }
     }
   }
@@ -119,10 +120,13 @@ class GessehEvalForm extends BaseGessehEvalForm
         array_push($choices, $i);
 
       $this->widgetSchema['valeur_'.$critere->getId()] = new sfWidgetFormSelectRadio(array('choices' => $choices, 'label' => $critere->getTitre()));
+      $this->validatorSchema['valeur_'.$critere->getId()] = new sfValidatorChoice(array('choices' => $choices));
     }
     elseif($critere->getType() == 'text')
     {
       $this->widgetSchema['valeur_'.$critere->getId()] = new sfWidgetFormTextarea(array('label' => $critere->getTitre()));
+      $this->validatorSchema['valeur_'.$critere->getId()] = new sfValidatorString(array('min_length' => 5, 'max_length' => 255, 'required' => false));
+//      $this->validatorSchema['valeur'.$critere->getId()]->setOption('required', false);
     }
   }
 
@@ -138,9 +142,10 @@ class GessehEvalForm extends BaseGessehEvalForm
 	'valeur' => $this->getValue('valeur_'.$critere->getId()),
       );
       $form->bind($taintedValues);
-      $form->save();
-      $active = Doctrine::getTable('GessehStage')->valideActiveStage($this->getValue('stage_id'));
+      if($form->getValue('valeur'))
+        $form->save();
     }
+    $active = Doctrine::getTable('GessehStage')->valideActiveStage($this->getValue('stage_id'));
     return $form->getValue('stage_id');
   }
 }
