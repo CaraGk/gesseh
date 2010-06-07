@@ -34,7 +34,7 @@ all:
     # Enable the database manager
     use_database:           true
 
-    enabled_modules: [default, sfGuardAuth, sfGuardUser, sfGuardGroup]
+    enabled_modules: [default, sfGuardAuth, sfGuardUser, sfGuardGroup, csSetting]
 
   .actions:
     login_module: sfGuardAuth

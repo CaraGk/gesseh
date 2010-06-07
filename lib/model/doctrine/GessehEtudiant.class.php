@@ -30,7 +30,7 @@ class GessehEtudiant extends BaseGessehEtudiant
   public function sendMailValidation($email)
   {
     $user = sfContext::getInstance()->getUser()->getUsername();
-//    $url = sfWebRequest::getRelativeUrlRoot();
+    $url = csSettings::get('baseurl');
     $token = sha1(sfContext::getInstance()->getUser()->getUsername().$email);
     $message = sfContext::getInstance()->getMailer()->compose(
       array('tmp@angrand.fr' => 'Administration Paris-Ouest'),

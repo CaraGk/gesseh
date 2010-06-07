@@ -12,7 +12,7 @@
     <div id="container">
       <div id="header">
         <div class="content">
-	  <h1><a href="<?php echo url_for('@homepage') ?>"><?php echo image_tag('gesseh_logo.png', 'alt=GesseH'); ?> Titre du site de gestion</a></h1>
+	  <h1><a href="<?php echo url_for('@homepage') ?>"><?php echo image_tag('gesseh_logo.png', 'alt=GesseH'); ?> <?php echo csSettings::get('titre_du_site'); ?></a></h1>
 	  
 	  <?php if ($sf_user->isAuthenticated()): ?>
 	  <div id="menu">
@@ -26,6 +26,7 @@
 	    </ul>
 	    <ul>
 	      <li>Administration avancée :</li>
+	      <li><a href="<?php echo url_for('csSetting/index'); ?>">Paramètres</a></li>
 	      <li><a href="<?php echo url_for('admEtudiant/index'); ?>">Etudiants</a></li>
 	      <li><a href="<?php echo url_for('admCritere/index'); ?>">Critères d'évaluation</a></li>
 	      <li><a href="<?php echo url_for('admTerrain/index'); ?>">Terrains de stage</a></li>

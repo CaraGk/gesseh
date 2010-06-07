@@ -9,7 +9,10 @@ class ProjectConfiguration extends sfProjectConfiguration
   {
     $this->setWebDir($this->getRootDir().'/web/');
 
-    $this->enablePlugins('sfDoctrinePlugin');
-    $this->enablePlugins('sfDoctrineGuardPlugin');
+    $this->enablePlugins(array(
+      'sfDoctrinePlugin',
+      'sfDoctrineGuardPlugin',
+      'csSettingsPlugin'
+      ));
   }
 }

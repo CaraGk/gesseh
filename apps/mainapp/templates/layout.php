@@ -11,7 +11,7 @@
   <body>
     <div id="container">
       <div id="header">
-	<a href="<?php echo url_for('@homepage') ?>"><?php echo image_tag('gesseh_logo.png', 'alt=GesseH'); ?><h1>Titre du site de gestion</h1></a>
+	<a href="<?php echo url_for('@homepage') ?>"><?php echo image_tag('gesseh_logo.png', 'alt=GesseH'); ?><h1> <?php echo csSettings::get('titre_du_site'); ?></h1></a>
 	  
 	  <div id="menu">
 	    <ul>
@@ -58,7 +58,7 @@
 	  <ul>
 	    <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug ou un souhait</a></li>
 	    <li><a href="http://code.google.com/p/gesseh/w/list">Assistance - documentation</a></li>
-	    <li><a href="<?php echo $sf_request->getRelativeUrlRoot() ?>/admin_dev.php">Administrer</a></li>
+	    <li><a href="<?php echo $sf_request->getRelativeUrlRoot() ?>/admin.php">Administrer</a></li>
 	  </ul>
 	</div>
       </div>

@@ -73,9 +73,3 @@ GessehEval:
   relations:
     GessehStage:  { onDelete: CASCADE, local: stage_id, foreign: id }
     GessehCritere:  { onDelete: CASCADE, local: critere_id, foreign: id }
-    
-GessehParam:
-  actAs: { Timestampable: ~ }
-  columns:
-    titre: { type: string(255), notnull: true }
-    valeur: { type: string(255), notnull: true }

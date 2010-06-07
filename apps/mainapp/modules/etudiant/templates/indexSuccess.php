@@ -1,4 +1,4 @@
-<h1>Gesseh stages List</h1>
+<h1>Ma liste de stage effectués / à valider</h1>
 
 <table>
   <thead>

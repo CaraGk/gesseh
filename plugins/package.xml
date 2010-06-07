@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.8.0" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>csSettingsPlugin</name>
+ <channel>pear.symfony-project.com</channel>
+ <summary>Manage user-controlled site settings</summary>
+ <description>Much like the sfConfig::get() method, use csSettings::get() to call dynamic, user-defined settings.  An admin generator interface allows easy administration.</description>
+ <lead>
+  <name>Brent Shaffer</name>
+  <user>bshaffer</user>
+  <email>bshaffer@centresource.com</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Nicolas Mathon</name>
+  <user>nmathon</user>
+  <email>nicolas.mathon@lp-system.fr</email>
+  <active>yes</active>
+ </developer>
+ <date>2010-05-24</date>
+ <time>08:50:14</time>
+ <version>
+  <release>1.0.4</release>
+  <api>1.0.4</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.symfony-project.com/license">MIT</license>
+ <notes>
+-
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="2d79059b87f3eb82dd3175adb4e42560" name="config/doctrine/schema.yml" role="data"/>
+   <file md5sum="5225553fa49a85971e40647d469f0020" name="config/app.yml" role="data"/>
+   <file md5sum="6b068f23f6e5c11b45161a9696988ab5" name="config/routing.yml" role="data"/>
+   <file md5sum="37040b51eff11f8de0705aa3f133c077" name="data/fixtures/fixtures.yml.sample" role="data"/>
+   <file md5sum="7d167581c8aba1463595b71f113d2494" name="lib/filter/doctrine/PlugincsSettingFormFilter.class.php" role="data"/>
+   <file md5sum="4deb8fb47943a794ce58acf3f132a13d" name="lib/form/doctrine/PlugincsSettingForm.class.php" role="data"/>
+   <file md5sum="23cc39fb27c2b7a1147388c88df925ac" name="lib/form/doctrine/SettingsListForm.class.php" role="data"/>
+   <file md5sum="d16dec765a78ccc3bc16f0d744fbb322" name="lib/model/doctrine/PlugincsSetting.class.php" role="data"/>
+   <file md5sum="3bb5d53676d6eaf29ba8d424c8ff5d4f" name="lib/model/doctrine/PlugincsSettingTable.class.php" role="data"/>
+   <file md5sum="96005d4b6bc0f00c652a0b6768d35027" name="lib/BasecsSettings.class.php" role="data"/>
+   <file md5sum="63d96cafbc3764ee3c465d3604d87b1f" name="lib/csSettings.class.php" role="data"/>
+   <file md5sum="720762807801de4a87db216baa535cee" name="modules/csSetting/actions/actions.class.php" role="data"/>
+   <file md5sum="f24f9a656f214081db35e10f22788f26" name="modules/csSetting/config/generator.yml" role="data"/>
+   <file md5sum="7ce01662c0d4d0622894d8354f7bae02" name="modules/csSetting/lib/BasecsSettingActions.class.php" role="data"/>
+   <file md5sum="16aa03a13e363905055afa2b2eb06f4e" name="modules/csSetting/lib/csSettingGeneratorConfiguration.class.php" role="data"/>
+   <file md5sum="e6f7b5c4d0d3a9b44c9206d4c1cef92f" name="modules/csSetting/lib/csSettingGeneratorHelper.class.php" role="data"/>
+   <file md5sum="0c792c5641d5b190c451f94467cea236" name="modules/csSetting/templates/_list.php" role="data"/>
+   <file md5sum="2b508a7b3a62e5193e301e5ae6d7ca0b" name="modules/csSetting/templates/_list_actions.php" role="data"/>
+   <file md5sum="fc68db5e6e5d63432a2b980e243c8176" name="modules/csSetting/templates/_list_td_actions.php" role="data"/>
+   <file md5sum="b296fe5863743f65ed881ed2ad8aff86" name="modules/csSetting/templates/_list_td_tabular.php" role="data"/>
+   <file md5sum="0420a536c3eb08c28f8fb15bc2d47f7f" name="modules/csSetting/templates/_setting_group.php" role="data"/>
+   <file md5sum="93130c564eaa6d91d7ab5c458068f42b" name="modules/csSetting/templates/_value.php" role="data"/>
+   <file md5sum="6cb2718fb1bc0bfbce5b7aeeba3e930f" name="modules/csSetting/templates/indexSuccess.php" role="data"/>
+   <file md5sum="d03e06282718c321c71c3f78ada9fa36" name="web/css/cs_settings.css" role="data"/>
+   <file md5sum="a92ee748ec2980e56c7df299360cf418" name="web/images/restore-all.png" role="data"/>
+   <file md5sum="8a5b493c2ad337a3a4d98b5d83568e15" name="web/images/restore.png" role="data"/>
+   <file md5sum="b3cb5eaf727de04abef42eedb072bd17" name="LICENSE" role="data"/>
+   <file md5sum="59ebcaa4c38f9f02a787065df4e90757" name="README" role="data"/>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.1.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.1</min>
+   </pearinstaller>
+   
+  </required>
+ </dependencies>
+ <phprelease/>
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-07-07</date>
+   <license uri="http://www.symfony-project.org/license">MIT license</license>
+   <notes>
+* Initial creation of plugin
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-07-07</date>
+   <license uri="http://www.symfony-project.org/license">MIT license</license>
+   <notes>
+* Fixed documentation typos, added "default" functionality on csSetting creation
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.2</release>
+    <api>1.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-04-19</date>
+   <license uri="http://www.symfony-project.org/license">MIT license</license>
+   <notes>
+* Fixed PHP 5.3 and symfony 1.4 problems.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.3</release>
+    <api>1.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-05-14</date>
+   <license uri="http://www.symfony-project.org/license">MIT license</license>
+   <notes>
+* Adds ability to use your own cache handler
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.4</release>
+    <api>1.0.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-05-24</date>
+   <license uri="http://www.symfony-project.org/license">MIT license</license>
+   <notes>
+* Defaults cache handler to sfFileCache
+   </notes>
+  </release>
+ </changelog>
+</package>
