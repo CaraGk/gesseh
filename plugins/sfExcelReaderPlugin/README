@@ -1,0 +1,58 @@
+sfExcelReaderPlugin
+========================
+
+Provides you with a class to interpret and output excel data files (.xls) using
+__PHP Excel Reader__. Current version of the plugin uses PHP Excel Reader v.2.21.
+
+Installation
+============
+
+Install the plugin via the subversion repository by executing the following
+command from the project root directory:
+
+    $ svn co http://svn.symfony-project.com/plugins/sfExcelReaderPlugin/branches/1.4 plugins/sfExcelReaderPlugin
+
+or by using the default symfony plugin install command:
+
+    $ ./symfony plugin:install sfExcelReaderPlugin
+
+Right after the installation of the plugin, you should update plugin assets:
+
+    $ ./symfony plugin:publish-assets
+
+so that the CSS of Excel Reader is accessible.
+
+Usage
+=====
+
+Here is an easy example of using PHP Excel Reader:
+
+    [php]
+    $data = new sfExcelReader('example.xls');
+    echo $data->dump(true, true);
+
+To find out more features, please lok at the documentation of PHP Excel Reader.
+
+sfExcelReaderExample
+==============
+
+The plugin is provided with an example module to test if everything works
+fine. Right after installation, go to your application _config_ directory
+and add _sfExcelReaderExample_ module to _enabled modules_ section in
+_settings.yml_ file. Next step is to edit _config/routing.yml_ file of the
+plugin - you shall uncomment all lines. Then clear the cache:
+
+    $ ./symfony cc
+
+and everything is ready to run:
+
+    http://local.site/excel
+
+in your browser. You shall see a demonstration of both interpreting and
+correct displaying of xls file.
+
+Documentation
+=============
+
+Documentation of PHP Excel Reader is available
+[here](http://code.google.com/p/php-excel-reader/wiki/Documentation).

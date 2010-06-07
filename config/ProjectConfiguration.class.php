@@ -14,5 +14,6 @@ class ProjectConfiguration extends sfProjectConfiguration
       'sfDoctrineGuardPlugin',
       'csSettingsPlugin'
       ));
+    $this->enablePlugins('sfExcelReaderPlugin');
   }
 }
