@@ -14,6 +14,13 @@ class etudiantActions extends sfActions
   public function executeIndex(sfWebRequest $request)
   {
     $this->user = $this->getUser()->getUsername();
+
+    if(!Doctrine::getTable('GessehEtudiant')->checkValidMail($this->getUser()->getUsername()))
+    {
+      $this->getUser()->setFlash('error','Adresse email non fournie ou non validée !');
+      $this->redirect('etudiant/edit');
+    }
+
     $this->gesseh_stages = Doctrine::getTable('GessehStage')->getStagesEtudiant($this->user);
   }
 
@@ -36,20 +43,17 @@ class etudiantActions extends sfActions
     $this->setTemplate('edit');
   }
 
-  public function executeMail(sfWebRequest $request)
+  public function executeToken(sfWebRequest $request)
   {
-    if (isset($request['token']))
-      Doctrine::getTable('GessehEtudiant')->validTokenMail($request['iduser'], $request['token']);
-    
-    if (Doctrine::getTable('GessehEtudiant')->checkValidMail($this->getUser()->getUsername()))
-    {
-      $this->redirect('etudiant/index');
-    }
+    if(Doctrine::getTable('GessehEtudiant')->validTokenMail($request['userid'], $request['token']))
+      $this->getUser()->setFlash('notice','Adresse e-mail validée.');
     else
-    {
-      $this->getUser()->setFlash('error','Adresse email non fournie ou non validée !');
-      $this->redirect('etudiant/edit');
-    }
+      $this->getUser()->setFlash('error','Erreur de validation d\'adresse e-mail.');
+
+    if($this->getUser()->isAuthenticated())
+      $this->redirect('etudiant/index');
+    else
+      $this->redirect('@homepage');
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form)

@@ -61,13 +61,9 @@ gesseh_edit_etudiant_process:
   url: /etudiant/update
   param: { module: etudiant, action: update }
 
-gesseh_test_mail:
-  url: /etudiant/test
-  param: { module: etudiant, action: mail }
-
 gesseh_token_mail:
   url: /etudiant/test/:userid/:token
-  param: { module: etudiant, action: mail }
+  param: { module: etudiant, action: token }
   requirements:
     userid: \d+
     token: \w+

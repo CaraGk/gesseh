@@ -33,20 +33,19 @@ class GessehEtudiant extends BaseGessehEtudiant
     $url = csSettings::get('baseurl');
     $token = sha1(sfContext::getInstance()->getUser()->getUsername().$email);
     $message = sfContext::getInstance()->getMailer()->compose(
-      array('tmp@angrand.fr' => 'Administration Paris-Ouest'),
+      array(csSettings::get('email') => csSettings::get('email_nom')),
       $email,
-      '[Paris-Ouest] Validation de votre nouvelle adresse mail',
+      '['.csSettings::get('email_prefixe').'] Validation de votre nouvelle adresse mail',
       <<<EOF
       Bonjour,
       
-      Vous venez de changer votre adresse mail sur le gestionnaire d'évaluations de la faculté. Pour confirmer le changement d'adresse e-mail, nous vous prions de bien vouloir cliquer sur le lien suivant :
+      Vous venez de changer votre adresse mail sur le gestionnaire d'évaluations de la faculté. Pour valider le changement d'adresse e-mail, nous vous prions de bien vouloir aller sur le lien suivant :
       
-{$url}/etudiant/test/{$user}/{$token}
+{$url}etudiant/test/{$user}/{$token}
       
       Merci.
       
-      L'administration de la faculté de médecine Paris-Ile-de-France-Ouest.
-      
+      L'administration.      
       Ce message a été généré automatiquement, merci de ne pas y répondre.
 EOF
       );
