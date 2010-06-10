@@ -8,27 +8,33 @@
  * @property integer $terrain_id
  * @property integer $periode_id
  * @property integer $etudiant_id
+ * @property integer $form
  * @property boolean $is_active
  * @property GessehTerrain $GessehTerrain
  * @property GessehPeriode $GessehPeriode
  * @property GessehEtudiant $GessehEtudiant
+ * @property GessehFormEval $GessehFormEval
  * @property Doctrine_Collection $GessehEval
  * 
  * @method integer             getTerrainId()      Returns the current record's "terrain_id" value
  * @method integer             getPeriodeId()      Returns the current record's "periode_id" value
  * @method integer             getEtudiantId()     Returns the current record's "etudiant_id" value
+ * @method integer             getForm()           Returns the current record's "form" value
  * @method boolean             getIsActive()       Returns the current record's "is_active" value
  * @method GessehTerrain       getGessehTerrain()  Returns the current record's "GessehTerrain" value
  * @method GessehPeriode       getGessehPeriode()  Returns the current record's "GessehPeriode" value
  * @method GessehEtudiant      getGessehEtudiant() Returns the current record's "GessehEtudiant" value
+ * @method GessehFormEval      getGessehFormEval() Returns the current record's "GessehFormEval" value
  * @method Doctrine_Collection getGessehEval()     Returns the current record's "GessehEval" collection
  * @method GessehStage         setTerrainId()      Sets the current record's "terrain_id" value
  * @method GessehStage         setPeriodeId()      Sets the current record's "periode_id" value
  * @method GessehStage         setEtudiantId()     Sets the current record's "etudiant_id" value
+ * @method GessehStage         setForm()           Sets the current record's "form" value
  * @method GessehStage         setIsActive()       Sets the current record's "is_active" value
  * @method GessehStage         setGessehTerrain()  Sets the current record's "GessehTerrain" value
  * @method GessehStage         setGessehPeriode()  Sets the current record's "GessehPeriode" value
  * @method GessehStage         setGessehEtudiant() Sets the current record's "GessehEtudiant" value
+ * @method GessehStage         setGessehFormEval() Sets the current record's "GessehFormEval" value
  * @method GessehStage         setGessehEval()     Sets the current record's "GessehEval" collection
  * 
  * @package    gesseh
@@ -50,6 +56,10 @@ abstract class BaseGessehStage extends sfDoctrineRecord
              'notnull' => true,
              ));
         $this->hasColumn('etudiant_id', 'integer', null, array(
+             'type' => 'integer',
+             'notnull' => true,
+             ));
+        $this->hasColumn('form', 'integer', null, array(
              'type' => 'integer',
              'notnull' => true,
              ));
@@ -77,6 +87,10 @@ abstract class BaseGessehStage extends sfDoctrineRecord
              'local' => 'etudiant_id',
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
+
+        $this->hasOne('GessehFormEval', array(
+             'local' => 'form',
+             'foreign' => 'id'));
 
         $this->hasMany('GessehEval', array(
              'local' => 'id',

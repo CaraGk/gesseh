@@ -9,30 +9,36 @@
  * @property string $filiere
  * @property string $patron
  * @property string $localisation
- * @property integer $form_id
+ * @property string $gardes_lieu
+ * @property string $gardes_horaires
+ * @property string $astreintes_horaires
  * @property boolean $is_active
  * @property GessehHopital $GessehHopital
- * @property GessehCritere $GessehCritere
+ * @property Doctrine_Collection $GessehTerrainRule
  * @property Doctrine_Collection $GessehStage
  * 
- * @method integer             getHopitalId()     Returns the current record's "hopital_id" value
- * @method string              getFiliere()       Returns the current record's "filiere" value
- * @method string              getPatron()        Returns the current record's "patron" value
- * @method string              getLocalisation()  Returns the current record's "localisation" value
- * @method integer             getFormId()        Returns the current record's "form_id" value
- * @method boolean             getIsActive()      Returns the current record's "is_active" value
- * @method GessehHopital       getGessehHopital() Returns the current record's "GessehHopital" value
- * @method GessehCritere       getGessehCritere() Returns the current record's "GessehCritere" value
- * @method Doctrine_Collection getGessehStage()   Returns the current record's "GessehStage" collection
- * @method GessehTerrain       setHopitalId()     Sets the current record's "hopital_id" value
- * @method GessehTerrain       setFiliere()       Sets the current record's "filiere" value
- * @method GessehTerrain       setPatron()        Sets the current record's "patron" value
- * @method GessehTerrain       setLocalisation()  Sets the current record's "localisation" value
- * @method GessehTerrain       setFormId()        Sets the current record's "form_id" value
- * @method GessehTerrain       setIsActive()      Sets the current record's "is_active" value
- * @method GessehTerrain       setGessehHopital() Sets the current record's "GessehHopital" value
- * @method GessehTerrain       setGessehCritere() Sets the current record's "GessehCritere" value
- * @method GessehTerrain       setGessehStage()   Sets the current record's "GessehStage" collection
+ * @method integer             getHopitalId()           Returns the current record's "hopital_id" value
+ * @method string              getFiliere()             Returns the current record's "filiere" value
+ * @method string              getPatron()              Returns the current record's "patron" value
+ * @method string              getLocalisation()        Returns the current record's "localisation" value
+ * @method string              getGardesLieu()          Returns the current record's "gardes_lieu" value
+ * @method string              getGardesHoraires()      Returns the current record's "gardes_horaires" value
+ * @method string              getAstreintesHoraires()  Returns the current record's "astreintes_horaires" value
+ * @method boolean             getIsActive()            Returns the current record's "is_active" value
+ * @method GessehHopital       getGessehHopital()       Returns the current record's "GessehHopital" value
+ * @method Doctrine_Collection getGessehTerrainRule()   Returns the current record's "GessehTerrainRule" collection
+ * @method Doctrine_Collection getGessehStage()         Returns the current record's "GessehStage" collection
+ * @method GessehTerrain       setHopitalId()           Sets the current record's "hopital_id" value
+ * @method GessehTerrain       setFiliere()             Sets the current record's "filiere" value
+ * @method GessehTerrain       setPatron()              Sets the current record's "patron" value
+ * @method GessehTerrain       setLocalisation()        Sets the current record's "localisation" value
+ * @method GessehTerrain       setGardesLieu()          Sets the current record's "gardes_lieu" value
+ * @method GessehTerrain       setGardesHoraires()      Sets the current record's "gardes_horaires" value
+ * @method GessehTerrain       setAstreintesHoraires()  Sets the current record's "astreintes_horaires" value
+ * @method GessehTerrain       setIsActive()            Sets the current record's "is_active" value
+ * @method GessehTerrain       setGessehHopital()       Sets the current record's "GessehHopital" value
+ * @method GessehTerrain       setGessehTerrainRule()   Sets the current record's "GessehTerrainRule" collection
+ * @method GessehTerrain       setGessehStage()         Sets the current record's "GessehStage" collection
  * 
  * @package    gesseh
  * @subpackage model
@@ -63,10 +69,20 @@ abstract class BaseGessehTerrain extends sfDoctrineRecord
              'notnull' => true,
              'length' => 255,
              ));
-        $this->hasColumn('form_id', 'integer', null, array(
-             'type' => 'integer',
+        $this->hasColumn('gardes_lieu', 'string', 255, array(
+             'type' => 'string',
              'notnull' => true,
-             'default' => 1,
+             'length' => 255,
+             ));
+        $this->hasColumn('gardes_horaires', 'string', 255, array(
+             'type' => 'string',
+             'notnull' => true,
+             'length' => 255,
+             ));
+        $this->hasColumn('astreintes_horaires', 'string', 255, array(
+             'type' => 'string',
+             'notnull' => true,
+             'length' => 255,
              ));
         $this->hasColumn('is_active', 'boolean', null, array(
              'type' => 'boolean',
@@ -83,9 +99,9 @@ abstract class BaseGessehTerrain extends sfDoctrineRecord
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
 
-        $this->hasOne('GessehCritere', array(
-             'local' => 'form_id',
-             'foreign' => 'form'));
+        $this->hasMany('GessehTerrainRule', array(
+             'local' => 'id',
+             'foreign' => 'terrain'));
 
         $this->hasMany('GessehStage', array(
              'local' => 'id',

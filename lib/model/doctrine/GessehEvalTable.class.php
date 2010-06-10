@@ -11,7 +11,7 @@ class GessehEvalTable extends Doctrine_Table
 
     public function getEvalsFromStage($stage_id)
     {
-      $q = $this->gesseh_evals = Doctrine_Query::create()
+      $q = Doctrine_Query::create()
       ->from('GessehEval a')
       ->leftjoin('a.GessehStage b')
       ->leftjoin('b.GessehPeriode c')
@@ -22,23 +22,23 @@ class GessehEvalTable extends Doctrine_Table
       return $q->execute();
     }
 
-    private function getEvalsRadio($request)
+    private function getEvalsRadio($terrain)
     {
-      $q = $this->gesseh_evals = Doctrine_Query::create()
+      $q = Doctrine_Query::create()
       ->from('GessehEval a')
       ->leftjoin('a.GessehStage b')
       ->leftjoin('b.GessehPeriode c')
       ->leftjoin('a.GessehCritere d')
-      ->where('b.terrain_id = ?', $request->getParameter('id'))
+      ->where('b.terrain_id = ?', $terrain)
       ->andWhere('d.type = ?', 'radio')
-      ->OrderBy('c.debut DESC, b.etudiant_id ASC, a.critere_id ASC');
+      ->OrderBy('b.form asc, c.debut DESC, b.etudiant_id ASC, a.critere_id ASC');
       
       return $q->execute();
     }
 
-    public function calcMoyenne($request)
+    public function calcMoyenne($terrain)
     {
-      $evals = $this->getEvalsRadio($request);
+      $evals = $this->getEvalsRadio($terrain);
 
       $criteres_moyenne = array();
 

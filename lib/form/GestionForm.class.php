@@ -59,7 +59,7 @@ class GestionForm extends sfForm
     for($i=1 ; $i < $max_promo ; $i++)
       Doctrine::getTable('GessehEtudiant')->changePromo($this->getValue('promo_debut_'.$i), $this->getValue('promo_fin_'.$i));
   }
-
+/*
   public function saveEmbeddedForms($con = null, $forms = null)
   {
     if (is_null($forms))
@@ -86,6 +86,6 @@ class GestionForm extends sfForm
         $this->saveEmbeddedForms($con, $form->getEmbeddedForms());
     }
   } 
-
+*/
 }
 

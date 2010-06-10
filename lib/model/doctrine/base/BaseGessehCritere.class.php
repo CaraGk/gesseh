@@ -9,21 +9,24 @@
  * @property string $titre
  * @property string $type
  * @property integer $ratio
- * @property Doctrine_Collection $GessehTerrain
+ * @property GessehFormEval $GessehFormEval
+ * @property Doctrine_Collection $GessehTerrainRule
  * @property Doctrine_Collection $GessehEval
  * 
- * @method integer             getForm()          Returns the current record's "form" value
- * @method string              getTitre()         Returns the current record's "titre" value
- * @method string              getType()          Returns the current record's "type" value
- * @method integer             getRatio()         Returns the current record's "ratio" value
- * @method Doctrine_Collection getGessehTerrain() Returns the current record's "GessehTerrain" collection
- * @method Doctrine_Collection getGessehEval()    Returns the current record's "GessehEval" collection
- * @method GessehCritere       setForm()          Sets the current record's "form" value
- * @method GessehCritere       setTitre()         Sets the current record's "titre" value
- * @method GessehCritere       setType()          Sets the current record's "type" value
- * @method GessehCritere       setRatio()         Sets the current record's "ratio" value
- * @method GessehCritere       setGessehTerrain() Sets the current record's "GessehTerrain" collection
- * @method GessehCritere       setGessehEval()    Sets the current record's "GessehEval" collection
+ * @method integer             getForm()              Returns the current record's "form" value
+ * @method string              getTitre()             Returns the current record's "titre" value
+ * @method string              getType()              Returns the current record's "type" value
+ * @method integer             getRatio()             Returns the current record's "ratio" value
+ * @method GessehFormEval      getGessehFormEval()    Returns the current record's "GessehFormEval" value
+ * @method Doctrine_Collection getGessehTerrainRule() Returns the current record's "GessehTerrainRule" collection
+ * @method Doctrine_Collection getGessehEval()        Returns the current record's "GessehEval" collection
+ * @method GessehCritere       setForm()              Sets the current record's "form" value
+ * @method GessehCritere       setTitre()             Sets the current record's "titre" value
+ * @method GessehCritere       setType()              Sets the current record's "type" value
+ * @method GessehCritere       setRatio()             Sets the current record's "ratio" value
+ * @method GessehCritere       setGessehFormEval()    Sets the current record's "GessehFormEval" value
+ * @method GessehCritere       setGessehTerrainRule() Sets the current record's "GessehTerrainRule" collection
+ * @method GessehCritere       setGessehEval()        Sets the current record's "GessehEval" collection
  * 
  * @package    gesseh
  * @subpackage model
@@ -57,9 +60,14 @@ abstract class BaseGessehCritere extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('GessehTerrain', array(
+        $this->hasOne('GessehFormEval', array(
              'local' => 'form',
-             'foreign' => 'form_id'));
+             'foreign' => 'id',
+             'onDelete' => 'CASCADE'));
+
+        $this->hasMany('GessehTerrainRule', array(
+             'local' => 'form',
+             'foreign' => 'form'));
 
         $this->hasMany('GessehEval', array(
              'local' => 'id',
