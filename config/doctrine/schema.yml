@@ -34,6 +34,7 @@ GessehTerrainRule:
 GessehEtudiant:
   actAs: { Timestampable: ~ }
   columns:
+    id: { type: integer, notnull: true, primary: true }
     nom: { type: string(255), notnull: true}
     prenom: { type: string(255), notnull: true }
     promo_id: { type: integer, notnull: true }
@@ -47,7 +48,8 @@ GessehEtudiant:
 GessehPromo:
   actAs: { }
   columns:
-    titre: { type: string(255), notnull: true}
+    titre: { type: string(255), notnull: true }
+    ordre: { type: integer(2), notnull: true }
 
 GessehStage:
   actAs: { Timestampable: ~ }
