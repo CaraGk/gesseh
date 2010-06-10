@@ -13,11 +13,23 @@ GessehTerrain:
     filiere: { type: string(255), notnull: true }
     patron: { type: string(255), notnull: true }
     localisation: { type: string(255), notnull: true}
-    form_id: { type: integer, notnull: true, default: 1 }
+    gardes_lieu: { type: string(255), notnull: true}
+    gardes_horaires: { type: string(255), notnull: true}
+    astreintes_horaires: { type: string(255), notnull: true}
     is_active: { type: boolean, notnull: true, default: 1 }
   relations:
     GessehHopital: { onDelete: CASCADE, local: hopital_id, foreign: id }
-    GessehCritere: { local: form_id, foreign: form }
+
+GessehTerrainRule:
+  actAs: { Timestampable: ~ }
+  columns:
+    terrain: { type: integer, notnull: true }
+    promo: { type: integer, notnull: true }
+    form: { type: integer, notnull: true }
+  relations:
+    GessehTerrain: { local: terrain, foreign: id }
+    GessehPromo:  { local: promo, foreign: id }
+    GessehCritere: { local: form, foreign: form }
 
 GessehEtudiant:
   actAs: { Timestampable: ~ }
@@ -43,17 +55,24 @@ GessehStage:
     terrain_id: { type: integer, notnull: true }
     periode_id: { type: integer, notnull: true }
     etudiant_id: { type: integer, notnull: true }
+    form: { type: integer, notnull: true }
     is_active: { type: boolean, notnull: true, default: 1 }
   relations:
     GessehTerrain:  { onDelete: CASCADE, local: terrain_id, foreign: id }
     GessehPeriode:  { onDelete: CASCADE, local: periode_id, foreign: id }
     GessehEtudiant:  { onDelete: CASCADE, local: etudiant_id, foreign: id }
+    GessehFormEval: { local: form, foreign: id }
 
 GessehPeriode:
   actAs: { }
   columns:
     debut: { type: date, notnull: true }
     fin: { type: date, notnull: true }
+
+GessehFormEval:
+  actAs: { Timestampable: ~ }
+  columns:
+    titre: { type: string(255), notnull: true }
 
 GessehCritere:
   actAs: { Timestampable: ~ }
@@ -62,6 +81,8 @@ GessehCritere:
     titre: { type: string(255), notnull: true }
     type: { type: string(255), notnull: true }
     ratio: { type: integer }
+  relations:
+    GessehFormEval:  { onDelete: CASCADE, local: form, foreign: id }
 
 GessehEval:
   actAs: { Timestampable: ~ }

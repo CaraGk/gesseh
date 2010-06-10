@@ -1,3 +1,11 @@
+GessehFormEval:
+  1:
+   titre: Evaluation des stages hospitaliers des externes
+  2:
+   titre: Evaluation des stages ambulatoires des externes
+  3:
+   titre: Evaluation des stages hospitaliers des stagiaires
+
 GessehCritere:
   lit_malade:
     form: 1

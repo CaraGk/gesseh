@@ -28,11 +28,9 @@ GessehTerrain:
     filiere: Médecine générale
     patron: Docteur Stéphane Hugel
     localisation: 7 rue de la Princesse de Clèves, 78xxx Guyancourt
-    form_id: 2
   bontemps:
     GessehHopital: medge
     filiere: Médecine générale
     patron: Docteur Bontemps
     localisation: Elisabethville, 78xxx Aubergenville
-    form_id: 2
 
