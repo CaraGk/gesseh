@@ -12,19 +12,12 @@ class GessehEtudiantForm extends BaseGessehEtudiantForm
 {
   public function configure()
   {
-//    $this->embedForm('MdP', new UserChangePassForm());
-    $this->embedForm('MdP', new gessehUserPasswordForm(sfContext::getInstance()->getUser()->getGuardUser()));
+    unset($this['created_at'], $this['updated_at'], $this['token_mail']);
 
-//    $this->useFields(array('nom', 'prenom', 'email', 'cmdp', 'nmdp', 'vnmdp'));
-    unset($this['promo_id'], $this['created_at'], $this['updated_at']);
-
-    $this->validatorSchema['token_mail'] = new sfValidatorAnd(array(
-      $this->validatorSchema['token_mail'],
+    $this->validatorSchema['email'] = new sfValidatorAnd(array(
+      $this->validatorSchema['email'],
       new sfValidatorEmail(),
     ));
-
-    $this->widgetSchema['email'] = new sfWidgetFormInputHidden();
-    $this->widgetSchema->setLabel('token_mail', 'Email');
   }
 
 }

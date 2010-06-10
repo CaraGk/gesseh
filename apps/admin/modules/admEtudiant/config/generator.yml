@@ -13,9 +13,33 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
-      list:    ~
-      filter:  ~
-      form:    ~
-      edit:    ~
-      new:     ~
+      fields:
+        id: { label: N° étudiant }
+        nom: { label: Nom }
+        prenom: { label: Prénom }
+        promo_id: { label: Promotion }
+        email: { label: E-mail }
+      list:
+        title: Liste des étudiants
+        display: [=id, nom, prenom, gesseh_promo, email, tel]
+        fields:
+          id: { label: N°étudiant }
+          gesseh_promo: { label: Promotion }
+        sort: [promo_id, asc]
+        max_per_page: 100
+        actions:
+          _new: ~
+          autoUpdatePromo: { label: Change promo }
+          deleteAncien: { label: Supprime anciens étudiants }
+          importNew: { label: Importe une nouvelle promo }
+        batch_actions: {}
+        object_actions:
+          _edit: ~
+      filter:
+        display: [promo_id]
+      form:
+        display: [id, nom, prenom, promo_id, email]
+      edit:
+        title: Editer %%nom%% %%prenom%%
+      new:
+        title: Nouvel étudiant

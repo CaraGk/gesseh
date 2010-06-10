@@ -17,11 +17,13 @@ abstract class BaseGessehPromoForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'    => new sfWidgetFormInputHidden(),
       'titre' => new sfWidgetFormInputText(),
+      'ordre' => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
       'id'    => new sfValidatorDoctrineChoice(array('model' => $this->getModelName(), 'column' => 'id', 'required' => false)),
       'titre' => new sfValidatorString(array('max_length' => 255)),
+      'ordre' => new sfValidatorInteger(),
     ));
 
     $this->widgetSchema->setNameFormat('gesseh_promo[%s]');

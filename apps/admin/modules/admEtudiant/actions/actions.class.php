@@ -13,4 +13,38 @@ require_once dirname(__FILE__).'/../lib/admEtudiantGeneratorHelper.class.php';
  */
 class admEtudiantActions extends autoAdmEtudiantActions
 {
+  public function executeListAutoUpdatePromo()
+  {
+    $gesseh_promos = Doctrine::getTable('GessehPromo')
+      ->createQuery('a')
+      ->orderBy('a.ordre desc')
+      ->execute();
+    
+    $promo_next = null;
+    foreach($gesseh_promos as $gesseh_promo)
+    {
+      if($promo_next)
+        Doctrine::getTable('GessehEtudiant')->changePromo($gesseh_promo->getId(), $promo_next);
+      $promo_next = $gesseh_promo->getId();
+    }
+
+    $this->getUser()->setFlash('notice', sprintf('Tous les étudiants sont passés à la promotion supérieure.'));
+    $this->redirect('admEtudiant/index');
+  }
+
+  public function executeListDeleteAncien()
+  {
+    $this->redirect('admEtudiant/index');
+  }
+
+  public function executeListImportNew()
+  {
+    $this->redirect('admEtudiant/importcreate');
+  }
+
+  public function executeImportcreate()
+  {
+    $this->redirect('admEtudiant/index');
+  }
+
 }

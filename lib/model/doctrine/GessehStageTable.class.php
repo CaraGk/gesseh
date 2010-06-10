@@ -9,14 +9,25 @@ class GessehStageTable extends Doctrine_Table
         return Doctrine_Core::getTable('GessehStage');
     }
 
+    public function retrieveAdminStageList(Doctrine_Query $q)
+    {
+      $rootAlias = $q->getRootAlias();
+      $q->leftJoin($rootAlias . '.GessehTerrain c')
+        ->leftJoin($rootAlias . '.GessehPeriode d')
+	->leftJoin($rootAlias . '.GessehEtudiant e')
+	->leftJoin($rootAlias . '.GessehFormEval f')
+	->leftJoin('c.GessehHopital g');
+      return $q;
+    }
+
     public function getStagesEtudiant($etudiant)
     {
       $q = Doctrine_Query::create()
       ->from('GessehStage a')
-      ->leftjoin('a.GessehTerrain b')
-      ->leftjoin('b.GessehHopital e')
-      ->leftjoin('a.GessehPeriode c')
-      ->leftjoin('a.GessehEtudiant d')
+      ->leftJoin('a.GessehTerrain b')
+      ->leftJoin('b.GessehHopital e')
+      ->leftJoin('a.GessehPeriode c')
+      ->leftJoin('a.GessehEtudiant d')
       ->where('d.id = ?', $etudiant)
       ->OrderBy('a.is_active DESC, c.debut ASC');
 
@@ -27,7 +38,7 @@ class GessehStageTable extends Doctrine_Table
     {
       $q = Doctrine_Query::create()
       ->from('GessehStage a')
-      ->leftjoin('a.GessehTerrain b')
+      ->leftJoin('a.GessehTerrain b')
       ->where('a.id = ?', $stage_id)
       ->limit(1);
       
@@ -38,13 +49,13 @@ class GessehStageTable extends Doctrine_Table
     {
       $q = Doctrine_Query::create()
         ->from('GessehStage a')
-	->leftjoin('a.GessehTerrain b')
-	->leftjoin('b.GessehHopital e')
-	->leftjoin('a.GessehPeriode c')
-	->leftjoin('a.GessehEtudiant d')
-	->leftjoin('d.GessehPromo f')
+	->leftJoin('a.GessehTerrain b')
+	->leftJoin('b.GessehHopital e')
+	->leftJoin('a.GessehPeriode c')
+	->leftJoin('a.GessehEtudiant d')
+	->leftJoin('d.GessehPromo f')
 	->where('a.is_active = ?', '1')
-	->OrderBy('d.nom asc, d.prenom asc, c.debut ASC');
+	->orderBy('d.nom asc, d.prenom asc, c.debut ASC');
       
       return $q->execute();
     }

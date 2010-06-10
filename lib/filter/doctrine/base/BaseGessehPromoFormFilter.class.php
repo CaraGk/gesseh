@@ -14,10 +14,12 @@ abstract class BaseGessehPromoFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'titre' => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'ordre' => new sfWidgetFormFilterInput(array('with_empty' => false)),
     ));
 
     $this->setValidators(array(
       'titre' => new sfValidatorPass(array('required' => false)),
+      'ordre' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
     ));
 
     $this->widgetSchema->setNameFormat('gesseh_promo_filters[%s]');
@@ -39,6 +41,7 @@ abstract class BaseGessehPromoFormFilter extends BaseFormFilterDoctrine
     return array(
       'id'    => 'Number',
       'titre' => 'Text',
+      'ordre' => 'Number',
     );
   }
 }
