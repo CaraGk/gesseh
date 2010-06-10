@@ -29,7 +29,7 @@ class evalActions extends sfActions
     $this->gesseh_stage = Doctrine::getTable('GessehStage')->getStageUniqueEtudiant($request->getParameter('idstage'));
     $this->forward404Unless($this->gesseh_stage);
 
-    $gesseh_criteres = Doctrine::getTable('GessehCritere')->getCriteres($this->gesseh_stage->getGessehTerrain()->getFormId());
+    $gesseh_criteres = Doctrine::getTable('GessehCritere')->getCriteres($this->gesseh_stage->getForm());
     foreach($gesseh_criteres as $critere)
     {
       $form_tmp = new GessehEvalForm();
@@ -46,7 +46,7 @@ class evalActions extends sfActions
     $this->user = $this->getUser()->getUsername();
     $this->forward404Unless($request->isMethod(sfRequest::POST));
     $this->gesseh_stage = Doctrine::getTable('GessehStage')->getStageUniqueEtudiant($request->getParameter('idstage'));
-    $this->gesseh_criteres = Doctrine::getTable('GessehCritere')->getCriteres($this->gesseh_stage->getGessehTerrain()->getFormId());
+    $this->gesseh_criteres = Doctrine::getTable('GessehCritere')->getCriteres($this->gesseh_stage->getForm());
     foreach($this->gesseh_criteres as $critere)
     {
       $form_tmp = new GessehEvalForm();

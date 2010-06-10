@@ -14,7 +14,7 @@ default:
 
   stylesheets:    [main.css]
 
-  javascripts:    []
+  javascripts:    [google_analytics.js]
 
   has_layout:     true
   layout:         layout
