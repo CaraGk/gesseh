@@ -14,7 +14,9 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
+      list:    
+        title: Listing des critères de formulaires
+        display: [=form, =titre, type, ratio]
       filter:  ~
       form:    ~
       edit:    ~
