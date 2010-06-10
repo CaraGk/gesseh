@@ -70,7 +70,7 @@ gesseh_terrain:
 # default rules
 homepage:
   url:   /
-  param: { module: gestion, action: index }
+  param: { module: admStage, action: index }
 
 # generic rules
 # please, remove them by adding more specific rules
