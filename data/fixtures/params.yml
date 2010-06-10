@@ -1,0 +1,70 @@
+csSetting:
+  nomsite:
+    name: Titre du site
+    type: input
+    setting_default: 'Site de démonstration'
+  urlsite:
+    name: BaseURL
+    type: input
+  email:
+    name: Email
+    type: input
+  emailnom:
+    name: Email Nom
+    type: input
+    setting_default: Administration GESSEH
+  emailprefix:
+    name: Email Prefixe
+    type: input
+    setting_default: gesseh
+  colstagedebut:
+    name: ExcelRowNumber Stage Debut
+    type: input
+#    group: ExcelRowNumber
+    setting_default: '1'
+  colstagefin:
+    name: ExcelRowNumber Stage Fin
+    type: input
+#    group: ExcelRowNumber
+    setting_default: '2'
+  colstagenom:
+    name: ExcelRowNumber Stage Nom
+    type: input
+#    group: ExcelRowNumber
+    setting_default: '3'
+  colstageprenom:
+    name: ExcelRowNumber Stage Prenom
+    type: input
+#    group: ExcelRowNumber
+    setting_default: '4'
+  colstagefiliere:
+    name: ExcelRowNumber Stage Filiere
+    type: input
+#    group: ExcelRowNumber
+    setting_default: '5'
+  colstagehopital:
+    name: ExcelRowNumber Stage Hopital
+    type: input
+#    group: ExcelRowNumber
+    setting_default: '6'
+  colstagepatron:
+    name: ExcelRowNumber Stage Patron
+    type: input
+#    group: ExcelRowNumber
+    setting_default: '7'
+  colpromoid:
+    name: ExcelRowNumber Promo Identifiant
+    type: input
+#    group: ExcelRowNumber
+    setting_default: '1'
+  colpromonom:
+    name: ExcelRowNumber Promo Nom
+    type: input
+#    group: ExcelRowNumber
+    setting_default: '2'
+  colpromoprenom:
+    name: ExcelRowNumber Promo Prenom
+    type: input
+#    group: ExcelRowNumber
+    setting_default: '3'
+
