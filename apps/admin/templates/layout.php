@@ -17,23 +17,14 @@
 	  <?php if ($sf_user->isAuthenticated()): ?>
 	  <div id="menu">
 	    <ul>
-	      <li>Administration basique :</li>
-	      <li><a href="<?php echo url_for('gestion/index'); ?>">Evaluations non rendues</a></li>
-	      <li><a href="<?php echo url_for('gestion/new'); ?>">Changement d'année</a></li>
-	      <li><a href="<?php echo url_for('gestion/import'); ?>">Import des stages</a></li>
-	      <li><a href="<?php echo url_for('gestion/comments'); ?>">Modérer les commentaires</a></li>
-	      <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
-	    </ul>
-	    <ul>
-	      <li>Administration avancée :</li>
+	      <li>Administration : </li>
 	      <li><a href="<?php echo url_for('csSetting/index'); ?>">Paramètres</a></li>
-	      <li><a href="<?php echo url_for('admEtudiant/index'); ?>">Etudiants</a></li>
-	      <li><a href="<?php echo url_for('admCritere/index'); ?>">Critères d'évaluation</a></li>
+	      <li><a href="<?php echo url_for('evaluation/index'); ?>">Evaluations</a></li>
+	      <li><a href="<?php echo url_for('stage/index'); ?>">Stages</a></li>
+	      <li><a href="<?php echo url_for('etudiant/index'); ?>">Etudiants</a></li>
 	      <li><a href="<?php echo url_for('admTerrain/index'); ?>">Terrains de stage</a></li>
-	      <li><a href="<?php echo url_for('admPeriode/index'); ?>">Périodes de stage</a></li>
-	      <li><a href="<?php echo url_for('admEval/index'); ?>">Evaluations</a></li>
-	      <li><a href="<?php echo url_for('admStage/index'); ?>">Attributions de stage</a></li>
 	      <li><?php echo link_to('Identifiants', 'sf_guard_user'); ?></li>
+	      <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
 	    </ul>
 	  </div>
 	  <?php endif; ?>
