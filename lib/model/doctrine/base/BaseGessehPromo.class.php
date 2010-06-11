@@ -7,17 +7,14 @@
  * 
  * @property string $titre
  * @property integer $ordre
- * @property Doctrine_Collection $GessehTerrainRule
  * @property Doctrine_Collection $GessehEtudiant
  * 
- * @method string              getTitre()             Returns the current record's "titre" value
- * @method integer             getOrdre()             Returns the current record's "ordre" value
- * @method Doctrine_Collection getGessehTerrainRule() Returns the current record's "GessehTerrainRule" collection
- * @method Doctrine_Collection getGessehEtudiant()    Returns the current record's "GessehEtudiant" collection
- * @method GessehPromo         setTitre()             Sets the current record's "titre" value
- * @method GessehPromo         setOrdre()             Sets the current record's "ordre" value
- * @method GessehPromo         setGessehTerrainRule() Sets the current record's "GessehTerrainRule" collection
- * @method GessehPromo         setGessehEtudiant()    Sets the current record's "GessehEtudiant" collection
+ * @method string              getTitre()          Returns the current record's "titre" value
+ * @method integer             getOrdre()          Returns the current record's "ordre" value
+ * @method Doctrine_Collection getGessehEtudiant() Returns the current record's "GessehEtudiant" collection
+ * @method GessehPromo         setTitre()          Sets the current record's "titre" value
+ * @method GessehPromo         setOrdre()          Sets the current record's "ordre" value
+ * @method GessehPromo         setGessehEtudiant() Sets the current record's "GessehEtudiant" collection
  * 
  * @package    gesseh
  * @subpackage model
@@ -44,10 +41,6 @@ abstract class BaseGessehPromo extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('GessehTerrainRule', array(
-             'local' => 'id',
-             'foreign' => 'promo'));
-
         $this->hasMany('GessehEtudiant', array(
              'local' => 'id',
              'foreign' => 'promo_id'));

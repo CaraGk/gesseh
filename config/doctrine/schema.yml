@@ -20,16 +20,16 @@ GessehTerrain:
   relations:
     GessehHopital: { onDelete: CASCADE, local: hopital_id, foreign: id }
 
-GessehTerrainRule:
-  actAs: { Timestampable: ~ }
-  columns:
-    terrain: { type: integer, notnull: true }
-    promo: { type: integer, notnull: true }
-    form: { type: integer, notnull: true }
-  relations:
-    GessehTerrain: { local: terrain, foreign: id }
-    GessehPromo:  { local: promo, foreign: id }
-    GessehCritere: { local: form, foreign: form }
+#GessehTerrainRule:
+#  actAs: { Timestampable: ~ }
+#  columns:
+#    terrain: { type: integer, notnull: true }
+#    promo: { type: integer, notnull: true }
+#    form: { type: integer, notnull: true }
+#  relations:
+#    GessehTerrain: { local: terrain, foreign: id }
+#    GessehPromo:  { local: promo, foreign: id }
+#    GessehCritere: { local: form, foreign: form }
 
 GessehEtudiant:
   actAs: { Timestampable: ~ }

@@ -13,7 +13,7 @@ class GessehEtudiantTable extends Doctrine_Table
     {
       $rootAlias = $q->getRootAlias();
       $q->leftjoin($rootAlias.'.GessehPromo c')
-        ->where('c.titre != ?', 'Hors Promo')
+        ->where('c.ordre < ?', '6')
 	->orderBy('c.ordre asc, '.$rootAlias.'.nom asc, '.$rootAlias.'.prenom asc');
 
       return $q;

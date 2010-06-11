@@ -14,7 +14,6 @@
  * @property string $astreintes_horaires
  * @property boolean $is_active
  * @property GessehHopital $GessehHopital
- * @property Doctrine_Collection $GessehTerrainRule
  * @property Doctrine_Collection $GessehStage
  * 
  * @method integer             getHopitalId()           Returns the current record's "hopital_id" value
@@ -26,7 +25,6 @@
  * @method string              getAstreintesHoraires()  Returns the current record's "astreintes_horaires" value
  * @method boolean             getIsActive()            Returns the current record's "is_active" value
  * @method GessehHopital       getGessehHopital()       Returns the current record's "GessehHopital" value
- * @method Doctrine_Collection getGessehTerrainRule()   Returns the current record's "GessehTerrainRule" collection
  * @method Doctrine_Collection getGessehStage()         Returns the current record's "GessehStage" collection
  * @method GessehTerrain       setHopitalId()           Sets the current record's "hopital_id" value
  * @method GessehTerrain       setFiliere()             Sets the current record's "filiere" value
@@ -37,7 +35,6 @@
  * @method GessehTerrain       setAstreintesHoraires()  Sets the current record's "astreintes_horaires" value
  * @method GessehTerrain       setIsActive()            Sets the current record's "is_active" value
  * @method GessehTerrain       setGessehHopital()       Sets the current record's "GessehHopital" value
- * @method GessehTerrain       setGessehTerrainRule()   Sets the current record's "GessehTerrainRule" collection
  * @method GessehTerrain       setGessehStage()         Sets the current record's "GessehStage" collection
  * 
  * @package    gesseh
@@ -98,10 +95,6 @@ abstract class BaseGessehTerrain extends sfDoctrineRecord
              'local' => 'hopital_id',
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
-
-        $this->hasMany('GessehTerrainRule', array(
-             'local' => 'id',
-             'foreign' => 'terrain'));
 
         $this->hasMany('GessehStage', array(
              'local' => 'id',
