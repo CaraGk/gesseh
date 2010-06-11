@@ -9,6 +9,16 @@ class GessehEtudiantTable extends Doctrine_Table
         return Doctrine_Core::getTable('GessehEtudiant');
     }
 
+    public function retrieveActiveEtudiant(Doctrine_Query $q)
+    {
+      $rootAlias = $q->getRootAlias();
+      $q->leftjoin($rootAlias.'.GessehPromo c')
+        ->where('c.titre != ?', 'Hors Promo')
+	->orderBy('c.ordre asc, '.$rootAlias.'.nom asc, '.$rootAlias.'.prenom asc');
+
+      return $q;
+    }
+    
     public function validTokenMail($user, $mailtmp)
     {
       $q = Doctrine_Query::create()

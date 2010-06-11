@@ -35,8 +35,9 @@ generator:
         batch_actions: {}
         object_actions:
           _edit: ~
+        table_method: retrieveActiveEtudiant
       filter:
-        display: [promo_id]
+        display: [promo_id, nom]
       form:
         display: [id, nom, prenom, promo_id, email]
       edit:
