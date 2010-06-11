@@ -1,3 +1,21 @@
+gesseh_form_eval:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                GessehFormEval
+    module:               admFormEval
+    prefix_path:          /admFormEval
+    column:               id
+    with_wildcard_routes: true
+
+gesseh_hopital:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                GessehHopital
+    module:               admHopital
+    prefix_path:          /admHopital
+    column:               id
+    with_wildcard_routes: true
+
 gesseh_critere:
   class: sfDoctrineRouteCollection
   options:
