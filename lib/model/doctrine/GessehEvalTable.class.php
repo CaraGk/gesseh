@@ -70,18 +70,17 @@ class GessehEvalTable extends Doctrine_Table
       return $q->execute();
     }
 
-    public function getAllComments()
+    public function retrieveComments(Doctrine_Query $q)
     {
-      $q = Doctrine_Query::create()
-        ->from('GessehEval a')
-	->leftjoin('a.GessehStage b')
-	->leftjoin('b.GessehPeriode c')
-	->leftjoin('a.GessehCritere d')
-	->leftjoin('b.GessehTerrain e')
+      $rootAlias = $q->getRootAlias();
+      $q->leftjoin($rootAlias.'.GessehStage c')
+	->leftjoin('c.GessehPeriode d')
+	->leftjoin($rootAlias.'.GessehCritere g')
+	->leftjoin('c.GessehTerrain e')
 	->leftjoin('e.GessehHopital f')
-	->where('d.type = ?', 'text')
-	->OrderBy('a.created_at desc');
+	->where('g.type = ?', 'text')
+	->orderBy($rootAlias.'.created_at desc');
       
-      return $q->execute();
+      return $q;
     }
 }

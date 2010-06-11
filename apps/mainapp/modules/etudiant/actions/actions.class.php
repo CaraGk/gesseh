@@ -29,14 +29,14 @@ class etudiantActions extends sfActions
     $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array('id' => $this->getUser()->getUsername())), sprintf('Utilisateur inconnu : (%s).', $this->getUser()->getUsername()));
     if(!$gesseh_etudiant->getTokenMail())
       $gesseh_etudiant->setTokenMail($gesseh_etudiant->getEmail());
-    $this->form = new GessehEtudiantForm($gesseh_etudiant);
+    $this->form = new GessehEtudiantMainappForm($gesseh_etudiant);
   }
 
   public function executeUpdate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
     $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array($this->getUser()->getUsername())), sprintf('Object gesseh_etudiant does not exist (%s).', $request->getParameter('id')));
-    $this->form = new GessehEtudiantForm($gesseh_etudiant);
+    $this->form = new GessehEtudiantMainappForm($gesseh_etudiant);
 
     $this->processForm($request, $this->form);
 

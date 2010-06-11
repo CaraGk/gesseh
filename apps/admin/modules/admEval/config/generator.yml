@@ -14,8 +14,21 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
-      filter:  ~
+      list:
+        title: Commentaires publiés
+        display: [GessehStage, GessehCritere, Valeur]
+        fields:
+          GessehStage: { label: Stage }
+          GessehCritere: { label: Critere }
+          valeur: { label: Commentaire }
+        table_method: retrieveComments
+        max_per_page: 50
+        actions: {}
+      filter:
+        class: false
       form:    ~
-      edit:    ~
-      new:     ~
+      edit:
+        display: [valeur]
+        fields:
+          valeur: { label: Commentaire }
+      new: {}

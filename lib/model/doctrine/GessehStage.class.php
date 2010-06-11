@@ -14,7 +14,7 @@ class GessehStage extends BaseGessehStage
 {
   public function __toString()
   {
-    return sprintf('%s %s : %s du %s au %s', $this->getGessehEtudiant()->getNom(), $this->getGessehEtudiant()->getPrenom(), $this->getGessehTerrain()->getFiliere(), $this->getGessehPeriode()->getDebut(), $this->getGessehPeriode()->getFin());
+    return sprintf('%s du %s au %s', $this->getGessehTerrain()->getFiliere(), $this->getGessehPeriode()->getDebut(), $this->getGessehPeriode()->getFin());
   }
 
 }
