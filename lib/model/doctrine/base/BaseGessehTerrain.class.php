@@ -39,7 +39,7 @@
  * 
  * @package    gesseh
  * @subpackage model
- * @author     Pierre-François 'Pilou' Angrand <tmp@angrand.fr>
+ * @author     Pierre-François Pilou Angrand <tmp@angrand.fr>
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
 abstract class BaseGessehTerrain extends sfDoctrineRecord
@@ -51,35 +51,35 @@ abstract class BaseGessehTerrain extends sfDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              ));
-        $this->hasColumn('filiere', 'string', 255, array(
+        $this->hasColumn('filiere', 'string', 100, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => 255,
+             'length' => 100,
              ));
-        $this->hasColumn('patron', 'string', 255, array(
+        $this->hasColumn('patron', 'string', 50, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => 255,
+             'length' => 50,
              ));
         $this->hasColumn('localisation', 'string', 255, array(
              'type' => 'string',
-             'notnull' => true,
+             'notnull' => false,
              'length' => 255,
              ));
-        $this->hasColumn('gardes_lieu', 'string', 255, array(
+        $this->hasColumn('gardes_lieu', 'string', 100, array(
              'type' => 'string',
-             'notnull' => true,
-             'length' => 255,
+             'notnull' => false,
+             'length' => 100,
              ));
-        $this->hasColumn('gardes_horaires', 'string', 255, array(
+        $this->hasColumn('gardes_horaires', 'string', 100, array(
              'type' => 'string',
-             'notnull' => true,
-             'length' => 255,
+             'notnull' => false,
+             'length' => 100,
              ));
-        $this->hasColumn('astreintes_horaires', 'string', 255, array(
+        $this->hasColumn('astreintes_horaires', 'string', 100, array(
              'type' => 'string',
-             'notnull' => true,
-             'length' => 255,
+             'notnull' => false,
+             'length' => 100,
              ));
         $this->hasColumn('is_active', 'boolean', null, array(
              'type' => 'boolean',
@@ -99,8 +99,5 @@ abstract class BaseGessehTerrain extends sfDoctrineRecord
         $this->hasMany('GessehStage', array(
              'local' => 'id',
              'foreign' => 'terrain_id'));
-
-        $timestampable0 = new Doctrine_Template_Timestampable();
-        $this->actAs($timestampable0);
     }
 }

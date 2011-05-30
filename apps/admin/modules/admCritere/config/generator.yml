@@ -13,11 +13,22 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        type: { label: Type, help: radio pour une valeur chiffrée et text pour un commentaire }
+        ratio: { label: Items, help: nombre de choix pour une valeur numérique }
       list:    
         title: Listing des critères de formulaires
-        display: [=form, =titre, type, ratio]
-      filter:  ~
+        display: [=GessehFormEval, =titre, type, ratio]
+        fields:
+          GessehFormEval: { label: Formulaire }
+        sort: [form, asc]
+        batch_actions: {}
+        object_actions:
+          _edit: ~
+      filter:
+        display: [form, titre, type]
       form:    ~
-      edit:    ~
-      new:     ~
+      edit:
+        title: Modifier %%titre%%
+      new:
+        title: Ajouter un critère d'évaluation à un formulaire

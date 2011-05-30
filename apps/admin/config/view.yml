@@ -6,10 +6,10 @@ default:
     content-type: text/html
 
   metas:
-    #title:        symfony project
-    #description:  symfony project
-    #keywords:     symfony, project
-    #language:     en
+    title:        Gesseh Administration
+    #description:  
+    ##keywords:     symfony, project
+    language:     fr
     #robots:       index, follow
 
   stylesheets:    [admin.css,global.css]

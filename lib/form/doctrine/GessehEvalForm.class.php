@@ -12,8 +12,7 @@ class GessehEvalForm extends BaseGessehEvalForm
 {
   public function configure()
   {
-//    $this->useFields(array('stage_id', 'critere_id', 'valeur'));
-    unset($this['created_at'], $this['updated_at']);
+    unset($this['created_at'], $this['updated_at'], $this['form_id'], $this['stage_id'], $this['critere_id']);
   }
   
   public function multiConfigure($form_type, $stage_id)

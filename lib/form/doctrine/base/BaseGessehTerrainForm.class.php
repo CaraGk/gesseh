@@ -7,7 +7,7 @@
  *
  * @package    gesseh
  * @subpackage form
- * @author     Pierre-François 'Pilou' Angrand <tmp@angrand.fr>
+ * @author     Pierre-François Pilou Angrand <tmp@angrand.fr>
  * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
  */
 abstract class BaseGessehTerrainForm extends BaseFormDoctrine
@@ -24,22 +24,18 @@ abstract class BaseGessehTerrainForm extends BaseFormDoctrine
       'gardes_horaires'     => new sfWidgetFormInputText(),
       'astreintes_horaires' => new sfWidgetFormInputText(),
       'is_active'           => new sfWidgetFormInputCheckbox(),
-      'created_at'          => new sfWidgetFormDateTime(),
-      'updated_at'          => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
       'id'                  => new sfValidatorDoctrineChoice(array('model' => $this->getModelName(), 'column' => 'id', 'required' => false)),
       'hopital_id'          => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('GessehHopital'))),
-      'filiere'             => new sfValidatorString(array('max_length' => 255)),
-      'patron'              => new sfValidatorString(array('max_length' => 255)),
-      'localisation'        => new sfValidatorString(array('max_length' => 255)),
-      'gardes_lieu'         => new sfValidatorString(array('max_length' => 255)),
-      'gardes_horaires'     => new sfValidatorString(array('max_length' => 255)),
-      'astreintes_horaires' => new sfValidatorString(array('max_length' => 255)),
+      'filiere'             => new sfValidatorString(array('max_length' => 100)),
+      'patron'              => new sfValidatorString(array('max_length' => 50)),
+      'localisation'        => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'gardes_lieu'         => new sfValidatorString(array('max_length' => 100, 'required' => false)),
+      'gardes_horaires'     => new sfValidatorString(array('max_length' => 100, 'required' => false)),
+      'astreintes_horaires' => new sfValidatorString(array('max_length' => 100, 'required' => false)),
       'is_active'           => new sfValidatorBoolean(array('required' => false)),
-      'created_at'          => new sfValidatorDateTime(),
-      'updated_at'          => new sfValidatorDateTime(),
     ));
 
     $this->widgetSchema->setNameFormat('gesseh_terrain[%s]');

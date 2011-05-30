@@ -14,8 +14,14 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
-      filter:  ~
+      list:
+        title: Liste des formulaires d'évaluation
+        display: [titre, updated_at]
+        batch_actions: {}
+      filter:
+        class: false
       form:    ~
-      edit:    ~
-      new:     ~
+      edit:
+        title: Modifier %%titre%%
+      new:
+        title: Nouveau formulaire d'évaluation

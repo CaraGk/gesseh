@@ -28,7 +28,7 @@ generator:
         class: false
       form:    ~
       edit:
-        display: [valeur]
+        title: Modération du commentaire
         fields:
           valeur: { label: Commentaire }
       new: {}

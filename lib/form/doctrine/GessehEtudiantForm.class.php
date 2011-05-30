@@ -18,6 +18,12 @@ class GessehEtudiantForm extends BaseGessehEtudiantForm
       $this->validatorSchema['email'],
       new sfValidatorEmail(),
     ));
+    
+    if($this->isNew())
+    {
+      $this->widgetSchema['id'] = new sfWidgetFormInput();
+      $this->embedForm('Identifiants', new sfGuardUserForm());
+    }
   }
 
 }

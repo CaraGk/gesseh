@@ -66,5 +66,35 @@ class GessehEtudiantTable extends Doctrine_Table
 
     public static function importFichier($fichier)
     {
+      $promo = Doctrine_query::create()
+        ->from('GessehPromo a')
+	->where('a.ordre = ?', '1')
+	->limit(1)
+	->fetchOne();
+
+      $data = new sfExcelReader($fichier);
+
+//      echo $data->dump(true, true);
+      for($i = 1 ; $i <= $data->rowcount($sheet_index=0) ; $i++)
+      {
+        $etudiant = new GessehEtudiant();
+	$etudiant->setId($data->val($i, csSettings::get('excelrownumber_promo_identifiant')));
+	$etudiant->setNom($data->val($i, csSettings::get('excelrownumber_promo_nom')));
+	$etudiant->setPrenom($data->val($i, csSettings::get('excelrownumber_promo_prenom')));
+	$date = explode('/', $data->val($i, csSettings::get('excelrownumber_promo_naissance')));
+	$etudiant->setNaissance('19'.$date[2].'-'.$date[1].'-'.$date[0]);
+	$etudiant->setPromoId($promo->getId());
+	$etudiant->save();
+
+	$user = new sfGuardUser();
+	$user->setUsername($etudiant->getId());
+	$user->setPassword($date[0].$date[1].'19'.$date[2]);
+	$user->save();
+	$user->addGroupByName('etudiant');
+	$user->addPermissionByName('etudiant');
+      }
+
+      return $data->rowcount($sheet_index=0);
     }
+
 }

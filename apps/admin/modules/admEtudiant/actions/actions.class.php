@@ -39,12 +39,23 @@ class admEtudiantActions extends autoAdmEtudiantActions
 
   public function executeListImportNew()
   {
-    $this->redirect('admEtudiant/importcreate');
+    $this->form = new ImportForm();
+    $this->setTemplate('import');
   }
 
-  public function executeImportcreate()
+  public function executeImportcreate(sfWebRequest $request)
   {
-    $this->redirect('admEtudiant/index');
+    $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
+    $this->form = new ImportForm();
+    
+    $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+    if ($this->form->isValid())
+    {
+      $this->form->save('GessehEtudiant');
+      $this->redirect('admEtudiant/index');
+    }
+    
+    $this->setTemplate('import');
   }
 
 }

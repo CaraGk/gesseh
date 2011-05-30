@@ -2,13 +2,13 @@ all:
   doctrine:
     class: sfDoctrineDatabase
     param:
-      dsn: 'mysql:host=10.0.0.1;dbname=gesseh'
+      dsn: 'mysql:host=localhost;dbname=gesseh'
       username: gesseh
       password: cataract
 test:
   doctrine:
     class: sfDoctrineDatabase
     param:
-      dsn: 'mysql:host=10.0.0.1;dbname=gesseh_test'
+      dsn: 'mysql:host=localhost;dbname=gesseh_test'
       username: gesseh
       password: cataract

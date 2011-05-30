@@ -27,7 +27,7 @@
  * 
  * @package    gesseh
  * @subpackage model
- * @author     Pierre-François 'Pilou' Angrand <tmp@angrand.fr>
+ * @author     Pierre-François Pilou Angrand <tmp@angrand.fr>
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
 abstract class BaseGessehCritere extends sfDoctrineRecord
@@ -39,15 +39,15 @@ abstract class BaseGessehCritere extends sfDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              ));
-        $this->hasColumn('titre', 'string', 255, array(
+        $this->hasColumn('titre', 'string', 100, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => 255,
+             'length' => 100,
              ));
-        $this->hasColumn('type', 'string', 255, array(
+        $this->hasColumn('type', 'string', 10, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => 255,
+             'length' => 10,
              ));
         $this->hasColumn('ratio', 'integer', null, array(
              'type' => 'integer',

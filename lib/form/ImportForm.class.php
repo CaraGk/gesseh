@@ -17,8 +17,9 @@ class ImportForm extends sfForm
       'fichier' => new sfWidgetFormInputFile(),
       ));
     $this->setValidators(array(
-      'fichier' => new sfValidatorFile(),
-      ));
+      'fichier' => new sfValidatorFile(array(
+        'mime_types' => array('application/vnd.ms-excel', 'application/octet-stream')
+    ))));
    
     $this->widgetSchema->setNameFormat('import[%s]');
   }
@@ -27,7 +28,7 @@ class ImportForm extends sfForm
   {
 //    if (file_exists($this->getObject()->getFile()))
 //      unlink($this->getObject()->getFile());
-print_r($this->getValues()).print_r($this->getTaintedValues()).print_r($this->isBound());
+
     $file = $this->getValue('fichier');
     echo $file;
     $filename = sha1($file->getOriginalName()).$file->getExtension($file->getOriginalExtension());

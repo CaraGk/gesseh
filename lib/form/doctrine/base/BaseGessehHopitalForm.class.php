@@ -7,7 +7,7 @@
  *
  * @package    gesseh
  * @subpackage form
- * @author     Pierre-François 'Pilou' Angrand <tmp@angrand.fr>
+ * @author     Pierre-François Pilou Angrand <tmp@angrand.fr>
  * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
  */
 abstract class BaseGessehHopitalForm extends BaseFormDoctrine
@@ -15,23 +15,19 @@ abstract class BaseGessehHopitalForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'         => new sfWidgetFormInputHidden(),
-      'nom'        => new sfWidgetFormInputText(),
-      'adresse'    => new sfWidgetFormInputText(),
-      'telephone'  => new sfWidgetFormInputText(),
-      'web'        => new sfWidgetFormInputText(),
-      'created_at' => new sfWidgetFormDateTime(),
-      'updated_at' => new sfWidgetFormDateTime(),
+      'id'        => new sfWidgetFormInputHidden(),
+      'nom'       => new sfWidgetFormInputText(),
+      'adresse'   => new sfWidgetFormInputText(),
+      'telephone' => new sfWidgetFormInputText(),
+      'web'       => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'id'         => new sfValidatorDoctrineChoice(array('model' => $this->getModelName(), 'column' => 'id', 'required' => false)),
-      'nom'        => new sfValidatorString(array('max_length' => 255)),
-      'adresse'    => new sfValidatorString(array('max_length' => 255)),
-      'telephone'  => new sfValidatorString(array('max_length' => 255, 'required' => false)),
-      'web'        => new sfValidatorString(array('max_length' => 255, 'required' => false)),
-      'created_at' => new sfValidatorDateTime(),
-      'updated_at' => new sfValidatorDateTime(),
+      'id'        => new sfValidatorDoctrineChoice(array('model' => $this->getModelName(), 'column' => 'id', 'required' => false)),
+      'nom'       => new sfValidatorString(array('max_length' => 100)),
+      'adresse'   => new sfValidatorString(array('max_length' => 255)),
+      'telephone' => new sfValidatorString(array('max_length' => 14, 'required' => false)),
+      'web'       => new sfValidatorString(array('max_length' => 255, 'required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(

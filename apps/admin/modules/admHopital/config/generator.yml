@@ -13,9 +13,20 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
-      list:    ~
-      filter:  ~
+      fields:
+        telephone: { label: Téléphone }
+        web: { label: Site web }
+      list:
+        title: Liste des hôpitaux
+        display: [nom, adresse, telephone, web]
+        sort: [nom, asc]
+        batch_actions: {}
+      filter:
+        class: false
       form:    ~
-      edit:    ~
-      new:     ~
+      edit:
+        title: Editer %%nom%%
+        display: [nom, adresse, telephone, web]
+      new:
+        title: Nouvel hôpital
+        display: [nom, adresse, telephone, web]

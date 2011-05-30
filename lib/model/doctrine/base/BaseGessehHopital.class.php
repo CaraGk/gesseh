@@ -24,7 +24,7 @@
  * 
  * @package    gesseh
  * @subpackage model
- * @author     Pierre-François 'Pilou' Angrand <tmp@angrand.fr>
+ * @author     Pierre-François Pilou Angrand <tmp@angrand.fr>
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
 abstract class BaseGessehHopital extends sfDoctrineRecord
@@ -32,20 +32,20 @@ abstract class BaseGessehHopital extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('gesseh_hopital');
-        $this->hasColumn('nom', 'string', 255, array(
+        $this->hasColumn('nom', 'string', 100, array(
              'type' => 'string',
              'notnull' => true,
              'unique' => true,
-             'length' => 255,
+             'length' => 100,
              ));
         $this->hasColumn('adresse', 'string', 255, array(
              'type' => 'string',
              'notnull' => true,
              'length' => 255,
              ));
-        $this->hasColumn('telephone', 'string', 255, array(
+        $this->hasColumn('telephone', 'string', 14, array(
              'type' => 'string',
-             'length' => 255,
+             'length' => 14,
              ));
         $this->hasColumn('web', 'string', 255, array(
              'type' => 'string',
@@ -59,8 +59,5 @@ abstract class BaseGessehHopital extends sfDoctrineRecord
         $this->hasMany('GessehTerrain', array(
              'local' => 'id',
              'foreign' => 'hopital_id'));
-
-        $timestampable0 = new Doctrine_Template_Timestampable();
-        $this->actAs($timestampable0);
     }
 }

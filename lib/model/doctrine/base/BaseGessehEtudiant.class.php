@@ -12,6 +12,7 @@
  * @property string $email
  * @property string $token_mail
  * @property string $tel
+ * @property date $naissance
  * @property GessehPromo $GessehPromo
  * @property sfGuardUser $sfGuardUser
  * @property Doctrine_Collection $GessehStage
@@ -23,6 +24,7 @@
  * @method string              getEmail()       Returns the current record's "email" value
  * @method string              getTokenMail()   Returns the current record's "token_mail" value
  * @method string              getTel()         Returns the current record's "tel" value
+ * @method date                getNaissance()   Returns the current record's "naissance" value
  * @method GessehPromo         getGessehPromo() Returns the current record's "GessehPromo" value
  * @method sfGuardUser         getSfGuardUser() Returns the current record's "sfGuardUser" value
  * @method Doctrine_Collection getGessehStage() Returns the current record's "GessehStage" collection
@@ -33,13 +35,14 @@
  * @method GessehEtudiant      setEmail()       Sets the current record's "email" value
  * @method GessehEtudiant      setTokenMail()   Sets the current record's "token_mail" value
  * @method GessehEtudiant      setTel()         Sets the current record's "tel" value
+ * @method GessehEtudiant      setNaissance()   Sets the current record's "naissance" value
  * @method GessehEtudiant      setGessehPromo() Sets the current record's "GessehPromo" value
  * @method GessehEtudiant      setSfGuardUser() Sets the current record's "sfGuardUser" value
  * @method GessehEtudiant      setGessehStage() Sets the current record's "GessehStage" collection
  * 
  * @package    gesseh
  * @subpackage model
- * @author     Pierre-François 'Pilou' Angrand <tmp@angrand.fr>
+ * @author     Pierre-François Pilou Angrand <tmp@angrand.fr>
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
 abstract class BaseGessehEtudiant extends sfDoctrineRecord
@@ -50,35 +53,40 @@ abstract class BaseGessehEtudiant extends sfDoctrineRecord
         $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'primary' => true,
+             'autoincrement' => false,
              ));
-        $this->hasColumn('nom', 'string', 255, array(
+        $this->hasColumn('nom', 'string', 50, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => 255,
+             'length' => 50,
              ));
-        $this->hasColumn('prenom', 'string', 255, array(
+        $this->hasColumn('prenom', 'string', 50, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => 255,
+             'length' => 50,
              ));
         $this->hasColumn('promo_id', 'integer', null, array(
              'type' => 'integer',
              'notnull' => true,
              ));
-        $this->hasColumn('email', 'string', 255, array(
+        $this->hasColumn('email', 'string', 50, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => 255,
+             'length' => 50,
              ));
-        $this->hasColumn('token_mail', 'string', 255, array(
+        $this->hasColumn('token_mail', 'string', 50, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => 255,
+             'length' => 50,
              ));
         $this->hasColumn('tel', 'string', 14, array(
              'type' => 'string',
              'notnull' => false,
              'length' => 14,
+             ));
+        $this->hasColumn('naissance', 'date', null, array(
+             'type' => 'date',
+             'notnull' => true,
              ));
     }
 

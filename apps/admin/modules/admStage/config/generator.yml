@@ -35,8 +35,7 @@ generator:
         sort: [is_active, desc]
       filter:
         display: [periode_id, terrain_id, etudiant_id, form, is_active]
-      form:
-        display: [periode_id, terrain_id, etudiant_id, form]
+      form: ~
       edit:
         title: Edition du stage
       new:

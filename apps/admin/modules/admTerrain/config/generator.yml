@@ -13,7 +13,11 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        patron: { label: Chef de service }
+        filiere: { label: Filière, help: Nom du service ou de l\'unité }
+        is_active: { label: Actif?, help: Service utilisé dans la répartition des stages ? }
+        hopital: { label: Hôpital }
       list:    
         title: Terrains de stages
 #        layout: stacked
@@ -23,14 +27,17 @@ generator:
 #          <small><em>%%localisation%%</em></small>
 #          <small>Gardes %%gardes_lieu%% (%%gardes_horaires%%)</small>
 #          <small>Astreintes %%astreintes_horaires%%</small>
+        fields:
+          gesseh_hopital: { label: Hôpital }
         object_actions:
-          edit: ~
+          _edit: ~
         batch_actions: {}
-        sort: [gesseh_hopital, asc]
+        sort: [hopital_id, asc]
       filter:
         display: [hopital_id, filiere, patron, is_active]
       form:
-        display: display: [hopital_id, filiere, patron, is_active, localisation, gardes_lieu, gardes_horaires, astreintes_horaires]
+#        display: display: [hopital_id, filiere, patron, is_active, localisation, gardes_lieu, gardes_horaires, astreintes_horaires]
       edit:
-        title: Terrain : %%filiere%% (%%patron%%)
-      new:     ~
+        title: Modification de %%filiere%% (%%patron%%)
+      new:
+        title: Nouveau terrain de stage

@@ -7,7 +7,7 @@
  *
  * @package    gesseh
  * @subpackage form
- * @author     Pierre-François 'Pilou' Angrand <tmp@angrand.fr>
+ * @author     Pierre-François Pilou Angrand <tmp@angrand.fr>
  * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
  */
 abstract class BaseGessehEtudiantForm extends BaseFormDoctrine
@@ -22,18 +22,20 @@ abstract class BaseGessehEtudiantForm extends BaseFormDoctrine
       'email'      => new sfWidgetFormInputText(),
       'token_mail' => new sfWidgetFormInputText(),
       'tel'        => new sfWidgetFormInputText(),
+      'naissance'  => new sfWidgetFormDate(),
       'created_at' => new sfWidgetFormDateTime(),
       'updated_at' => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
       'id'         => new sfValidatorDoctrineChoice(array('model' => $this->getModelName(), 'column' => 'id', 'required' => false)),
-      'nom'        => new sfValidatorString(array('max_length' => 255)),
-      'prenom'     => new sfValidatorString(array('max_length' => 255)),
+      'nom'        => new sfValidatorString(array('max_length' => 50)),
+      'prenom'     => new sfValidatorString(array('max_length' => 50)),
       'promo_id'   => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('GessehPromo'))),
-      'email'      => new sfValidatorString(array('max_length' => 255)),
-      'token_mail' => new sfValidatorString(array('max_length' => 255)),
+      'email'      => new sfValidatorString(array('max_length' => 50)),
+      'token_mail' => new sfValidatorString(array('max_length' => 50)),
       'tel'        => new sfValidatorString(array('max_length' => 14, 'required' => false)),
+      'naissance'  => new sfValidatorDate(),
       'created_at' => new sfValidatorDateTime(),
       'updated_at' => new sfValidatorDateTime(),
     ));

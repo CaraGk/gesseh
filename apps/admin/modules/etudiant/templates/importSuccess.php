@@ -1,12 +1,6 @@
-<?php include_partial('menu') ?>
-<?php include_partial('flash') ?>
+<div class="content">Le fichier doit être au format Ms/Excel (.xls). Veillez à bien vérifier que les colonnes définies dans <a href="<?php echo url_for('csSetting/index') ?>">Paranètres</a> correspondent bien à votre fichier.</div>
 
-<h1>Importer la liste des étudiants de la nouvelle promotion</h1>
-
-<div class="content">Ce module va importer une nouvelle promotion d'étudiants. Le fichier doit être au format Ms/Excel (.xls).<br />
-Veillez à bien vérifier que les colonnes définies dans <a href="<?php echo url_for('csSetting/index') ?>">Paranètres</a> correspondent bien à votre fichier.</div>
-
-<form action="<?php echo url_for('gestion/importcreate') ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
+<form action="<?php echo url_for('admEtudiant/importcreate') ?>" method="post" enctype="multipart/form-data">
 <table>
   <tfoot>
     <tr>

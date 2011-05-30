@@ -19,9 +19,11 @@ generator:
         prenom: { label: Prénom }
         promo_id: { label: Promotion }
         email: { label: E-mail }
+        tel: { label: Téléphone }
+        naissance: { label: Date de naissance }
       list:
         title: Liste des étudiants
-        display: [=id, nom, prenom, gesseh_promo, email, tel]
+        display: [=id, nom, prenom, gesseh_promo, email, tel, naissance]
         fields:
           id: { label: N°étudiant }
           gesseh_promo: { label: Promotion }
@@ -39,7 +41,6 @@ generator:
       filter:
         display: [promo_id, nom]
       form:
-        display: [id, nom, prenom, promo_id, email]
       edit:
         title: Editer %%nom%% %%prenom%%
       new:
