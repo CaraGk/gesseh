@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage task
  * @author     Hugo Hamon <hugo.hamon@sensio.com>
- * @version    SVN: $Id: sfGuardChangePasswordTask.class.php 23319 2009-10-25 12:22:23Z Kris.Wallsmith $
+ * @version    SVN: $Id: sfGuardChangePasswordTask.class.php 25546 2009-12-17 23:27:55Z Jonathan.Wage $
  */
 class sfGuardChangePasswordTask extends sfBaseTask
 {
@@ -55,7 +55,7 @@ EOF;
   {
     $databaseManager = new sfDatabaseManager($this->configuration);
 
-    $user = Doctrine::getTable('sfGuardUser')->findOneByUsername($arguments['username']);
+    $user = Doctrine_Core::getTable('sfGuardUser')->findOneByUsername($arguments['username']);
 
     if (!$user)
     {

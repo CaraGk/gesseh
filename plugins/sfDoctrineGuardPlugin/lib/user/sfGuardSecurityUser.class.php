@@ -13,7 +13,7 @@
  * @package    symfony
  * @subpackage plugin
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfGuardSecurityUser.class.php 23319 2009-10-25 12:22:23Z Kris.Wallsmith $
+ * @version    SVN: $Id: sfGuardSecurityUser.class.php 30264 2010-07-16 16:59:21Z Jonathan.Wage $
  */
 class sfGuardSecurityUser extends sfBasicSecurityUser
 {
@@ -137,13 +137,13 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
       $expiration_age = sfConfig::get('app_sf_guard_plugin_remember_key_expiration_age', 15 * 24 * 3600);
 
       // remove old keys
-      Doctrine::getTable('sfGuardRememberKey')->createQuery()
+      Doctrine_Core::getTable('sfGuardRememberKey')->createQuery()
         ->delete()
         ->where('created_at < ?', date('Y-m-d H:i:s', time() - $expiration_age))
         ->execute();
 
       // remove other keys from this user
-      Doctrine::getTable('sfGuardRememberKey')->createQuery()
+      Doctrine_Core::getTable('sfGuardRememberKey')->createQuery()
         ->delete()
         ->where('user_id = ?', $user->getId())
         ->execute();
@@ -154,7 +154,7 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
       // save key
       $rk = new sfGuardRememberKey();
       $rk->setRememberKey($key);
-      $rk->setsfGuardUser($user);
+      $rk->setUser($user);
       $rk->setIpAddress($_SERVER['REMOTE_ADDR']);
       $rk->save($con);
 
@@ -172,14 +172,7 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
    */
   protected function generateRandomKey($len = 20)
   {
-    $string = '';
-    $pool   = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    for ($i = 1; $i <= $len; $i++)
-    {
-      $string .= substr($pool, rand(0, 61), 1);
-    }
-
-    return md5($string);
+    return base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
   }
 
   /**
@@ -206,7 +199,7 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
   {
     if (!$this->user && $id = $this->getAttribute('user_id', null, 'sfGuardSecurityUser'))
     {
-      $this->user = Doctrine::getTable('sfGuardUser')->find($id);
+      $this->user = Doctrine_Core::getTable('sfGuardUser')->find($id);
 
       if (!$this->user)
       {
@@ -238,6 +231,16 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
   public function getUsername()
   {
     return $this->getGuardUser()->getUsername();
+  }
+
+  /**
+   * Returns the name(first and last) of the user
+   *
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->getGuardUser()->getName();
   }
 
   /**
