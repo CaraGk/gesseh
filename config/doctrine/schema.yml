@@ -1,55 +1,73 @@
 GessehHopital:
-  actAs: { Timestampable: ~ }
+  actAs: {}
   columns:
-    nom: { type: string(255), notnull: true, unique: true }
+    nom: { type: string(100), notnull: true, unique: true }
     adresse: { type: string(255), notnull: true }
-    telephone: { type: string(255) }
+    telephone: { type: string(14) }
     web: { type: string(255) }
 
 GessehTerrain:
-  actAs: { Timestampable: ~ }    
+  actAs: {}
   columns:
     hopital_id: { type: integer, notnull: true }
-    filiere: { type: string(255), notnull: true }
-    patron: { type: string(255), notnull: true }
-    localisation: { type: string(255), notnull: true}
-    gardes_lieu: { type: string(255), notnull: true}
-    gardes_horaires: { type: string(255), notnull: true}
-    astreintes_horaires: { type: string(255), notnull: true}
+    titre: { type: string(100), notnull: true }
+    filiere: { type: integer, notnull: true }
+    patron: { type: string(50), notnull: true }
+    localisation: { type: string(255), notnull: false }
+    gardes_lieu: { type: string(100), notnull: false }
+    gardes_horaires: { type: string(100), notnull: false }
+    astreintes_horaires: { type: string(100), notnull: false }
+    total: { type: integer(3), notnull: true }
+    page: { type: integer, notnull: false }
     is_active: { type: boolean, notnull: true, default: 1 }
   relations:
     GessehHopital: { onDelete: CASCADE, local: hopital_id, foreign: id }
+    GessehFiliere: { local: filiere, foreign: id }
+    GessehPage: { local: page, foreign: id }
 
-#GessehTerrainRule:
-#  actAs: { Timestampable: ~ }
-#  columns:
-#    terrain: { type: integer, notnull: true }
-#    promo: { type: integer, notnull: true }
-#    form: { type: integer, notnull: true }
-#  relations:
-#    GessehTerrain: { local: terrain, foreign: id }
-#    GessehPromo:  { local: promo, foreign: id }
-#    GessehCritere: { local: form, foreign: form }
+GessehPage:
+  actAs:
+    Timestampable:
+      created: { format: Y-m-d }
+      updated: { format: Y-m-d }
+    columns:
+      contenu: { type: blob, notnull: false }
+
+GessehFiliere:
+  actAs: {}
+  columns:
+    titre: { type: string(100), notnull: true }
+    form: { type: integer, notnull: false }
+  relations:
+    GessehFormEval: { local: form, foreign: id }
 
 GessehEtudiant:
-  actAs: { Timestampable: ~ }
+  actAs: 
+    Timestampable:
+      created: { disabled: true }
+      updated: { format: Y-m-d }
   columns:
-    id: { type: integer, notnull: true, primary: true }
-    nom: { type: string(255), notnull: true}
-    prenom: { type: string(255), notnull: true }
+    nom: { type: string(50), notnull: true}
+    prenom: { type: string(50), notnull: true }
     promo_id: { type: integer, notnull: true }
-    email: { type: string(255), notnull: true }
-    token_mail: { type: string(255), notnull: true }
+    classement: { type: integer, notnull: true }
+    email: { type: string(50), notnull: true }
+    token_mail: { type: string(50), notnull: true }
     tel: { type: string(14), notnull: false }
+    naissance: { type: date, notnull: true }
+    utilisateur: { type: integer, notnull: true }
   relations:
     GessehPromo:  { onDelete: CASCADE, local: promo_id, foreign: id }
-    sfGuardUser: { local: id, foreign: username }
+    sfGuardUser: { onDelete: CASCADE, local: utilisateur, type: one, foreign: id }
 
 GessehPromo:
-  actAs: { }
+  actAs: {}
   columns:
-    titre: { type: string(255), notnull: true }
+    titre: { type: string(100), notnull: true }
     ordre: { type: integer(2), notnull: true }
+    form: { type: integer, notnull: false }
+  relations:
+    GessehFormEval: { local: form, foreign: id }
 
 GessehStage:
   actAs: { Timestampable: ~ }
@@ -66,22 +84,23 @@ GessehStage:
     GessehFormEval: { local: form, foreign: id }
 
 GessehPeriode:
-  actAs: { }
+  actAs: {}
   columns:
+    titre: { type: string(20), notnull: true }
     debut: { type: date, notnull: true }
     fin: { type: date, notnull: true }
 
 GessehFormEval:
   actAs: { Timestampable: ~ }
   columns:
-    titre: { type: string(255), notnull: true }
+    titre: { type: string(100), notnull: true }
 
 GessehCritere:
   actAs: { Timestampable: ~ }
   columns:
     form: { type: integer, notnull: true }
-    titre: { type: string(255), notnull: true }
-    type: { type: string(255), notnull: true }
+    titre: { type: string(100), notnull: true }
+    type: { type: string(10), notnull: true }
     ratio: { type: integer }
   relations:
     GessehFormEval:  { onDelete: CASCADE, local: form, foreign: id }
@@ -96,3 +115,36 @@ GessehEval:
   relations:
     GessehStage:  { onDelete: CASCADE, local: stage_id, foreign: id }
     GessehCritere:  { onDelete: CASCADE, local: critere_id, foreign: id }
+
+GessehChoix:
+  actAs:
+    Timestampable: ~
+  columns:
+    etudiant: { type: integer, notnull: true }
+    poste: { type: integer, notnull: true }
+    ordre: { type: integer(2), notnull: true }
+  relations:
+    GessehEtudiant: { onDelete: CASCADE, local: etudiant, foreign: id }
+    GessehTerrain: { onDelete: CASCADE, local: poste, foreign: id }
+
+GessehReferent:
+  columns:
+    utilisateur: { type: integer, notnull: true }
+    promo: { type: integer, notnull: true }
+    tel: { type: string(10), notnull: false }
+    divers: { type: string, notnull: false }
+  relations:
+    GessehPromo: { onDelete: CASCADE, local: promo, foreign: id }
+    sfGuardUser: { onDelete: CASCADE, local: utilisateur, foreign: id }
+
+CopisimSimulation:
+  columns:
+    etudiant: { type: integer, notnull: true }
+    poste: { type: integer, notnull: false }
+    reste: { type: integer(2), notnull: false }
+    absent: { type: boolean, notnull: true }
+  relations:
+    GessehEtudiant: { onDelete: CASCADE, local: etudiant, foreign: id }
+    GessehTerrain: { local: poste, foreign: id }
+
+
