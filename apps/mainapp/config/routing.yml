@@ -6,15 +6,15 @@ homepage:
   url:   /
   param: { module: terrain, action: index }
 
-stage_index_tri:
+terrain_index_tri:
   url: /tri/:tri1/:order1
   param: { module: terrain, action: index }
 
-#stage_index_tri2:
+#terrain_index_tri2:
 #  url: /tri/:tri1/:order1/:tri2/:order2
 #  param: { module: terrain, action: index }
 
-stage_show:
+terrain_show:
   url: /stage/:id
   param: { module: terrain, action: show }
   requirements:

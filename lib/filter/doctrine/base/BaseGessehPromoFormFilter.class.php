@@ -6,7 +6,7 @@
  * @package    gesseh
  * @subpackage filter
  * @author     Pierre-François Pilou Angrand <tmp@angrand.fr>
- * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
+ * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 29570 2010-05-21 14:49:47Z Kris.Wallsmith $
  */
 abstract class BaseGessehPromoFormFilter extends BaseFormFilterDoctrine
 {
@@ -15,11 +15,13 @@ abstract class BaseGessehPromoFormFilter extends BaseFormFilterDoctrine
     $this->setWidgets(array(
       'titre' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'ordre' => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'form'  => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('GessehFormEval'), 'add_empty' => true)),
     ));
 
     $this->setValidators(array(
       'titre' => new sfValidatorPass(array('required' => false)),
       'ordre' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'form'  => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('GessehFormEval'), 'column' => 'id')),
     ));
 
     $this->widgetSchema->setNameFormat('gesseh_promo_filters[%s]');
@@ -42,6 +44,7 @@ abstract class BaseGessehPromoFormFilter extends BaseFormFilterDoctrine
       'id'    => 'Number',
       'titre' => 'Text',
       'ordre' => 'Number',
+      'form'  => 'ForeignKey',
     );
   }
 }

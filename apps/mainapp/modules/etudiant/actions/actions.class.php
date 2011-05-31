@@ -11,27 +11,19 @@
 
 class etudiantActions extends sfActions
 {
-  public function executeIndex(sfWebRequest $request)
-  {
-    $this->user = $this->getUser()->getUsername();
-
-    if(!Doctrine::getTable('GessehEtudiant')->checkValidMail($this->getUser()->getUsername()))
-    {
-      $this->getUser()->setFlash('error','Adresse email non fournie ou non validée !');
-      $this->redirect('etudiant/edit');
-    }
-
-    $this->gesseh_stages = Doctrine::getTable('GessehStage')->getStagesEtudiant($this->user);
-  }
-
+  /* Edite les paramètres utilisateur */
   public function executeEdit(sfWebRequest $request)
   {
-    $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array('id' => $this->getUser()->getUsername())), sprintf('Utilisateur inconnu : (%s).', $this->getUser()->getUsername()));
-    if(!$gesseh_etudiant->getTokenMail())
-      $gesseh_etudiant->setTokenMail($gesseh_etudiant->getEmail());
+    $this->user = $this->getUser()->getUsername();
+    $this->forward404Unless($gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array('id' => $this->user)), sprintf('Utilisateur inconnu : (%s).', $this->getUser()->getUsername()));
+
+//    if(!$gesseh_etudiant->getTokenMail())
+//      $gesseh_etudiant->setTokenMail($gesseh_etudiant->getEmail());
+
     $this->form = new GessehEtudiantMainappForm($gesseh_etudiant);
   }
 
+  /* Valide les paramètres utilisateur */
   public function executeUpdate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
@@ -43,7 +35,9 @@ class etudiantActions extends sfActions
     $this->setTemplate('edit');
   }
 
-  public function executeToken(sfWebRequest $request)
+
+  /* Validation de l'adresse email par un token */
+/*  public function executeToken(sfWebRequest $request)
   {
     if(Doctrine::getTable('GessehEtudiant')->validTokenMail($request['userid'], $request['token']))
       $this->getUser()->setFlash('notice','Adresse e-mail validée.');
@@ -51,11 +45,13 @@ class etudiantActions extends sfActions
       $this->getUser()->setFlash('error','Erreur de validation d\'adresse e-mail.');
 
     if($this->getUser()->isAuthenticated())
-      $this->redirect('etudiant/index');
+      $this->redirect('@eval_index');
     else
       $this->redirect('@homepage');
   }
+*/
 
+  /* Enregistre les paramètres utilisateur */
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
@@ -67,7 +63,7 @@ class etudiantActions extends sfActions
       $form_pass->save();
 //      $this->getUser()->setFlash('notice','Mise à jour du profil effectuée.');
 
-      $this->redirect('etudiant/edit');
+      $this->redirect('@etudiant_edit');
     }
   }
 }

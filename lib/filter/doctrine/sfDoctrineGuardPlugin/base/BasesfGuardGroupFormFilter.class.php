@@ -6,7 +6,7 @@
  * @package    gesseh
  * @subpackage filter
  * @author     Pierre-François Pilou Angrand <tmp@angrand.fr>
- * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
+ * @version    SVN: $Id: sfDoctrineFormFilterGeneratedTemplate.php 29570 2010-05-21 14:49:47Z Kris.Wallsmith $
  */
 abstract class BasesfGuardGroupFormFilter extends BaseFormFilterDoctrine
 {
@@ -51,8 +51,10 @@ abstract class BasesfGuardGroupFormFilter extends BaseFormFilterDoctrine
       return;
     }
 
-    $query->leftJoin('r.sfGuardUserGroup sfGuardUserGroup')
-          ->andWhereIn('sfGuardUserGroup.user_id', $values);
+    $query
+      ->leftJoin($query->getRootAlias().'.sfGuardUserGroup sfGuardUserGroup')
+      ->andWhereIn('sfGuardUserGroup.user_id', $values)
+    ;
   }
 
   public function addPermissionsListColumnQuery(Doctrine_Query $query, $field, $values)
@@ -67,8 +69,10 @@ abstract class BasesfGuardGroupFormFilter extends BaseFormFilterDoctrine
       return;
     }
 
-    $query->leftJoin('r.sfGuardGroupPermission sfGuardGroupPermission')
-          ->andWhereIn('sfGuardGroupPermission.permission_id', $values);
+    $query
+      ->leftJoin($query->getRootAlias().'.sfGuardGroupPermission sfGuardGroupPermission')
+      ->andWhereIn('sfGuardGroupPermission.permission_id', $values)
+    ;
   }
 
   public function getModelName()

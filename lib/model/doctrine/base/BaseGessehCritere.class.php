@@ -65,8 +65,5 @@ abstract class BaseGessehCritere extends sfDoctrineRecord
         $this->hasMany('GessehEval', array(
              'local' => 'id',
              'foreign' => 'critere_id'));
-
-        $timestampable0 = new Doctrine_Template_Timestampable();
-        $this->actAs($timestampable0);
     }
 }

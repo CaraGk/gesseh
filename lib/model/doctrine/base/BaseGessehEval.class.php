@@ -8,7 +8,6 @@
  * @property integer $stage_id
  * @property integer $critere_id
  * @property string $valeur
- * @property  $created_at
  * @property GessehStage $GessehStage
  * @property GessehCritere $GessehCritere
  * 
@@ -46,7 +45,6 @@ abstract class BaseGessehEval extends sfDoctrineRecord
              'notnull' => true,
              'length' => 255,
              ));
-        $this->hasColumn('created_at', '', null);
     }
 
     public function setUp()
@@ -62,7 +60,16 @@ abstract class BaseGessehEval extends sfDoctrineRecord
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
 
-        $timestampable0 = new Doctrine_Template_Timestampable();
+        $timestampable0 = new Doctrine_Template_Timestampable(array(
+             'created_at' => 
+             array(
+              'format' => 'Y-m-d',
+             ),
+             'updated_at' => 
+             array(
+              'disabled' => true,
+             ),
+             ));
         $this->actAs($timestampable0);
     }
 }

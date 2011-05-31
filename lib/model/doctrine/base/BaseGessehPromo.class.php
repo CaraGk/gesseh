@@ -7,14 +7,23 @@
  * 
  * @property string $titre
  * @property integer $ordre
+ * @property integer $form
+ * @property GessehFormEval $GessehFormEval
  * @property Doctrine_Collection $GessehEtudiant
+ * @property Doctrine_Collection $GessehReferent
  * 
  * @method string              getTitre()          Returns the current record's "titre" value
  * @method integer             getOrdre()          Returns the current record's "ordre" value
+ * @method integer             getForm()           Returns the current record's "form" value
+ * @method GessehFormEval      getGessehFormEval() Returns the current record's "GessehFormEval" value
  * @method Doctrine_Collection getGessehEtudiant() Returns the current record's "GessehEtudiant" collection
+ * @method Doctrine_Collection getGessehReferent() Returns the current record's "GessehReferent" collection
  * @method GessehPromo         setTitre()          Sets the current record's "titre" value
  * @method GessehPromo         setOrdre()          Sets the current record's "ordre" value
+ * @method GessehPromo         setForm()           Sets the current record's "form" value
+ * @method GessehPromo         setGessehFormEval() Sets the current record's "GessehFormEval" value
  * @method GessehPromo         setGessehEtudiant() Sets the current record's "GessehEtudiant" collection
+ * @method GessehPromo         setGessehReferent() Sets the current record's "GessehReferent" collection
  * 
  * @package    gesseh
  * @subpackage model
@@ -36,13 +45,25 @@ abstract class BaseGessehPromo extends sfDoctrineRecord
              'notnull' => true,
              'length' => 2,
              ));
+        $this->hasColumn('form', 'integer', null, array(
+             'type' => 'integer',
+             'notnull' => false,
+             ));
     }
 
     public function setUp()
     {
         parent::setUp();
+        $this->hasOne('GessehFormEval', array(
+             'local' => 'form',
+             'foreign' => 'id'));
+
         $this->hasMany('GessehEtudiant', array(
              'local' => 'id',
              'foreign' => 'promo_id'));
+
+        $this->hasMany('GessehReferent', array(
+             'local' => 'id',
+             'foreign' => 'promo'));
     }
 }

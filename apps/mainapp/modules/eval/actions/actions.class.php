@@ -12,9 +12,11 @@ class evalActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
-    $this->gesseh_evals = Doctrine::getTable('GessehEval')
+/*    $this->gesseh_evals = Doctrine::getTable('GessehEval')
       ->createQuery('a')
       ->execute();
+*/
+    $this->gesseh_stages = Doctrine::getTable('GessehStage')->getStagesEtudiant($this->getUser()->getUsername());
   }
 
   public function executeShow(sfWebRequest $request)
@@ -63,7 +65,7 @@ class evalActions extends sfActions
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form, $criteres)
-  { 
+  {
     $this->user = $this->getUser()->getUsername();
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())

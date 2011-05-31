@@ -10,19 +10,22 @@
  */
 class GessehEtudiantMainappForm extends BaseGessehEtudiantForm
 {
+  /* Initialisation du formulaire */
   public function configure()
   {
+    unset($this['promo_id'], $this['classement'], $this['utilisateur'], $this['updated_at'], $this['nom'], $this['prenom'], $this['email'], $this['token_mail']);
+
+    $this->embedRelation('sfGuardUser');
     $this->embedForm('MdP', new gessehUserPasswordForm(sfContext::getInstance()->getUser()->getGuardUser()));
 
-    unset($this['promo_id'], $this['created_at'], $this['updated_at']);
-
-    $this->validatorSchema['token_mail'] = new sfValidatorAnd(array(
+/*    $this->validatorSchema['token_mail'] = new sfValidatorAnd(array(
       $this->validatorSchema['token_mail'],
       new sfValidatorEmail(),
     ));
 
     $this->widgetSchema['email'] = new sfWidgetFormInputHidden();
     $this->widgetSchema->setLabel('token_mail', 'Email');
+*/
   }
 
 }

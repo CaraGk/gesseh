@@ -11,34 +11,29 @@
   <body>
     <div id="container">
       <div id="header">
-	<a href="<?php echo url_for('@homepage') ?>"><?php echo image_tag('gesseh_logo.png', 'alt=GesseH'); ?><h1> <?php echo csSettings::get('titre_du_site'); ?></h1></a>
-	  
-	  <div id="menu">
-	    <ul>
-	      <li><a href="<?php echo url_for('@homepage') ?>">Accueil</a></li>
-	      <?php if ($sf_user->isAuthenticated()): ?>
-	      <li><a href="<?php echo url_for('etudiant/index'); ?>">Mes évaluations de stage</a></li>
-	      <li><a href="<?php echo url_for('@homepage'); ?>">Mes évaluations d'enseignement</a></li>
-	      <li><a href="<?php echo url_for('etudiant/edit'); ?>">Mes paramètres</a></li>
-	      <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
-	      <?php else: ?>
-	      <li><?php echo link_to('Se connecter', 'sf_guard_signin'); ?></li>
-	      <?php endif; ?>
-	    </ul>
-	  </div>
-	</div>
-	
-<!--	<div id="search">
-          <form action="" method="get">
-	    Terrains de stage :
-	    <select name="terrain">
-	      <option value="" selected></option>
-	      <option value="test">test</option>
-	    </select>
-            <input type="submit" value="search" />
-	  </form>
-	</div>
--->
+        <a href="<?php echo url_for('@homepage') ?>"><?php echo image_tag('gesseh_logo.png', 'alt=GesseH'); ?><h1> <?php echo csSettings::get('titre_du_site'); ?></h1></a>
+
+        <div id="menu">
+          <ul>
+            <li><a href="<?php echo url_for('@homepage'); ?>">Accueil</a></li>
+            <li><a href="<?php echo url_for('@homepage'); ?>">Stages</a></li>
+            <?php if ($sf_user->isAuthenticated()): ?>
+              <?php if (csSettings::get('mod_eval') or true): ?>
+                <li><a href="<?php echo url_for('@eval_index'); ?>">Évaluations</a></li>
+              <?php endif; ?>
+              <?php if (csSettings::get('mod_simul') or true): ?>
+                <li><a href="<?php echo url_for('@homepage'); ?>">Voeux</a></li>
+                <li><a href="<?php echo url_for('@homepage'); ?>">Postes</a></li>
+              <?php endif; ?>
+              <li><a href="<?php echo url_for('etudiant/edit'); ?>">Préférences</a></li>
+              <li><?php echo link_to('Déconnexion', 'sf_guard_signout'); ?></li>
+            <?php else: ?>
+              <li><?php echo link_to('S\'identifier', 'sf_guard_signin'); ?></li>
+            <?php endif; ?>
+          </ul>
+        </div>
+      </div>
+
       <div id="content">
         <?php if ($sf_user->hasFlash('notice')): ?>
           <div class="flash_notice"><?php echo $sf_user->getFlash('notice') ?></div>
@@ -46,21 +41,21 @@
         <?php if ($sf_user->hasFlash('error')): ?>
           <div class="flash_error"><?php echo $sf_user->getFlash('error') ?></div>
         <?php endif; ?>
-    
+
         <div class="content">
            <?php echo $sf_content ?>
         </div>
       </div>
-  
+
       <div id="footer">
         <div class="content">
-	  <span class="miniature"><a href="http://code.google.com/p/gesseh/"><?php echo image_tag('gesseh_logo_small.png', 'alt=gesseh'); ?></a> powered by <a href="http://www.symfony-project.org/"><?php echo image_tag('symfony.gif', 'alt=symfony framework'); ?></a></span>
-	  <ul>
-	    <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug ou un souhait</a></li>
-	    <li><a href="http://code.google.com/p/gesseh/w/list">Assistance - documentation</a></li>
-	    <li><a href="<?php echo $sf_request->getRelativeUrlRoot() ?>/admin.php">Administrer</a></li>
-	  </ul>
-	</div>
+          <span class="miniature"><a href="http://code.google.com/p/gesseh/"><?php echo image_tag('gesseh_logo_small.png', 'alt=gesseh'); ?></a> powered by <a href="http://www.symfony-project.org/"><?php echo image_tag('symfony.gif', 'alt=symfony framework'); ?></a></span>
+          <ul>
+            <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug ou un souhait</a></li>
+            <li><a href="http://code.google.com/p/gesseh/w/list">Assistance - documentation</a></li>
+            <li><a href="<?php echo $sf_request->getRelativeUrlRoot() ?>/admin.php">Administrer</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </body>
