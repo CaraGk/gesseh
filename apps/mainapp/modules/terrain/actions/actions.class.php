@@ -10,6 +10,7 @@
  */
 class terrainActions extends sfActions
 {
+  /* Affiche la liste des terrains de stage disponibles */
   public function executeIndex(sfWebRequest $request)
   {
 //     $this->tri = $this->changeTri($request);
@@ -17,15 +18,14 @@ class terrainActions extends sfActions
      $this->gesseh_terrains = Doctrine::getTable('GessehTerrain')->getListeTerrains($request);
   }
 
+  /* Affiche les informations relatives à un terrain de stage */
   public function executeShow(sfWebRequest $request)
   {
     $this->gesseh_terrain = Doctrine::getTable('GessehTerrain')->getTerrainUnique($request->getParameter('id'));
     $this->forward404Unless($this->gesseh_terrain);
-
-    $this->gesseh_evals = Doctrine::getTable('GessehEval')->calcMoyenne($request->getParameter('id'));
-    $this->gesseh_comments = Doctrine::getTable('GessehEval')->getEvalsComments($request->getParameter('id'));
   }
 
+  /* Change les paramètres de tri de la liste des terrains de stage */
   private function changeTri($request)
   {
     if ($request->getParameter('tri1') == 'hopital')
@@ -53,6 +53,7 @@ class terrainActions extends sfActions
     return $tri;
   }
 
+  /* Change l'ordre du paramètre de tri */
   private function changeOrder($order)
   {
     if ($order == 'asc')

@@ -16,19 +16,25 @@
         <div id="menu">
           <ul>
             <li><a href="<?php echo url_for('@homepage'); ?>">Accueil</a></li>
-            <li><a href="<?php echo url_for('@homepage'); ?>">Stages</a></li>
+            <li><a href="<?php echo url_for('@terrain_index'); ?>">Terrains de stage</a></li>
             <?php if ($sf_user->isAuthenticated()): ?>
               <?php if (csSettings::get('mod_eval') or true): ?>
-                <li><a href="<?php echo url_for('@eval_index'); ?>">Évaluations</a></li>
+                <li><a href="<?php echo url_for('@eval_index'); ?>">Mes évaluations</a></li>
               <?php endif; ?>
               <?php if (csSettings::get('mod_simul') or true): ?>
-                <li><a href="<?php echo url_for('@homepage'); ?>">Voeux</a></li>
-                <li><a href="<?php echo url_for('@homepage'); ?>">Postes</a></li>
+                <li><a href="<?php echo url_for('@homepage'); ?>">Mes voeux</a></li>
+                <li><a href="<?php echo url_for('@homepage'); ?>">État des postes</a></li>
+              <?php endif; ?>
+              <?php if (csSettings::get('mod_garde') or true): ?>
+                <li><a href="<?php echo url_for('@homepage'); ?>">Mes gardes</a></li>
               <?php endif; ?>
               <li><a href="<?php echo url_for('etudiant/edit'); ?>">Préférences</a></li>
               <li><?php echo link_to('Déconnexion', 'sf_guard_signout'); ?></li>
             <?php else: ?>
               <li><?php echo link_to('S\'identifier', 'sf_guard_signin'); ?></li>
+            <?php endif; ?>
+            <?php if (csSettings::get('mod_referent') or true): ?>
+              <li><a href="<?php echo url_for('@homepage'); ?>">Référents</a></li>
             <?php endif; ?>
           </ul>
         </div>

@@ -10,6 +10,7 @@
  */
 class evalActions extends sfActions
 {
+  /* Affiche la liste des stages effectués de l'utilisateur */
   public function executeIndex(sfWebRequest $request)
   {
 /*    $this->gesseh_evals = Doctrine::getTable('GessehEval')
@@ -19,12 +20,14 @@ class evalActions extends sfActions
     $this->gesseh_stages = Doctrine::getTable('GessehStage')->getStagesEtudiant($this->getUser()->getUsername());
   }
 
+  /* Affiche l'évaluation du stage */
   public function executeShow(sfWebRequest $request)
   {
     $this->user = $this->getUser()->getUsername();
     $this->gesseh_evals = Doctrine::getTable('GessehEval')->getEvalsFromStage($request->getParameter('idstage'));
   }
 
+  /* Affiche le formulaire d'évaluation */
   public function executeNew(sfWebRequest $request)
   {
     $this->user = $this->getUser()->getUsername();
@@ -43,6 +46,7 @@ class evalActions extends sfActions
     }
   }
 
+  /* Valide le formulaire d'évaluation */
   public function executeCreate(sfWebRequest $request)
   {
     $this->user = $this->getUser()->getUsername();
@@ -64,6 +68,7 @@ class evalActions extends sfActions
     $this->setTemplate('new');
   }
 
+  /* Enregistre les données du formulaire */
   protected function processForm(sfWebRequest $request, sfForm $form, $criteres)
   {
     $this->user = $this->getUser()->getUsername();
@@ -74,5 +79,15 @@ class evalActions extends sfActions
       $this->getUser()->setFlash('notice', 'Formulaire d\'évaluation correctement soumis, merci.');
       $this->redirect('eval/show?idstage='.$id);
     }
+  }
+
+  /* Affiche les évaluations relatives à un terrain de stage */
+  public function executeTerrain(sfWebRequest $request)
+  {
+    $this->gesseh_terrain = Doctrine::getTable('GessehTerrain')->getTerrainUnique($request->getParameter('id'));
+    $this->forward404Unless($this->gesseh_terrain);
+
+    $this->gesseh_evals = Doctrine::getTable('GessehEval')->calcMoyenne($request->getParameter('id'));
+    $this->gesseh_comments = Doctrine::getTable('GessehEval')->getEvalsComments($request->getParameter('id'));
   }
 }

@@ -6,23 +6,27 @@ homepage:
   url:   /
   param: { module: terrain, action: index }
 
+terrain_index:
+  url: /terrain/
+  param: { module: terrain, action: index }
+
 terrain_index_tri:
-  url: /tri/:tri1/:order1
+  url: /terrain/tri/:tri1/:order1
   param: { module: terrain, action: index }
 
 #terrain_index_tri2:
-#  url: /tri/:tri1/:order1/:tri2/:order2
+#  url: /terrain/tri/:tri1/:order1/:tri2/:order2
 #  param: { module: terrain, action: index }
 
 terrain_show:
-  url: /stage/:id
+  url: /terrain/:id
   param: { module: terrain, action: show }
   requirements:
     id: \d+
 
-#etudiant_index:
-#  url: /etudiant/
-#  param: { module: etudiant, action: index }
+etudiant_index:
+  url: /etudiant/
+  param: { module: etudiant, action: edit }
 
 etudiant_edit:
   url: /etudiant/edit
@@ -40,24 +44,29 @@ etudiant_token:
     token: \w+
 
 eval_index:
-  url: /etudiant/
+  url: /eval/
   param: { module: eval, action: index }
 
 eval_show:
-  url: /etudiant/:idstage
+  url: /eval/:idstage
   param: { module: eval, action: show }
   requirements:
     idstage: \d+
 
 eval_new:
-  url: /etudiant/:idstage/new
+  url: /eval/:idstage/new
   param: { module: eval, action: new }
   requirements:
     idstage: \d+
 
 eval_create:
-  url: /etudiant/:idstage/create
+  url: /eval/:idstage/create
   param: { module: eval, action: create }
   requirements:
     idstage: \d+
 
+eval_show_terrain:
+  url: /terrain/eval/:id
+  param: { module: eval, action: terrain }
+  requirements:
+    id: \d+

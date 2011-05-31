@@ -3,7 +3,7 @@
 
 class GessehTerrainTable extends Doctrine_Table
 {
-    
+
     public static function getInstance()
     {
         return Doctrine_Core::getTable('GessehTerrain');
@@ -17,7 +17,8 @@ class GessehTerrainTable extends Doctrine_Table
 
       $q = $this->gesseh_terrains = Doctrine_Query::create()
       ->from('GessehTerrain a')
-      ->leftjoin('a.GessehHopital b')
+      ->leftJoin('a.GessehHopital b')
+      ->leftJoin('a.GessehFiliere c')
       ->orderBy($tri);
 
       return $q->execute();
