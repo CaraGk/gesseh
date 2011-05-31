@@ -12,7 +12,7 @@ GessehCritere:
     titre: Enseignement au lit du malade
     type: radio
     ratio: 5
-  stage: 
+  stage:
     form: 1
     titre: Enseignement en cours sur les lieux du stage
     type: radio
@@ -27,7 +27,7 @@ GessehCritere:
     titre: Enseignement en consultation
     type: radio
     ratio: 5
-  eramen:
+  examen:
     form: 1
     titre: Analyse d'examens complémentaires
     type: radio

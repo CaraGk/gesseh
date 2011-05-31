@@ -17,6 +17,14 @@ csSetting:
     name: Email Prefixe
     type: input
     setting_default: gesseh
+  mod_eval:
+    name: Évaluations
+    type: boolean
+    setting_default: true
+  mod_simul:
+    name: Simulations
+    type: boolean
+    setting_default: true
   colstagedebut:
     name: ExcelRowNumber Stage Debut
     type: input

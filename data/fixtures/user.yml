@@ -1,0 +1,56 @@
+sfGuardUser:
+  sgu_pilou:
+    username: 20402395
+    last_name: Angrand
+    first_name: Pierre-François
+    email_address: pilou@angrand.fr
+    password: etudiant
+    is_super_admin: false
+  sgu_toto:
+    username: 12345678
+    last_name: TOTO
+    first_name: Toto
+    email_address: tmp@angrand.fr
+    password: etudiant
+    is_super_admin: false
+  sgu_admin:
+    username: admin
+    password: nimda
+    is_super_admin: true
+
+sfGuardGroup:
+  sgg_etudiant:
+    name: etudiant
+    description: Groupe des étudiants
+  sgg_admin:
+    name: admin
+    description: Groupe d'administration
+
+sfGuardPermission:
+  sgp_admin:
+    name:           admin
+    description:    Permission administrateur
+  sgp_etudiant:
+    name: etudiant
+    description: Permission etudiant
+
+sfGuardGroupPermission:
+  sggp_admin:
+    Group:       sgg_admin
+    Permission:  sgp_admin
+  sggp_etudiant:
+    Group: sgg_etudiant
+    Permission: sgp_etudiant
+
+
+sfGuardUserGroup:
+  sgug_pilou:
+    Group: sgg_etudiant
+    User: sgu_pilou
+  sgug_toto:
+    Group: sgg_etudiant
+    User: sgu_toto
+  sgug_admin:
+    Group: sgg_admin
+    User: sgu_admin
+

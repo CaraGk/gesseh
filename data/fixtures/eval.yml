@@ -15,9 +15,9 @@ GessehEval:
     GessehStage: stage_pilou2
     GessehCritere: consultation
     valeur: 0
-  eramen:
+  examen:
     GessehStage: stage_pilou2
-    GessehCritere: eramen
+    GessehCritere: examen
     valeur: 4
   ethique:
     GessehStage: stage_pilou2

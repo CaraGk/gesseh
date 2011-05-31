@@ -30,8 +30,8 @@ GessehPage:
     Timestampable:
       created: { format: Y-m-d }
       updated: { format: Y-m-d }
-    columns:
-      contenu: { type: blob, notnull: false }
+  columns:
+    contenu: { type: blob, notnull: false }
 
 GessehFiliere:
   actAs: {}
@@ -42,7 +42,7 @@ GessehFiliere:
     GessehFormEval: { local: form, foreign: id }
 
 GessehEtudiant:
-  actAs: 
+  actAs:
     Timestampable:
       created: { disabled: true }
       updated: { format: Y-m-d }
@@ -54,8 +54,8 @@ GessehEtudiant:
     email: { type: string(50), notnull: true }
     token_mail: { type: string(50), notnull: true }
     tel: { type: string(14), notnull: false }
-    naissance: { type: date, notnull: true }
-    utilisateur: { type: integer, notnull: true }
+    naissance: { type: date, notnull: false }
+    utilisateur: { type: integer, notnull: false }
   relations:
     GessehPromo:  { onDelete: CASCADE, local: promo_id, foreign: id }
     sfGuardUser: { onDelete: CASCADE, local: utilisateur, type: one, foreign: id }
@@ -91,12 +91,10 @@ GessehPeriode:
     fin: { type: date, notnull: true }
 
 GessehFormEval:
-  actAs: { Timestampable: ~ }
   columns:
     titre: { type: string(100), notnull: true }
 
 GessehCritere:
-  actAs: { Timestampable: ~ }
   columns:
     form: { type: integer, notnull: true }
     titre: { type: string(100), notnull: true }
@@ -106,12 +104,14 @@ GessehCritere:
     GessehFormEval:  { onDelete: CASCADE, local: form, foreign: id }
 
 GessehEval:
-  actAs: { Timestampable: ~ }
+  actAs:
+    Timestampable:
+      created_at: { format: Y-m-d }
+      updated_at: { disabled: true }
   columns:
     stage_id: { type: integer, notnull: true }
     critere_id: { type: integer, notnull: true }
     valeur: { type: string(255), notnull: true }
-    created_at:
   relations:
     GessehStage:  { onDelete: CASCADE, local: stage_id, foreign: id }
     GessehCritere:  { onDelete: CASCADE, local: critere_id, foreign: id }

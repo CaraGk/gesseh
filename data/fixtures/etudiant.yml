@@ -11,3 +11,10 @@ GessehEtudiant:
     GessehPromo: dcem3
     email: pilou@angrand.fr
     naissance: 1983/01/21
+    sfGuardUser: sgu_pilou
+  toto:
+    nom: TOTO
+    prenom: Toto
+    GessehPromo: pcem2
+    email: tmp@angrand.fr
+    sfGuardUser: sgu_toto

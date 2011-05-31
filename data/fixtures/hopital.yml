@@ -28,3 +28,15 @@ GessehHopital:
   medge:
     nom: Département de médecine générale
     adresse: Saint-Quentin-en-Yvelines
+
+GessehFiliere:
+  rea:
+    titre: Réanimation
+  medg:
+    titre: Médecine générale
+  int:
+    titre: Médecine interne
+  ped:
+    titre: Pédiatrie
+  chirg:
+    titre: Chirurgie générale
