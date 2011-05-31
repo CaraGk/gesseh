@@ -4,73 +4,60 @@
 # default rules
 homepage:
   url:   /
-  param: { module: services, action: index }
+  param: { module: terrain, action: index }
 
-# generic rules
-# please, remove them by adding more specific rules
-
-#gesseh_index:
-#  url: /
-#  param: { module: services, action: index }
-
-#gesseh_index_tri:
-#  url: /:tri
-#  param: { module: services, action: index }
-
-gesseh_index_tri:
+stage_index_tri:
   url: /tri/:tri1/:order1
-  param: { module: services, action: index }
+  param: { module: terrain, action: index }
 
-gesseh_index_tri2:
-  url: /tri/:tri1/:order1/:tri2/:order2
-  param: { module: services, action: index }
+#stage_index_tri2:
+#  url: /tri/:tri1/:order1/:tri2/:order2
+#  param: { module: terrain, action: index }
 
-gesseh_show_stage:
+stage_show:
   url: /stage/:id
-  param: { module: services, action: show }
+  param: { module: terrain, action: show }
   requirements:
     id: \d+
 
-gesseh_index_etudiant:
-  url: /etudiant/
-  param: { module: etudiant, action: index }
+#etudiant_index:
+#  url: /etudiant/
+#  param: { module: etudiant, action: index }
 
-gesseh_show_formulaire:
-  url: /etudiant/:idstage
-  param: { module: eval, action: show }
-  requirements:
-    idstage: \d+
-
-gesseh_new_formulaire:
-  url: /etudiant/:idstage/new
-  param: { module: eval, action: new }
-  requirements:
-    idstage: \d+
-
-gesseh_create_formulaire:
-  url: /etudiant/:idstage/create
-  param: { module: eval, action: create }
-  requirements:
-    idstage: \d+
-
-gesseh_edit_etudiant:
+etudiant_edit:
   url: /etudiant/edit
   param: { module: etudiant, action: edit }
 
-gesseh_edit_etudiant_process:
+etudiant_update:
   url: /etudiant/update
   param: { module: etudiant, action: update }
 
-gesseh_token_mail:
+etudiant_token:
   url: /etudiant/test/:userid/:token
   param: { module: etudiant, action: token }
   requirements:
     userid: \d+
     token: \w+
 
-#default_index:
-#  url:   /:module
-#  param: { action: index }
+eval_index:
+  url: /etudiant/
+  param: { module: eval, action: index }
 
-#default:
-#  url:   /:module/:action/*
+eval_show:
+  url: /etudiant/:idstage
+  param: { module: eval, action: show }
+  requirements:
+    idstage: \d+
+
+eval_new:
+  url: /etudiant/:idstage/new
+  param: { module: eval, action: new }
+  requirements:
+    idstage: \d+
+
+eval_create:
+  url: /etudiant/:idstage/create
+  param: { module: eval, action: create }
+  requirements:
+    idstage: \d+
+
