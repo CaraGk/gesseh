@@ -58,11 +58,6 @@ class etudiantActions extends sfActions
     if ($form->isValid())
     {
       $form->save();
-      $form_pass = $form->getEmbeddedForm('MdP');
-      $form_pass->bind($form->getValue('MdP'));
-      $form_pass->save();
-//      $this->getUser()->setFlash('notice','Mise à jour du profil effectuée.');
-
       $this->redirect('@etudiant_edit');
     }
   }

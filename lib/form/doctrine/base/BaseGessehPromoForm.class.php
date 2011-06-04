@@ -15,17 +15,19 @@ abstract class BaseGessehPromoForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'    => new sfWidgetFormInputHidden(),
-      'titre' => new sfWidgetFormInputText(),
-      'ordre' => new sfWidgetFormInputText(),
-      'form'  => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('GessehFormEval'), 'add_empty' => true)),
+      'id'     => new sfWidgetFormInputHidden(),
+      'titre'  => new sfWidgetFormInputText(),
+      'ordre'  => new sfWidgetFormInputText(),
+      'active' => new sfWidgetFormInputCheckbox(),
+      'form'   => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('GessehFormEval'), 'add_empty' => true)),
     ));
 
     $this->setValidators(array(
-      'id'    => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'titre' => new sfValidatorString(array('max_length' => 100)),
-      'ordre' => new sfValidatorInteger(),
-      'form'  => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('GessehFormEval'), 'required' => false)),
+      'id'     => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'titre'  => new sfValidatorString(array('max_length' => 100)),
+      'ordre'  => new sfValidatorInteger(),
+      'active' => new sfValidatorBoolean(array('required' => false)),
+      'form'   => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('GessehFormEval'), 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('gesseh_promo[%s]');

@@ -20,6 +20,7 @@ abstract class BaseGessehCritereForm extends BaseFormDoctrine
       'titre' => new sfWidgetFormInputText(),
       'type'  => new sfWidgetFormInputText(),
       'ratio' => new sfWidgetFormInputText(),
+      'ordre' => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
@@ -28,6 +29,7 @@ abstract class BaseGessehCritereForm extends BaseFormDoctrine
       'titre' => new sfValidatorString(array('max_length' => 100)),
       'type'  => new sfValidatorString(array('max_length' => 10)),
       'ratio' => new sfValidatorInteger(array('required' => false)),
+      'ordre' => new sfValidatorInteger(),
     ));
 
     $this->widgetSchema->setNameFormat('gesseh_critere[%s]');

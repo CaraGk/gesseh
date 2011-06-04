@@ -15,7 +15,10 @@ class GessehEtudiantMainappForm extends BaseGessehEtudiantForm
   {
     unset($this['promo_id'], $this['classement'], $this['utilisateur'], $this['updated_at'], $this['nom'], $this['prenom'], $this['email'], $this['token_mail']);
 
-    $this->embedRelation('sfGuardUser');
+    $years = range(1970, 2000);
+    $this->widgetSchema['naissance']->setOption('format', '%day% - %month% - %year%');
+    $this->widgetSchema['naissance']->setOption('years', array_combine($years, $years));
+
     $this->embedForm('MdP', new gessehUserPasswordForm(sfContext::getInstance()->getUser()->getGuardUser()));
 
 /*    $this->validatorSchema['token_mail'] = new sfValidatorAnd(array(
