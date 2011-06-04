@@ -18,36 +18,36 @@
  * @property sfGuardUser $sfGuardUser
  * @property Doctrine_Collection $GessehStage
  * @property Doctrine_Collection $GessehChoix
- * @property Doctrine_Collection $CopisimSimulation
+ * @property Doctrine_Collection $GessehSimulation
  * 
- * @method string              getNom()               Returns the current record's "nom" value
- * @method string              getPrenom()            Returns the current record's "prenom" value
- * @method integer             getPromoId()           Returns the current record's "promo_id" value
- * @method integer             getClassement()        Returns the current record's "classement" value
- * @method string              getEmail()             Returns the current record's "email" value
- * @method string              getTokenMail()         Returns the current record's "token_mail" value
- * @method string              getTel()               Returns the current record's "tel" value
- * @method date                getNaissance()         Returns the current record's "naissance" value
- * @method integer             getUtilisateur()       Returns the current record's "utilisateur" value
- * @method GessehPromo         getGessehPromo()       Returns the current record's "GessehPromo" value
- * @method sfGuardUser         getSfGuardUser()       Returns the current record's "sfGuardUser" value
- * @method Doctrine_Collection getGessehStage()       Returns the current record's "GessehStage" collection
- * @method Doctrine_Collection getGessehChoix()       Returns the current record's "GessehChoix" collection
- * @method Doctrine_Collection getCopisimSimulation() Returns the current record's "CopisimSimulation" collection
- * @method GessehEtudiant      setNom()               Sets the current record's "nom" value
- * @method GessehEtudiant      setPrenom()            Sets the current record's "prenom" value
- * @method GessehEtudiant      setPromoId()           Sets the current record's "promo_id" value
- * @method GessehEtudiant      setClassement()        Sets the current record's "classement" value
- * @method GessehEtudiant      setEmail()             Sets the current record's "email" value
- * @method GessehEtudiant      setTokenMail()         Sets the current record's "token_mail" value
- * @method GessehEtudiant      setTel()               Sets the current record's "tel" value
- * @method GessehEtudiant      setNaissance()         Sets the current record's "naissance" value
- * @method GessehEtudiant      setUtilisateur()       Sets the current record's "utilisateur" value
- * @method GessehEtudiant      setGessehPromo()       Sets the current record's "GessehPromo" value
- * @method GessehEtudiant      setSfGuardUser()       Sets the current record's "sfGuardUser" value
- * @method GessehEtudiant      setGessehStage()       Sets the current record's "GessehStage" collection
- * @method GessehEtudiant      setGessehChoix()       Sets the current record's "GessehChoix" collection
- * @method GessehEtudiant      setCopisimSimulation() Sets the current record's "CopisimSimulation" collection
+ * @method string              getNom()              Returns the current record's "nom" value
+ * @method string              getPrenom()           Returns the current record's "prenom" value
+ * @method integer             getPromoId()          Returns the current record's "promo_id" value
+ * @method integer             getClassement()       Returns the current record's "classement" value
+ * @method string              getEmail()            Returns the current record's "email" value
+ * @method string              getTokenMail()        Returns the current record's "token_mail" value
+ * @method string              getTel()              Returns the current record's "tel" value
+ * @method date                getNaissance()        Returns the current record's "naissance" value
+ * @method integer             getUtilisateur()      Returns the current record's "utilisateur" value
+ * @method GessehPromo         getGessehPromo()      Returns the current record's "GessehPromo" value
+ * @method sfGuardUser         getSfGuardUser()      Returns the current record's "sfGuardUser" value
+ * @method Doctrine_Collection getGessehStage()      Returns the current record's "GessehStage" collection
+ * @method Doctrine_Collection getGessehChoix()      Returns the current record's "GessehChoix" collection
+ * @method Doctrine_Collection getGessehSimulation() Returns the current record's "GessehSimulation" collection
+ * @method GessehEtudiant      setNom()              Sets the current record's "nom" value
+ * @method GessehEtudiant      setPrenom()           Sets the current record's "prenom" value
+ * @method GessehEtudiant      setPromoId()          Sets the current record's "promo_id" value
+ * @method GessehEtudiant      setClassement()       Sets the current record's "classement" value
+ * @method GessehEtudiant      setEmail()            Sets the current record's "email" value
+ * @method GessehEtudiant      setTokenMail()        Sets the current record's "token_mail" value
+ * @method GessehEtudiant      setTel()              Sets the current record's "tel" value
+ * @method GessehEtudiant      setNaissance()        Sets the current record's "naissance" value
+ * @method GessehEtudiant      setUtilisateur()      Sets the current record's "utilisateur" value
+ * @method GessehEtudiant      setGessehPromo()      Sets the current record's "GessehPromo" value
+ * @method GessehEtudiant      setSfGuardUser()      Sets the current record's "sfGuardUser" value
+ * @method GessehEtudiant      setGessehStage()      Sets the current record's "GessehStage" collection
+ * @method GessehEtudiant      setGessehChoix()      Sets the current record's "GessehChoix" collection
+ * @method GessehEtudiant      setGessehSimulation() Sets the current record's "GessehSimulation" collection
  * 
  * @package    gesseh
  * @subpackage model
@@ -123,7 +123,7 @@ abstract class BaseGessehEtudiant extends sfDoctrineRecord
              'local' => 'id',
              'foreign' => 'etudiant'));
 
-        $this->hasMany('CopisimSimulation', array(
+        $this->hasMany('GessehSimulation', array(
              'local' => 'id',
              'foreign' => 'etudiant'));
 

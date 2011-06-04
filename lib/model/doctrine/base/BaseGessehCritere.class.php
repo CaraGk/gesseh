@@ -9,6 +9,7 @@
  * @property string $titre
  * @property string $type
  * @property integer $ratio
+ * @property integer $ordre
  * @property GessehFormEval $GessehFormEval
  * @property Doctrine_Collection $GessehEval
  * 
@@ -16,12 +17,14 @@
  * @method string              getTitre()          Returns the current record's "titre" value
  * @method string              getType()           Returns the current record's "type" value
  * @method integer             getRatio()          Returns the current record's "ratio" value
+ * @method integer             getOrdre()          Returns the current record's "ordre" value
  * @method GessehFormEval      getGessehFormEval() Returns the current record's "GessehFormEval" value
  * @method Doctrine_Collection getGessehEval()     Returns the current record's "GessehEval" collection
  * @method GessehCritere       setForm()           Sets the current record's "form" value
  * @method GessehCritere       setTitre()          Sets the current record's "titre" value
  * @method GessehCritere       setType()           Sets the current record's "type" value
  * @method GessehCritere       setRatio()          Sets the current record's "ratio" value
+ * @method GessehCritere       setOrdre()          Sets the current record's "ordre" value
  * @method GessehCritere       setGessehFormEval() Sets the current record's "GessehFormEval" value
  * @method GessehCritere       setGessehEval()     Sets the current record's "GessehEval" collection
  * 
@@ -51,6 +54,11 @@ abstract class BaseGessehCritere extends sfDoctrineRecord
              ));
         $this->hasColumn('ratio', 'integer', null, array(
              'type' => 'integer',
+             ));
+        $this->hasColumn('ordre', 'integer', 2, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'length' => 2,
              ));
     }
 

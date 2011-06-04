@@ -21,7 +21,7 @@
  * @property GessehPage $GessehPage
  * @property Doctrine_Collection $GessehStage
  * @property Doctrine_Collection $GessehChoix
- * @property Doctrine_Collection $CopisimSimulation
+ * @property Doctrine_Collection $GessehSimulation
  * 
  * @method integer             getHopitalId()           Returns the current record's "hopital_id" value
  * @method string              getTitre()               Returns the current record's "titre" value
@@ -39,7 +39,7 @@
  * @method GessehPage          getGessehPage()          Returns the current record's "GessehPage" value
  * @method Doctrine_Collection getGessehStage()         Returns the current record's "GessehStage" collection
  * @method Doctrine_Collection getGessehChoix()         Returns the current record's "GessehChoix" collection
- * @method Doctrine_Collection getCopisimSimulation()   Returns the current record's "CopisimSimulation" collection
+ * @method Doctrine_Collection getGessehSimulation()    Returns the current record's "GessehSimulation" collection
  * @method GessehTerrain       setHopitalId()           Sets the current record's "hopital_id" value
  * @method GessehTerrain       setTitre()               Sets the current record's "titre" value
  * @method GessehTerrain       setFiliere()             Sets the current record's "filiere" value
@@ -56,7 +56,7 @@
  * @method GessehTerrain       setGessehPage()          Sets the current record's "GessehPage" value
  * @method GessehTerrain       setGessehStage()         Sets the current record's "GessehStage" collection
  * @method GessehTerrain       setGessehChoix()         Sets the current record's "GessehChoix" collection
- * @method GessehTerrain       setCopisimSimulation()   Sets the current record's "CopisimSimulation" collection
+ * @method GessehTerrain       setGessehSimulation()    Sets the current record's "GessehSimulation" collection
  * 
  * @package    gesseh
  * @subpackage model
@@ -146,7 +146,7 @@ abstract class BaseGessehTerrain extends sfDoctrineRecord
              'local' => 'id',
              'foreign' => 'poste'));
 
-        $this->hasMany('CopisimSimulation', array(
+        $this->hasMany('GessehSimulation', array(
              'local' => 'id',
              'foreign' => 'poste'));
     }

@@ -10,7 +10,7 @@ class GessehTerrainTable extends Doctrine_Table
         return Doctrine_Core::getTable('GessehTerrain');
     }
 
-    /* Récupère la liste complète des terrains de stage, ordonnée par tri */
+    /* Récupère la liste complète des terrains de stage, ordonnée par tri pour un pager */
     public function getListeTerrains($request = null)
     {
       $tri = $this->checkOrderTri($request);
@@ -21,7 +21,7 @@ class GessehTerrainTable extends Doctrine_Table
         ->leftJoin('a.GessehFiliere c')
         ->orderBy($tri);
 
-      return $q->execute();
+      return $q;
     }
 
     /* Récupères les informations d'un terrain de stage */

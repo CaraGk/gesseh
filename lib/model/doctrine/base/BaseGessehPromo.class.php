@@ -7,6 +7,7 @@
  * 
  * @property string $titre
  * @property integer $ordre
+ * @property boolean $active
  * @property integer $form
  * @property GessehFormEval $GessehFormEval
  * @property Doctrine_Collection $GessehEtudiant
@@ -14,12 +15,14 @@
  * 
  * @method string              getTitre()          Returns the current record's "titre" value
  * @method integer             getOrdre()          Returns the current record's "ordre" value
+ * @method boolean             getActive()         Returns the current record's "active" value
  * @method integer             getForm()           Returns the current record's "form" value
  * @method GessehFormEval      getGessehFormEval() Returns the current record's "GessehFormEval" value
  * @method Doctrine_Collection getGessehEtudiant() Returns the current record's "GessehEtudiant" collection
  * @method Doctrine_Collection getGessehReferent() Returns the current record's "GessehReferent" collection
  * @method GessehPromo         setTitre()          Sets the current record's "titre" value
  * @method GessehPromo         setOrdre()          Sets the current record's "ordre" value
+ * @method GessehPromo         setActive()         Sets the current record's "active" value
  * @method GessehPromo         setForm()           Sets the current record's "form" value
  * @method GessehPromo         setGessehFormEval() Sets the current record's "GessehFormEval" value
  * @method GessehPromo         setGessehEtudiant() Sets the current record's "GessehEtudiant" collection
@@ -44,6 +47,11 @@ abstract class BaseGessehPromo extends sfDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              'length' => 2,
+             ));
+        $this->hasColumn('active', 'boolean', null, array(
+             'type' => 'boolean',
+             'notnull' => true,
+             'default' => true,
              ));
         $this->hasColumn('form', 'integer', null, array(
              'type' => 'integer',

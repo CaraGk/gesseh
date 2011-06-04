@@ -31,8 +31,6 @@ class GessehCritereForm extends BaseGessehCritereForm
 	),
 	'multiple' => false,
 	'min' => 1
-    )))); 
-
-
+    ))));
   }
 }

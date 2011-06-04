@@ -15,7 +15,10 @@ class terrainActions extends sfActions
   {
 //     $this->tri = $this->changeTri($request);
      $this->tri = null;
-     $this->gesseh_terrains = Doctrine::getTable('GessehTerrain')->getListeTerrains($request);
+
+     $this->pager = new sfDoctrinePager('GessehTerrain', 30);
+     $this->pager->setQuery(Doctrine::getTable('GessehTerrain')->getListeTerrains($request));
+     $this->pager->setPage($request->getParameter('page', 1));
   }
 
   /* Affiche les informations relatives à un terrain de stage */

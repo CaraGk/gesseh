@@ -10,6 +10,12 @@ terrain_index:
   url: /terrain/
   param: { module: terrain, action: index }
 
+terrain_index_pager:
+  url: /terrain/page/:page
+  param: { module: terrain, action: index }
+  requirements:
+    page: \d+
+
 terrain_index_tri:
   url: /terrain/tri/:col/:order
   param: { module: terrain, action: index }

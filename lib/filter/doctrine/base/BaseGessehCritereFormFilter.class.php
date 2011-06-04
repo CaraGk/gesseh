@@ -17,6 +17,7 @@ abstract class BaseGessehCritereFormFilter extends BaseFormFilterDoctrine
       'titre' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'type'  => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'ratio' => new sfWidgetFormFilterInput(),
+      'ordre' => new sfWidgetFormFilterInput(array('with_empty' => false)),
     ));
 
     $this->setValidators(array(
@@ -24,6 +25,7 @@ abstract class BaseGessehCritereFormFilter extends BaseFormFilterDoctrine
       'titre' => new sfValidatorPass(array('required' => false)),
       'type'  => new sfValidatorPass(array('required' => false)),
       'ratio' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'ordre' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
     ));
 
     $this->widgetSchema->setNameFormat('gesseh_critere_filters[%s]');
@@ -48,6 +50,7 @@ abstract class BaseGessehCritereFormFilter extends BaseFormFilterDoctrine
       'titre' => 'Text',
       'type'  => 'Text',
       'ratio' => 'Number',
+      'ordre' => 'Number',
     );
   }
 }
