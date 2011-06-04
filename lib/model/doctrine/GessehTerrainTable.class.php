@@ -4,35 +4,34 @@
 class GessehTerrainTable extends Doctrine_Table
 {
 
+    /* Magic Method : Récupère la liste des terrains de stage */
     public static function getInstance()
     {
         return Doctrine_Core::getTable('GessehTerrain');
     }
 
+    /* Récupère la liste complète des terrains de stage, ordonnée par tri */
     public function getListeTerrains($request = null)
     {
-    // Récupération de la liste complète des Terrains, ordonnée par tri
-
       $tri = $this->checkOrderTri($request);
 
-      $q = $this->gesseh_terrains = Doctrine_Query::create()
-      ->from('GessehTerrain a')
-      ->leftJoin('a.GessehHopital b')
-      ->leftJoin('a.GessehFiliere c')
-      ->orderBy($tri);
+      $q = Doctrine_Query::create()
+        ->from('GessehTerrain a')
+        ->leftJoin('a.GessehHopital b')
+        ->leftJoin('a.GessehFiliere c')
+        ->orderBy($tri);
 
       return $q->execute();
     }
 
+    /* Récupères les informations d'un terrain de stage */
     public function getTerrainUnique($id)
     {
-    // Récupération d'un seul objet Terrain
-
       $q = $this->gesseh_terrain = Doctrine_Query::create()
-      ->from('GessehTerrain a')
-      ->leftjoin('a.GessehHopital b')
-      ->where('id = ?', $id)
-      ->limit(1);
+        ->from('GessehTerrain a')
+        ->leftjoin('a.GessehHopital b')
+        ->where('id = ?', $id)
+        ->limit(1);
 
       return $q->fetchOne();
     }

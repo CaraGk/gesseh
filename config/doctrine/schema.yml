@@ -65,6 +65,7 @@ GessehPromo:
   columns:
     titre: { type: string(100), notnull: true }
     ordre: { type: integer(2), notnull: true }
+    active: { type: boolean, notnull: true, default: true }
     form: { type: integer, notnull: false }
   relations:
     GessehFormEval: { local: form, foreign: id }
@@ -100,6 +101,7 @@ GessehCritere:
     titre: { type: string(100), notnull: true }
     type: { type: string(10), notnull: true }
     ratio: { type: integer }
+    ordre: { type: integer(2), notnull: true }
   relations:
     GessehFormEval:  { onDelete: CASCADE, local: form, foreign: id }
 
@@ -137,7 +139,7 @@ GessehReferent:
     GessehPromo: { onDelete: CASCADE, local: promo, foreign: id }
     sfGuardUser: { onDelete: CASCADE, local: utilisateur, foreign: id }
 
-CopisimSimulation:
+GessehSimulation:
   columns:
     etudiant: { type: integer, notnull: true }
     poste: { type: integer, notnull: false }
