@@ -11,8 +11,11 @@ terrain_index:
   param: { module: terrain, action: index }
 
 terrain_index_tri:
-  url: /terrain/tri/:tri1/:order1
+  url: /terrain/tri/:col/:order
   param: { module: terrain, action: index }
+  requirements:
+    col: \w+
+    order: \w+
 
 #terrain_index_tri2:
 #  url: /terrain/tri/:tri1/:order1/:tri2/:order2

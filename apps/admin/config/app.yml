@@ -5,5 +5,5 @@
 all:
   sf_guard_plugin_routes_register: true
   remember_key_expiration_age:  86400   # 1 day in seconds
-  remember_cookie_name:         GessehAdmRemember
+  remember_cookie_name:         GessehAdmRememberMe
 

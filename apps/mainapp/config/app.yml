@@ -7,4 +7,4 @@ all:
     success_signin_url:      @etudiant_index
     success_signout_url:     @homepage
     remember_key_expiration_age:  86400   # 1 day in seconds
-    remember_cookie_name:         GessehRemember
+    remember_cookie_name:         GessehRememberMe

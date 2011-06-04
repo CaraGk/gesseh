@@ -6,76 +6,98 @@ csSetting:
   urlsite:
     name: BaseURL
     type: input
+    setting_group: 'Mail'
   email:
     name: Email
     type: input
+    setting_group: 'Mail'
   emailnom:
     name: Email Nom
     type: input
     setting_default: Administration GESSEH
+    setting_group: 'Mail'
   emailprefix:
     name: Email Prefixe
     type: input
     setting_default: gesseh
+    setting_group: 'Mail'
   mod_eval:
-    name: Évaluations
-    type: boolean
+    name: mod_eval
+    type: checkbox
     setting_default: true
+    setting_group: 'Modules'
   mod_simul:
-    name: Simulations
-    type: boolean
+    name: mod_simul
+    type: checkbox
     setting_default: true
+    setting_group: 'Modules'
+  mod_referent:
+    name: mod_referent
+    type: checkbox
+    setting_default: false
+    setting_group: 'Modules'
+  mod_garde:
+    name: mod_garde
+    type: checkbox
+    setting_default: false
+    setting_group: 'Modules'
+  mod_message:
+    name: mod_message
+    type: checkbox
+    setting_default: false
+    setting_group: 'Modules'
   colstagedebut:
     name: ExcelRowNumber Stage Debut
     type: input
-#    group: ExcelRowNumber
+    setting_group: ExcelRowNumber
     setting_default: 'A'
   colstagefin:
     name: ExcelRowNumber Stage Fin
     type: input
-#    group: ExcelRowNumber
+    setting_group: ExcelRowNumber
     setting_default: 'B'
   colstagenom:
     name: ExcelRowNumber Stage Nom
     type: input
-#    group: ExcelRowNumber
+    setting_group: ExcelRowNumber
     setting_default: 'C'
   colstageprenom:
     name: ExcelRowNumber Stage Prenom
     type: input
-#    group: ExcelRowNumber
+    setting_group: ExcelRowNumber
     setting_default: 'D'
   colstagefiliere:
     name: ExcelRowNumber Stage Filiere
     type: input
-#    group: ExcelRowNumber
+    setting_group: ExcelRowNumber
     setting_default: 'E'
   colstagehopital:
     name: ExcelRowNumber Stage Hopital
     type: input
-#    group: ExcelRowNumber
+    setting_group: ExcelRowNumber
     setting_default: 'F'
   colstagepatron:
     name: ExcelRowNumber Stage Patron
     type: input
-#    group: ExcelRowNumber
+    setting_group: ExcelRowNumber
     setting_default: 'G'
   colpromoid:
     name: ExcelRowNumber Promo Identifiant
     type: input
-#    group: ExcelRowNumber
+    setting_group: ExcelRowNumber
     setting_default: 'A'
   colpromonom:
     name: ExcelRowNumber Promo Nom
     type: input
-#    group: ExcelRowNumber
+    setting_group: ExcelRowNumber
     setting_default: 'B'
   colpromoprenom:
     name: ExcelRowNumber Promo Prenom
     type: input
-#    group: ExcelRowNumber
+    setting_group: ExcelRowNumber
     setting_default: 'C'
   colpromoddn:
     name: ExcelRowNumber Promo Naissance
     type: input
+    setting_group: ExcelRowNumber
     setting_default: 'D'
