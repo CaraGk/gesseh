@@ -17,7 +17,7 @@
         echo 'valide';
       endif; ?>">
       <td><?php echo $gesseh_stage->getGessehPeriode()->getDebut().' - '.$gesseh_stage->getGessehPeriode()->getFin(); ?></td>
-      <td><?php echo $gesseh_stage->getGessehTerrain()->getFiliere() ?> à <?php echo $gesseh_stage->getGessehTerrain()->getGessehHopital()->getNom(); ?> (<?php echo $gesseh_stage->getGessehTerrain()->getPatron(); ?>)</td>
+      <td><?php echo $gesseh_stage->getGessehTerrain()->getTitre() ?> à <?php echo $gesseh_stage->getGessehTerrain()->getGessehHopital()->getNom(); ?> (<?php echo $gesseh_stage->getGessehTerrain()->getPatron(); ?>)</td>
       <td>
         <?php if($gesseh_stage->getIsActive()): ?>
 	  <a href="<?php echo url_for('eval/new?idstage='.$gesseh_stage->getId()); ?>">Evaluer</a>
