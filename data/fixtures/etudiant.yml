@@ -1,11 +1,9 @@
 GessehEtudiant:
   anonyme:
-    id: 0
     nom: Anonyme
     prenom: Anonyme
     GessehPromo: hors
   pilou:
-    id: 20402395
     nom: Angrand
     prenom: Pierre-François
     GessehPromo: dcem3
@@ -18,3 +16,15 @@ GessehEtudiant:
     GessehPromo: pcem2
     email: tmp@angrand.fr
     sfGuardUser: sgu_toto
+  tata:
+    GessehPromo: dcem2
+    sfGuardUser: sgu_tata
+  tutu:
+    GessehPromo: dcem2
+    sfGuardUser: sgu_tutu
+  titi:
+    GessehPromo: dcem2
+    sfGuardUser: sgu_titi
+  tete:
+    GessehPromo: dcem2
+    sfGuardUser: sgu_tete

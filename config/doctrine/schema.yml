@@ -55,6 +55,7 @@ GessehEtudiant:
     token_mail: { type: string(50), notnull: true }
     tel: { type: string(14), notnull: false }
     naissance: { type: date, notnull: false }
+    anonyme: { type: boolean, default: false }
     utilisateur: { type: integer, notnull: false }
   relations:
     GessehPromo:  { onDelete: CASCADE, local: promo_id, foreign: id }

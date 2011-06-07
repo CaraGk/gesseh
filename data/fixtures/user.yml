@@ -7,10 +7,38 @@ sfGuardUser:
     password: etudiant
     is_super_admin: false
   sgu_toto:
-    username: 12345678
+    username: toto
     last_name: TOTO
     first_name: Toto
-    email_address: tmp@angrand.fr
+    email_address: toto@angrand.fr
+    password: etudiant
+    is_super_admin: false
+  sgu_titi:
+    username: titi
+    last_name: TITI
+    first_name: Titi
+    email_address: titi@angrand.fr
+    password: etudiant
+    is_super_admin: false
+  sgu_tata:
+    username: tata
+    last_name: TATA
+    first_name: Tata
+    email_address: tata@angrand.fr
+    password: etudiant
+    is_super_admin: false
+  sgu_tutu:
+    username: tutu
+    last_name: TUTU
+    first_name: Tutu
+    email_address: tutu@angrand.fr
+    password: etudiant
+    is_super_admin: false
+  sgu_tete:
+    username: tete
+    last_name: TETE
+    first_name: Tete
+    email_address: tete@angrand.fr
     password: etudiant
     is_super_admin: false
   sgu_admin:
@@ -50,6 +78,21 @@ sfGuardUserGroup:
   sgug_toto:
     Group: sgg_etudiant
     User: sgu_toto
+  sgug_tata:
+    Group: sgg_etudiant
+    User: sgu_tata
+  sgug_tutu:
+    Group: sgg_etudiant
+    User: sgu_tutu
+  sgug_toto:
+    Group: sgg_etudiant
+    User: sgu_toto
+  sgug_tete:
+    Group: sgg_etudiant
+    User: sgu_tete
+  sgug_titi:
+    Group: sgg_etudiant
+    User: sgu_titi
   sgug_admin:
     Group: sgg_admin
     User: sgu_admin

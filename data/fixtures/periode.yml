@@ -11,4 +11,7 @@ GessehPeriode:
   stage4:
     debut: 2010/05/16
     fin: 2011/10/01
+  stage5:
+    debut: 2011/05/16
+    fin: 2011/10/01
 

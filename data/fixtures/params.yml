@@ -1,51 +1,56 @@
 csSetting:
   nomsite:
-    name: Titre du site
+    name: 'Titre du site'
     type: input
     setting_default: 'Site de démonstration'
   urlsite:
-    name: BaseURL
+    name: 'BaseURL'
     type: input
     setting_group: 'Mail'
   email:
-    name: Email
+    name: 'Email'
     type: input
     setting_group: 'Mail'
   emailnom:
-    name: Email Nom
+    name: 'Email Nom'
     type: input
-    setting_default: Administration GESSEH
+    setting_default: 'Administration GESSEH'
     setting_group: 'Mail'
   emailprefix:
-    name: Email Prefixe
+    name: 'Email Prefixe'
     type: input
-    setting_default: gesseh
+    setting_default: 'gesseh'
     setting_group: 'Mail'
   mod_eval:
-    name: mod_eval
+    name: 'mod_eval'
     type: checkbox
     setting_default: true
     setting_group: 'Modules'
   mod_simul:
-    name: mod_simul
+    name: 'mod_simul'
     type: checkbox
     setting_default: true
     setting_group: 'Modules'
   mod_referent:
-    name: mod_referent
+    name: 'mod_referent'
     type: checkbox
     setting_default: false
     setting_group: 'Modules'
   mod_garde:
-    name: mod_garde
+    name: 'mod_garde'
     type: checkbox
     setting_default: false
     setting_group: 'Modules'
   mod_message:
-    name: mod_message
+    name: 'mod_message'
     type: checkbox
     setting_default: false
     setting_group: 'Modules'
+  simul_pager:
+    name: 'pager_simul'
+    type: input
+    setting_default: '300'
+    setting_group: 'Core'
   colstagedebut:
     name: ExcelRowNumber Stage Debut
     type: input
