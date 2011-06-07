@@ -13,6 +13,7 @@
  * @property string $token_mail
  * @property string $tel
  * @property date $naissance
+ * @property boolean $anonyme
  * @property integer $utilisateur
  * @property GessehPromo $GessehPromo
  * @property sfGuardUser $sfGuardUser
@@ -28,6 +29,7 @@
  * @method string              getTokenMail()        Returns the current record's "token_mail" value
  * @method string              getTel()              Returns the current record's "tel" value
  * @method date                getNaissance()        Returns the current record's "naissance" value
+ * @method boolean             getAnonyme()          Returns the current record's "anonyme" value
  * @method integer             getUtilisateur()      Returns the current record's "utilisateur" value
  * @method GessehPromo         getGessehPromo()      Returns the current record's "GessehPromo" value
  * @method sfGuardUser         getSfGuardUser()      Returns the current record's "sfGuardUser" value
@@ -42,6 +44,7 @@
  * @method GessehEtudiant      setTokenMail()        Sets the current record's "token_mail" value
  * @method GessehEtudiant      setTel()              Sets the current record's "tel" value
  * @method GessehEtudiant      setNaissance()        Sets the current record's "naissance" value
+ * @method GessehEtudiant      setAnonyme()          Sets the current record's "anonyme" value
  * @method GessehEtudiant      setUtilisateur()      Sets the current record's "utilisateur" value
  * @method GessehEtudiant      setGessehPromo()      Sets the current record's "GessehPromo" value
  * @method GessehEtudiant      setSfGuardUser()      Sets the current record's "sfGuardUser" value
@@ -95,6 +98,10 @@ abstract class BaseGessehEtudiant extends sfDoctrineRecord
         $this->hasColumn('naissance', 'date', null, array(
              'type' => 'date',
              'notnull' => false,
+             ));
+        $this->hasColumn('anonyme', 'boolean', null, array(
+             'type' => 'boolean',
+             'default' => false,
              ));
         $this->hasColumn('utilisateur', 'integer', null, array(
              'type' => 'integer',

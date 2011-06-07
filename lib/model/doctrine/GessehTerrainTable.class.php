@@ -11,9 +11,9 @@ class GessehTerrainTable extends Doctrine_Table
     }
 
     /* Récupère la liste complète des terrains de stage, ordonnée par tri pour un pager */
-    public function getListeTerrains($request = null)
+    public function getListeTerrains($tri = 'b.nom asc')
     {
-      $tri = $this->checkOrderTri($request);
+//      $tri = $this->checkOrderTri($order);
 
       $q = Doctrine_Query::create()
         ->from('GessehTerrain a')
@@ -24,10 +24,10 @@ class GessehTerrainTable extends Doctrine_Table
       return $q;
     }
 
-    /* Récupères les informations d'un terrain de stage */
+    /* Récupère les informations d'un terrain de stage */
     public function getTerrainUnique($id)
     {
-      $q = $this->gesseh_terrain = Doctrine_Query::create()
+      $q = Doctrine_Query::create()
         ->from('GessehTerrain a')
         ->leftjoin('a.GessehHopital b')
         ->where('id = ?', $id)
@@ -36,11 +36,26 @@ class GessehTerrainTable extends Doctrine_Table
       return $q->fetchOne();
     }
 
+    /* Récupère les terrains sous forme d'un tableau */
+    public function getActiveTerrainTbl()
+    {
+      $q = Doctrine_Query::create()
+        ->from('GessehTerrain a')
+        ->where('is_active = ?', true);
+
+      $terrains = $q->execute();
+
+      foreach ($terrains as $terrain)
+        $poste[$terrain->getId()] = $terrain->getTotal();
+
+      return $poste;
+    }
+
     private function checkOrderTri($request = null)
     {
     // Y a-t'il un/des tris dans la requête ? / Mise en forme
-
-      if ($request->getParameter('tri1'))
+/*
+     if ($request->getParameter('tri1'))
         $tri = $this->makeProperTri($request->getParameter('tri1')) . ' ' . $this->makeProperOrder($request->getParameter('order1'));
       else
         $tri = 'b.nom asc, a.filiere asc';
@@ -49,6 +64,7 @@ class GessehTerrainTable extends Doctrine_Table
         $tri .= ', ' . $this->makeProperTri($request->getParameter('tri2')) . ' ' . $this->makeProperOrder($request->getParameter('order2'));
 
       return $tri;
+*/
     }
 
     private function makeProperTri($tri)

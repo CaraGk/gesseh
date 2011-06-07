@@ -85,9 +85,6 @@ class GessehEtudiantTable extends Doctrine_Table
       for($i = 1 ; $i <= $data->rowcount($sheet_index=0) ; $i++)
       {
         $etudiant = new GessehEtudiant();
-        $etudiant->setId($data->val($i, csSettings::get('excelrownumber_promo_identifiant')));
-        $etudiant->setNom($data->val($i, csSettings::get('excelrownumber_promo_nom')));
-        $etudiant->setPrenom($data->val($i, csSettings::get('excelrownumber_promo_prenom')));
         $date = explode('/', $data->val($i, csSettings::get('excelrownumber_promo_naissance')));
         $etudiant->setNaissance('19'.$date[2].'-'.$date[1].'-'.$date[0]);
         $etudiant->setPromoId($promo->getId());
@@ -95,13 +92,43 @@ class GessehEtudiantTable extends Doctrine_Table
 
         $user = new sfGuardUser();
         $user->setUsername($etudiant->getId());
+        $user->setFirstName($data->getCellByColumnAndRow(csSettings::get('etudiant_prenom'), $i));
+        $user->setLastName($data->getCellByColumnAndRow(csSettings::get('etudiant_nom'), $i));
+        $user->setEmailAddress($data->getCellByColumnAndRow(csSettings::get('etudiant_mail'), $i));
         $user->setPassword($date[0].$date[1].'19'.$date[2]);
-        $user->save();
+        $user->setIsActive(1);
+        $user->setIsSuperAdmin(0);
+//      $user->save();
         $user->addGroupByName('etudiant');
         $user->addPermissionByName('etudiant');
+        $user->save();
       }
 
       return $data->rowcount($sheet_index=0);
     }
 
+    /* */
+    public function getListeQuery($promo)
+    {
+      $q = Doctrine_Query::create()
+        ->from('CopisimEtudiant a')
+        ->leftJoin('a.CopisimPromo b')
+        ->leftJoin('a.CopisimSimulation c')
+        ->leftJoin('c.CopisimTerrain d')
+//        ->leftJoin('d.CopisimHopital e')
+        ->leftJoin('a.sfGuardUser g')
+        ->where('a.promo = ?', $promo)
+        ->orderBy('a.classement asc');
+
+      return $q;
+    }
+
+    /* */
+    public function getListeAdmin(Doctrine_Query $q)
+    {
+      $rootAlias = $q->getRootAlias();
+      $q->leftJoin($rootAlias . '.CopisimPromo c');
+
+      return $q;
+    }
 }

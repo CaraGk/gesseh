@@ -18,16 +18,6 @@ class GessehEtudiant extends BaseGessehEtudiant
     return sprintf('%s %s', $this->getNom(), $this->getPrenom());
   }
 
-  public function save(Doctrine_Connection $conn = null)
-  {
-//    if ($this->getEmail() != $this->getTokenMail() and $this->getTokenMail())
-//      $this->sendMailValidation($this->getTokenMail());
-//   else
-//      $this->setTokenMail('');
-
-    return parent::save($conn);
-  }
-
   /* Depreciated : Envoie un jeton de confirmation de l'adresse email */
   public function sendMailValidation($email)
   {
