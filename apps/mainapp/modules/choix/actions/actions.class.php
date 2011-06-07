@@ -48,6 +48,8 @@ class choixActions extends sfActions
   /* Valide l'ajout de choix et l'insère dans la base */
   public function executeUpdate(sfWebRequest $request)
   {
+    $userid = $this->getUser()->getEtudiantId();
+
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
 //		$this->forward404Unless($Gesseh_etudiant = Doctrine::getTable('GessehEtudiant')->find(array($this->getUser()->getUsername())), sprintf('Object Gesseh_etudiant does not exist (%s).', $request->getParameter('id')));
 //    $this->form = new GessehEtudiantChoixForm($Gesseh_etudiant);
@@ -57,7 +59,12 @@ class choixActions extends sfActions
 
     if($this->form->isValid())
 		{
-      $this->form->save();
+      if($choix = Doctrine::getTable('GessehChoix')->isAlreadySaved($userid, $this->form->getObject()->getPoste())) {
+        $choix->setOrdre(null);
+        $choix->save();
+      } else {
+        $this->form->save();
+      }
       $this->redirect('@choix_edit');
     }
 
