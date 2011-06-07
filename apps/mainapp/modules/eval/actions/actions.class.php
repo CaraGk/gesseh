@@ -13,24 +13,24 @@ class evalActions extends sfActions
   /* Affiche la liste des stages effectués de l'utilisateur */
   public function executeIndex(sfWebRequest $request)
   {
+    $userid = $this->getUser()->getEtudiantId();
+
 /*    $this->gesseh_evals = Doctrine::getTable('GessehEval')
       ->createQuery('a')
       ->execute();
 */
-    $this->gesseh_stages = Doctrine::getTable('GessehStage')->getStagesEtudiant($this->getUser()->getUsername());
+    $this->gesseh_stages = Doctrine::getTable('GessehStage')->getStagesEtudiant($userid);
   }
 
   /* Affiche l'évaluation du stage */
   public function executeShow(sfWebRequest $request)
   {
-    $this->user = $this->getUser()->getUsername();
     $this->gesseh_evals = Doctrine::getTable('GessehEval')->getEvalsFromStage($request->getParameter('idstage'));
   }
 
   /* Affiche le formulaire d'évaluation */
   public function executeNew(sfWebRequest $request)
   {
-    $this->user = $this->getUser()->getUsername();
     $this->gesseh_stage = Doctrine::getTable('GessehStage')->getStageUniqueEtudiant($request->getParameter('idstage'));
     $this->forward404Unless($this->gesseh_stage);
 
@@ -49,7 +49,6 @@ class evalActions extends sfActions
   /* Valide le formulaire d'évaluation */
   public function executeCreate(sfWebRequest $request)
   {
-    $this->user = $this->getUser()->getUsername();
     $this->forward404Unless($request->isMethod(sfRequest::POST));
     $this->gesseh_stage = Doctrine::getTable('GessehStage')->getStageUniqueEtudiant($request->getParameter('idstage'));
     $this->gesseh_criteres = Doctrine::getTable('GessehCritere')->getCriteres($this->gesseh_stage->getForm());
@@ -71,7 +70,6 @@ class evalActions extends sfActions
   /* Enregistre les données du formulaire */
   protected function processForm(sfWebRequest $request, sfForm $form, $criteres)
   {
-    $this->user = $this->getUser()->getUsername();
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {

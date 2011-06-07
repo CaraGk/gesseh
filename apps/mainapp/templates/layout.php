@@ -22,7 +22,7 @@
                 <li><a href="<?php echo url_for('@eval_index'); ?>">Mes évaluations</a></li>
               <?php endif; ?>
               <?php if (csSettings::get('mod_simul')): ?>
-                <li><a href="<?php echo url_for('@homepage'); ?>">Mes voeux</a></li>
+                <li><a href="<?php echo url_for('@choix_edit'); ?>">Mes voeux</a></li>
                 <li><a href="<?php echo url_for('@homepage'); ?>">État des postes</a></li>
               <?php endif; ?>
               <?php if (csSettings::get('mod_garde')): ?>

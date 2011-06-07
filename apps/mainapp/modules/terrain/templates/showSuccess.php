@@ -32,3 +32,8 @@
   </tbody>
 </table>
 
+<?php if (null == $gesseh_terrain->getPage()): ?>
+  <div>Il n'y a aucune information supplémentaire à afficher pour ce terrain de stage pour le moment. Référez-vous à l'administrateur du site.</div>
+<?php else: ?>
+  <div><?php echo $bb_parser->qparse($gesseh_terrain->getGessehPage()->getContenu()); ?></div>
+<?php endif; ?>
