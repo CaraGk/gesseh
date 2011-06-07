@@ -30,7 +30,7 @@
       <td><a href="<?php echo url_for('terrain/show?id='.$gesseh_terrain->getId()) ?>"><?php echo $gesseh_terrain->getPatron() ?></a></td>
       <td>
         <?php if (null != $postes_restants): ?>
-          <?php echo $postes_restant[$gesseh_terrain->getId()]; ?> /
+          <?php echo $postes_restants[$gesseh_terrain->getId()]; ?> /
         <?php endif; ?>
         <?php echo $gesseh_terrain->getTotal(); ?>
       </td>

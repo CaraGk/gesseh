@@ -16,8 +16,8 @@ class terrainActions extends sfActions
 //     $this->tri = $this->changeTri($request);
 //     $tri = null;
 
-     if (Doctrine::getTable('GessehPeriode')->getActivePeriode() and csSettings::get('mod_choix') and $this->getUser()->isAuthenticated())
-       $this->postes_restants = Doctrine::getTable('GessehSimulation')->updateTerrain(Doctrine::getTable('GessehTerrain')->getActiveTerrainTbl());
+     if (Doctrine::getTable('GessehPeriode')->getActivePeriode() and csSettings::get('mod_simul') and $this->getUser()->isAuthenticated())
+       $this->postes_restants = Doctrine::getTable('GessehSimulation')->updateTerrains(Doctrine::getTable('GessehTerrain')->getActiveTerrainTbl());
      else
        $this->postes_restants = null;
 
