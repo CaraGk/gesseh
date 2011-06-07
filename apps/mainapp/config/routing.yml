@@ -79,3 +79,47 @@ eval_show_terrain:
   param: { module: eval, action: terrain }
   requirements:
     id: \d+
+
+choix_edit:
+  url: /choix/
+  param: { module: choix, action: edit }
+
+choix_edit_up:
+  url: /choix/:up/up
+  param: { module: choix, action: edit }
+  requirements:
+    up: \d+
+
+choix_edit_down:
+  url: /choix/:down/down
+  param: { module: choix, action: edit }
+  requirements:
+    down: \d+
+
+choix_edit_del:
+  url: /choix/:del/del
+  param: { module: choix, action: edit }
+  requirements:
+    del: \d+
+
+choix_update:
+  url: /choix/update
+  param: { module: choix, action: update }
+
+choix_simul:
+  url: /choix/simul/
+  param: { module: choix, action: simul }
+
+choix_simul_pager:
+  url: /choix/simul/:debut
+  param: { module: choix, action: simul }
+  requirements:
+    debut: \d+
+
+choix_present:
+  url: /choix/in
+  param: { module: choix, action: present }
+
+choix_absent:
+  url: /choix/out
+  param: { module: choix, action: absent }
