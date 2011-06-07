@@ -1,0 +1,7 @@
+config:
+  quotestyle: "double"
+  quotewhat:  "all"
+  open:       "["
+  close:      "]"
+  xmlclose:   true
+  filters:    "Basic,Extended,Images,Links,Lists,Email"

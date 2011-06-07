@@ -1,0 +1,5 @@
+config/bb_code_parser_config.yml:
+  class: sfSimpleYamlConfigHandler
+
+config/bb_code_parser_tags.yml:
+  class: sfSimpleYamlConfigHandler

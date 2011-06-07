@@ -1,0 +1,3 @@
+#sfBBCodeParser:
+  #url:   /sfBBCodeParser
+  #param: { module: sfBBCodeParser, action: index }

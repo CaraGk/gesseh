@@ -1,0 +1,138 @@
+# Be carefull, the filters names are case sensitive (*B*asic) 
+filters:
+  Basic:
+    b:
+      htmlopen:   "strong"
+      htmlclose:  "strong"
+      allowed:    "all"
+      attributes: { }
+    i:
+      htmlopen:   "em"
+      htmlclose:  "em"
+      allowed:    "all"
+      attributes: { }
+    u:
+      htmlopen:   span style="text-decoration:underline;"
+      htmlclose:  "span"
+      allowed:    "all"
+      attributes: { }
+    s:
+      htmlopen:   "del"
+      htmlclose:  "del"
+      allowed:    "all"
+      attributes: { }
+    sub:
+      htmlopen:   "sub"
+      htmlclose:  "sub"
+      allowed:    "all"
+      attributes: { }
+    sup:
+      htmlopen:   "sup"
+      htmlclose:  "sup"
+      allowed:    "all"
+      attributes: { }
+      
+  Extended:
+    color:
+      htmlopen:  "span"
+      htmlclose: "span"
+      allowed:    all"
+      attributes: { color: "style=%2$scolor:%1$s%2$s" }
+    size:
+      htmlopen: "span"
+      htmlclose: "span"
+      allowed:   "all"
+      attributes: { size: "style=%2$sfont-size:%1$spt%2$s" }
+    font:
+      htmlopen:   "span"
+      htmlclose:  "span"
+      allowed:    "all"
+      attributes: { font: "style=%2$sfont-family:%1$s%2$s" }
+    align:
+      htmlopen:   "div"
+      htmlclose:  "div"
+      allowed:    "all"
+      attributes: { align: "style=%2$stext-align:%1$s%2$s" }
+    quote:
+      htmlopen:   "q"
+      htmlclose:  "q"
+      allowed:    "all"
+      attributes: { quote: "cite=%2$s%1$s%2$s" }
+    code:
+      htmlopen:   "code"
+      htmlclose:  "code"
+      allowed:    "all"
+      attributes: { }
+    h1:
+      htmlopen:   "h1"
+      htmlclose:  "h1"
+      allowed:    "all"
+      attributes: { }
+    h2:
+      htmlopen:   "h2"
+      htmlclose:  "h2"
+      allowed:    "all"
+      attributes: { }
+    h3:
+      htmlopen:   "h3"
+      htmlclose:  "h3"
+      allowed:    "all"
+      attributes: { }
+    h4:
+      htmlopen:   "h4"
+      htmlclose:  "h4"
+      allowed:    "all"
+      attributes: { }
+    h5:
+      htmlopen:   "h5"
+      htmlclose:  "h5"
+      allowed:    "all"
+      attributes: { }
+    h6:
+      htmlopen:   "h6"
+      htmlclose:  "h6"
+      allowed:    "all"
+      attributes: { }
+
+  Images:
+    img:
+      htmlopen: "img"
+      htmlclose: ""
+      allowed:    "none"
+      attributes: { src: "src=%2$s%1$s%2$s", w: "width=%2$s%1$d%2$s", h: "height=%2$s%1$d%2$s", alt: "alt=%2$s%1$s%2$s", title: "title=%2$s%1$s%2$s" }
+
+  Links:
+    url:
+      htmlopen:  "a"
+      htmlclose: "a"
+      allowed:   "none^img"
+      attributes: { href: "href=%2$s%1$s%2$s" }
+
+  Lists:
+    list:
+      htmlopen:   "ol"
+      htmlclose:  "ol"
+      allowed:    "all"
+      child:      "none^li"
+      attributes: { list: "style=%2$slist-style-type:%1$s;%2$s" }
+
+    ulist:
+      htmlopen:   "ul"
+      htmlclose:  "ul"
+      allowed:    "all"
+      child:      "none^li"
+      attributes: { list: "style=%2$slist-style-type:%1$s;%2$s" }
+
+    li:
+      htmlopen:   "li"
+      htmlclose:  "li"
+      allowed:    "all"
+      parent:     "none^ulist,list"
+      attributes: { }
+
+  Email:      
+    email:
+      htmlopen:   "a"
+      htmlclose:  "a"
+      allowed:    "none^img"
+      attributes: { email: href="%2$smailto:%1$s%2$s" }
