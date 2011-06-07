@@ -21,6 +21,7 @@ abstract class BaseGessehEtudiantFormFilter extends BaseFormFilterDoctrine
       'token_mail'  => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'tel'         => new sfWidgetFormFilterInput(),
       'naissance'   => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
+      'anonyme'     => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
       'utilisateur' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('sfGuardUser'), 'add_empty' => true)),
       'updated_at'  => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
     ));
@@ -34,6 +35,7 @@ abstract class BaseGessehEtudiantFormFilter extends BaseFormFilterDoctrine
       'token_mail'  => new sfValidatorPass(array('required' => false)),
       'tel'         => new sfValidatorPass(array('required' => false)),
       'naissance'   => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDateTime(array('required' => false)))),
+      'anonyme'     => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
       'utilisateur' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('sfGuardUser'), 'column' => 'id')),
       'updated_at'  => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
     ));
@@ -64,6 +66,7 @@ abstract class BaseGessehEtudiantFormFilter extends BaseFormFilterDoctrine
       'token_mail'  => 'Text',
       'tel'         => 'Text',
       'naissance'   => 'Date',
+      'anonyme'     => 'Boolean',
       'utilisateur' => 'ForeignKey',
       'updated_at'  => 'Date',
     );

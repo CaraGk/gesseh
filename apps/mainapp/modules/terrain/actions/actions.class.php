@@ -14,13 +14,15 @@ class terrainActions extends sfActions
   public function executeIndex(sfWebRequest $request)
   {
 //     $this->tri = $this->changeTri($request);
-     $tri = null;
+//     $tri = null;
 
      if (Doctrine::getTable('GessehPeriode')->getActivePeriode() and csSettings::get('mod_choix') and $this->getUser()->isAuthenticated())
        $this->postes_restants = Doctrine::getTable('GessehSimulation')->updateTerrain(Doctrine::getTable('GessehTerrain')->getActiveTerrainTbl());
+     else
+       $this->postes_restants = null;
 
      $this->pager = new sfDoctrinePager('GessehTerrain', 30);
-     $this->pager->setQuery(Doctrine::getTable('GessehTerrain')->getListeTerrains($tri));
+     $this->pager->setQuery(Doctrine::getTable('GessehTerrain')->getListeTerrains());
      $this->pager->setPage($request->getParameter('page', 1));
   }
 

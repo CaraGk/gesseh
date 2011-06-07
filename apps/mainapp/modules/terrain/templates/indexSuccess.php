@@ -3,10 +3,15 @@
 <table class="list">
   <thead>
     <tr>
-      <th><a href=<?php echo url_for('terrain/index?'.$tri['hopital']); ?>>Hôpital</a></th>
+      <th>Hôpital</th>
       <th>Intitulé</th>
-      <th><a href=<?php echo url_for('terrain/index?'.$tri['filiere']); ?>>Filière</a></th>
+      <th><Filière</th>
       <th>Chef de service</th>
+      <?php if (null != $postes_restants): ?>
+        <th>Reste / Postes</th>
+      <?php else: ?>
+        <th>Postes</th>
+      <?php endif; ?>
       <th>Actions</th>
     </tr>
   </thead>
@@ -23,6 +28,12 @@
         <?php endif; ?>
       </td>
       <td><a href="<?php echo url_for('terrain/show?id='.$gesseh_terrain->getId()) ?>"><?php echo $gesseh_terrain->getPatron() ?></a></td>
+      <td>
+        <?php if (null != $postes_restants): ?>
+          <?php echo $postes_restant[$gesseh_terrain->getId()]; ?> /
+        <?php endif; ?>
+        <?php echo $gesseh_terrain->getTotal(); ?>
+      </td>
       <td>
         <a href="<?php echo url_for('terrain/show?id='.$gesseh_terrain->getId()) ?>">Infos</a>
         <a href="<?php echo url_for('eval/terrain?id='.$gesseh_terrain->getId()) ?>">Évals</a>

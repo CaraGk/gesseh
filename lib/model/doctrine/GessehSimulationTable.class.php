@@ -36,15 +36,14 @@ class GessehSimulationTable extends Doctrine_Table
 
       foreach ($resultats as $resultat) {
         $etudiant = $resultat->getGessehEtudiant();
-          $resultat->setPoste(null);
-          $resultat->setReste(null);
-          if (null != $etudiant->getGessehChoix()) {
-            foreach ($etudiant->getGessehChoix() as $choix) {
-              if ($resultat->getPoste() == null and $postes[$choix->getPoste()] > 0){
-                $postes[$choix->getPoste()]--;
-                $resultat->setPoste($choix->getPoste());
-                $resultat->setReste($postes[$choix->getPoste()]);
-             
+        $resultat->setPoste(null);
+        $resultat->setReste(null);
+        if (null != $etudiant->getGessehChoix()) {
+          foreach ($etudiant->getGessehChoix() as $choix) {
+            if ($resultat->getPoste() == null and $postes[$choix->getPoste()] > 0){
+              $postes[$choix->getPoste()]--;
+              $resultat->setPoste($choix->getPoste());
+              $resultat->setReste($postes[$choix->getPoste()]);
             }
           }
         }

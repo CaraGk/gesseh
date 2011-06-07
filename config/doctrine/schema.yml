@@ -88,7 +88,6 @@ GessehStage:
 GessehPeriode:
   actAs: {}
   columns:
-    titre: { type: string(20), notnull: true }
     debut: { type: date, notnull: true }
     fin: { type: date, notnull: true }
 
