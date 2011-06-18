@@ -13,13 +13,14 @@ require_once dirname(__FILE__).'/../lib/admEtudiantGeneratorHelper.class.php';
  */
 class admEtudiantActions extends autoAdmEtudiantActions
 {
+  /* Passe tous les étudiants dans la promo supérieure sauf la dernière promo */
   public function executeListAutoUpdatePromo()
   {
     $gesseh_promos = Doctrine::getTable('GessehPromo')
       ->createQuery('a')
       ->orderBy('a.ordre desc')
       ->execute();
-    
+
     $promo_next = null;
     foreach($gesseh_promos as $gesseh_promo)
     {
@@ -32,29 +33,32 @@ class admEtudiantActions extends autoAdmEtudiantActions
     $this->redirect('admEtudiant/index');
   }
 
+  /* Supprime les anciens étudiants lors d'une opération de maintenance */
   public function executeListDeleteAncien()
   {
     $this->redirect('admEtudiant/index');
   }
 
+  /* Formulaire d'import */
   public function executeListImportNew()
   {
     $this->form = new ImportForm();
     $this->setTemplate('import');
   }
 
+  /* Importe des étudiants depuis un fichier */
   public function executeImportcreate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
     $this->form = new ImportForm();
-    
+
     $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
     if ($this->form->isValid())
     {
       $this->form->save('GessehEtudiant');
       $this->redirect('admEtudiant/index');
     }
-    
+
     $this->setTemplate('import');
   }
 

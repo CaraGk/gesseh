@@ -14,34 +14,41 @@ generator:
     config:
       actions: ~
       fields:
-        id: { label: N° étudiant }
-        nom: { label: Nom }
-        prenom: { label: Prénom }
+        utilisateur: { label: Utilisateur, help: Utilisateur correspondant }
+        sfGuardUser: { label: Étudiant, help: Utilisateur correspondant }
         promo_id: { label: Promotion }
-        email: { label: E-mail }
         tel: { label: Téléphone }
         naissance: { label: Date de naissance }
+        classement: { label: Classement (choix), help: Ordre de classement pour les choix dans la promo }
       list:
         title: Liste des étudiants
-        display: [=id, nom, prenom, gesseh_promo, email, tel, naissance]
-        fields:
-          id: { label: N°étudiant }
-          gesseh_promo: { label: Promotion }
+        display: [=sfGuardUser,  gesseh_promo, tel, naissance]
         sort: [promo_id, asc]
-        max_per_page: 100
+        max_per_page: 50
         actions:
-          _new: ~
-          autoUpdatePromo: { label: Change promo }
-          deleteAncien: { label: Supprime anciens étudiants }
-          importNew: { label: Importe une nouvelle promo }
-        batch_actions: {}
+          _new: { label: Ajouter }
+          autoUpdatePromo: { label: Passage à la promo supérieure }
+          deleteAncien: { label: Maintenance (hors promo) }
+          importNew: { label: Importer }
+        batch_actions:
+          horsPromo: { label: Sortir des promos }
         object_actions:
-          _edit: ~
-        table_method: retrieveActiveEtudiant
+          _edit: { label: Modifier }
+        table_method: retrieveEtudiant
       filter:
-        display: [promo_id, nom]
+        display: [promo_id]
       form:
+        class: GessehEtudiantForm
+        display: [promo_id, sfGuardUser, tel, naissance, classement]
       edit:
-        title: Editer %%nom%% %%prenom%%
+        title: Modifier %%sfGuardUser%%
+        actions:
+          _delete: { label: Supprimer }
+          _list: { label: Retour à la liste }
+          _save: { label: Enregistrer }
       new:
         title: Nouvel étudiant
+        actions:
+          _list: { label: Retour à la liste }
+          _save: { label: Enregistrer }
+          _save_and_add: { label: Ajouter un autre }
