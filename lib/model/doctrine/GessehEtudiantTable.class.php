@@ -10,13 +10,13 @@ class GessehEtudiantTable extends Doctrine_Table
         return Doctrine_Core::getTable('GessehEtudiant');
     }
 
-    /* Récupère les étudiants des promos actives */
-    public function retrieveActiveEtudiant(Doctrine_Query $q)
+    /* Récupère tous les étudiants */
+    public function retrieveEtudiant(Doctrine_Query $q)
     {
       $rootAlias = $q->getRootAlias();
-      $q->leftjoin($rootAlias.'.GessehPromo c')
-        ->where('c.active = ?', 'true')
-        ->orderBy('c.ordre asc, '.$rootAlias.'.nom asc, '.$rootAlias.'.prenom asc');
+      $q->leftJoin($rootAlias.'.GessehPromo c')
+        ->leftJoin($rootAlias.'.sfGuardUser d')
+        ->orderBy('c.ordre asc, d.last_name asc, d.first_name asc');
 
       return $q;
     }
@@ -41,6 +41,16 @@ class GessehEtudiantTable extends Doctrine_Table
       }
       else
         return false;
+    }
+
+    /* Récupère les étudiants des promos actives */
+    public function retrieveActiveEtudiant(Doctrine_Query $q)
+    {
+      $r = $this->retrieveEtudiant($q);
+      $rootAlias = $r->getRootAlias();
+      $r->where('c.active = ?', '1');
+
+      return $r;
     }
 
     /* Depreciated : Vérification de la validation de l'adresse email */

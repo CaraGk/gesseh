@@ -12,18 +12,9 @@ class GessehEtudiantForm extends BaseGessehEtudiantForm
 {
   public function configure()
   {
-    unset($this['created_at'], $this['updated_at'], $this['token_mail']);
+    unset($this['utilisateur'], $this['anonyme'], $this['created_at'], $this['updated_at'], $this['token_mail'], $this['nom'], $this['prenom'], $this['email']);
 
-    $this->validatorSchema['email'] = new sfValidatorAnd(array(
-      $this->validatorSchema['email'],
-      new sfValidatorEmail(),
-    ));
-    
-    if($this->isNew())
-    {
-      $this->widgetSchema['id'] = new sfWidgetFormInput();
-      $this->embedForm('Identifiants', new sfGuardUserForm());
-    }
+    $this->embedRelation('sfGuardUser');
   }
 
 }
