@@ -18,9 +18,7 @@
             <li><a href="<?php echo url_for('@homepage'); ?>">Accueil</a></li>
             <li><a href="<?php echo url_for('@terrain_index'); ?>">Terrains de stage</a></li>
             <?php if ($sf_user->isAuthenticated()): ?>
-              <?php if (csSettings::get('mod_eval')): ?>
-                <li><a href="<?php echo url_for('@eval_index'); ?>">Mes évaluations</a></li>
-              <?php endif; ?>
+                <li><a href="<?php echo url_for('@etudiant_index'); ?>">Mes stages</a></li>
               <?php if (csSettings::get('mod_simul')): ?>
                 <li><a href="<?php echo url_for('@choix_edit'); ?>">Mes voeux</a></li>
                 <li><a href="<?php echo url_for('@homepage'); ?>">État des postes</a></li>

@@ -10,18 +10,6 @@
  */
 class evalActions extends sfActions
 {
-  /* Affiche la liste des stages effectués de l'utilisateur */
-  public function executeIndex(sfWebRequest $request)
-  {
-    $userid = $this->getUser()->getEtudiantId();
-
-/*    $this->gesseh_evals = Doctrine::getTable('GessehEval')
-      ->createQuery('a')
-      ->execute();
-*/
-    $this->gesseh_stages = Doctrine::getTable('GessehStage')->getStagesEtudiant($userid);
-  }
-
   /* Affiche l'évaluation du stage */
   public function executeShow(sfWebRequest $request)
   {

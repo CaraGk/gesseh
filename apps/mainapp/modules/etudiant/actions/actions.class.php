@@ -48,4 +48,11 @@ class etudiantActions extends sfActions
       $this->redirect('@etudiant_edit');
     }
   }
+
+  /* Affiche la liste des stages effectués de l'utilisateur */
+  public function executeIndex(sfWebRequest $request)
+  {
+    $userid = $this->getUser()->getEtudiantId();
+    $this->gesseh_stages = Doctrine::getTable('GessehStage')->getStagesEtudiant($userid);
+  }
 }

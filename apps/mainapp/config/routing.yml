@@ -35,7 +35,7 @@ terrain_show:
 
 etudiant_index:
   url: /etudiant/
-  param: { module: etudiant, action: edit }
+  param: { module: etudiant, action: index }
 
 etudiant_edit:
   url: /etudiant/edit
@@ -51,10 +51,6 @@ etudiant_token:
   requirements:
     userid: \d+
     token: \w+
-
-eval_index:
-  url: /eval/
-  param: { module: eval, action: index }
 
 eval_show:
   url: /eval/:idstage

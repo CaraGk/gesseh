@@ -18,7 +18,7 @@
     <tfoot>
       <tr>
         <td>
-	  <a href="<?php echo url_for('@eval_index') ?>">Retour à la liste des stages</a>
+	  <a href="<?php echo url_for('@etudiant_index') ?>">Retour à la liste des stages</a>
 	</td>
 	<td>
 	  <input type="submit" value="Enregistrer" />
