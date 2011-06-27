@@ -13,7 +13,7 @@ class GessehEtudiantMainappForm extends BaseGessehEtudiantForm
   /* Initialisation du formulaire */
   public function configure()
   {
-    unset($this['promo_id'], $this['classement'], $this['utilisateur'], $this['updated_at'], $this['nom'], $this['prenom'], $this['email'], $this['token_mail']);
+    unset($this['promo_id'], $this['classement'], $this['utilisateur'], $this['updated_at']);
 
     $years = range(1970, 2000);
     $this->widgetSchema['naissance']->setOption('format', '%day% - %month% - %year%');

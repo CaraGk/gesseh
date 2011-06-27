@@ -12,7 +12,14 @@ class GessehEtudiantForm extends BaseGessehEtudiantForm
 {
   public function configure()
   {
-    unset($this['utilisateur'], $this['anonyme'], $this['created_at'], $this['updated_at'], $this['token_mail'], $this['nom'], $this['prenom'], $this['email']);
+    unset($this['utilisateur'], $this['anonyme'], $this['created_at'], $this['updated_at']);
+
+    if (csSettings::get('mod_simul') == false)
+      unset($this['classement']);
+
+    $years = range(1970, 2000);
+    $this->widgetSchema['naissance']->setOption('format', '%day% - %month% - %year%');
+    $this->widgetSchema['naissance']->setOption('years', array_combine($years, $years));
 
     $this->embedRelation('sfGuardUser');
   }

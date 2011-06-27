@@ -23,7 +23,7 @@ GessehCritere:
     type: radio
     ratio: 5
   consultation:
-    form : 1
+    form: 1
     titre: Enseignement en consultation
     type: radio
     ratio: 5

@@ -47,16 +47,12 @@ GessehEtudiant:
       created: { disabled: true }
       updated: { format: Y-m-d }
   columns:
-    nom: { type: string(50), notnull: true}
-    prenom: { type: string(50), notnull: true }
     promo_id: { type: integer, notnull: true }
     classement: { type: integer, notnull: true }
-    email: { type: string(50), notnull: true }
-    token_mail: { type: string(50), notnull: true }
     tel: { type: string(14), notnull: false }
     naissance: { type: date, notnull: false }
     anonyme: { type: boolean, default: false }
-    utilisateur: { type: integer, notnull: false }
+    utilisateur: { type: integer, notnull: true }
   relations:
     GessehPromo:  { onDelete: CASCADE, local: promo_id, foreign: id }
     sfGuardUser: { onDelete: CASCADE, local: utilisateur, type: one, foreign: id }
@@ -90,6 +86,8 @@ GessehPeriode:
   columns:
     debut: { type: date, notnull: true }
     fin: { type: date, notnull: true }
+    debut_simul: { type: date, notnull: true }
+    fin_simul: { type: date, notnull: true }
 
 GessehFormEval:
   columns:

@@ -15,7 +15,7 @@ class GessehEtudiant extends BaseGessehEtudiant
   /* Magic Method : Affiche Nom Prenom à l'appel d'Etudiant */
   public function __toString()
   {
-    return sprintf('%s %s', $this->getNom(), $this->getPrenom());
+    return sprintf('%s %s', $this->getSfGuardUser()->getLastName(), $this->getSfGuardUser()->getFirstName());
   }
 
   /* Depreciated : Envoie un jeton de confirmation de l'adresse email */

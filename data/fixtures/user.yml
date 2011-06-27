@@ -44,7 +44,13 @@ sfGuardUser:
   sgu_admin:
     username: admin
     password: nimda
+    email_address: admin@angrand.fr
     is_super_admin: true
+  nobody:
+    username: nobody
+    password: nobody
+    email_address: nobody@nowhere.com
+    is_active: false
 
 sfGuardGroup:
   sgg_etudiant:
@@ -53,22 +59,6 @@ sfGuardGroup:
   sgg_admin:
     name: admin
     description: Groupe d'administration
-
-sfGuardPermission:
-  sgp_admin:
-    name:           admin
-    description:    Permission administrateur
-  sgp_etudiant:
-    name: etudiant
-    description: Permission etudiant
-
-sfGuardGroupPermission:
-  sggp_admin:
-    Group:       sgg_admin
-    Permission:  sgp_admin
-  sggp_etudiant:
-    Group: sgg_etudiant
-    Permission: sgp_etudiant
 
 
 sfGuardUserGroup:
