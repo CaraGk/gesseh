@@ -15,17 +15,19 @@ abstract class BaseGessehPeriodeForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'    => new sfWidgetFormInputHidden(),
-      'titre' => new sfWidgetFormInputText(),
-      'debut' => new sfWidgetFormDate(),
-      'fin'   => new sfWidgetFormDate(),
+      'id'          => new sfWidgetFormInputHidden(),
+      'debut'       => new sfWidgetFormDate(),
+      'fin'         => new sfWidgetFormDate(),
+      'debut_simul' => new sfWidgetFormDate(),
+      'fin_simul'   => new sfWidgetFormDate(),
     ));
 
     $this->setValidators(array(
-      'id'    => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'titre' => new sfValidatorString(array('max_length' => 20)),
-      'debut' => new sfValidatorDate(),
-      'fin'   => new sfValidatorDate(),
+      'id'          => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'debut'       => new sfValidatorDate(),
+      'fin'         => new sfValidatorDate(),
+      'debut_simul' => new sfValidatorDate(),
+      'fin_simul'   => new sfValidatorDate(),
     ));
 
     $this->widgetSchema->setNameFormat('gesseh_periode[%s]');

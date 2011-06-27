@@ -13,12 +13,30 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        debut: { label: Début (stage) }
+        fin: { label: Fin (stage) }
+        debut_simul: { label: Début (simulation) }
+        fin_simul: { label: Fin (simulation) }
       list:
         title: Liste des périodes de stage
+        display: [debut, fin, debut_simul, fin_simul]
+        batch_actions: {}
+        object_actions:
+          _edit: { label: Modifier }
+          _delete: { label: Supprimer }
+        actions: 
+          _new: { label: Ajouter }
       filter:  ~
       form:    ~
       edit:
         title: Modifier une période de stage
+        actions:
+          _delete: { label: Supprimer }
+          _list: { label: Retour à la liste }
+          _save: { label: Enregistrer }
       new:
         title: Nouvelle période de stage
+        actions:
+          _list: { label: Retour à la liste }
+          _save: { label: Enregistrer }
