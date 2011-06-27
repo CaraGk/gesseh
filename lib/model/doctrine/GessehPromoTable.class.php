@@ -12,7 +12,7 @@ class GessehPromoTable extends Doctrine_Table
     {
       $promos = Doctrine_Core::getTable('GessehPromo')
         ->createQuery('a')
-	->execute();
+        ->execute();
 
       $choices_promo = array('0' => '');
       foreach($promos as $promo)
@@ -20,6 +20,7 @@ class GessehPromoTable extends Doctrine_Table
 
       return $choices_promo;
     }
+
 }
 
 ?>

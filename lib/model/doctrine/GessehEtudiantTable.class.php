@@ -74,8 +74,26 @@ class GessehEtudiantTable extends Doctrine_Table
     {
       $q = Doctrine_Query::create()
         ->update('GessehEtudiant a')
-        ->set('promo_id', '?', $promo_arrivee)
-        ->where('promo_id = ?', $promo_depart);
+        ->set('a.promo_id', '?', $promo_arrivee)
+        ->where('a.promo_id = ?', $promo_depart);
+
+/*      if ($promo_arrivee == Doctrine::getTable('GessehPromo')->findOneByActive(false)->getId()) {
+        $q->leftJoin('a.sfGuardUser b')
+          ->set('b.is_active', '?', false);
+      } */
+
+      return $q->execute();
+    }
+
+    /* Change la promo d'un étudiant pour 'hors promo' */
+    public function changeHorsPromo($etudiant)
+    {
+      $q = Doctrine_Query::create()
+        ->update('GessehEtudiant a')
+        ->leftJoin('a.sfGuardUser b')
+        ->set('a.promo_id', '?', Doctrine::getTable('GessehPromo')->findOneByActive(false))
+        ->set('b.is_active', '?', false)
+        ->where('a.id = ?', $etudiant);
 
       return $q->execute();
     }

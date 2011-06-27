@@ -13,34 +13,34 @@
       <div id="header">
         <div class="content">
 	  <h1><a href="<?php echo url_for('@homepage') ?>"><?php echo image_tag('gesseh_logo.png', 'alt=GesseH'); ?> <?php echo csSettings::get('titre_du_site'); ?></a></h1>
-	  
+
 	  <?php if ($sf_user->isAuthenticated()): ?>
 	  <div id="menu">
 	    <ul>
-	      <li>Administration : </li>
+	      <li>Base : </li>
 	      <li><a href="<?php echo url_for('admEtudiant/index'); ?>">Etudiants</a></li>
 	      <li><a href="<?php echo url_for('admPeriode/index'); ?>">Périodes</a></li>
-	      <li><a href="<?php echo url_for('admStage/index'); ?>">Stages</a></li>
-	      <li><a href="<?php echo url_for('admEval/index'); ?>">Commentaires</a></li>
-	      <li><a href="<?php echo url_for('evaluation/index'); ?>">Evaluations</a></li>
+        <li><a href="<?php echo url_for('admHopital/index'); ?>">Hopitaux</a>/<a href="<?php echo url_for('admTerrain/index    '); ?>">Terrains de stage</a></li>
+        <li><a href="<?php echo url_for('csSetting/index'); ?>">Paramètres</a></li>
+        <li><?php echo link_to('Identifiants', 'sf_guard_user'); ?></li>
+        <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
 	    </ul>
 	    <ul>
-	      <li>Complément : </li>
-	      <li><a href="<?php echo url_for('csSetting/index'); ?>">Paramètres</a></li>
-	      <li><a href="<?php echo url_for('admHopital/index'); ?>">Hopitaux</a>/<a href="<?php echo url_for('admTerrain/index'); ?>">Terrains de stage</a></li>
-	      <li><a href="<?php echo url_for('admFormEval/index'); ?>">Formulaires</a>/<a href="<?php echo url_for('admCritere/index'); ?>">Critères d'évaluation</a></li>
-	      <li><?php echo link_to('Identifiants', 'sf_guard_user'); ?></li>
-	      <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
+	      <li>Évaluations : </li>
+	      <li><a href="<?php echo url_for('admFormEval/index'); ?>">Formulaires d'évaluation</a>
+        <li><a href="<?php echo url_for('admStage/index'); ?>">Stages</a></li>
+        <li><a href="<?php echo url_for('evaluation/index'); ?>">Evaluations</a></li>
+        <li><a href="<?php echo url_for('admEval/index'); ?>">Commentaires</a></li>
 	    <ul>
 	  </div>
 	  <?php endif; ?>
 	</div>
       </div>
-	
+
       <div id="content">
            <?php echo $sf_content ?>
       </div>
-  
+
       <div id="footer">
         <div class="content">
           <span class="symfony"><a href="http://code.google.com/p/gesseh/"><?php echo image_tag('gesseh_logo_small.png', 'alt=gesseh'); ?></a> powered by <a href="http://www.symfony-project.org/"><?php echo image_tag('symfony.gif', 'alt=symfony framework'); ?></a></span>

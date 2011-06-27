@@ -15,11 +15,11 @@ generator:
       actions: ~
       fields:
         utilisateur: { label: Utilisateur, help: Utilisateur correspondant }
-        sfGuardUser: { label: Étudiant, help: Utilisateur correspondant }
         promo_id: { label: Promotion }
+        sfGuardUser: { label: Étudiant, help: Informations du compte utilisateur correspondant }
+        gesseh_promo: { label: Promotion }
         tel: { label: Téléphone }
         naissance: { label: Date de naissance }
-        classement: { label: Classement (choix), help: Ordre de classement pour les choix dans la promo }
       list:
         title: Liste des étudiants
         display: [=sfGuardUser,  gesseh_promo, tel, naissance]
@@ -29,9 +29,9 @@ generator:
           _new: { label: Ajouter }
           autoUpdatePromo: { label: Passage à la promo supérieure }
           deleteAncien: { label: Maintenance (hors promo) }
-          importNew: { label: Importer }
-        batch_actions:
-          horsPromo: { label: Sortir des promos }
+#          importNew: { label: Importer }
+        batch_actions: {}
+#          horsPromo: { label: Sortir des promos }
         object_actions:
           _edit: { label: Modifier }
         table_method: retrieveEtudiant
@@ -40,6 +40,9 @@ generator:
       form:
         class: GessehEtudiantForm
         display: [promo_id, sfGuardUser, tel, naissance, classement]
+        fields:
+          promo_id: { help: Hors Promo désactive automatiquement le compte utilisateur }
+          classement: { label: Classement (choix), help: Ordre de classement pour les choix dans la promo }
       edit:
         title: Modifier %%sfGuardUser%%
         actions:

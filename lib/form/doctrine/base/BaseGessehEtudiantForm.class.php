@@ -16,31 +16,23 @@ abstract class BaseGessehEtudiantForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'          => new sfWidgetFormInputHidden(),
-      'nom'         => new sfWidgetFormInputText(),
-      'prenom'      => new sfWidgetFormInputText(),
       'promo_id'    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('GessehPromo'), 'add_empty' => false)),
       'classement'  => new sfWidgetFormInputText(),
-      'email'       => new sfWidgetFormInputText(),
-      'token_mail'  => new sfWidgetFormInputText(),
       'tel'         => new sfWidgetFormInputText(),
       'naissance'   => new sfWidgetFormDate(),
       'anonyme'     => new sfWidgetFormInputCheckbox(),
-      'utilisateur' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('sfGuardUser'), 'add_empty' => true)),
+      'utilisateur' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('sfGuardUser'), 'add_empty' => false)),
       'updated_at'  => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
       'id'          => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'nom'         => new sfValidatorString(array('max_length' => 50)),
-      'prenom'      => new sfValidatorString(array('max_length' => 50)),
       'promo_id'    => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('GessehPromo'))),
       'classement'  => new sfValidatorInteger(),
-      'email'       => new sfValidatorString(array('max_length' => 50)),
-      'token_mail'  => new sfValidatorString(array('max_length' => 50)),
       'tel'         => new sfValidatorString(array('max_length' => 14, 'required' => false)),
       'naissance'   => new sfValidatorDate(array('required' => false)),
       'anonyme'     => new sfValidatorBoolean(array('required' => false)),
-      'utilisateur' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('sfGuardUser'), 'required' => false)),
+      'utilisateur' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('sfGuardUser'))),
       'updated_at'  => new sfValidatorDateTime(),
     ));
 

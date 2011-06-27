@@ -39,6 +39,23 @@ class admEtudiantActions extends autoAdmEtudiantActions
     $this->redirect('admEtudiant/index');
   }
 
+  /* Sors des étudiants des promotions actives */
+  public function executeBatchHorsPromo(sfWebRequest $request)
+  {
+//    print_r($request);
+    $etudiants = $request->getParameter('ids');
+
+    foreach ($etudiants as $etudiant) {
+      if ($valid)
+        $valid .= ", ";
+      if (Doctrine::getTable('GessehEtudiant')->changeHorsPromo($etudiant))
+        $valid .= $etudiant->getSfGuardUser()->getLastName();
+    }
+
+    $this->getUser()->setFlash('notice', sprintf('%s sont sortis des promotions actives', $valid));
+    $this->redirect('admEtudiant/index');
+  }
+
   /* Formulaire d'import */
   public function executeListImportNew()
   {
