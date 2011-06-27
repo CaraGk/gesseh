@@ -13,15 +13,29 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields: ~
       list:
         title: Liste des formulaires d'évaluation
-        display: [titre, updated_at]
+        display: [titre]
         batch_actions: {}
+        actions:
+          _new: { label: Ajouter }
+        object_actions:
+          _edit: { label: Modifier }
+          _delete: { label: Supprimer }
       filter:
         class: false
-      form:    ~
+      form:
+        fields: 
+          GessehCritere: { label: Items }
       edit:
         title: Modifier %%titre%%
+        actions:
+          _delete: { label: Supprimer }
+          _list: { label: Retour à la liste }
+          _save: { label: Enregistrer }
       new:
         title: Nouveau formulaire d'évaluation
+        actions:
+          _list: { label: Retour à la liste }
+          _save: { label: Enregistrer }

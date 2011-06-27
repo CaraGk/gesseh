@@ -12,7 +12,7 @@ class GessehCritereForm extends BaseGessehCritereForm
 {
   public function configure()
   {
-    unset($this['created_at'], $this['updated_at']);
+    unset($this['form']);
 
     $this->widgetSchema['type'] = new sfWidgetFormSelect(array(
       'choices' => array(
