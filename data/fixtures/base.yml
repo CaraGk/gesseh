@@ -148,11 +148,11 @@ sfGuardPermission:
 
 sfGuardGroupPermission:
   etudiant:
-    sfGuardGroup: sgg_etudiant
-    sfGuardPermission: etudiant
+    Group: sgg_etudiant
+    Permission: etudiant
   admin:
-    sfGuardGroup: sgg_admin
-    sfGuardPermission: admin
+    Group: sgg_admin
+    Permission: admin
 
 sfGuardUserGroup:
   sgug_admin:
