@@ -17,3 +17,4 @@ GessehPromo:
   hors:
     titre: Hors Promos
     ordre: 6
+    active: false

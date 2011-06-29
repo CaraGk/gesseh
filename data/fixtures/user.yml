@@ -60,6 +60,21 @@ sfGuardGroup:
     name: admin
     description: Groupe d'administration
 
+sfGuardPermission:
+  etudiant:
+    name: etudiant
+    description: Permission des étudiants
+  admin:
+    name: admin
+    description: Permission d'administration
+
+sfGuardGroupPermission:
+  etudiant:
+    sfGuardGroup: sgg_etudiant
+    sfGuardPermission: etudiant
+  admin:
+    sfGuardGroup: sgg_admin
+    sfGuardPermission: admin
 
 sfGuardUserGroup:
   sgug_pilou:
