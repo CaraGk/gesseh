@@ -18,19 +18,19 @@ class admStageActions extends autoAdmStageActions
     $this->form = new ImportForm();
     $this->setTemplate('import');
   }
-  
+
   public function executeImportcreate()
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
     $this->form = new ImportForm();
-    
+
     $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
     if ($this->form->isValid())
     {
       $this->form->save('GessehStage');
       $this->redirect('admStage/index');
     }
-    
+
     $this->setTemplate('import');
   }
 
@@ -42,10 +42,10 @@ class admStageActions extends autoAdmStageActions
     {
       $message = $this->getMailer()->compose(
         array(csSettings::get('email') => csSettings::get('email_nom')),
-	  $stage->getGessehEtudiant()->getEmail(),
+	  $stage->getGessehEtudiant()->getSfGuardUser()->getEmailAddress(),
 	  '['.csSettings::get('email_prefixe').'] Rappel : évaluations à rendre',
 	  <<<EOF
-{$stage->getGessehEtudiant()->getPrenom()},
+{$stage->getGessehEtudiant()->getSfGuardUser()->getFirstName()},
 
 L'évaluation en ligne du stage : {$stage->getGessehTerrain()->getFiliere()} à {$stage->getGessehTerrain()->getGessehHopital()->getNom()} du {$stage->getGessehPeriode()->getDebut()} au {$stage->getGessehPeriode()->getFin()} n'a pas été remplie.
 
@@ -61,7 +61,7 @@ EOF
       $this->getMailer()->send($message);
       $this->count++;
     }
-    
+
     $this->getUser()->setFlash('notice', sprintf('Vous venez d\'envoyer %s mails de rappel.', $this->count));
     $this->redirect('admStage/index');
   }
