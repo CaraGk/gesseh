@@ -20,7 +20,7 @@
         echo 'valide';
       endif; ?>">
       <td><?php echo $gesseh_stage->getGessehPeriode()->getDebut().' - '.$gesseh_stage->getGessehPeriode()->getFin(); ?></td>
-      <td><?php echo $gesseh_stage->getGessehTerrain()->getTitre(); ?> à <?php echo $gesseh_stage->getGessehTerrain()->getGessehHopital()->getNom(); ?> (<?php echo $gesseh_stage->getGessehTerrain()->getPatron(); ?>)</td>
+      <td><?php echo $gesseh_stage->getGessehTerrain()->getTitre(); ?> à <?php echo $gesseh_stage->getGessehTerrain()->getGessehHopital()->getTitre(); ?> (<?php echo $gesseh_stage->getGessehTerrain()->getPatron(); ?>)</td>
       <td><?php echo $gesseh_stage->getGessehTerrain()->getGessehFiliere()->getTitre(); ?></td>
       <?php if (csSettings::get('mod_eval')): ?>
         <td>

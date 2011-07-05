@@ -8,6 +8,7 @@ csSetting:
     name: 'Titre du site'
     type: input
     setting_default: 'Site de démonstration'
+    setting_group: 'Base'
   urlsite:
     name: 'BaseURL'
     type: input
@@ -55,61 +56,67 @@ csSetting:
     name: 'pager_simul'
     type: input
     setting_default: '300'
-    setting_group: 'Core'
+    setting_group: 'Simulations'
+#  simul_ordre:
+#    name: 'ordre de choix'
+#    type: select
+#    widget_options: select=['sequentiel', 'alphabetique', 'panache', 'merite']
+#    setting_default: 'sequentiel'
+#    setting_group: 'Simulations'
   colstagedebut:
     name: ExcelRowNumber Stage Debut
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'A'
   colstagefin:
     name: ExcelRowNumber Stage Fin
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'B'
   colstagenom:
     name: ExcelRowNumber Stage Nom
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'C'
   colstageprenom:
     name: ExcelRowNumber Stage Prenom
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'D'
   colstagefiliere:
     name: ExcelRowNumber Stage Filiere
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'E'
   colstagehopital:
     name: ExcelRowNumber Stage Hopital
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'F'
   colstagepatron:
     name: ExcelRowNumber Stage Patron
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'G'
   colpromoid:
     name: ExcelRowNumber Promo Identifiant
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'A'
   colpromonom:
     name: ExcelRowNumber Promo Nom
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'B'
   colpromoprenom:
     name: ExcelRowNumber Promo Prenom
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'C'
   colpromoddn:
     name: ExcelRowNumber Promo Naissance
     type: input
-    setting_group: ExcelRowNumber
+    setting_group: 'Import (deprecated)'
     setting_default: 'D'
 
 GessehPromo:

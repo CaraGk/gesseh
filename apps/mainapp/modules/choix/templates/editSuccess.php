@@ -12,7 +12,7 @@
     <?php if(null == $monchoix->getPoste()): ?>
       <div>Vous n'avez aucun choix valide pour le moment. Veuillez ajouter de nouveaux voeux à la simulation.</div>
     <?php else: ?>
-      <div>Votre choix retenu par la simulation est : <em><?php echo $monchoix->getGessehTerrain()->getTitre(); ?> (<?php echo $monchoix->getGessehTerrain()->getGessehFiliere()->getTitre(); ?>) à <?php echo $monchoix->getGessehTerrain()->getGessehHopital()->getNom(); ?></em>. Après vous, il reste encore <em><?php echo $monchoix->getReste(); ?> places</em> pour ce poste.</div>
+      <div>Votre choix retenu par la simulation est : <em><?php echo $monchoix->getGessehTerrain()->getTitre(); ?> (<?php echo $monchoix->getGessehTerrain()->getGessehFiliere()->getTitre(); ?>) à <?php echo $monchoix->getGessehTerrain()->getGessehHopital()->getTitre(); ?></em>. Après vous, il reste encore <em><?php echo $monchoix->getReste(); ?> places</em> pour ce poste.</div>
     <?php endif; ?>
 
     <div><em><?php echo $absents; ?> personnes</em> devant vous n'ont pas de choix valide à ce jour.</div>

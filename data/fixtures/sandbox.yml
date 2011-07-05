@@ -198,33 +198,33 @@ GessehEval:
 
 GessehHopital:
   apare:
-    nom: Hôpital Ambroise Paré
+    titre: Hôpital Ambroise Paré
     adresse: Boulogne-Billancourt
     telephone:
     web:
   foch:
-    nom: Hôpital Foch
+    titre: Hôpital Foch
     adresse: Suresnes
   mignot:
-    nom: Hôpital André Mignot
+    titre: Hôpital André Mignot
     adresse: Le Chesnay
   garches:
-    nom: Hôpital Raymond Poincaré
+    titre: Hôpital Raymond Poincaré
     adresse: Garches
   sevres:
-    nom: Hôpital intercommunal des 4 villes, site de Sèvres
+    titre: Hôpital intercommunal des 4 villes, site de Sèvres
     adresse: Sèvres
   saintcloud:
-    nom: Hôpital intercommunal des 4 villes, site de Saint-Cloud
+    titre: Hôpital intercommunal des 4 villes, site de Saint-Cloud
     adresse: Saint-Cloud
   poissy:
-    nom: Hôpital intercommunal de Poissy, site de Poissy
+    titre: Hôpital intercommunal de Poissy, site de Poissy
     adresse: Poissy
   stgermain:
-    nom: Hôpital intercommunal de Poissy, site de Saint-Germain
+    titre: Hôpital intercommunal de Poissy, site de Saint-Germain
     adresse: Saint-Germain-en-Laye
   medge:
-    nom: Département de médecine générale
+    titre: Département de médecine générale
     adresse: Saint-Quentin-en-Yvelines
 
 GessehFiliere:
@@ -238,22 +238,6 @@ GessehFiliere:
     titre: Pédiatrie
   chirg:
     titre: Chirurgie générale
-
-GessehPage:
-  page_baglin:
-    contenu: ''
-  page_castaigne:
-    contenu: |
-      'Hopital : Hopital Mignot\
-      78000 Versailles\
-      Localisation : 5ème étage, droite\
-      \
-      Gardes : Pas de gardes\
-      \
-      Description: blablabla...\
-      blablabla...\
-      blablabla\
-      et re-blabla.'
 
 GessehPeriode:
   stage1:
@@ -347,50 +331,42 @@ GessehTerrain:
     titre: 'Médecine interne et néphrologie'
     GessehFiliere: int
     patron: 'Professeur Alain Baglin'
-    GessehPage: page_baglin
     total: '3'
   orl:
     GessehHopital: foch
     titre: 'ORL et chirurgie maxillofaciale'
     GessehFiliere: chirg
     patron: 'Professeur Chabolle'
-    localisation: 'Etage B (-2)'
     total: '2'
   castaigne:
     GessehHopital: mignot
     titre: 'Hémato-oncologie'
     GessehFiliere: int
     patron: 'Professeur S. Castaigne'
-    localisation : '5ème étage, droite'
-    GessehPage: page_castaigne
     total: '3'
   chevalier:
     GessehHopital: apare
     titre: 'Pédiatrie'
     GessehFiliere: ped
     patron: 'Professeur Chevalier'
-    localisation: '7ème étage, ailes B, C et D'
     total: '2'
   annane:
     GessehHopital: garches
     titre: 'Réanimation médicale'
     GessehFiliere: rea
     patron: 'Professeur Djilali Annane'
-    localisation : 'Bâtiment Widal, 4ème étage'
     total: '4'
   hugel:
     GessehHopital: medge
     titre: 'Médecine générale'
     GessehFiliere: medg
     patron: 'Docteur Stéphane Hugel'
-    localisation: '7 rue de la Princesse de Clèves, 78xxx Guyancourt'
     total: '1'
   bontemps:
     GessehHopital: medge
     titre: 'Médecine générale'
     GessehFiliere: medg
     patron: 'Docteur Bontemps'
-    localisation: 'Elisabethville, 78xxx Aubergenville'
     total: '1'
 
 sfGuardUser:

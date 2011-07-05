@@ -18,7 +18,7 @@
   <tbody>
     <?php foreach ($pager->getResults() as $gesseh_terrain): ?>
     <tr>
-      <td><?php echo $gesseh_terrain->getGessehHopital()->getNom() ?></td>
+      <td><?php echo $gesseh_terrain->getGessehHopital()->getTitre() ?></td>
       <td><a href="<?php echo url_for('terrain/show?id='.$gesseh_terrain->getId()) ?>"><?php echo $gesseh_terrain->getTitre() ?></a></td>
       <td>
         <?php if ($gesseh_terrain->getGessehFiliere()):

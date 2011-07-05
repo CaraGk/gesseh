@@ -1,8 +1,8 @@
 <?php slot('title'); ?>
-  <?php echo sprintf('GESSEH : %s à %s', $gesseh_terrain->getTitre(), $gesseh_terrain->getGessehHopital()->getNom()); ?>
+  <?php echo sprintf('GESSEH : %s à %s', $gesseh_terrain->getTitre(), $gesseh_terrain->getGessehHopital()->getTitre()); ?>
 <?php end_slot(); ?>
 
-<h1>Évaluations : <?php echo $gesseh_terrain->getTitre() ?> à <?php echo $gesseh_terrain->getGessehHopital()->getNom() ?>.</h1>
+<h1>Évaluations : <?php echo $gesseh_terrain->getTitre() ?> à <?php echo $gesseh_terrain->getGessehHopital()->getTitre() ?>.</h1>
 
 <a href="<?php echo url_for('@terrain_index'); ?>">Retour à la liste</a>
 <br /><a href="<?php echo url_for('terrain/show?id='.$gesseh_terrain->getId()); ?>">Informations sur le terrain de stage</a>

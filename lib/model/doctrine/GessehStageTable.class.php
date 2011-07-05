@@ -17,7 +17,10 @@ class GessehStageTable extends Doctrine_Table
         ->leftJoin($rootAlias . '.GessehPeriode d')
         ->leftJoin($rootAlias . '.GessehEtudiant e')
         ->leftJoin($rootAlias . '.GessehFormEval f')
-        ->leftJoin('c.GessehHopital g');
+        ->leftJoin('c.GessehHopital g')
+        ->leftJoin('e.GessehPromo h')
+        ->leftJoin('e.sfGuardUser i')
+        ->orderBy('h.ordre asc, i.last_name asc, i.first_name asc, d.id asc');
 
       return $q;
     }
@@ -59,8 +62,9 @@ class GessehStageTable extends Doctrine_Table
         ->leftJoin('a.GessehPeriode c')
         ->leftJoin('a.GessehEtudiant d')
         ->leftJoin('d.GessehPromo f')
+        ->leftJoin('d.sfGuardUser g')
         ->where('a.is_active = ?', '1')
-        ->orderBy('d.nom asc, d.prenom asc, c.debut ASC');
+        ->orderBy('g.last_name asc, g.first_name asc, c.debut ASC');
 
       return $q->execute();
     }

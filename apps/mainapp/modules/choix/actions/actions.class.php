@@ -14,12 +14,6 @@ class choixActions extends sfActions
   /* Affiche les choix et permet de les modifier */
   public function executeEdit(sfWebRequest $request)
   {
-/*    if(!Doctrine::getTable('GessehEtudiant')->checkValidMail($this->getUser()->getUsername()))
-    {
-      $this->getUser()->setFlash('error','Adresse email non fournie ou non validée !');
-      $this->redirect('etudiant/edit');
-    }
-*/
     $userid = $this->getUser()->getEtudiantId();
 
 		if(null !== $request->getParameter('up'))
@@ -77,7 +71,7 @@ class choixActions extends sfActions
 		if(!$debut = $request->getParameter('debut'))
 			$debut = 1;
 
-		$fin = $debut + 300;
+		$fin = $debut + csSettings::get('pager_simul');
 
 		$simul = Doctrine::getTable('GessehSimulation')->simulChoixPager($debut, $fin);
 

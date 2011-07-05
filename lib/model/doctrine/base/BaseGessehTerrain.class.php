@@ -9,54 +9,39 @@
  * @property string $titre
  * @property integer $filiere
  * @property string $patron
- * @property string $localisation
- * @property string $gardes_lieu
- * @property string $gardes_horaires
- * @property string $astreintes_horaires
  * @property integer $total
- * @property integer $page
+ * @property blob $page
  * @property boolean $is_active
  * @property GessehHopital $GessehHopital
  * @property GessehFiliere $GessehFiliere
- * @property GessehPage $GessehPage
  * @property Doctrine_Collection $GessehStage
  * @property Doctrine_Collection $GessehChoix
  * @property Doctrine_Collection $GessehSimulation
  * 
- * @method integer             getHopitalId()           Returns the current record's "hopital_id" value
- * @method string              getTitre()               Returns the current record's "titre" value
- * @method integer             getFiliere()             Returns the current record's "filiere" value
- * @method string              getPatron()              Returns the current record's "patron" value
- * @method string              getLocalisation()        Returns the current record's "localisation" value
- * @method string              getGardesLieu()          Returns the current record's "gardes_lieu" value
- * @method string              getGardesHoraires()      Returns the current record's "gardes_horaires" value
- * @method string              getAstreintesHoraires()  Returns the current record's "astreintes_horaires" value
- * @method integer             getTotal()               Returns the current record's "total" value
- * @method integer             getPage()                Returns the current record's "page" value
- * @method boolean             getIsActive()            Returns the current record's "is_active" value
- * @method GessehHopital       getGessehHopital()       Returns the current record's "GessehHopital" value
- * @method GessehFiliere       getGessehFiliere()       Returns the current record's "GessehFiliere" value
- * @method GessehPage          getGessehPage()          Returns the current record's "GessehPage" value
- * @method Doctrine_Collection getGessehStage()         Returns the current record's "GessehStage" collection
- * @method Doctrine_Collection getGessehChoix()         Returns the current record's "GessehChoix" collection
- * @method Doctrine_Collection getGessehSimulation()    Returns the current record's "GessehSimulation" collection
- * @method GessehTerrain       setHopitalId()           Sets the current record's "hopital_id" value
- * @method GessehTerrain       setTitre()               Sets the current record's "titre" value
- * @method GessehTerrain       setFiliere()             Sets the current record's "filiere" value
- * @method GessehTerrain       setPatron()              Sets the current record's "patron" value
- * @method GessehTerrain       setLocalisation()        Sets the current record's "localisation" value
- * @method GessehTerrain       setGardesLieu()          Sets the current record's "gardes_lieu" value
- * @method GessehTerrain       setGardesHoraires()      Sets the current record's "gardes_horaires" value
- * @method GessehTerrain       setAstreintesHoraires()  Sets the current record's "astreintes_horaires" value
- * @method GessehTerrain       setTotal()               Sets the current record's "total" value
- * @method GessehTerrain       setPage()                Sets the current record's "page" value
- * @method GessehTerrain       setIsActive()            Sets the current record's "is_active" value
- * @method GessehTerrain       setGessehHopital()       Sets the current record's "GessehHopital" value
- * @method GessehTerrain       setGessehFiliere()       Sets the current record's "GessehFiliere" value
- * @method GessehTerrain       setGessehPage()          Sets the current record's "GessehPage" value
- * @method GessehTerrain       setGessehStage()         Sets the current record's "GessehStage" collection
- * @method GessehTerrain       setGessehChoix()         Sets the current record's "GessehChoix" collection
- * @method GessehTerrain       setGessehSimulation()    Sets the current record's "GessehSimulation" collection
+ * @method integer             getHopitalId()        Returns the current record's "hopital_id" value
+ * @method string              getTitre()            Returns the current record's "titre" value
+ * @method integer             getFiliere()          Returns the current record's "filiere" value
+ * @method string              getPatron()           Returns the current record's "patron" value
+ * @method integer             getTotal()            Returns the current record's "total" value
+ * @method blob                getPage()             Returns the current record's "page" value
+ * @method boolean             getIsActive()         Returns the current record's "is_active" value
+ * @method GessehHopital       getGessehHopital()    Returns the current record's "GessehHopital" value
+ * @method GessehFiliere       getGessehFiliere()    Returns the current record's "GessehFiliere" value
+ * @method Doctrine_Collection getGessehStage()      Returns the current record's "GessehStage" collection
+ * @method Doctrine_Collection getGessehChoix()      Returns the current record's "GessehChoix" collection
+ * @method Doctrine_Collection getGessehSimulation() Returns the current record's "GessehSimulation" collection
+ * @method GessehTerrain       setHopitalId()        Sets the current record's "hopital_id" value
+ * @method GessehTerrain       setTitre()            Sets the current record's "titre" value
+ * @method GessehTerrain       setFiliere()          Sets the current record's "filiere" value
+ * @method GessehTerrain       setPatron()           Sets the current record's "patron" value
+ * @method GessehTerrain       setTotal()            Sets the current record's "total" value
+ * @method GessehTerrain       setPage()             Sets the current record's "page" value
+ * @method GessehTerrain       setIsActive()         Sets the current record's "is_active" value
+ * @method GessehTerrain       setGessehHopital()    Sets the current record's "GessehHopital" value
+ * @method GessehTerrain       setGessehFiliere()    Sets the current record's "GessehFiliere" value
+ * @method GessehTerrain       setGessehStage()      Sets the current record's "GessehStage" collection
+ * @method GessehTerrain       setGessehChoix()      Sets the current record's "GessehChoix" collection
+ * @method GessehTerrain       setGessehSimulation() Sets the current record's "GessehSimulation" collection
  * 
  * @package    gesseh
  * @subpackage model
@@ -86,33 +71,13 @@ abstract class BaseGessehTerrain extends sfDoctrineRecord
              'notnull' => true,
              'length' => 50,
              ));
-        $this->hasColumn('localisation', 'string', 255, array(
-             'type' => 'string',
-             'notnull' => false,
-             'length' => 255,
-             ));
-        $this->hasColumn('gardes_lieu', 'string', 100, array(
-             'type' => 'string',
-             'notnull' => false,
-             'length' => 100,
-             ));
-        $this->hasColumn('gardes_horaires', 'string', 100, array(
-             'type' => 'string',
-             'notnull' => false,
-             'length' => 100,
-             ));
-        $this->hasColumn('astreintes_horaires', 'string', 100, array(
-             'type' => 'string',
-             'notnull' => false,
-             'length' => 100,
-             ));
         $this->hasColumn('total', 'integer', 3, array(
              'type' => 'integer',
              'notnull' => true,
              'length' => 3,
              ));
-        $this->hasColumn('page', 'integer', null, array(
-             'type' => 'integer',
+        $this->hasColumn('page', 'blob', null, array(
+             'type' => 'blob',
              'notnull' => false,
              ));
         $this->hasColumn('is_active', 'boolean', null, array(
@@ -132,10 +97,6 @@ abstract class BaseGessehTerrain extends sfDoctrineRecord
 
         $this->hasOne('GessehFiliere', array(
              'local' => 'filiere',
-             'foreign' => 'id'));
-
-        $this->hasOne('GessehPage', array(
-             'local' => 'page',
              'foreign' => 'id'));
 
         $this->hasMany('GessehStage', array(

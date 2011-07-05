@@ -11,7 +11,7 @@ class GessehTerrainTable extends Doctrine_Table
     }
 
     /* Récupère la liste complète des terrains de stage, ordonnée par tri pour un pager */
-    public function getListeTerrains($tri = 'b.nom asc')
+    public function getListeTerrains($tri = 'b.titre asc')
     {
 //      $tri = $this->checkOrderTri($order);
 

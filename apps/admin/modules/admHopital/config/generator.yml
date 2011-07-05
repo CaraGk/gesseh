@@ -18,15 +18,15 @@ generator:
         web: { label: Site web }
       list:
         title: Liste des hôpitaux
-        display: [nom, adresse, telephone, web]
-        sort: [nom, asc]
+        display: [titre, adresse, telephone, web]
+        sort: [titre, asc]
         batch_actions: {}
       filter:
         class: false
       form:    ~
       edit:
-        title: Editer %%nom%%
-        display: [nom, adresse, telephone, web]
+        title: Editer %%titre%%
+        display: [titre, adresse, telephone, web]
       new:
         title: Nouvel hôpital
-        display: [nom, adresse, telephone, web]
+        display: [titre, adresse, telephone, web]

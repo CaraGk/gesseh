@@ -16,22 +16,24 @@ abstract class BaseGessehHopitalForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'        => new sfWidgetFormInputHidden(),
-      'nom'       => new sfWidgetFormInputText(),
+      'titre'     => new sfWidgetFormInputText(),
       'adresse'   => new sfWidgetFormInputText(),
       'telephone' => new sfWidgetFormInputText(),
       'web'       => new sfWidgetFormInputText(),
+      'page'      => new sfWidgetFormTextarea(),
     ));
 
     $this->setValidators(array(
       'id'        => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'nom'       => new sfValidatorString(array('max_length' => 100)),
+      'titre'     => new sfValidatorString(array('max_length' => 100)),
       'adresse'   => new sfValidatorString(array('max_length' => 255)),
       'telephone' => new sfValidatorString(array('max_length' => 14, 'required' => false)),
       'web'       => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'page'      => new sfValidatorString(array('required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(
-      new sfValidatorDoctrineUnique(array('model' => 'GessehHopital', 'column' => array('nom')))
+      new sfValidatorDoctrineUnique(array('model' => 'GessehHopital', 'column' => array('titre')))
     );
 
     $this->widgetSchema->setNameFormat('gesseh_hopital[%s]');

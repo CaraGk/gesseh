@@ -13,17 +13,19 @@ abstract class BaseGessehHopitalFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'nom'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'titre'     => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'adresse'   => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'telephone' => new sfWidgetFormFilterInput(),
       'web'       => new sfWidgetFormFilterInput(),
+      'page'      => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
-      'nom'       => new sfValidatorPass(array('required' => false)),
+      'titre'     => new sfValidatorPass(array('required' => false)),
       'adresse'   => new sfValidatorPass(array('required' => false)),
       'telephone' => new sfValidatorPass(array('required' => false)),
       'web'       => new sfValidatorPass(array('required' => false)),
+      'page'      => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('gesseh_hopital_filters[%s]');
@@ -44,10 +46,11 @@ abstract class BaseGessehHopitalFormFilter extends BaseFormFilterDoctrine
   {
     return array(
       'id'        => 'Number',
-      'nom'       => 'Text',
+      'titre'     => 'Text',
       'adresse'   => 'Text',
       'telephone' => 'Text',
       'web'       => 'Text',
+      'page'      => 'Text',
     );
   }
 }

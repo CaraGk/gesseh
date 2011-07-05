@@ -14,7 +14,18 @@ class GessehTerrain extends BaseGessehTerrain
 {
   public function __toString()
   {
-    return sprintf('%s à %s (%s)', $this->getTitre(), $this->getGessehHopital()->getNom(), $this->getPatron());
+    if (null === $this)
+      return "Aucun";
+    else
+      return sprintf('%s à %s (%s)', $this->getTitre(), $this->getGessehHopital()->getTitre(), $this->getPatron());
+  }
+
+  /* Retourne le nombre de 1er voeux pour le terrain */
+  public function getPostesRequis()
+  {
+    $voeux = Doctrine::getTable('GessehChoix')->getFirstChoixByTerrain($this->getId());
+
+    return $voeux->count();
   }
 
 }

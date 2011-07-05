@@ -73,7 +73,7 @@ class GessehSimulationTable extends Doctrine_Table
       return $postes;
     }
 
-    /* */
+    /* Retourne le rang du dernier étudiant de la simulation */
     public function getMaxEtudiant()
     {
       $max_id = Doctrine_Query::create()
@@ -87,21 +87,19 @@ class GessehSimulationTable extends Doctrine_Table
       return $max_id->getId();
     }
 
-    /* */
+    /* Retourne le résultat de la simulation pour l'étudiant */
     public function getSimulEtudiant($etudiant)
     {
       $q = Doctrine_Query::create()
         ->from('GessehSimulation a')
         ->leftJoin('a.GessehTerrain b')
-//        ->leftJoin('b.GessehFiliere c')
-//        ->leftJoin('b.GessehRegion d')
         ->where('a.etudiant = ?', $etudiant)
         ->limit(1);
 
       return $q->fetchOne();
     }
 
-    /* */
+    /* Retourne le nombre d'étudiant n'ayant pas un choix validé */
     public function getAbsents($etudiant = null)
     {
       $q = Doctrine_Query::create()
@@ -115,6 +113,35 @@ class GessehSimulationTable extends Doctrine_Table
       $absents = $q->execute();
 
       return $absents->count();
+    }
+
+    /* Vide la table de simulation */
+    public function cleanSimulTable()
+    {
+      $q = Doctrine_Query::create()
+        ->delete()
+        ->from('GessehSimulation')
+        ->execute();
+
+      return $q;
+    }
+
+    /* Définit la table de simulation */
+    public function setSimulOrder()
+    {
+      $etudiants = Doctrine::getTable('GessehEtudiant')->getEtudiantsOrderByClassement();
+      $count = 1;
+
+      foreach ($etudiants as $etudiant) {
+        $simulation = new GessehSimulation();
+        $simulation->setId($count);
+        $simulation->setEtudiant($etudiant->getId());
+        $simulation->save();
+        $count++;
+      }
+
+      $count--;
+      return $count;
     }
 
 }
