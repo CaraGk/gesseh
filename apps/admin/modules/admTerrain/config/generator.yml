@@ -15,13 +15,14 @@ generator:
       actions: ~
       fields:
         patron: { label: Chef de service }
-        filiere: { label: Filière, help: Nom du service ou de l\'unité }
+        filiere: { label: Agrément, help: Type de terrain de stage }
+        gesseh_filiere: { label: Agrément }
         is_active: { label: Actif?, help: Service utilisé dans la répartition des stages ? }
         hopital: { label: Hôpital }
-      list:    
+      list:
         title: Terrains de stages
 #        layout: stacked
-        display: [gesseh_hopital, filiere, patron, is_active]
+        display: [gesseh_hopital, titre, patron, gesseh_filiere, total, postes_requis, is_active]
 #        param: |
 #          %%is_active%% %%filiere%% à %%gesseh_hopital%% (%%patron%%)
 #          <small><em>%%localisation%%</em></small>

@@ -141,4 +141,25 @@ class GessehChoixTable extends Doctrine_Table
 
       return $q->execute();
     }
+
+    /* Retourne la liste des premiers voeux d'un terrain */
+    public function getFirstChoixByTerrain($id_terrain)
+    {
+      $q = Doctrine_Query::create()
+        ->from('GessehChoix a')
+        ->where('a.ordre = ?', '1')
+        ->andWhere('a.poste = ?', $id_terrain);
+
+      return $q->execute();
+    }
+
+    /* Vide la table de voeux */
+    public function cleanChoixTable()
+    {
+      $q = Doctrine_Query::create()
+        ->delete()
+        ->from('GessehChoix a');
+
+      return $q->execute();
+    }
 }
