@@ -12,6 +12,6 @@ class GessehHopital extends BaseGessehHopital
 {
   public function __toString()
   {
-    return $this->getNom();
+    return $this->getTitre();
   }
 }

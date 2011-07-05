@@ -16,27 +16,27 @@ generator:
       fields:
         is_active: { label: Non évalué }
       list:
-        title: Liste d'affectation des stages
+        title: "Liste d'affectation des stages"
         display: [=gesseh_periode, gesseh_terrain, gesseh_etudiant, is_active]
         fields:
-          gesseh_periode: { label: Période }
-          gesseh_terrain: { label: Terrain de stage }
-          gesseh_form_eval: { label: Formulaire d'évaluation }
-          gesseh_etudiant: { label: Etudiant }
+          gesseh_periode: { label: "Période" }
+          gesseh_terrain: { label: "Terrain de stage" }
+          gesseh_form_eval: { label: "Formulaire d'évaluation" }
+          gesseh_etudiant: { label: "Etudiant" }
         batch_actions: {}
         object_actions:
-          _edit: { label: Modifier }
+          _edit: { label: "Modifier" }
         actions:
-          _new: { label: Ajouter }
-          mailRappel: { label: Mail de rappel (évaluations non faites), help: Mail de rappel à tous les étudiants n'ayant pas évalué leur stage }
-#          importStages: { label: Importer l\'attribution des stages }
+          _new: { label: "Ajouter" }
+          mailRappel: { label: "Mail de rappel (évaluations non faites)", help: "Mail de rappel à tous les étudiants n'ayant pas évalué leur stage" }
+#          importStages: { label: "Importer l\'attribution des stages" }
         table_method: retrieveAdminStageList
         max_per_page: 50
-        sort: [etudiant, asc, periode, asc]
+#        sort: []
       filter:
         display: [periode_id, etudiant_id, is_active]
       form: ~
       edit:
-        title: Edition du stage
+        title: "Edition du stage"
       new:
-        title: Ajout d'un stage
+        title: "Ajout d'un stage"
