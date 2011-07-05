@@ -1,3 +1,21 @@
+gesseh_filiere:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                GessehFiliere
+    module:               admFiliere
+    prefix_path:          /admFiliere
+    column:               id
+    with_wildcard_routes: true
+
+gesseh_promo:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                GessehPromo
+    module:               admPromo
+    prefix_path:          /admPromo
+    column:               id
+    with_wildcard_routes: true
+
 gesseh_simulation:
   class: sfDoctrineRouteCollection
   options:

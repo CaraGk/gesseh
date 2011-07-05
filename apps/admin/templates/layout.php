@@ -17,19 +17,26 @@
 	  <?php if ($sf_user->isAuthenticated()): ?>
 	  <div id="menu">
 	    <ul>
-	      <li><a href="<?php echo url_for('admEtudiant/index'); ?>">Etudiants</a></li>
-	      <li><a href="<?php echo url_for('admPeriode/index'); ?>">Périodes</a></li>
-        <li><a href="<?php echo url_for('admHopital/index'); ?>">Hopitaux</a>/<a href="<?php echo url_for('admTerrain/index    '); ?>">Terrains de stage</a></li>
+        <li>Configuration : </li>
+        <li><a href="<?php echo url_for('admFiliere/index'); ?>">Agréments</a></li>
+        <li><a href="<?php echo url_for('admPromo/index'); ?>">Promotions</a></li>
         <li><a href="<?php echo url_for('csSetting/index'); ?>">Paramètres</a></li>
+        <li><a href="<?php echo url_for('admFormEval/index'); ?>">Formulaires d'évaluation</a>
         <li><?php echo link_to('Identifiants', 'sf_guard_user'); ?></li>
-        <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
-	    </ul>
-	    <ul>
+      </ul>
+      <ul>
+        <li>Sessions : </li>
+        <li><a href="<?php echo url_for('admPeriode/index'); ?>">Périodes</a></li>
+        <li><a href="<?php echo url_for('admHopital/index'); ?>">Hopitaux</a>/<a href="<?php echo url_for('admTerrain/index'); ?>">Terrains de stage</a></li>
+	      <li><a href="<?php echo url_for('admEtudiant/index'); ?>">Etudiants</a></li>
         <li><a href="<?php echo url_for('admStage/index'); ?>">Stages</a></li>
-	      <li><a href="<?php echo url_for('admFormEval/index'); ?>">Formulaires d'évaluation</a>
+      </ul>
+      <ul>
+        <li>Usage : </li>
         <li><a href="<?php echo url_for('admEval/index'); ?>">Commentaires</a></li>
         <li><a href="<?php echo url_for('admSimul/index'); ?>">Simulation</a></li>
-	    <ul>
+        <li><?php echo link_to('Se déconnecter', 'sf_guard_signout'); ?></li>
+	    </ul>
 	  </div>
 	  <?php endif; ?>
 	</div>
