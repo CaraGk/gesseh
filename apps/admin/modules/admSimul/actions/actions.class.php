@@ -13,4 +13,15 @@ require_once dirname(__FILE__).'/../lib/admSimulGeneratorHelper.class.php';
  */
 class admSimulActions extends autoAdmSimulActions
 {
-}
+  /* Supprime l'ancienne table de simulation et crée la nouvelle à partir du classement des étudiants */
+  public function executeListUpdate(sfWebRequest $request)
+  {
+    Doctrine::getTable('GessehSimulation')->cleanSimulTable();
+    Doctrine::getTable('GessehChoix')->cleanChoixTable();
+    $count = Doctrine::getTable('GessehSimulation')->setSimulOrder();
+
+    $this->getUser()->setFlash('notice', sprintf('%s étudiants enregistrés dans la table de simulation.', $count));
+
+    $this->redirect('admSimul/index');
+    }
+  }

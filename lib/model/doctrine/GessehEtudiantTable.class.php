@@ -135,7 +135,7 @@ class GessehEtudiantTable extends Doctrine_Table
       return $data->rowcount($sheet_index=0);
     }
 
-    /* */
+    /* Retourne la liste d'étudiants avec les résultats de la simulation */
     public function getListeQuery($promo)
     {
       $q = Doctrine_Query::create()
@@ -151,12 +151,24 @@ class GessehEtudiantTable extends Doctrine_Table
       return $q;
     }
 
-    /* */
+    /* Retourne la requête pour la liste des étudiants avec leur promo */
     public function getListeAdmin(Doctrine_Query $q)
     {
       $rootAlias = $q->getRootAlias();
       $q->leftJoin($rootAlias . '.CopisimPromo c');
 
       return $q;
+    }
+
+    /* Retourne la liste des étudiants par ordre de classement */
+    public function getEtudiantsOrderByClassement()
+    {
+      $q = Doctrine_Query::create()
+        ->from('GessehEtudiant a')
+        ->leftJoin('a.GessehPromo b')
+        ->where('b.active = ?', true)
+        ->orderBy('b.ordre asc, a.classement asc');
+
+      return $q->execute();
     }
 }

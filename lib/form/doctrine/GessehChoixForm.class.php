@@ -14,7 +14,7 @@ class GessehChoixForm extends BaseGessehChoixForm
   {
     $this->useFields(array('id', 'poste'));
 
-    $query_poste = Doctrine::getTable('GessehTerrain')->getListeTerrains('b.nom asc, a.titre asc');
+    $query_poste = Doctrine::getTable('GessehTerrain')->getListeTerrains('b.titre asc, a.titre asc');
     $this->widgetSchema['poste']->setOption('query', $query_poste);
     $this->validatorSchema['poste']->setOption('query', $query_poste);
   }
