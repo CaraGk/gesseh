@@ -7,14 +7,14 @@ default:
 
   metas:
     title:        Gesseh Administration
-    #description:  
+    #description:
     ##keywords:     symfony, project
     language:     fr
     #robots:       index, follow
 
   stylesheets:    [admin.css,global.css]
 
-  javascripts:    [google_analytics.js]
+  javascripts:    []
 
   has_layout:     true
   layout:         layout
