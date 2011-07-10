@@ -11,7 +11,7 @@
   <tbody>
     <tr>
       <th>Hopital :</th>
-      <td><?php echo $gesseh_terrain->getGessehHopital()->getNom() ?></td>
+      <td><?php echo $gesseh_terrain->getGessehHopital()->getTitre() ?></td>
     </tr>
     <tr>
       <th>Adresse :</th>

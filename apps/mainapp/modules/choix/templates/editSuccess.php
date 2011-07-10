@@ -29,7 +29,7 @@
         <?php foreach($gesseh_choix as $choix):	?>
           <tr>
             <td><?php echo $choix->getOrdre(); ?></td>
-            <td><?php echo $choix->getGessehTerrain()->getTitre(); ?> (<?php echo $choix->getGessehTerrain()->getGessehFiliere()->getTitre(); ?>) à <?php echo $choix->getGessehTerrain()->getGessehHopital()->getNom(); ?></td>
+            <td><?php echo $choix->getGessehTerrain()->getTitre(); ?> (<?php echo $choix->getGessehTerrain()->getGessehFiliere()->getTitre(); ?>) à <?php echo $choix->getGessehTerrain()->getGessehHopital()->getTitre(); ?></td>
             <td><a href="<?php echo url_for('choix/edit?up='.$choix->getId()); ?>"><?php echo image_tag('up.png', 'alt=monter'); ?></a></td>
             <td><a href="<?php echo url_for('choix/edit?down='.$choix->getId()); ?>"><?php echo image_tag('down.png', 'alt=descendre'); ?></a></td>
             <td><a href="<?php echo url_for('choix/edit?del='.$choix->getId()); ?>"><?php echo image_tag('del.png', 'alt=supprimer'); ?></a></td>
