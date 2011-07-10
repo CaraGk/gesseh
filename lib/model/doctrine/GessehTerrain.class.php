@@ -14,7 +14,7 @@ class GessehTerrain extends BaseGessehTerrain
 {
   public function __toString()
   {
-    if (null === $this)
+    if ($this->getId() == null)
       return "Aucun";
     else
       return sprintf('%s à %s (%s)', $this->getTitre(), $this->getGessehHopital()->getTitre(), $this->getPatron());

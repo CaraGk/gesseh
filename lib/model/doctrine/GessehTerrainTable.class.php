@@ -58,7 +58,7 @@ class GessehTerrainTable extends Doctrine_Table
      if ($request->getParameter('tri1'))
         $tri = $this->makeProperTri($request->getParameter('tri1')) . ' ' . $this->makeProperOrder($request->getParameter('order1'));
       else
-        $tri = 'b.nom asc, a.filiere asc';
+        $tri = 'b.titre asc, a.filiere asc';
 
       if ($request->getParameter('tri2'))
         $tri .= ', ' . $this->makeProperTri($request->getParameter('tri2')) . ' ' . $this->makeProperOrder($request->getParameter('order2'));
@@ -72,11 +72,11 @@ class GessehTerrainTable extends Doctrine_Table
     // Transformation de l'URL tri en colonne de la table
 
       if ($tri == 'hopital')
-        return 'b.nom';
+        return 'b.titre';
       elseif ($tri == 'terrain')
         return 'a.filiere';
       else
-        return 'b.nom';
+        return 'b.titre';
     }
 
     private function makeProperOrder($order)
