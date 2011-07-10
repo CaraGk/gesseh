@@ -21,7 +21,6 @@
                 <li><a href="<?php echo url_for('@etudiant_index'); ?>">Mes stages</a></li>
               <?php if (csSettings::get('mod_simul')): ?>
                 <li><a href="<?php echo url_for('@choix_edit'); ?>">Mes voeux</a></li>
-                <li><a href="<?php echo url_for('@homepage'); ?>">État des postes</a></li>
               <?php endif; ?>
               <?php if (csSettings::get('mod_garde')): ?>
                 <li><a href="<?php echo url_for('@homepage'); ?>">Mes gardes</a></li>
