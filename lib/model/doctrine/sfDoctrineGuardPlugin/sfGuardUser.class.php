@@ -15,6 +15,14 @@ class sfGuardUser extends PluginsfGuardUser
   /* Enregistrement personnalisé d'un utilisateur */
   public function save (Doctrine_Connection $conn = null)
   {
+    if ($this->getPassword() == null) {
+      $this->setPassword($this->generatePassword(8));
+    }
+
+    if ($this->getUsername() == null) {
+      $this->setUsername($this->generateUsername());
+    }
+
     /* Paramètres prédéfinis pour l'enregistrement d'un étudiant */
     if ($this->getId() != null) {
       if ($etudiant = Doctrine::getTable('GessehEtudiant')->findOneByUtilisateur($this->getId())) {
@@ -27,10 +35,10 @@ class sfGuardUser extends PluginsfGuardUser
           $this->addGroupByName('etudiant');
         }
       }
-    }
-
-    if ($this->getPassword() == null) {
-      $this->setPassword($this->generatePassword(8));
+    } else {
+      if (isset($_SESSION)) {
+        $this->sendMailToUser();
+      }
     }
 
     return parent::save($conn);
@@ -49,5 +57,46 @@ class sfGuardUser extends PluginsfGuardUser
     }
 
     return $password;
+  }
+
+  /* Auto-génération du nom d'utilisateur en fonction du nom de l'étudiant */
+  private function generateUsername()
+  {
+    $nom = $this->getLastName();
+    $prenom = $this->getFirstName();
+
+    return strtolower(substr($prenom, 0, 2) . substr($nom, 0, 5));
+  }
+
+  public function sendMailToUser()
+  {
+    $url = sfContext::getInstance()->getRequest()->getHost();
+    $nom = $this->getFirstName().' '.$this->getLastName();
+    $username = $this->getUsername();
+    $email = $this->getEmailAddress();
+    if ($emailto = csSettings::get('email') == null) {
+      $emailto = $email;
+    }
+
+    $message = sfContext::getInstance()->getMailer()->compose(
+      array('noreply@'.$url => csSettings::get('email_nom')),
+      $emailto,
+      '[' . csSettings::get('email_prefixe') . '] Information sur votre compte utilisateur',
+      <<<EOF
+      Bonjour {$nom},
+
+      Votre compte utilisateur sur le gestionnaire de stages hospitaliers a été mis à jour. Voici un récapitulatif des informations dont vous aurez besoin pour vous connecter.
+
+      URL du site : http://{$url}
+      Compte : {$username}
+      Adresse email : {$email}
+
+      Si vous ne vous souvenez pas de votre mot de passe, vous pouvez le réinitialiser ici : http://{$url}/web/guard/forgot_password
+
+      Ce message a été automatiquement généré, veuillez ne pas y répondre. Merci.
+EOF
+    );
+
+    sfContext::getInstance()->getMailer()->send($message);
   }
 }
