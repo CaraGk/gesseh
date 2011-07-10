@@ -3,7 +3,7 @@
 
 prod:
   .settings:
-    no_script_name:         true
+    no_script_name:         false
     logging_enabled:        false
 
 dev:
@@ -34,7 +34,10 @@ all:
     # Enable the database manager
     use_database:           true
 
-    enabled_modules:        [default, sfGuardAuth]
+    default_culture:        fr
+    i18n:                   true
+
+    enabled_modules:        [default, sfGuardAuth, sfGuardForgotPassword]
 
   .actions:
     login_module:           sfGuardAuth
