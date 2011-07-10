@@ -18,7 +18,7 @@ class admEtudiantActions extends autoAdmEtudiantActions
   {
     $gesseh_promos = Doctrine::getTable('GessehPromo')
       ->createQuery('a')
-      ->orderBy('a.ordre desc')
+      ->orderBy('a.active asc, a.ordre desc')
       ->execute();
 
     $promo_next = null;
@@ -80,3 +80,4 @@ class admEtudiantActions extends autoAdmEtudiantActions
   }
 
 }
+?>

@@ -77,11 +77,6 @@ class GessehEtudiantTable extends Doctrine_Table
         ->set('a.promo_id', '?', $promo_arrivee)
         ->where('a.promo_id = ?', $promo_depart);
 
-/*      if ($promo_arrivee == Doctrine::getTable('GessehPromo')->findOneByActive(false)->getId()) {
-        $q->leftJoin('a.sfGuardUser b')
-          ->set('b.is_active', '?', false);
-      } */
-
       return $q->execute();
     }
 
