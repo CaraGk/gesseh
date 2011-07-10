@@ -13,6 +13,16 @@ require_once dirname(__FILE__).'/../lib/admSimulGeneratorHelper.class.php';
  */
 class admSimulActions extends autoAdmSimulActions
 {
+  /* Lance la simulation de choix de postes */
+  public function executeListSimul(sfWebRequest $request)
+  {
+    $simul = Doctrine::getTable('GessehSimulation')->simulChoixPager(1, 1000);
+
+    $this->getUser()->setFlash('notice', sprintf('La simulation a été actualisée'));
+
+    $this->redirect('admSimul/index');
+  }
+
   /* Supprime l'ancienne table de simulation et crée la nouvelle à partir du classement des étudiants */
   public function executeListUpdate(sfWebRequest $request)
   {
@@ -23,5 +33,17 @@ class admSimulActions extends autoAdmSimulActions
     $this->getUser()->setFlash('notice', sprintf('%s étudiants enregistrés dans la table de simulation.', $count));
 
     $this->redirect('admSimul/index');
-    }
   }
+
+  /* Valide les résultats de la simulation et les copie dans les stages */
+  public function executeListValid(sfWebRequest $request)
+  {
+    $periode = Doctrine::getTable('GessehPeriode')->getLastPeriodeId();
+    Doctrine::getTable('GessehSimulation')->saveSimulTable($periode);
+
+    $this->getUser()->setFlash('notice', sprintf('Les choix ont été sauvegardés en tant que stages'));
+
+//    $this->redirect('admStage/index');
+    $this->redirect('admSimul/index');
+  }
+}

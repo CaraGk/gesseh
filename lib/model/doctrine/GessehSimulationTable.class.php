@@ -33,6 +33,7 @@ class GessehSimulationTable extends Doctrine_Table
         ->orderBy('a.id asc, c.ordre asc');
 
       $resultats = $q->execute();
+//       $resultats = $q->fetchArray();
 
       foreach ($resultats as $resultat) {
         $etudiant = $resultat->getGessehEtudiant();
@@ -144,4 +145,22 @@ class GessehSimulationTable extends Doctrine_Table
       return $count;
     }
 
+    /* Copie la table de simulation dans la table de stage */
+    public function saveSimulTable($periode)
+    {
+      $simulations = Doctrine_Query::create()
+        ->from('GessehSimulation a')
+        ->where('a.poste != ?', 'null')
+        ->fetchArray();
+
+      foreach($simulations as $simulation) {
+//        die(print_r($simulation));
+        $stage = new GessehStage();
+        $stage->setEtudiantId($simulation['etudiant']);
+        $stage->setPeriodeId($periode);
+        $stage->setTerrainId($simulation['poste']);
+        $stage->setForm(1);
+        $stage->save();
+      }
+    }
 }

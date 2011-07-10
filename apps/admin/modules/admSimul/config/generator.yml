@@ -25,6 +25,7 @@ generator:
         actions:
           simul: { label: Lancer la simulation }
 #          ignore: { label: Afficher la liste choix ignorés }
+          valid: { label: Valider la simulation }
           update: { label: Définir la table de simulation }
         batch_actions: {}
         object_actions: {}
