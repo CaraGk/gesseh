@@ -121,9 +121,14 @@ csSetting:
 
 GessehPromo:
   hors:
-    titre: Hors Promos
-    ordre: 6
+    titre: "Hors Promos"
+    ordre: 0
     active: false
+    GessehFormEval: noform
+
+GessehFormEval:
+  noform:
+    titre: "No form"
 
 sfGuardUser:
   sgu_admin:

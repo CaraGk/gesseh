@@ -256,23 +256,6 @@ GessehPeriode:
     debut: 2011/05/16
     fin: 2011/10/01
 
-GessehPromo:
-  pcem2:
-    titre: PCEM 2
-    ordre: 1
-  dcme1:
-    titre: DCEM 1
-    ordre: 2
-  dcem2:
-    titre: DCEM 2
-    ordre: 3
-  dcem3:
-    titre: DCEM 3
-    ordre: 4
-  dcem4:
-    titre: DCEM 4
-    ordre: 5
-
 GessehSimulation:
   toto:
     GessehEtudiant: toto

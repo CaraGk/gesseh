@@ -1,0 +1,46 @@
+GessehPromo:
+  pcem2:
+    titre: "PCEM 2"
+    ordre: 1
+    active: true
+    GessehFormEval: noform
+  dcem1:
+    titre: "DCEM 1"
+    ordre: 2
+    active: true
+    GessehFormEval: noform
+  dcem2:
+    titre: "DCEM 2"
+    ordre: 3
+    active: true
+    GessehFormEval: noform
+  dcem3:
+    titre: "DCEM 3"
+    ordre: 4
+    active: true
+    GessehFormEval: noform
+  dcem4:
+    titre: "DCEM 4"
+    ordre: 5
+    active: true
+    GessehFormEval: noform
+
+GessehFiliere:
+  rea:
+    titre: "Urgences - Réanimation"
+    GessehFormEval: noform
+  interne:
+    titre: "Médecine interne"
+    GessehFormEval: noform
+  gyn:
+    titre: "Gynécologie"
+    GessehFormEval: noform
+  ped:
+    titre: "Pédiatrie"
+    GessehFormEval: noform
+  mg:
+    titre: "Médecine générale"
+    GessehFormEval: noform
+  chir:
+    titre: "Chirurgie"
+    GessehFormEval: noform
