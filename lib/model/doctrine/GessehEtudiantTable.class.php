@@ -166,4 +166,17 @@ class GessehEtudiantTable extends Doctrine_Table
 
       return $q->execute();
     }
+
+    /* Retourne la liste des étudiants des promos actives par ordre alphabétique */
+    public function getActiveEtudiantsOrderByName()
+    {
+      $q = Doctrine_Query::create()
+        ->from('GessehEtudiant a')
+        ->leftJoin('a.GessehPromo b')
+        ->leftJoin('a.sfGuardUser c')
+        ->where('b.active = ?', true)
+        ->orderBy('c.last_name asc, c.first_name asc');
+
+      return $q;
+    }
 }
