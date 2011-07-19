@@ -49,6 +49,7 @@ GessehEtudiant:
       updated: { format: Y-m-d }
   columns:
     promo_id: { type: integer, notnull: true }
+    annee_promo: { type: year }
     classement: { type: integer, notnull: true }
     tel: { type: string(14), notnull: false }
     naissance: { type: date, notnull: false }

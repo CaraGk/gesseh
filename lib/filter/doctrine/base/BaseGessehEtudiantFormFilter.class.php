@@ -14,6 +14,7 @@ abstract class BaseGessehEtudiantFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'promo_id'    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('GessehPromo'), 'add_empty' => true)),
+      'annee_promo' => new sfWidgetFormFilterInput(),
       'classement'  => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'tel'         => new sfWidgetFormFilterInput(),
       'naissance'   => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
@@ -24,6 +25,7 @@ abstract class BaseGessehEtudiantFormFilter extends BaseFormFilterDoctrine
 
     $this->setValidators(array(
       'promo_id'    => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('GessehPromo'), 'column' => 'id')),
+      'annee_promo' => new sfValidatorPass(array('required' => false)),
       'classement'  => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'tel'         => new sfValidatorPass(array('required' => false)),
       'naissance'   => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDateTime(array('required' => false)))),
@@ -51,6 +53,7 @@ abstract class BaseGessehEtudiantFormFilter extends BaseFormFilterDoctrine
     return array(
       'id'          => 'Number',
       'promo_id'    => 'ForeignKey',
+      'annee_promo' => 'Text',
       'classement'  => 'Number',
       'tel'         => 'Text',
       'naissance'   => 'Date',

@@ -162,7 +162,7 @@ class GessehEtudiantTable extends Doctrine_Table
         ->from('GessehEtudiant a')
         ->leftJoin('a.GessehPromo b')
         ->where('b.active = ?', true)
-        ->orderBy('b.ordre asc, a.classement asc');
+        ->orderBy('b.ordre desc, a.annee_promo asc, a.classement asc');
 
       return $q->execute();
     }

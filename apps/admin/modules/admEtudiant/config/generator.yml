@@ -18,11 +18,12 @@ generator:
         promo_id: { label: Promotion }
         sfGuardUser: { label: Étudiant, help: Informations du compte utilisateur correspondant }
         gesseh_promo: { label: Promotion }
+        annee_promo: { label: Promotion initiale }
         tel: { label: Téléphone }
         naissance: { label: Date de naissance }
       list:
         title: Liste des étudiants
-        display: [=sfGuardUser,  gesseh_promo, tel, naissance]
+        display: [=sfGuardUser,  gesseh_promo, annee_promo, tel, naissance]
         sort: [promo_id, asc]
         max_per_page: 50
         actions:
@@ -39,7 +40,7 @@ generator:
         display: [promo_id]
       form:
         class: GessehEtudiantForm
-        display: [promo_id, sfGuardUser, tel, naissance, classement]
+        display: [promo_id, annee_promo, sfGuardUser, tel, naissance, classement]
         fields:
           promo_id: { help: Hors Promo désactive automatiquement le compte utilisateur }
           classement: { label: Classement (choix), help: Ordre de classement pour les choix dans la promo }
