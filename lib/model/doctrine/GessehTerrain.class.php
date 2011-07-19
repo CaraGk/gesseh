@@ -17,7 +17,7 @@ class GessehTerrain extends BaseGessehTerrain
     if ($this->getId() == null)
       return "Aucun";
     else
-      return sprintf('%s à %s (%s)', $this->getTitre(), $this->getGessehHopital()->getTitre(), $this->getPatron());
+      return sprintf('%s : %s (%s)', $this->getGessehHopital()->getTitre(), $this->getTitre(), $this->getPatron());
   }
 
   /* Retourne le nombre de 1er voeux pour le terrain */
