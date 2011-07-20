@@ -36,15 +36,19 @@ class admStageActions extends autoAdmStageActions
 
   public function executeListMailRappel()
   {
-    $this->gesseh_stages = Doctrine::getTable('GessehStage')->getActiveStages();
-    $lien = csSettings::get('BaseURL');
-    foreach($this->gesseh_stages as $stage)
-    {
-      $message = $this->getMailer()->compose(
-        array(csSettings::get('email') => csSettings::get('email_nom')),
-	  $stage->getGessehEtudiant()->getSfGuardUser()->getEmailAddress(),
-	  '['.csSettings::get('email_prefixe').'] Rappel : évaluations à rendre',
-	  <<<EOF
+    if(csSettings::get('mod_eval') == false) {
+      $this->getUser()->setFlash('error', sprintf('Le module d\'évaluation de stage n\'est pas activé'));
+      $this->redirect('admStage/index');
+    } else {
+      $this->gesseh_stages = Doctrine::getTable('GessehStage')->getActiveStages();
+      $lien = csSettings::get('BaseURL');
+      foreach($this->gesseh_stages as $stage)
+      {
+        $message = $this->getMailer()->compose(
+          array(csSettings::get('email') => csSettings::get('email_nom')),
+          $stage->getGessehEtudiant()->getSfGuardUser()->getEmailAddress(),
+          '['.csSettings::get('email_prefixe').'] Rappel : évaluations à rendre',
+<<<EOF
 {$stage->getGessehEtudiant()->getSfGuardUser()->getFirstName()},
 
 L'évaluation en ligne du stage : {$stage->getGessehTerrain()->getFiliere()} à {$stage->getGessehTerrain()->getGessehHopital()->getTitre()} du {$stage->getGessehPeriode()->getDebut()} au {$stage->getGessehPeriode()->getFin()} n'a pas été remplie.
@@ -58,11 +62,12 @@ L'administration.
 Ce message a été généré automatiquement, merci de ne pas y répondre.
 EOF
          );
-      $this->getMailer()->send($message);
-      $this->count++;
-    }
+        $this->getMailer()->send($message);
+        $this->count++;
+      }
 
-    $this->getUser()->setFlash('notice', sprintf('Vous venez d\'envoyer %s mails de rappel.', $this->count));
-    $this->redirect('admStage/index');
+      $this->getUser()->setFlash('notice', sprintf('Vous venez d\'envoyer %s mails de rappel.', $this->count));
+      $this->redirect('admStage/index');
+    }
   }
 }
