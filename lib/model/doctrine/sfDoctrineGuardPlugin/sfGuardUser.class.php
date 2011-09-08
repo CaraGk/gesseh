@@ -35,10 +35,10 @@ class sfGuardUser extends PluginsfGuardUser
           $this->addGroupByName('etudiant');
         }
       }
-    } else {
+/*    } else {
       if (isset($_SESSION)) {
         $this->sendMailToUser();
-      }
+      } */
     }
 
     return parent::save($conn);
@@ -68,18 +68,20 @@ class sfGuardUser extends PluginsfGuardUser
     return strtolower(substr($prenom, 0, 2) . substr($nom, 0, 5));
   }
 
-  public function sendMailToUser()
+/*  public function sendMailToUser()
   {
-    $url = sfContext::getInstance()->getRequest()->getHost();
+    $url = sfContext::getInstance()->getRequest()->getRelativeRootUrl();
     $nom = $this->getFirstName().' '.$this->getLastName();
     $username = $this->getUsername();
     $email = $this->getEmailAddress();
     if ($emailto = csSettings::get('email') == null) {
       $emailto = $email;
+    } else {
+      $emailto = csSettings::get('email');
     }
 
     $message = sfContext::getInstance()->getMailer()->compose(
-      array('noreply@'.$url => csSettings::get('email_nom')),
+      array('noreply@medlibre.fr' => csSettings::get('email_nom')),
       $emailto,
       '[' . csSettings::get('email_prefixe') . '] Information sur votre compte utilisateur',
       <<<EOF
@@ -98,5 +100,5 @@ EOF
     );
 
     sfContext::getInstance()->getMailer()->send($message);
-  }
+  } */
 }

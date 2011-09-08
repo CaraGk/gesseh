@@ -12,6 +12,6 @@ class sfGuardUserForm extends PluginsfGuardUserForm
 {
   public function configure()
   {
-    unset($this['is_active'], $this['algorithm'], $this['salt'], $this['password'], $this['is_super_admin'], $this['last_login'], $this['created_at'], $this['updated_at'], $this['groups_list'], $this['permissions_list']);
+    unset($this['is_active'], $this['algorithm'], $this['salt'], $this['password'], $this['is_super_admin'], $this['last_login'], $this['created_at'], $this['updated_at'], $this['groups_list'], $this['permissions_list'], $this['username']);
   }
 }
