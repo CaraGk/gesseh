@@ -73,7 +73,10 @@ class choixActions extends sfActions
 
 		$fin = $debut + csSettings::get('pager_simul');
 
-		$simul = Doctrine::getTable('GessehSimulation')->simulChoixPager($debut, $fin);
+//		$simul = Doctrine::getTable('GessehSimulation')->simulChoixPager($debut, $fin);
+//  pager déconne (après avoir fonctionné !!), on met des valeurs arbitraires... à checker.
+    $simul = Doctrine::getTable('GessehSimulation')->simulChoixPager(1, 1000);
+    $this->redirect('@choix_edit');
 
 		if($fin < Doctrine::getTable('GessehSimulation')->getMaxEtudiant())
 			$this->redirect('@choix_simul?debut='.$fin);
