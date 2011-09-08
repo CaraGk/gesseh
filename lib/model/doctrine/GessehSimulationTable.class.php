@@ -30,6 +30,7 @@ class GessehSimulationTable extends Doctrine_Table
         ->where('a.absent = ?', false)
         ->andWhere('a.id >= ?', $debut)
         ->andWhere('a.id <= ?', $fin)
+        ->andWhere('c.ordre > ?', '0')
         ->orderBy('a.id asc, c.ordre asc');
 
       $resultats = $q->execute();
@@ -39,7 +40,7 @@ class GessehSimulationTable extends Doctrine_Table
         $etudiant = $resultat->getGessehEtudiant();
         $resultat->setPoste(null);
         $resultat->setReste(null);
-        if (null != $etudiant->getGessehChoix()) {
+        if (null !== $etudiant->getGessehChoix()) {
           foreach ($etudiant->getGessehChoix() as $choix) {
             if ($resultat->getPoste() == null and $postes[$choix->getPoste()] > 0){
               $postes[$choix->getPoste()]--;
