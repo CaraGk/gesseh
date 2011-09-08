@@ -79,5 +79,39 @@ class admEtudiantActions extends autoAdmEtudiantActions
     $this->setTemplate('import');
   }
 
+  /* Envoie la génération de mot de passe aux étudiants sélectionnés */
+  public function executeBatchSendpassword(sfWebRequest $request)
+  {
+    $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
+    $ids = $request->getParameter('ids');
+
+    $q = Doctrine_Query::create()
+      ->from('GessehEtudiant a')
+      ->leftJoin('a.sfGuardUser b')
+      ->whereIn('a.id', $ids);
+
+    foreach($q->execute() as $user) {
+      $this->user = $user->getSfGuardUser();
+//      $this->user->_deleteOldUserForgotPasswordRecords();
+
+      $forgotPassword = new sfGuardForgotPassword();
+      $forgotPassword->user_id = $this->user->id;
+      $forgotPassword->unique_key = md5(rand() + time());
+      $forgotPassword->expires_at = new Doctrine_Expression('NOW()');
+      $forgotPassword->save();
+
+      $message = Swift_Message::newInstance()
+        ->setFrom(csSettings::get('email'))
+        ->setTo($this->user->getEmailAddress())
+        ->setSubject(csSettings::get('email_prefixe').' Génération de mot de passe pour '.$this->user->getFirstName().' '.$this->user->getLastName())
+        ->setBody($this->getPartial('send_passwd', array('user' => $this->user, 'forgot_password' => $forgotPassword)))
+        ->setContentType('text/html');
+
+      $this->getMailer()->send($message);
+    }
+
+    $this->getUser()->setFlash('notice', 'Des e-mail ont été envoyés.');
+    $this->redirect('admEtudiant/index');
+  }
 }
 ?>

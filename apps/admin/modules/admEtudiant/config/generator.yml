@@ -31,8 +31,9 @@ generator:
           autoUpdatePromo: { label: Passage à la promo supérieure }
           deleteAncien: { label: Maintenance (hors promo) }
 #          importNew: { label: Importer }
-        batch_actions: {}
+        batch_actions: 
 #          horsPromo: { label: Sortir des promos }
+          sendpassword: { label: Envoyer les identifiants }
         object_actions:
           _edit: { label: Modifier }
         table_method: retrieveEtudiant
