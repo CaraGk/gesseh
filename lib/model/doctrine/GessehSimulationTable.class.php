@@ -102,19 +102,19 @@ class GessehSimulationTable extends Doctrine_Table
     }
 
     /* Retourne le nombre d'étudiant n'ayant pas un choix validé */
-    public function getAbsents($etudiant = null)
+    public function getAbsents($id_etudiant = null)
     {
       $q = Doctrine_Query::create()
         ->from('GessehSimulation a')
         ->where('a.poste = ?', null)
         ->andWhere('a.absent = ?', false);
 
-      if($etudiant)
-        $q->andWhere('a.etudiant < ?', $etudiant); // Attention : a.id < etudiant->simulation->id
+      if($id_etudiant)
+        $q->andWhere('a.id < ?', $id_etudiant); // Attention : a.id < etudiant->simulation->id
 
-      $absents = $q->execute();
+//      $absents = $q->execute();
 
-      return $absents->count();
+      return $q->count();
     }
 
     /* Vide la table de simulation */
@@ -151,6 +151,8 @@ class GessehSimulationTable extends Doctrine_Table
     {
       $simulations = Doctrine_Query::create()
         ->from('GessehSimulation a')
+        ->leftJoin('a.GessehEtudiant b')
+        ->leftJoin('b.GessehPromo c')
         ->where('a.poste != ?', 'null')
         ->fetchArray();
 
@@ -160,7 +162,7 @@ class GessehSimulationTable extends Doctrine_Table
         $stage->setEtudiantId($simulation['etudiant']);
         $stage->setPeriodeId($periode);
         $stage->setTerrainId($simulation['poste']);
-        $stage->setForm(1);
+        $stage->setForm($simulation['GessehEtudiant']['GessehPromo']['form']);
         $stage->save();
       }
     }

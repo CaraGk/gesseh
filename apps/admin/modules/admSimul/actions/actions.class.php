@@ -44,6 +44,6 @@ class admSimulActions extends autoAdmSimulActions
     $this->getUser()->setFlash('notice', sprintf('Les choix ont été sauvegardés en tant que stages'));
 
 //    $this->redirect('admStage/index');
-    $this->redirect('admSimul/index');
+    $this->redirect('admSimul/ListUpdate/action');
   }
 }

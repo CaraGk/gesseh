@@ -32,8 +32,9 @@ class choixActions extends sfActions
 		$this->gesseh_choix = Doctrine::getTable('GessehChoix')->getEtudiantChoix($userid);
     $this->form = new GessehChoixForm();
     $this->monchoix = Doctrine::getTable('GessehSimulation')->getSimulEtudiant($userid);
-		$this->absents = Doctrine::getTable('GessehSimulation')->getAbsents($userid);
-    if (null != $this->monchoix)
+		$this->absents = Doctrine::getTable('GessehSimulation')->getAbsents($this->monchoix->getId());
+print_r($this->monchoix->getId());
+    if (null !== $this->monchoix->getPoste())
   		$this->autres = Doctrine::getTable('GessehChoix')->getMemeChoix($userid, $this->monchoix->getPoste());
     else
       $this->autres = null;
