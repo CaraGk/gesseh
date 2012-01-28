@@ -13,7 +13,7 @@ class GessehFormEvalForm extends BaseGessehFormEvalForm
   public function configure()
   {
     $this->embedRelation('GessehCritere');
-    $nouveau = new GessehCritereForm();
-    $this->embedForm('Nouvel item', $nouveau);
+//    $nouveau = new GessehCritereForm();
+//    $this->embedForm('Nouvel item', $nouveau);
   }
 }

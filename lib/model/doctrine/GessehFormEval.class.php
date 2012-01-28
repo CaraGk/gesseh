@@ -18,4 +18,15 @@ class GessehFormEval extends BaseGessehFormEval
     return sprintf('%s', $this->getTitre());
   }
 
+  public function addCriteria()
+  {
+    $criteria = new GessehCritere();
+    $criteria->setForm($this->getId());
+    $criteria->setTitre("Nouveau critère");
+    $criteria->setOrdre(Doctrine::getTable('GessehCritere')->getMaxOrderForForm($this->getId()));
+    $criteria->setType('text');
+
+    return $criteria->save();
+  }
+
 }

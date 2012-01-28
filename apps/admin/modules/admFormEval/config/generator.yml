@@ -26,13 +26,14 @@ generator:
       filter:
         class: false
       form:
-        fields: 
+        fields:
           GessehCritere: { label: Items }
       edit:
         title: Modifier %%titre%%
         actions:
           _delete: { label: Supprimer }
           _list: { label: Retour à la liste }
+          addCriteria: { label: Ajouter un critère }
           _save: { label: Enregistrer }
       new:
         title: Nouveau formulaire d'évaluation
