@@ -27,7 +27,7 @@ generator:
         class: false
       form:
         fields:
-          GessehCritere: { label: Items }
+          GessehCritere: { label: Critères }
       edit:
         title: Modifier %%titre%%
         actions:
