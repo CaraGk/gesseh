@@ -26,11 +26,16 @@ class GessehCritereForm extends BaseGessehCritereForm
       $this->validatorSchema['type'],
       new sfValidatorChoice(array(
         'choices' => array(
-	  'radio' => 'radio',
-	  'text' => 'text'
-	),
-	'multiple' => false,
-	'min' => 1
+        'radio' => 'radio',
+        'text' => 'text'
+        ),
+      'multiple' => false,
+      'min' => 1
     ))));
+
+    if ($this->object->exists()) {
+      $this->widgetSchema['delete'] = new sfWidgetFormInputCheckbox();
+      $this->validatorSchema['delete'] = new sfValidatorPass();
+    }
   }
 }
