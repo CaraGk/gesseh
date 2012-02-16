@@ -3,12 +3,12 @@ all:
     class: sfDoctrineDatabase
     param:
       dsn: 'mysql:host=localhost;dbname=gesseh'
-      username: gesseh
-      password: cataract
+      username: dbuser
+      password: dbpassword
 test:
   doctrine:
     class: sfDoctrineDatabase
     param:
       dsn: 'mysql:host=localhost;dbname=gesseh_test'
-      username: gesseh
-      password: cataract
+      username: dbuser
+      password: dbpassword
