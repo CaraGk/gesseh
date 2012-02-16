@@ -1,5 +1,0 @@
-all:
-  is_secure: true
-  credentials: [etudiant]
-terrain:
-  is_secure: false

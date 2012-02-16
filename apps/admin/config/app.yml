@@ -1,9 +1,0 @@
-# You can find more information about this file on the symfony website:
-# http://www.symfony-project.org/reference/1_4/en/11-App
-
-# default values
-all:
-  sf_guard_plugin_routes_register: true
-  remember_key_expiration_age:  86400   # 1 day in seconds
-  remember_cookie_name:         GessehAdmRememberMe
-
