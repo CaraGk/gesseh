@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Gesseh\CoreBundle\Entity\Hospital
  *
- * @ORM\Table()
+ * @ORM\Table(name="hospital")
  * @ORM\Entity(repositoryClass="Gesseh\CoreBundle\Entity\HospitalRepository")
  */
 class Hospital
@@ -31,36 +31,47 @@ class Hospital
     /**
      * @var string $address
      *
-     * @ORM\Column(name="address", type="string", length=255)
+     * @ORM\Column(name="address", type="string", length=255, nullable=true)
      */
     private $address;
 
     /**
      * @var string $web
      *
-     * @ORM\Column(name="web", type="string", length=255)
+     * @ORM\Column(name="web", type="string", length=255, nullable=true)
      */
     private $web;
 
     /**
      * @var string $phone
      *
-     * @ORM\Column(name="phone", type="string", length=20)
+     * @ORM\Column(name="phone", type="string", length=20, nullable=true)
      */
     private $phone;
 
     /**
      * @var text $description
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Department", mappedBy="hospital", cascade={"remove", "persist"})
+     */
+    private $departments;
+
+
+    public function __construct()
+    {
+        $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -80,7 +91,7 @@ class Hospital
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -100,7 +111,7 @@ class Hospital
     /**
      * Get address
      *
-     * @return string 
+     * @return string
      */
     public function getAddress()
     {
@@ -120,7 +131,7 @@ class Hospital
     /**
      * Get web
      *
-     * @return string 
+     * @return string
      */
     public function getWeb()
     {
@@ -140,7 +151,7 @@ class Hospital
     /**
      * Get phone
      *
-     * @return string 
+     * @return string
      */
     public function getPhone()
     {
@@ -160,10 +171,40 @@ class Hospital
     /**
      * Get description
      *
-     * @return text 
+     * @return text
      */
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Add departments
+     *
+     * @param Gesseh\CoreBundle\Entity\Department $departments
+     */
+    public function addDepartment(\Gesseh\CoreBundle\Entity\Department $departments)
+    {
+        $this->departments[] = $departments;
+    }
+
+    /**
+     * Set departments
+     *
+     * @param \Doctrine\Common\Collections\Collection $departments
+     */
+    public function setDepartments(\Doctrine\Common\Collections\Collection $departments)
+    {
+      $this->departments = $departments;
+    }
+
+    /**
+     * Get departments
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getDepartments()
+    {
+        return $this->departments;
     }
 }

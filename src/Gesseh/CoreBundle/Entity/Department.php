@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Gesseh\CoreBundle\Entity\Department
  *
- * @ORM\Table()
+ * @ORM\Table(name="department")
  * @ORM\Entity(repositoryClass="Gesseh\CoreBundle\Entity\DepartmentRepository")
  */
 class Department
@@ -38,15 +38,21 @@ class Department
     /**
      * @var text $description
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Hospital", inversedBy="departments", cascade={"remove"})
+     * @ORM\JoinColumn(name="hospital_id", referencedColumnName="id")
+     */
+    private $hospital;
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -66,7 +72,7 @@ class Department
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -86,7 +92,7 @@ class Department
     /**
      * Get head
      *
-     * @return string 
+     * @return string
      */
     public function getHead()
     {
@@ -106,10 +112,30 @@ class Department
     /**
      * Get description
      *
-     * @return text 
+     * @return text
      */
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set hospital
+     *
+     * @param Gesseh\CoreBundle\Entity\Hospital $hospital
+     */
+    public function setHospital(\Gesseh\CoreBundle\Entity\Hospital $hospital)
+    {
+        $this->hospital = $hospital;
+    }
+
+    /**
+     * Get hospital
+     *
+     * @return Gesseh\CoreBundle\Entity\Hospital
+     */
+    public function getHospital()
+    {
+        return $this->hospital;
     }
 }
