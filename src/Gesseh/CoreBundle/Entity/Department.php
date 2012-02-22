@@ -48,6 +48,12 @@ class Department
      */
     private $hospital;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Sector", inversedBy="departments", cascade={"remove"})
+     * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
+     */
+    private $sector;
+
 
     /**
      * Get id
@@ -137,5 +143,25 @@ class Department
     public function getHospital()
     {
         return $this->hospital;
+    }
+
+    /**
+     * Set sector
+     *
+     * @param Gesseh\CoreBundle\Entity\Sector $sector
+     */
+    public function setSector(\Gesseh\CoreBundle\Entity\Sector $sector)
+    {
+        $this->sector = $sector;
+    }
+
+    /**
+     * Get sector
+     *
+     * @return Gesseh\CoreBundle\Entity\Sector 
+     */
+    public function getSector()
+    {
+        return $this->sector;
     }
 }
