@@ -1,0 +1,20 @@
+<table>
+  <thead>
+    <tr>
+      <th>Service</th>
+      <th>Chef de service</th>
+      <th>Actions</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for department in departments %}
+      <tr>
+        <td>{{ department.name }}</td>
+        <td>{{ department.head }}</td>
+        <td><a href="{{ path('GessehCoreBundle_DepartmentShow', {id: department.id}) }}">Afficher</a></td>
+      </tr>
+    {% else %}
+      <tr><td colspan="3">Aucun service enregistré</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
