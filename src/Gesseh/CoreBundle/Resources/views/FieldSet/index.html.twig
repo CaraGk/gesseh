@@ -1,0 +1,28 @@
+<table>
+  <thead>
+    <tr>
+      <th>Hôpital</th>
+      <th>Service</th>
+      <th>Chef de service</th>
+      <th>Catégorie</th>
+      <th>Actions</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for department in departments %}
+      <tr>
+        <td><a href="{{ path('GCore_FSShowHospital', {id: department.hospital}) }}">{{ department.hospital }}</a></td>
+        <td><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}">{{ department.name }}</a></td>
+        <td>{{ department.head }}</td>
+        <td>{{ department.sector }}</td>
+        <td>
+          <ul>
+            <li><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}">Afficher</a></li>
+          </ul>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="5">Aucun service enregistré</td></tr>
+    {% endfor %}
+  </tbody>
+</table>

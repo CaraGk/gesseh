@@ -1,0 +1,20 @@
+<h2 class="record_title">Modification de {{ hospital.name }}</h2>
+
+<form action="{{ path('GCore_FSAEditHospital', {'id': hospital.id}) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <p>
+        <button type="submit">Edit</button>
+    </p>
+</form>
+
+{% include "GessehCoreBundle:FieldSetAdmin:hospitalForm.html.twig" %}
+
+<ul class="record_actions">
+    <li><a href="{{ path('GCore_FSAIndex') }}">Retour</a></li>
+    <li>
+        <form action="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

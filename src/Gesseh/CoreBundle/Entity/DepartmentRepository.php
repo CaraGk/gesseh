@@ -12,4 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class DepartmentRepository extends EntityRepository
 {
+  public function getDepartmentQuery()
+  {
+    return $this->createQueryBuilder('d')->join('d.hospital', 'h')->join('d.sector', 's');
+  }
+
+  public function getById($id)
+  {
+    $query = $this->getDepartmentQuery();
+    $query->where('d.id = :id')
+          ->setParameter('id', $id);
+
+    return $query->getQuery()->getSingleResult();
+  }
 }

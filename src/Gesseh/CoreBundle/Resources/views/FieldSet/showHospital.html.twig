@@ -1,0 +1,16 @@
+<h2 class="record_title">{{ hospital.name }}</h2>
+
+<div>
+  <ul class="record_actions">
+    <li><a href="{{ path('GCore_SFIndex') }}">Retour</a></li>
+    <li><a href="{{ path('GCore_SFAEditHospital', {id: hospital.id}) }}">Modifier</a>
+  </ul>
+</div>
+
+<div class="record_content">
+  <div>Adresse : {{ hospital.address }}</div>
+  <div>Téléphone : {{ hospital.phone }}</div>
+  <div><a href="{{ hospital.web }}">Site web</a></div>
+</div>
+
+<div class="record_content">{{ hospital.description }}</div>

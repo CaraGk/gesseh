@@ -1,0 +1,9 @@
+<h2>{{ department.name }}</h2>
+<div>Chef de service : {{ department.head }}</div>
+<div>
+  <ul>
+    <li><a href="{{ path('GCore_FSIndex') }}">Retour</a></li>
+    <li><a href="{{ path('GCore_FSAEditDepartment', {id: department.id}) }}">Modifier</a></li>
+  </ul>
+</div>
+<div>{{ department.description }}</div>

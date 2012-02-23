@@ -1,0 +1,22 @@
+<ul class="record_actions">
+  <li><a href="#" id="add_dpt">Ajouter un service</a>
+  <li><a href="{{ path('GCore_FSAIndex') }}">Retour</a></li>
+</ul>
+
+<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  var $container = $('#gesseh_corebundle_hospitaltype_departments');
+
+  function add_dpt() {
+    index = $container.children().length;
+    $container.append(
+      $($container.attr('data-prototype').replace(/\$\$name\$\$/g, index))
+    );
+  }
+
+  $('#add_dpt').click(function() {
+    add_dpt();
+  });
+});
+</script>

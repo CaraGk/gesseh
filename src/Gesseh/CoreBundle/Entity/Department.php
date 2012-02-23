@@ -43,16 +43,22 @@ class Department
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Hospital", inversedBy="departments", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="Hospital", inversedBy="departments", cascade={"persist"})
      * @ORM\JoinColumn(name="hospital_id", referencedColumnName="id")
      */
     private $hospital;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Sector", inversedBy="departments", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="Sector", inversedBy="departments", cascade={"persist"})
      * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
      */
     private $sector;
+
+
+    public function __toString()
+    {
+      return $this->name . " à " . $this->getHospital();
+    }
 
 
     /**
@@ -153,12 +159,13 @@ class Department
     public function setSector(\Gesseh\CoreBundle\Entity\Sector $sector)
     {
         $this->sector = $sector;
+        $sector->addDepartment($this);
     }
 
     /**
      * Get sector
      *
-     * @return Gesseh\CoreBundle\Entity\Sector 
+     * @return Gesseh\CoreBundle\Entity\Sector
      */
     public function getSector()
     {

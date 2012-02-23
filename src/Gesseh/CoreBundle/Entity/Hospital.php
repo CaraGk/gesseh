@@ -67,6 +67,11 @@ class Hospital
         $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function __toString()
+    {
+      return $this->name;
+    }
+
 
     /**
      * Get id
@@ -186,6 +191,7 @@ class Hospital
     public function addDepartment(\Gesseh\CoreBundle\Entity\Department $departments)
     {
         $this->departments[] = $departments;
+        $departments->setHospital($this);
     }
 
     /**
@@ -196,6 +202,8 @@ class Hospital
     public function setDepartments(\Doctrine\Common\Collections\Collection $departments)
     {
       $this->departments = $departments;
+      foreach($departments as $department)
+        $department->setHospital($this);
     }
 
     /**

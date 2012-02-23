@@ -1,0 +1,10 @@
+<h2 class="record_title">Ajout d'hôpital / de service</h2>
+
+<form action="{{ path('GCore_FSANewHospital') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit">Create</button>
+    </p>
+</form>
+
+{% include "GessehCoreBundle:FieldSetAdmin:hospitalForm.html.twig" %}

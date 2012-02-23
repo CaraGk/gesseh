@@ -39,6 +39,11 @@ class Sector
         $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function __toString()
+    {
+      return $this->name;
+    }
+
 
     /**
      * Get id
@@ -71,13 +76,13 @@ class Sector
     }
 
     /**
-     * Add departments
+     * Add department
      *
-     * @param Gesseh\CoreBundle\Entity\Department $departments
+     * @param Gesseh\CoreBundle\Entity\Department $department
      */
-    public function addDepartment(\Gesseh\CoreBundle\Entity\Department $departments)
+    public function addDepartment(\Gesseh\CoreBundle\Entity\Department $department)
     {
-        $this->departments[] = $departments;
+        $this->departments[] = $department;
     }
 
     /**
