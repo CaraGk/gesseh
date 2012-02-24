@@ -3,6 +3,7 @@
 namespace Gesseh\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Gesseh\CoreBundle\Entity\Department
@@ -25,6 +26,8 @@ class Department
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\MinLength(5)
      */
     private $name;
 
@@ -32,6 +35,7 @@ class Department
      * @var string $head
      *
      * @ORM\Column(name="head", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $head;
 
@@ -51,6 +55,8 @@ class Department
     /**
      * @ORM\ManyToOne(targetEntity="Sector", inversedBy="departments", cascade={"persist"})
      * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="Gesseh\CoreBundle\Entity\Sector")
      */
     private $sector;
 

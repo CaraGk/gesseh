@@ -3,6 +3,7 @@
 namespace Gesseh\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Gesseh\CoreBundle\Entity\Hospital
@@ -25,6 +26,8 @@ class Hospital
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\MinLength(5)
      */
     private $name;
 
@@ -39,6 +42,7 @@ class Hospital
      * @var string $web
      *
      * @ORM\Column(name="web", type="string", length=255, nullable=true)
+     * @Assert\Url(protocols={"http", "https"}))
      */
     private $web;
 
@@ -64,7 +68,7 @@ class Hospital
 
     public function __construct()
     {
-        $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->departments = new Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -186,18 +190,18 @@ class Hospital
     /**
      * Add departments
      *
-     * @param Gesseh\CoreBundle\Entity\Department $departments
+     * @param Gesseh\CoreBundle\Entity\Department $department
      */
-    public function addDepartment(\Gesseh\CoreBundle\Entity\Department $departments)
+    public function addDepartment(\Gesseh\CoreBundle\Entity\Department $department)
     {
-        $this->departments[] = $departments;
-        $departments->setHospital($this);
+        $this->departments[] = $department;
+        $department->setHospital($this);
     }
 
     /**
      * Set departments
      *
-     * @param \Doctrine\Common\Collections\Collection $departments
+     * @param Doctrine\Common\Collections\Collection $departments
      */
     public function setDepartments(\Doctrine\Common\Collections\Collection $departments)
     {

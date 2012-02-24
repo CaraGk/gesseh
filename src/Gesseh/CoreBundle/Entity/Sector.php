@@ -3,6 +3,7 @@
 namespace Gesseh\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Gesseh\CoreBundle\Entity\Sector
@@ -25,6 +26,7 @@ class Sector
    * @var string $name
    *
    * @ORM\Column(name="name", type="string", length=255)
+   * @Assert\NotBlank()
    */
   private $name;
 
