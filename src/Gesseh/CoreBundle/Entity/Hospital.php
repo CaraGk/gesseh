@@ -68,7 +68,7 @@ class Hospital
 
     public function __construct()
     {
-        $this->departments = new Doctrine\Common\Collections\ArrayCollection();
+        $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()

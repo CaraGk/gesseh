@@ -1,5 +1,7 @@
-<h2 class="record_title">{{ hospital.name }}</h2>
+{% extends 'GessehCoreBundle::layout.html.twig' %}
 
+{% block titlecontent %}{{ hospital.name }}{% endblock %}
+{% block content %}
 <div>
   <ul class="record_actions">
     <li><a href="{{ path('GCore_SFIndex') }}">Retour</a></li>
@@ -14,3 +16,4 @@
 </div>
 
 <div class="record_content">{{ hospital.description }}</div>
+{% endblock %}

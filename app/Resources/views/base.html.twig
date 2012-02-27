@@ -2,12 +2,33 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        <title>{% block title %}Gesseh{% endblock %}</title>
+        {% block stylesheets %}<link href="{{ asset('bundles/gessehcore/css/main.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
+        <link rel="shortcut icon" href="{{ asset('bundles/gessehcore/images/favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div id="container">
+          <div id="header">
+            <span>{% block logo %}<a href="{{ path('homepage') }}"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo.png') }}" alt="logo" /></a>{% endblock %}</span>
+            <span><h1>{% block site %}Nom du site{% endblock %}</h1><span>
+          </div>
+          <div id="user">
+            {% block user %}{% endblock %}
+          </div>
+          <div id="menu">
+            {% block menu %}{% endblock %}
+          </div>
+          <div id="content">
+            {% block body %}{% endblock %}
+          </div>
+          <div id="footer">
+            <span class="miniature"><a href="http://code.google.com/p/gesseh/"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo_small.png') }}" alt="gesseh" /></a> powered by <a href="http://www.symfony-project.org/"><img src="{{ asset('bundles/gessehcore/images/symfony.gif') }}" alt="symfony" /></a></span>
+            <ul>
+              <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug ou un souhait</a></li>
+              <li><a href="http://code.google.com/p/gesseh/w/list">Assistance - documentation</a></li>
+            </ul>
+          </div>
+        </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

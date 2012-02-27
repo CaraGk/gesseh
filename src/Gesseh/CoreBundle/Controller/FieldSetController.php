@@ -15,6 +15,7 @@ class FieldSetController extends Controller
 {
   /**
    * @Route("/f/", name="GCore_FSIndex")
+   * @Route("/", name="homepage")
    * @Template()
    */
   public function indexAction()

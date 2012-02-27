@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/main.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
+
+{% block logo %}{{ parent() }}{% endblock %}
+
+{% block sitename %}{{ parent() }}{% endblock %}
+
+{% block menu %}{% endblock %}
+
+{% block body %}
+  <h2>{% block titlecontent %}{% endblock %}</h2>
+  <ul>{% block actionscontent %}{% endblock %}</ul>
+  <div>{% block content %}{% endblock %}</div>
+{% endblock %}
+
+{# {% block javascripts %}{% endblock %} #}
