@@ -3,57 +3,64 @@
 {% block titlecontent %}Catégories, hôpitaux et services{% endblock %}
 
 {% block content %}
-  <h3>Catégories :</h3>
-  <div class="table">
-    <div class="table_head">
-      <p>
-        <span class="name">Name</span>
-        <span class="actions">Actions</span>
-      </p>
-    </div>
-    <div class="table_body">
+  <h2>Catégories :</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
       {% for sector in sectors %}
-        <p>
-          <span class="name">{{ sector.name }}</span>
-          <span class="actions"><a href="{{ path('GCore_FSAEditSector', { 'id': sector.id }) }}">modifier</a></span>
-        </p>
+        <tr>
+          <td>{{ sector.name }}</td>
+          <td><a href="{{ path('GCore_FSAEditSector', { 'id': sector.id }) }}">modifier</a></td>
+        </tr>
       {% endfor %}
-    </div>
-    <div class="table_foot">
-      <p>
-        <span class="actions"><a href="{{ path('GCore_FSAEditSector') }}">Ajouter</a></span>
-      </p>
-    </div>
-  </div>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td><a href="{{ path('GCore_FSAEditSector') }}">Ajouter</a></td>
+      </tr>
+    </tfoot>
+  </table>
 
-  <h3>Hôpitaux et services :</h3>
+  <h2>Hôpitaux et services :</h2>
 
-  <div class="table">
-    <div class="table_head">
-      <p>
-        <span>Name</span>
-        <span>Adresse</span>
-        <span>Site web</span>
-        <span>Téléphone</span>
-        <span>Actions</span>
-      </p>
-    </div>
-    <div class="table_body">
+  {% if hospital_form is not empty %}<form method="post" {{ form_enctype(hospital_form) }}>{% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Adresse</th>
+        <th>Site web</th>
+        <th>Téléphone</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
       {% for hospital in hospitals %}
         {% include hospital_id == hospital.id ? 'GessehCoreBundle:FieldSetAdmin:editHospital.html.twig' : 'GessehCoreBundle:FieldSetAdmin:indexHospital.html.twig' %}
       {% endfor %}
       {% if hospital_form is not empty and hospital_id is empty %}
         {% include 'GessehCoreBundle:FieldSetAdmin:editHospital.html.twig' %}
       {% endif %}
-    </div>
-    <div class="table_foot">
-      <p>
-        <span><a href="{{ path('GCore_FSANewHospital') }}">Ajouter</a></span>
-      </p>
-    </div>
-  </div>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <ul>
+            <li><a href="{{ path('GCore_FSANewHospital') }}">Ajouter</a></li>
+          </ul>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  {% if hospital_form is not empty %}</form>{% endif %}
 {% endblock %}
 
+{% if hospital_form is not empty %}
   {% block javascripts %}
     {{ parent() }}
     <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
@@ -75,6 +82,5 @@
     </script>
   {% endblock %}
 
-{% if hospital_form is not empty %}
   {% form_theme hospital_form 'GessehCoreBundle:Form:fields.html.twig' %}
 {% endif %}

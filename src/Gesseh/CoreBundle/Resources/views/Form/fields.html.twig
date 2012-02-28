@@ -1,9 +1,9 @@
 {% block field_row %}
   {% spaceless %}
-    <span>{{ form_errors(form) }}{{ form_widget(form) }}</span>
+    <td>{{ form_errors(form) }}{{ form_widget(form) }}</td>
   {% endspaceless %}
 {% endblock field_row %}
 
 {% block form_widget %}
-  <p {{ block('widget_container_attributes') }}>{{ block('field_rows') }}{{ form_rest(form) }}</p>
+  <tr {{ block('widget_container_attributes') }}>{{ block('field_rows') }}{{ form_rest(form) }}</tr>
 {% endblock %}
