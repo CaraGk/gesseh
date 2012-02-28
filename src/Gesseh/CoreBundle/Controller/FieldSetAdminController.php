@@ -33,8 +33,10 @@ class FieldSetAdminController extends Controller
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
 
     return array(
-      'hospitals' => $hospitals,
-      'sectors' => $sectors,
+      'hospitals'     => $hospitals,
+      'sectors'       => $sectors,
+      'hospital_id'   => null,
+      'hospital_form' => null,
     );
   }
 
@@ -42,10 +44,14 @@ class FieldSetAdminController extends Controller
    * Displays a form to create a new Hospital entity.
    *
    * @Route("/h/new", name="GCore_FSANewHospital")
-   * @Template("GessehCoreBundle:FieldSetAdmin:editHospital.html.twig")
+   * @Template("GessehCoreBundle:FieldSetAdmin:index.html.twig")
    */
   public function newHospitalAction()
   {
+    $em = $this->getDoctrine()->getEntityManager();
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
+    $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
+
     $hospital = new Hospital();
     $form   = $this->createForm(new HospitalType(), $hospital);
     $formHandler = new HospitalHandler($form, $this->get('request'), $this->getDoctrine()->getEntityManager());
@@ -55,7 +61,9 @@ class FieldSetAdminController extends Controller
     }
 
     return array(
-      'hospital'      => $hospital,
+      'hospitals'     => $hospitals,
+      'sectors'       => $sectors,
+      'hospital_id'   => null,
       'hospital_form' => $form->createView(),
       'delete_form'   => null,
     );
@@ -65,11 +73,14 @@ class FieldSetAdminController extends Controller
    * Displays a form to edit an existing Hospital entity.
    *
    * @Route("/h/{id}/edit", name="GCore_FSAEditHospital", requirements={"id" = "\d+"})
-   * @Template()
+   * @Template("GessehCoreBundle:FieldSetAdmin:index.html.twig")
    */
   public function editHospitalAction($id)
   {
     $em = $this->getDoctrine()->getEntityManager();
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
+    $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
+
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
 
     if (!$hospital)
@@ -79,12 +90,15 @@ class FieldSetAdminController extends Controller
     $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
     $deleteForm = $this->createDeleteForm($id);
 
+//var_dump($this->get('request')); exit;
     if ( $formHandler->process() ) {
-      return $this->redirect($this->generateUrl('GCore_FSAEditHospital', array('id' => $id)));
+      return $this->redirect($this->generateUrl('GCore_FSAIndex'));
     }
 
     return array(
-      'hospital'      => $hospital,
+      'hospitals'     => $hospitals,
+      'sectors'       => $sectors,
+      'hospital_id'   => $id,
       'hospital_form' => $editForm->createView(),
       'delete_form'   => $deleteForm->createView(),
     );

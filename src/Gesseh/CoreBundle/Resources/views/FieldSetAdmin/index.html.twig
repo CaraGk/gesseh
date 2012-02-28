@@ -4,89 +4,77 @@
 
 {% block content %}
   <h3>Catégories :</h3>
-  <table class="records_list">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
+  <div class="table">
+    <div class="table_head">
+      <p>
+        <span class="name">Name</span>
+        <span class="actions">Actions</span>
+      </p>
+    </div>
+    <div class="table_body">
       {% for sector in sectors %}
-        <tr>
-          <td>{{ sector.name }}</td>
-          <td>
-            <ul class="record_actions">
-              <li><a href="{{ path('GCore_FSAEditSector', { 'id': sector.id }) }}">modifier</a></li>
-            </ul>
-          </td>
-        </tr>
+        <p>
+          <span class="name">{{ sector.name }}</span>
+          <span class="actions"><a href="{{ path('GCore_FSAEditSector', { 'id': sector.id }) }}">modifier</a></span>
+        </p>
       {% endfor %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <td><a href="{{ path('GCore_FSAEditSector') }}">Ajouter</a></td>
-      </tr>
-    </tfoot>
-  </table>
+    </div>
+    <div class="table_foot">
+      <p>
+        <span class="actions"><a href="{{ path('GCore_FSAEditSector') }}">Ajouter</a></span>
+      </p>
+    </div>
+  </div>
 
   <h3>Hôpitaux et services :</h3>
 
-  <table class="records_list">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Adresse</th>
-        <th>Site web</th>
-        <th>Téléphone</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
+  <div class="table">
+    <div class="table_head">
+      <p>
+        <span>Name</span>
+        <span>Adresse</span>
+        <span>Site web</span>
+        <span>Téléphone</span>
+        <span>Actions</span>
+      </p>
+    </div>
+    <div class="table_body">
       {% for hospital in hospitals %}
-        <tr>
-          <td>{{ hospital.name }}</td>
-          <td>{{ hospital.address }}</td>
-          <td>{{ hospital.web }}</td>
-          <td>{{ hospital.phone }}</td>
-          <td>
-            <ul class="record_actions">
-              <li><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id }) }}">modifier</a></li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td colspan=4>
-            <table>
-              <thead>
-                <tr>
-                  <th>Service</th>
-                  <th>Chef de service</th>
-                  <th>Catégorie</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for department in hospital.departments %}
-                  <tr>
-                    <td>{{ department.name }}</td>
-                    <td>{{ department.head }}</td>
-                    <td>{{ department.sector }}</td>
-                    <td>Modifier</td>
-                  </tr>
-                {% else %}
-                  <tr><td colspan=4>Aucun service associé</td></tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </td>
-        </tr>
+        {% include hospital_id == hospital.id ? 'GessehCoreBundle:FieldSetAdmin:editHospital.html.twig' : 'GessehCoreBundle:FieldSetAdmin:indexHospital.html.twig' %}
       {% endfor %}
-    </tbody>
-    <tfoot>
-      </tr>
-        <td><a href="{{ path('GCore_FSANewHospital') }}">Ajouter</a></td>
-      </tr>
-    </tfoot>
-  </table>
+      {% if hospital_form is not empty and hospital_id is empty %}
+        {% include 'GessehCoreBundle:FieldSetAdmin:editHospital.html.twig' %}
+      {% endif %}
+    </div>
+    <div class="table_foot">
+      <p>
+        <span><a href="{{ path('GCore_FSANewHospital') }}">Ajouter</a></span>
+      </p>
+    </div>
+  </div>
 {% endblock %}
+
+  {% block javascripts %}
+    {{ parent() }}
+    <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var $container = $('#gesseh_corebundle_hospitaltype_departments');
+
+        function add_dpt() {
+          index = $container.children().length;
+          $container.append(
+            $($container.attr('data-prototype').replace(/\$\$name\$\$/g, index))
+          );
+        }
+
+        $('#add_dpt').click(function() {
+          add_dpt();
+        });
+      });
+    </script>
+  {% endblock %}
+
+{% if hospital_form is not empty %}
+  {% form_theme hospital_form 'GessehCoreBundle:Form:fields.html.twig' %}
+{% endif %}

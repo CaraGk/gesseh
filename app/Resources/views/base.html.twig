@@ -8,26 +8,26 @@
     </head>
     <body>
         <div id="container">
-          <div id="header">
+          <header id="header">
             <span>{% block logo %}<a href="{{ path('homepage') }}"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo.png') }}" alt="logo" /></a>{% endblock %}</span>
             <span><h1>{% block site %}Nom du site{% endblock %}</h1><span>
-          </div>
+          </header>
           <div id="user">
             {% block user %}{% endblock %}
           </div>
-          <div id="menu">
+          <nav id="menu">
             {% block menu %}{% endblock %}
-          </div>
-          <div id="content">
+          </nav>
+          <section id="content">
             {% block body %}{% endblock %}
-          </div>
-          <div id="footer">
+          </section>
+          <footer id="footer">
             <span class="miniature"><a href="http://code.google.com/p/gesseh/"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo_small.png') }}" alt="gesseh" /></a> powered by <a href="http://www.symfony-project.org/"><img src="{{ asset('bundles/gessehcore/images/symfony.gif') }}" alt="symfony" /></a></span>
             <ul>
               <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug ou un souhait</a></li>
               <li><a href="http://code.google.com/p/gesseh/w/list">Assistance - documentation</a></li>
             </ul>
-          </div>
+          </footer>
         </div>
         {% block javascripts %}{% endblock %}
     </body>

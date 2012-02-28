@@ -1,0 +1,37 @@
+<p>
+  <span>{{ hospital.name }}</span>
+  <span>{{ hospital.address }}</span>
+  <span>{{ hospital.web }}</span>
+  <span>{{ hospital.phone }}</span>
+    <ul>
+      <li><a href="">description</a></li>
+      <li><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id }) }}">modifier</a></li>
+      <li><a href="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id }) }}">supprimer</a></li>
+    </ul>
+</p>
+<p>
+    <div class="table">
+      <div class="table_head">
+        <p>
+          <span>Service</span>
+          <span>Chef de service</span>
+          <span>Catégorie</span>
+          <span></span>
+        </p>
+      </div>
+      <div class="table_body">
+        {% for department in hospital.departments %}
+          <p>
+            <span>{{ department.name }}</span>
+            <span>{{ department.head }}</span>
+            <span>{{ department.sector }}</span>
+            <span><a href="">description</a></span>
+          </p>
+        {% else %}
+          <p>
+            <span>Aucun service associé</span>
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+</p>

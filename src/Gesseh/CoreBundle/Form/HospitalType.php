@@ -14,7 +14,6 @@ class HospitalType extends AbstractType
       ->add('address')
       ->add('web')
       ->add('phone')
-      ->add('description')
       ->add('departments', 'collection', array(
         'type' => new DepartmentType(),
         'allow_add' => true,

@@ -1,75 +1,30 @@
-{% extends 'GessehCoreBundle::layout.html.twig' %}
-
-{% block titlecontent %}
-  {% if hospital.name %}
-    Modification de {{ hospital.name }}
-  {% else %}
-    Ajout d'un nouvel hôpital
-  {% endif %}
-{% endblock %}
-
-{% block content %}
-  <form method="post" {{ form_enctype(hospital_form) }}>
+<form method="post" {{ form_enctype(hospital_form) }}>
+  <p>
     {{ form_row(hospital_form.name) }}
     {{ form_row(hospital_form.address) }}
     {{ form_row(hospital_form.web) }}
     {{ form_row(hospital_form.phone) }}
-    <table>
-      <thead>
-        <tr>
-          <th>Service</th>
-          <th>Patron</th>
-          <th>Catégorie</th>
-        </tr>
-      </thead>
-      <tbody id="gesseh_corebundle_hospitaltype_departments" data-prototype="{{ form_widget(hospital_form.departments.get('prototype')) | e }}">
-        {% for department in hospital_form.departments %}
-          <tr>
-            <td>{{ form_widget(department.name) }}</td>
-            <td>{{ form_widget(department.head) }}</td>
-            <td>{{ form_widget(department.sector) }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {{ form_row(hospital_form.description) }}
-    {{ form_rest(hospital_form) }}
-    <p><button type="submit">Enregistrer</button></p>
-  </form>
-  <ul>
-    <li><button id="add_dpt">Ajouter un service</button></li>
-    {% if delete_form %}
-      <li>
-        <form action="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id }) }}" method="post">
-          {{ form_widget(delete_form) }}
-          <button type="submit">Delete</button>
-        </form>
-      </li>
-    {% endif %}
-  </ul>
-{% endblock %}
-
-{% block actionscontent %}
-  <li><a href="{{ path('GCore_FSAIndex') }}">Retour</a></li>
-{% endblock %}
-
-{% block javascripts %}
-  {{ parent() }}
-  <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      var $container = $('#gesseh_corebundle_hospitaltype_departments');
-
-      function add_dpt() {
-        index = $container.children().length;
-        $container.append(
-          $($container.attr('data-prototype').replace(/\$\$name\$\$/g, index))
-        );
-      }
-
-      $('#add_dpt').click(function() {
-        add_dpt();
-      });
-    });
-  </script>
-{% endblock %}
+      <ul class="action">
+        <li><button type="submit">enregistrer</button></li>
+        <li><button type="button" id="add_dpt">ajouter un service</button></li>
+        <li><a href="{{ path('GCore_FSAIndex') }}">annuler</a></li>
+      </ul>
+  </p>
+  <p>
+      <div class="table">
+        <div class="table_head">
+          <p>
+            <span>Service</span>
+            <span>Patron</span>
+            <span>Catégorie</span>
+          </p>
+        </div>
+        <div class="table_body" id="gesseh_corebundle_hospitaltype_departments" data-prototype="{{ form_widget(hospital_form.departments.get('prototype')) | e }}">
+          {% for department in hospital_form.departments %}
+            {{ form_widget(department) }}
+          {% endfor %}
+        </div>
+      </div>
+      {{ form_rest(hospital_form) }}
+  </p>
+</form>

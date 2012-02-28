@@ -1,0 +1,89 @@
+/* CSS par défaut pour GesseH
+ * Author : Pierre-François "Pilou" Angrand
+ * License : MIT License http://www.opensource.org/licenses/mit-license.php
+ * Version : 0.1
+*/
+
+html{ }
+body{ font: 13px arial, sans-serif; background-color: white; padding: 10px; }
+img{ border: none; }
+select, input, button, textarea{ font: 99% arial, sans-serif; outline: none; }
+table{ font: 100%; text-align: left; max-width: ; background-color: #c6cfd9; }
+td, th{ padding: 7px; }
+th{ text-align: center; }
+pre, code, kbd, samp, tt{ font-family: monospace; font-size: 99%; line-height:100% }
+a{ color: #524F46; outline: none; }
+strong{ font-weight: bold; }
+em{ font-style: italic; }
+
+#container{ margin-left: 5%; margin-right: 5%; background-color: #b5bfc8; border: 2px solid #606d73; }
+
+#header{ width: 100%; height 100px; text-align: center; position: relative; }
+#header h1{ width: 100%; padding: 15px; font-size: 200%;  }
+#header a{ text-decoration: none; color: black; }
+#header img{ margin-right: 20px; position: absolute; left: 10px; }
+
+#menu{ width: 100%; font-size: 110%; text-align: center; padding-top: 3px; padding-bottom: 3px; background-color: #c6cfd9; color: black; }
+#menu ul{ display: inline; }
+#menu li{ list-style: none; margin-right: 10px; margin-left: 10px; display: inline; }
+#menu li a{ text-decoration: none; }
+#menu li a:hover{ color: red; text-decoration: underline; }
+
+#search{ width: 100%; height: 25px; margin: auto; font-size: 110%; }
+#search select{ border: 1px; width: 50%; margin-left: 10px; }
+#search input{ border: 1px; margin-left: 10px; }
+#search input:hover{ }
+#search input:active{ }
+
+#content{ text-align: left; margin-top: 15px; }
+#content h1{ margin: 15px; font-size: 150%; font-weight: bold; line-height: 32px; color: black; width: 100%; text-align: center; }
+#content h1 a{ color: black; text-decoration: none; font-style: normal; line-height: 32px; }
+#content table{ text-align: left; font-size: 100%; border: 1px solid; margin: 10px; padding: 3px; }
+#content td{ padding-left: 5px; padding-right: 5px; }
+#content ol.infos{ display: inline; }
+#content ol.infos li{ display: inline; list-style: decimal; margin-right: 5px; }
+#content div.comments{ margin: 10px; border: 1px solid black; padding: 5px; }
+#content div.eval{ margin: 10px; }
+#content div.table { border: none; margin: 0 auto; }
+#content div.ul { display: block; float:right; width: 5em; height: 10em; border: none; }
+#content div.table li { list-style: none; margin: 0 auto; }
+#content div.table_body span, .table_head span, .table_foot span { overflow: auto; display:block; float:left; width: 15em; height: 3em; border: 1px dotted black; text-align: center; }
+#content div.table_head span { font-weight: bold; height: 1.4em; background-color: #c6cfd9; }
+#content div.table_body form, div.table_foot, div.table p, h3 { clear: both; }
+
+#footer{ margin-top: 60px; font-size: 90%; padding-top: 10px; height: 30px; position: relative; }
+#footer .content{ width: 90%; margin: 0 auto; }
+#footer a{ color: #77766F; }
+#footer ul{ display: inline; }
+#footer li{ list-style: none; margin-right: 15px; display: inline; }
+#footer li a{ text-decoration: none; }
+#footer li a:hover{ color: black; text-decoration: underline; }
+#footer .miniature,
+#footer .centresource{ font-family: arial,sans-serif; font-size: 80%; float: right; color: #666; }
+#footer .centresource{ clear: both; margin-top: 5px; padding-bottom: 5px; position: absolute; color: #adbcc3; font-size: 90%; }
+#footer .centresource a{ color: #b2c0c6; text-decoration: none; }
+#footer .centresource a:hover{ color: #fff; }
+#footer .miniature img{ vertical-align: middle; }
+
+#footer form{
+  margin: 10px 0;
+  color: #5f6364;
+}
+
+.FEED{
+  padding-left: 20px;
+  background: transparent url(../images/feed.png) no-repeat 0 0;
+}
+
+.error_list{ color: red; }
+.flash_notice{ margin: 3px 0; padding: 7px; background-color: #cfc; }
+.flash_error{ margin: 3px 0; padding: 7px; background-color: #f33; color: #fff; }
+
+.active{ background-color: #aa7777; }
+.valide{ background-color: #77aa77; }
+.white{ background-color: white; text-align: center; font-weight: bold; }
+.red{ background-color: red; text-align: center; font-weight: bold; }
+.orange{ background-color: #FFA500; text-align: center; font-weight: bold; }
+.yellow{ background-color: yellow; text-align: center; font-weight: bold; }
+.green{ background-color: green; text-align: center; font-weight: bold; }
+
