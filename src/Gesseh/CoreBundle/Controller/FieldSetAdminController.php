@@ -111,25 +111,17 @@ class FieldSetAdminController extends Controller
    * Deletes a Hospital entity.
    *
    * @Route("/h/{id}/d", name="GCore_FSADeleteHospital", requirements={"id" = "\d+"}))
-   * @Method("post")
    */
   public function deleteHospitalAction($id)
   {
-    $form = $this->createDeleteForm($id);
-    $request = $this->getRequest();
+    $em = $this->getDoctrine()->getEntityManager();
+    $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
 
-    $form->bindRequest($request);
+    if (!$hospital)
+      throw $this->createNotFoundException('Unable to find Hospital entity.');
 
-    if ($form->isValid()) {
-      $em = $this->getDoctrine()->getEntityManager();
-      $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
-
-      if (!$hospital)
-        throw $this->createNotFoundException('Unable to find Hospital entity.');
-
-      $em->remove($hospital);
-      $em->flush();
-    }
+    $em->remove($hospital);
+    $em->flush();
 
     return $this->redirect($this->generateUrl('GCore_FSAIndex'));
   }
@@ -203,27 +195,18 @@ class FieldSetAdminController extends Controller
    * Deletes a Sector entity.
    *
    * @Route("/s/{id}/d", name="GCore_FSADeleteSector")
-   * @Method("post")
    */
   public function deleteSectorAction($id)
   {
-    $form = $this->createDeleteForm($id);
-    $request = $this->getRequest();
+    $em = $this->getDoctrine()->getEntityManager();
+    $sector = $em->getRepository('GessehCoreBundle:Sector')->find($id);
 
-    $form->bindRequest($request);
+    if (!$sector)
+      throw $this->createNotFoundException('Unable to find Sector entity.');
 
-    if ($form->isValid()) {
-      $em = $this->getDoctrine()->getEntityManager();
-      $sector = $em->getRepository('GessehCoreBundle:Sector')->find($id);
-
-      if (!$sector) {
-        throw $this->createNotFoundException('Unable to find Sector entity.');
-      }
-
-      $em->remove($sector);
-      $em->flush();
-    }
-
+    $em->remove($sector);
+    $em->flush();
+    
     return $this->redirect($this->generateUrl('GCore_FSAIndex'));
   }
 
