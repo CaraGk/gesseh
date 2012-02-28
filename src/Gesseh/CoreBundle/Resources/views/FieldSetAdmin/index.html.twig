@@ -5,6 +5,7 @@
 {% block content %}
   {% if sector_form is not empty %}
     {% form_theme sector_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <div>{{ form_errors(sector_form) }}</div>
     <form method="post" {{ form_enctype(sector_form) }}>
   {% endif %}
   <h2>Catégories :</h2>
@@ -33,7 +34,10 @@
 
   <h2>Hôpitaux et services :</h2>
 
-  {% if hospital_form is not empty %}<form method="post" {{ form_enctype(hospital_form) }}>{% endif %}
+  {% if hospital_form is not empty %}
+    <div>{{ form_errors(hospital_form) }}</div>
+    <form method="post" {{ form_enctype(hospital_form) }}>
+  {% endif %}
   <table>
     <thead>
       <tr>
