@@ -39,10 +39,6 @@ class HospitalHandler
   public function onSuccess(Hospital $hospital)
   {
     $this->em->persist($hospital);
-
-//    foreach($hospital->getDepartments() as $department)
-//      $this->em->persist($department);
-
     $this->em->flush();
   }
 }

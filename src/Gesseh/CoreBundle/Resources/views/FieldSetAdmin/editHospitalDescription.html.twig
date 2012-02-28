@@ -1,0 +1,17 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Modifier la description de {{ entity.name }}{% endblock %}
+
+{% block actionscontent %}<a href="{{ path('GCore_FSAIndex') }}">Retour</a>{% endblock %}
+
+{% block content %}
+  <div class="description">{{ entity.description }}</div>
+  <form method="post" {{ form_enctype(edit_form) }}>
+    <div class="error">{{ form_errors(edit_form) }}</div>
+    <fieldset>
+      {{ form_row(edit_form.description) }}
+      {{ form_rest(edit_form) }}
+    </fieldset>
+    <div><button type="submit">Enregistrer</button></div>
+  </form>
+{% endblock %}

@@ -8,10 +8,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Gesseh\CoreBundle\Entity\Hospital;
 use Gesseh\CoreBundle\Form\HospitalType;
+use Gesseh\CoreBundle\Form\HospitalDescriptionType;
 use Gesseh\CoreBundle\Form\HospitalHandler;
 use Gesseh\CoreBundle\Entity\Sector;
 use Gesseh\CoreBundle\Form\SectorType;
 use Gesseh\CoreBundle\Form\SectorHandler;
+use Gesseh\CoreBundle\Entity\Department;
+use Gesseh\CoreBundle\Form\DepartmentDescriptionType;
+use Gesseh\CoreBundle\Form\DepartmentHandler;
 
 /**
  * FieldSetAdmin controller.
@@ -206,23 +210,60 @@ class FieldSetAdminController extends Controller
 
     $em->remove($sector);
     $em->flush();
-    
+
     return $this->redirect($this->generateUrl('GCore_FSAIndex'));
   }
 
-  private function createDeleteForm($id)
-  {
-    return $this->createFormBuilder(array('id' => $id))
-      ->add('id', 'hidden')
-      ->getForm()
-    ;
-  }
-
   /**
-   * @Route("/d/{id}", name="GCore_FSAEditDepartment", requirements={"id" = "\d+"})
-   * @Template()
+   * Edit the description of the Department entity.
+   *
+   * @Route("/d/{id}", name="GCore_FSAEditDepartmentDescription", requirements={"id" = "\d+"})
+   * @Template("GessehCoreBundle:FieldSetAdmin:editDescription.html.twig")
    */
-  public function editDepartmentAction($id)
+  public function editDepartmentDescriptionAction($id)
   {
+    $em = $this->getDoctrine()->getEntityManager();
+    $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
+
+    if (!$department)
+      throw $this->createNotFoundException('Unable to find Department entity.');
+
+    $editForm = $this->createForm(new DepartmentDescriptionType(), $department);
+    $formHandler = new DepartmentHandler($editForm, $this->get('request'), $em);
+
+    if ( $formHandler->process() ) {
+      return $this->redirect($this->generateUrl('GCore_FSAEditDepartmentDescription', array('id' => $id)));
+    }
+
+    return array(
+      'entity'  => $department,
+      'edit_form' => $editForm->createView(),
+    );
+  }
+  /**
+   * Edit the description of the Hospital entity.
+   *
+   * @Route("/h/{id}", name="GCore_FSAEditHospitalDescription", requirements={"id" = "\d+"})
+   * @Template("GessehCoreBundle:FieldSetAdmin:editDescription.html.twig")
+   */
+  public function editHospitalDescriptionAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
+
+    if (!$hospital)
+      throw $this->createNotFoundException('Unable to find Hospital entity.');
+
+    $editForm = $this->createForm(new HospitalDescriptionType(), $hospital);
+    $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
+
+    if ( $formHandler->process() ) {
+      return $this->redirect($this->generateUrl('GCore_FSAEditHospitalDescription', array('id' => $id)));
+    }
+
+    return array(
+      'entity'  => $hospital,
+      'edit_form' => $editForm->createView(),
+    );
   }
 }
