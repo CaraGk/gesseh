@@ -3,17 +3,17 @@
 {% block titlecontent %}{{ hospital.name }}{% endblock %}
 {% block content %}
 <div>
-  <ul class="record_actions">
-    <li><a href="{{ path('GCore_SFIndex') }}">Retour</a></li>
-    <li><a href="{{ path('GCore_SFAEditHospital', {id: hospital.id}) }}">Modifier</a>
+  <ul class="nav">
+    <li><a href="{{ path('GCore_FSIndex') }}">Retour</a></li>
+    <li><a href="{{ path('GCore_FSAEditHospital', {id: hospital.id}) }}">Modifier</a>
   </ul>
 </div>
 
-<div class="record_content">
+<div class="content">
   <div>Adresse : {{ hospital.address }}</div>
   <div>Téléphone : {{ hospital.phone }}</div>
   <div><a href="{{ hospital.web }}">Site web</a></div>
 </div>
 
-<div class="record_content">{{ hospital.description }}</div>
+<div class="content">{{ hospital.description }}</div>
 {% endblock %}

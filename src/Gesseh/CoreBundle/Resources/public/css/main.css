@@ -8,7 +8,7 @@ html { }
 body { font: 13px arial, sans-serif; background-color: #555555; }
 img { border: none; }
 select, input, button, textarea{ font: 99% arial, sans-serif; outline: none; }
-table { font: 100%; text-align: left; background-color: #dfdfdf; }
+table { font: 100%; text-align: left; background-color: #dfdfdf; border-radius: 5px; }
 td, th { padding: 7px; margin: 0; }
 th, .table_head span { text-align: center; font-weight: bold; }
 pre, code, kbd, samp, tt { font-family: monospace; font-size: 99%; line-height:100% }
@@ -50,9 +50,9 @@ div { margin: 0; padding: 0; }
 #content ul li { list-style: none; }
 #content div.comments { margin: 10px; border: 1px solid black; padding: 5px; }
 #content div.eval{ margin: 10px; }
-#content table { width: auto; border: 1px solid grey; margin: 0; padding: 0; margin: 0; }
+#content table { width: auto; border: 1px solid grey; margin: 0; padding: 1px; }
 #content tr { margin: 0; padding: 0; }
-#content td, th { width: 180px; margin: 0; padding: 0; }
+#content td, th { width: 180px; margin: 0; padding: 1px; }
 #content td.odd { background-color: #fcfca0; }
 #content td.even { background-color: #fefee3; }
 #content thead { background-color: #fdef55; }

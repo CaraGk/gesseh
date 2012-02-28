@@ -1,30 +1,10 @@
-{% extends 'GessehCoreBundle::layout.html.twig' %}
-
-{% block titlecontent %}
-  {% if sector.name %}
-    Modification de {{ sector.name }}
-  {% else %}
-    Ajout d'une nouvelle catégorie
-  {% endif %}
-{% endblock %}
-
-{%block content %}
-  <form method="post" {{ form_enctype(sector_form) }}>
-    {{ form_widget(sector_form) }}
-    <p><button type="submit">Enregistrer</button></p>
-  </form>
-{% endblock %}
-
-{% block actionscontent %}
-  <ul class="record_actions">
-    <li><a href="{{ path('GCore_FSAIndex') }}">Retour</a></li>
-    {% if delete_form %}
-      <li>
-        <form action="{{ path('GCore_FSADeleteSector', { 'id': sector.id }) }}" method="post">
-          {{ form_widget(delete_form) }}
-          <button type="submit">Delete</button>
-        </form>
-      </li>
-    {% endif %}
-  </ul>
-{% endblock %}
+<tr>
+  {{ form_row(sector_form.name) }}
+  {{ form_rest(sector_form) }}
+  <td>
+    <ul>
+      <li><button type="submit">Enregistrer</button></li>
+      <li><a href="{{ path('GCore_FSAIndex') }}">Annuler</a></li>
+    </ul>
+  </td>
+</tr>

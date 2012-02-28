@@ -3,6 +3,10 @@
 {% block titlecontent %}Catégories, hôpitaux et services{% endblock %}
 
 {% block content %}
+  {% if sector_form is not empty %}
+    {% form_theme sector_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <form method="post" {{ form_enctype(sector_form) }}>
+  {% endif %}
   <h2>Catégories :</h2>
   <table>
     <thead>
@@ -13,18 +17,19 @@
     </thead>
     <tbody>
       {% for sector in sectors %}
-        <tr>
-          <td>{{ sector.name }}</td>
-          <td><a href="{{ path('GCore_FSAEditSector', { 'id': sector.id }) }}">modifier</a></td>
-        </tr>
+        {% include sector_id == sector.id ? 'GessehCoreBundle:FieldSetAdmin:editSector.html.twig' : 'GessehCoreBundle:FieldSetAdmin:indexSector.html.twig' %}
       {% endfor %}
+      {% if sector_form is not empty and sector_id is empty %}
+        {% include 'GessehCoreBundle:FieldSetAdmin:editSector.html.twig' %}
+      {% endif %}
     </tbody>
     <tfoot>
       <tr>
-        <td><a href="{{ path('GCore_FSAEditSector') }}">Ajouter</a></td>
+        <td><a href="{{ path('GCore_FSANewSector') }}">Ajouter</a></td>
       </tr>
     </tfoot>
   </table>
+  {% if sector_form is not empty %}</form>{% endif %}
 
   <h2>Hôpitaux et services :</h2>
 

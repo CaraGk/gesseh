@@ -14,7 +14,7 @@
   <tbody>
     {% for department in departments %}
       <tr>
-        <td><a href="{{ path('GCore_FSShowHospital', {id: department.hospital}) }}">{{ department.hospital }}</a></td>
+        <td><a href="{{ path('GCore_FSShowHospital', {id: department.hospital.id}) }}">{{ department.hospital }}</a></td>
         <td><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}">{{ department.name }}</a></td>
         <td>{{ department.head }}</td>
         <td>{{ department.sector }}</td>

@@ -24,6 +24,7 @@ class FieldSetAdminController extends Controller
    * Lists all Hospital, Department and Sector entities.
    *
    * @Route("/", name="GCore_FSAIndex")
+   * @Route("/", name="admin_hp")
    * @Template()
    */
   public function indexAction()
@@ -37,13 +38,15 @@ class FieldSetAdminController extends Controller
       'sectors'       => $sectors,
       'hospital_id'   => null,
       'hospital_form' => null,
+      'sector_id'     => null,
+      'sector_form'   => null,
     );
   }
 
   /**
    * Displays a form to create a new Hospital entity.
    *
-   * @Route("/h/new", name="GCore_FSANewHospital")
+   * @Route("/h", name="GCore_FSANewHospital")
    * @Template("GessehCoreBundle:FieldSetAdmin:index.html.twig")
    */
   public function newHospitalAction()
@@ -65,14 +68,15 @@ class FieldSetAdminController extends Controller
       'sectors'       => $sectors,
       'hospital_id'   => null,
       'hospital_form' => $form->createView(),
-      'delete_form'   => null,
+      'sector_id'     => null,
+      'sector_form'   => null,
     );
   }
 
   /**
    * Displays a form to edit an existing Hospital entity.
    *
-   * @Route("/h/{id}/edit", name="GCore_FSAEditHospital", requirements={"id" = "\d+"})
+   * @Route("/h/{id}/e", name="GCore_FSAEditHospital", requirements={"id" = "\d+"})
    * @Template("GessehCoreBundle:FieldSetAdmin:index.html.twig")
    */
   public function editHospitalAction($id)
@@ -88,9 +92,7 @@ class FieldSetAdminController extends Controller
 
     $editForm = $this->createForm(new HospitalType(), $hospital);
     $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
-    $deleteForm = $this->createDeleteForm($id);
 
-//var_dump($this->get('request')); exit;
     if ( $formHandler->process() ) {
       return $this->redirect($this->generateUrl('GCore_FSAIndex'));
     }
@@ -100,14 +102,15 @@ class FieldSetAdminController extends Controller
       'sectors'       => $sectors,
       'hospital_id'   => $id,
       'hospital_form' => $editForm->createView(),
-      'delete_form'   => $deleteForm->createView(),
+      'sector_id'     => null,
+      'sector_form'   => null,
     );
   }
 
   /**
    * Deletes a Hospital entity.
    *
-   * @Route("/h/{id}/delete", name="GCore_FSADeleteHospital", requirements={"id" = "\d+"}))
+   * @Route("/h/{id}/d", name="GCore_FSADeleteHospital", requirements={"id" = "\d+"}))
    * @Method("post")
    */
   public function deleteHospitalAction($id)
@@ -134,46 +137,16 @@ class FieldSetAdminController extends Controller
   /**
    * Displays a form to create a new Sector entity.
    *
-   * @Route("/s/new", name="GCore_FSANewSector")
-   * @Template("GessehCoreBundle:FieldSetAdmin:editSector.html.twig")
+   * @Route("/s", name="GCore_FSANewSector")
+   * @Template("GessehCoreBundle:FieldSetAdmin:index.html.twig")
    */
   public function newSectorAction()
   {
-    $sector = new Sector();
-    $form   = $this->createForm(new SectorType(), $sector);
-    $formHandler = new SectorHandler($form, $this->get('request'), $this->getDoctrine()->getEntityManager());
-
-    if ( $formHandler->process() ) {
-      return $this->redirect($this->generateUrl('GCore_FSAIndex'));
-    }
-
-    return array(
-     'sector'      => $sector,
-     'sector_form' => $form->createView(),
-     'delete_form' => null,
-    );
-  }
-
-  /**
-   * Displays a form to edit an existing Sector entity.
-   *
-   * @Route("/s/{id}/edit", name="GCore_FSAEditSector", requirements={"id" = "\d+"}, defaults={"id" = 0})
-   * @Template()
-   */
-  public function editSectorAction($id)
-  {
     $em = $this->getDoctrine()->getEntityManager();
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
+    $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
 
-    if ($id) {
-      $sector = $em->getRepository('GessehCoreBundle:Sector')->find($id);
-      if (!$sector)
-        throw $this->createNotFoundException('Unable to find Sector entity.');
-      $deleteForm = $this->createDeleteForm($id);
-      $render = array('delete_form' => $deleteForm->createView());
-    } else {
-      $sector = new Sector();
-      $render = array('delete_form' => null);
-    }
+    $sector = new Sector();
 
     $editForm = $this->createForm(new SectorType(), $sector);
     $formHandler = new SectorHandler($editForm, $this->get('request'), $em);
@@ -182,16 +155,54 @@ class FieldSetAdminController extends Controller
       return $this->redirect($this->generateUrl('GCore_FSAIndex'));
     }
 
-    $render['sector'] = $sector;
-    $render['sector_form'] = $editForm->createView();
+    return array (
+      'sectors'       => $sectors,
+      'hospitals'     => $hospitals,
+      'hospital_id'   => null,
+      'hospital_form' => null,
+      'sector_id'     => null,
+      'sector_form'   => $editForm->createView(),
+    );
+  }
 
-    return $render;
+  /**
+   * Displays a form to edit an existing Sector entity.
+   *
+   * @Route("/s/{id}/e", name="GCore_FSAEditSector", requirements={"id" = "\d+"})
+   * @Template("GessehCoreBundle:FieldSetAdmin:index.html.twig")
+   */
+  public function editSectorAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
+    $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
+
+    $sector = $em->getRepository('GessehCoreBundle:Sector')->find($id);
+
+    if (!$sector)
+        throw $this->createNotFoundException('Unable to find Sector entity.');
+
+    $editForm = $this->createForm(new SectorType(), $sector);
+    $formHandler = new SectorHandler($editForm, $this->get('request'), $em);
+
+    if ( $formHandler->process() ) {
+      return $this->redirect($this->generateUrl('GCore_FSAIndex'));
+    }
+
+    return array (
+      'sectors'       => $sectors,
+      'hospitals'     => $hospitals,
+      'hospital_id'   => null,
+      'hospital_form' => null,
+      'sector_id'     => $id,
+      'sector_form'   => $editForm->createView(),
+    );
   }
 
   /**
    * Deletes a Sector entity.
    *
-   * @Route("/s/{id}/delete", name="GCore_FSADeleteSector")
+   * @Route("/s/{id}/d", name="GCore_FSADeleteSector")
    * @Method("post")
    */
   public function deleteSectorAction($id)
