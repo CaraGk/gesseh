@@ -4,7 +4,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: %locale% }
+    translator:      { fallback: %locale% }
     secret:          %secret%
     charset:         UTF-8
     router:          { resource: "%kernel.root_dir%/config/routing.yml" }
@@ -62,5 +62,5 @@ jms_security_extra:
 fos_user:
   db_driver:     orm
   firewall_name: main
-  use_listener:  false
+#  use_listener:  false
   user_class:    Gesseh\UserBundle\Entity\User
