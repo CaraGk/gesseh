@@ -3,7 +3,7 @@
   <td>{{ hospital.address }}</td>
   <td>{{ hospital.web }}</td>
   <td>{{ hospital.phone }}</td>
-  <td>
+  <td rowspan=2 class="actions">
     <ul>
       <li><a href="{{ path('GCore_FSAEditHospitalDescription', { 'id': hospital.id }) }}">Description</a></li>
       <li><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id }) }}">Modifier</a></li>
@@ -28,7 +28,11 @@
             <td>{{ department.name }}</td>
             <td>{{ department.head }}</td>
             <td>{{ department.sector }}</td>
-            <td><a href="{{ path('GCore_FSAEditDepartmentDescription', {'id': department.id}) }}">Description</a></td>
+            <td class="actions">
+              <ul>
+                <li><a href="{{ path('GCore_FSAEditDepartmentDescription', {'id': department.id}) }}">Description</a></li>
+              </ul>
+            </td>
           </tr>
         {% else %}
           <tr>

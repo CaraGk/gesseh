@@ -7,16 +7,17 @@
 html { }
 body { font: 13px arial, sans-serif; background-color: #555555; }
 img { border: none; }
-select, input, button, textarea{ font: 99% arial, sans-serif; outline: none; }i
-table { font: 100%; text-align: left; background-color: #dfdfdf; border-radius: 5px; }
+select, input, button, textarea{ font: 99% arial, sans-serif; outline: none; }
+table { font: 100%; text-align: left; background-color: #dfdfdf; border-radius: 5px; border-collapse: collapse; }
 td, th { padding: 7px; margin: 0; }
-th, .table_head span { text-align: center; font-weight: bold; }
+th { text-align: center; font-weight: bold; }
 pre, code, kbd, samp, tt { font-family: monospace; font-size: 99%; line-height:100% }
 a { color: #524F46; outline: none; text-decoration: none; }
 a:hover { color: #111111; text-decoration: underline; }
 strong { font-weight: bold; }
 em { font-style: italic; }
 div { margin: 0; padding: 0; }
+:invalid { background-color: #e55; outline: none; }
 
 #container { margin-left: 5%; margin-right: 5%; background-color: #b5bfc8; border: 2px solid #606d73; border-radius: 15px; }
 
@@ -54,13 +55,16 @@ div { margin: 0; padding: 0; }
 #content div.comments { margin: 10px; border: 1px solid black; padding: 5px; }
 #content div.eval{ margin: 10px }
 #content div.description { border: 1px dotted black; margin: 10px; }
-#content table { width: auto; border: 1px solid grey; margin: 0; padding: 1px; }
-#content tr { margin: 0; padding: 0; }
-#content td, th { width: 180px; margin: 0; padding: 1px; }
+#content table { width: auto; border: 1px solid grey; border-collapse: collapse; }
+#content td, th { margin: 0; padding: 2px; border: 1px dotted grey; }
+#content td { width: 180px; }
 #content td.odd { background-color: #fcfca0; }
 #content td.even { background-color: #fefee3; }
+#content td.actions { width: 90px; vertical-align: top; }
 #content thead { background-color: #fdef55; }
 #content tfoot {}
+#content table ul { display: inline-block; margin: 0; padding: 0; }
+#content table li { display: block; margin: 2px; padding: 0; }
 #content textarea { width: 99%; height: 200px; }
 
 #footer { width: 100%; padding-top: 15px; font-size: 90%; height: 30px; position: relative; background-color: #aaa; border-radius: 0 0 15px 15px; }
