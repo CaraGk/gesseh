@@ -12,7 +12,15 @@
 
 {% block body %}
   <h1>{% block titlecontent %}{% endblock %}</h1>
+
+  {% if app.session.hasFlash('notice') %}
+    <div class="info">{{ app.session.flash('notice') }}</div>
+  {% elseif app.session.hasFlash('error') %}
+    <div class="error">{{ app.session.flash('error') }}</div>
+  {% endif %}
+
   <ul>{% block actionscontent %}{% endblock %}</ul>
+  
   <div>{% block content %}{% endblock %}</div>
 {% endblock %}
 

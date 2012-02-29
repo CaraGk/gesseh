@@ -64,6 +64,7 @@ class FieldSetAdminController extends Controller
     $formHandler = new HospitalHandler($form, $this->get('request'), $this->getDoctrine()->getEntityManager());
 
     if ( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Hôpital "' . $hospital->getName() . '" enregistré.');
       return $this->redirect($this->generateUrl('GCore_FSAIndex'));
     }
 
@@ -98,6 +99,7 @@ class FieldSetAdminController extends Controller
     $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Hôpital "' . $hospital->getName() . '" modifié.');
       return $this->redirect($this->generateUrl('GCore_FSAIndex'));
     }
 
@@ -127,6 +129,7 @@ class FieldSetAdminController extends Controller
     $em->remove($hospital);
     $em->flush();
 
+    $this->get('session')->setFlash('notice', 'Hôpital "' . $hospital->getName() . '" supprimé.');
     return $this->redirect($this->generateUrl('GCore_FSAIndex'));
   }
 
@@ -148,6 +151,7 @@ class FieldSetAdminController extends Controller
     $formHandler = new SectorHandler($editForm, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Catégorie "' . $sector->getName() . '" enregistrée.');
       return $this->redirect($this->generateUrl('GCore_FSAIndex'));
     }
 
@@ -182,6 +186,7 @@ class FieldSetAdminController extends Controller
     $formHandler = new SectorHandler($editForm, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Catégorie "' . $sector->getName() . '" modifiée.');
       return $this->redirect($this->generateUrl('GCore_FSAIndex'));
     }
 
@@ -211,6 +216,7 @@ class FieldSetAdminController extends Controller
     $em->remove($sector);
     $em->flush();
 
+    $this->get('session')->setFlash('notice', 'Catégorie "' . $sector->getName() . '" supprimée.');
     return $this->redirect($this->generateUrl('GCore_FSAIndex'));
   }
 
@@ -232,6 +238,7 @@ class FieldSetAdminController extends Controller
     $formHandler = new DepartmentHandler($editForm, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Description du service "' . $department->getName() . '" enregistrée.');
       return $this->redirect($this->generateUrl('GCore_FSAEditDepartmentDescription', array('id' => $id)));
     }
 
@@ -258,6 +265,7 @@ class FieldSetAdminController extends Controller
     $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Description de l\'hôpital "' . $hospital->getName() . '" enregistrée.');
       return $this->redirect($this->generateUrl('GCore_FSAEditHospitalDescription', array('id' => $id)));
     }
 
