@@ -9,15 +9,15 @@
     <body>
         <div id="container">
           <header id="header">
-            <nav>{% block usernav %}<a href="">Se connecter</a>{% endblock %}</nav>
+            <nav>{% block usernav %}<a href="" title="Se connecter">Se connecter</a>{% endblock %}</nav>
             <span>{% block logo %}<a href="{{ path('homepage') }}"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo.png') }}" alt="logo" /></a>{% endblock %}</span>
             <span><h1>{% block site %}Nom du site{% endblock %}</h1><span>
           </header>
           <nav id="menu">
             {% block nav %}
               <ul>
-                <li><a href="{{ path('homepage') }}">Accueil</a></li>
-                <li><a href="{{ path('admin_hp') }}">Adminstration</a></li>
+                <li><a href="{{ path('homepage') }}" title="Page d'accueil">Accueil</a></li>
+                <li><a href="{{ path('admin_hp') }}" title="Administrer le site">Adminstration</a></li>
               </ul>
             {% endblock %}
           </nav>

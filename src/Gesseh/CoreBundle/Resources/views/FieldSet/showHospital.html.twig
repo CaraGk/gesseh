@@ -4,8 +4,8 @@
 {% block content %}
 <div>
   <ul class="nav">
-    <li><a href="{{ path('GCore_FSIndex') }}">Retour</a></li>
-    <li><a href="{{ path('GCore_FSAEditHospitalDescription', {id: hospital.id}) }}">Modifier</a>
+    <li><a href="{{ path('GCore_FSIndex') }}" title="Retour à la liste des terrains">Retour</a></li>
+    <li><a href="{{ path('GCore_FSAEditHospitalDescription', {id: hospital.id}) }}" title="Modifier la description de l'hôpital '{{ hospital.name }}'">Modifier</a>
   </ul>
 </div>
 
