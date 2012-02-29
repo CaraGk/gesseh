@@ -14,7 +14,11 @@ class DepartmentRepository extends EntityRepository
 {
   public function getDepartmentQuery()
   {
-    return $this->createQueryBuilder('d')->join('d.hospital', 'h')->join('d.sector', 's');
+    return $this->createQueryBuilder('d')
+                ->join('d.hospital', 'h')
+                ->join('d.sector', 's')
+                ->addSelect('h')
+                ->addSelect('s');
   }
 
   public function getById($id)
@@ -23,6 +27,18 @@ class DepartmentRepository extends EntityRepository
     $query->where('d.id = :id')
           ->setParameter('id', $id);
 
-    return $query->getQuery()->getSingleResult();
+    return $query->getQuery()
+                 ->getSingleResult();
+  }
+
+  public function getAll(array $orderBy = array('h' => 'asc', 's' => 'asc'))
+  {
+    $query = $this->getDepartmentQuery();
+    foreach ( $orderBy as $col => $order ) {
+      $query->addOrderBy($col . '.name', $order);
+    }
+
+    return $query->getQuery()
+                 ->getResult();
   }
 }

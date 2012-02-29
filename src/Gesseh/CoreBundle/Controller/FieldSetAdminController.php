@@ -34,7 +34,7 @@ class FieldSetAdminController extends Controller
   public function indexAction()
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
 
     return array(
@@ -56,7 +56,7 @@ class FieldSetAdminController extends Controller
   public function newHospitalAction()
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
 
     $hospital = new Hospital();
@@ -87,7 +87,7 @@ class FieldSetAdminController extends Controller
   public function editHospitalAction($id)
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
 
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
@@ -142,7 +142,7 @@ class FieldSetAdminController extends Controller
   public function newSectorAction()
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
 
     $sector = new Sector();
@@ -174,7 +174,7 @@ class FieldSetAdminController extends Controller
   public function editSectorAction($id)
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
 
     $sector = $em->getRepository('GessehCoreBundle:Sector')->find($id);

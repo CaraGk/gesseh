@@ -4,6 +4,7 @@ namespace Gesseh\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Query\Expr\OrderBy as OrderBy;
 
 /**
  * Gesseh\CoreBundle\Entity\Hospital
@@ -62,6 +63,7 @@ class Hospital
 
     /**
      * @ORM\OneToMany(targetEntity="Department", mappedBy="hospital", cascade={"remove", "persist"})
+     * @OrderBy({"name" = "asc"})
      */
     private $departments;
 

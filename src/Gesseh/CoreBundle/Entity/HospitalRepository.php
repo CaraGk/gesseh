@@ -12,4 +12,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class HospitalRepository extends EntityRepository
 {
+  public function getHospitalQuery()
+  {
+    return $this->createQueryBuilder('h')
+                ->join('h.departments', 'd')
+                ->join('d.sector', 's')
+                ->addSelect('d')
+                ->addSelect('s');
+  }
+
+  public function getAll(array $orderBy = array ( 'h' => 'asc', 'd' => 'asc'))
+  {
+    $query = $this->getHospitalQuery();
+    foreach( $orderBy as $col => $order ) {
+      $query->addOrderBy($col . '.name', $order);
+    }
+
+    return $query->getQuery()
+                 ->getResult();
+  }
 }

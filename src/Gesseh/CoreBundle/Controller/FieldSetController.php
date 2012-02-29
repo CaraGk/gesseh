@@ -20,7 +20,7 @@ class FieldSetController extends Controller
    */
   public function indexAction()
   {
-    $departments = $this->getDoctrine()->getEntityManager()->getRepository('GessehCoreBundle:Department')->findAll();
+    $departments = $this->getDoctrine()->getEntityManager()->getRepository('GessehCoreBundle:Department')->getAll();
 
     return array(
       'departments' => $departments
