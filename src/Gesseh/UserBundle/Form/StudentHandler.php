@@ -7,18 +7,21 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
 use Gesseh\UserBundle\Entity\Student;
+use FOS\UserBundle\Entity\UserManager;
 
 class StudentHandler
 {
   private $form;
   private $request;
   private $em;
+  private $um;
 
-  public function __construct(Form $form, Request $request, EntityManager $em)
+  public function __construct(Form $form, Request $request, EntityManager $em, UserManager $um)
   {
     $this->form    = $form;
     $this->request = $request;
     $this->em      = $em;
+    $this->um      = $um;
   }
 
   public function process()
@@ -38,9 +41,22 @@ class StudentHandler
 
   public function onSuccess(Student $student)
   {
-    $student->getUser()->setUsername($student->getUser()->getEmail());
-    $student->getUser()->setPassword('toto');
+    $this->updateUser($student->getUser());
     $this->em->persist($student);
     $this->em->flush();
+  }
+
+  private function updateUser($user)
+  {
+    if( null == $user->getUsername() ) {
+      $this->um->createUser();
+      $user->setPlainPassword('toto');
+      $user->setConfirmationToken(null);
+      $user->setEnabled(true);
+      $user->addRole('STUDENT');
+    }
+    $user->setUsername($user->getEmail());
+
+    $this->um->updateUser($user);
   }
 }

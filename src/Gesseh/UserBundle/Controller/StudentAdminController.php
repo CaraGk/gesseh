@@ -43,16 +43,45 @@ class StudentAdminController extends Controller
 
     $student = new Student();
     $form = $this->createForm(new StudentType(), $student);
-    $formHandler = new StudentHandler($form, $this->get('request'), $em);
+    $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Étudiant "' . $student . ' enregistré.');
+      $this->get('session')->setFlash('notice', 'Étudiant "' . $student . '" enregistré.');
       return $this->redirect($this->generateUrl('GUser_SAIndex'));
     }
 
     return array(
-      'students' => $students,
-      'student_id' => null,
+      'students'     => $students,
+      'student_id'   => null,
+      'student_form' => $form->createView(),
+    );
+  }
+
+  /**
+   * @Route("/s/{id}/e", name="GUser_SAEditStudent", requirements={"id" = "\d+"})
+   * @Template("GessehUserBundle:StudentAdmin:index.html.twig")
+   */
+  public function editStudentAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $students = $em->getRepository('GessehUserBundle:Student')->findAll();
+
+    $student = $em->getRepository('GessehUserBundle:Student')->find($id);
+
+    if( !$student )
+      throw $this->createNotFoundException('Unable to find Hospital entity.');
+
+    $form = $this->createForm(new StudentType(), $student);
+    $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
+
+    if( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Étudiant "' . $student . '" modifié.');
+      return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    }
+
+    return array(
+      'students'     => $students,
+      'student_id'   => $id,
       'student_form' => $form->createView(),
     );
   }
