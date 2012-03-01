@@ -1,7 +1,10 @@
+GessehUserBundle:
+  resource: "@GessehUserBundle/Controller/"
+  type:     annotation
+
 GessehCoreBundle:
-    resource: "@GessehCoreBundle/Controller/"
-    type:     annotation
-    prefix:   /
+  resource: "@GessehCoreBundle/Controller/"
+  type:     annotation
 
 fos_user_security:
   resource: "@FOSUserBundle/Resources/config/routing/security.xml"

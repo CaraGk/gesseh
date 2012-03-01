@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class DefaultController extends Controller
+class StudentController extends Controller
 {
     /**
-     * @Route("/hello/{name}")
+     * @Route("/u")
      * @Template()
      */
     public function indexAction($name)

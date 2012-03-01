@@ -1,0 +1,13 @@
+<tr>
+  {{ form_row(student_form.surname) }}
+  {{ form_row(student_form.name) }}
+  {{ form_row(student_form.user.email) }}
+  {{ form_row(student_form.phone) }}
+  {{ form_rest(student_form) }}
+  <td class="actions">
+    <ul>
+      <li><button type="submit" title="Enregistrer les modifications">Enregistrer</button></li>
+      <li><a href="{{ path('GUser_SAIndex') }}" title="Abandonner les modifications">Annuler</a></li>
+    </ul>
+  </td>
+</tr>

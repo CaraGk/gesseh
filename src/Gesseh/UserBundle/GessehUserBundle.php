@@ -10,4 +10,11 @@ class GessehUserBundle extends Bundle
   {
     return 'FOSUserBundle';
   }
+
+  public function boot()
+  {
+    $em = $this->container->get('doctrine.orm.default_entity_manager');
+
+    $em->getConnection()->getDatabasePlatform();
+  }
 }

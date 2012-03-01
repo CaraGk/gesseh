@@ -61,7 +61,7 @@ class FieldSetAdminController extends Controller
 
     $hospital = new Hospital();
     $form   = $this->createForm(new HospitalType(), $hospital);
-    $formHandler = new HospitalHandler($form, $this->get('request'), $this->getDoctrine()->getEntityManager());
+    $formHandler = new HospitalHandler($form, $this->get('request'), $this->em);
 
     if ( $formHandler->process() ) {
       $this->get('session')->setFlash('notice', 'Hôpital "' . $hospital->getName() . '" enregistré.');

@@ -1,0 +1,42 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Étudiants{% endblock %}
+
+{% block content %}
+  {% if student_form is not empty %}
+    {% form_theme student_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <div class="error">{{ form_errors(student_form) }}</div>
+    <form method="post" {{ form_enctype(student_form) }}>
+  {% endif %}
+  <h2>Étudiants</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>E-mail</th>
+        <th>Téléphone</th>
+        <th>Promotion</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in students %}
+        {% include student_id == student.id ? 'GessehUserBundle:StudentAdmin:editStudent.html.twig' : 'GessehUserBundle:StudentAdmin:indexStudent.html.twig' %}
+      {% endfor %}
+      {% if student_form is not empty and student_id is empty %}
+        {% include 'GessehUserBundle:StudentAdmin:editStudent.html.twig' %}
+      {% endif %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <ul>
+            <li><a href="{{ path('GUser_SANewStudent') }}" title="Ajouter un nouvel étudiant">Ajouter</a></li>
+          </ul>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  {% if student_form is not empty %}</form>{% endif %}
+{% endblock %}

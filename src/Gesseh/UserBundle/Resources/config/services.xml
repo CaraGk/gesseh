@@ -8,13 +8,13 @@
     <parameters>
         <parameter key="gesseh_user.example.class">Gesseh\UserBundle\Example</parameter>
     </parameters>
+    -->
 
     <services>
-        <service id="gesseh_user.example" class="%gesseh_user.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="gesseh_user.useradmin.form.type" class="Gesseh\UserBundle\Form\UserAdminType">
+          <tag name="form.type" alias="gesseh_user_useradmin" />
+            <argument>%fos_user.model.user.class%</argument>
         </service>
+
     </services>
-    -->
 </container>
