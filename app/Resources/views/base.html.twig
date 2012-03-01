@@ -9,7 +9,13 @@
     <body>
         <div id="container">
           <header id="header">
-            <nav>{% block usernav %}<a href="" title="Se connecter">Se connecter</a>{% endblock %}</nav>
+            <nav>
+              {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <a href="{{ path('fos_user_security_logout') }}" title="Se déconnecter">{{ app.user.username }} : se déconnecter</a>
+              {% else %}
+                <a href="{{ path('fos_user_security_login') }}" title="Se connecter">Se connecter</a>
+              {% endif %}
+            </nav>
             <span>{% block logo %}<a href="{{ path('homepage') }}"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo.png') }}" alt="logo" /></a>{% endblock %}</span>
             <span><h1>{% block site %}Nom du site{% endblock %}</h1><span>
           </header>
@@ -17,7 +23,7 @@
             {% block nav %}
               <ul>
                 <li><a href="{{ path('homepage') }}" title="Page d'accueil">Accueil</a></li>
-                <li><a href="{{ path('admin_hp') }}" title="Administrer le site">Adminstration</a></li>
+                <li><a href="{{ path('admin_hp') }}" title="Administrer le site">Administration</a></li>
               </ul>
             {% endblock %}
           </nav>
