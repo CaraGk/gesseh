@@ -85,4 +85,22 @@ class StudentAdminController extends Controller
       'student_form' => $form->createView(),
     );
   }
+
+  /**
+   * @Route("/s/{id}/d", name="GUser_SADeleteStudent")
+   */
+  public function deleteStudentAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $student = $em->getRepository('GessehUserBundle:Student')->find($id);
+
+    if( !$student )
+      throw $this->createNotFoundException('Unable to find Student entity.');
+
+    $em->remove($student);
+    $em->flush();
+
+    $this->get('session')->setFlash('notice', 'Etudiant "' . $student . '" supprimé.');
+    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+  }
 }
