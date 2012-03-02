@@ -103,4 +103,46 @@ class StudentAdminController extends Controller
     $this->get('session')->setFlash('notice', 'Etudiant "' . $student . '" supprimé.');
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
+
+  /**
+   * @Route("/s/{id}/pm", name="GUser_SAPromoteStudent")
+   */
+  public function promoteStudentAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $um = $this->container->get('fos_user.user_manager');
+    $student = $em->getRepository('GessehUserBundle:Student')->find($id);
+
+    if( !$student )
+      throw $this->createNotFoundException('Unable to find Student entity.');
+
+    $user = $student->getUser();
+    $user->addRole('ROLE_ADMIN');
+
+    $um->updateUser($user);
+
+    $this->get('session')->setFlash('notice', 'Droits d\'administration donnés à l\'étudiant "' . $student . '"');
+    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+  }
+
+  /**
+   * @Route("/s/{id}/dm", name="GUser_SADemoteStudent")
+   */
+  public function demoteStudentAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $um = $this->container->get('fos_user.user_manager');
+    $student = $em->getRepository('GessehUserBundle:Student')->find($id);
+
+    if( !$student ) 
+      throw $this->createNotFoundException('Unable to find Student entity.');
+
+    $user = $student->getUser();
+    if( $user->hasRole('ROLE_ADMIN') )
+      $user->removeRole('ROLE_ADMIN');
+    $um->updateUser($user);
+
+    $this->get('session')->setFlash('notice', 'Droits d\'administration retirés à l\'étudiant "' . $student . '"');
+    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+  }
 }
