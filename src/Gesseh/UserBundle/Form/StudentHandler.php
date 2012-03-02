@@ -53,7 +53,7 @@ class StudentHandler
       $user->setPlainPassword('toto');
       $user->setConfirmationToken(null);
       $user->setEnabled(true);
-      $user->addRole('STUDENT');
+      $user->addRole('ROLE_STUDENT');
     }
     $user->setUsername($user->getEmail());
 

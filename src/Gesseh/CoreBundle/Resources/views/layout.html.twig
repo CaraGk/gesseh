@@ -8,7 +8,15 @@
 
 {% block sitename %}{{ parent() }}{% endblock %}
 
-{% block menu %}{% endblock %}
+{% block nav %}
+  {% if 'admin' in app.request.uri %}
+    {{ knp_menu_render('admin') }}
+  {% elseif is_granted('ROLE_STUDENT') %}
+    {{ knp_menu_render('student') }}
+  {% else %}
+    {{ knp_menu_render('anon') }}
+  {% endif %}
+{% endblock %}
 
 {% block body %}
   <h1>{% block titlecontent %}{% endblock %}</h1>
@@ -20,7 +28,7 @@
   {% endif %}
 
   <ul>{% block actionscontent %}{% endblock %}</ul>
-  
+
   <div>{% block content %}{% endblock %}</div>
 {% endblock %}
 
