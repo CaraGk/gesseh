@@ -54,6 +54,13 @@ class Student
    */
   private $user;
 
+  /**
+   * @ORM\ManyToOne(targetEntity="Grade", inversedBy="students")
+   * @ORM\JoinColumn(name="grade_id", referencedColumnName="id")
+   */
+  private $grade;
+
+
   public function __toString()
   {
     return $this->name . ' ' . $this->surname;
@@ -147,5 +154,25 @@ class Student
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set grade
+     *
+     * @param Gesseh\UserBundle\Entity\Grade $grade
+     */
+    public function setGrade(\Gesseh\UserBundle\Entity\Grade $grade)
+    {
+        $this->grade = $grade;
+    }
+
+    /**
+     * Get grade
+     *
+     * @return Gesseh\UserBundle\Entity\Grade
+     */
+    public function getGrade()
+    {
+        return $this->grade;
     }
 }

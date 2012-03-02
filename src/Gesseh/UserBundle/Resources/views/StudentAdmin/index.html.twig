@@ -3,12 +3,47 @@
 {% block titlecontent %}Étudiants{% endblock %}
 
 {% block content %}
+  {% if grade_form is not empty %}
+    {% form_theme grade_form 'GessehCoreBundle:fields.html.twig' %}
+    <div class="error">{{ form_errors(grade_form) }}</div>
+    <form method="post" {{ form_enctype(grade_form) }}>
+  {% endif %}
+  <h2>Promotions :</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Ordre</th>
+        <th>Nom</th>
+        <th>Active ?</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for grade in grades %}
+        {% include grade_id == grade.id ? 'GessehUserBundle:StudentAdmin:editGrade.html.twig' : 'GessehUserBundle:StudentAdmin:indexGrade.html.twig' %}
+      {% endfor %}
+      {% if grade_form is not empty and grade_id is empty %}
+        {% include 'GessehUserBundle:StudentAdmin:editGrade.html.twig' %}
+      {% endif %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <ul>
+            <li><a href="{{ path('GUser_SANewGrade') }}" title="Ajouter un nouveau niveau">Ajouter</a></li>
+          </ul>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  {% if grade_form is not empty %}</form>{% endif %}
+
   {% if student_form is not empty %}
     {% form_theme student_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div class="error">{{ form_errors(student_form) }}</div>
     <form method="post" {{ form_enctype(student_form) }}>
   {% endif %}
-  <h2>Étudiants</h2>
+  <h2>Étudiants :</h2>
   <table>
     <thead>
       <tr>

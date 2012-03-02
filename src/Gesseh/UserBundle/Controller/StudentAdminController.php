@@ -24,11 +24,15 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $students = $em->getRepository('GessehUserBundle:Student')->findAll();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
 
     return array(
       'students'     => $students,
       'student_id'   => null,
       'student_form' => null,
+      'grades'       => $grades,
+      'grade_id'     => null,
+      'grade_form'   => null,
     );
   }
 
@@ -40,6 +44,7 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $students = $em->getRepository('GessehUserBundle:Student')->findAll();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
 
     $student = new Student();
     $form = $this->createForm(new StudentType(), $student);
@@ -54,6 +59,9 @@ class StudentAdminController extends Controller
       'students'     => $students,
       'student_id'   => null,
       'student_form' => $form->createView(),
+      'grades'       => $grades,
+      'grade_id'     => null,
+      'grade_form'   => null,
     );
   }
 
@@ -65,6 +73,7 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $students = $em->getRepository('GessehUserBundle:Student')->findAll();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
 
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
@@ -83,6 +92,9 @@ class StudentAdminController extends Controller
       'students'     => $students,
       'student_id'   => $id,
       'student_form' => $form->createView(),
+      'grades'       => $grades,
+      'grade_id'     => null,
+      'grade_form'   => null,
     );
   }
 
@@ -134,7 +146,7 @@ class StudentAdminController extends Controller
     $um = $this->container->get('fos_user.user_manager');
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
-    if( !$student ) 
+    if( !$student )
       throw $this->createNotFoundException('Unable to find Student entity.');
 
     $user = $student->getUser();
@@ -144,5 +156,28 @@ class StudentAdminController extends Controller
 
     $this->get('session')->setFlash('notice', 'Droits d\'administration retirés à l\'étudiant "' . $student . '"');
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
+  }
+
+  /**
+   * @Route("/g", name="GUser_SANewGrade")
+   * @Template("GessehCoreBundle:StudentAdmin:index.html.twig")
+   */
+  public function newGradeAction($id)
+  {
+  }
+
+  /**
+   * @Route("/g/{id}/e", name="GUser_SAEditGrade", requirements={"id" = "\d+"})
+   * @Template("GessehCoreBundle:StudentAdmin:index.html.twig")
+   */
+  public function editGradeAction($id)
+  {
+  }
+
+  /**
+   * @Route("/g/{id}/e", name="GUser_SADeleteGrade", requirements={"id" = "\d+"})
+   */
+  public function deleteGradeAction($id)
+  {
   }
 }
