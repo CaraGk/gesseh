@@ -26,7 +26,7 @@ class MenuBuilder
     $menu = $this->factory->createItem('anon');
     $menu->setCurrentUri($request->getRequestUri());
 
-    $menu->addChild('Fieldset', array('route' => 'GCore_FSIndex', 'label' => 'Terrains de stage'));
+    $menu->addChild('Fieldset', array('route' => 'GCore_FSIndex', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Liste des terrains de stage')));
 
     return $menu;
   }
@@ -39,8 +39,8 @@ class MenuBuilder
     $menu = $this->factory->createItem('student');
     $menu->setCurrentUri($request->getRequestUri());
 
-    $menu->addChild('Fieldset', array('route' => 'GCore_FSIndex', 'label' => 'Terrains de stage'));
-    $menu->addChild('Administrate', array('route' => 'admin_hp', 'label' => 'Administration'));
+    $menu->addChild('Fieldset', array('route' => 'GCore_FSIndex', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Liste des terrains de stage')));
+    $menu->addChild('Administrate', array('route' => 'admin_hp', 'label' => 'Administration', 'attributes' => array('title' => 'Administration du site')));
 
     return $menu;
   }
@@ -53,9 +53,9 @@ class MenuBuilder
     $menu = $this->factory->createItem('admin');
     $menu->setCurrentUri($request->getRequestUri());
 
-    $menu->addChild('Home', array('route' => 'homepage', 'label' => 'Retour'));
-    $menu->addChild('Fieldset', array('route' => 'GCore_FSAIndex', 'label' => 'Terrains de stage'));
-    $menu->addChild('Student', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants'));
+    $menu->addChild('Home', array('route' => 'homepage', 'label' => 'Retour', 'attributes' => array('title' => 'Retour au site public')));
+    $menu->addChild('Fieldset', array('route' => 'GCore_FSAIndex', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Gérer les catégoriées, hôpitaux et services')));
+    $menu->addChild('Student', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants', 'attributes' => array('title' => 'Gérer les étudiants et les promotions')));
 
     return $menu;
   }
