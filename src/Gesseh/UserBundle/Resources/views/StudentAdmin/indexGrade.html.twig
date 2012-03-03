@@ -1,8 +1,8 @@
 <tr>
-  <td>{{ grade.rank }}</td>
+  <td class="small">{{ grade.rank }}</td>
   <td>{{ grade.name }}</td>
-  <td>{{ grade.isActive }}</td>
-  <td>
+  <td class="small">{{ grade.isActive }}</td>
+  <td class="actions">
     <ul>
       <li><a href="{{ path('GUser_SAEditGrade', {'id': grade.id}) }}" title="Modifier la promotion '{{ grade }}'">Modifier</a></li>
       <li><a href="{{ path('GUser_SADeleteGrade', {'id': grade.id}) }}" title="Supprimer la promotion '{{ grade }}'">Supprimer</a></li>

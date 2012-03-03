@@ -10,7 +10,7 @@ class GradeType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('name')
-                ->add('order')
+                ->add('rank')
                 ->add('isActive')
         ;
     }

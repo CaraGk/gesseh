@@ -4,7 +4,7 @@
 
 {% block content %}
   {% if grade_form is not empty %}
-    {% form_theme grade_form 'GessehCoreBundle:fields.html.twig' %}
+    {% form_theme grade_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div class="error">{{ form_errors(grade_form) }}</div>
     <form method="post" {{ form_enctype(grade_form) }}>
   {% endif %}
@@ -12,9 +12,9 @@
   <table>
     <thead>
       <tr>
-        <th>Ordre</th>
+        <th class="small">Ordre</th>
         <th>Nom</th>
-        <th>Active ?</th>
+        <th class="small">Active ?</th>
         <th class="actions">Actions</th>
       </tr>
     </thead>
@@ -52,7 +52,7 @@
         <th>E-mail</th>
         <th>Téléphone</th>
         <th>Promotion</th>
-        <th>Actions</th>
+        <th class="actions">Actions</th>
       </tr>
     </thead>
     <tbody>

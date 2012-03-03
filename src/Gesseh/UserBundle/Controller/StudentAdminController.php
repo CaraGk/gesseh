@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Gesseh\UserBundle\Entity\Student;
 use Gesseh\UserBundle\Form\StudentType;
 use Gesseh\UserBundle\Form\StudentHandler;
+use Gesseh\UserBundle\Entity\Grade;
+use Gesseh\UserBundle\Form\GradeType;
+use Gesseh\UserBundle\Form\GradeHandler;
 
 /**
  * StudentAdmin controller.
@@ -23,7 +26,7 @@ class StudentAdminController extends Controller
   public function indexAction()
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $students = $em->getRepository('GessehUserBundle:Student')->findAll();
+    $students = $em->getRepository('GessehUserBundle:Student')->getAll();
     $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
 
     return array(
@@ -43,7 +46,7 @@ class StudentAdminController extends Controller
   public function newStudentAction()
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $students = $em->getRepository('GessehUserBundle:Student')->findAll();
+    $students = $em->getRepository('GessehUserBundle:Student')->getAll();
     $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
 
     $student = new Student();
@@ -72,7 +75,7 @@ class StudentAdminController extends Controller
   public function editStudentAction($id)
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $students = $em->getRepository('GessehUserBundle:Student')->findAll();
+    $students = $em->getRepository('GessehUserBundle:Student')->getAll();
     $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
 
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
@@ -160,24 +163,81 @@ class StudentAdminController extends Controller
 
   /**
    * @Route("/g", name="GUser_SANewGrade")
-   * @Template("GessehCoreBundle:StudentAdmin:index.html.twig")
+   * @Template("GessehUserBundle:StudentAdmin:index.html.twig")
    */
-  public function newGradeAction($id)
+  public function newGradeAction()
   {
+    $em = $this->getDoctrine()->getEntityManager();
+    $students = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
+
+    $grade = new Grade();
+    $form = $this->createForm(new GradeType(), $grade);
+    $formHandler = new GradeHandler($form, $this->get('request'), $em);
+
+    if( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Promotion "' . $grade . '" enregistrée.');
+      return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    }
+
+    return array(
+      'students'     => $students,
+      'student_id'   => null,
+      'student_form' => null,
+      'grades'       => $grades,
+      'grade_id'     => null,
+      'grade_form'   => $form->createView(),
+    );
   }
 
   /**
    * @Route("/g/{id}/e", name="GUser_SAEditGrade", requirements={"id" = "\d+"})
-   * @Template("GessehCoreBundle:StudentAdmin:index.html.twig")
+   * @Template("GessehUserBundle:StudentAdmin:index.html.twig")
    */
   public function editGradeAction($id)
   {
+    $em = $this->getDoctrine()->getEntityManager();
+    $students = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
+
+    $grade = $em->getRepository('GessehUserBundle:Grade')->find($id);
+
+    if( !$grade )
+      throw $this->createNotFoundException('Unable to find Grade entity.');
+
+    $form = $this->createForm(new GradeType(), $grade);
+    $formHandler = new GradeHandler($form, $this->get('request'), $em);
+
+    if( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Promotion "' . $grade . '" modifiée.');
+      return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    }
+
+    return array(
+      'students'     => $students,
+      'student_id'   => null,
+      'student_form' => null,
+      'grades'       => $grades,
+      'grade_id'     => $id,
+      'grade_form'   => $form->createView(),
+    );
   }
 
   /**
-   * @Route("/g/{id}/e", name="GUser_SADeleteGrade", requirements={"id" = "\d+"})
+   * @Route("/g/{id}/d", name="GUser_SADeleteGrade", requirements={"id" = "\d+"})
    */
   public function deleteGradeAction($id)
   {
+    $em = $this->getDoctrine()->getEntityManager();
+    $grade = $em->getRepository('GessehUserBundle:Grade')->find($id);
+
+    if( !$grade )
+      throw $this->createNotFoundException('Unable to find Grade entity.');
+
+    $em->remove($grade);
+    $em->flush();
+
+    $this->get('session')->setFlash('notice', 'Promotion "' . $grade . '" supprimée.');
+    return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
 }

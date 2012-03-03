@@ -26,6 +26,7 @@ class Grade
    * @var string $name
    *
    * @ORM\Column(name="name", type="string", length=255)
+   * @Assert\MinLength(2)
    */
   private $name;
 
@@ -50,12 +51,12 @@ class Grade
 
   public function __construct()
   {
-    $this->students = new \Doctrine\Common\Collection\ArrayCollection();
+    $this->students = new \Doctrine\Common\Collections\ArrayCollection();
   }
 
   public function __toString()
   {
-    return $this->name();
+    return $this->name;
   }
 
     /**

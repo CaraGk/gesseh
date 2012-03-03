@@ -13,7 +13,8 @@ class StudentType extends AbstractType
     $builder->add('surname')
             ->add('name')
             ->add('phone')
-            ->add('user', new UserAdminType('Gesseh\UserBundle\Entity\User'));
+            ->add('user', new UserAdminType('Gesseh\UserBundle\Entity\User'))
+            ->add('grade');
   }
 
   public function getName()
