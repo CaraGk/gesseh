@@ -10,7 +10,7 @@
 
 {% block nav %}
   {% if 'admin' in app.request.uri %}
-    {{ knp_menu_render('admin') }}
+    {{ knp_menu_render('admin', {'currentAsLink': false}) }}
   {% elseif is_granted('ROLE_STUDENT') %}
     {{ knp_menu_render('student') }}
   {% else %}
