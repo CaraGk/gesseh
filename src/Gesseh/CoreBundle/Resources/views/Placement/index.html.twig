@@ -1,0 +1,37 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Mes stages{% endblock %}
+
+{% block content %}
+  <table>
+    <thead>
+      <tr>
+        <th>Session</th>
+        <th>Hôpital</th>
+        <th>Service</th>
+        <th>Catégorie</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for placement in placements %}
+        <tr>
+          <td>{{ placement.period }}</td>
+          <td>{{ placement.hospital }}</td>
+          <td>{{ placement.department.name }}</td>
+          <td>{{ placement.departement.category.name }}</td>
+          <td>
+            <ul>
+              <li><a href=""></a></li>
+            </ul>
+          </td>
+        <tr>
+      {% else %}
+        <tr>
+          <td colspan=5>Aucun stage effectué</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+

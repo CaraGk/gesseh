@@ -23,28 +23,28 @@ class Period
   private $id;
 
   /**
-   * @var date $from
+   * @var date $begin
    *
-   * @ORM\Column(name="from", type="date")
+   * @ORM\Column(name="begin", type="date")
    */
-  private $from;
+  private $begin;
 
   /**
-   * @var date $to
+   * @var date $end
    *
-   * @ORM\Column(name="to", type="date")
+   * @ORM\Column(name="end", type="date")
    */
-  private $to;
+  private $end;
 
   public function __toString()
   {
-    return "Du " . $this->from . " au " . $this->to;
+    return "Du " . $this->begin . " au " . $this->end;
   }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -52,42 +52,42 @@ class Period
     }
 
     /**
-     * Set from
+     * Set begin
      *
-     * @param date $from
+     * @param date $begin
      */
-    public function setFrom($from)
+    public function setBegin($begin)
     {
-        $this->from = $from;
+        $this->begin = $begin;
     }
 
     /**
-     * Get from
+     * Get begin
      *
-     * @return date 
+     * @return date
      */
-    public function getFrom()
+    public function getBegin()
     {
-        return $this->from;
+        return $this->begin;
     }
 
     /**
-     * Set to
+     * Set end
      *
-     * @param date $to
+     * @param date $end
      */
-    public function setTo($to)
+    public function setEnd($end)
     {
-        $this->to = $to;
+        $this->end = $end;
     }
 
     /**
-     * Get to
+     * Get end
      *
-     * @return date 
+     * @return date
      */
-    public function getTo()
+    public function getEnd()
     {
-        return $this->to;
+        return $this->end;
     }
 }

@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Gesseh\CoreBundle\Entity\Placement
  *
  * @ORM\Table(name="placement")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Gesseh\CoreBundle\Entity\PlacementRepository")
  */
 class Placement
 {
@@ -31,7 +31,7 @@ class Placement
   private $period;
 
   /**
-   * @ORM\ManyToOne(targetEntity="Student")
+   * @ORM\ManyToOne(targetEntity="Gesseh\UserBundle\Entity\Student")
    * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
    * @Assert\NotBlank()
    * @Assert\Type(type="Gesseh\UserBundle\Entity\Student")
@@ -50,7 +50,7 @@ class Placement
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -70,7 +70,7 @@ class Placement
     /**
      * Get period
      *
-     * @return Gesseh\CoreBundle\Entity\Period 
+     * @return Gesseh\CoreBundle\Entity\Period
      */
     public function getPeriod()
     {
@@ -80,9 +80,9 @@ class Placement
     /**
      * Set student
      *
-     * @param Gesseh\CoreBundle\Entity\Student $student
+     * @param Gesseh\UserBundle\Entity\Student $student
      */
-    public function setStudent(\Gesseh\CoreBundle\Entity\Student $student)
+    public function setStudent(\Gesseh\UserBundle\Entity\Student $student)
     {
         $this->student = $student;
     }
@@ -90,7 +90,7 @@ class Placement
     /**
      * Get student
      *
-     * @return Gesseh\CoreBundle\Entity\Student 
+     * @return Gesseh\UserBundle\Entity\Student
      */
     public function getStudent()
     {
@@ -110,7 +110,7 @@ class Placement
     /**
      * Get department
      *
-     * @return Gesseh\CoreBundle\Entity\Department 
+     * @return Gesseh\CoreBundle\Entity\Department
      */
     public function getDepartment()
     {
