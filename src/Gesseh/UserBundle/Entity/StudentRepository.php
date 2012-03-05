@@ -41,4 +41,14 @@ class StudentRepository extends EntityRepository
     return $query->getQuery()
                  ->getResult();
   }
+
+  public function getByUsername($username)
+  {
+    $query = $this->getStudentQuery();
+    $query->where('u.username = :username')
+            ->setParameter('username', $username);
+
+    return $query->getQuery()
+                 ->getSingleResult();
+  }
 }

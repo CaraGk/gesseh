@@ -5,15 +5,40 @@ namespace Gesseh\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Gesseh\UserBundle\Entity\Student;
+use Gesseh\UserBundle\Form\StudentUserType;
+use Gesseh\UserBundle\Form\StudentHandler;
 
+/**
+ * Student controller.
+ *
+ * @Route("/u/")
+ */
 class StudentController extends Controller
 {
     /**
-     * @Route("/u")
+     * @Route("/edit", name="GUser_SEdit")
      * @Template()
      */
-    public function indexAction($name)
+    public function editAction()
     {
-        return array('name' => $name);
+      $em = $this->getDoctrine()->getEntityManager();
+      $user = $this->get('security.context')->getToken()->getUsername();
+      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
+
+      if( !$student )
+        throw $this->createNotFoundException('Unable to find Student entity.');
+
+      $form = $this->createForm(new StudentUserType(), $student);
+      $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
+
+      if( $formHandler->process() ) {
+        $this->get('session')->setFlash('notice', 'Votre compte a bien été modifié.');
+        return $this->redirect($this->generateUrl('GUser_SEdit'));
+      }
+
+      return array(
+        'form' => $form->createView(),
+      );
     }
 }

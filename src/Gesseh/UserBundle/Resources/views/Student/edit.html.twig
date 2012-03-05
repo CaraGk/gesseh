@@ -1,0 +1,12 @@
+{% extends "GessehCoreBundle::layout.html.twig" %}
+
+{% block titlecontent %}Modifier mes informations personnelles{% endblock %}
+
+{% block navcontent %}<a href="{{ path('homepage') }}" title="Retour à l'accueil">Retour</a>{% endblock %}
+
+{% block content %}
+  <form method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p><button type="submit">Enregistrer</button></p>
+  </form>
+{% endblock %}

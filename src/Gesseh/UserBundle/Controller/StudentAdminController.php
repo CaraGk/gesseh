@@ -81,7 +81,7 @@ class StudentAdminController extends Controller
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
     if( !$student )
-      throw $this->createNotFoundException('Unable to find Hospital entity.');
+      throw $this->createNotFoundException('Unable to find Student entity.');
 
     $form = $this->createForm(new StudentType(), $student);
     $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
