@@ -2,11 +2,21 @@
 
 {% block titlecontent %}Modifier mes informations personnelles{% endblock %}
 
-{% block navcontent %}<a href="{{ path('homepage') }}" title="Retour à l'accueil">Retour</a>{% endblock %}
+{% block actionscontent %}
+  <ul>
+    <li><a href="{{ path('homepage') }}" title="Retour à l'accueil">Retour</a></li>
+    <li><a href="{{ path('fos_user_change_password') }}" title="Modifier le mot de passe">Mot de passe</a></li>
+  </ul>
+{% endblock %}
 
 {% block content %}
   <form method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p><button type="submit">Enregistrer</button></p>
+    <fieldset name="student">
+      <label>Nom</label><div>{{ form_widget(form.surname) }}</div>
+      <label>Prénom</label><div>{{ form_widget(form.name) }}</div>
+      <label>E-mail</label><div>{{ form_widget(form.user.email) }}</div>
+      <label>Téléphone</label><div>{{ form_widget(form.phone) }}</div>
+      {{ form_rest(form) }}
+    <p><button type="submit" title="Enregistrer les modifications">Enregistrer</button></p>
   </form>
 {% endblock %}
