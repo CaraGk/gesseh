@@ -28,7 +28,7 @@ class StudentAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $students = $paginator->paginate( $students_query, $page, 2);
+    $students = $paginator->paginate( $students_query, $page, 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     return array(
@@ -51,7 +51,7 @@ class StudentAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $students = $paginator->paginate( $students_query, $page, 2);
+    $students = $paginator->paginate( $students_query, $page, 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $student = new Student();
@@ -83,7 +83,7 @@ class StudentAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $students = $paginator->paginate( $students_query, $page, 2);
+    $students = $paginator->paginate( $students_query, $page, 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
@@ -178,7 +178,7 @@ class StudentAdminController extends Controller
   {
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $students = $paginator->paginate( $students_query, $page, 2);
+    $students = $paginator->paginate( $students_query, $page, 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $grade = new Grade();
@@ -211,7 +211,7 @@ class StudentAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $students = $paginator->paginate( $students_query, $page, 2);
+    $students = $paginator->paginate( $students_query, $page, 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $grade = $em->getRepository('GessehUserBundle:Grade')->find($id);
