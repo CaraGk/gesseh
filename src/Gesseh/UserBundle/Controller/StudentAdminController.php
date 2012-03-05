@@ -176,6 +176,7 @@ class StudentAdminController extends Controller
    */
   public function newGradeAction($page)
   {
+    $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
     $students = $paginator->paginate( $students_query, $page, 20);
