@@ -20,13 +20,15 @@ use Gesseh\UserBundle\Form\GradeHandler;
 class StudentAdminController extends Controller
 {
   /**
-   * @Route("/", name="GUser_SAIndex")
+   * @Route("/{page}", name="GUser_SAIndex", requirements={"page" = "\d+"}, defaults={"page" = 1})
    * @Template()
    */
-  public function indexAction()
+  public function indexAction($page)
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $students = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $paginator = $this->get('knp_paginator');
+    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $students = $paginator->paginate( $students_query, $page, 2);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     return array(
@@ -36,17 +38,20 @@ class StudentAdminController extends Controller
       'grades'       => $grades,
       'grade_id'     => null,
       'grade_form'   => null,
+      'page'         => $page,
     );
   }
 
   /**
-   * @Route("/s", name="GUser_SANewStudent")
+   * @Route("/{page}/s", name="GUser_SANewStudent", requirements={"page" = "\d+"}, defaults={"page" = 1})
    * @Template("GessehUserBundle:StudentAdmin:index.html.twig")
    */
-  public function newStudentAction()
+  public function newStudentAction($page)
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $students = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $paginator = $this->get('knp_paginator');
+    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $students = $paginator->paginate( $students_query, $page, 2);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $student = new Student();
@@ -55,7 +60,7 @@ class StudentAdminController extends Controller
 
     if( $formHandler->process() ) {
       $this->get('session')->setFlash('notice', 'Étudiant "' . $student . '" enregistré.');
-      return $this->redirect($this->generateUrl('GUser_SAIndex'));
+      return $this->redirect($this->generateUrl('GUser_SAIndex', array('page' => $page)));
     }
 
     return array(
@@ -65,17 +70,20 @@ class StudentAdminController extends Controller
       'grades'       => $grades,
       'grade_id'     => null,
       'grade_form'   => null,
+      'page'         => $page,
     );
   }
 
   /**
-   * @Route("/s/{id}/e", name="GUser_SAEditStudent", requirements={"id" = "\d+"})
+   * @Route("/{page}/s/{id}/e", name="GUser_SAEditStudent", requirements={"id" = "\d+", "page" = "\d+"}, defaults={"page" = 1})
    * @Template("GessehUserBundle:StudentAdmin:index.html.twig")
    */
-  public function editStudentAction($id)
+  public function editStudentAction($id, $page)
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $students = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $paginator = $this->get('knp_paginator');
+    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $students = $paginator->paginate( $students_query, $page, 2);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
@@ -88,7 +96,7 @@ class StudentAdminController extends Controller
 
     if( $formHandler->process() ) {
       $this->get('session')->setFlash('notice', 'Étudiant "' . $student . '" modifié.');
-      return $this->redirect($this->generateUrl('GUser_SAIndex'));
+      return $this->redirect($this->generateUrl('GUser_SAIndex', array('page' => $page)));
     }
 
     return array(
@@ -98,13 +106,14 @@ class StudentAdminController extends Controller
       'grades'       => $grades,
       'grade_id'     => null,
       'grade_form'   => null,
+      'page'         => $page,
     );
   }
 
   /**
-   * @Route("/s/{id}/d", name="GUser_SADeleteStudent")
+   * @Route("/{page}/s/{id}/d", name="GUser_SADeleteStudent", requirements={"id" = "\d+", "page" = "\d+"}, defaults={"page" = 1})
    */
-  public function deleteStudentAction($id)
+  public function deleteStudentAction($id, $page)
   {
     $em = $this->getDoctrine()->getEntityManager();
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
@@ -116,13 +125,13 @@ class StudentAdminController extends Controller
     $em->flush();
 
     $this->get('session')->setFlash('notice', 'Etudiant "' . $student . '" supprimé.');
-    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    return $this->redirect($this->generateUrl('GUser_SAIndex', array('page' => $page)));
   }
 
   /**
-   * @Route("/s/{id}/pm", name="GUser_SAPromoteStudent")
+   * @Route("/{page}/s/{id}/pm", name="GUser_SAPromoteStudent", requirements={"id" = "\d+", "page" = "\d+"}, defaults={"page" = 1})
    */
-  public function promoteStudentAction($id)
+  public function promoteStudentAction($id, $page)
   {
     $em = $this->getDoctrine()->getEntityManager();
     $um = $this->container->get('fos_user.user_manager');
@@ -137,13 +146,13 @@ class StudentAdminController extends Controller
     $um->updateUser($user);
 
     $this->get('session')->setFlash('notice', 'Droits d\'administration donnés à l\'étudiant "' . $student . '"');
-    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    return $this->redirect($this->generateUrl('GUser_SAIndex', array('page' => $page)));
   }
 
   /**
-   * @Route("/s/{id}/dm", name="GUser_SADemoteStudent")
+   * @Route("/{page}/s/{id}/dm", name="GUser_SADemoteStudent", requirements={"id" = "\d+", "page" = "\d+"}, defaults={"page" = 1})
    */
-  public function demoteStudentAction($id)
+  public function demoteStudentAction($id, $page)
   {
     $em = $this->getDoctrine()->getEntityManager();
     $um = $this->container->get('fos_user.user_manager');
@@ -158,17 +167,18 @@ class StudentAdminController extends Controller
     $um->updateUser($user);
 
     $this->get('session')->setFlash('notice', 'Droits d\'administration retirés à l\'étudiant "' . $student . '"');
-    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    return $this->redirect($this->generateUrl('GUser_SAIndex', array('page' => $page)));
   }
 
   /**
-   * @Route("/g", name="GUser_SANewGrade")
+   * @Route("/{page}/g", name="GUser_SANewGrade", requirements={"page" = "\d+"}, defaults={"page" = 1})
    * @Template("GessehUserBundle:StudentAdmin:index.html.twig")
    */
-  public function newGradeAction()
+  public function newGradeAction($page)
   {
-    $em = $this->getDoctrine()->getEntityManager();
-    $students = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $paginator = $this->get('knp_paginator');
+    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $students = $paginator->paginate( $students_query, $page, 2);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $grade = new Grade();
@@ -178,7 +188,7 @@ class StudentAdminController extends Controller
 
     if( $formHandler->process() ) {
       $this->get('session')->setFlash('notice', 'Promotion "' . $grade . '" enregistrée.');
-      return $this->redirect($this->generateUrl('GUser_SAIndex'));
+      return $this->redirect($this->generateUrl('GUser_SAIndex', array('page' => $page)));
     }
 
     return array(
@@ -188,17 +198,20 @@ class StudentAdminController extends Controller
       'grades'       => $grades,
       'grade_id'     => null,
       'grade_form'   => $form->createView(),
+      'page'         => $page,
     );
   }
 
   /**
-   * @Route("/g/{id}/e", name="GUser_SAEditGrade", requirements={"id" = "\d+"})
+   * @Route("/{page}/g/{id}/e", name="GUser_SAEditGrade", requirements={"id" = "\d+", "page" = "\d+"}, defaults={"page" = 1})
    * @Template("GessehUserBundle:StudentAdmin:index.html.twig")
    */
-  public function editGradeAction($id)
+  public function editGradeAction($id, $page)
   {
     $em = $this->getDoctrine()->getEntityManager();
-    $students = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $paginator = $this->get('knp_paginator');
+    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $students = $paginator->paginate( $students_query, $page, 2);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $grade = $em->getRepository('GessehUserBundle:Grade')->find($id);
@@ -211,7 +224,7 @@ class StudentAdminController extends Controller
 
     if( $formHandler->process() ) {
       $this->get('session')->setFlash('notice', 'Promotion "' . $grade . '" modifiée.');
-      return $this->redirect($this->generateUrl('GUser_SAIndex'));
+      return $this->redirect($this->generateUrl('GUser_SAIndex', array('page' => $page)));
     }
 
     return array(
@@ -221,13 +234,14 @@ class StudentAdminController extends Controller
       'grades'       => $grades,
       'grade_id'     => $id,
       'grade_form'   => $form->createView(),
+      'page'         => $page,
     );
   }
 
   /**
-   * @Route("/g/{id}/d", name="GUser_SADeleteGrade", requirements={"id" = "\d+"})
+   * @Route("/{page}/g/{id}/d", name="GUser_SADeleteGrade", requirements={"id" = "\d+", "page" = "\d+"}, defaults={"page" = 1})
    */
-  public function deleteGradeAction($id)
+  public function deleteGradeAction($id, $page)
   {
     $em = $this->getDoctrine()->getEntityManager();
     $grade = $em->getRepository('GessehUserBundle:Grade')->find($id);
@@ -239,7 +253,7 @@ class StudentAdminController extends Controller
     $em->flush();
 
     $this->get('session')->setFlash('notice', 'Promotion "' . $grade . '" supprimée.');
-    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    return $this->redirect($this->generateUrl('GUser_SAIndex', array('page' => $page)));
   }
 
   /**

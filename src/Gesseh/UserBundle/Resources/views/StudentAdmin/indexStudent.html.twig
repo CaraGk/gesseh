@@ -6,12 +6,12 @@
   <td>{{ student.grade }}</td>
   <td class="actions">
     <ul>
-      <li><a href="{{ path('GUser_SAEditStudent', {'id': student.id}) }}" title="Modifier l'étudiant '{{ student }}'">Modifier</a></li>
-      <li><a href="{{ path('GUser_SADeleteStudent', {'id': student.id}) }}" title="Supprimer l'étudiant '{{ student }}'">Supprimer</a></li>
+      <li><a href="{{ path('GUser_SAEditStudent', {'id': student.id, 'page': page}) }}" title="Modifier l'étudiant '{{ student }}'">Modifier</a></li>
+      <li><a href="{{ path('GUser_SADeleteStudent', {'id': student.id, 'page': page}) }}" title="Supprimer l'étudiant '{{ student }}'">Supprimer</a></li>
       {% if 'ROLE_ADMIN' in student.user.roles %}
-        <li><a href="{{ path('GUser_SADemoteStudent', {'id': student.id}) }}" title="Démettre l'étudiant '{{ student }}'">Démettre</a></li>
+        <li><a href="{{ path('GUser_SADemoteStudent', {'id': student.id, 'page': page}) }}" title="Démettre l'étudiant '{{ student }}'">Démettre</a></li>
       {% else %}
-        <li><a href="{{ path('GUser_SAPromoteStudent', {'id': student.id}) }}" title="Promouvoir l'étudiant '{{ student }}'">Promouvoir</a></li>
+        <li><a href="{{ path('GUser_SAPromoteStudent', {'id': student.id, 'page': page}) }}" title="Promouvoir l'étudiant '{{ student }}'">Promouvoir</a></li>
       {% endif %}
     </ul>
   </td>

@@ -39,8 +39,7 @@ class StudentRepository extends EntityRepository
           ->addOrderBy('s.name', 'asc')
           ->addOrderBy('p.rank', 'asc');
 
-    return $query->getQuery()
-                 ->getResult();
+    return $query->getQuery();
   }
 
   public function getByUsername($username)
