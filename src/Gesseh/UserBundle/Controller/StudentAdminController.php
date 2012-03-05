@@ -27,7 +27,7 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $students = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     return array(
       'students'     => $students,

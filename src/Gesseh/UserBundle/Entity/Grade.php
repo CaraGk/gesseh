@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Gesseh\UserBundle\Entity\Grade
  *
  * @ORM\Table(name="grade")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Gesseh\UserBundle\Entity\GradeRepository")
  */
 class Grade
 {
@@ -40,7 +40,7 @@ class Grade
   /**
    * @var boolean $isActive
    *
-   * @ORM\Column(name="is_active", type="boolean")
+   * @ORM\Column(name="is_active", type="boolean", nullable=true)
    */
   private $isActive;
 
