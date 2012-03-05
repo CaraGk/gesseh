@@ -11,9 +11,9 @@
           <header id="header">
             <nav>
               {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <a href="{{ path('GUser_SEdit') }}" title="Modifier mes informations personnelles">{{ app.user.username }}</a> : <a href="{{ path('fos_user_security_logout') }}" title="Se déconnecter">se déconnecter</a>
+                <a href="{{ path('GUser_SEdit') }}" title="Modifier mes informations personnelles">{{ app.user.username }}</a> | <a href="{{ path('fos_user_security_logout') }}" title="Se déconnecter">se déconnecter</a>
               {% else %}
-                <a href="{{ path('fos_user_security_login') }}" title="Se connecter">Se connecter</a>
+                <a href="{{ path('fos_user_security_login') }}" title="Se connecter">Se connecter</a> | <a href="{{ path('fos_user_resetting_request') }}" title="Réinitialiser le mot de passe">Mot de passe oublié</a>
               {% endif %}
             </nav>
             <span>{% block logo %}<a href="{{ path('homepage') }}"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo.png') }}" alt="logo" /></a>{% endblock %}</span>
