@@ -47,7 +47,7 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $students = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $student = new Student();
     $form = $this->createForm(new StudentType(), $student);
@@ -76,7 +76,7 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $students = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
@@ -169,7 +169,7 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $students = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $grade = new Grade();
     $form = $this->createForm(new GradeType(), $grade);
@@ -198,7 +198,7 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $students = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $grades = $em->getRepository('GessehUserBundle:Grade')->findAll();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $grade = $em->getRepository('GessehUserBundle:Grade')->find($id);
 
@@ -238,6 +238,25 @@ class StudentAdminController extends Controller
     $em->flush();
 
     $this->get('session')->setFlash('notice', 'Promotion "' . $grade . '" supprimée.');
+    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+  }
+
+  /**
+   * @Route("/u/upd-grade", name="GUser_SAUpdateGrade")
+   */
+  public function updateGradeAction()
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $grades = $em->getRepository('GessehUserBundle:Grade')->getAllActiveInverted();
+
+    foreach( $grades as $grade ) {
+      $next_grade = $em->getRepository('GessehUserBundle:Grade')->getNext($grade->getRank());
+      if( null !== $next_grade ) {
+        $em->getRepository('GessehUserBundle:Student')->setGradeUp($grade->getId(), $next_grade->getId());
+      }
+    }
+
+    $this->get('session')->setFlash('notice', 'Étudiants passés dans la promotion supérieure.');
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
 }
