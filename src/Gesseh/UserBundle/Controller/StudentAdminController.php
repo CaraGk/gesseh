@@ -172,6 +172,7 @@ class StudentAdminController extends Controller
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
     $grade = new Grade();
+    $grade->setRank($em->getRepository('GessehUserBundle:Grade')->getLastActiveRank() + 1);
     $form = $this->createForm(new GradeType(), $grade);
     $formHandler = new GradeHandler($form, $this->get('request'), $em);
 

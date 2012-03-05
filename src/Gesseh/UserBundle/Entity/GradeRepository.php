@@ -47,4 +47,26 @@ class GradeRepository extends EntityRepository
 
     return $grade;
   }
+
+  public function getLastActiveRank()
+  {
+    $query = $this->getGradeQuery();
+    $query->where('g.isActive = :active')
+            ->setParameter('active', true)
+          ->orderBy('g.rank', 'desc')
+          ->setMaxResults(1);
+
+    try {
+      $grade = $query->getQuery()->getSingleResult();
+
+      return $grade->getRank();
+    } catch( \Doctrine\Orm\NoResultException $e ) {
+      return null;
+    }
+  }
+
+  public function updateNextRank($rank)
+  {
+    return true;
+  }
 }

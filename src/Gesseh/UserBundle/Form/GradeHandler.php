@@ -38,6 +38,10 @@ class GradeHandler
 
   public function onSuccess(Grade $grade)
   {
+    $rank = $this->em->getRepository('GessehUserBundle:Grade')->getLastActiveRank();
+    if( $grade->getRank() > $rank + 1 )
+      $grade->setRank($rank + 1);
+    $this->em->getRepository('GessehUserBundle:Grade')->updateNextRank($grade->getRank());
     $this->em->persist($grade);
     $this->em->flush();
   }
