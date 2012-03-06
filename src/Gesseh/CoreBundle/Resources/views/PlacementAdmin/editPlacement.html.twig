@@ -1,0 +1,11 @@
+<tr>
+  {{ form_row(placement_form.period) }}
+  {{ form_row(placement_form.student) }}
+  {{ form_row(placement_form.department) }}
+  <td class="actions">
+    <ul>
+      <li><button type="submit" title="Enregistrer les modifications">Enregistrer</button></li>
+      <li><a href="{{ path('GCore_PAIndex') }}" title="Annuler les modifications">Annuler</a></li>
+    </ul>
+  </td>
+</tr>

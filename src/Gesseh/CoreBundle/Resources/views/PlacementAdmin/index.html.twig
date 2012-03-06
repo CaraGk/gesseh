@@ -1,0 +1,42 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Stages{% endblock %}
+
+{% block content %}
+  {% if placement_form is not empty %}
+    {% form_theme placement_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <form method="post" {{ form_enctype(placement_form) }}>
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th>Période</th>
+        <th>Étudiant</th>
+        <th>Stage</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for placement in placements %}
+        {% include placement_id == placement.id ? 'GessehCoreBundle:PlacementAdmin:editPlacement.html.twig' : 'GessehCoreBundle:PlacementAdmin:indexPlacement.html.twig' %}
+      {% else %}
+        <tr>
+          <td colspan=4>Aucun stage à afficher</td>
+        </tr>
+      {% endfor %}
+      {% if placement_form is not empty and placement_id is empty %}
+        {% include 'GessehCoreBundle:PlacementAdmin:editPlacement.html.twig' %}
+      {% endif %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="actions">
+          <ul>
+            <li><a href="{{ path('GCore_PANewPlacement') }}" title="Ajouter un nouveau stage">Ajouter</a></li>
+          </ul>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  {% if placement_form is not empty %}</form>{% endif %}
+{% endblock %}

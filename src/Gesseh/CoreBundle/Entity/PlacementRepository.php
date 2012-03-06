@@ -35,4 +35,17 @@ class PlacementRepository extends EntityRepository
 
     return $query->getQuery()->getResult();
   }
+
+  public function getAll()
+  {
+    $query = $this->getPlacementQuery();
+    $query->addOrderBy('q.begin', 'desc')
+          ->addOrderBy('s.surname', 'asc')
+          ->addOrderBy('s.name', 'asc')
+          ->addOrderBy('h.name', 'asc')
+          ->addOrderBy('d.name', 'asc')
+          ->addSelect('s');
+
+    return $query->getQuery();
+  }
 }

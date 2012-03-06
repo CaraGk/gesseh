@@ -57,6 +57,7 @@ class MenuBuilder
     $menu->addChild('Home', array('route' => 'homepage', 'label' => 'Retour', 'attributes' => array('title' => 'Retour au site public')));
     $menu->addChild('Fieldset', array('route' => 'GCore_FSAIndex', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Gérer les catégoriées, hôpitaux et services')));
     $menu->addChild('Student', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants', 'attributes' => array('title' => 'Gérer les étudiants et les promotions')));
+    $menu->addChild('Placement', array('route' => 'GCore_PAIndex', 'label' => 'Stages', 'attributes' => array('title' => 'Gérer les stages')));
 
     return $menu;
   }

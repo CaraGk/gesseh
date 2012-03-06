@@ -1,0 +1,11 @@
+<tr>
+  <td>{{ placement.period }}</td>
+  <td>{{ placement.student }}</td>
+  <td>{{ placement.department }}</td>
+  <td class="actions">
+    <ul>
+      <li><a href="{{ path('GCore_PAEditPlacement', {'id': placement.id}) }}" title="Modifier le stage">Modifier</a></li>
+      <li><a href="{{ path('GCore_PADeletePlacement', {'id': placement.id}) }}" title="Supprimer le stage">Supprimer</a></li>
+    </ul>
+  </td>
+</tr>
