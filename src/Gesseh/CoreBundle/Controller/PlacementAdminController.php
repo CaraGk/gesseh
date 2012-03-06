@@ -35,6 +35,22 @@ class PlacementAdminController extends Controller
   }
 
   /**
+   * @Route("/{id}/student", name="GCore_PAIndexStudent", requirements={"id" = "\d+"})
+   * @Template("GessehCoreBundle:PlacementAdmin:index.html.twig")
+   */
+  public function indexStudentAction($id)
+  {
+  }
+
+  /**
+   * @Route("/{id}/department", name="GCore_PAIndexDepartment", requirements={"id" = "\d+"})
+   * @Template("GessehCoreBundle:PlacementAdmin:index.html.twig")
+   */
+  public function indexDepartmentAction($id)
+  {
+  }
+
+  /**
    * @Route("/{id}/e", name="GCore_PAEditPlacement", requirements={"id" = "\d+"})
    * @Template("GessehCoreBundle:PlacementAdmin:index.html.twig")
    */
@@ -93,9 +109,20 @@ class PlacementAdminController extends Controller
   }
 
   /**
-   * @Route("/{id}/d", name="GCore_PADeletePlacement")
+   * @Route("/{id}/d", name="GCorie_PADeletePlacement", requirements={"id" = "\d+"})
    */
   public function deletePlacementAction($id)
   {
+    $em = $this->getDoctrine()->getEntityManager();
+    $placement = $em->getRepository('GessehPlacementBundle:Placement')->find($id);
+
+    if( !$placement )
+      throw $this->createNotFoundException('Unable to find Placement entity.');
+
+    $em->remove($placement);
+    $em->flush();
+
+    $this->get('session')->setFlash('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" supprimé.');
+    return $this->redirect($this->generateUrl('GCore_PAIndex'));
   }
 }
