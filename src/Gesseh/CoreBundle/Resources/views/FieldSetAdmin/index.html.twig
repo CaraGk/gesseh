@@ -76,23 +76,7 @@
 {% if hospital_form is not empty %}
   {% block javascripts %}
     {{ parent() }}
-    <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-        var $container = $('#gesseh_corebundle_hospitaltype_departments');
-
-        function add_dpt() {
-          index = $container.children().length;
-          $container.append(
-            $($container.attr('data-prototype').replace(/\$\$name\$\$/g, index))
-          );
-        }
-
-        $('#add_dpt').click(function() {
-          add_dpt();
-        });
-      });
-    </script>
+    <script src="{{ asset('bundles/gessehcore/js/addDpt.js') }}" type="text/javascript"></script>
   {% endblock %}
 
   {% form_theme hospital_form 'GessehCoreBundle:Form:fields.html.twig' %}
