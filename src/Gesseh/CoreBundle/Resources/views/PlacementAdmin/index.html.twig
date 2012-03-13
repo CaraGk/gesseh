@@ -3,8 +3,47 @@
 {% block titlecontent %}Stages{% endblock %}
 
 {% block content %}
+  <h2>Sessions de stage</h2>
+  {% if period_form is not empty %}
+    {% form_theme period_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <div>{{ form_errors(period_form) }}</div>
+    <form method="post" {{ form_enctype(period_form) }}>
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th>Début</th>
+        <th>Fin</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for period in periods %}
+        {% include period_id == period.id ? 'GessehCoreBundle:PlacementAdmin:editPeriod.html.twig' : 'GessehCoreBundle:PlacementAdmin:indexPeriod.html.twig' %}
+      {% else %}
+        <tr>
+          <td colspan=3>Aucune session à afficher</td>
+        </tr>
+      {% endfor %}
+      {% if period_form is not empty and period_id is empty %}
+        {% include 'GessehCoreBundle:PlacementAdmin:editPeriod.html.twig' %}
+      {% endif %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <ul>
+            <li><a href="{{ path('GCore_PANewPeriod') }}" title="Ajouter une nouvelle session de stage">Ajouter</a></li>
+          </ul>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <h2>Stages</h2>
   {% if placement_form is not empty %}
     {% form_theme placement_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <div>{{ form_errors(placement_form) }}</div>
     <form method="post" {{ form_enctype(placement_form) }}>
   {% endif %}
   <table>
@@ -39,4 +78,9 @@
     </tfoot>
   </table>
   {% if placement_form is not empty %}</form>{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
 {% endblock %}

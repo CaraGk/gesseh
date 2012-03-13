@@ -38,7 +38,7 @@ class Period
 
   public function __toString()
   {
-    return "Du " . $this->begin . " au " . $this->end;
+    return "Du " . $this->begin->format('d-m-Y') . " au " . $this->end->format('d-m-Y');
   }
 
     /**

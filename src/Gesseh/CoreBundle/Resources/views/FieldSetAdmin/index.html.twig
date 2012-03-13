@@ -39,6 +39,7 @@
   <h2>Hôpitaux et services :</h2>
 
   {% if hospital_form is not empty %}
+    {% form_theme hospital_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(hospital_form) }}</div>
     <form method="post" {{ form_enctype(hospital_form) }}>
   {% endif %}
@@ -73,12 +74,8 @@
   {% if hospital_form is not empty %}</form>{% endif %}
 {% endblock %}
 
-{% if hospital_form is not empty %}
-  {% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('bundles/gessehcore/js/addDpt.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
-  {% endblock %}
-
-  {% form_theme hospital_form 'GessehCoreBundle:Form:fields.html.twig' %}
-{% endif %}
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('bundles/gessehcore/js/addDpt.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+{% endblock %}
