@@ -158,7 +158,7 @@ class PlacementAdminController extends Controller
     $formHandler = new PeriodHandler($form, $this->get('request'), $em);
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Session "Du' . $period->getBegin()->format('d-m-Y') . ' au ' . $period->getEnd()->format('d-m-Y') . '" enregistrée.');
+      $this->get('session')->setFlash('notice', 'Session "' . $period . '" enregistrée.');
       return $this->redirect($this->generateUrl('GCore_PAIndex'));
     }
 
@@ -193,7 +193,7 @@ class PlacementAdminController extends Controller
     $formHandler = new PeriodHandler($form, $this->get('request'), $em);
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Session "' . $period . '" modifiéeée.');
+      $this->get('session')->setFlash('notice', 'Session "' . $period . '" modifiée.');
       return $this->redirect($this->generateUrl('GCore_PAIndex'));
     }
 
