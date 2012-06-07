@@ -17,9 +17,9 @@
       {% for placement in placements %}
         <tr>
           <td>{{ placement.period }}</td>
-          <td>{{ placement.hospital }}</td>
+          <td>{{ placement.department.hospital }}</td>
           <td>{{ placement.department.name }}</td>
-          <td>{{ placement.departement.category.name }}</td>
+          <td>{{ placement.department.sector.name }}</td>
           <td>
             <ul>
               <li><a href=""></a></li>
