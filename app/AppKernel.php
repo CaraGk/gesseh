@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Gesseh\CoreBundle\GessehCoreBundle(),
             new Gesseh\UserBundle\GessehUserBundle(),
+            new Gesseh\ParameterBundle\GessehParameterBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
