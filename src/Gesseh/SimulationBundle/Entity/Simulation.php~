@@ -1,0 +1,145 @@
+<?php
+
+namespace Gesseh\SimulationBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Gesseh\SimulationBundle\Entity\Simulation
+ *
+ * @ORM\Table(name="simulation")
+ * @ORM\Entity(repositoryClass="Gesseh\SimulationBundle\Entity\SimulationRepository")
+ */
+class Simulation
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Student")
+     * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="Gesseh\UserBundle\Entity\Student")
+     */
+    private $student;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Department")
+     * @ORM\JoinColumn(name="department", referencedColumnName="id")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="Gesseh\CoreBundle\Entity\Department")
+     */
+    private $department;
+
+    /**
+     * @var smallint $extra
+     *
+     * @ORM\Column(name="extra", type="smallint")
+     */
+    private $extra;
+
+    /**
+     * @var boolean $active
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set student
+     *
+     * @param object $student
+     */
+    public function setStudent($student)
+    {
+        $this->student = $student;
+    }
+
+    /**
+     * Get student
+     *
+     * @return object
+     */
+    public function getStudent()
+    {
+        return $this->student;
+    }
+
+    /**
+     * Set department
+     *
+     * @param object $department
+     */
+    public function setDepartment($department)
+    {
+        $this->department = $department;
+    }
+
+    /**
+     * Get department
+     *
+     * @return object
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * Set extra
+     *
+     * @param smallint $extra
+     */
+    public function setExtra($extra)
+    {
+        $this->extra = $extra;
+    }
+
+    /**
+     * Get extra
+     *
+     * @return smallint
+     */
+    public function getExtra()
+    {
+        return $this->extra;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+}

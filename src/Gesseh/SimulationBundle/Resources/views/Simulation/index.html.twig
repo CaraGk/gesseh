@@ -1,0 +1,43 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Mes vœux de stage{% endblock %}
+
+{% block content %}
+  <table>
+      <thead>
+        <tr>
+          <th>Rang</th>
+          <th>Hôpital</th>
+          <th>Service</th>
+          <th>Catégorie</th>
+          <th class="actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for wish in wishes %}
+          <tr>
+            <td>{{ wish.rank }}</td>
+            <td>{{ wish.department.hospital }}</td>
+            <td>{{ wish.department.name }}</td>
+            <td>{{ wish.department.sector.name }}</td>
+            <td>
+              <ul>
+                <li><a href=""></a></li>
+              </ul>
+            </td>
+          <tr>
+        {% else %}
+          <tr>
+            <td colspan=5>Aucun vœu enregistré.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  <div>{{ form_errors(wish_form) }}</div>
+  <form method="post" {{ form_enctype(wish_form) }}>
+    {{ form_widget(wish_form.department) }}
+    {{ form_rest(wish_form) }}
+    <button type="submit" title="Ajouter un vœu à la liste">Ajouter</button>
+  </form>
+{% endblock %}
+

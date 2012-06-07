@@ -1,3 +1,8 @@
+GessehSimulationBundle:
+    resource: "@GessehSimulationBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 GessehParameterBundle:
     resource: "@GessehParameterBundle/Controller/"
     type:     annotation
