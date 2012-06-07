@@ -1,0 +1,11 @@
+<tr>
+  <td>{{ parameter.label }}</td>
+  <td>{{ parameter.category }}</td>
+  <td>{{ parameter.type }}</td>
+  <td>{{ parameter.value }}</td>
+  <td class="actions">
+    <ul>
+      <li><a href="{{ path('GParameter_PAEditParameter', {'id': parameter.id}) }}" title="Modifier le paramètre">Modifier</a></li>
+    </ul>
+  </td>
+</tr>

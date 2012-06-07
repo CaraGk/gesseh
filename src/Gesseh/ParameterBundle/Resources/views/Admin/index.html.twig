@@ -1,0 +1,37 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Paramètres{% endblock %}
+
+{% block content %}
+  {% if parameter_form is not empty %}
+    {% form_theme parameter_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <div>{{ form_errors(parameter_form) }}</div>
+    <form method="post" {{ form_enctype(parameter_form) }}>
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th>Label</th>
+        <th>Groupe</th>
+        <th>Type</th>
+        <th>Valeur</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for parameter in parameters %}
+        {% include parameter_id == parameter.id ? 'GessehParameterBundle:Admin:editParameter.html.twig' : 'GessehParameterBundle:Admin:indexParameter.html.twig' %}
+      {% else %}
+        <tr>
+          <td colspan=4>Aucun paramètre à afficher</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if parameter_form is not empty %}</form>{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+{% endblock %}

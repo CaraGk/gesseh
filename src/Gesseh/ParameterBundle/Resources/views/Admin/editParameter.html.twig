@@ -1,0 +1,13 @@
+<tr>
+  <td>{{ parameter.label }}</td>
+  <td>{{ parameter.category }}</td>
+  <td>{{ parameter.type }}</td>
+  {{ form_row(parameter_form.value) }}
+  {{ form_rest(parameter_form) }}
+  <td class="actions">
+    <ul>
+      <li><button type="submit" title="Enregistrer les modifications">Enregistrer</button></li>
+      <li><a href="{{ path('GParameter_PAIndex') }}" title="Annuler les modifications">Annuler</a></li>
+    </ul>
+  </td>
+</tr>
