@@ -39,7 +39,7 @@ class WishHandler
   public function onSuccess(Wish $wish)
   {
     $wish->setStudent($this->student);
-    $wish->setRank("1");
+    $wish->setRank($this->em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($this->student)+1);
     $this->em->persist($wish);
     $this->em->flush();
   }

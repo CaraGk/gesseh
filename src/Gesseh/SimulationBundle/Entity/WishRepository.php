@@ -12,6 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class WishRepository extends EntityRepository
 {
+  public function getWishStudentQuery($student_id)
+  {
+    return $this->createQueryBuilder('w')
+                ->join('w.student', 's')
+                ->where('s.id = :student')
+                  ->setParameter('student', $student_id);
+  }
+
   public function getWishQuery()
   {
     return $this->createQueryBuilder('w')
@@ -33,5 +41,41 @@ class WishRepository extends EntityRepository
           ->addOrderBy('w.rank', 'asc');
 
     return $query->getQuery()->getResult();
+  }
+
+  public function findByStudentAndRank($student_id, $rank)
+  {
+    $query = $this->getWishStudentQuery($student_id);
+    $query->andWhere('w.rank = :rank')
+            ->setParameter('rank', $rank);
+
+    return $query->getQuery()->getSingleResult();
+  }
+
+  public function findByStudentAndId($student_id, $id)
+  {
+    $query = $this->getWishStudentQuery($student_id);
+    $query->andWhere('w.id = :id')
+            ->setParameter('id', $id);
+
+    return $query->getQuery()->getSingleResult();
+  }
+
+  public function findByRankAfter($student_id, $rank)
+  {
+    $query = $this->getWishStudentQuery($student_id);
+    $query->andWhere('w.rank > :rank')
+            ->setParameter('rank', $rank)
+          ->addOrderBy('w.rank', 'asc');
+
+    return $query->getQuery()->getResult();
+  }
+
+  public function getMaxRank($student_id)
+  {
+    $query = $this->getWishStudentQuery($student_id)
+                  ->select('COUNT(w.id)');
+
+    return $query->getQuery()->getSingleScalarResult();
   }
 }

@@ -39,4 +39,89 @@ class SimulationController extends Controller
         'wish_form' => $form->createView(),
       );
     }
+
+    /**
+     * @Route("/{wish_id}/up", name="GSimulation_SUp", requirements={"wish_id" = "\d+"})
+     */
+    public function setRankUpAction($wish_id)
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $user = $this->get('security.context')->getToken()->getUsername();
+      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
+      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($student, $wish_id);
+
+      if(!$wish)
+        throw $this->createNotFoundException('Unable to find Wish entity');
+
+      $rank = $wish->getRank();
+      if($rank > 1) {
+        $rank--;
+        $wish_before = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($student, $rank);
+        $wish_before->setRank($rank + 1);
+        $wish->setRank($rank);
+        $em->persist($wish_before);
+        $em->persist($wish);
+        $em->flush();
+        $this->get('session')->setFlash('notice', 'Vœu : "' . $wish->getDepartment() . '" mis à jour.');
+      } else {
+        $this->get('session')->setFlash('error', 'Attention : le vœu "' . $wish->getDepartment() . '" est déjà le premier de la liste !');
+      }
+      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+    }
+
+    /**
+     * @Route("/{wish_id}/down", name="GSimulation_SDown", requirements={"wish_id" = "\d+"})
+     */
+    public function setRankDownAction($wish_id)
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $user = $this->get('security.context')->getToken()->getUsername();
+      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
+      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($student, $wish_id);
+
+      if(!$wish)
+        throw $this->createNotFoundException('Unable to find Wish entity');
+
+      $rank = $wish->getRank();
+      $max_rank = $em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($student);
+      if($rank < $max_rank) {
+        $rank++;
+        $wish_after = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($student, $rank);
+        $wish_after->setRank($rank - 1);
+        $wish->setRank($rank);
+        $em->persist($wish_after);
+        $em->persist($wish);
+        $em->flush();
+        $this->get('session')->setFlash('notice', 'Vœu : "' . $wish->getDepartment() . '" mis à jour.');
+      } else {
+        $this->get('session')->setFlash('error', 'Attention : le vœu "' . $wish->getDepartment() . '" est déjà le dernier de la liste !');
+      }
+      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+    }
+
+    /**
+     * @Route("/{wish_id}/d", name="GSimulation_SDelete", requirements={"wish_id" = "\d+"})
+     */
+    public function deleteAction($wish_id)
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $user = $this->get('security.context')->getToken()->getUsername();
+      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
+      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($student, $wish_id);
+
+      if(!$wish)
+        throw $this->createNotFoundException('Unable to find Wish entity');
+
+      $rank = $wish->getRank();
+      $wishes_after = $em->getRepository('GessehSimulationBundle:Wish')->findByRankAfter($student, $rank);
+      foreach($wishes_after as $wish_after) {
+        $wish_after->setRank($wish_after->getRank()-1);
+        $em->persist($wish_after);
+      }
+      $em->remove($wish);
+      $em->flush();
+
+      $this->get('session')->setFlash('notice', 'Vœu : "' . $wish->getDepartment() . '" supprimé.');
+      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+    }
 }

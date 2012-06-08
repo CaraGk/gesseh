@@ -22,7 +22,9 @@
             <td>{{ wish.department.sector.name }}</td>
             <td>
               <ul>
-                <li><a href=""></a></li>
+                <li><a href="{{ path('GSimulation_SUp', {wish_id: wish.id}) }}" title="Monter le vœu d'une place">Monter</a></li>
+                <li><a href="{{ path('GSimulation_SDown', {wish_id: wish.id}) }}" title="Descendre le vœu d'une place">Descendre</a></li>
+                <li><a href="{{ path('GSimulation_SDelete', {wish_id: wish.id}) }}" title="Supprimer le vœu">Supprimer</a></li>
               </ul>
             </td>
           <tr>
