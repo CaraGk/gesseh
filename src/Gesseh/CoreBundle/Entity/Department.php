@@ -60,6 +60,13 @@ class Department
      */
     private $sector;
 
+    /**
+     * @var smallint $number
+     *
+     * @ORM\Column(name="number", type="smallint", nullable=true)
+     */
+    private $number;
+
 
     public function __toString()
     {
@@ -176,5 +183,25 @@ class Department
     public function getSector()
     {
         return $this->sector;
+    }
+
+    /**
+     * Set number
+     *
+     * @param smallint $number
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+    }
+
+    /**
+     * Get number
+     *
+     * @return smallint 
+     */
+    public function getNumber()
+    {
+        return $this->number;
     }
 }

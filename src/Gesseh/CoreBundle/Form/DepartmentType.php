@@ -13,6 +13,10 @@ class DepartmentType extends AbstractType
     $builder->add('name')
             ->add('head')
             ->add('sector');
+
+    // Si les simulations sont activées
+    if(true)
+      $builder->add('number');
   }
 
   public function getName()

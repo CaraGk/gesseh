@@ -19,6 +19,9 @@
           <th>Service</th>
           <th>Chef de service</th>
           <th>Catégorie</th>
+          {% if true %}
+            <th>Postes</th>
+          {% endif %}
           <th></th>
         </th>
       </thead>
@@ -28,6 +31,9 @@
             <td>{{ department.name }}</td>
             <td>{{ department.head }}</td>
             <td>{{ department.sector }}</td>
+            {% if true %}
+              <td>{{ department.number }}</td>
+            {% endif %}
             <td class="actions">
               <ul>
                 <li><a href="{{ path('GCore_FSAEditDepartmentDescription', {'id': department.id}) }}" title="Modifier la description du service '{{ department.name }}'">Description</a></li>

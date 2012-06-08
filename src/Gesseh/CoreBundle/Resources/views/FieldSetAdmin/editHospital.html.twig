@@ -19,6 +19,9 @@
           <th>Service</th>
           <th>Patron</th>
           <th>Catégorie</th>
+          {% if true %}
+            <th>Postes</th>
+          {% endif %}
         </tr>
       </thead>
       <tbody id="gesseh_corebundle_hospitaltype_departments" data-prototype="{{ form_widget(hospital_form.departments.get('prototype')) | e }}">
