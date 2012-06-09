@@ -10,6 +10,7 @@
           <th>Hôpital</th>
           <th>Service</th>
           <th>Catégorie</th>
+          <th class="small">Postes</th>
           <th class="actions">Actions</th>
         </tr>
       </thead>
@@ -20,7 +21,8 @@
             <td>{{ wish.department.hospital }}</td>
             <td>{{ wish.department.name }}</td>
             <td>{{ wish.department.sector.name }}</td>
-            <td>
+            <td class="small">{{ wish.department.number }}</td>
+            <td class="actions">
               <ul>
                 <li><a href="{{ path('GSimulation_SUp', {wish_id: wish.id}) }}" title="Monter le vœu d'une place">Monter</a></li>
                 <li><a href="{{ path('GSimulation_SDown', {wish_id: wish.id}) }}" title="Descendre le vœu d'une place">Descendre</a></li>

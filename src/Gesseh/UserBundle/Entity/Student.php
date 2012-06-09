@@ -60,6 +60,20 @@ class Student
    */
   private $grade;
 
+  /**
+   * @var smallint $ranking
+   *
+   * @ORM\Column(name="ranking", type="smallint", nullable=true)
+   */
+  private $ranking;
+
+  /**
+   * @var smallint $graduate
+   *
+   * @ORM\Column(name="graduate", type="smallint", nullable=true)
+   */
+  private $graduate;
+
 
   public function __toString()
   {
@@ -174,5 +188,45 @@ class Student
     public function getGrade()
     {
         return $this->grade;
+    }
+
+    /**
+     * Set ranking
+     *
+     * @param smallint $ranking
+     */
+    public function setRanking($ranking)
+    {
+        $this->ranking = $ranking;
+    }
+
+    /**
+     * Get ranking
+     *
+     * @return smallint 
+     */
+    public function getRanking()
+    {
+        return $this->ranking;
+    }
+
+    /**
+     * Set graduate
+     *
+     * @param smallint $graduate
+     */
+    public function setGraduate($graduate)
+    {
+        $this->graduate = $graduate;
+    }
+
+    /**
+     * Get graduate
+     *
+     * @return smallint 
+     */
+    public function getGraduate()
+    {
+        return $this->graduate;
     }
 }

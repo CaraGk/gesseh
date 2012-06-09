@@ -15,6 +15,12 @@ class StudentType extends AbstractType
             ->add('phone')
             ->add('user', new UserAdminType('Gesseh\UserBundle\Entity\User'))
             ->add('grade');
+
+    // Si la simulation est activée
+    if(true) {
+      $builder->add('ranking')
+              ->add('graduate');
+    }
   }
 
   public function getName()
