@@ -119,6 +119,13 @@ class SimulationController extends Controller
         $em->persist($wish_after);
       }
       $em->remove($wish);
+
+      if($simstudent->countWishes() <= 1) {
+        $simstudent->setDepartment(null);
+        $simstudent->setExtra(null);
+        $em->persist($simstudent); 
+      }
+
       $em->flush();
 
       $this->get('session')->setFlash('notice', 'Vœu : "' . $wish->getDepartment() . '" supprimé.');
