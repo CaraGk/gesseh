@@ -27,7 +27,6 @@ class WishRepository extends EntityRepository
                 ->join('w.department', 'd')
                 ->join('d.hospital', 'h')
                 ->join('d.sector', 'u')
-                ->addSelect('s')
                 ->addSelect('d')
                 ->addSelect('h')
                 ->addSelect('t')

@@ -33,7 +33,6 @@ class SimulationAdminController extends Controller
 
     /**
      * @Route("/define", name="GSimulation_SADefine")
-     * @Template()
      */
     public function defineAction()
     {
@@ -46,6 +45,23 @@ class SimulationAdminController extends Controller
       } else {
         $this->get('session')->setFlash('error', 'Attention : Aucun étudiant enregistré dans la table de simulation.');
       }
+
+      return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+    }
+
+    /**
+     * @Route("/sim", name="GSimulation_SASim")
+     */
+    public function simAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $departments = $em->getRepository('GessehCoreBundle:Department')->findAll();
+
+      foreach($departments as $department) {
+        $department_table[$department->getId()] = $department->getNumber();
+      }
+
+      $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
 
       return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
     }

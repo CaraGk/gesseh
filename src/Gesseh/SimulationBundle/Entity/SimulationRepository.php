@@ -54,17 +54,36 @@ class SimulationRepository extends EntityRepository
     return --$count;
   }
 
-  public function doSimulation()
+  public function doSimulation($department_table, \Doctrine\ORM\EntityManager $em)
   {
-    $department_table = $this->setDepartmentTable();
-
     $query = $this->createQueryBuilder('t')
-                  ->join('t.student', 's');
+                  ->join('t.student', 's')
+                  ->join('t.wishes', 'w')
+                  ->join('w.department', 'd')
+                  ->join('s.user', 'u')
+                  ->join('s.grade', 'p')
+                  ->where('u.enabled = true')
+                  ->addOrderBy('p.rank', 'desc')
+                  ->addOrderBy('s.graduate', 'asc')
+                  ->addOrderBy('s.ranking', 'asc')
+                  ->addOrderBy('w.rank', 'asc');
 
-/*    $wishes = $this->getEntityManager()->getRepository('GessehSimulationBundle:Wish')->getAllOrdered();
+    $sims = $query->getQuery()->getResult();
 
-    foreach($wishes as $wish) {
-      $student = $wish->getStudent();
-      if(null !==  */
+    foreach($sims as $sim) {
+      $student = $sim->getStudent();
+      $sim->setDepartment(null);
+      $sim->setExtra(null);
+      foreach($sim->getWishes() as $wish) {
+        if(null === $sim->getDepartment() and $department_table[$wish->getDepartment()->getId()] > 0) {
+          $department_table[$wish->getDepartment()->getId()]--;
+          $sim->setDepartment($wish->getDepartment());
+          $sim->setExtra($department_table[$wish->getDepartment()->getId()]);
+        }
+      }
+      $em->persist($sim);
+    }
+
+    $em->flush();
   }
 }
