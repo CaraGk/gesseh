@@ -1,0 +1,47 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Simulation de choix de stage{% endblock %}
+
+{% block content %}
+  <table>
+      <thead>
+        <tr>
+          <th class="small">Rang</th>
+          <th>Étudiant</th>
+          <th>Poste</th>
+          <th class="small">Vœux</th>
+          <th class="small">Reste</th>
+          <th class="actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for simulation in simulations %}
+          <tr>
+            <td class="small">{{ simulation.id }}</td>
+            <td>{{ simulation.student.surname }} {{ simulation.student.name }}</td>
+            {% if simulation.active %}
+              {% if simulation.department %}
+                <td>{{ simulation.department }}</td>
+              {% else %}
+                <td>Aucun choix valide</td>
+              {% endif %}
+            {% else %}
+              <td>Ne participe pas aux simulations</td>
+            {% endif %}
+            <td class="small">{{ count_wish[simulation.student.id] }}</td>
+            <td class="small">{{ simulation.extra }}</td>
+            <td class="actions">
+              <ul>
+                <li><a href="" title="">test</a></li>
+              </ul>
+            </td>
+          <tr>
+        {% else %}
+          <tr>
+            <td colspan=5>La table de simulation n'est pas générée. <a href="{{ path('GSimulation_SADefine') }}" title="Cliquez pour générer la table de simulation">Générer la table</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}
+

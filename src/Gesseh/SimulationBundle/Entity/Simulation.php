@@ -18,13 +18,13 @@ class Simulation
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="Gesseh\UserBundle\Entity\Student")
-     * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="student_id", referencedColumnName="id", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Type(type="Gesseh\UserBundle\Entity\Student")
      */
@@ -32,16 +32,14 @@ class Simulation
 
     /**
      * @ORM\ManyToOne(targetEntity="Gesseh\CoreBundle\Entity\Department")
-     * @ORM\JoinColumn(name="department", referencedColumnName="id")
-     * @Assert\NotBlank()
-     * @Assert\Type(type="Gesseh\CoreBundle\Entity\Department")
+     * @ORM\JoinColumn(name="department", referencedColumnName="id", nullable=true)
      */
     private $department;
 
     /**
      * @var smallint $extra
      *
-     * @ORM\Column(name="extra", type="smallint")
+     * @ORM\Column(name="extra", type="smallint", nullable=true)
      */
     private $extra;
 
@@ -61,6 +59,16 @@ class Simulation
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer
+     */
+    public function setId($id)
+    {
+      $this->id = $id;
     }
 
     /**
@@ -88,7 +96,7 @@ class Simulation
      *
      * @param Gesseh\CoreBundle\Entity\Department $department
      */
-    public function setDepartment(\Gesseh\CoreBundle\Entity\Department $department)
+    public function setDepartment($department)
     {
         $this->department = $department;
     }

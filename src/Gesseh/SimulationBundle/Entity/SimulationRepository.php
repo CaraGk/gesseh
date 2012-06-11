@@ -12,4 +12,34 @@ use Doctrine\ORM\EntityRepository;
  */
 class SimulationRepository extends EntityRepository
 {
+  public function getAll()
+  {
+    $query = $this->createQueryBuilder('t')
+                  ->join('t.student', 's')
+//                  ->join('t.department', 'd')
+//                  ->join('d.hospital', 'h')
+                  ->addSelect('s')
+//                  ->addSelect('d')
+                  ->orderBy('t.id', 'asc');
+
+    return $query->getQuery();
+  }
+
+  public function setSimulationTable($students, $em)
+  {
+    $count = 1;
+
+    foreach($students as $student) {
+      $simulation = new Simulation();
+      $simulation->setId($count);
+      $simulation->setStudent($student);
+      $simulation->setActive(true);
+      $simulation->setDepartment(null);
+      $em->persist($simulation);
+      $count++;
+    }
+
+    $em->flush();
+    return --$count;
+  }
 }

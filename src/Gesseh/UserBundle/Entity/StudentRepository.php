@@ -63,4 +63,15 @@ class StudentRepository extends EntityRepository
 
     return $query->getResult();
   }
+
+  public function getRankingOrder()
+  {
+    $query = $this->getStudentQuery();
+    $query->where('u.enabled = true')
+          ->addOrderBy('p.rank', 'desc')
+          ->addOrderBy('s.graduate', 'asc')
+          ->addOrderBy('s.ranking', 'asc');
+
+    return $query->getQuery()->getResult();
+  }
 }

@@ -203,7 +203,7 @@ class Student
     /**
      * Get ranking
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getRanking()
     {
@@ -223,7 +223,7 @@ class Student
     /**
      * Get graduate
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getGraduate()
     {

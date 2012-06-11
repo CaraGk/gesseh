@@ -78,4 +78,16 @@ class WishRepository extends EntityRepository
 
     return $query->getQuery()->getSingleScalarResult();
   }
+
+  public function getCountUser()
+  {
+    $dql = 'SELECT s.id, count(w.id) AS wishcount FROM GessehSimulationBundle:Wish w JOIN w.student s GROUP BY w.student';
+    $results = $this->getEntityManager()->createQuery($dql)->getResult();
+
+    foreach($results as $result) {
+      $count_wish[$result['id']] = $result['wishcount'];
+    }
+
+    return $count_wish;
+  }
 }
