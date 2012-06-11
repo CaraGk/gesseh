@@ -63,6 +63,26 @@ class SimulationAdminController extends Controller
 
       $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
 
+      $this->get('session')->setFlash('notice', 'Les données de la simulation ont été actualisées');
+      return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+    }
+
+    /**
+     * @Route("/purge", name="GSimulation_SAPurge")
+     */
+    public function purgeAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+//      $em->getRepository('GessehSimulationBundle:Simulation')->deleteAll();
+      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->findAll();
+
+      foreach($sims as $sim) {
+        $em->remove($sim);
+      }
+
+      $em->flush();
+
+      $this->get('session')->setFlash('notice', 'Les données de la simulation ont été supprimées.');
       return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
     }
 }

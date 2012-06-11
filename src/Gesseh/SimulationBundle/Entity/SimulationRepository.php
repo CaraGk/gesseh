@@ -86,4 +86,11 @@ class SimulationRepository extends EntityRepository
 
     $em->flush();
   }
+
+/*  public function deleteAll()
+  {
+    $dql = 'DELETE FROM GessehSimulationBundle:Simulation s';
+    $this->getEntityManager()->createQuery($dql)->getResult();
+  }
+*/
 }

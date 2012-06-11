@@ -123,7 +123,7 @@ class SimulationController extends Controller
       if($simstudent->countWishes() <= 1) {
         $simstudent->setDepartment(null);
         $simstudent->setExtra(null);
-        $em->persist($simstudent); 
+        $em->persist($simstudent);
       }
 
       $em->flush();
