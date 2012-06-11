@@ -50,6 +50,16 @@ class Simulation
      */
     private $active;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Gesseh\SimulationBundle\Entity\Wish", mappedBy="simstudent", cascade={"remove"})
+     */
+    private $wishes;
+
+
+    public function __construct()
+    {
+      $this->wishes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -149,5 +159,35 @@ class Simulation
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set wishes
+     *
+     * @param Doctrine\Common\Collections\Collection $wishes
+     */
+    public function setWishes(\Doctrine\Common\Collections\Collection $wishes)
+    {
+      $this->wishes = $wishes;
+    }
+
+    /**
+     * Get wishes
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getWishes()
+    {
+      return $this->wishes;
+    }
+
+    /**
+     * Count wishes
+     *
+     * @return integer
+     */
+    public function countWishes()
+    {
+      return count($this->wishes);
     }
 }

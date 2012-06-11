@@ -25,6 +25,17 @@ class SimulationRepository extends EntityRepository
     return $query->getQuery();
   }
 
+  public function getByUsername($user)
+  {
+    $query = $this->createQueryBuilder('t')
+                  ->join('t.student', 's')
+                  ->join('s.user', 'u')
+                  ->where('u.username = :user')
+                    ->setParameter('user', $user);
+
+    return $query->getQuery()->getSingleResult();
+  }
+
   public function setSimulationTable($students, $em)
   {
     $count = 1;
@@ -41,5 +52,19 @@ class SimulationRepository extends EntityRepository
 
     $em->flush();
     return --$count;
+  }
+
+  public function doSimulation()
+  {
+    $department_table = $this->setDepartmentTable();
+
+    $query = $this->createQueryBuilder('t')
+                  ->join('t.student', 's');
+
+/*    $wishes = $this->getEntityManager()->getRepository('GessehSimulationBundle:Wish')->getAllOrdered();
+
+    foreach($wishes as $wish) {
+      $student = $wish->getStudent();
+      if(null !==  */
   }
 }

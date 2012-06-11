@@ -22,12 +22,12 @@ class SimulationController extends Controller
     {
       $em = $this->getDoctrine()->getEntityManager();
       $user = $this->get('security.context')->getToken()->getUsername();
-      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
-      $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($student->getId());
+      $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
+      $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent());
 
       $new_wish = new Wish();
       $form = $this->createForm(new WishType(), $new_wish);
-      $formHandler = new WishHandler($form, $this->get('request'), $em, $student);
+      $formHandler = new WishHandler($form, $this->get('request'), $em, $simstudent);
 
       if($formHandler->process()) {
         $this->get('session')->setFlash('notice', 'Nouveau vœu : "' . $new_wish->getDepartment() . '" enregistré.');
@@ -47,8 +47,8 @@ class SimulationController extends Controller
     {
       $em = $this->getDoctrine()->getEntityManager();
       $user = $this->get('security.context')->getToken()->getUsername();
-      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
-      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($student, $wish_id);
+      $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
+      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($simstudent->getStudent(), $wish_id);
 
       if(!$wish)
         throw $this->createNotFoundException('Unable to find Wish entity');
@@ -56,7 +56,7 @@ class SimulationController extends Controller
       $rank = $wish->getRank();
       if($rank > 1) {
         $rank--;
-        $wish_before = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($student, $rank);
+        $wish_before = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($simstudent->getStudent(), $rank);
         $wish_before->setRank($rank + 1);
         $wish->setRank($rank);
         $em->persist($wish_before);
@@ -76,17 +76,17 @@ class SimulationController extends Controller
     {
       $em = $this->getDoctrine()->getEntityManager();
       $user = $this->get('security.context')->getToken()->getUsername();
-      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
-      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($student, $wish_id);
+      $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
+      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($simstudent->getStudent(), $wish_id);
 
       if(!$wish)
         throw $this->createNotFoundException('Unable to find Wish entity');
 
       $rank = $wish->getRank();
-      $max_rank = $em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($student);
+      $max_rank = $em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($simstudent->getStudent());
       if($rank < $max_rank) {
         $rank++;
-        $wish_after = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($student, $rank);
+        $wish_after = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($simstudent->getStudent(), $rank);
         $wish_after->setRank($rank - 1);
         $wish->setRank($rank);
         $em->persist($wish_after);
@@ -106,14 +106,14 @@ class SimulationController extends Controller
     {
       $em = $this->getDoctrine()->getEntityManager();
       $user = $this->get('security.context')->getToken()->getUsername();
-      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
-      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($student, $wish_id);
+      $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
+      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($simstudent->getStudent(), $wish_id);
 
       if(!$wish)
         throw $this->createNotFoundException('Unable to find Wish entity');
 
       $rank = $wish->getRank();
-      $wishes_after = $em->getRepository('GessehSimulationBundle:Wish')->findByRankAfter($student, $rank);
+      $wishes_after = $em->getRepository('GessehSimulationBundle:Wish')->findByRankAfter($simstudent->getStudent(), $rank);
       foreach($wishes_after as $wish_after) {
         $wish_after->setRank($wish_after->getRank()-1);
         $em->persist($wish_after);

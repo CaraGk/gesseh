@@ -25,11 +25,9 @@ class SimulationAdminController extends Controller
       $paginator = $this->get('knp_paginator');
       $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
       $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
-      $count_wish = $em->getRepository('GessehSimulationBundle:Wish')->getCountUser();
 
       return array(
         'simulations' => $simulations,
-        'count_wish' => $count_wish,
       );
     }
 

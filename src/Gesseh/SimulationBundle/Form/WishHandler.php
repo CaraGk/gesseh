@@ -14,12 +14,12 @@ class WishHandler
   private $request;
   private $em;
 
-  public function __construct(Form $form, Request $request, EntityManager $em, \Gesseh\UserBundle\Entity\Student $student)
+  public function __construct(Form $form, Request $request, EntityManager $em, \Gesseh\SimulationBundle\Entity\Simulation $simstudent)
   {
     $this->form    = $form;
     $this->request = $request;
     $this->em      = $em;
-    $this->student = $student;
+    $this->simstudent = $simstudent;
   }
 
   public function process()
@@ -38,8 +38,8 @@ class WishHandler
 
   public function onSuccess(Wish $wish)
   {
-    $wish->setStudent($this->student);
-    $wish->setRank($this->em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($this->student)+1);
+    $wish->setSimstudent($this->simstudent);
+    $wish->setRank($this->em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($this->simstudent->getStudent())+1);
     $this->em->persist($wish);
     $this->em->flush();
   }

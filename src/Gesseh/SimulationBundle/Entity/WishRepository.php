@@ -15,28 +15,29 @@ class WishRepository extends EntityRepository
   public function getWishStudentQuery($student_id)
   {
     return $this->createQueryBuilder('w')
-                ->join('w.student', 's')
-                ->where('s.id = :student')
+                ->join('w.simstudent', 't')
+                ->where('t.student = :student')
                   ->setParameter('student', $student_id);
   }
 
   public function getWishQuery()
   {
     return $this->createQueryBuilder('w')
-                ->join('w.student', 's')
+                ->join('w.simstudent', 't')
                 ->join('w.department', 'd')
                 ->join('d.hospital', 'h')
-                ->join('d.sector', 't')
+                ->join('d.sector', 'u')
                 ->addSelect('s')
                 ->addSelect('d')
                 ->addSelect('h')
-                ->addSelect('t');
+                ->addSelect('t')
+                ->addSelect('u');
   }
 
   public function getByStudent($student_id)
   {
     $query = $this->getWishQuery();
-    $query->where('s.id = :student')
+    $query->where('t.student = :student')
             ->setParameter('student', $student_id)
           ->addOrderBy('w.rank', 'asc');
 
@@ -79,7 +80,7 @@ class WishRepository extends EntityRepository
     return $query->getQuery()->getSingleScalarResult();
   }
 
-  public function getCountUser()
+/*  public function getCountUser()
   {
     $dql = 'SELECT s.id, count(w.id) AS wishcount FROM GessehSimulationBundle:Wish w JOIN w.student s GROUP BY w.student';
     $results = $this->getEntityManager()->createQuery($dql)->getResult();
@@ -90,4 +91,21 @@ class WishRepository extends EntityRepository
 
     return $count_wish;
   }
+
+  public function getAllOrdered()
+  {
+    $query = $this->createQueryBuilder('w')
+                  ->join('w.student')
+                  ->join('s.grade', 'p')
+                  ->join('s.user', 'u')
+                  ->join('w.department', 'd')
+                  ->where('u.enabled = true')
+                  ->addOrderBy('p.rank', 'desc')
+                  ->addOrderBy('s.graduate', 'asc')
+                  ->addOrderBy('s.ranking', 'asc')
+                  ->addOrderBy('w.rank', 'asc');
+
+    return $query->getQuery()->getResult();
+  }
+*/
 }

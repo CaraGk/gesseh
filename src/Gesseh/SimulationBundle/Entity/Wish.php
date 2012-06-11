@@ -23,13 +23,6 @@ class Wish
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gesseh\UserBundle\Entity\Student")
-     * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
-     * @Assert\Type(type="Gesseh\UserBundle\Entity\Student")
-     */
-    private $student;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Gesseh\CoreBundle\Entity\Department")
      * @ORM\JoinColumn(name="department", referencedColumnName="id")
      * @Assert\NotBlank()
@@ -43,6 +36,13 @@ class Wish
      * @ORM\Column(name="rank", type="integer")
      */
     private $rank;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Gesseh\SimulationBundle\Entity\Simulation", inversedBy="wishes", cascade={"persist"})
+     * @ORM\JoinColumn(name="simstudent", referencedColumnName="id", nullable=false)
+     * @Assert\Type(type="Gesseh\SimulationBundle\Entity\Simulation")
+     */
+    private $simstudent;
 
 
     public function __toString()
@@ -58,26 +58,6 @@ class Wish
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set student
-     *
-     * @param Gesseh\UserBundle\Entity\Student $student
-     */
-    public function setStudent(\Gesseh\UserBundle\Entity\Student $student)
-    {
-        $this->student = $student;
-    }
-
-    /**
-     * Get student
-     *
-     * @return Gesseh\UserBundle\Entity\Student
-     */
-    public function getStudent()
-    {
-        return $this->student;
     }
 
     /**
@@ -118,5 +98,25 @@ class Wish
     public function getRank()
     {
         return $this->rank;
+    }
+
+    /**
+     * Set simstudent
+     *
+     * @param Gesseh\SimulationBundle\Entity\Simulation $simstudent
+     */
+    public function setSimstudent(\Gesseh\SimulationBundle\Entity\Simulation $simstudent)
+    {
+      $this->simstudent = $simstudent;
+    }
+
+    /**
+     * Get simstudent
+     *
+     * @return Gesseh\SimulationBundle\Entity\Simulation
+     */
+    public function getSimstudent()
+    {
+      return $this->simstudent;
     }
 }
