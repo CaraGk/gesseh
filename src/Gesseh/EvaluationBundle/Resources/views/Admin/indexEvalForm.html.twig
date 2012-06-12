@@ -1,0 +1,42 @@
+<tr>
+  <td>{{ eval_form.name }}</td>
+  <td rowspan=2 class="actions">
+    <ul>
+      <li><a href="{{ path('GEval_AEdit', { 'id': eval_form.id }) }}" title="Modifier le formulaire d'évaluation '{{ eval_form.name }}'">Modifier</a></li>
+      <li><a href="{{ path('GEval_ADelete', { 'id': eval_form.id }) }}" title="Supprimer le formulaire d'évaluation '{{ eval_form.name }}'" class="confirm">Supprimer</a></li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td>
+    <table>
+      <thead>
+        <tr>
+          <th class="small">Rang</th>
+          <th>Nom</th>
+          <th class="small">Type</th>
+          <th>Complément</th>
+          <th></th>
+        </th>
+      </thead>
+      <tbody>
+        {% for criteria in eval_form.criterias %}
+          <tr>
+            <td class="small">{{ criteria.rank }}</td>
+            <td>{{ criteria.name }}</td>
+            <td class="small">{{ criteria.readableType }}</td>
+            <td>{{ criteria.more }}</td>
+            <td class="actions">
+              <ul>
+              </ul>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan=5>Aucun critère associé</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </td>
+</tr>

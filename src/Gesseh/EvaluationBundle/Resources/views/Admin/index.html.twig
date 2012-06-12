@@ -1,0 +1,43 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Évaluations{% endblock %}
+
+{% block content %}
+  {% if eval_form_form is not empty %}
+    {% form_theme eval_form_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <div>{{ form_errors(eval_form_form) }}</div>
+    <form method="post" {{ form_enctype(eval_form_form) }}>
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for eval_form in eval_forms %}
+        {% include eval_form_id == eval_form.id ? 'GessehEvaluationBundle:Admin:editEvalForm.html.twig' : 'GessehEvaluationBundle:Admin:indexEvalForm.html.twig' %}
+      {% endfor %}
+      {% if eval_form_form is not empty and eval_form_id is empty %}
+        {% include 'GessehEvaluationBundle:Admin:editEvalForm.html.twig' %}
+      {% endif %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="actions">
+          <ul>
+            <li><a href="{{ path('GEval_ANew') }}" title="Ajouter un nouveau formulaire d'évaluation">Ajouter</a></li>
+          </ul>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  {% if eval_form_form is not empty %}</form>{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('bundles/gessehevaluation/js/addCrit.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+{% endblock %}

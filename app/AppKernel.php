@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Gesseh\UserBundle\GessehUserBundle(),
             new Gesseh\ParameterBundle\GessehParameterBundle(),
             new Gesseh\SimulationBundle\GessehSimulationBundle(),
+            new Gesseh\EvaluationBundle\GessehEvaluationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
