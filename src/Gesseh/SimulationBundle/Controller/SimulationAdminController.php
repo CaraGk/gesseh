@@ -9,6 +9,7 @@ use Gesseh\SimulationBundle\Entity\Wish;
 use Gesseh\SimulationBundle\Form\WishType;
 use Gesseh\SimulationBundle\Form\WishHandler;
 use Gesseh\SimulationBundle\Entity\Simulation;
+use Gesseh\CoreBundle\Entity\Placement;
 
 /**
  * @Route("/admin/s")
@@ -84,5 +85,28 @@ class SimulationAdminController extends Controller
 
       $this->get('session')->setFlash('notice', 'Les données de la simulation ont été supprimées.');
       return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+    }
+
+    /**
+     * @Route("/save", name="GSimulation_SASave")
+     */
+    public function saveAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $em->getRepository('GessehSimulationBundle:Simulation')->findAll();
+      $last_period = $em->getRepository('GessehCoreBundle:Period')->findLast();
+
+      foreach($sims as $sim) {
+        $placement = new Placement();
+        $placement->setStudent($sim->getStudent());
+        $placement->setDepartment($sim->getDepartment());
+        $placement->setPeriode($last_period);
+        $em->persist($placement);
+      }
+
+      $em->flush();
+
+      $this->get('session')->setFlash('notice', 'Les données de la simulation ont été copiées dans les stages.');
+      return $this->redirect($this->generateUrl('GSimulation_SAPurge'));
     }
 }

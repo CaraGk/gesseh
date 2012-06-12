@@ -41,4 +41,19 @@ class DepartmentRepository extends EntityRepository
     return $query->getQuery()
                  ->getResult();
   }
+
+  public function getAdaptedUserList($user)
+  {
+    $query = $this->getDepartmentQuery();
+    $query->addOrderBy('d.name', 'asc')
+          ->addOrderBy('h.name', 'asc')
+          ->where('d.number > 0');
+
+    $wishes = $this->getEntityManager()->getRepository('GessehSimulationBundle:Wish')->findByUsername($user);
+    foreach($wishes as $wish) {
+      $query->andWhere('d.id != ' . $wish->getDepartment()->getId());
+    }
+
+    return $query;
+  }
 }

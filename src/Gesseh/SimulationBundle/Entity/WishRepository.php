@@ -43,6 +43,17 @@ class WishRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
+  public function findByUsername($username)
+  {
+    $query = $this->getWishQuery();
+    $query->join('t.student', 's')
+          ->join('s.user', 'v')
+          ->where('v.username = :username')
+            ->setParameter('username', $username);
+
+    return $query->getQuery()->getResult();
+  }
+
   public function findByStudentAndRank($student_id, $rank)
   {
     $query = $this->getWishStudentQuery($student_id);

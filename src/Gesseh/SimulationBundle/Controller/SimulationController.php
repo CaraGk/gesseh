@@ -26,7 +26,7 @@ class SimulationController extends Controller
       $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent());
 
       $new_wish = new Wish();
-      $form = $this->createForm(new WishType(), $new_wish);
+      $form = $this->createForm(new WishType($user), $new_wish);
       $formHandler = new WishHandler($form, $this->get('request'), $em, $simstudent);
 
       if($formHandler->process()) {
