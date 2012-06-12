@@ -93,4 +93,31 @@ class SimulationRepository extends EntityRepository
     $this->getEntityManager()->createQuery($dql)->getResult();
   }
 */
+  public function countMissing($simstudent = null)
+  {
+    $query = $this->createQueryBuilder('t')
+                  ->select('COUNT(t.id)')
+                  ->where('t.department is null');
+
+    if($simstudent !== null) {
+      $query->andWhere('t.id < :id')
+              ->setParameter('id', $simstudent->getId());
+    }
+
+    return $query->getQuery()->getSingleScalarResult();
+  }
+
+  public function countNotActive($simstudent = null)
+  {
+    $query = $this->createQueryBuilder('t')
+                  ->select('COUNT(t.id)')
+                  ->where('t.active = false');
+
+    if($simstudent !== null) {
+      $query->andWhere('t.id < :id')
+              ->setParameter('id', $simstudent->getId());
+    }
+
+    return $query->getQuery()->getSingleScalarResult();
+  }
 }

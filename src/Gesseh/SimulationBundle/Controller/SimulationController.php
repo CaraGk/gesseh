@@ -24,6 +24,7 @@ class SimulationController extends Controller
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
       $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent());
+      $missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing($simstudent);
 
       $new_wish = new Wish();
       $form = $this->createForm(new WishType($user), $new_wish);
@@ -38,6 +39,7 @@ class SimulationController extends Controller
         'wishes'     => $wishes,
         'wish_form'  => $form->createView(),
         'simstudent' => $simstudent,
+        'missing'    => $missing,
       );
     }
 
@@ -175,5 +177,23 @@ class SimulationController extends Controller
 
       $this->get('session')->setFlash('notice', 'Vous pouvez désormais faire vos choix pour la simulation.');
       return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+    }
+
+    /**
+     * @Route("/sim", name="GSimulation_SSim")
+     */
+    public function simAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $departments = $em->getRepository('GessehCoreBundle:Department')->findAll();
+
+      foreach($departments as $department) {
+        $department_table[$department->getId()] = $department->getNumber();
+      }
+
+      $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
+
+      $this->get('session')->setFlash('notice', 'Les données de la simulation ont été actualisées');
+      return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
     }
 }

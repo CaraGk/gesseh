@@ -6,7 +6,10 @@
   {% if not simstudent.active %}
     <div>Vous ne participez pas à la simulation. Pour participer à nouveau à la simulation et faire vos vœux, <a href="{{ path('GSimulation_SGetin') }}">cliquez ici</a>.</div>
   {% else %}
-    <div>Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, inter-CHU, etc.), <a href="{{ path('GSimulation_SGetout') }}">cliquez ici</a></div>
+    <div>Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, master, inter-CHU, etc.), <a href="{{ path('GSimulation_SGetout') }}">cliquez ici</a></div>
+
+    <div>Votre vœu retenu est : <strong>{{ simstudent.department }}</strong>. Au moment de votre choix, il reste {{ simstudent.extra }} place(s) pour ce poste.</div>
+    <div>Devant vous, {{ missing }} personne(s) n'ont pas de vœu validé par la simulation à ce jour.</div>
 
   <table>
       <thead>
