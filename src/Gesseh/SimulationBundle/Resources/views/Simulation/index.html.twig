@@ -3,6 +3,11 @@
 {% block titlecontent %}Mes vœux de stage{% endblock %}
 
 {% block content %}
+  {% if not simstudent.active %}
+    <div>Vous ne participez pas à la simulation. Pour participer à nouveau à la simulation et faire vos vœux, <a href="{{ path('GSimulation_SGetin') }}">cliquez ici</a>.</div>
+  {% else %}
+    <div>Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, inter-CHU, etc.), <a href="{{ path('GSimulation_SGetout') }}">cliquez ici</a></div>
+
   <table>
       <thead>
         <tr>
@@ -43,5 +48,6 @@
     {{ form_rest(wish_form) }}
     <button type="submit" title="Ajouter un vœu à la liste">Ajouter</button>
   </form>
+  {% endif %}
 {% endblock %}
 

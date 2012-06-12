@@ -35,8 +35,9 @@ class SimulationController extends Controller
       }
 
       return array(
-        'wishes'    => $wishes,
-        'wish_form' => $form->createView(),
+        'wishes'     => $wishes,
+        'wish_form'  => $form->createView(),
+        'simstudent' => $simstudent,
       );
     }
 
@@ -129,6 +130,50 @@ class SimulationController extends Controller
       $em->flush();
 
       $this->get('session')->setFlash('notice', 'Vœu : "' . $wish->getDepartment() . '" supprimé.');
+      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+    }
+
+    /**
+     * @Route("/out", name="GSimulation_SGetout")
+     */
+    public function getoutAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $user = $this->get('security.context')->getToken()->getUsername();
+      $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
+
+      $simstudent->setActive(false);
+      $simstudent->setDepartment(null);
+      $simstudent->setExtra(null);
+/*      if($simstudent->countWishes() > 0) {
+        foreach($simstudent->getWishes() as $wish) {
+          var_dump($wish);
+          $em->remove($wish);
+        }
+      }
+*/
+      $em->persist($simstudent);
+      $em->flush();
+
+      $this->get('session')->setFlash('notice', 'Vous ne participez plus à la simulation. Tous vos vœux ont été effacés.');
+      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+    }
+
+    /**
+     * @Route("/in", name="GSimulation_SGetin")
+     */
+    public function getinAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $user = $this->get('security.context')->getToken()->getUsername();
+      $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
+
+      $simstudent->setActive(true);
+      $em->persist($simstudent);
+
+      $em->flush();
+
+      $this->get('session')->setFlash('notice', 'Vous pouvez désormais faire vos choix pour la simulation.');
       return $this->redirect($this->generateUrl('GSimulation_SIndex'));
     }
 }
