@@ -32,7 +32,7 @@ class Evaluation
      * @ORM\ManyToOne(targetEntity="Gesseh\EvaluationBundle\Entity\EvalCriteria", cascade={"remove"})
      * @ORM\JoinColumn(name="evalcriteria_id", referencedColumnName="id")
      */
-    private $evalcriteria;
+    private $eval_criteria;
 
     /**
      * @var string $value
@@ -78,23 +78,23 @@ class Evaluation
     }
 
     /**
-     * Set evalcriteria
+     * Set eval_criteria
      *
-     * @param Gesseh\EvaluationBundle\Entity\EvalCriteria $evalcriteria
+     * @param Gesseh\EvaluationBundle\Entity\EvalCriteria $eval_criteria
      */
-    public function setEvalCriteria(\Gesseh\EvaluationBundle\Entity\EvalCriteria $evalcriteria)
+    public function setEvalCriteria(\Gesseh\EvaluationBundle\Entity\EvalCriteria $eval_criteria)
     {
-        $this->evalcriteria = $evalcriteria;
+        $this->eval_criteria = $eval_criteria;
     }
 
     /**
-     * Get evalcriteria
+     * Get eval_criteria
      *
      * @return Gesseh\EvaluationBundle\Entity\EvalCriteria
      */
-    public function getEvalcriteria()
+    public function getEvalCriteria()
     {
-        return $this->evalcriteria;
+        return $this->eval_criteria;
     }
 
     /**

@@ -31,7 +31,7 @@ class EvalForm
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="EvalCriteria", mappedBy="evalform", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="EvalCriteria", mappedBy="eval_form", cascade={"remove", "persist"})
      * @OrderBy({"rank" = "asc"})
      */
     private $criterias;
@@ -108,5 +108,15 @@ class EvalForm
     public function getCriterias()
     {
       return $this->criterias;
+    }
+
+    /**
+     * Add criterias
+     *
+     * @param Gesseh\EvaluationBundle\Entity\EvalCriteria $criterias
+     */
+    public function addEvalCriteria(\Gesseh\EvaluationBundle\Entity\EvalCriteria $criterias)
+    {
+        $this->criterias[] = $criterias;
     }
 }

@@ -25,11 +25,15 @@ class AdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
+    $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
 
     return array(
       'eval_forms'     => $eval_forms,
       'eval_form_id'   => null,
       'eval_form_form' => null,
+      'sectors'        => $sectors,
+      'sector_id'      => null,
+      'sector_form'    => null,
     );
   }
 
@@ -43,6 +47,7 @@ class AdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
+    $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
 
     $eval_form = new EvalForm();
     $form = $this->createForm(new EvalFormType(), $eval_form);
@@ -57,6 +62,9 @@ class AdminController extends Controller
       'eval_forms'     => $eval_forms,
       'eval_form_id'   => null,
       'eval_form_form' => $form->createView(),
+      'sectors'        => $sectors,
+      'sector_id'      => null,
+      'sector_form'    => null,
     );
   }
 
@@ -70,6 +78,7 @@ class AdminController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
+    $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
 
     $eval_form = $em->getRepository('GessehEvaluationBundle:EvalForm')->find($id);
 
@@ -88,6 +97,9 @@ class AdminController extends Controller
       'eval_forms'     => $eval_forms,
       'eval_form_id'   => $id,
       'eval_form_form' => $editForm->createView(),
+      'sectors'        => $sectors,
+      'sector_id'      => null,
+      'sector_form'    => null,
     );
   }
 
@@ -109,5 +121,49 @@ class AdminController extends Controller
 
     $this->get('session')->setFlash('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" supprimé.');
     return $this->redirect($this->generateUrl('GEval_AIndex'));
+  }
+
+  /**
+   * Display a form to create a new eval_sector entity
+   *
+   * @Route("/es/new", name="GEval_ASectorNew")
+   * @Template("GessehEvaluationBundle:Admin:index.html.twig")
+   */
+  public function newSectorAction()
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
+    $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
+
+    return array(
+      'eval_forms'     => $eval_forms,
+      'eval_form_id'   => null,
+      'eval_form_form' => null,
+      'sectors'        => $sectors,
+      'sector_id'      => null,
+      'sector_form'    => null,
+    );
+  }
+
+  /**
+   * Display a form to edit an eval_sector entity
+   *
+   * @Route("/es/{id}/e", name="GEval_ASectorEdit")
+   * @Template("GessehEvaluationBundle:Admin:index.html.twig")
+   */
+  public function editSectorAction()
+  {   
+    $em = $this->getDoctrine()->getEntityManager();
+    $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
+    $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
+
+    return array(
+      'eval_forms'     => $eval_forms,
+      'eval_form_id'   => null,
+      'eval_form_form' => null,
+      'sectors'        => $sectors,
+      'sector_id'      => null,
+      'sector_form'    => null,
+    );
   }
 }

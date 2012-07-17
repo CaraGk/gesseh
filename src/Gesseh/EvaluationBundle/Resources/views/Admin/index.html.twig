@@ -3,6 +3,7 @@
 {% block titlecontent %}Évaluations{% endblock %}
 
 {% block content %}
+  <h2>Formulaires d'évaluation</h2>
   {% if eval_form_form is not empty %}
     {% form_theme eval_form_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(eval_form_form) }}</div>
@@ -34,6 +35,40 @@
     </tfoot>
   </table>
   {% if eval_form_form is not empty %}</form>{% endif %}
+
+  <h2>Table d'association de Catégorie de stage / Formulaire d'évaluation</h2>
+  {% if sector_form is not empty %}
+    {% form_theme sector_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <div>{{ form_errors(sector_form) }}</div>
+    <form method="post" {{ form_enctype(sector_form) }}>
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th>Catégorie</th>
+        <th>Formulaire</th>
+        <th class="action">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sectors in sectors %}
+        {% include sector_id == sector.id ? 'GessehEvaluationBundle:Admin:editSector.html.twig' : 'GessehEvaluationBundle:Admin:indexSector.html.twig' %}
+      {% endfor %}
+      {% if sector_form is not empty and sector_id is empty %}
+        {% include 'GessehEvaluationBundle:Admin:editSector.html.twig' %}
+      {% endif %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <ul>
+            <li><a href="{{ path('GEval_ASectorNew') }}" title="Ajouter une nouvelle association Catégorie/Formulaire">Ajouter</a></li>
+          </ul>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  {% if sector_form is not empty %}</form>{% endif %}
 {% endblock %}
 
 {% block javascripts %}

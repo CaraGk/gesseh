@@ -57,7 +57,7 @@ class EvalCriteria
      * @ORM\ManyToOne(targetEntity="EvalForm", inversedBy="criterias", cascade={"persist"})
      * @ORM\JoinColumn(name="evalform_id", referencedColumnName="id")
      */
-    private $evalform;
+    private $eval_form;
 
 
     public function __toString()
@@ -171,13 +171,13 @@ class EvalCriteria
     }
 
     /**
-     * Set evalform
+     * Set eval_form
      *
-     * @param Gesseh\EvaluationBundle\Entity\EvalForm $evalform
+     * @param Gesseh\EvaluationBundle\Entity\EvalForm $eval_form
      */
-    public function setEvalForm(\Gesseh\EvaluationBundle\Entity\EvalForm $evalform)
+    public function setEvalForm(\Gesseh\EvaluationBundle\Entity\EvalForm $eval_form)
     {
-        $this->evalform = $evalform;
+        $this->eval_form = $eval_form;
     }
 
     /**
