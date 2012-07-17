@@ -9,6 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Gesseh\EvaluationBundle\Entity\EvalForm;
 use Gesseh\EvaluationBundle\Form\EvalFormType;
 use Gesseh\EvaluationBundle\Form\EvalFormHandler;
+use Gesseh\EvaluationBundle\Entity\EvalSector;
+use Gesseh\EvaluationBundle\Form\EvalSectorType;
+use Gesseh\EvaluationBundle\Form\EvalSectorHandler;
 
 /**
  * Admin controller.
@@ -135,35 +138,77 @@ class AdminController extends Controller
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
     $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
 
+    $eval_sector = new EvalSector();
+    $form = $this->createForm(new EvalSectorType(), $eval_sector);
+    $formHandler = new EvalSectorHandler($form, $this->get('request'), $em);
+
+    if ( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" enregistrée.');
+      return $this->redirect($this->generateUrl('GEval_AIndex'));
+    }
+
     return array(
       'eval_forms'     => $eval_forms,
       'eval_form_id'   => null,
       'eval_form_form' => null,
       'sectors'        => $sectors,
       'sector_id'      => null,
-      'sector_form'    => null,
+      'sector_form'    => $form->createView(),
     );
   }
 
   /**
    * Display a form to edit an eval_sector entity
    *
-   * @Route("/es/{id}/e", name="GEval_ASectorEdit")
+   * @Route("/es/{id}/e", name="GEval_ASectorEdit", requirements={"id" = "\d+"})
    * @Template("GessehEvaluationBundle:Admin:index.html.twig")
    */
-  public function editSectorAction()
-  {   
+  public function editSectorAction($id)
+  {
     $em = $this->getDoctrine()->getEntityManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
     $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
+
+    $eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->find($id);
+
+    if (!$eval_sector)
+      throw $this->createNotFoundException('Unable to find eval_sector entity.');
+
+    $editForm = $this->createForm(new EvalSectorType(), $eval_sector);
+    $formHandler = new EvalSectorHandler($editForm, $this->get('request'), $em);
+
+    if ( $formHandler->process() ) {
+      $this->get('session')->setFlash('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" modifiée.');
+      return $this->redirect($this->generateUrl('GEval_AIndex'));
+    }
 
     return array(
       'eval_forms'     => $eval_forms,
       'eval_form_id'   => null,
       'eval_form_form' => null,
       'sectors'        => $sectors,
-      'sector_id'      => null,
-      'sector_form'    => null,
+      'sector_id'      => $id,
+      'sector_form'    => $editForm->createView(),
     );
+  }
+  
+  /**
+   * Deletes a eval_sector entity.
+   *
+   * @Route("/es/{id}/d", name="GEval_ASectorDelete", requirements={"id" = "\d+"}))
+   */
+  public function deleteSectorAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->find($id);
+
+    if (!$eval_sector)
+      throw $this->createNotFoundException('Unable to find eval_sector entity.');
+
+    $em->remove($eval_sector);
+    $em->flush();
+
+    $this->get('session')->setFlash('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" supprimée.');
+    return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
 }

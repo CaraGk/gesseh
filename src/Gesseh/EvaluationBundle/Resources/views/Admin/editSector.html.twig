@@ -1,0 +1,11 @@
+<tr>
+  {{ form_row(sector_form.sector) }}
+  {{ form_row(sector_form.form) }}
+  {{ form_rest(sector_form) }}
+  <td rowspan=2 class="actions">
+    <ul>
+      <li><button type="submit" title="Enregistrer les modifications">Enregistrer</button></li>
+      <li><a href="{{ path('GEval_AIndex') }}" title="Abandonner les modifications">Annuler</a></li>
+    </ul>
+  </td>
+</tr>

@@ -51,7 +51,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for sectors in sectors %}
+      {% for sector in sectors %}
         {% include sector_id == sector.id ? 'GessehEvaluationBundle:Admin:editSector.html.twig' : 'GessehEvaluationBundle:Admin:indexSector.html.twig' %}
       {% endfor %}
       {% if sector_form is not empty and sector_id is empty %}

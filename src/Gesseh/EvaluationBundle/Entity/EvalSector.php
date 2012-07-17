@@ -37,6 +37,11 @@ class EvalSector
     private $form;
 
 
+    public function  __toString()
+    {
+      return $sector . " : " . $form;
+    }
+
     /**
      * Get id
      *

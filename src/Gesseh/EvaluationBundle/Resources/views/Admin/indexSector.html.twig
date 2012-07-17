@@ -1,0 +1,10 @@
+<tr>
+  <td>{{ sector.sector }}</td>
+  <td>{{ sector.form }}</td>
+  <td class="actions">
+    <ul>
+      <li><a href="{{ path('GEval_ASectorEdit', { 'id': sector.id }) }}" title="Modifier le formulaire de '{{ sector.sector }}'">Modifier</a></li>
+      <li><a href="{{ path('GEval_ASectorDelete', { 'id': sector.id }) }}" title="Supprimer le formulaire de '{{ sector.sector }}'" class="confirm">Supprimer</a></li>
+    </ul>
+  </td>
+</tr>
