@@ -12,4 +12,24 @@ use Doctrine\ORM\EntityRepository;
  */
 class EvalSectorRepository extends EntityRepository
 {
+  public function getEvalSectorQuery()
+  {
+    return $this->createQueryBuilder('s')
+                ->join('s.form', 'f')
+                ->join('f.criterias', 'c')
+                ->join('s.sector', 't')
+                ->addSelect('f')
+                ->addSelect('c')
+    ;
+  }
+
+  public function getEvalFormBySector($id)
+  {
+    $query = $this->getEvalSectorQuery();
+    $query->where('t.id = :id')
+            ->setParameter('id', $id)
+          ->orderBy('c.rank', 'asc');
+
+    return $query->getQuery()->getResult();
+  }
 }

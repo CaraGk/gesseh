@@ -1,0 +1,36 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Évaluations du stage '{{ department.name }} à {{ department.hospital.name }}'{% endblock %}
+
+{% block content %}
+  <div>xx évaluations entre le xx/xx/xx et le xx/xx/xx.</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Critère</th>
+        <th>Moyenne</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for criteria in eval_form.criterias %}
+        <tr>
+          <td>{{ criteria.name }}</td>
+          <td>{{ eval_num[criteria.id][mean] }}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan=2>Aucune évaluation numérique.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div>Commentaires :</div>
+  {% for text in eval_text %}
+    <div>
+      <div></div>
+      <div>{{ text.value }}</div>
+    </div>
+  {% else %}
+    <div>Aucun commentaire.</div>
+  {% endfor %}
+{% endblock %}

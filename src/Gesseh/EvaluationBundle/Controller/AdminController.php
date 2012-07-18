@@ -191,7 +191,7 @@ class AdminController extends Controller
       'sector_form'    => $editForm->createView(),
     );
   }
-  
+
   /**
    * Deletes a eval_sector entity.
    *

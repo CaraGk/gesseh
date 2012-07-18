@@ -12,4 +12,44 @@ use Doctrine\ORM\EntityRepository;
  */
 class EvaluationRepository extends EntityRepository
 {
+  public function getEvaluationQuery()
+  {
+    return $this->createQueryBuilder('e')
+                ->join('e.placement', 'p')
+                ->join('p.department', 'd')
+                ->join('e.eval_criteria', 'c')
+    ;
+  }
+
+  public function getTextByDepartment($id)
+  {
+    $query = $this->getEvaluationQuery();
+    $query->where('d.id = :id')
+            ->setParameter('id', $id)
+          ->andWhere('c.type = 2');
+
+    return $query->getQuery()->getResult();
+  }
+
+  public function getNumByDepartment($id)
+  {
+    $query = $this->getEvaluationQuery();
+    $query->where('d.id = :id')
+            ->setParameter('id', $id)
+          ->andWhere('c.type = 1')
+          ->orderBy('c.name', 'asc');
+
+    $results = $query->getQuery()->getResult();
+    $calc = array();
+
+    foreach ($results as $result)
+    {
+      $calc[$result->getEvalCriteria()->getId()]['total'] += $result->getValue();
+      $calc[$result->getEvalCriteria()->getId()]['count'] ++;
+      $calc[$result->getEvalCriteria()->getId()]['mean'] = round($calc[$result->getEvalCriteria()->getId()]['total'] / $calc[$result->getEvalCriteria()->getId()]['count'], 1);
+//      $calc[$result->getEvalCriteria()->getId()]['ratio'] = $result->getEvalCriteria()->getRatio();
+    }
+
+    return $calc;
+  }
 }
