@@ -23,13 +23,13 @@ class EvalSectorRepository extends EntityRepository
     ;
   }
 
-  public function getEvalFormBySector($id)
+  public function getEvalSector($id)
   {
     $query = $this->getEvalSectorQuery();
     $query->where('t.id = :id')
             ->setParameter('id', $id)
           ->orderBy('c.rank', 'asc');
 
-    return $query->getQuery()->getResult();
+    return $query->getQuery()->getOneOrNullResult();
   }
 }

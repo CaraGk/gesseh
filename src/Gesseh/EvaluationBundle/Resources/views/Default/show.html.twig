@@ -3,19 +3,21 @@
 {% block titlecontent %}Évaluations du stage '{{ department.name }} à {{ department.hospital.name }}'{% endblock %}
 
 {% block content %}
-  <div>xx évaluations entre le xx/xx/xx et le xx/xx/xx.</div>
+  <h2>Évaluations numériques</h2>
   <table>
     <thead>
       <tr>
         <th>Critère</th>
-        <th>Moyenne</th>
+        <th class="small">Moyenne</th>
+        <th class="small">Évaluations</th>
       </tr>
     </thead>
     <tbody>
-      {% for criteria in eval_form.criterias %}
+      {% for criteria in eval_num %}
         <tr>
-          <td>{{ criteria.name }}</td>
-          <td>{{ eval_num[criteria.id][mean] }}</td>
+          <td>{{ criteria['name'] }}</td>
+          <td class="small">{{ criteria['mean'] }}</td>
+          <td class="small">{{ criteria['count'] }}</td>
         </tr>
       {% else %}
         <tr>
@@ -24,10 +26,10 @@
       {% endfor %}
     </tbody>
   </table>
-  <div>Commentaires :</div>
+  <h2>Évaluations textuelles</h2>
   {% for text in eval_text %}
     <div>
-      <div></div>
+      <div>{{ text.evalCriteria.name }} enregistré le ...</div>
       <div>{{ text.value }}</div>
     </div>
   {% else %}

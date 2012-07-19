@@ -1,0 +1,10 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Évaluations du stage '{{ placement.department.name }} à {{ placement.department.hospital.name }} du {{ placement.period.begin|date('d-m-Y') }} au {{ placement.period.end|date('d-m-Y') }}'{% endblock %}
+
+{% block content %}
+  <form method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <button type="submit" title="Valider l'évaluation du stage. Vous ne pourrez plus revenir en arrière.">Valider</button>
+  </form>
+{% endblock %}

@@ -44,7 +44,13 @@ class EvaluationRepository extends EntityRepository
 
     foreach ($results as $result)
     {
-      $calc[$result->getEvalCriteria()->getId()]['total'] += $result->getValue();
+      if (!isset($calc[$result->getEvalCriteria()->getId()]['count'])) {
+        $calc[$result->getEvalCriteria()->getId()]['total'] = 0;
+        $calc[$result->getEvalCriteria()->getId()]['count'] = 0;
+        $calc[$result->getEvalCriteria()->getId()]['name'] = $result->getEvalCriteria()->getName();
+      }
+
+      $calc[$result->getEvalCriteria()->getId()]['total'] += (int) $result->getValue();
       $calc[$result->getEvalCriteria()->getId()]['count'] ++;
       $calc[$result->getEvalCriteria()->getId()]['mean'] = round($calc[$result->getEvalCriteria()->getId()]['total'] / $calc[$result->getEvalCriteria()->getId()]['count'], 1);
 //      $calc[$result->getEvalCriteria()->getId()]['ratio'] = $result->getEvalCriteria()->getRatio();
