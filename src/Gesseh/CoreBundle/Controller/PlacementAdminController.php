@@ -31,6 +31,10 @@ class PlacementAdminController extends Controller
     $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll();
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
 
+    if (true) { // Si les évaluations sont activées
+      $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array');
+    }
+
     return array(
       'periods'        => $periods,
       'period_id'      => null,
@@ -38,6 +42,7 @@ class PlacementAdminController extends Controller
       'placements'     => $placements,
       'placement_id'   => null,
       'placement_form' => null,
+      'evaluated'      => $evaluated,
     );
   }
 

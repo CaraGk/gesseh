@@ -58,4 +58,31 @@ class EvaluationRepository extends EntityRepository
 
     return $calc;
   }
+
+  public function getEvaluatedList($type = 'array', $user_id = null)
+  {
+    $query = $this->createQueryBuilder('e')
+                  ->join('e.placement', 'p')
+                  ->groupBy('e.placement')
+                  ->addSelect('p');
+
+    if ($user_id) {
+      $query->where('p.student = :user_id')
+              ->setParameter('user_id', $user_id);
+    }
+
+    $results = $query->getQuery()->getResult();
+    $list = array();
+
+    foreach ($results as $result) {
+      array_push($list, $result->getPlacement()->getId());
+    }
+
+    if ($type = 'array')
+      return $list;
+    elseif ($type = 'list')
+      return implode(',', $list);
+    else
+      return null;
+  }
 }
