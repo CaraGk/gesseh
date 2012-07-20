@@ -10,6 +10,9 @@ use Gesseh\SimulationBundle\Form\WishType;
 use Gesseh\SimulationBundle\Form\WishHandler;
 use Gesseh\SimulationBundle\Entity\Simulation;
 use Gesseh\CoreBundle\Entity\Placement;
+use Gesseh\SimulationBundle\Entity\SimulPeriod;
+use Gesseh\SimulationBundle\Form\SimulPeriodType;
+use Gesseh\SimulationBundle\Form\SimulPeriodHandler;
 
 /**
  * @Route("/admin/s")
@@ -26,10 +29,94 @@ class SimulationAdminController extends Controller
       $paginator = $this->get('knp_paginator');
       $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
       $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
+      $periods = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findAll();
 
       return array(
         'simulations' => $simulations,
+        'periods'     => $periods,
+        'period_id'   => null,
+        'period_form' => null,
       );
+    }
+
+    /**
+     * @Route("/p/n", name="GSimul_SANewPeriod")
+     * @Template("GessehSimulationBundle:SimulationAdmin:index.html.twig")
+     */
+    public function newPeriod()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $paginator = $this->get('knp_paginator');
+      $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
+      $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
+      $periods = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findAll();
+
+      $simul_period = new SimulPeriod();
+      $form = $this->createForm(new SimulPeriodType(), $simul_period);
+      $form_handler = new SimulPeriodHandler($form, $this->get('request'), $em);
+
+      if ($form_handler->process()) {
+        $this->get('session')->setFlash('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" enregistrée.');
+        return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+      }
+
+      return array(
+        'simulations' => $simulations,
+        'periods'     => $periods,
+        'period_id'   => null,
+        'period_form' => $form->createView(),
+      );
+    }
+
+    /**
+     * @Route("/p/{id}/e", name="GSimul_SAEditPeriod", requirements={"id" = "\d+"})
+     * @Template("GessehSimulationBundle:SimulationAdmin:index.html.twig")
+     */
+    public function editPeriod($id)
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $paginator = $this->get('knp_paginator');
+      $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
+      $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
+      $periods = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findAll();
+
+      $simul_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->find($id);
+
+      if (!$simul_period)
+        throw $this->createNotFoundException('Unable to find simul_period entity.');
+
+      $form = $this->createForm(new SimulPeriodType(), $simul_period);
+      $form_handler = new SimulPeriodHandler($form, $this->get('request'), $em);
+
+      if ($form_handler->process()) {
+        $this->get('session')->setFlash('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" modifiée.');
+        return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+      }
+
+      return array(
+        'simulations' => $simulations,
+        'periods'     => $periods,
+        'period_id'   => $id,
+        'period_form' => $form->createView(),
+      );
+    }
+
+    /**
+     * @Route("/p/{id}/d", name="GSimul_SADeletePeriod", requirements={"id" = "\d+"})
+     */
+    public function deletePeriod($id)
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $simul_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->find($id);
+
+      if (!$simul_period)
+        throw $this->createNotFoundException('Unable to find simul_period entity.');
+
+      $em->remove($simul_period);
+      $em->flush();
+
+      $this->get('session')->setFlash('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" supprimée.');
+      return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
     }
 
     /**
