@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class SimulPeriodRepository extends EntityRepository
 {
+  public function isSimulationActive()
+  {
+    $query = $this->createQueryBuilder('p')
+                  ->where('p.begin < :now')
+                  ->andWhere('p.end > :now')
+                    ->setParameter('now', new \DateTime('now'));
+
+    if ($query->getQuery()->getResult())
+      return true;
+    else
+      return false;
+  }
 }

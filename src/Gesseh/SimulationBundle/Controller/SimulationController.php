@@ -21,6 +21,10 @@ class SimulationController extends Controller
     public function indexAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
+
+      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
       $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent());
@@ -49,6 +53,10 @@ class SimulationController extends Controller
     public function setRankUpAction($wish_id)
     {
       $em = $this->getDoctrine()->getEntityManager();
+
+      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
       $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($simstudent->getStudent(), $wish_id);
@@ -78,6 +86,10 @@ class SimulationController extends Controller
     public function setRankDownAction($wish_id)
     {
       $em = $this->getDoctrine()->getEntityManager();
+
+      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
       $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($simstudent->getStudent(), $wish_id);
@@ -108,6 +120,10 @@ class SimulationController extends Controller
     public function deleteAction($wish_id)
     {
       $em = $this->getDoctrine()->getEntityManager();
+
+      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
       $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($simstudent->getStudent(), $wish_id);
@@ -141,6 +157,10 @@ class SimulationController extends Controller
     public function getoutAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
+
+      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
 
@@ -167,6 +187,10 @@ class SimulationController extends Controller
     public function getinAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
+
+      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
 
@@ -185,6 +209,10 @@ class SimulationController extends Controller
     public function simAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
+
+      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+
       $departments = $em->getRepository('GessehCoreBundle:Department')->findAll();
 
       foreach($departments as $department) {
