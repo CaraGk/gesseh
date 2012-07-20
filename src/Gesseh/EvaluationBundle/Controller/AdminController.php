@@ -211,4 +211,42 @@ class AdminController extends Controller
     $this->get('session')->setFlash('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" supprimée.');
     return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
+
+  /**
+   * Affiche les evaluations textuelles pour modération
+   *
+   * @Route("/t", name="GEval_ATextIndex")
+   * @Template()
+   */
+  public function textIndexAction()
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $paginator = $this->get('knp_paginator');
+    $evaluation_query = $em->getRepository('GessehEvaluationBundle:Evaluation')->getAllText();
+    $evaluations = $paginator->paginate($evaluation_query, $this->get('request')->query->get('page', 1), 20);
+
+    return array(
+      'evaluations' => $evaluations,
+    );
+  }
+
+  /**
+   * Supprime une évaluation textuelle
+   *
+   * @Route("/t/{id}/d", name="GEval_ATextDelete", requirements={"id" = "\d+"})
+   */
+  public function textDeleteAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $evaluation = $em->getRepository('GessehEvaluationBundle:Evaluation')->find($id);
+
+    if (!$evaluation)
+      throw $this->createNotFoundException('Unable to find evaluation entity.');
+
+    $em->remove($evaluation);
+    $em->flush();
+
+    $this->get('session')->setFlash('notice', 'Évaluation textuelle supprimée.');
+    return $this->redirect($this->generateUrl('GEval_ATextIndex'));
+  }
 }

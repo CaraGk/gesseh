@@ -61,6 +61,7 @@ class MenuBuilder
     $menu->addChild('Placement', array('route' => 'GCore_PAIndex', 'label' => 'Stages', 'attributes' => array('title' => 'Gérer les stages')));
     $menu->addChild('Simulation', array('route' => 'GSimulation_SAIndex', 'label' => 'Simulations', 'attributes' => array('title' => 'Gérer les simulations')));
     $menu->addChild('Evaluation', array('route' => 'GEval_AIndex', 'label' => 'Évaluations', 'attributes' => array('title' => 'Gérer les évaluations de stage')));
+    $menu->addChild('Moderation', array('route' => 'GEval_ATextIndex', 'label' => 'Modération', 'attributes' => array('title' => 'Modérer les évaluations textuelles')));
 
     return $menu;
   }

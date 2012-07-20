@@ -1,0 +1,43 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Modération des évaluations textuelles{% endblock %}
+
+{% block content %}
+  <table>
+    <thead>
+      <tr>
+        <th>Terrain de stage</th>
+        <th>Commentaire</th>
+        <th>Posté le</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for evaluation in evaluations %}
+        <tr>
+          <td>{{ evaluation.placement.department.name }} à {{ evaluation.placement.department.hospital.name }}</td>
+          <td>{{ evaluation.value }}</td>
+          <td></td>
+          <td>
+            <ul>
+              <li><a href="" title="Modifier le commentaire">Modifier</a></li>
+              <li><a href="{{ path('GEval_ATextDelete', {'id': evaluation.id}) }}" title="Supprimer le commentaire" class="confirm">Supprimer</a></li>
+            </ul>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="4">Aucun commentaire à afficher.</td></tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="pagination">{{ evaluations.render()|raw }}</td>
+      </tr>
+    </tfoot>
+  </table>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+{% endblock %}

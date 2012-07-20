@@ -87,4 +87,12 @@ class EvaluationRepository extends EntityRepository
     else
       return null;
   }
+
+  public function getAllText()
+  {
+    $query = $this->getEvaluationQuery();
+    $query->where('c.type = 2');
+
+    return $query->getQuery();
+  }
 }

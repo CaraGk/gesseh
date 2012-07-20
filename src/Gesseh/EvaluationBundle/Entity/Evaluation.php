@@ -23,13 +23,13 @@ class Evaluation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gesseh\CoreBundle\Entity\Placement", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="Gesseh\CoreBundle\Entity\Placement")
      * @ORM\JoinColumn(name="placement_id", referencedColumnName="id")
      */
     private $placement;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gesseh\EvaluationBundle\Entity\EvalCriteria", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="Gesseh\EvaluationBundle\Entity\EvalCriteria")
      * @ORM\JoinColumn(name="evalcriteria_id", referencedColumnName="id")
      */
     private $eval_criteria;
