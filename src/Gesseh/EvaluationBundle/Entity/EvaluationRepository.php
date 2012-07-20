@@ -59,16 +59,18 @@ class EvaluationRepository extends EntityRepository
     return $calc;
   }
 
-  public function getEvaluatedList($type = 'array', $user_id = null)
+  public function getEvaluatedList($type = 'array', $username = null)
   {
     $query = $this->createQueryBuilder('e')
                   ->join('e.placement', 'p')
                   ->groupBy('e.placement')
                   ->addSelect('p');
 
-    if ($user_id) {
-      $query->where('p.student = :user_id')
-              ->setParameter('user_id', $user_id);
+    if ($username) {
+      $query->join('p.student', 's')
+            ->join('s.user', 'u')
+            ->where('u.username = :username')
+              ->setParameter('username', $username);
     }
 
     $results = $query->getQuery()->getResult();

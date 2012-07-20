@@ -21,10 +21,16 @@ class PlacementController extends Controller
   public function indexAction()
   {
     $user = $this->get('security.context')->getToken()->getUsername();
-    $placements = $this->getDoctrine()->getEntityManager()->getRepository('GessehCoreBundle:Placement')->getByUsername($user);
+    $em = $this->getDoctrine()->getEntityManager();
+    $placements = $em->getRepository('GessehCoreBundle:Placement')->getByUsername($user);
+
+    if (true) { // si les évaluations sont activées
+      $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $user);
+    }
 
     return array(
-      'placements' => $placements
+      'placements' => $placements,
+      'evaluated'  => $evaluated,
     );
   }
 }
