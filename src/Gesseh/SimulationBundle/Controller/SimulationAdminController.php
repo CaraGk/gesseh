@@ -242,4 +242,24 @@ class SimulationAdminController extends Controller
         'rule_form' => $form->createView(),
       );
     }
+
+    /**
+     * Supprime un SectorRule
+     *
+     * @Route("/s/{id}/d", name="GSimul_SADeleteRule", requirements={"id" = "\d+"})
+     */
+    public function deleteRule($id)
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $rule = $em->getRepository('GessehSimulationBundle:SectorRule')->find($id);
+
+      if (!$rule)
+        throw $this->createNotFoundException('Unable to find sector_rule entity.');
+
+      $em->remove($rule);
+      $em->flush();
+
+      $this->get('session')->setFlash('notice', 'Règle de simulation pour "' . $rule . '" supprimée.');
+      return $this->redirect($this->generateUrl('GSimul_SAIndexRule'));
+    }
 }

@@ -46,6 +46,11 @@ class SectorRule
      */
     private $relation;
 
+    
+    public function __toString()
+    {
+      return '(' . $this->grade . ' ' . $this->relation . ' ' . $this->sector . ')';
+    }
 
     /**
      * Get id
