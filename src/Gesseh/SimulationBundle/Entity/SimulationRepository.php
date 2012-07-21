@@ -29,7 +29,10 @@ class SimulationRepository extends EntityRepository
   {
     $query = $this->createQueryBuilder('t')
                   ->join('t.student', 's')
+                  ->join('s.grade', 'g')
                   ->join('s.user', 'u')
+                  ->addSelect('s')
+                  ->addSelect('g')
                   ->where('u.username = :user')
                     ->setParameter('user', $user);
 
@@ -119,5 +122,32 @@ class SimulationRepository extends EntityRepository
     }
 
     return $query->getQuery()->getSingleScalarResult();
+  }
+
+  public function countFromGradeAfter($simstudent)
+  {
+    $query = $this->createQueryBuilder('t')
+                  ->join('t.student', 's')
+                  ->select('COUNT(t.id)')
+                  ->where('t.id > :simstudent_id')
+                    ->setParameter('simstudent_id', $simstudent->getId())
+                  ->andWhere('s.grade = :grade_id')
+                    ->setParameter('grade_id', $simstudent->getStudent()->getGrade()->getId());
+
+    return $query->getQuery()->getSingleScalarResult();
+  }
+
+  public function checkNotFullInSector($simstudent, $sector)
+  {
+    $student_after = $this->countFromGradeAfter($simstudent);
+    $query = $this->createQueryBuilder('t')
+                  ->join('t.department', 'd')
+                  ->where('d.sector = :sector_id')
+                    ->setParameter('sector_id', $sector->getId())
+                  ->andWhere('t.extra > :student_after')
+                    ->setParameter('student_after', $student_after)
+                  ->addSelect('d');
+
+    return $query->getQuery()->getResult();
   }
 }

@@ -54,6 +54,19 @@ class WishRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
+  public function getStudentWishList($simstudent_id)
+  {
+    $query = $this->createQueryBuilder('w')
+                  ->join('w.department', 'd')
+                  ->join('d.sector', 's')
+                  ->where('w.simstudent = :simstudent_id')
+                    ->setParameter('simstudent_id', $simstudent_id)
+                  ->addSelect('d')
+                  ->addSelect('s');
+
+    return $query->getQuery()->getResult();
+  }
+
   public function findByStudentAndRank($student_id, $rank)
   {
     $query = $this->getWishStudentQuery($student_id);

@@ -27,11 +27,12 @@ class SimulationController extends Controller
 
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
+      $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getForStudent($simstudent);
       $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent());
       $missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing($simstudent);
 
       $new_wish = new Wish();
-      $form = $this->createForm(new WishType($user), $new_wish);
+      $form = $this->createForm(new WishType($rules), $new_wish);
       $formHandler = new WishHandler($form, $this->get('request'), $em, $simstudent);
 
       if($formHandler->process()) {

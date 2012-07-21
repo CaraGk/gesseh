@@ -12,4 +12,33 @@ use Doctrine\ORM\EntityRepository;
  */
 class SectorRuleRepository extends EntityRepository
 {
+  public function getForStudent($simstudent)
+  {
+    $query = $this->createQueryBuilder('r')
+                  ->join('r.sector', 's')
+                  ->addSelect('s')
+                  ->where('r.grade = :grade_id')
+                    ->setParameter('grade_id', $simstudent->getStudent()->getGrade()->getId())
+                  ->orderBy('r.relation', 'asc');
+
+    $results = $query->getQuery()->getResult();
+    $rules['sector']['NOT'] = $rules['department']['NOT'] = $rules['department']['IN'] = array();
+//    $rules = array();
+
+    foreach ($results as $result) {
+      if ($result->getRelation() == "NOT") {
+        array_push($rules['sector']['NOT'], $result->getSector()->getId());
+      } elseif ($result->getRelation() == "FULL" and $not_full = $this->getEntityManager()->getRepository('GessehSimulationBundle:Simulation')->checkNotFullInSector($simstudent, $result->getSector())) {
+        array_push($rules['department']['IN'], $not_full->getDepartment()->getId());
+      }
+    }
+
+    $wishes = $this->getEntityManager()->getRepository('GessehSimulationBundle:Wish')->getStudentWishList($simstudent->getId());
+
+    foreach ($wishes as $wish) {
+      array_push($rules['department']['NOT'], $wish->getDepartment()->getId());
+    }
+
+    return $rules;
+  }
 }

@@ -9,19 +9,19 @@ class WishType extends AbstractType
 {
     private $username;
 
-    public function __construct($user)
+    public function __construct($rules)
     {
-      $this->username = $user;
+      $this->rules = $rules;
     }
 
     public function buildForm(FormBuilder $builder, array $options)
     {
-      $username = $this->username;
+      $rules = $this->rules;
 
       $builder
         ->add('department', 'entity', array(
           'class' => 'GessehCoreBundle:Department',
-          'query_builder' => function(\Gesseh\CoreBundle\Entity\DepartmentRepository $er) use ($username) { return $er->getAdaptedUserList($username); },
+          'query_builder' => function(\Gesseh\CoreBundle\Entity\DepartmentRepository $er) use ($rules) { return $er->getAdaptedUserList($rules); },
         )
       );
     }

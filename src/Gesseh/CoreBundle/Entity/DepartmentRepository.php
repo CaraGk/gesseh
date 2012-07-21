@@ -42,17 +42,19 @@ class DepartmentRepository extends EntityRepository
                  ->getResult();
   }
 
-  public function getAdaptedUserList($user)
+  public function getAdaptedUserList($rules)
   {
     $query = $this->getDepartmentQuery();
     $query->addOrderBy('d.name', 'asc')
           ->addOrderBy('h.name', 'asc')
           ->where('d.number > 0');
 
-    $wishes = $this->getEntityManager()->getRepository('GessehSimulationBundle:Wish')->findByUsername($user);
-    foreach($wishes as $wish) {
-      $query->andWhere('d.id != ' . $wish->getDepartment()->getId());
-    }
+    if ($rules['department']['NOT'])
+      $query->andWhere('d.id NOT IN (' . implode(',', $rules['department']['NOT']) . ')');
+    if ($rules['sector']['NOT'])
+      $query->andWhere('d.sector NOT IN (' . implode(',', $rules['sector']['NOT']) . ')');
+    if ($rules['department']['IN'])
+      $query->andWhere('d.id IN (' . implode(',', $rules['department']['IN']) . ')');
 
     return $query;
   }
