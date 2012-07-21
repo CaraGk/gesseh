@@ -1,0 +1,61 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Règles de maquette{% endblock %}
+
+{% block content %}
+  {% if rule_form is not empty %}
+    {% form_theme rule_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <div>{{ form_errors(rule_form) }}</div>
+    <form method="post" {{ form_enctype(rule_form) }}>
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th>Promotion d'étudiants</th>
+        <th>Catégorie de stage</th>
+        <th>Relation</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for rule in rules %}
+        <tr>
+          <td>{{ rule.grade.name }}</td>
+          <td>{{ rule.sector.name }}</td>
+          <td>{{ rule.relation }}</td>
+          <td class="actions">
+            <ul>
+              <li><a href="" title=""></a></li>
+            </ul>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan=4>Aucune règle à afficher.</td></tr>
+      {% endfor %}
+      {% if rule_form is not empty %}
+        <tr>
+          {{ form_row(rule_form.grade) }}
+          {{ form_row(rule_form.sector) }}
+          {{ form_row(rule_form.relation) }}
+          {{ form_rest(rule_form) }}
+          <td class="actions">
+            <ul>
+              <li><button type="submit" title="Enregistrer les modifications">Enregistrer</button></li>
+              <li><a href="{{ path('GSimul_SAIndexRule') }}" title="Annuler les modifications">Annuler</a></li>
+            </ul>
+          </td>
+        </tr>
+      {% endif %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <ul>
+            <li><a href="{{ path('GSimul_SANewRule') }}" title="Ajouter une nouvelle relation">Ajouter</a></li>
+          </ul>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  {% if rule_form is not empty %}</form>{% endif %}
+{% endblock %}

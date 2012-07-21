@@ -13,6 +13,9 @@ use Gesseh\CoreBundle\Entity\Placement;
 use Gesseh\SimulationBundle\Entity\SimulPeriod;
 use Gesseh\SimulationBundle\Form\SimulPeriodType;
 use Gesseh\SimulationBundle\Form\SimulPeriodHandler;
+use Gesseh\SimulationBundle\Entity\SectorRule;
+use Gesseh\SimulationBundle\Form\SectorRuleType;
+use Gesseh\SimulationBundle\Form\SectorRuleHandler;
 
 /**
  * @Route("/admin/s")
@@ -180,8 +183,8 @@ class SimulationAdminController extends Controller
     public function saveAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
-      $em->getRepository('GessehSimulationBundle:Simulation')->findAll();
-      $last_period = $em->getRepository('GessehCoreBundle:Period')->findLast();
+      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->findAll();
+      $last_period = $em->getRepository('GessehCoreBundle:Period')->findLast(); /** utiliser active_period plutôt que last_period ? */
 
       foreach($sims as $sim) {
         $placement = new Placement();
@@ -195,5 +198,48 @@ class SimulationAdminController extends Controller
 
       $this->get('session')->setFlash('notice', 'Les données de la simulation ont été copiées dans les stages.');
       return $this->redirect($this->generateUrl('GSimulation_SAPurge'));
+    }
+
+    /**
+     * Affiche un tableau de SectorRule
+     *
+     * @Route("/s/", name="GSimul_SAIndexRule")
+     * @Template()
+     */
+    public function indexRuleAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->findAll();
+
+      return array(
+        'rules'     => $rules,
+        'rule_form' => null,
+      );
+    }
+
+    /**
+     * Affiche un formulaire d'ajout de SectorRule
+     *
+     * @Route("/s/new", name="GSimul_SANewRule")
+     * @Template("GessehSimulationBundle:SimulationAdmin:indexRule.html.twig")
+     */
+    public function newRuleAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->findAll();
+
+      $sector_rule = new SectorRule();
+      $form = $this->createForm(new SectorRuleType(), $sector_rule);
+      $form_handler = new SectorRuleHandler($form, $this->get('request'), $em);
+
+      if ($form_handler->process()) {
+        $this->get('session')->setFlash('notice', 'Relation entre "' . $sector_rule->getSector()->getName() . '" et "' . $sector_rule->getGrade()->getName() . '" ajoutée.');
+        return $this->redirect($this->generateUrl('GSimul_SAIndexRule'));
+      }
+
+      return array(
+        'rules'     => $rules,
+        'rule_form' => $form->createView(),
+      );
     }
 }
