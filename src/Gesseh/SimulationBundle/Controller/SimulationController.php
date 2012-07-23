@@ -223,6 +223,46 @@ class SimulationController extends Controller
       $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
 
       $this->get('session')->setFlash('notice', 'Les données de la simulation ont été actualisées');
-      return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+    }
+
+    /**
+     * Affiche la liste des simulations
+     *
+     * @Route("/list", name="GSimul_SList")
+     * @Template()
+     */
+    public function listSimulationsAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+
+      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+
+      $simulations = $em->getRepository('GessehSimulationBundle:Simulation')->findAll();
+
+      return array(
+        'simulations' => $simulations,
+      );
+    }
+
+    /**
+     * Affiche la liste des simulations pour un department donné
+     *
+     * @Route("/list/{id}", name="GSimul_SListDept")
+     * @Template("GessehSimulationBundle:Simulation:listSimulations.html.twig")
+     */
+    public function listSimulDeptAction($id)
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+
+      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+
+      $simulations = $em->getRepository('GessehSimulationBundle:Simulation')->findByDepartment($id);
+
+      return array(
+        'simulations' => $simulations,
+      );
     }
 }

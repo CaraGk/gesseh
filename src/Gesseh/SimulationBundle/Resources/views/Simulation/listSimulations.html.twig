@@ -1,0 +1,35 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Résultats de la simulation{% endblock %}
+
+{% block content %}
+  <ul>
+    <li><a href="{{ path('GSimulation_SIndex') }}" title="Retour à mes vœux">Retour</a></li>
+  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th class="small">Rang</th>
+        <th>Étudiant</th>
+        <th>Poste</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for simulation in simulations %}
+        <tr>
+          <td class="small">{{ simulation.id }}</td>
+          <td>{{ simulation.student }}</td>
+          <td>
+            {% if simulation.department is not null %}
+              <a href="{{ path('GSimul_SListDept', {'id': simulation.department.id}) }}" title="Afficher les simulations pour ce poste">{{ simulation.department }}</a>
+            {% elseif not simulation.active %}
+              Ne participe pas à la simulation.
+            {% else %}
+              Aucun choix valide.
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
