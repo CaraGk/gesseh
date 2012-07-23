@@ -62,7 +62,7 @@ class Hospital
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Department", mappedBy="hospital", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Department", mappedBy="hospital", cascade={"remove", "persist"}, orphanRemoval=true)
      * @OrderBy({"name" = "asc"})
      */
     private $departments;
