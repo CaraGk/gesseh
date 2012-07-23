@@ -24,4 +24,17 @@ class SimulPeriodRepository extends EntityRepository
     else
       return false;
   }
+
+  public function getLastActive()
+  {
+    $query = $this->createQueryBuilder('p')
+                  ->join('p.period', 'q')
+                  ->addSelect('q')
+                  ->where('p.begin < :now')
+                  ->andWhere('p.end > :now')
+                    ->setParameter('now', new \DateTime('now'))
+                  ->setMaxResults(1);
+
+    return $query->getQuery()->getSingleResult();
+  }
 }

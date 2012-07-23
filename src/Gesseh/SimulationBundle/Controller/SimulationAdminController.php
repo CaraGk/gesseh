@@ -154,7 +154,7 @@ class SimulationAdminController extends Controller
 
       $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
 
-      $this->get('session')->setFlash('notice', 'Les données de la simulation ont été actualisées');
+      $this->get('session')->setFlash('notice', 'Les données de la simulation ont été actualisées.');
       return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
     }
 
@@ -173,7 +173,12 @@ class SimulationAdminController extends Controller
 
       $em->flush();
 
-      $this->get('session')->setFlash('notice', 'Les données de la simulation ont été supprimées.');
+      $flash = "Les données de la simulation ont été supprimées.";
+
+      if ($this->get('session')->hasFlash('notice'))
+        $flash = $this->get('session')->getFlash('notice') . " " . $flash;
+
+      $this->get('session')->setFlash('notice', $flash);
       return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
     }
 
@@ -183,14 +188,14 @@ class SimulationAdminController extends Controller
     public function saveAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
-      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->findAll();
-      $last_period = $em->getRepository('GessehCoreBundle:Period')->findLast(); /** utiliser active_period plutôt que last_period ? */
+      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getAllValid();
+      $last_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getLastActive();
 
       foreach($sims as $sim) {
         $placement = new Placement();
         $placement->setStudent($sim->getStudent());
         $placement->setDepartment($sim->getDepartment());
-        $placement->setPeriode($last_period);
+        $placement->setPeriod($last_period->getPeriod());
         $em->persist($placement);
       }
 

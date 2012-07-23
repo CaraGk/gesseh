@@ -83,11 +83,18 @@
         {% endfor %}
       </tbody>
     </table>
-    <div>
-      <ul>
-        <li><a href="{{ path('GSimulation_SASim') }}" title="Lancer l'algorithme de simulation">Lancer les simulations</a></li>
-        <li><a href="{{ path('GSimulation_SAPurge') }}" title="Supprimer la table de simulation (supprime TOUTES les données)">Supprimer la table de simulation</a></li>
-      </ul>
-    </div>
+    {% if simulations is not empty %}
+      <div>
+        <ul>
+          <li><a href="{{ path('GSimulation_SASim') }}" title="Lancer l'algorithme de simulation">Lancer les simulations</a></li>
+          <li><a href="{{ path('GSimulation_SAPurge') }}" title="Supprimer la table de simulation (supprime TOUTES les données)" class="confirm">Supprimer la table de simulation</a></li>
+          <li><a href="{{ path('GSimulation_SASave') }}" title="Valider les simulation et les enregistrer dans les stages.">Valider les simulations</a></li>
+        </ul>
+      </div>
+    {% endif %}
 {% endblock %}
 
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+{% endblock %}

@@ -150,4 +150,15 @@ class SimulationRepository extends EntityRepository
 
     return $query->getQuery()->getResult();
   }
+
+  public function getAllValid()
+  {
+    $query = $this->createQueryBuilder('t')
+                  ->join('t.student', 's')
+                  ->join('t.department', 'd')
+                  ->addSelect('s')
+                  ->addSelect('d');
+
+    return $query->getQuery()->getResult();
+  }
 }
