@@ -65,3 +65,8 @@ fos_user:
   firewall_name: main
 #  use_listener:  false
   user_class:    Gesseh\UserBundle\Entity\User
+
+kdb_parameters:
+  db_driver: orm
+  class: Gesseh\ParameterBundle\Entity\Parameter
+

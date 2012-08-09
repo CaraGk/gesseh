@@ -19,6 +19,7 @@ $loader->registerNamespaces(array(
     'Knp\Menu'   => __DIR__.'/../vendor/KnpMenu/src',
     'Knp\\Component'      => __DIR__.'/../vendor/knp-components/src',
     'Knp\\Bundle'         => __DIR__.'/../vendor/bundles',
+    'KDB'              => __DIR__.'/../vendor/bundles',
 ));
 $loader->registerPrefixes(array(
     'Twig_Extensions_' => __DIR__.'/../vendor/twig-extensions/lib',
