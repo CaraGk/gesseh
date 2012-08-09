@@ -2,6 +2,7 @@
 
 namespace Gesseh\ParameterBundle\Entity;
 
+use KDB\ParametersBundle\Entity\Parameter as BaseParameter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="parameter")
  * @ORM\Entity(repositoryClass="Gesseh\ParameterBundle\Entity\ParameterRepository")
  */
-class Parameter
+class Parameter extends BaseParameter
 {
     /**
      * @var integer $id
@@ -21,15 +22,6 @@ class Parameter
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=20)
-     * @Assert\NotBlank()
-     * @Assert\MinLength(3)
-     */
-    private $name;
 
     /**
      * @var string $label
@@ -56,13 +48,11 @@ class Parameter
      */
     private $type;
 
-    /**
-     * @var string $value
-     *
-     * @ORM\Column(name="value", type="string", length=255)
-     */
-    private $value;
 
+    public function __construct()
+    {
+      parent::__construct();
+    }
 
     public function __toString()
     {
@@ -77,26 +67,6 @@ class Parameter
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -132,31 +102,16 @@ class Parameter
     /**
      * Get type
      *
-     * @return smallint
+     * @return string
      */
     public function getType()
     {
+      if ($this->type == 1)
+        return 'string';
+      elseif ($this->type == 2)
+        return 'boolean';
+      else
         return $this->type;
-    }
-
-    /**
-     * Set value
-     *
-     * @param string $value
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-
-    /**
-     * Get value
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
     }
 
     /**

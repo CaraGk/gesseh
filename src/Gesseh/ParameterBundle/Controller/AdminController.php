@@ -22,8 +22,8 @@ class AdminController extends Controller
    */
   public function indexAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
-    $parameters = $em->getRepository('GessehParameterBundle:Parameter')->findAll();
+    $manager = $this->container->get('kdb_parameters.manager');
+    $parameters = $manager->findParams();
 
     return array(
       'parameters'     => $parameters,

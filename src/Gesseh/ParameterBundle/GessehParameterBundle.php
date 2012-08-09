@@ -6,4 +6,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class GessehParameterBundle extends Bundle
 {
+  public function getParent()
+  {
+    return 'KDBParametersBundle';
+  }
 }
