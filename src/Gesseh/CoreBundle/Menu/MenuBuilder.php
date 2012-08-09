@@ -24,8 +24,6 @@ class MenuBuilder
   public function createAnonMenu(Request $request)
   {
     $menu = $this->factory->createItem('anon');
-    $menu->setCurrentUri($request->getRequestUri());
-
     $menu->addChild('Fieldset', array('route' => 'GCore_FSIndex', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Liste des terrains de stage')));
 
     return $menu;
@@ -37,8 +35,6 @@ class MenuBuilder
   public function createStudentMenu(Request $request)
   {
     $menu = $this->factory->createItem('student');
-    $menu->setCurrentUri($request->getRequestUri());
-
     $menu->addChild('Fieldset', array('route' => 'GCore_FSIndex', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Liste des terrains de stage')));
     $menu->addChild('My places', array('route' => 'GCore_PIndex', 'label' => 'Mes stages', 'attributes' => array('title' => 'Mes stages en cours ou effectués')));
     $menu->addChild('My wishes', array('route' => 'GSimulation_SIndex', 'label' => 'Mes vœux', 'attributes' => array('title' => 'Mes vœux de stage pour les simulations')));
@@ -53,8 +49,6 @@ class MenuBuilder
   public function createAdminMenu(Request $request)
   {
     $menu = $this->factory->createItem('admin');
-    $menu->setCurrentUri($request->getRequestUri());
-
     $menu->addChild('Home', array('route' => 'homepage', 'label' => 'Retour', 'attributes' => array('title' => 'Retour au site public')));
     $menu->addChild('Fieldset', array('route' => 'GCore_FSAIndex', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Gérer les catégoriées, hôpitaux et services')));
     $menu->addChild('Student', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants', 'attributes' => array('title' => 'Gérer les étudiants et les promotions')));
