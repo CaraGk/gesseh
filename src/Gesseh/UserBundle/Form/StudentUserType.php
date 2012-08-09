@@ -12,6 +12,7 @@ class StudentUserType extends AbstractType
   {
     $builder->add('surname')
             ->add('name')
+            ->add('anonymous')
             ->add('phone')
             ->add('user', new UserAdminType('Gesseh\UserBundle\Entity\User'));
   }

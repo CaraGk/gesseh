@@ -74,10 +74,20 @@ class Student
    */
   private $graduate;
 
+  /**
+   * @var smallint $anonymous
+   *
+   * @ORM\Column(name="anonymous", type="smallint")
+   */
+  private $anonymous;
+
 
   public function __toString()
   {
-    return $this->name . ' ' . $this->surname;
+    if ($this->isAnonymous())
+      return "*** anonyme ***";
+    else
+      return $this->name . ' ' . $this->surname;
   }
 
     /**
@@ -101,6 +111,18 @@ class Student
     }
 
     /**
+     * Get anonymized surname
+     * @return string
+     */
+    public function getAnonSurname()
+    {
+      if ($this->isAnonymous())
+        return "***";
+      else
+        return $this->surname;
+    }
+
+    /**
      * Set name
      *
      * @param string $name
@@ -117,6 +139,19 @@ class Student
      */
     public function getName()
     {
+        return $this->name;
+    }
+
+    /**
+     * Get anonymized name
+     *
+     * @return string
+     */
+    public function getAnonName()
+    {
+      if ($this->isAnonymous())
+        return "***";
+      else
         return $this->name;
     }
 
@@ -228,5 +263,38 @@ class Student
     public function getGraduate()
     {
         return $this->graduate;
+    }
+
+    /**
+     * Get anonymous
+     *
+     * @return smallint
+     */
+    public function getAnonymous()
+    {
+      return $this->anonymous;
+    }
+
+    /**
+     * Is anonymous?
+     *
+     * @return boolean
+     */
+    public function isAnonymous()
+    {
+      if ($this->anonymous)
+        return true;
+      else
+        return false;
+    }
+
+    /**
+     * Set anonymous
+     *
+     * @param smallint
+     */
+    public function setAnonymous($anonymous)
+    {
+      $this->anonymous = $anonymous;
     }
 }
