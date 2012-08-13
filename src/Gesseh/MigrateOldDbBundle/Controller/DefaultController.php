@@ -61,7 +61,7 @@ class DefaultController extends Controller
 
       foreach ($etudiants as $etudiant) {
         $et_name = 'student_' . $etudiant->getId();
-        
+
         if (null == $etudiant->getUtilisateur()->getLastName())
           continue;
 
