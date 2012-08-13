@@ -1,7 +1,13 @@
 <tr>
   <td class="small">{{ grade.rank }}</td>
   <td>{{ grade.name }}</td>
-  <td class="small">{{ grade.isActive }}</td>
+  <td class="small">
+    {% if grade.isActive %}
+      oui
+    {% else %}
+      non
+    {% endif %}
+  </td>
   <td class="actions">
     <ul>
       <li><a href="{{ path('GUser_SAEditGrade', {'id': grade.id, 'page': page}) }}" title="Modifier la promotion '{{ grade }}'">Modifier</a></li>
