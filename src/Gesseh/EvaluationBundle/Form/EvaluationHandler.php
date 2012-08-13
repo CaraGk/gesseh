@@ -42,19 +42,23 @@ class EvaluationHandler
   {
     foreach ($form as $criteria => $value) {
       $eval_criteria = new Evaluation();
-//      $criteria_orig = next($this->criterias);
+
       $criteria_id = explode("_", $criteria);
-//      $eval_criteria->setEvalCriteria($criteria_id[1]);
       foreach ($this->criterias as $criteria_orig) {
         if ($criteria_orig->getId() == $criteria_id[1]) {
           $eval_criteria->setEvalCriteria($criteria_orig);
           break;
         }
       }
+
+      if ($eval_criteria->getEvalCriteria()->getType() == 2 and $value == null)
+        continue;
+
       $eval_criteria->setPlacement($this->placement);
       $eval_criteria->setEvalCriteria($criteria_orig);
       $eval_criteria->setValue($value);
       $eval_criteria->setCreatedAt(new \DateTime('now'));
+
       $this->em->persist($eval_criteria);
     }
     $this->em->flush();
