@@ -31,7 +31,9 @@ class PlacementAdminController extends Controller
     $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll();
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
 
-    if (true) { // Si les évaluations sont activées
+    $manager = $this->container->get('kdb_parameters.manager');
+    $mod_eval = $manager->findParamByName('eval_active');
+    if (true == $mod_eval->getValue()) { // Si les évaluations sont activées
       $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array');
     }
 
@@ -87,6 +89,12 @@ class PlacementAdminController extends Controller
       return $this->redirect($this->generateUrl('GCore_PAIndex'));
     }
 
+    $manager = $this->container->get('kdb_parameters.manager');
+    $mod_eval = $manager->findParamByName('eval_active');
+    if (true == $mod_eval->getValue()) { // Si les évaluations sont activées
+      $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array');
+    }
+
     return array(
       'periods'        => $periods,
       'period_id'      => null,
@@ -94,6 +102,7 @@ class PlacementAdminController extends Controller
       'placements'     => $placements,
       'placement_id'   => $id,
       'placement_form' => $form->createView(),
+      'evaluated'      => $evaluated,
     );
   }
 
@@ -118,6 +127,12 @@ class PlacementAdminController extends Controller
       return $this->redirect($this->generateUrl('GCore_PAIndex'));
     }
 
+    $manager = $this->container->get('kdb_parameters.manager');
+    $mod_eval = $manager->findParamByName('eval_active');
+    if (true == $mod_eval->getValue()) { // Si les évaluations sont activées
+      $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array');
+    }
+
     return array(
       'periods'        => $periods,
       'period_id'      => null,
@@ -125,6 +140,7 @@ class PlacementAdminController extends Controller
       'placements'     => $placements,
       'placement_id'   => null,
       'placement_form' => $form->createView(),
+      'evaluated'      => $evaluated,
     );
   }
 
@@ -167,6 +183,12 @@ class PlacementAdminController extends Controller
       return $this->redirect($this->generateUrl('GCore_PAIndex'));
     }
 
+    $manager = $this->container->get('kdb_parameters.manager');
+    $mod_eval = $manager->findParamByName('eval_active');
+    if (true == $mod_eval->getValue()) { // Si les évaluations sont activées
+      $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array');
+    }
+
     return array(
       'periods'        => $periods,
       'period_id'      => null,
@@ -174,6 +196,7 @@ class PlacementAdminController extends Controller
       'placements'     => $placements,
       'placement_id'   => null,
       'placement_form' => null,
+      'evaluated'      => $evaluated,
     );
   }
 
@@ -202,6 +225,12 @@ class PlacementAdminController extends Controller
       return $this->redirect($this->generateUrl('GCore_PAIndex'));
     }
 
+    $manager = $this->container->get('kdb_parameters.manager');
+    $mod_eval = $manager->findParamByName('eval_active');
+    if (true == $mod_eval->getValue()) { // Si les évaluations sont activées
+      $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array');
+    }
+
     return array(
       'periods'        => $periods,
       'period_id'      => $id,
@@ -209,6 +238,7 @@ class PlacementAdminController extends Controller
       'placements'     => $placements,
       'placement_id'   => null,
       'placement_form' => null,
+      'evaluated'      => $evaluated,
     );
   }
 
