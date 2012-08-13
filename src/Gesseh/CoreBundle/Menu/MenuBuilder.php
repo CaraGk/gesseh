@@ -57,6 +57,7 @@ class MenuBuilder
     $menu->addChild('Rules', array('route' => 'GSimul_SAIndexRule', 'label' => 'Règles', 'attributes' => array('title' => 'Règles de simulation')));
     $menu->addChild('Evaluation', array('route' => 'GEval_AIndex', 'label' => 'Évaluations', 'attributes' => array('title' => 'Gérer les évaluations de stage')));
     $menu->addChild('Moderation', array('route' => 'GEval_ATextIndex', 'label' => 'Modération', 'attributes' => array('title' => 'Modérer les évaluations textuelles')));
+    $menu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres', 'attributes' => array('title' => 'Gérer les paramètres du site')));
 
     return $menu;
   }
