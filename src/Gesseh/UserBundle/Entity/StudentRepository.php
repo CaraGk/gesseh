@@ -68,6 +68,7 @@ class StudentRepository extends EntityRepository
   {
     $query = $this->getStudentQuery();
     $query->where('u.enabled = true')
+          ->andWhere('p.isActive = true')
           ->addOrderBy('p.rank', 'desc')
           ->addOrderBy('s.graduate', 'asc')
           ->addOrderBy('s.ranking', 'asc');
