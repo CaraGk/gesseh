@@ -24,6 +24,7 @@ class HospitalRepository extends EntityRepository
   public function getAll(array $orderBy = array ( 'h' => 'asc', 'd' => 'asc'))
   {
     $query = $this->getHospitalQuery();
+    $query->addOrderBy('h.name', 'asc');
     foreach( $orderBy as $col => $order ) {
       $query->addOrderBy($col . '.name', $order);
     }
