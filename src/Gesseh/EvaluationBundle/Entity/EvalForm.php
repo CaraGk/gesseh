@@ -31,7 +31,7 @@ class EvalForm
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="EvalCriteria", mappedBy="eval_form", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="EvalCriteria", mappedBy="eval_form", cascade={"remove", "persist"}, orphanRemoval=true)
      * @OrderBy({"rank" = "asc"})
      */
     private $criterias;
@@ -139,7 +139,7 @@ class EvalForm
     /**
      * Get sectors
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getSectors()
     {

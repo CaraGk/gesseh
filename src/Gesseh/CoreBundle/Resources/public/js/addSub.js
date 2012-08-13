@@ -20,4 +20,11 @@ $(document).ready(function() {
   $('#rm_dpt').click(function() {
     rm_sub('#gesseh_corebundle_hospitaltype_departments');
   })
+
+  $('#add_crit').click(function() {
+    add_sub('#gesseh_evaluationbundle_evalformtype_criterias');
+  });
+  $('#rm_crit').click(function() {
+    rm_sub('#gesseh_evaluationbundle_evalformtype_criterias');
+  });
 });
