@@ -36,10 +36,16 @@ class EvalForm
      */
     private $criterias;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EvalSector", mappedBy="form", cascade={"remove"})
+     */
+    private $sectors;
+
 
     public function __construct()
     {
       $this->criterias = new \Doctrine\Common\Collections\ArrayCollection();
+      $this->sectors = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -118,5 +124,25 @@ class EvalForm
     public function addEvalCriteria(\Gesseh\EvaluationBundle\Entity\EvalCriteria $criterias)
     {
         $this->criterias[] = $criterias;
+    }
+
+    /**
+     * Add sectors
+     *
+     * @param Gesseh\EvaluationBundle\Entity\EvalSector $sectors
+     */
+    public function addEvalSector(\Gesseh\EvaluationBundle\Entity\EvalSector $sectors)
+    {
+        $this->sectors[] = $sectors;
+    }
+
+    /**
+     * Get sectors
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getSectors()
+    {
+        return $this->sectors;
     }
 }

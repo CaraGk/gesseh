@@ -23,14 +23,14 @@ class EvalSector
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Gesseh\CoreBundle\Entity\Sector", cascade={"delete"})
+     * @ORM\OneToOne(targetEntity="Gesseh\CoreBundle\Entity\Sector")
      * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
      * @Assert\NotBlank()
      */
     private $sector;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EvalForm", cascade={"delete"})
+     * @ORM\ManyToOne(targetEntity="EvalForm")
      * @ORM\JoinColumn(name="form_id", referencedColumnName="id")
      * @Assert\NotBlank()
      */
