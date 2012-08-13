@@ -72,7 +72,7 @@ class DefaultController extends Controller
 
         $us_name = 'user_' . $etudiant->getUtilisateur()->getId();
         $$us_name = new User();
-        $$us_name->setPlainPassword('toto');
+        $$us_name->setPlainPassword($this->generatePwd(8));
         $$us_name->setConfirmationToken(null);
         $$us_name->setEnabled(true);
         $$us_name->addRole('ROLE_STUDENT');
@@ -267,4 +267,17 @@ class DefaultController extends Controller
         'count' => $count
       );
     }
+
+  private function generatePwd($length)
+  {
+    $characters = array ('a','z','e','r','t','y','u','p','q','s','d','f','g','h','j','k','m','w','x','c','v','b','n','2','3','4','5','6','7','8','9','A','Z','E','R','T','Y','U','P','S','D','F','G','H','J','K','L','M','W','X','C','V','B','N');
+    $password = '';
+
+    for ($i = 0 ; $i < $length ; $i++) {
+      $rand = array_rand($characters);
+      $password .= $characters[$rand];
+    }
+
+    return $password;
+  }
 }

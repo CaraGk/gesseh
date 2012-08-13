@@ -42,6 +42,7 @@ class StudentHandler
   public function onSuccess(Student $student)
   {
     $this->updateUser($student->getUser());
+    $student->setAnonymous(false);
     $this->em->persist($student);
     $this->em->flush();
   }
@@ -50,7 +51,7 @@ class StudentHandler
   {
     if( null == $user->getUsername() ) {
       $this->um->createUser();
-      $user->setPlainPassword('toto');
+      $user->setPlainPassword($this->generatePwd(8));
       $user->setConfirmationToken(null);
       $user->setEnabled(true);
       $user->addRole('ROLE_STUDENT');
@@ -58,5 +59,18 @@ class StudentHandler
     $user->setUsername($user->getEmail());
 
     $this->um->updateUser($user);
+  }
+
+  private function generatePwd($length)
+  {
+    $characters = array ('a','z','e','r','t','y','u','p','q','s','d','f','g','h','j','k','m','w','x','c','v','b','n','2','3','4','5','6','7','8','9','A','Z','E','R','T','Y','U','P','S','D','F','G','H','J','K','L','M','W','X','C','V','B','N');
+    $password = '';
+
+    for ($i = 0 ; $i < $length ; $i++) {
+      $rand = array_rand($characters);
+      $password .= $characters[$rand];
+    }
+
+    return $password;
   }
 }
