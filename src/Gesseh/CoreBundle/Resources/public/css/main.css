@@ -66,6 +66,7 @@ div.error, div.info { padding: 2px 10px 2px 10px; width: auto; font-style: itali
 #content td.even { background-color: #fefee3; }
 #content td.actions { width: 90px; vertical-align: top; }
 #content td.small { width: 45px; text-align: center; }
+#content td.pagination { text-align: center; }
 #content thead { background-color: #fdef55; }
 #content tfoot {}
 #content table ul { display: inline-block; margin: 0; padding: 0; }

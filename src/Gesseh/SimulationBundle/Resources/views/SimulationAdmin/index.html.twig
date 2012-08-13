@@ -72,7 +72,7 @@
             <td class="small">{{ simulation.extra }}</td>
             <td class="actions">
               <ul>
-                <li><a href="" title="">test</a></li>
+                <li><a href="" title=""></a></li>
               </ul>
             </td>
           <tr>
@@ -82,6 +82,11 @@
           </tr>
         {% endfor %}
       </tbody>
+      <tfoot>
+        <tr>
+          <td class="pagination" colspan=6>{{ simulations.render()|raw }}</td>
+        </tr>
+      </tfoot>
     </table>
     {% if simulations is not empty %}
       <div>
