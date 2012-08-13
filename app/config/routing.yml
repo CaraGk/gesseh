@@ -1,3 +1,8 @@
+GessehMigrateOldDbBundle:
+    resource: "@GessehMigrateOldDbBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 GessehEvaluationBundle:
     resource: "@GessehEvaluationBundle/Controller/"
     type:     annotation

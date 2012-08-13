@@ -1,0 +1,22 @@
+{% extends "GessehCoreBundle::layout.html.twig" %}
+
+{% block titlecontent %}Migrer la base de données depuis la version 0.2alpha{% endblock %}
+
+{% block content %}
+  <ul>
+    <li><strong>{{ count['grade'] }} promotions</strong> migrées vers la nouvelle structure...</li>
+    <li><strong>{{ count['student'] }} étudiants</strong> migrés vers la nouvelle structure...</li>
+    <li><strong>{{ count['sector'] }} catégories de stage</strong> migrées vers la nouvelle structure...</li>
+    <li><strong>{{ count['hospital'] }} hôpitaux</strong> migrés vers la nouvelle structure...</li>
+    <li><strong>{{ count['department'] }} services</strong> migrés vers la nouvelle structure...</li>
+    <li><strong>{{ count['period'] }} périodes de stage</strong> migrées vers la nouvelle structure...</li>
+    <li><strong>{{ count['simulperiod'] }} périodes de simulation</strong> migrées vers la nouvelle structure...</li>
+    <li><strong>{{ count['placement'] }} stages</strong> migrés vers la nouvelle structure...</li>
+    <li><strong>{{ count['wish'] }} vœux de stage</strong> migrés vers la nouvelle structure...</li>
+    <li><strong>{{ count['simulation'] }} éléments de simulation</strong> migrés vers la nouvelle structure...</li>
+    <li><strong>{{ count['evalform'] }} formulaire d'évaluation</strong> migrés vers la nouvelle structure...</li>
+    <li><strong>{{ count['evalcriteria'] }} critères d'évaluation</strong> migrés vers la nouvelle structure...</li>
+    <li><strong>{{ count['evaluation'] }} évaluations</strong> migrées vers la nouvelle structure...</li>
+  </ul>
+  <div>Migration réussie !</div>
+{% endblock %}
