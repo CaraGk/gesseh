@@ -77,6 +77,8 @@ class SimulationRepository extends EntityRepository
       $student = $sim->getStudent();
       $sim->setDepartment(null);
       $sim->setExtra(null);
+      if(false == $sim->getActive())
+        continue;
       foreach($sim->getWishes() as $wish) {
         if(null === $sim->getDepartment() and $department_table[$wish->getDepartment()->getId()] > 0) {
           $department_table[$wish->getDepartment()->getId()]--;
