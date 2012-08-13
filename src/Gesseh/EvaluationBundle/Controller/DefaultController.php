@@ -49,23 +49,28 @@ class DefaultController extends Controller
       if (!$placement)
         throw $this->createNotFoundException('Unable to find placement entity.');
 
-      $eval_form = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($placement->getDepartment()->getSector()->getId())->getForm();
+      $eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($placement->getDepartment()->getSector()->getId());
 
-      if (!$eval_form)
-        throw $this->createNotFoundException('Aucun formulaire d\'évaluation associé au stage.');
+      if (null !== $eval_sector) {
+        $eval_form = $eval_sector->getForm();
+        $form = $this->createForm(new EvaluationType($eval_form->getCriterias()));
+        $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_form->getCriterias());
+        if ($form_handler->process()) {
+          $this->get('session')->setFlash('notice', 'Évaluation du stage "' . $placement->getDepartment()->getName() . ' à ' . $placement->getDepartment()->getHospital()->getName() . '" enregistrée.');
+          return $this->redirect($this->generateUrl('GCore_PIndex'));
+        }
 
-      $form = $this->createForm(new EvaluationType($eval_form->getCriterias()));
-      $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_form->getCriterias());
-
-      if ($form_handler->process()) {
-        $this->get('session')->setFlash('notice', 'Évaluation du stage "' . $placement->getDepartment()->getName() . ' à ' . $placement->getDepartment()->getHospital()->getName() . '" enregistrée.');
-        return $this->redirect($this->generateUrl('GCore_PIndex'));
+        return array(
+          'placement' => $placement,
+          'form'      => $form->createView(),
+          'eval_form' => $eval_form,
+        );
+      } else {
+        return array(
+          'placement' => $placement,
+          'form'      => null,
+          'eval_form' => null,
+        );
       }
-
-      return array(
-        'placement' => $placement,
-        'form'      => $form->createView(),
-        'eval_form' => $eval_form,
-      );
     }
 }

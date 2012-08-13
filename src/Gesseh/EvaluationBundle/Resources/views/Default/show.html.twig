@@ -29,7 +29,7 @@
   <h2>Évaluations textuelles</h2>
   {% for text in eval_text %}
     <div>
-      <div>{{ text.evalCriteria.name }} enregistré le ...</div>
+      <div>{{ text.evalCriteria.name }} (enregistré le {{ text.createdAt|date('d-m-Y') }})</div>
       <div>{{ text.value }}</div>
     </div>
   {% else %}

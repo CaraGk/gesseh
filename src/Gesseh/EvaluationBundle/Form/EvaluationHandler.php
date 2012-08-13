@@ -54,6 +54,7 @@ class EvaluationHandler
       $eval_criteria->setPlacement($this->placement);
       $eval_criteria->setEvalCriteria($criteria_orig);
       $eval_criteria->setValue($value);
+      $eval_criteria->setCreatedAt(new \DateTime('now'));
       $this->em->persist($eval_criteria);
     }
     $this->em->flush();
