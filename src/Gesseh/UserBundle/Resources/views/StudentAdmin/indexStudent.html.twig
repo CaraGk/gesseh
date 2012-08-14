@@ -4,7 +4,7 @@
   <td>{{ student.user.email }}</td>
   <td>{{ student.phone }}</td>
   <td class="small">{{ student.grade }}</td>
-  {% if true %}
+  {% if kparam('simul_active') == true %}
     <td>{{ student.ranking }} / {{ student.graduate }}</td>
   {% endif %}
   <td class="actions">

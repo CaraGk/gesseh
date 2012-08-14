@@ -3,7 +3,7 @@
   {{ form_row(placement_form.student) }}
   {{ form_row(placement_form.department) }}
   {{ form_rest(placement_form) }}
-  {% if true %}<td class="small"></td>{% endif %}
+  {% if kparam('eval_active') == true %}<td class="small"></td>{% endif %}
   <td class="actions">
     <ul>
       <li><button type="submit" title="Enregistrer les modifications">Enregistrer</button></li>

@@ -8,6 +8,13 @@ use Symfony\Component\Form\FormBuilder;
 
 class StudentType extends AbstractType
 {
+  private $testSimulActive;
+
+  public function __construct($testSimulActive)
+  {
+    $this->testSimulActive = $testSimulActive;
+  }
+
   public function buildForm(FormBuilder $builder, array $options)
   {
     $builder->add('surname')
@@ -18,7 +25,7 @@ class StudentType extends AbstractType
 
     // Si la simulation est activée
     //if($this->getContainer()->get('kbd_parameters.manager')->findParamByName('simulation_active')->getValue()) {
-    if(true) {
+    if($this->testSimulActive == true) {
       $builder->add('ranking')
               ->add('graduate');
     }

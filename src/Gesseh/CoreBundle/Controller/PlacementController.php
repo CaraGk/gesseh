@@ -23,8 +23,10 @@ class PlacementController extends Controller
     $user = $this->get('security.context')->getToken()->getUsername();
     $em = $this->getDoctrine()->getEntityManager();
     $placements = $em->getRepository('GessehCoreBundle:Placement')->getByUsername($user);
+    $manager = $this->container->get('kdb_parameters.manager');
+    $mod_eval = $manager->findParamByName('eval_active');
 
-    if (true) { // si les évaluations sont activées
+    if (true == $mod_eval->getValue()) { // si les évaluations sont activées
       $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $user);
     }
 

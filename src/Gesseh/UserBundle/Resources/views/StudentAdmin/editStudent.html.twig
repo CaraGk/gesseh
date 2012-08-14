@@ -4,7 +4,7 @@
   {{ form_row(student_form.user.email) }}
   {{ form_row(student_form.phone) }}
   {{ form_row(student_form.grade) }}
-  {% if true %}
+  {% if kparam('simul_active') == true %}
     <td>{{ form_widget(student_form.ranking) }} {{ form_widget(student_form.graduate) }}</td>
   {% endif %}
   {{ form_rest(student_form) }}

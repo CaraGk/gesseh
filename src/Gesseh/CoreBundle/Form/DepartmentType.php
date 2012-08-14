@@ -8,6 +8,13 @@ use Symfony\Component\Form\FormBuilder;
 
 class DepartmentType extends AbstractType
 {
+  private $testSimulActive;
+
+  public function __construct($testSimulActive)
+  {
+    $this->testSimulActive = $testSimulActive;
+  }
+
   public function buildForm(FormBuilder $builder, array $options)
   {
     $builder->add('name')
@@ -15,7 +22,7 @@ class DepartmentType extends AbstractType
             ->add('sector');
 
     // Si les simulations sont activées
-    if(true)
+    if ($this->testSimulActive == true)
       $builder->add('number');
   }
 

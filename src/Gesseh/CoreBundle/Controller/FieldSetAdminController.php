@@ -58,9 +58,11 @@ class FieldSetAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
+    $manager = $this->container->get('kdb_parameters.manager');
+    $mod_simul = $manager->findParamByName('simul_active');
 
     $hospital = new Hospital();
-    $form   = $this->createForm(new HospitalType(), $hospital);
+    $form   = $this->createForm(new HospitalType($mod_simul->getValue()), $hospital);
     $formHandler = new HospitalHandler($form, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
@@ -89,13 +91,15 @@ class FieldSetAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
+    $manager = $this->container->get('kdb_parameters.manager');
+    $mod_simul = $manager->findParamByName('simul_active');
 
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
 
     if (!$hospital)
       throw $this->createNotFoundException('Unable to find Hospital entity.');
 
-    $editForm = $this->createForm(new HospitalType(), $hospital);
+    $editForm = $this->createForm(new HospitalType($mod_simul->getValue()), $hospital);
     $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {

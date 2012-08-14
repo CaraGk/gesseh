@@ -22,7 +22,7 @@
           <td>{{ placement.department.sector.name }}</td>
           <td>
             <ul>
-              {% if true %}
+              {% if kparam('eval_active') == true %}
                 {% if placement.id not in evaluated %}
                   <li><a href="{{ path('GEval_DEval', { 'id': placement.id }) }}" title="Évaluer le stage">Évaluer</a></li>
                 {% endif %}

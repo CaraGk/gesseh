@@ -53,9 +53,11 @@ class StudentAdminController extends Controller
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
     $students = $paginator->paginate( $students_query, $page, 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
+    $manager = $this->container->get('kdb_parameters.manager');
+    $mod_simul = $manager->findParamByName('simul_active');
 
     $student = new Student();
-    $form = $this->createForm(new StudentType(), $student);
+    $form = $this->createForm(new StudentType($mod_simul->getValue()), $student);
     $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
     if( $formHandler->process() ) {
@@ -85,13 +87,15 @@ class StudentAdminController extends Controller
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
     $students = $paginator->paginate( $students_query, $page, 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
+    $manager = $this->container->get('kdb_parameters.manager');
+    $mod_simul = $manager->findParamByName('simul_active');
 
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
     if( !$student )
       throw $this->createNotFoundException('Unable to find Student entity.');
 
-    $form = $this->createForm(new StudentType(), $student);
+    $form = $this->createForm(new StudentType($mod_simul->getValue()), $student);
     $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
     if( $formHandler->process() ) {

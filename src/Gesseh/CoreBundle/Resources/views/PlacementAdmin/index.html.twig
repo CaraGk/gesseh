@@ -53,7 +53,7 @@
         <th>Session</th>
         <th>Étudiant</th>
         <th>Stage</th>
-        {% if true %}<th class="small">Évalué</th>{% endif %}
+        {% if kparam('eval_active') == true %}<th class="small">Évalué</th>{% endif %}
         <th class="actions">Actions</th>
       </tr>
     </thead>

@@ -7,6 +7,13 @@ use Symfony\Component\Form\FormBuilder;
 
 class HospitalType extends AbstractType
 {
+  private $testSimulActive;
+
+  public function __construct($testSimulActive)
+  {
+    $this->testSimulActive = $testSimulActive;
+  }
+
   public function buildForm(FormBuilder $builder, array $options)
   {
     $builder
@@ -15,7 +22,7 @@ class HospitalType extends AbstractType
       ->add('web')
       ->add('phone')
       ->add('departments', 'collection', array(
-        'type' => new DepartmentType(),
+        'type' => new DepartmentType($this->testSimulActive),
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

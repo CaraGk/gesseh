@@ -21,7 +21,7 @@
         <td>
           <ul>
             <li><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}" title="Afficher les informations du service '{{ department.name }}'">Afficher</a></li>
-            {% if true and is_granted('ROLE_STUDENT') %}<li><a href="{{ path('GEval_DShow', { 'id': department.id }) }}" title="Afficher les évaluations du service '{{ department.name }}'">Évaluations</a></li>{% endif %} 
+            {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li><a href="{{ path('GEval_DShow', { 'id': department.id }) }}" title="Afficher les évaluations du service '{{ department.name }}'">Évaluations</a></li>{% endif %}
           </ul>
         </td>
       </tr>
