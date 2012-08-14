@@ -13,7 +13,7 @@
   {% endif %}
   <td class="actions">
     <ul>
-      <li><a href="{{ path('GCore_PAEditPlacement', {'id': placement.id}) }}" title="Modifier le stage">Modifier</a></li>
+      <li><a href="{{ path('GCore_PAEditPlacement', {'id': placement.id}) }}#placement_{{ placement.id }}" title="Modifier le stage">Modifier</a></li>
       <li><a href="{{ path('GCore_PADeletePlacement', {'id': placement.id}) }}" title="Supprimer le stage" class="confirm">Supprimer</a></li>
       {% if kparam('eval_active') == true and placement.id not in evaluated %}<li><a href="" title="Envoyer un message de rappel">Rappel</a></li>{% endif %}
     </ul>

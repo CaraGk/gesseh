@@ -6,7 +6,7 @@
   <td rowspan=2 class="actions">
     <ul>
       <li><a href="{{ path('GCore_FSAEditHospitalDescription', { 'id': hospital.id }) }}" title="Modifier la page de description de '{{ hospital.name }}'">Description</a></li>
-      <li><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id }) }}" title="Modifier l'hôpital '{{ hospital.name }}'">Modifier</a></li>
+      <li><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id }) }}#hospital_{{ hospital.id }}" title="Modifier l'hôpital '{{ hospital.name }}'">Modifier</a></li>
       <li><a href="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id }) }}" title="Supprimer l'hôpital '{{ hospital.name }}'" class="confirm">Supprimer</a></li>
     </ul>
   </td>
