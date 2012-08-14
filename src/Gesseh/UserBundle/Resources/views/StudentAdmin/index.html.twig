@@ -47,11 +47,11 @@
   <table>
     <thead>
       <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
+        <th {% if students.isSorted('s.surname') %} class="sorted" {% endif %}>{{ students.sortable('Nom', 's.surname')|raw }}</th>
+        <th {% if students.isSorted('s.name') %} class="sorted" {% endif %}>{{ students.sortable('Prénom', 's.name')|raw }}</th>
         <th>E-mail</th>
         <th>Téléphone</th>
-        <th class="small">Promotion</th>
+        <th {% if students.isSorted('p.rank') %} class="sorted small" {% else %} class="small" {% endif %}>{{ students.sortable('Promotion', 'p.rank')|raw }}</th>
         {% if kparam('simul_active') == true %}
           <th>Classement/Année</th>
         {% endif %}

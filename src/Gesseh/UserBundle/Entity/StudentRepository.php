@@ -35,9 +35,7 @@ class StudentRepository extends EntityRepository
   {
     $query = $this->getStudentQuery();
     $query->addOrderBy('p.isActive', 'desc')
-          ->addOrderBy('s.surname', 'asc')
-          ->addOrderBy('s.name', 'asc')
-          ->addOrderBy('p.rank', 'asc');
+          ->addOrderBy('s.surname', 'asc');
 
     return $query->getQuery();
   }
