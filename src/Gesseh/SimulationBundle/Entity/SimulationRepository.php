@@ -76,16 +76,9 @@ class SimulationRepository extends EntityRepository
   public function doSimulation($department_table, \Doctrine\ORM\EntityManager $em)
   {
     $query = $this->createQueryBuilder('t')
-                  ->join('t.student', 's')
                   ->join('t.wishes', 'w')
                   ->join('w.department', 'd')
-                  ->join('s.user', 'u')
-                  ->join('s.grade', 'p')
-                  ->where('u.enabled = true')
-                  ->addOrderBy('p.rank', 'desc')
-                  ->addOrderBy('s.graduate', 'asc')
-                  ->addOrderBy('s.ranking', 'asc')
-                  ->addOrderBy('w.rank', 'asc');
+                  ->addOrderBy('t.id', 'asc');
 
     $sims = $query->getQuery()->getResult();
 
@@ -104,7 +97,6 @@ class SimulationRepository extends EntityRepository
       }
       $em->persist($sim);
     }
-
     $em->flush();
   }
 

@@ -4,6 +4,7 @@ namespace Gesseh\SimulationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Query\Expr\OrderBy as OrderBy;
 
 /**
  * Gesseh\SimulationBundle\Entity\Simulation
@@ -52,6 +53,7 @@ class Simulation
 
     /**
      * @ORM\OneToMany(targetEntity="Gesseh\SimulationBundle\Entity\Wish", mappedBy="simstudent", cascade={"remove"})
+     * @ORM\OrderBy({"rank" = "asc"})
      */
     private $wishes;
 
@@ -189,5 +191,15 @@ class Simulation
     public function countWishes()
     {
       return count($this->wishes);
+    }
+
+    /**
+     * Add wishes
+     *
+     * @param Gesseh\SimulationBundle\Entity\Wish $wishes
+     */
+    public function addWish(\Gesseh\SimulationBundle\Entity\Wish $wishes)
+    {
+        $this->wishes[] = $wishes;
     }
 }
