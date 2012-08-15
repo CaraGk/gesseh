@@ -1,4 +1,4 @@
-<tr id="hospital_{{ hospital.id }}">
+<tr id="hospital_{% if hospital is defined %}{{ hospital.id }}{% else %}new{% endif %}">
   {{ form_row(hospital_form.name) }}
   {{ form_row(hospital_form.address) }}
   {{ form_row(hospital_form.web) }}

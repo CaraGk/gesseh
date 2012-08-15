@@ -1,4 +1,4 @@
-<tr id="student_{{ student.id }}">
+<tr>
   <td>{{ student.surname }}</td>
   <td>{{ student.name }}</td>
   <td>{{ student.user.email }}</td>
@@ -9,12 +9,12 @@
   {% endif %}
   <td class="actions">
     <ul>
-      <li><a href="{{ path('GUser_SAEditStudent', {'id': student.id, 'page': page}) }}#student_{{ student.id }}" title="Modifier l'étudiant '{{ student }}'">Modifier</a></li>
-      <li><a href="{{ path('GUser_SADeleteStudent', {'id': student.id, 'page': page}) }}" title="Supprimer l'étudiant '{{ student }}'">Supprimer</a></li>
+      <li><a href="{{ path('GUser_SAEditStudent', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Modifier l'étudiant '{{ student }}'">Modifier</a></li>
+      <li><a href="{{ path('GUser_SADeleteStudent', {'id': student.id}) }}" title="Supprimer l'étudiant '{{ student }}'">Supprimer</a></li>
       {% if 'ROLE_ADMIN' in student.user.roles %}
-        <li><a href="{{ path('GUser_SADemoteStudent', {'id': student.id, 'page': page}) }}" title="Démettre l'étudiant '{{ student }}'">Démettre</a></li>
+        <li><a href="{{ path('GUser_SADemoteStudent', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Démettre l'étudiant '{{ student }}'">Démettre</a></li>
       {% else %}
-        <li><a href="{{ path('GUser_SAPromoteStudent', {'id': student.id, 'page': page}) }}" title="Promouvoir l'étudiant '{{ student }}'">Promouvoir</a></li>
+        <li><a href="{{ path('GUser_SAPromoteStudent', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Promouvoir l'étudiant '{{ student }}'">Promouvoir</a></li>
       {% endif %}
     </ul>
   </td>
