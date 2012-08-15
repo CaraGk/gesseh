@@ -11,7 +11,12 @@ class SectorRuleType extends AbstractType
   {
     $builder->add('sector')
             ->add('grade')
-            ->add('relation')
+            ->add('relation', 'choice', array(
+              'choices' => array('NOT' => 'ne doit pas faire de stage de', 'FULL' => 'doit compléter les stage de'),
+              'required' => true,
+              'multiple' => false,
+              'expanded' => false,
+            ))
     ;
   }
 

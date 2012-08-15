@@ -121,4 +121,19 @@ class SectorRule
     {
         return $this->relation;
     }
+
+    /**
+     * Get relation explained
+     *
+     * @return string (or null)
+     */
+    public function getRelationExplained()
+    {
+      if ($this->relation == "NOT")
+        return 'ne doit pas faire de stage de';
+      elseif ($this->relation == "FULL")
+        return 'doit compléter les stages de';
+      else
+        return null;
+    }
 }

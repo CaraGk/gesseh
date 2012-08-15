@@ -12,8 +12,8 @@
     <thead>
       <tr>
         <th>Promotion d'étudiants</th>
-        <th>Catégorie de stage</th>
         <th>Relation</th>
+        <th>Catégorie de stage</th>
         <th class="actions">Actions</th>
       </tr>
     </thead>
@@ -21,8 +21,8 @@
       {% for rule in rules %}
         <tr>
           <td>{{ rule.grade.name }}</td>
+          <td>{{ rule.relationExplained }}</td>
           <td>{{ rule.sector.name }}</td>
-          <td>{{ rule.relation }}</td>
           <td class="actions">
             <ul>
               <li><a href="{{ path('GSimul_SADeleteRule', {'id': rule.id}) }}" title="Supprimer la règle de simulation">Supprimer</a></li>
@@ -35,8 +35,8 @@
       {% if rule_form is not empty %}
         <tr>
           {{ form_row(rule_form.grade) }}
-          {{ form_row(rule_form.sector) }}
           {{ form_row(rule_form.relation) }}
+          {{ form_row(rule_form.sector) }}
           {{ form_rest(rule_form) }}
           <td class="actions">
             <ul>
