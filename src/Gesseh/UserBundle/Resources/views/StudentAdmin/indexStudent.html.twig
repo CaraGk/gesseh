@@ -16,6 +16,7 @@
       {% else %}
         <li><a href="{{ path('GUser_SAPromoteStudent', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Promouvoir l'étudiant '{{ student }}'">Promouvoir</a></li>
       {% endif %}
+      <li><a href="{{ path('GCore_PAIndex', {'limit': {'type': 's.id', 'value': student.id}}) }}" title="Afficher les stages de l'étudiant '{{ student }}'">Stages</a></li>
     </ul>
   </td>
 </tr>

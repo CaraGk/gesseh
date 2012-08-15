@@ -28,7 +28,7 @@ class PlacementAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
-    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll();
+    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($this->get('request')->query->get('limit', null));
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
 
     $manager = $this->container->get('kdb_parameters.manager');
@@ -49,22 +49,6 @@ class PlacementAdminController extends Controller
   }
 
   /**
-   * @Route("/{id}/student", name="GCore_PAIndexStudent", requirements={"id" = "\d+"})
-   * @Template("GessehCoreBundle:PlacementAdmin:index.html.twig")
-   */
-  public function indexStudentAction($id)
-  {
-  }
-
-  /**
-   * @Route("/{id}/department", name="GCore_PAIndexDepartment", requirements={"id" = "\d+"})
-   * @Template("GessehCoreBundle:PlacementAdmin:index.html.twig")
-   */
-  public function indexDepartmentAction($id)
-  {
-  }
-
-  /**
    * @Route("/{id}/e", name="GCore_PAEditPlacement", requirements={"id" = "\d+"})
    * @Template("GessehCoreBundle:PlacementAdmin:index.html.twig")
    */
@@ -73,7 +57,7 @@ class PlacementAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
-    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll();
+    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($this->get('request')->query->get('limit', null));
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
 
     $placement = $em->getRepository('GessehCoreBundle:Placement')->find($id);
@@ -115,7 +99,7 @@ class PlacementAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
-    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll();
+    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($this->get('request')->query->get('limit', null));
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
 
     $placement = new Placement();

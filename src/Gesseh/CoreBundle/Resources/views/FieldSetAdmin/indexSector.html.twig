@@ -4,6 +4,7 @@
     <ul>
       <li><a href="{{ path('GCore_FSAEditSector', { 'id': sector.id }) }}" title="Modifier la catégorie '{{ sector.name }}'">Modifier</a></li>
       <li><a href="{{ path('GCore_FSADeleteSector', { 'id': sector.id }) }}" title="Supprimer la catégorie '{{ sector.name }}'" class="confirm">Supprimer</a></li>
+      <li><a href="{{ path('GCore_PAIndex', {'limit': {'type': 't.id', 'value': sector.id}}) }}" title="Afficher les stages dans la catégorie '{{ sector.name }}'">Stages</a></li>
     </ul>
   </td>
 </tr>

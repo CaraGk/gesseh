@@ -1,7 +1,7 @@
 <tr>
   <td>{{ placement.period }}</td>
-  <td>{{ placement.student }}</td>
-  <td>{{ placement.department }}</td>
+  <td><a href="{{ path('GCore_PAIndex', {'limit': {'type': 's.id', 'value': placement.student.id}}) }}" title="Afficher les stages de l'étudiant {{ placement.student }}">{{ placement.student }}</a></td>
+  <td><a href="{{ path('GCore_PAIndex', {'limit': {'type': 'd.id', 'value': placement.department.id}}) }}" title="Afficher les étudiants par stage dans le service {{ placement.department }}">{{ placement.department }}</a></td>
   {% if kparam('eval_active') == true %}
     <td class="small">
       {% if placement.id in evaluated %}

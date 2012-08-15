@@ -8,6 +8,7 @@
       <li><a href="{{ path('GCore_FSAEditHospitalDescription', { 'id': hospital.id }) }}" title="Modifier la page de description de '{{ hospital.name }}'">Description</a></li>
       <li><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id }) }}#hospital_{{ hospital.id }}" title="Modifier l'hôpital '{{ hospital.name }}'">Modifier</a></li>
       <li><a href="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id }) }}" title="Supprimer l'hôpital '{{ hospital.name }}'" class="confirm">Supprimer</a></li>
+      <li><a href="{{ path('GCore_PAIndex', {'limit': {'type': 'h.id', 'value': hospital.id}}) }}" title="Afficher les stages dans l'hôpital '{{ hospital.name }}'">Stages</a></li>
     </ul>
   </td>
 </tr>
@@ -38,6 +39,7 @@
               <ul>
                 <li><a href="{{ path('GCore_FSAEditDepartmentDescription', {'id': department.id}) }}" title="Modifier la description du service '{{ department.name }}'">Description</a></li>
                 <li><a href="{{ path('GCore_FSADeleteDepartment', {'id': department.id}) }}" title="Supprimer le service '{{ department.name }}'" class="confirm">Supprimer</a></li>
+                <li><a href="{{ path('GCore_PAIndex', {'limit': {'type': 'd.id', 'value': department.id}}) }}" title="Afficher les stages associés au service '{{ department.name }}'">Stages</a></li>
               </ul>
             </td>
           </tr>

@@ -36,7 +36,7 @@ class PlacementRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
-  public function getAll()
+  public function getAll($limit = null)
   {
     $query = $this->getPlacementQuery();
     $query->addOrderBy('q.begin', 'desc')
@@ -45,6 +45,12 @@ class PlacementRepository extends EntityRepository
           ->addOrderBy('h.name', 'asc')
           ->addOrderBy('d.name', 'asc')
           ->addSelect('s');
+
+    if (null != $limit) {
+      $query->where($limit['type'] . ' = :value')
+//               ->setParameter('type', $limit['type'])
+               ->setParameter('value', $limit['value']);
+    }
 
     return $query->getQuery();
   }

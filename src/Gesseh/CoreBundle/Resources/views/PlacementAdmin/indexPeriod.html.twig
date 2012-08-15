@@ -5,6 +5,7 @@
     <ul>
       <li><a href="{{ path('GCore_PAEditPeriod', {'id': period.id}) }}" title="Modifier la session '{{ period }}'">Modifier</a></li>
       <li><a href="{{ path('GCore_PADeletePeriod', {'id': period.id}) }}" title="Supprimer la session '{{ period }}'" class="confirm">Supprimer</a></li>
+      <li><a href="{{ path('GCore_PAIndex', {'limit': {'type': 'q.id', 'value': period.id}}) }}" title="Afficher les stages de la session '{{ period }}'">Stages</a></li>
     </ul>
   </td>
 </tr>
