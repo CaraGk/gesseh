@@ -37,6 +37,7 @@
             <td class="actions">
               <ul>
                 <li><a href="{{ path('GCore_FSAEditDepartmentDescription', {'id': department.id}) }}" title="Modifier la description du service '{{ department.name }}'">Description</a></li>
+                <li><a href="{{ path('GCore_FSADeleteDepartment', {'id': department.id}) }}" title="Supprimer le service '{{ department.name }}'" class="confirm">Supprimer</a></li>
               </ul>
             </td>
           </tr>

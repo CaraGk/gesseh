@@ -138,6 +138,26 @@ class FieldSetAdminController extends Controller
   }
 
   /**
+   * Deletes a Department entity.
+   *
+   * @Route("/h/d/{id}/d", name="GCore_FSADeleteDepartment", requirements={"id" = "\d+"}))
+   */
+  public function deleteDepartmentAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
+
+    if (!$department)
+      throw $this->createNotFoundException('Unable to find Department entity.');
+
+    $em->remove($department);
+    $em->flush();
+
+    $this->get('session')->setFlash('notice', 'Service "' . $department->getName() . '" supprimé.');
+    return $this->redirect($this->generateUrl('GCore_FSAIndex'));
+  }
+
+  /**
    * Displays a form to create a new Sector entity.
    *
    * @Route("/s", name="GCore_FSANewSector")

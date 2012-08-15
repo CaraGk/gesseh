@@ -67,6 +67,16 @@ class Department
      */
     private $number;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Placement", mappedBy="department", cascade={"remove"})
+     */
+    private $placements;
+
+
+    public function __construct()
+    {
+      $this->placements = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -198,10 +208,30 @@ class Department
     /**
      * Get number
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getNumber()
     {
         return $this->number;
+    }
+
+    /**
+     * Add placements
+     *
+     * @param Gesseh\CoreBundle\Entity\Placement $placements
+     */
+    public function addPlacement(\Gesseh\CoreBundle\Entity\Placement $placements)
+    {
+        $this->placements[] = $placements;
+    }
+
+    /**
+     * Get placements
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPlacements()
+    {
+        return $this->placements;
     }
 }
