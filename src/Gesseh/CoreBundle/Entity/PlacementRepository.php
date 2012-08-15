@@ -46,9 +46,8 @@ class PlacementRepository extends EntityRepository
           ->addOrderBy('d.name', 'asc')
           ->addSelect('s');
 
-    if (null != $limit) {
+    if (null != $limit and preg_match('/^[p,q,s,t,h,d].id$/', $limit['type'])) {
       $query->where($limit['type'] . ' = :value')
-//               ->setParameter('type', $limit['type'])
                ->setParameter('value', $limit['value']);
     }
 
