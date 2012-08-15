@@ -75,9 +75,9 @@ class Student
   private $graduate;
 
   /**
-   * @var smallint $anonymous
+   * @var boolean $anonymous
    *
-   * @ORM\Column(name="anonymous", type="smallint")
+   * @ORM\Column(name="anonymous", type="boolean")
    */
   private $anonymous;
 
@@ -268,7 +268,7 @@ class Student
     /**
      * Get anonymous
      *
-     * @return smallint
+     * @return boolean
      */
     public function getAnonymous()
     {
@@ -291,7 +291,7 @@ class Student
     /**
      * Set anonymous
      *
-     * @param smallint
+     * @param boolean
      */
     public function setAnonymous($anonymous)
     {
