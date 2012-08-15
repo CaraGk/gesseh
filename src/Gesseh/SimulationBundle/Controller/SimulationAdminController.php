@@ -46,7 +46,7 @@ class SimulationAdminController extends Controller
      * @Route("/p/n", name="GSimul_SANewPeriod")
      * @Template("GessehSimulationBundle:SimulationAdmin:index.html.twig")
      */
-    public function newPeriod()
+    public function newPeriodAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
       $paginator = $this->get('knp_paginator');
@@ -75,7 +75,7 @@ class SimulationAdminController extends Controller
      * @Route("/p/{id}/e", name="GSimul_SAEditPeriod", requirements={"id" = "\d+"})
      * @Template("GessehSimulationBundle:SimulationAdmin:index.html.twig")
      */
-    public function editPeriod($id)
+    public function editPeriodAction($id)
     {
       $em = $this->getDoctrine()->getEntityManager();
       $paginator = $this->get('knp_paginator');
@@ -107,7 +107,7 @@ class SimulationAdminController extends Controller
     /**
      * @Route("/p/{id}/d", name="GSimul_SADeletePeriod", requirements={"id" = "\d+"})
      */
-    public function deletePeriod($id)
+    public function deletePeriodAction($id)
     {
       $em = $this->getDoctrine()->getEntityManager();
       $simul_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->find($id);
@@ -253,7 +253,7 @@ class SimulationAdminController extends Controller
      *
      * @Route("/s/{id}/d", name="GSimul_SADeleteRule", requirements={"id" = "\d+"})
      */
-    public function deleteRule($id)
+    public function deleteRuleAction($id)
     {
       $em = $this->getDoctrine()->getEntityManager();
       $rule = $em->getRepository('GessehSimulationBundle:SectorRule')->find($id);
@@ -266,5 +266,67 @@ class SimulationAdminController extends Controller
 
       $this->get('session')->setFlash('notice', 'Règle de simulation pour "' . $rule . '" supprimée.');
       return $this->redirect($this->generateUrl('GSimul_SAIndexRule'));
+    }
+
+    /**
+     * Show the student's wishes
+     *
+     * @Route("/w/{id}", name="GSimul_SAIndexWish", requirements={"id" = "\d+"})
+     * @Template()
+     */
+    public function indexWishAction($id)
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getSimStudent($id);
+      $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getForStudent($simstudent);
+//      $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent());
+
+      $new_wish = new Wish();
+      $form = $this->createForm(new WishType($rules), $new_wish);
+      $formHandler = new WishHandler($form, $this->get('request'), $em, $simstudent);
+
+      if($formHandler->process()) {
+        $this->get('session')->setFlash('notice', 'Nouveau vœu : "' . $new_wish->getDepartment() . '" enregistré.');
+        return $this->redirect($this->generateUrl('GSimul_SAIndexWish', array('id' => $simstudent->getId())));
+      }
+
+      return array(
+//        'wishes'     => $wishes,
+        'wish_form'  => $form->createView(),
+        'simstudent' => $simstudent,
+      );
+    }
+
+    /**
+     * Supprime un Wish
+     *
+     * @Route("/w/{id}/{wish}/d", name="GSimul_SADeleteWish", requirements={"id" = "\d+", "wish" = "\d+"})
+     */
+    public function deleteWishAction($id, $wish)
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getSimStudent($id);
+      $wish = $em->getRepository('GessehSimulationBundle:Wish')->find($wish);
+
+      if (!$wish)
+        throw $this->createNotFoundException('Unable to find wish entity.');
+
+      $rank = $wish->getRank();
+      $wishes_after = $em->getRepository('GessehSimulationBundle:Wish')->findByRankAfter($simstudent->getStudent(), $rank);
+      foreach($wishes_after as $wish_after) {
+        $wish_after->setRank($wish_after->getRank()-1);
+        $em->persist($wish_after);
+      }
+      $em->remove($wish);
+
+      if($simstudent->countWishes() <= 1) {
+        $simstudent->setDepartment(null);
+        $simstudent->setExtra(null);
+        $em->persist($simstudent);
+      }
+      $em->flush();
+
+      $this->get('session')->setFlash('notice', 'Le vœu "' . $wish->getRank() . '" a été supprimé.');
+      return $this->redirect($this->generateUrl('GSimul_SAIndexWish', array('id' => $id)));
     }
 }

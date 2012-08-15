@@ -1,0 +1,56 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Vœux de {{ simstudent.student }}{% endblock %}
+
+{% block actionscontent %}
+  <ul>
+    <li><a href="{{ path('GSimulation_SAIndex') }}" title="Retour à la liste des simulations">Retour</a></li>
+  </ul>
+{% endblock %}
+
+{% block content %}
+  <div>Attention, il est déconseillé de modifier les vœux d'un étudiant sans son accord. Des modification intempestives par l'administrateur peuvent fausser la simulation.</div>
+
+  {% if not simstudent.active %}
+    <div>L'étudiant ne participe pas à la simulation</div>
+  {% endif %}
+
+  <table>
+      <thead>
+        <tr>
+          <th>Rang</th>
+          <th>Hôpital</th>
+          <th>Service</th>
+          <th>Catégorie</th>
+          <th class="small">Postes</th>
+          <th class="actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for wish in simstudent.wishes %}
+          <tr>
+            <td>{{ wish.rank }}</td>
+            <td>{{ wish.department.hospital }}</td>
+            <td>{{ wish.department.name }}</td>
+            <td>{{ wish.department.sector.name }}</td>
+            <td class="small">{{ wish.department.number }}</td>
+            <td class="actions">
+              <ul>
+                <li><a href="{{ path('GSimul_SADeleteWish', {id: simstudent.id, wish: wish.id}) }}" title="Supprimer le vœu">Supprimer</a></li>
+              </ul>
+            </td>
+          <tr>
+        {% else %}
+          <tr>
+            <td colspan=5>Aucun vœu enregistré.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  <div>{{ form_errors(wish_form) }}</div>
+  <form method="post" action="{{ path('GSimul_SAIndexWish', {'id': simstudent.id}) }}" {{ form_enctype(wish_form) }}>
+    {{ form_widget(wish_form.department) }}
+    {{ form_rest(wish_form) }}
+    <button type="submit" title="Ajouter un vœu à la liste">Ajouter</button>
+  </form>
+{% endblock %}

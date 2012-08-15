@@ -25,16 +25,32 @@ class SimulationRepository extends EntityRepository
     return $query->getQuery();
   }
 
-  public function getByUsername($user)
+  public function getSimulationQuery()
   {
-    $query = $this->createQueryBuilder('t')
+    return $this->createQueryBuilder('t')
                   ->join('t.student', 's')
                   ->join('s.grade', 'g')
                   ->join('s.user', 'u')
                   ->addSelect('s')
-                  ->addSelect('g')
-                  ->where('u.username = :user')
-                    ->setParameter('user', $user);
+                  ->addSelect('g');
+  }
+
+  public function getByUsername($user)
+  {
+    $query = $this->getSimulationQuery();
+    $query->where('u.username = :user')
+            ->setParameter('user', $user);
+
+    return $query->getQuery()->getSingleResult();
+  }
+
+  public function getSimStudent($id)
+  {
+    $query = $this->getSimulationQuery();
+//    $query->join('t.wishes', 'w')
+//          ->addSelect('w')
+    $query->where('t.id = :id')
+            ->setParameter('id', $id);
 
     return $query->getQuery()->getSingleResult();
   }
@@ -92,12 +108,6 @@ class SimulationRepository extends EntityRepository
     $em->flush();
   }
 
-/*  public function deleteAll()
-  {
-    $dql = 'DELETE FROM GessehSimulationBundle:Simulation s';
-    $this->getEntityManager()->createQuery($dql)->getResult();
-  }
-*/
   public function countMissing($simstudent = null)
   {
     $query = $this->createQueryBuilder('t')
