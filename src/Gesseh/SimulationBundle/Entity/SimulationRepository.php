@@ -149,9 +149,41 @@ class SimulationRepository extends EntityRepository
     return $query->getQuery()->getSingleScalarResult();
   }
 
+  public function countValidStudentAfter($simstudent, $not_grades = null)
+  {
+    $query = $this->createQueryBuilder('t')
+                  ->join('t.student', 's')
+                  ->select('COUNT(t.id)')
+                  ->where('t.id > :simstudent_id')
+                    ->setParameter('simstudent_id', $simstudent->getId())
+                  ->andWhere('t.active = true');
+
+    if (isset($not_grades) and count($not_grades)) {
+      foreach ($not_grades as $grade) {
+        $query->andWhere('s.grade != ' . $grade->getId());
+      }
+    }
+
+    return $query->getQuery()->getSingleScalarResult();
+  }
+
+  public function getDepartmentExtraForStudent($simstudent, $department)
+  {
+    $query = $this->createQueryBuilder('t')
+                  ->where('t.id < :simstudent_id')
+                    ->setParameter('simstudent_id', $simstudent->getId())
+                  ->andWhere('t.department = :department_id')
+                    ->setParameter('department_id', $department->getId())
+                  ->orderBy('t.extra', 'asc')
+                  ->setMaxResults(1);
+
+    return $query->getQuery()->getOneOrNullResult();
+  }
+
   public function checkNotFullInSector($simstudent, $sector)
   {
-    $student_after = $this->countFromGradeAfter($simstudent);
+    $student_after = $this->countFromGradeAfterWithValidSector($simstudent, $sector);
+
     $query = $this->createQueryBuilder('t')
                   ->join('t.department', 'd')
                   ->where('d.sector = :sector_id')

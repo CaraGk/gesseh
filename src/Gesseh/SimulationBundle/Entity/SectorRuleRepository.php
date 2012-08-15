@@ -14,31 +14,62 @@ class SectorRuleRepository extends EntityRepository
 {
   public function getForStudent($simstudent)
   {
+    $em = $this->getEntityManager();
+
     $query = $this->createQueryBuilder('r')
                   ->join('r.sector', 's')
                   ->addSelect('s')
                   ->where('r.grade = :grade_id')
                     ->setParameter('grade_id', $simstudent->getStudent()->getGrade()->getId())
-                  ->orderBy('r.relation', 'asc');
+                  ->orderBy('r.relation', 'desc');
 
     $results = $query->getQuery()->getResult();
     $rules['sector']['NOT'] = $rules['department']['NOT'] = $rules['department']['IN'] = array();
-//    $rules = array();
 
     foreach ($results as $result) {
       if ($result->getRelation() == "NOT") {
         array_push($rules['sector']['NOT'], $result->getSector()->getId());
-      } elseif ($result->getRelation() == "FULL" and $not_full = $this->getEntityManager()->getRepository('GessehSimulationBundle:Simulation')->checkNotFullInSector($simstudent, $result->getSector())) {
-        array_push($rules['department']['IN'], $not_full->getDepartment()->getId());
+      } elseif ($result->getRelation() == "FULL") {
+        $sector_id = $result->getSector()->getId();
+        $not_grades = $this->getNOTGradeBySector($sector_id);
+        $count_student_after = $em->getRepository('GessehSimulationBundle:Simulation')->countValidStudentAfter($simstudent, $not_grades);
+        $departments = $em->getRepository('GessehCoreBundle:Department')->findBySector($sector_id);
+        $total_extra = 0;
+        $list = array();
+
+        foreach ($departments as $department) {
+          $simul_extra = $em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentExtraForStudent($simstudent, $department);
+          if(isset($simul_extra)) {
+            $total_extra += $simul_extra->getExtra();
+          } else {
+            $total_extra += $department->getNumber();
+          }
+          array_push($list, $department->getId());
+        }
+
+        if ($total_extra > $count_student_after) {
+          $rules['department']['IN'] = array_merge($rules['department']['IN'], $list);
+        }
       }
     }
 
-    $wishes = $this->getEntityManager()->getRepository('GessehSimulationBundle:Wish')->getStudentWishList($simstudent->getId());
+    $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getStudentWishList($simstudent->getId());
 
     foreach ($wishes as $wish) {
       array_push($rules['department']['NOT'], $wish->getDepartment()->getId());
     }
 
     return $rules;
+  }
+
+  public function getNOTGradeBySector($sector_id)
+  {
+    $query = $this->createQueryBuilder('r')
+                  ->join('r.sector', 's')
+                  ->where('s.id = :sector_id')
+                    ->setParameter('sector_id', $sector_id)
+                  ->andWhere('r.relation = \'NOT\'');
+
+    return $query->getQuery()->getResult();
   }
 }
