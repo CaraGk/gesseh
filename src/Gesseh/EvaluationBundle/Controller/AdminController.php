@@ -127,6 +127,26 @@ class AdminController extends Controller
   }
 
   /**
+   * Deletes a eval_criteria entity.
+   *
+   * @Route("/c/{id}/d", name="GEval_ADeleteCriteria", requirements={"id" = "\d+"}))
+   */
+  public function deleteCriteriaAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $criteria = $em->getRepository('GessehEvaluationBundle:EvalCriteria')->find($id);
+
+    if (!$criteria)
+      throw $this->createNotFoundException('Unable to find eval_criteria entity.');
+
+    $em->remove($criteria);
+    $em->flush();
+
+    $this->get('session')->setFlash('notice', 'Critère d\'évaluation "' . $criteria->getName() . '" supprimé.');
+    return $this->redirect($this->generateUrl('GEval_AIndex'));
+  }
+
+  /**
    * Display a form to create a new eval_sector entity
    *
    * @Route("/es/new", name="GEval_ASectorNew")
