@@ -188,6 +188,12 @@ class SimulationAdminController extends Controller
     public function saveAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
+
+      if ($em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
+        $this->get('session')->setFlash('error', 'La simulation est toujours active ! Vous ne pourrez la valider qu\'une fois qu\'elle sera inactive. Aucune donnée n\'a été copiée.');
+        return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+      }
+
       $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getAllValid();
       $last_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getLastActive();
 
