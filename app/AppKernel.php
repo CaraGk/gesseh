@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new KDB\ParametersBundle\KDBParametersBundle(),
 //            new Gesseh\MigrateOldDbBundle\GessehMigrateOldDbBundle(), // Bundle de migration des données de la version 0.2alpha
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+            new Gesseh\InstallBundle\GessehInstallBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
