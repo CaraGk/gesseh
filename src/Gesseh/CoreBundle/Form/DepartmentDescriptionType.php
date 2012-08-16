@@ -10,7 +10,12 @@ class DepartmentDescriptionType extends AbstractType
 {
   public function buildForm(FormBuilder $builder, array $options)
   {
-    $builder->add('description');
+    $builder->add('description', 'textarea', array(
+      'attr' => array(
+        'class'      => 'tinymce',
+        'data-theme' => 'medium'
+      ),
+    ));
   }
 
   public function getName()

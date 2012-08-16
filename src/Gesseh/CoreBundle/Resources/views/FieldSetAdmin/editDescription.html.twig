@@ -5,7 +5,7 @@
 {% block actionscontent %}<a href="{{ path('GCore_FSAIndex') }}" title="Retour vers la liste des catégories, hôpitaux et services">Retour</a>{% endblock %}
 
 {% block content %}
-  <div class="description">{{ entity.description }}</div>
+  <div class="description">{{ entity.description|raw }}</div>
   <form method="post" {{ form_enctype(edit_form) }}>
     <div class="error">{{ form_errors(edit_form) }}</div>
     <fieldset>
@@ -14,4 +14,6 @@
     </fieldset>
     <div><button type="submit" title="Enregistrer les modifications de '{{ entity.name }}'">Enregistrer</button></div>
   </form>
+
+  {{ tinymce_init() }}
 {% endblock %}

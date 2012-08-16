@@ -9,5 +9,5 @@
     <li><a href="{{ path('GCore_FSAEditDepartmentDescription', {id: department.id}) }}" title="Modifier la description du service '{{ department.name }}'">Modifier</a></li>
   </ul>
 </div>
-<div>{{ department.description }}</div>
+<div>{{ department.description|raw }}</div>
 {% endblock %}

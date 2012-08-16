@@ -83,3 +83,8 @@
 [KDBParametersBundle]
   git=https://github.com/kwattro/KDBParametersBundle.git
   target=bundles/KDB/ParametersBundle
+
+[TinymceBundle]
+  git=git://github.com/stfalcon/TinymceBundle.git
+  target=/bundles/Stfalcon/Bundle/TinymceBundle
+
