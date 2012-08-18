@@ -45,8 +45,8 @@ class DepartmentRepository extends EntityRepository
   public function getAdaptedUserList($rules)
   {
     $query = $this->getDepartmentQuery();
-    $query->addOrderBy('d.name', 'asc')
-          ->addOrderBy('h.name', 'asc')
+    $query->addOrderBy('h.name', 'asc')
+          ->addOrderBy('d.name', 'asc')
           ->where('d.number > 0');
 
     if ($rules['department']['NOT'])

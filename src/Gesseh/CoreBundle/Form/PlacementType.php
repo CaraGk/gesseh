@@ -11,7 +11,14 @@ class PlacementType extends AbstractType
   public function buildForm(FormBuilder $builder, array $options)
   {
     $builder->add('period')
-            ->add('student')
+            ->add('student', 'entity', array(
+              'class'         => 'GessehUserBundle:Student',
+              'query_builder' => function(\Gesseh\UserBundle\Entity\StudentRepository $er) { 
+                return $er->createQueryBuilder('s')
+                  ->addOrderBy('s.surname', 'ASC')
+                  ->addOrderBy('s.name', 'ASC');
+              },
+            ))
             ->add('department');
   }
 
