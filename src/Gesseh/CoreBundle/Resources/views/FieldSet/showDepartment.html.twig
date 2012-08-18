@@ -1,13 +1,19 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
 {% block titlecontent %}{{ department.name }}{% endblock %}
+
+{% block actionscontent %}
+  <li><a href="{{ path('GCore_FSIndex') }}" title="Retour à la liste des terrains">Retour</a></li>
+  <li><a href="{{ path('GCore_FSShowHospital', {id: department.hospital.id}) }}" title="Afficher les informations concernant l'hôpital '{{ department.hospital }}'">Infos hôpital</a></li>
+  {% if kparam('eval_active') == true %}
+    <li><a href="{{ path('GEval_DShow', {id: department.id}) }}" title="Afficher les évaluations pour ce service">Évaluations</a></li>
+  {% endif %}
+  {% if is_granted('ROLE_ADMIN') %}
+    <li><a href="{{ path('GCore_FSAEditDepartmentDescription', {id: department.id}) }}" title="Modifier la description du service '{{ department.name }}'">Modifier</a></li>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
 <div>Chef de service : {{ department.head }}</div>
-<div>
-  <ul>
-    <li><a href="{{ path('GCore_FSIndex') }}" title="Retour à la liste des terrains">Retour</a></li>
-    <li><a href="{{ path('GCore_FSAEditDepartmentDescription', {id: department.id}) }}" title="Modifier la description du service '{{ department.name }}'">Modifier</a></li>
-  </ul>
-</div>
 <div>{{ department.description|raw }}</div>
 {% endblock %}

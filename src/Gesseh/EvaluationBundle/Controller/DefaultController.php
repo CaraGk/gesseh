@@ -27,7 +27,11 @@ class DefaultController extends Controller
 
       $eval_text = $em->getRepository('GessehEvaluationBundle:Evaluation')->getTextByDepartment($id);
       $eval_num = $em->getRepository('GessehEvaluationBundle:Evaluation')->getNumByDepartment($id);
-      $eval_form = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId())->getForm();
+
+      if ($eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId()))
+        $eval_form = $eval_sector->getForm();
+      else
+        throw $this->createNotFoundException('Aucun formulaire d\'évaluation attribué à ce stage ! Veuillez contacter un administrateur.');
 
       return array(
         'eval_text'  => $eval_text,

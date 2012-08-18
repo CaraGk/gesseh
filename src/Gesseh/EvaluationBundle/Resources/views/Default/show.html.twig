@@ -2,6 +2,11 @@
 
 {% block titlecontent %}Évaluations du stage '{{ department.name }} à {{ department.hospital.name }}'{% endblock %}
 
+{% block actionscontent %}
+  <li><a href="{{ path('GCore_FSIndex') }}" title="Retour à la liste des terrains">Retour</a></li>
+  <li><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}" title="Afficher les informations concernant le service">Informations</a></li>
+{% endblock %}
+
 {% block content %}
   <h2>Évaluations numériques</h2>
   <table>
