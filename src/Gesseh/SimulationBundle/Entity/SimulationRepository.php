@@ -141,7 +141,7 @@ class SimulationRepository extends EntityRepository
     return $query->getQuery()->getSingleScalarResult();
   }
 
-  public function countValidStudentAfter($simstudent, $not_grades = null)
+  public function countValidStudentAfter($simstudent, $not_grades_rule = null)
   {
     $query = $this->createQueryBuilder('t')
                   ->join('t.student', 's')
@@ -150,9 +150,9 @@ class SimulationRepository extends EntityRepository
                     ->setParameter('simstudent_id', $simstudent->getId())
                   ->andWhere('t.active = true');
 
-    if (isset($not_grades) and count($not_grades)) {
-      foreach ($not_grades as $grade) {
-        $query->andWhere('s.grade != ' . $grade->getId());
+    if (isset($not_grades_rule)) {
+      foreach ($not_grades_rule as $rule) {
+        $query->andWhere('s.grade != ' . $rule->getGrade()->getId());
       }
     }
 
