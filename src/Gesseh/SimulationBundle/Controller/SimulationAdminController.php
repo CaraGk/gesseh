@@ -220,7 +220,7 @@ class SimulationAdminController extends Controller
     public function indexRuleAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
-      $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->findAll();
+      $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getAll();
 
       return array(
         'rules'     => $rules,
@@ -237,7 +237,7 @@ class SimulationAdminController extends Controller
     public function newRuleAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
-      $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->findAll();
+      $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getAll();
 
       $sector_rule = new SectorRule();
       $form = $this->createForm(new SectorRuleType(), $sector_rule);
