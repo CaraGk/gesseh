@@ -12,6 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class SectorRuleRepository extends EntityRepository
 {
+  public function getAll()
+  {
+    $query = $this->createQueryBuilder('r')
+                  ->join('r.sector', 's')
+                  ->join('r.grade', 'g')
+                  ->addSelect('s')
+                  ->addSelect('g')
+                  ->addOrderBy('g.rank', 'asc')
+                  ->addOrderBy('r.relation', 'asc');
+    
+    return $query->getQuery()->getResult();
+  }
+
   public function getForStudent($simstudent)
   {
     $em = $this->getEntityManager();
@@ -46,8 +59,10 @@ class SectorRuleRepository extends EntityRepository
           }
           array_push($list, $department->getId());
         }
+//var_dump($total_extra);
+//var_dump((int) $count_student_after);
 
-        if ($total_extra > $count_student_after) {
+        if ($total_extra > (int) $count_student_after) {
           $rules['department']['IN'] = array_merge($rules['department']['IN'], $list);
         }
       }
