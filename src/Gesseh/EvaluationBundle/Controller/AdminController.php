@@ -119,6 +119,14 @@ class AdminController extends Controller
     if (!$eval_form)
       throw $this->createNotFoundException('Unable to find eval_form entity.');
 
+    foreach($eval_form->getCriterias() as $criteria) {
+      if($evaluations = $em->getRepository('GessehEvaluationBundle:Evaluation')->findByEvalCriteria($criteria->getId())) {
+        foreach($evaluations as $evaluation) {
+          $em->remove($evaluation);
+        }
+      }
+    }
+
     $em->remove($eval_form);
     $em->flush();
 

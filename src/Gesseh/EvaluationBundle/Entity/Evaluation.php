@@ -32,7 +32,7 @@ class Evaluation
      * @ORM\ManyToOne(targetEntity="Gesseh\EvaluationBundle\Entity\EvalCriteria")
      * @ORM\JoinColumn(name="evalcriteria_id", referencedColumnName="id")
      */
-    private $eval_criteria;
+    private $evalCriteria;
 
     /**
      * @var string $value
@@ -137,7 +137,7 @@ class Evaluation
     /**
      * Get created_at
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {
