@@ -5,6 +5,7 @@
 {% block content %}
   <ul>
     <li><a href="{{ path('GSimul_SList') }}" title="Affiche un tableau global des simulations">Tableau de simulation</a></li>
+    <li><a href="{{ path('GSimul_SLeft') }}" title="Affiche les postes restants au moment de mon choix">Mes postes restants</a></li>
   </ul>
   {% if not simstudent.active %}
     <div>Vous ne participez pas à la simulation. Pour participer à nouveau à la simulation et faire vos vœux, <a href="{{ path('GSimulation_SGetin') }}">cliquez ici</a>.</div>

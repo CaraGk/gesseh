@@ -1,0 +1,31 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Postes restants au moment de mon choix{% endblock %}
+
+{% block content %}
+  <ul>
+    <li><a href="{{ path('GSimulation_SIndex') }}" title="Retour à mes vœux">Retour</a></li>
+  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Hôpital</th>
+        <th>Service</th>
+        <th>Catégorie</th>
+        <th class="small">Postes restants</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for department in departments %}
+        <tr>
+          <td>{{ department.hospital.name }}</td>
+          <td>{{ department.name }}</td>
+          <td>{{ department.sector.name }}</td>
+          <td class="small">{{ left[department.id] }} / {{ department.number }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan=4>Aucun service retrouvé dans la base de données. Contactez un administrateur.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

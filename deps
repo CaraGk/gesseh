@@ -65,6 +65,7 @@
 [FOSUserBundle]
     git=git://github.com/FriendsOfSymfony/FOSUserBundle.git
     target=bundles/FOS/UserBundle
+    version=v1.2.4
 
 [KnpMenu]
     git=https://github.com/KnpLabs/KnpMenu.git

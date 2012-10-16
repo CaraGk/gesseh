@@ -10,7 +10,8 @@
       <th>Service</th>
       <th>Chef de service</th>
       <th>Catégorie</th>
-      <th>Actions</th>
+      {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}<th class="small">Postes</th>{% endif %}
+      <th class="actions">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +21,7 @@
         <td><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}" title="Afficher les informations du service '{{ department.name }}'">{{ department.name }}</a></td>
         <td>{{ department.head }}</td>
         <td>{{ department.sector }}</td>
+        {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}<td class="small">{{ department.number }}</td>{% endif %}
         <td>
           <ul>
             <li><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}" title="Afficher les informations du service '{{ department.name }}'">Afficher</a></li>
