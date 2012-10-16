@@ -227,6 +227,37 @@ class SimulationController extends Controller
     }
 
     /**
+     * Affiche la liste des poste restants pour l'étudiant
+     *
+     * @Route("/left", name="GSimul_SLeft")
+     * @Template()
+     */
+    public function listLeftPlacementsAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+
+      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+
+      $user = $this->get('security.context')->getToken()->getUsername();
+      $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
+      $departments = $em->getRepository('GessehCoreBundle:Department')->getAll();
+      $left = array();
+
+      foreach($departments as $department) {
+        $left[$department->getId()] = $department->getNumber();
+        if($sim = $em->getRepository('GessehSimulationBundle:Simulation')->getNumberLeft($department->getId(), $simstudent->getId())) {
+          $left[$department->getId()] = $sim->getExtra();
+        }
+      }
+
+      return array(
+        'departments' => $departments,
+        'left'        => $left,
+      );
+    }
+
+    /**
      * Affiche la liste des simulations
      *
      * @Route("/list", name="GSimul_SList")

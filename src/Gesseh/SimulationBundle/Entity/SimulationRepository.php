@@ -197,4 +197,17 @@ class SimulationRepository extends EntityRepository
 
     return $query->getQuery()->getResult();
   }
+
+  public function getNumberLeft($department_id, $rank)
+  {
+    $query = $this->createQueryBuilder('t')
+                  ->where('t.id < :rank')
+                    ->setParameter('rank', $rank)
+                  ->andWhere('t.department = :department_id')
+                    ->setParameter('department_id', $department_id)
+                  ->orderBy('t.id', 'desc')
+                  ->setMaxResults(1);
+
+    return $query->getQuery()->getOneOrNullResult();
+  }
 }
