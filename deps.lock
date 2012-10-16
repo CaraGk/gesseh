@@ -13,7 +13,7 @@ JMSSecurityExtraBundle e752f888c51425f71382c056961f10f2be642102
 SensioDistributionBundle v2.0.17
 SensioGeneratorBundle v2.0.17
 AsseticBundle 6f15728c1aefa5246caa83730e3dbf70b0d46052
-FOSUserBundle 127391cd83e86bcf97e5d861aac1e39c14d3999d
+FOSUserBundle v1.2.4
 KnpMenu 5b7d34e58c2d51b30005b69eeded9fb658fe8abf
 KnpMenuBundle 4389efdd5c30d974544afbfe5ada3a4ce30d7aa1
 knp-components 99ea408dc2a7c3616e688ffe67e3248ece69ff0e
