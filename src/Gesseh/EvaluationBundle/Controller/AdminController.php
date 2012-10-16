@@ -165,9 +165,14 @@ class AdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
     $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
+    $exclude_sectors = array();
+
+    foreach($sectors as $sector) {
+      $exclude_sectors[] = $sector->getSector()->getId();
+    }
 
     $eval_sector = new EvalSector();
-    $form = $this->createForm(new EvalSectorType(), $eval_sector);
+    $form = $this->createForm(new EvalSectorType($exclude_sectors), $eval_sector);
     $formHandler = new EvalSectorHandler($form, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
@@ -191,7 +196,7 @@ class AdminController extends Controller
    * @Route("/es/{id}/e", name="GEval_ASectorEdit", requirements={"id" = "\d+"})
    * @Template("GessehEvaluationBundle:Admin:index.html.twig")
    */
-  public function editSectorAction($id)
+/*  public function editSectorAction($id)
   {
     $em = $this->getDoctrine()->getEntityManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
@@ -218,7 +223,7 @@ class AdminController extends Controller
       'sector_id'      => $id,
       'sector_form'    => $editForm->createView(),
     );
-  }
+  } */
 
   /**
    * Deletes a eval_sector entity.

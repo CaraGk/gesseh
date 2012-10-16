@@ -32,4 +32,11 @@ class EvalSectorRepository extends EntityRepository
 
     return $query->getQuery()->getOneOrNullResult();
   }
+
+  public function getAll()
+  {
+    $query = $this->getEvalSectorQuery();
+
+    return $query->getQuery()->getResult();
+  }
 }

@@ -7,10 +7,22 @@ use Symfony\Component\Form\FormBuilder;
 
 class EvalSectorType extends AbstractType
 {
+  private $exclude_sectors;
+
+  public function __construct($exclude_sectors)
+  {
+    $this->exclude_sectors = $exclude_sectors;
+  }
+
   public function buildForm(FormBuilder $builder, array $options)
   {
+    $exclude_sectors = $this->exclude_sectors;
+
     $builder
-      ->add('sector')
+      ->add('sector', 'entity', array(
+        'class'         => 'GessehCoreBundle:Sector',
+        'query_builder' => function(\Gesseh\CoreBundle\Entity\SectorRepository $er) use ($exclude_sectors) { return $er->listOtherSectors($exclude_sectors); },
+      ))
       ->add('form')
     ;
   }

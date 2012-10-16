@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Gesseh\CoreBundle\Entity\Sector
  *
  * @ORM\Table(name="sector")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Gesseh\CoreBundle\Entity\SectorRepository")
  */
 class Sector
 {
