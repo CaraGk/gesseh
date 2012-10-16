@@ -7,8 +7,9 @@
     <thead>
       <tr>
         <th>Terrain de stage</th>
+        <th>Critère</th>
         <th>Commentaire</th>
-        <th>Posté le</th>
+        <th class="small">Posté le</th>
         <th class="actions">Actions</th>
       </tr>
     </thead>
@@ -16,8 +17,9 @@
       {% for evaluation in evaluations %}
         <tr>
           <td>{{ evaluation.placement.department.name }} à {{ evaluation.placement.department.hospital.name }}</td>
+          <td>{{ evaluation.evalCriteria.name }}</td>
           <td>{{ evaluation.value }}</td>
-          <td></td>
+          <td class="small">{{ evaluation.createdAt|date('d-m-Y') }}</td>
           <td>
             <ul>
               <li><a href="" title="Modifier le commentaire">Modifier</a></li>
@@ -26,7 +28,7 @@
           </td>
         </tr>
       {% else %}
-        <tr><td colspan="4">Aucun commentaire à afficher.</td></tr>
+        <tr><td colspan="5">Aucun commentaire à afficher.</td></tr>
       {% endfor %}
     </tbody>
     <tfoot>

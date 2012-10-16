@@ -38,6 +38,7 @@ class Evaluation
      * @var string $value
      *
      * @ORM\Column(name="value", type="string", length=255)
+     * @Assert\Max(250)
      */
     private $value;
 
@@ -85,23 +86,23 @@ class Evaluation
     }
 
     /**
-     * Set eval_criteria
+     * Set evalCriteria
      *
      * @param Gesseh\EvaluationBundle\Entity\EvalCriteria $eval_criteria
      */
     public function setEvalCriteria(\Gesseh\EvaluationBundle\Entity\EvalCriteria $eval_criteria)
     {
-        $this->eval_criteria = $eval_criteria;
+        $this->evalCriteria = $eval_criteria;
     }
 
     /**
-     * Get eval_criteria
+     * Get evalCriteria
      *
      * @return Gesseh\EvaluationBundle\Entity\EvalCriteria
      */
     public function getEvalCriteria()
     {
-        return $this->eval_criteria;
+        return $this->evalCriteria;
     }
 
     /**

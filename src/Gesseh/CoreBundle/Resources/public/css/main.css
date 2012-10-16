@@ -73,6 +73,11 @@ div.error, div.info { padding: 2px 10px 2px 10px; width: auto; font-style: itali
 #content table li { display: block; margin: 2px; padding: 0; }
 #content textarea { width: 99%; height: 200px; }
 #content table.mceToolbar th, #content table.mceToolbar td { border: none; }
+#content div.criteria_block { border: 1px solid black; margin: 1px; }
+#content div.criteria_name { border: 1px solid black; padding: 1px; background-color: #fdef55; font-weight: bold; text-align: center; }
+#content div.criteria_content { padding: 2px; }
+#content span.eval_title { font-weight: bold; text-decoration: underline }
+#content span.eval_content { }
 
 #footer { width: 100%; padding-top: 15px; font-size: 90%; height: 30px; position: relative; background-color: #aaa; border-radius: 0 0 15px 15px; }
 #footer ul{ display: inline-block; }

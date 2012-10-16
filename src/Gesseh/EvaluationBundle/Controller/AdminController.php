@@ -277,4 +277,22 @@ class AdminController extends Controller
     $this->get('session')->setFlash('notice', 'Évaluation textuelle supprimée.');
     return $this->redirect($this->generateUrl('GEval_ATextIndex'));
   }
+
+  /**
+   * Modifie une évaluation textuelle
+   *
+   * @Route("/t/{id}/e", name="GEval_ATextEdit", requirements={"id" = "\d+"})
+   * @Template()
+   */
+  public function textEditAction($id)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $paginator = $this->get('knp_paginator');
+    $evaluation_query = $em->getRepository('GessehEvaluationBundle:Evaluation')->getAllText();
+    $evaluations = $paginator->paginate($evaluation_query, $this->get('request')->query->get('page', 1), 20);
+
+    return array(
+      'evaluations' => $evaluations,
+    );
+  }
 }

@@ -34,12 +34,20 @@
     </tbody>
   </table>
   <h2>Évaluations textuelles</h2>
+  {% set crit = null %}
   {% for text in eval_text %}
-    <div>
-      <div>{{ text.evalCriteria.name }} (enregistré le {{ text.createdAt|date('d-m-Y') }})</div>
-      <div>{{ text.value }}</div>
-    </div>
+    {% if crit != text.evalCriteria.id %}
+      {% if crit %}</div>{% endif %}
+      {% set crit = text.evalCriteria.id %}
+      <div class="criteria_block">
+        <div class="criteria_name">{{ text.evalCriteria.name }}</div>
+      {% endif %}
+        <div class="criteria_content">
+          <span class="eval_title">{{ text.createdAt|date('d-m-Y') }} :</span>
+          <span class="eval_content">{{ text.value }}</span>
+        </div>
   {% else %}
-    <div>Aucun commentaire.</div>
+    <div class="criteria_block">Aucun commentaire.
   {% endfor %}
+    </div>
 {% endblock %}

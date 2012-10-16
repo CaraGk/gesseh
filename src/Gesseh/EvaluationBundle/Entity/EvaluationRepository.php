@@ -17,7 +17,7 @@ class EvaluationRepository extends EntityRepository
     return $this->createQueryBuilder('e')
                 ->join('e.placement', 'p')
                 ->join('p.department', 'd')
-                ->join('e.eval_criteria', 'c')
+                ->join('e.evalCriteria', 'c')
     ;
   }
 
@@ -26,7 +26,9 @@ class EvaluationRepository extends EntityRepository
     $query = $this->getEvaluationQuery();
     $query->where('d.id = :id')
             ->setParameter('id', $id)
-          ->andWhere('c.type = 2');
+          ->andWhere('c.type = 2')
+          ->addOrderBy('c.rank', 'asc')
+          ->addOrderBy('e.created_at', 'asc');
 
     return $query->getQuery()->getResult();
   }
@@ -91,7 +93,8 @@ class EvaluationRepository extends EntityRepository
   public function getAllText()
   {
     $query = $this->getEvaluationQuery();
-    $query->where('c.type = 2');
+    $query->where('c.type = 2')
+          ->addOrderBy('e.created_at', 'asc');
 
     return $query->getQuery();
   }

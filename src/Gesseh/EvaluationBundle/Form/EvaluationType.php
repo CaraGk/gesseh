@@ -27,9 +27,10 @@ class EvaluationType extends AbstractType
         ));
       } elseif ($criteria->getType() == 2) {
         $builder->add('criteria_' . $criteria->getId(), 'textarea', array(
-          'required' => false,
-          'trim'     => true,
-          'label'    => $criteria->getName(),
+          'required'   => false,
+          'trim'       => true,
+          'max_length' => 250,
+          'label'      => $criteria->getName(),
         ));
       }
     }
