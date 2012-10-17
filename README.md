@@ -1,4 +1,4 @@
-Gesseh
+GESSEH
 ======
 
 G.E.S.S.E.H. est un acronyme qui signifie : **Gestionnaire d'Évaluation et de Sélection des Stages d'Étudiant Hospitalier**.
@@ -23,6 +23,27 @@ C'est un logiciel libre, par conséquent vous pouvez l'utiliser, le copier, le m
 
 Pour son installation, vous aurez besoin d'un serveur web (apache, lighttpd, ...) avec PHP5 et d'une base de données (MySQL ou PostgreSQL), formule classiquement proposée par tous les hébergeurs web.
 
-3) Installation
----------------
+3) Téléchargement
+-----------------
 
+###Via une archive stable (*recommandé*)
+
+En cours de développement.
+
+###Via les dépots Git
+
+Il est conseillé d'utiliser une archive stable mais si vous souhaitez vraiment l'installer depuis Git, lancez les commandes suivantes :
+   
+    git clone http://github.com/CaraGk/gesseh.git
+    cd gesseh
+    ./bin/vendors install
+
+4) Installation et configuration
+--------------------------------
+
+En cours de développement.
+
+5) Pour en savoir plus
+----------------------
+
+Vous pouvez vous inscrire sur la [liste de diffusion](https://groups.google.com/forum/#!forum/gesseh-devel) : gesseh-devel@googlegroups.com.
