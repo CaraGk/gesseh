@@ -31,6 +31,26 @@ class DepartmentRepository extends EntityRepository
                  ->getSingleResult();
   }
 
+  public function getByStudent($student_id)
+  {
+    $query = $this->getDepartmentQuery();
+    $query->join('d.placements', 'p')
+          ->join('p.student', 't')
+          ->where('t.id = :student_id')
+            ->setParameter('student_id', $student_id);
+
+    return $query->getQuery()->getResult();
+  }
+
+  public function getBySector($sector_id)
+  {
+    $query = $this->getDepartmentQuery();
+    $query->where('s.id = :sector_id')
+            ->setParameter('sector_id', $sector_id);
+
+    return $query->getQuery()->getResult();
+  }
+
   public function getAll(array $orderBy = array('h' => 'asc', 's' => 'asc'))
   {
     $query = $this->getDepartmentQuery();

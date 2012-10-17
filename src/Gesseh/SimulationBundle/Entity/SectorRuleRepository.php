@@ -40,13 +40,20 @@ class SectorRuleRepository extends EntityRepository
     $rules['sector']['NOT'] = $rules['department']['NOT'] = $rules['department']['IN'] = array();
 
     foreach ($results as $result) {
-      if ($result->getRelation() == "NOT") {
+      if ($result->getRelation() == "NOT") {  /* sector forbidden for the student's prom' */
         array_push($rules['sector']['NOT'], $result->getSector()->getId());
-      } elseif ($result->getRelation() == "FULL") {
+      } elseif ($result->getRelation() == "FULL") {  /* sector must be complete after the student's prom' */
         $sector_id = $result->getSector()->getId();
-        $not_grades_rule = $this->getNOTGradeBySector($sector_id);
+
+        $departments = $em->getRepository('GessehCoreBundle:Department')->getBySector($sector_id);  /* departments from sector */
+        $placements = $em->getRepository('GessehCoreBundle:Department')->getByStudent($simstudent->getStudent()->getId()); /* student's placements */
+
+        if(array_intersect($placements, $departments)) { /* if student did allready go to a department from sector, she don't have to do it again */
+          continue;
+        }
+
+        $not_grades_rule = $this->getNOTGradeBySector($sector_id);  /* prom's that can't do that sector */
         $count_student_after = $em->getRepository('GessehSimulationBundle:Simulation')->countValidStudentAfter($simstudent, $not_grades_rule);
-        $departments = $em->getRepository('GessehCoreBundle:Department')->findBySector($sector_id);
         $total_extra = 0;
         $list = array();
 
