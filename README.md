@@ -34,9 +34,9 @@ En cours de développement.
 
 Il est conseillé d'utiliser une archive stable mais si vous souhaitez vraiment l'installer depuis Git, lancez les commandes suivantes :
    
-   git clone http://github.com/CaraGk/gesseh.git
-   cd gesseh
-   ./bin/vendors install
+    git clone http://github.com/CaraGk/gesseh.git
+    cd gesseh
+    ./bin/vendors install
 
 4) Installation et configuration
 --------------------------------
