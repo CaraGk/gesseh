@@ -30,8 +30,8 @@ class SimulPeriodRepository extends EntityRepository
     $query = $this->createQueryBuilder('p')
                   ->join('p.period', 'q')
                   ->addSelect('q')
-                  ->where('p.end > :now')
-                  ->andWhere('q.begin > :now')
+                  ->where('p.end < :now')
+                  ->andWhere('q.begin < :now')
                     ->setParameter('now', new \DateTime('now'))
                   ->orderBy('p.end', 'desc')
                   ->setMaxResults(1);
