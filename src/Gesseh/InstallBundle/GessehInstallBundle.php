@@ -13,6 +13,7 @@ namespace Gesseh\InstallBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Gesseh\InstallBundle\Configurator\Step\DoctrineStep;
+use Gesseh\InstallBundle\Configurator\Step\MailerStep;
 use Gesseh\InstallBundle\Configurator\Step\SecretStep;
 
 /**
@@ -27,6 +28,7 @@ class GessehInstallBundle extends Bundle
     {
         $configurator = $this->container->get('gesseh.install.webconfigurator');
         $configurator->addStep(new DoctrineStep($configurator->getParameters()));
+        $configurator->addStep(new MailerStep($configurator->getParameters()));
         $configurator->addStep(new SecretStep($configurator->getParameters()));
     }
 }

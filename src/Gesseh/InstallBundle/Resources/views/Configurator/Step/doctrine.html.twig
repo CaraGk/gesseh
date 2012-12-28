@@ -1,21 +1,11 @@
-{% extends "GessehCoreBundle::layout.html.twig" %}
+{% extends "GessehInstallBundle:Configurator:layout.html.twig" %}
 
-{% block title %}Gesseh - Base de données{% endblock %}
-
-{% block stylesheets %}
-  {{ parent() }}
-  <link rel="stylesheet" href="{{ asset('bundles/gessehinstall/webconfigurator/css/configure.css') }}" type="text/css" media="all" />
-{% endblock %}
-
-{% block nav %}
-  {% include "GessehInstallBundle::Configurator/steps.html.twig" with { "index": index, "count": count } %}
-{% endblock %}
+{% block title %}{{ parent() }} : Base de données{% endblock %}
 
 {% block content %}
-    {% form_theme form "GessehInstallBundle::Configurator/form.html.twig" %}
+    {% form_theme form "GessehInstallBundle:Configurator:form.html.twig" %}
 
     <h1>Configure your Database</h1>
-    <p>If your website needs a database connection, please configure it here.</p>
 
     {{ form_errors(form) }}
     <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
