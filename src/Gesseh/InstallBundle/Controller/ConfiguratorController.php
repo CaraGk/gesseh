@@ -52,7 +52,6 @@ class ConfiguratorController extends ContainerAware
             'form'    => $form->createView(),
             'index'   => $index,
             'count'   => $configurator->getStepCount(),
-            'version' => $this->getVersion(),
         ));
     }
 
@@ -74,7 +73,6 @@ class ConfiguratorController extends ContainerAware
             'majors'  => $majors,
             'minors'  => $minors,
             'url'     => $url,
-            'version' => $this->getVersion(),
         ));
     }
 
@@ -94,14 +92,6 @@ class ConfiguratorController extends ContainerAware
             'parameters'  => $configurator->render(),
             'ini_path'    => $this->container->getParameter('kernel.root_dir').'/config/parameters.ini',
             'is_writable' => $configurator->isFileWritable(),
-            'version'     => $this->getVersion(),
         ));
-    }
-
-    public function getVersion()
-    {
-        $kernel = $this->container->get('kernel');
-
-        return $kernel::VERSION;
     }
 }
