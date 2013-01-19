@@ -22,9 +22,6 @@ class MailerStep implements StepInterface
    */
   public $host;
 
-  /**
-   * @Assert\Min(0)
-   */
   public $user;
 
   public $password;
