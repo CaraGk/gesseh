@@ -1,0 +1,21 @@
+{% extends "GessehInstallBundle:Configurator:layout.html.twig" %}
+
+{% block title %}{{ parent() }} : Création des données{% endblock %}
+
+{% block content %}
+  <ul class='gesseh_install_info'>
+    <li>
+      {% for info in infos %}
+        {{ info }}
+      {% endfor %}
+    </li>
+  </ul>
+
+  <ul><li><a href="{{ path('_configurator_config') }}">Continuer</a></li></ul>
+
+  <textarea>{% for version in sql %}{% for data in version %}{{ data }}
+
+{% endfor %}{% endfor %}
+  </textarea>
+{% endblock %}
+

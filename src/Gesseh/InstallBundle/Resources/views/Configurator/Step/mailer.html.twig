@@ -25,3 +25,7 @@
     </div>
   </form>
 {% endblock %}
+
+{% block menu %}
+  {% include "GessehInstallBundle:Configurator:steps.html.twig" with { "index": index, "count": count } %}
+{% endblock %}

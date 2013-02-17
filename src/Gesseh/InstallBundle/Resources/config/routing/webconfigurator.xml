@@ -15,4 +15,16 @@
     <route id="_configurator_final" pattern="/final">
         <default key="_controller">GessehInstallBundle:Configurator:final</default>
     </route>
+
+    <route id="_configurator_migrate" pattern="/migrate">
+      <default key="_controller">GessehInstallBundle:Configurator:migrate</default>
+    </route>
+
+    <route id="_configurator_config" pattern="/config">
+      <default key="_controller">GessehInstallBundle:Configurator:createConfig</default>
+    </route>
+
+    <route id="_configurator_admin" pattern="/last">
+      <default key="_controller">GessehInstallBundle:Configurator:createAdmin</default>
+    </route>
 </routes>

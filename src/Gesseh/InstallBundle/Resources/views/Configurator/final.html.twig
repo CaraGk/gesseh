@@ -20,9 +20,7 @@
 
     <textarea class="symfony-configuration">{{ parameters }}</textarea>
 
-    {% if welcome_url %}
-        <ul>
-            <li><a href="{{ welcome_url }}">Go to the Welcome page</a></li>
-        </ul>
-    {% endif %}
+    <ul>
+      <li><a href="{{ path('_configurator_migrate') }}">Continuer</a></li>
+    </ul>
 {% endblock %}
