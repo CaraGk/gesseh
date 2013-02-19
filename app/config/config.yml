@@ -66,7 +66,7 @@ fos_user:
 #  use_listener:  false
   user_class:    Gesseh\UserBundle\Entity\User
   from_email:
-    address:        %admin_mail%
+    address:        %mailer_mail%
     sender_name:    Admin Gesseh
 
 kdb_parameters:
