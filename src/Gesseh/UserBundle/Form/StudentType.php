@@ -3,8 +3,8 @@
 
 namespace Gesseh\UserBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\AbstractType,
+  Symfony\Component\Form\FormBuilder;
 
 class StudentType extends AbstractType
 {
@@ -20,7 +20,7 @@ class StudentType extends AbstractType
     $builder->add('surname')
             ->add('name')
             ->add('phone')
-            ->add('user', new UserAdminType('Gesseh\UserBundle\Entity\User'))
+            ->add('user', new AdminType('Gesseh\UserBundle\Entity\User'))
             ->add('grade');
 
     // Si la simulation est activée

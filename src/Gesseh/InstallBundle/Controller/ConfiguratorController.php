@@ -17,7 +17,7 @@ use Doctrine\DBAL\Migrations\Migration,
   Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Gesseh\ParameterBundle\Entity\Parameter;
 use Gesseh\UserBundle\Entity\Student,
-  Gesseh\UserBundle\Form\StudentType,
+  Gesseh\UserBundle\Form\AdminType,
   Gesseh\UserBundle\Form\StudentHandler;
 
 /**
@@ -180,7 +180,7 @@ class ConfiguratorController extends ContainerAware
     {
       $em = $this->container->get('doctrine')->getEntityManager();
       $admin = new Student();
-      $form = $this->container->get('form.factory')->create(new StudentType(false), $admin);
+      $form = $this->container->get('form.factory')->create(new AdminType(), $admin);
       $formHandler = new StudentHandler($form, $this->container->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
       if($formHandler->process()) {
