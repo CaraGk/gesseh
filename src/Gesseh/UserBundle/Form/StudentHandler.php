@@ -51,7 +51,11 @@ class StudentHandler
   {
     if( null == $user->getUsername() ) {
       $this->um->createUser();
-      $user->setPlainPassword($this->generatePwd(8));
+      if(!$user->getPlainPassword()) {
+        $user->setPlainPassword($this->generatePwd(8));
+      } else {
+        $user->addRole('ROLE_ADMIN');
+      }
       $user->setConfirmationToken(null);
       $user->setEnabled(true);
       $user->addRole('ROLE_STUDENT');

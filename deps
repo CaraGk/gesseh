@@ -89,3 +89,11 @@
   git=git://github.com/stfalcon/TinymceBundle.git
   target=/bundles/Stfalcon/Bundle/TinymceBundle
 
+[doctrine-migrations]
+    git=http://github.com/doctrine/migrations.git
+
+[DoctrineMigrationsBundle]
+    git=http://github.com/doctrine/DoctrineMigrationsBundle.git
+    target=/bundles/Symfony/Bundle/DoctrineMigrationsBundle
+    version=origin/2.0
+

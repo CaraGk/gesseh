@@ -21,6 +21,8 @@ $loader->registerNamespaces(array(
     'Knp\\Bundle'      => __DIR__.'/../vendor/bundles',
     'KDB'              => __DIR__.'/../vendor/bundles',
     'Stfalcon'         => __DIR__.'/../vendor/bundles',
+    'Doctrine\\DBAL\\Migrations' => __DIR__.'/../vendor/doctrine-migrations/lib',
+    'Doctrine\\DBAL'             => __DIR__.'/../vendor/doctrine-dbal/lib',
 ));
 $loader->registerPrefixes(array(
     'Twig_Extensions_' => __DIR__.'/../vendor/twig-extensions/lib',

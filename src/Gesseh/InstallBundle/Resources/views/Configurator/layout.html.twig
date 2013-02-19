@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}Gesseh - Installation{% endblock %}</title>
+    <link rel="shortcut icon" href="{{ asset('bundles/gessehcore/images/favicon.ico') }}" />
+    <link href="{{ asset('bundles/gessehcore/css/main.css') }}" type="text/css" rel="stylesheet" media="all" />
+  </head>
+  <body>
+    <div id="container">
+      <header id="header">
+        <span><img src="{{ asset("bundles/gessehcore/images/gesseh_logo.png") }}" alt="Symfony" /></span>
+        <span><h1>Configuration de Gesseh</h1></span>
+      </header>
+      <nav id="menu">
+        {% block menu %}{% endblock %}
+      </nav>
+      <section id="content">
+        {% block content %}{% endblock %}
+      </section>
+      <footer id="footer">
+        <span class="miniature"><a href="http://code.google.com/p/gesseh/"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo_small.png') }}" alt="gesseh" /></a> powered by <a href="http://symfony.com/"><img src="{{ asset('bundles/gessehcore/images/symfony_logo.png') }}" alt="symfony 2" /></a></span>
+        <ul>
+          <li><a href="http://code.google.com/p/gesseh/issues/list">Reporter un bug ou un souhait</a></li>
+          <li><a href="http://code.google.com/p/gesseh/w/list">Assistance - documentation</a></li>
+        </ul>
+      </footer>
+    </div>
+  </body>
+</html>

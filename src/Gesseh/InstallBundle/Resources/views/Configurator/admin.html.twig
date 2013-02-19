@@ -1,0 +1,10 @@
+{% extends "GessehInstallBundle:Configurator:layout.html.twig" %}
+
+{% block title %}{{ parent() }} : Création des données{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {{ form_widget(admin_form) }}
+    <button type="submit">Terminer</button>
+  </form>
+{% endblock %}

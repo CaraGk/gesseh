@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="_configurator_home" pattern="/">
+        <default key="_controller">GessehInstallBundle:Configurator:check</default>
+    </route>
+
+    <route id="_configurator_step" pattern="/step/{index}">
+        <default key="_controller">GessehInstallBundle:Configurator:step</default>
+    </route>
+
+    <route id="_configurator_final" pattern="/final">
+        <default key="_controller">GessehInstallBundle:Configurator:final</default>
+    </route>
+
+    <route id="_configurator_migrate" pattern="/migrate">
+      <default key="_controller">GessehInstallBundle:Configurator:migrate</default>
+    </route>
+
+    <route id="_configurator_config" pattern="/config">
+      <default key="_controller">GessehInstallBundle:Configurator:createConfig</default>
+    </route>
+
+    <route id="_configurator_admin" pattern="/last">
+      <default key="_controller">GessehInstallBundle:Configurator:createAdmin</default>
+    </route>
+</routes>

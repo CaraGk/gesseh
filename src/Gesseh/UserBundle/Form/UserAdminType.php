@@ -11,11 +11,16 @@ class UserAdminType extends BaseType
 {
   public function buildForm(FormBuilder $builder, array $options)
   {
-    $builder->add('email', 'email');
+    $builder->add('email', 'email')
+            ->add('plainPassword', 'repeated', array(
+              'first_name' => 'password',
+              'second_name' => 'confirm',
+              'type' => 'password',
+            ));
   }
 
   public function getName()
   {
-    return 'gesseh_user_useradmin';
+    return 'gesseh_user_admin';
   }
 }

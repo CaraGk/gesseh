@@ -1,0 +1,11 @@
+<ul class="symfony-block-steps">
+  {% for i in 1..count %}
+    {% if i == index + 1 %}
+      <li class="selected">Step {{ i }}</li>
+    {% else %}
+      <li>Step {{ i }}</li>
+    {% endif %}
+  {% endfor %}
+  <li>Final</li>
+  <li>Datas</li>
+</ul>
