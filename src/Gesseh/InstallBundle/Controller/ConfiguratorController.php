@@ -143,6 +143,8 @@ class ConfiguratorController extends ContainerAware
 
     public function createConfigAction()
     {
+      $em = $this->container->get('doctrine')->getEntityManager();
+      
       $parameters = array(
         array(
           'Name'     => 'title',
@@ -170,7 +172,16 @@ class ConfiguratorController extends ContainerAware
           $func = 'set' . $key;
           $param->$func($value);
         }
+        $em->add($param);
       }
+
+      $grade = new Grade();
+      $grade->setName('Hors promos');
+      $grade->setRank(0);
+      $grade->setIsActive(false);
+      $em->add($grade);
+
+      $em->flush();
 
       return new RedirectResponse($this->container->get('router')->generate('_configurator_admin'));
       $this->get('session')->setFlash('notice', 'Paramètres du site créés.');
