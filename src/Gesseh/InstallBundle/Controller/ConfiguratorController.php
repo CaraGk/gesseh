@@ -17,6 +17,7 @@ use Doctrine\DBAL\Migrations\Migration,
   Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Gesseh\ParameterBundle\Entity\Parameter;
 use Gesseh\UserBundle\Entity\Student,
+  Gesseh\UserBundle\Entity\Grade,
   Gesseh\UserBundle\Form\AdminType,
   Gesseh\UserBundle\Form\StudentHandler;
 
@@ -106,37 +107,39 @@ class ConfiguratorController extends ContainerAware
       $conn = $this->container->get('database_connection');
       $configuration = new Configuration($conn);
       $configuration->setMigrationsNamespace('Application\Migrations');
+      $configuration->setMigrationsTableName('migration_versions');
       $configuration->setMigrationsDirectory('/home/pilou/Public/gesseh/app/DoctrineMigrations');
       $configuration->registerMigrationsFromDirectory('/home/pilou/Public/gesseh/app/DoctrineMigrations');
 
-      $migration = new Migration($configuration);
-
       $executedMigrations = $configuration->getMigratedVersions();
       $availableMigrations = $configuration->getAvailableVersions();
+      $newMigrations = count($availableMigrations) - count($executedMigrations);
       $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
 
-      if ($executedUnavailableMigrations) {
-        $warning = 'WARNING! You have ' . count($executedUnavailableMigrations) . ' previously executed migrations in the database that are not registered migrations : <ul>';
-        foreach ($executedUnavailableMigrations as $executedUnavailableMigration) {
-          $warning .= '<li>' . $executedUnavailableMigration . '</li>';
-        }
-        $warning .= '</ul>';
-        $infos[0] = $warning;
-      } else {
-        $sql = $migration->migrate(null, null);
+      if($newMigrations > 0) {
+        $migration = new Migration($configuration);
 
-        if ( ! $sql) {
-          $infos[0] = 'No migrations to execute.';
+        if ($executedUnavailableMigrations) {
+          $warning = 'WARNING! You have ' . count($executedUnavailableMigrations) . ' previously executed migrations in the database that are not registered migrations : <ul>';
+          foreach ($executedUnavailableMigrations as $executedUnavailableMigration) {
+            $warning .= '<li>' . $executedUnavailableMigration . '</li>';
+          }
+          $warning .= '</ul>';
+          $infos[0] = $warning;
         } else {
-          $infos[0] = 'Création des tables réussie.';
-
-          // création et import des données de base : administrateur
+          if($infos[1] = $migration->migrate()) {
+            $infos[0] = 'Création des tables réussie.';
+            // création et import des données de base : administrateur
+          } else {
+            $infos[0] = 'No migrations to execute.';
+          }
         }
+      } else {
+        $infos[0] = 'Votre base de données est déjà à jour.';
       }
 
 //      return new RedirectResponse($this->container->get('router')->generate('_configurator_final'));
         return $this->container->get('templating')->renderResponse('GessehInstallBundle:Configurator:migrate.html.twig', array(
-          'sql'  => $sql,
           'infos' => $infos,
         ));
     }
@@ -144,25 +147,28 @@ class ConfiguratorController extends ContainerAware
     public function createConfigAction()
     {
       $em = $this->container->get('doctrine')->getEntityManager();
-      
+
       $parameters = array(
         array(
           'Name'     => 'title',
           'Label'    => 'Nom du site',
           'Category' => 'General',
           'Type'     => 1,
+          'Value'    => 'Site d\'exemple',
         ),
         array(
           'Name'     => 'eval_active',
           'Label'    => 'Activer le module d\'évaluation',
           'Category' => 'Evaluation',
           'Type'     => 2,
+          'Value'    => true,
         ),
         array(
           'Name'     => 'simul_active',
           'Label'    => 'Activer le module de simulation',
           'Category' => 'Simulation',
           'Type'     => 2,
+          'Value'    => true,
         ),
       );
 
@@ -172,14 +178,14 @@ class ConfiguratorController extends ContainerAware
           $func = 'set' . $key;
           $param->$func($value);
         }
-        $em->add($param);
+        $em->persist($param);
       }
 
       $grade = new Grade();
       $grade->setName('Hors promos');
       $grade->setRank(0);
       $grade->setIsActive(false);
-      $em->add($grade);
+      $em->persist($grade);
 
       $em->flush();
 
