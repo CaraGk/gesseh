@@ -47,11 +47,11 @@
   <table>
     <thead>
       <tr>
-        <th {% if students.isSorted('s.surname') %} class="sorted" {% endif %}>{{ students.sortable('Nom', 's.surname')|raw }}</th>
-        <th {% if students.isSorted('s.name') %} class="sorted" {% endif %}>{{ students.sortable('Prénom', 's.name')|raw }}</th>
+        <th {% if students.isSorted('s.surname') %} class="sorted" {% endif %}>{{ knp_pagination_sortable(students, 'Nom', 's.surname') }}</th>
+        <th {% if students.isSorted('s.name') %} class="sorted" {% endif %}>{{ knp_pagination_sortable(students, 'Prénom', 's.name') }}</th>
         <th>E-mail</th>
         <th>Téléphone</th>
-        <th {% if students.isSorted('p.rank') %} class="sorted small" {% else %} class="small" {% endif %}>{{ students.sortable('Promotion', 'p.rank')|raw }}</th>
+        <th {% if students.isSorted('p.rank') %} class="sorted small" {% else %} class="small" {% endif %}>{{ knp_pagination_sortable(students, 'Promotion', 'p.rank') }}</th>
         {% if kparam('simul_active') == true %}
           <th>Classement/Année</th>
         {% endif %}
@@ -74,7 +74,7 @@
             <li><a href="{{ path('GUser_SAUpdateGrade') }}" title="Passer tous les étudiants dans la promotion supérieure">Changer de promo</a></li>
           </ul>
         </td>
-        <td class="pagination">{{ students.render()|raw }}</td>
+        <td class="pagination">{{ knp_pagination_render(students) }}</td>
       </tr>
     </tfoot>
   </table>
