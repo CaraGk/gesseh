@@ -4,12 +4,12 @@
 namespace Gesseh\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 
 class UserAdminType extends BaseType
 {
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->add('email', 'email')
             ->add('plainPassword', 'repeated', array(

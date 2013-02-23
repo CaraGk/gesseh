@@ -21,11 +21,12 @@
 {% block body %}
   <h1>{% block titlecontent %}{% endblock %}</h1>
 
-  {% if app.session.hasFlash('notice') %}
-    <div class="info">{{ app.session.flash('notice') }}</div>
-  {% elseif app.session.hasFlash('error') %}
-    <div class="error">{{ app.session.flash('error') }}</div>
-  {% endif %}
+  {% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+      <div class="flash{{ type }}">{{ flashMessage }}</div>
+    {% endfor %}
+  {% endfor %}
+
 
   <ul>{% block actionscontent %}{% endblock %}</ul>
 

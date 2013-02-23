@@ -13,23 +13,24 @@ class AppKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new Symfony\Bundle\DoctrineBundle\DoctrineBundle(),
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Gesseh\CoreBundle\GessehCoreBundle(),
+            new JMS\AopBundle\JMSAopBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new Gesseh\UserBundle\GessehUserBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new Gesseh\CoreBundle\GessehCoreBundle(),
-            new Gesseh\UserBundle\GessehUserBundle(),
-            new Gesseh\ParameterBundle\GessehParameterBundle(),
             new Gesseh\SimulationBundle\GessehSimulationBundle(),
             new Gesseh\EvaluationBundle\GessehEvaluationBundle(),
-            new KDB\ParametersBundle\KDBParametersBundle(),
-//            new Gesseh\MigrateOldDbBundle\GessehMigrateOldDbBundle(), // Bundle de migration des données de la version 0.2alpha
+//            new KDB\ParametersBundle\KDBParametersBundle(),
+//            new Gesseh\ParameterBundle\GessehParameterBundle(),
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+//            new Gesseh\MigrateOldDbBundle\GessehMigrateOldDbBundle(), // Bundle de migration des données de la version 0.2alpha
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Gesseh\InstallBundle\GessehInstallBundle(),
-            new Symfony\Bundle\DoctrineMigrationsBundle\DoctrineMigrationsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
