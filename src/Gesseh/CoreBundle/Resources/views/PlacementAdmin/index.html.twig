@@ -76,7 +76,7 @@
             <li><a href="{{ path('GCore_PANewPlacement') }}#placement_new" title="Ajouter un nouveau stage">Ajouter</a></li>
           </ul>
         </td>
-        <td class="pagination">{{ placements.render()|raw }}</td>
+        <td class="pagination">{{ knp_pagination_render(placements) }}</td>
       </tr>
     </tfoot>
   </table>
