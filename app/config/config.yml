@@ -72,9 +72,9 @@ fos_user:
     address:        %mailer_mail%
     sender_name:    Admin Gesseh
 
-#kdb_parameters:
-#  db_driver: orm
-#  class: Gesseh\ParameterBundle\Entity\Parameter
+kdb_parameters:
+  db_driver: orm
+  class: Gesseh\ParameterBundle\Entity\Parameter
 
 knp_paginator:
   page_range: 5

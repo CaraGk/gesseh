@@ -25,8 +25,8 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Gesseh\SimulationBundle\GessehSimulationBundle(),
             new Gesseh\EvaluationBundle\GessehEvaluationBundle(),
-//            new KDB\ParametersBundle\KDBParametersBundle(),
-//            new Gesseh\ParameterBundle\GessehParameterBundle(),
+            new KDB\ParametersBundle\KDBParametersBundle(),
+            new Gesseh\ParameterBundle\GessehParameterBundle(),
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
 //            new Gesseh\MigrateOldDbBundle\GessehMigrateOldDbBundle(), // Bundle de migration des données de la version 0.2alpha
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),

@@ -25,7 +25,8 @@
         "knplabs/knp-paginator-bundle": "dev-master",
         "stfalcon/tinymce-bundle": "dev-master",
         "doctrine/migrations": "dev-master",
-        "doctrine/doctrine-migrations-bundle": "dev-master"
+        "doctrine/doctrine-migrations-bundle": "dev-master",
+        "caragk/kdb-parameters-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
