@@ -18,7 +18,7 @@ class User extends BaseUser
    *
    * @ORM\Column(name="id", type="integer")
    * @ORM\Id
-   * @ORM\generatedValue(strategy="AUTO")
+   * @ORM\GeneratedValue(strategy="AUTO")
    */
   protected $id;
 
