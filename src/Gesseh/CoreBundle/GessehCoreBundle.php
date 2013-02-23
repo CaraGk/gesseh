@@ -10,9 +10,6 @@ class GessehCoreBundle extends Bundle
   public function boot() {
     $em = $this->container->get('doctrine.orm.default_entity_manager');
 
-    Type::addType('longblob', 'Gesseh\CoreBundle\Doctrine\Types\LongBlobType');
-
-    $em->getConnection()->getDatabasePlatform()
-      ->registerDoctrineTypeMapping('LONGBLOB', 'longblob');
+    $em->getConnection()->getDatabasePlatform();
   }
 }
