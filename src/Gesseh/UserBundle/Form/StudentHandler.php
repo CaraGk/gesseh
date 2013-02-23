@@ -7,7 +7,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
 use Gesseh\UserBundle\Entity\Student;
-use FOS\UserBundle\Entity\UserManager;
+use FOS\UserBundle\Doctrine\UserManager;
 
 class StudentHandler
 {
