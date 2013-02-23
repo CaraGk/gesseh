@@ -20,7 +20,7 @@ class StudentType extends AbstractType
     $builder->add('surname')
             ->add('name')
             ->add('phone')
-            ->add('user', new AdminType('Gesseh\UserBundle\Entity\User'))
+            ->add('user', new UserType('Gesseh\UserBundle\Entity\User'))
             ->add('grade');
 
     // Si la simulation est activée
