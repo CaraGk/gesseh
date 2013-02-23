@@ -12,6 +12,7 @@ _profiler:
 
 _configurator:
     resource: "@GessehInstallBundle/Resources/config/routing/webconfigurator.xml"
+#    resource: "@SensioDistributionBundle/Resources/config/routing/webconfigurator.xml"
     prefix:   /_configurator
 
 _main:
