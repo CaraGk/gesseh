@@ -12,13 +12,13 @@ framework:
     csrf_protection: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
-    default_locale: %locale%
+    default_locale:  %locale%
     session:
-      cookie_lifetime:   3600
-#      cookie_path:       \
-#      cookie_domain:     example.com
-      cookie_secure:     true
-      cookie_httponly:   true
+      cookie_lifetime: 3600
+#      cookie_path:     \
+#      cookie_domain:   example.com
+      cookie_secure:   true
+      cookie_httponly: true
 
 # Twig Configuration
 twig:
@@ -50,7 +50,7 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%
-        auto_mapping: true
+        auto_mapping:                true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -69,23 +69,26 @@ fos_user:
 #  use_listener:  false
   user_class:    Gesseh\UserBundle\Entity\User
   from_email:
-    address:        %mailer_mail%
-    sender_name:    Admin Gesseh
+    address:     %mailer_mail%
+    sender_name: Admin Gesseh
 
 kdb_parameters:
   db_driver: orm
-  class: Gesseh\ParameterBundle\Entity\Parameter
+  class:     Gesseh\ParameterBundle\Entity\Parameter
 
 knp_paginator:
-  page_range: 5
+  page_range: 5                       # default page range used in pagination control
   default_options:
-    page_name: page
-    sort_field_name: sort
-    sort_direction_name: direction
-    distinct: true
+    page_name:           page         # page query parameter name
+    sort_field_name:     sort         # sort field query parameter name
+    sort_direction_name: direction    # sort direction query parameter name
+    distinct:            true         # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    filter_field_name:   filterField
+    filter_value_name:   filterValue
   template:
-    pagination: KnpPaginatorBundle:Pagination:sliding.html.twig
-    sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig
+    pagination: KnpPaginatorBundle:Pagination:sliding.html.twig       # sliding pagination controls template
+    filtration: KnpPaginatorBundle:Pagination:filtration.html.twig
+    sortable:   KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
 stfalcon_tinymce:
   include_jquery: true
@@ -93,17 +96,17 @@ stfalcon_tinymce:
   textarea_class: "tinymce"
   theme:
     simple:
-      mode: "textareas"
-      theme: "advanced"
-      theme_advanced_buttons1: "mylistbox,mysplitbutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,undo,redo,link,unlink"
-      theme_advanced_buttons2: ""
-      theme_advanced_buttons3: ""
-      theme_advanced_toolbar_location: "top"
-      theme_advanced_toolbar_align: "left"
+      mode:                             "textareas"
+      theme:                            "advanced"
+      theme_advanced_buttons1:          "mylistbox,mysplitbutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,undo,redo,link,unlink"
+      theme_advanced_buttons2:           ""
+      theme_advanced_buttons3:           ""
+      theme_advanced_toolbar_location:   "top"
+      theme_advanced_toolbar_align:      "left"
       theme_advanced_statusbar_location: "bottom"
-      plugins: "fullscreen"
-      theme_advanced_buttons1_add: "fullscreen"
-      language: 'fr'
+      plugins:                           "fullscreen"
+      theme_advanced_buttons1_add:       "fullscreen"
+      language:                          %locale%
     advanced:
       theme: "advanced"
       plugins: "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template"
