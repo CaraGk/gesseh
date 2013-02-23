@@ -43,7 +43,7 @@ class Student
   /**
    * @var string $phone
    *
-   * @ORM\Column(name="phone", type="string", length="18", nullable=true)
+   * @ORM\Column(name="phone", type="string", length=18, nullable=true)
    * @Assert\MinLength(10)
    */
   private $phone;
