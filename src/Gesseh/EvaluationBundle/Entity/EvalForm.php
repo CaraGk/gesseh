@@ -4,7 +4,6 @@ namespace Gesseh\EvaluationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Query\Expr\OrderBy as OrderBy;
 
 /**
  * Gesseh\EvaluationBundle\Entity\EvalForm
@@ -32,7 +31,7 @@ class EvalForm
 
     /**
      * @ORM\OneToMany(targetEntity="EvalCriteria", mappedBy="eval_form", cascade={"remove", "persist"}, orphanRemoval=true)
-     * @OrderBy({"rank" = "asc"})
+     * @ORM\OrderBy({"rank" = "asc"})
      */
     private $criterias;
 
