@@ -4,7 +4,7 @@
 namespace Gesseh\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType,
-  Symfony\Component\Form\FormBuilder;
+  Symfony\Component\Form\FormBuilderInterface;
 
 class StudentType extends AbstractType
 {
@@ -15,7 +15,7 @@ class StudentType extends AbstractType
     $this->testSimulActive = $testSimulActive;
   }
 
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->add('surname')
             ->add('name')

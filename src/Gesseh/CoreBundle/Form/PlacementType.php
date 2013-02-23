@@ -4,16 +4,16 @@
 namespace Gesseh\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class PlacementType extends AbstractType
 {
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->add('period')
             ->add('student', 'entity', array(
               'class'         => 'GessehUserBundle:Student',
-              'query_builder' => function(\Gesseh\UserBundle\Entity\StudentRepository $er) { 
+              'query_builder' => function(\Gesseh\UserBundle\Entity\StudentRepository $er) {
                 return $er->createQueryBuilder('s')
                   ->addOrderBy('s.surname', 'ASC')
                   ->addOrderBy('s.name', 'ASC');

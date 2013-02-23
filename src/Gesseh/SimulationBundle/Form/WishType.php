@@ -3,7 +3,7 @@
 namespace Gesseh\SimulationBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class WishType extends AbstractType
 {
@@ -14,7 +14,7 @@ class WishType extends AbstractType
       $this->rules = $rules;
     }
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
       $rules = $this->rules;
 

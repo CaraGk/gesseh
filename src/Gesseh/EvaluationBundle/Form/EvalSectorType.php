@@ -3,7 +3,7 @@
 namespace Gesseh\EvaluationBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class EvalSectorType extends AbstractType
 {
@@ -14,7 +14,7 @@ class EvalSectorType extends AbstractType
     $this->exclude_sectors = $exclude_sectors;
   }
 
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $exclude_sectors = $this->exclude_sectors;
 

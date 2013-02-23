@@ -3,7 +3,7 @@
 namespace Gesseh\EvaluationBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class EvaluationType extends AbstractType
 {
@@ -14,7 +14,7 @@ class EvaluationType extends AbstractType
     $this->criterias = $criterias;
   }
 
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {
     foreach ($this->criterias as $criteria) {
       if ($criteria->getType() == 1) {

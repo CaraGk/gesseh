@@ -4,11 +4,11 @@
 namespace Gesseh\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType,
-  Symfony\Component\Form\FormBuilder;
+  Symfony\Component\Form\FormBuilderInterface;
 
 class AdminType extends AbstractType
 {
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->add('surname')
             ->add('name')
