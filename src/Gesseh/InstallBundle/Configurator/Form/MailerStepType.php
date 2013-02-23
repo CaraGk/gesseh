@@ -4,7 +4,7 @@ namespace Gesseh\InstallBundle\Configurator\Form;
 
 use Gesseh\InstallBundle\Configurator\Step\MailerStep;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Mailer Form Type.
@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilder;
  */
 class MailerStepType extends AbstractType
 {
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
       ->add('transport', 'choice', array('choices' => MailerStep::getTransports()))
