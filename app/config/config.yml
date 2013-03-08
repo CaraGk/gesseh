@@ -15,10 +15,6 @@ framework:
     default_locale:  %locale%
     session:
       cookie_lifetime: 3600
-#      cookie_path:     \
-#      cookie_domain:   example.com
-      cookie_secure:   true
-      cookie_httponly: true
 
 # Twig Configuration
 twig:
