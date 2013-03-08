@@ -198,6 +198,15 @@ class Hospital
         $this->departments[] = $department;
         $department->setHospital($this);
     }
+    
+    /**
+     * Remove department
+     *
+     * @param Gesseh\CoreBundle\Entity\Departement $department
+     */
+    public function removeDepartment(\Gesseh\CoreBundle\Entity\Department $department)
+    {
+    }
 
     /**
      * Set departments
