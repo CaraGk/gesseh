@@ -4,7 +4,7 @@ $(document).ready(function() {
     var $container = $($container_id);
     index = $container.children().length;
     $container.append(
-      $($container.attr('data-prototype').replace(/\$\$name\$\$/g, index))
+      $($container.attr('data-prototype').replace(/__name__/g, index))
     );
   }
 
