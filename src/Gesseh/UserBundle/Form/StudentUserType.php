@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class StudentUserType extends AbstractType
 {
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->add('surname')
             ->add('name')
