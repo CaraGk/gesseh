@@ -155,6 +155,7 @@ class ConfiguratorController extends ContainerAware
           'Category' => 'General',
           'Type'     => 1,
           'Value'    => 'Site d\'exemple',
+          'Active'   => 1,
         ),
         array(
           'Name'     => 'eval_active',
@@ -162,6 +163,7 @@ class ConfiguratorController extends ContainerAware
           'Category' => 'Evaluation',
           'Type'     => 2,
           'Value'    => true,
+          'Active'   => 1,
         ),
         array(
           'Name'     => 'simul_active',
@@ -169,6 +171,7 @@ class ConfiguratorController extends ContainerAware
           'Category' => 'Simulation',
           'Type'     => 2,
           'Value'    => true,
+          'Active'   => 1,
         ),
       );
 
