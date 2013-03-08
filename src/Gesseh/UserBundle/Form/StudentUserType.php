@@ -4,7 +4,7 @@
 namespace Gesseh\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class StudentUserType extends AbstractType
 {
