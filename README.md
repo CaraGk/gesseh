@@ -28,11 +28,11 @@ Pour son installation, vous aurez besoin d'un serveur web (apache, lighttpd, ...
 
 ###Via une archive snapshot
 
-Récupérez la dernière archive sur [Google code](https://code.google.com/p/gesseh/downloads/list).
-Extrayez-la dans votre répertoire web.
-Copiez le fichier *app/config/parameters.ini.dist* vers *app/config/parameters.ini* et adaptez-le à vos besoins (connexion MySQL, etc).
-Importez le fichiers **gesseh_x.y-z.sql** dans votre base de données (en utilisant phpMyAdmin par exemple).
-Les identifiants sont : *admin@exemple.fr* ; mot de passe : *admin*
+1. Récupérez la dernière archive sur [Google code](https://code.google.com/p/gesseh/downloads/list).
+2. Extrayez-la dans votre répertoire web.
+3. Copiez le fichier *app/config/parameters.ini.dist* vers *app/config/parameters.ini* et adaptez-le à vos besoins (connexion MySQL, etc).
+4. Importez le fichiers **gesseh_x.y-z.sql** dans votre base de données (en utilisant phpMyAdmin par exemple).
+5. Les identifiants sont : *admin@exemple.fr* ; mot de passe : *admin*
 
 ###Via les dépots Git
 
