@@ -1,11 +1,22 @@
 <?php
-// src/Gesseh/CoreBundle/Menu/MenuBuilder.php
+
+/**
+ * This file is part of GESSEH project
+ *
+ * @author: Pierre-François ANGRAND <caragk@angrand.fr>
+ * @copyright: Copyright 2013 Pierre-François Angrand
+ * @license: GPLv3
+ * See LICENSE file or http://www.gnu.org/licenses/gpl.html
+ */
 
 namespace Gesseh\CoreBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Menu builder class
+ */
 class MenuBuilder
 {
   private $factory;

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of GESSEH project
+ *
+ * @author: Pierre-François ANGRAND <caragk@angrand.fr>
+ * @copyright: Copyright 2013 Pierre-François Angrand
+ * @license: GPLv3
+ * See LICENSE file or http://www.gnu.org/licenses/gpl.html
+ */
+
 namespace Gesseh\InstallBundle\Configurator\Form;
 
 use Gesseh\InstallBundle\Configurator\Step\MailerStep;
@@ -8,8 +17,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Mailer Form Type.
- *
- * @author PF Angrand <pilou@angrand.fr>
  */
 class MailerStepType extends AbstractType
 {

@@ -1,5 +1,13 @@
 <?php
-// src/Gesseh/UserBundle/Form/StudentHandler.php
+
+/**
+ * This file is part of GESSEH project
+ *
+ * @author: Pierre-François ANGRAND <caragk@angrand.fr>
+ * @copyright: Copyright 2013 Pierre-François Angrand
+ * @license: GPLv3
+ * See LICENSE file or http://www.gnu.org/licenses/gpl.html
+ */
 
 namespace Gesseh\UserBundle\Form;
 
@@ -9,6 +17,9 @@ use Doctrine\ORM\EntityManager;
 use Gesseh\UserBundle\Entity\Student;
 use FOS\UserBundle\Doctrine\UserManager;
 
+/**
+ * StudentType Handler
+ */
 class StudentHandler
 {
   private $form;

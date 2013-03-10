@@ -1,12 +1,15 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
+/**
+ * This file is part of GESSEH project
  *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @author Fabien Potencier <fabien@symfony.com>
+ * @author Marc Weistroff <marc.weistroff@sensio.com>
+ * @author: Pierre-François ANGRAND <caragk@angrand.fr>
+ * @copyright: (c) Fabien Potencier <fabien@symfony.com>
+ * @copyright: Copyright 2013 Pierre-François Angrand
+ * @license: GPLv3
+ * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
 
 namespace Gesseh\InstallBundle;
@@ -18,9 +21,6 @@ use Gesseh\InstallBundle\Configurator\Step\SecretStep;
 
 /**
  * GessehInstallBundle.
- *
- * @author Fabien Potencier <fabien@symfony.com>
- * @author Marc Weistroff <marc.weistroff@sensio.com>
  */
 class GessehInstallBundle extends Bundle
 {

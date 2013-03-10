@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of GESSEH project
+ *
+ * @author: Pierre-François ANGRAND <caragk@angrand.fr>
+ * @copyright: Copyright 2013 Pierre-François Angrand
+ * @license: GPLv3
+ * See LICENSE file or http://www.gnu.org/licenses/gpl.html
+ */
+
 namespace Gesseh\SimulationBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,6 +27,8 @@ use Gesseh\SimulationBundle\Form\SectorRuleType;
 use Gesseh\SimulationBundle\Form\SectorRuleHandler;
 
 /**
+ * Simulation admin controller
+ *
  * @Route("/admin/s")
  */
 class SimulationAdminController extends Controller

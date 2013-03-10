@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of GESSEH project
+ *
+ * @author: Pierre-François ANGRAND <caragk@angrand.fr>
+ * @copyright: Copyright 2013 Pierre-François Angrand
+ * @license: GPLv3
+ * See LICENSE file or http://www.gnu.org/licenses/gpl.html
+ */
+
 namespace Gesseh\EvaluationBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,6 +20,9 @@ use Gesseh\EvaluationBundle\Entity\EvalSector;
 use Gesseh\EvaluationBundle\Form\EvaluationType;
 use Gesseh\EvaluationBundle\Form\EvaluationHandler;
 
+/**
+ * EvaluationBundle DefaultController
+ */
 class DefaultController extends Controller
 {
     /**

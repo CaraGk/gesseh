@@ -1,5 +1,13 @@
 <?php
-// src/Gesseh/EvaluationBundle/Form/EvalCriteriaHandler.php
+
+/**
+ * This file is part of GESSEH project
+ *
+ * @author: Pierre-François ANGRAND <caragk@angrand.fr>
+ * @copyright: Copyright 2013 Pierre-François Angrand
+ * @license: GPLv3
+ * See LICENSE file or http://www.gnu.org/licenses/gpl.html
+ */
 
 namespace Gesseh\EvaluationBundle\Form;
 
@@ -8,6 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
 use Gesseh\EvaluationBundle\Entity\EvalCriteria;
 
+/**
+ * EvalCriteriaForm Handler
+ */
 class EvalCriteriaHandler
 {
   private $form;
