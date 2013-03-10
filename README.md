@@ -30,9 +30,9 @@ Pour son installation, vous aurez besoin d'un serveur web (apache, lighttpd, ...
 
 Récupérez la dernière archive sur [Google code](https://code.google.com/p/gesseh/downloads/list).
 Extrayez-la dans votre répertoire web.
-Copiez le fichier 'app/config/parameters.ini.dist' vers 'app/config/parameters.ini' et adaptez-le à vos besoins (connexion MySQL, etc).
-Importez le fichiers 'gesseh_x.y-z.sql' dans votre base de données (en utilisant phpMyAdmin par exemple).
-Les identifiants sont : admin@exemple.fr ; mot de passe : admin
+Copiez le fichier *app/config/parameters.ini.dist* vers *app/config/parameters.ini* et adaptez-le à vos besoins (connexion MySQL, etc).
+Importez le fichiers **gesseh_x.y-z.sql** dans votre base de données (en utilisant phpMyAdmin par exemple).
+Les identifiants sont : *admin@exemple.fr* ; mot de passe : *admin*
 
 ###Via les dépots Git
 
@@ -41,7 +41,7 @@ Il est conseillé d'utiliser une archive stable mais si vous souhaitez vraiment 
     git clone http://github.com/CaraGk/gesseh.git gesseh
     cd gesseh
 
-Copiez le fichier 'parameters.ini.dist' sur 'parameters.ini' et adaptez-le à vos besoins (connexion MySQL, etc).
+Copiez le fichier *parameters.ini.dist* sur *parameters.ini* et adaptez-le à vos besoins (connexion MySQL, etc).
 
     cp app/config/parameters.ini.dist app/config/parameters.ini
     ./composer.phar install
