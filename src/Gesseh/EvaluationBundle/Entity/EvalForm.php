@@ -103,6 +103,17 @@ class EvalForm
     }
 
     /**
+     * Remove criteria
+     *
+     * @param Gesseh\EvaluationBundle\Entity\EvalCriteria $criteria
+     */
+    public function removeCriteria(\Gesseh\EvaluationBundle\Entity\EvalCriteria $criteria)
+    {
+        $this->criterias = array_diff($this->criterias, array($criteria));
+        $criteria->setEvalForm(null);
+    }
+
+    /**
      * Set criterias
      *
      * @param Doctrine\Common\Collections\Collection $criterias
