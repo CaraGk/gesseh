@@ -18,10 +18,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class SectorRepository extends EntityRepository
 {
-  public function listOtherSectors(array $exclude)
+  public function listOtherSectors(array $exclude = null)
   {
-    $query = $this->createQueryBuilder('s')
-                  ->where('s.id NOT IN (' . implode(',', $exclude) . ')');
+    $query = $this->createQueryBuilder('s');
+    if ($exclude != null) {
+      $query->where('s.id NOT IN (' . implode(',', $exclude) . ')');
+    }
 
     return $query;
   }
