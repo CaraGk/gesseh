@@ -211,4 +211,13 @@ class Simulation
     {
         $this->wishes[] = $wishes;
     }
+
+    /**
+     * Remove wishes
+     *
+     * @param Gesseh\SimulationBundle\Entity\Wish $wishes
+     */
+    public function removeWish(\Gesseh\SimulationBundle\Entity\Wish $wishes)
+    {
+    }
 }

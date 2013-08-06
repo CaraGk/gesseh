@@ -149,6 +149,15 @@ class Grade
     }
 
     /**
+     * Remove students
+     *
+     * @param Gesseh\UserBundle\Entity\Student $students
+     */
+    public function removeStudent(\Gesseh\UserBundle\Entity\Student $students)
+    {
+    }
+
+    /**
      * Get students
      *
      * @return Doctrine\Common\Collections\Collection

@@ -97,6 +97,15 @@ class Sector
     }
 
     /**
+     * Remove department
+     *
+     * @param Gesseh\CoreBundle\Entity\Department $department
+     */
+    public function removeDepartment(\Gesseh\CoreBundle\Entity\Department $department)
+    {
+    }
+
+    /**
      * Get departments
      *
      * @return Doctrine\Common\Collections\Collection

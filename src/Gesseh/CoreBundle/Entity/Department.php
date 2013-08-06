@@ -235,6 +235,15 @@ class Department
     }
 
     /**
+     * Remove placements
+     *
+     * @param Gesseh\CoreBundle\Entity\Placement $placements
+     */
+    public function removePlacement(\Gesseh\CoreBundle\Entity\Placement $placements)
+    {
+    }
+
+    /**
      * Get placements
      *
      * @return Doctrine\Common\Collections\Collection
