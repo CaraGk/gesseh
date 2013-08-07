@@ -37,7 +37,7 @@ class SectorRuleType extends AbstractType
     return 'gesseh_simulationbundle_sectorruletype';
   }
 
-  public function setDefaultOptions(OptionsResolverInterface $resolver)
+  public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver)
   {
     $resolver->setDefaults(array(
         'data_class' => 'Gesseh\SimulationBundle\Entity\SectorRule',

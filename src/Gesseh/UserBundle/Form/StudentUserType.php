@@ -33,7 +33,7 @@ class StudentUserType extends AbstractType
     return 'gesseh_userbundle_studenttype';
   }
 
-  public function setDefaultOptions(OptionsResolverInterface $resolver)
+  public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver)
   {
     $resolver->setDefaults(array(
         'data_class' => 'Gesseh\UserBundle\Entity\Student',

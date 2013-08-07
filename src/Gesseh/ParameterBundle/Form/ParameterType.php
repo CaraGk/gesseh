@@ -29,7 +29,7 @@ class ParameterType extends AbstractType
     return 'gesseh_parameterbundle_parametertype';
   }
 
-  public function setDefaultOptions(OptionsResolverInterface $resolver)
+  public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver)
   {
     $resolver->setDefaults(array(
         'data_class' => 'Gesseh\ParameterBundle\Entity\Parameter',

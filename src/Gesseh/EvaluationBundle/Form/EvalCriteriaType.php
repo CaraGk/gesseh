@@ -41,7 +41,7 @@ class EvalCriteriaType extends AbstractType
     return 'gesseh_evaluationbundle_evalcriteriatype';
   }
 
-  public function setDefaultOptions(OptionsResolverInterface $resolver)
+  public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver)
   {
     $resolver->setDefaults(array(
         'data_class' => 'Gesseh\EvaluationBundle\Entity\EvalCriteria',

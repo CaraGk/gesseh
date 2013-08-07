@@ -37,7 +37,7 @@ class EvalFormType extends AbstractType
     return 'gesseh_evaluationbundle_evalformtype';
   }
 
-  public function setDefaultOptions(OptionsResolverInterface $resolver)
+  public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver)
   {
     $resolver->setDefaults(array(
         'data_class' => 'Gesseh\EvaluationBundle\Entity\EvalForm',
