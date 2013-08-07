@@ -29,10 +29,13 @@ class ParameterType extends AbstractType
     return 'gesseh_parameterbundle_parametertype';
   }
 
-  public function getDefaultOptions(array $options)
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
-    return array(
-      'data_class' => 'Gesseh\ParameterBundle\Entity\Parameter'
-    );
+    $resolver->setDefaults(array(
+        'data_class' => 'Gesseh\ParameterBundle\Entity\Parameter',
+    ));
+
+    $resolver->setAllowedValues(array(
+    ));
   }
 }

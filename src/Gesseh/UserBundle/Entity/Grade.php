@@ -35,7 +35,7 @@ class Grade
    * @var string $name
    *
    * @ORM\Column(name="name", type="string", length=255)
-   * @Assert\MinLength(2)
+   * @Assert\Length(min = 2)
    */
   private $name;
 

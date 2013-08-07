@@ -36,7 +36,7 @@ class Student
    *
    * @ORM\Column(name="surname", type="string", length=255)
    * @Assert\NotBlank()
-   * @Assert\MinLength(2)
+   * @Assert\Length(min = 2)
    */
   private $surname;
 
@@ -45,7 +45,7 @@ class Student
    *
    * @ORM\Column(name="name", type="string", length=255)
    * @Assert\NotBlank()
-   * @Assert\MinLength(2)
+   * @Assert\Length(min = 2)
    */
   private $name;
 
@@ -53,7 +53,7 @@ class Student
    * @var string $phone
    *
    * @ORM\Column(name="phone", type="string", length=18, nullable=true)
-   * @Assert\MinLength(10)
+   * @Assert\Length(min = 10)
    */
   private $phone;
 

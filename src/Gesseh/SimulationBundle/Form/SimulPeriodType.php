@@ -31,10 +31,13 @@ class SimulPeriodType extends AbstractType
     return 'gesseh_simulationbundle_simulperiodtype';
   }
 
-  public function getDefaultOptions(array $options)
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
-    return array(
-      'data_class' => 'Gesseh\SimulationBundle\Entity\SimulPeriod'
-    );
+    $resolver->setDefaults(array(
+        'data_class' => 'Gesseh\SimulationBundle\Entity\SimulPeriod',
+    ));
+
+    $resolver->setAllowedValues(array(
+    ));
   }
 }

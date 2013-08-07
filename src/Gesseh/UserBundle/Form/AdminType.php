@@ -31,12 +31,14 @@ class AdminType extends AbstractType
   public function getName()
   {
     return 'gesseh_userbundle_admintype';
-  }
-
-  public function getDefaultOptions(array $options)
+ {
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
-    return array(
-      'data_class' => 'Gesseh\UserBundle\Entity\Student'
-    );
+    $resolver->setDefaults(array(
+        'data_class' => 'Gesseh\UserBundle\Entity\Student',
+    ));
+
+    $resolver->setAllowedValues(array(
+    ));
   }
 }

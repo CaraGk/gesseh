@@ -34,10 +34,13 @@ class DepartmentDescriptionType extends AbstractType
     return 'gesseh_corebundle_departmenttype';
   }
 
-  public function getDefaultOptions(array $options)
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
-    return array(
-      'data_class' => 'Gesseh\CoreBundle\Entity\Department'
-    );
+    $resolver->setDefaults(array(
+      'data_class' => 'Gesseh\CoreBundle\Entity\Department',
+    ));
+
+    $resolver->setAllowedValues(array(
+    ));
   }
 }

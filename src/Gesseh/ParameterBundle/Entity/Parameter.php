@@ -37,7 +37,7 @@ class Parameter extends BaseParameter
      *
      * @ORM\Column(name="label", type="string", length=255)
      * @Assert\NotBlank()
-     * @Assert\MinLength(5)
+     * @Assert\Length(min = 5)
      */
     private $label;
 
@@ -46,7 +46,7 @@ class Parameter extends BaseParameter
      *
      * @ORM\Column(name="category", type="string", length=255)
      * @Assert\NotBlank()
-     * @Assert\MinLength(5)
+     * @Assert\Length(min = 5)
      */
     private $category;
 

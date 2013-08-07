@@ -44,10 +44,13 @@ class EvalSectorType extends AbstractType
     return 'gesseh_evaluationbundle_evalsectortype';
   }
 
-  public function getDefaultOptions(array $options)
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
-    return array(
-      'data_class' => 'Gesseh\EvaluationBundle\Entity\EvalSector',
-    );
+    $resolver->setDefaults(array(
+        'data_class' => 'Gesseh\EvaluationBundle\Entity\EvalSector',
+    ));
+
+    $resolver->setAllowedValues(array(
+    ));
   }
 }

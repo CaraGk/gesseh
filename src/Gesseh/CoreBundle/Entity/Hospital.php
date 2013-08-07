@@ -36,7 +36,7 @@ class Hospital
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @Assert\NotBlank()
-     * @Assert\MinLength(5)
+     * @Assert\Length(min = 5)
      */
     private $name;
 

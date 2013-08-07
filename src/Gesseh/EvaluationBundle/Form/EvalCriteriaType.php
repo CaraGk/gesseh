@@ -41,10 +41,13 @@ class EvalCriteriaType extends AbstractType
     return 'gesseh_evaluationbundle_evalcriteriatype';
   }
 
-  public function getDefaultOptions(array $options)
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
-    return array(
-      'data_class' => 'Gesseh\EvaluationBundle\Entity\EvalCriteria'
-    );
+    $resolver->setDefaults(array(
+        'data_class' => 'Gesseh\EvaluationBundle\Entity\EvalCriteria',
+    ));
+
+    $resolver->setAllowedValues(array(
+    ));
   }
 }

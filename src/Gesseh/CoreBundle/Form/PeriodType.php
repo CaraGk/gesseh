@@ -30,10 +30,13 @@ class PeriodType extends AbstractType
     return 'gesseh_corebundle_periodtype';
   }
 
-  public function getDefaultOptions(array $options)
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
-    return array(
-      'data_class' => 'Gesseh\CoreBundle\Entity\Period'
-    );
+    $resolver->setDefaults(array(
+        'data_class' => 'Gesseh\CoreBundle\Entity\Period',
+    ));
+
+    $resolver->setAllowedValues(array(
+    ));
   }
 }

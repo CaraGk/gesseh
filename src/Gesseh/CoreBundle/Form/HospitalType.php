@@ -47,10 +47,13 @@ class HospitalType extends AbstractType
     return 'gesseh_corebundle_hospitaltype';
   }
 
-  public function getDefaultOptions(array $options)
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
-    return array(
-      'data_class' => 'Gesseh\CoreBundle\Entity\Hospital',
-    );
+    $resolver->setDefaults(array(
+        'data_class' => 'Gesseh\CoreBundle\Entity\Hospital',
+    ));
+
+    $resolver->setAllowedValues(array(
+    ));
   }
 }
