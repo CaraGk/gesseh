@@ -2,8 +2,7 @@
   <td>{{ parameter.label }}</td>
   <td>{{ parameter.category }}</td>
   <td>{{ parameter.type }}</td>
-  {{ form_row(parameter_form.value) }}
-  {{ form_rest(parameter_form) }}
+  <td>{{ form_widget(parameter_form.value) }}</td>
   <td class="actions">
     <ul>
       <li><button type="submit" title="Enregistrer les modifications">Enregistrer</button></li>

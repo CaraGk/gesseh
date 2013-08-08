@@ -4,7 +4,8 @@
 
 {% block content %}
   {% if parameter_form is not empty %}
-    {% form_theme parameter_form 'GessehCoreBundle:Form:fields.html.twig' %}
+  {#    {% form_theme parameter_form 'GessehCoreBundle:Form:fields.html.twig' %} #}
+    {{ form_start(parameter_form)}}
     <div>{{ form_errors(parameter_form) }}</div>
     <form method="post" {{ form_enctype(parameter_form) }}>
   {% endif %}
@@ -28,7 +29,7 @@
       {% endfor %}
     </tbody>
   </table>
-  {% if parameter_form is not empty %}</form>{% endif %}
+  {% if parameter_form is not empty %}{{ form_end(parameter_form) }}{% endif %}
 {% endblock %}
 
 {% block javascripts %}

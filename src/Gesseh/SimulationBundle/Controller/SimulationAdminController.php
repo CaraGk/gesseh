@@ -70,7 +70,7 @@ class SimulationAdminController extends Controller
       $form_handler = new SimulPeriodHandler($form, $this->get('request'), $em);
 
       if ($form_handler->process()) {
-        $this->get('session')->setFlash('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" enregistrée.');
+        $this->get('session')->getFlashBag()->add('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" enregistrée.');
         return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
       }
 
@@ -103,7 +103,7 @@ class SimulationAdminController extends Controller
       $form_handler = new SimulPeriodHandler($form, $this->get('request'), $em);
 
       if ($form_handler->process()) {
-        $this->get('session')->setFlash('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" modifiée.');
+        $this->get('session')->getFlashBag()->add('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" modifiée.');
         return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
       }
 
@@ -129,7 +129,7 @@ class SimulationAdminController extends Controller
       $em->remove($simul_period);
       $em->flush();
 
-      $this->get('session')->setFlash('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" supprimée.');
+      $this->get('session')->getFlashBag()->add('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" supprimée.');
       return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
     }
 
@@ -143,9 +143,9 @@ class SimulationAdminController extends Controller
       $count = $em->getRepository('GessehSimulationBundle:Simulation')->setSimulationTable($students, $em);
 
       if($count) {
-        $this->get('session')->setFlash('notice', $count . ' étudiants enregistrés dans la table de simulation.');
+        $this->get('session')->getFlashBag()->add('notice', $count . ' étudiants enregistrés dans la table de simulation.');
       } else {
-        $this->get('session')->setFlash('error', 'Attention : Aucun étudiant enregistré dans la table de simulation.');
+        $this->get('session')->getFlashBag()->add('error', 'Attention : Aucun étudiant enregistré dans la table de simulation.');
       }
 
       return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
@@ -165,7 +165,7 @@ class SimulationAdminController extends Controller
 
       $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
 
-      $this->get('session')->setFlash('notice', 'Les données de la simulation ont été actualisées.');
+      $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été actualisées.');
       return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
     }
 
@@ -189,7 +189,7 @@ class SimulationAdminController extends Controller
       if ($this->get('session')->hasFlash('notice'))
         $flash = $this->get('session')->getFlash('notice') . " " . $flash;
 
-      $this->get('session')->setFlash('notice', $flash);
+      $this->get('session')->getFlashBag()->add('notice', $flash);
       return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
     }
 
@@ -201,7 +201,7 @@ class SimulationAdminController extends Controller
       $em = $this->getDoctrine()->getEntityManager();
 
       if ($em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
-        $this->get('session')->setFlash('error', 'La simulation est toujours active ! Vous ne pourrez la valider qu\'une fois qu\'elle sera inactive. Aucune donnée n\'a été copiée.');
+        $this->get('session')->getFlashBag()->add('error', 'La simulation est toujours active ! Vous ne pourrez la valider qu\'une fois qu\'elle sera inactive. Aucune donnée n\'a été copiée.');
         return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
       }
 
@@ -218,7 +218,7 @@ class SimulationAdminController extends Controller
 
       $em->flush();
 
-      $this->get('session')->setFlash('notice', 'Les données de la simulation ont été copiées dans les stages.');
+      $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été copiées dans les stages.');
       return $this->redirect($this->generateUrl('GSimulation_SAPurge'));
     }
 
@@ -255,7 +255,7 @@ class SimulationAdminController extends Controller
       $form_handler = new SectorRuleHandler($form, $this->get('request'), $em);
 
       if ($form_handler->process()) {
-        $this->get('session')->setFlash('notice', 'Relation entre "' . $sector_rule->getSector()->getName() . '" et "' . $sector_rule->getGrade()->getName() . '" ajoutée.');
+        $this->get('session')->getFlashBag()->add('notice', 'Relation entre "' . $sector_rule->getSector()->getName() . '" et "' . $sector_rule->getGrade()->getName() . '" ajoutée.');
         return $this->redirect($this->generateUrl('GSimul_SAIndexRule'));
       }
 
@@ -281,7 +281,7 @@ class SimulationAdminController extends Controller
       $em->remove($rule);
       $em->flush();
 
-      $this->get('session')->setFlash('notice', 'Règle de simulation pour "' . $rule . '" supprimée.');
+      $this->get('session')->getFlashBag()->add('notice', 'Règle de simulation pour "' . $rule . '" supprimée.');
       return $this->redirect($this->generateUrl('GSimul_SAIndexRule'));
     }
 
@@ -303,7 +303,7 @@ class SimulationAdminController extends Controller
       $formHandler = new WishHandler($form, $this->get('request'), $em, $simstudent);
 
       if($formHandler->process()) {
-        $this->get('session')->setFlash('notice', 'Nouveau vœu : "' . $new_wish->getDepartment() . '" enregistré.');
+        $this->get('session')->getFlashBag()->add('notice', 'Nouveau vœu : "' . $new_wish->getDepartment() . '" enregistré.');
         return $this->redirect($this->generateUrl('GSimul_SAIndexWish', array('id' => $simstudent->getId())));
       }
 
@@ -343,7 +343,7 @@ class SimulationAdminController extends Controller
       }
       $em->flush();
 
-      $this->get('session')->setFlash('notice', 'Le vœu "' . $wish->getRank() . '" a été supprimé.');
+      $this->get('session')->getFlashBag()->add('notice', 'Le vœu "' . $wish->getRank() . '" a été supprimé.');
       return $this->redirect($this->generateUrl('GSimul_SAIndexWish', array('id' => $id)));
     }
 }

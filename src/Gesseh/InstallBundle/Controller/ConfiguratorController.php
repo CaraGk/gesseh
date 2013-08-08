@@ -193,7 +193,7 @@ class ConfiguratorController extends ContainerAware
       $em->flush();
 
       return new RedirectResponse($this->container->get('router')->generate('_configurator_admin'));
-      $this->get('session')->setFlash('notice', 'Paramètres du site créés.');
+      $this->get('session')->getFlashBag()->add('notice', 'Paramètres du site créés.');
     }
 
     public function createAdminAction()
@@ -204,7 +204,7 @@ class ConfiguratorController extends ContainerAware
       $formHandler = new StudentHandler($form, $this->container->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
       if($formHandler->process()) {
-        $this->container->get('session')->setFlash('notice', 'Administrateur "' . $admin . '" enregistré.');
+        $this->container->get('session')->getFlashBag()->add('notice', 'Administrateur "' . $admin . '" enregistré.');
         return new RedirectResponse($this->container->get('router')->generate('GCore_FSIndex'));
       }
 

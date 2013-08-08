@@ -78,7 +78,7 @@ class PlacementAdminController extends Controller
     $formHandler = new PlacementHandler($form, $this->get('request'), $em);
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" modifié.');
+      $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" modifié.');
       return $this->redirect($this->generateUrl('GCore_PAIndex'));
     }
 
@@ -116,7 +116,7 @@ class PlacementAdminController extends Controller
     $formHandler = new PlacementHandler($form, $this->get('request'), $em);
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" enregistré.');
+      $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" enregistré.');
       return $this->redirect($this->generateUrl('GCore_PAIndex'));
     }
 
@@ -151,7 +151,7 @@ class PlacementAdminController extends Controller
     $em->remove($placement);
     $em->flush();
 
-    $this->get('session')->setFlash('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" supprimé.');
+    $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" supprimé.');
     return $this->redirect($this->generateUrl('GCore_PAIndex'));
   }
 
@@ -172,7 +172,7 @@ class PlacementAdminController extends Controller
     $formHandler = new PeriodHandler($form, $this->get('request'), $em);
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Session "' . $period . '" enregistrée.');
+      $this->get('session')->getFlashBag()->add('notice', 'Session "' . $period . '" enregistrée.');
       return $this->redirect($this->generateUrl('GCore_PAIndex'));
     }
 
@@ -214,7 +214,7 @@ class PlacementAdminController extends Controller
     $formHandler = new PeriodHandler($form, $this->get('request'), $em);
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Session "' . $period . '" modifiée.');
+      $this->get('session')->getFlashBag()->add('notice', 'Session "' . $period . '" modifiée.');
       return $this->redirect($this->generateUrl('GCore_PAIndex'));
     }
 
@@ -249,7 +249,7 @@ class PlacementAdminController extends Controller
     $em->remove($period);
     $em->flush();
 
-    $this->get('session')->setFlash('notice', 'Session "' . $period . '" supprimée.');
+    $this->get('session')->getFlashBag()->add('notice', 'Session "' . $period . '" supprimée.');
     return $this->redirect($this->generateUrl('GCore_PAIndex'));
   }
 }

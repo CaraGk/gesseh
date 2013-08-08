@@ -47,7 +47,7 @@ class SimulationController extends Controller
       $formHandler = new WishHandler($form, $this->get('request'), $em, $simstudent);
 
       if($formHandler->process()) {
-        $this->get('session')->setFlash('notice', 'Nouveau vœu : "' . $new_wish->getDepartment() . '" enregistré.');
+        $this->get('session')->getFlashBag()->add('notice', 'Nouveau vœu : "' . $new_wish->getDepartment() . '" enregistré.');
         return $this->redirect($this->generateUrl('GSimulation_SIndex'));
       }
 
@@ -85,9 +85,9 @@ class SimulationController extends Controller
         $em->persist($wish_before);
         $em->persist($wish);
         $em->flush();
-        $this->get('session')->setFlash('notice', 'Vœu : "' . $wish->getDepartment() . '" mis à jour.');
+        $this->get('session')->getFlashBag()->add('notice', 'Vœu : "' . $wish->getDepartment() . '" mis à jour.');
       } else {
-        $this->get('session')->setFlash('error', 'Attention : le vœu "' . $wish->getDepartment() . '" est déjà le premier de la liste !');
+        $this->get('session')->getFlashBag()->add('error', 'Attention : le vœu "' . $wish->getDepartment() . '" est déjà le premier de la liste !');
       }
       return $this->redirect($this->generateUrl('GSimulation_SIndex'));
     }
@@ -119,9 +119,9 @@ class SimulationController extends Controller
         $em->persist($wish_after);
         $em->persist($wish);
         $em->flush();
-        $this->get('session')->setFlash('notice', 'Vœu : "' . $wish->getDepartment() . '" mis à jour.');
+        $this->get('session')->getFlashBag()->add('notice', 'Vœu : "' . $wish->getDepartment() . '" mis à jour.');
       } else {
-        $this->get('session')->setFlash('error', 'Attention : le vœu "' . $wish->getDepartment() . '" est déjà le dernier de la liste !');
+        $this->get('session')->getFlashBag()->add('error', 'Attention : le vœu "' . $wish->getDepartment() . '" est déjà le dernier de la liste !');
       }
       return $this->redirect($this->generateUrl('GSimulation_SIndex'));
     }
@@ -159,7 +159,7 @@ class SimulationController extends Controller
 
       $em->flush();
 
-      $this->get('session')->setFlash('notice', 'Vœu : "' . $wish->getDepartment() . '" supprimé.');
+      $this->get('session')->getFlashBag()->add('notice', 'Vœu : "' . $wish->getDepartment() . '" supprimé.');
       return $this->redirect($this->generateUrl('GSimulation_SIndex'));
     }
 
@@ -189,7 +189,7 @@ class SimulationController extends Controller
       $em->persist($simstudent);
       $em->flush();
 
-      $this->get('session')->setFlash('notice', 'Vous ne participez plus à la simulation. Tous vos vœux ont été effacés.');
+      $this->get('session')->getFlashBag()->add('notice', 'Vous ne participez plus à la simulation. Tous vos vœux ont été effacés.');
       return $this->redirect($this->generateUrl('GSimulation_SIndex'));
     }
 
@@ -211,7 +211,7 @@ class SimulationController extends Controller
 
       $em->flush();
 
-      $this->get('session')->setFlash('notice', 'Vous pouvez désormais faire vos choix pour la simulation.');
+      $this->get('session')->getFlashBag()->add('notice', 'Vous pouvez désormais faire vos choix pour la simulation.');
       return $this->redirect($this->generateUrl('GSimulation_SIndex'));
     }
 
@@ -233,7 +233,7 @@ class SimulationController extends Controller
 
       $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
 
-      $this->get('session')->setFlash('notice', 'Les données de la simulation ont été actualisées');
+      $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été actualisées');
       return $this->redirect($this->generateUrl('GSimulation_SIndex'));
     }
 

@@ -66,7 +66,7 @@ class AdminController extends Controller
     $formHandler = new EvalFormHandler($form, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" enregistré.');
+      $this->get('session')->getFlashBag()->add('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" enregistré.');
       return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 
@@ -101,7 +101,7 @@ class AdminController extends Controller
     $formHandler = new EvalFormHandler($editForm, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" modifié.');
+      $this->get('session')->getFlashBag()->add('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" modifié.');
       return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 
@@ -139,7 +139,7 @@ class AdminController extends Controller
     $em->remove($eval_form);
     $em->flush();
 
-    $this->get('session')->setFlash('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" supprimé.');
+    $this->get('session')->getFlashBag()->add('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" supprimé.');
     return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
 
@@ -159,7 +159,7 @@ class AdminController extends Controller
     $em->remove($criteria);
     $em->flush();
 
-    $this->get('session')->setFlash('notice', 'Critère d\'évaluation "' . $criteria->getName() . '" supprimé.');
+    $this->get('session')->getFlashBag()->add('notice', 'Critère d\'évaluation "' . $criteria->getName() . '" supprimé.');
     return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
 
@@ -185,7 +185,7 @@ class AdminController extends Controller
     $formHandler = new EvalSectorHandler($form, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" enregistrée.');
+      $this->get('session')->getFlashBag()->add('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" enregistrée.');
       return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 
@@ -220,7 +220,7 @@ class AdminController extends Controller
     $formHandler = new EvalSectorHandler($editForm, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" modifiée.');
+      $this->get('session')->getFlashBag()->add('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" modifiée.');
       return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 
@@ -250,7 +250,7 @@ class AdminController extends Controller
     $em->remove($eval_sector);
     $em->flush();
 
-    $this->get('session')->setFlash('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" supprimée.');
+    $this->get('session')->getFlashBag()->add('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" supprimée.');
     return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
 
@@ -288,7 +288,7 @@ class AdminController extends Controller
     $em->remove($evaluation);
     $em->flush();
 
-    $this->get('session')->setFlash('notice', 'Évaluation textuelle supprimée.');
+    $this->get('session')->getFlashBag()->add('notice', 'Évaluation textuelle supprimée.');
     return $this->redirect($this->generateUrl('GEval_ATextIndex'));
   }
 

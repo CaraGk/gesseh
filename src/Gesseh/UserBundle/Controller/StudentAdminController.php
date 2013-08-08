@@ -69,7 +69,7 @@ class StudentAdminController extends Controller
     $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Étudiant "' . $student . '" enregistré.');
+      $this->get('session')->getFlashBag()->add('notice', 'Étudiant "' . $student . '" enregistré.');
       return $this->redirect($this->generateUrl('GUser_SAIndex'));
     }
 
@@ -106,7 +106,7 @@ class StudentAdminController extends Controller
     $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Étudiant "' . $student . '" modifié.');
+      $this->get('session')->getFlashBag()->add('notice', 'Étudiant "' . $student . '" modifié.');
       return $this->redirect($this->generateUrl('GUser_SAIndex'));
     }
 
@@ -134,7 +134,7 @@ class StudentAdminController extends Controller
     $em->remove($student);
     $em->flush();
 
-    $this->get('session')->setFlash('notice', 'Etudiant "' . $student . '" supprimé.');
+    $this->get('session')->getFlashBag()->add('notice', 'Etudiant "' . $student . '" supprimé.');
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
 
@@ -155,7 +155,7 @@ class StudentAdminController extends Controller
 
     $um->updateUser($user);
 
-    $this->get('session')->setFlash('notice', 'Droits d\'administration donnés à l\'étudiant "' . $student . '"');
+    $this->get('session')->getFlashBag()->add('notice', 'Droits d\'administration donnés à l\'étudiant "' . $student . '"');
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
 
@@ -176,7 +176,7 @@ class StudentAdminController extends Controller
       $user->removeRole('ROLE_ADMIN');
     $um->updateUser($user);
 
-    $this->get('session')->setFlash('notice', 'Droits d\'administration retirés à l\'étudiant "' . $student . '"');
+    $this->get('session')->getFlashBag()->add('notice', 'Droits d\'administration retirés à l\'étudiant "' . $student . '"');
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
 
@@ -198,7 +198,7 @@ class StudentAdminController extends Controller
     $formHandler = new GradeHandler($form, $this->get('request'), $em);
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Promotion "' . $grade . '" enregistrée.');
+      $this->get('session')->getFlashBag()->add('notice', 'Promotion "' . $grade . '" enregistrée.');
       return $this->redirect($this->generateUrl('GUser_SAIndex'));
     }
 
@@ -233,7 +233,7 @@ class StudentAdminController extends Controller
     $formHandler = new GradeHandler($form, $this->get('request'), $em);
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Promotion "' . $grade . '" modifiée.');
+      $this->get('session')->getFlashBag()->add('notice', 'Promotion "' . $grade . '" modifiée.');
       return $this->redirect($this->generateUrl('GUser_SAIndex'));
     }
 
@@ -261,7 +261,7 @@ class StudentAdminController extends Controller
     $em->remove($grade);
     $em->flush();
 
-    $this->get('session')->setFlash('notice', 'Promotion "' . $grade . '" supprimée.');
+    $this->get('session')->getFlashBag()->add('notice', 'Promotion "' . $grade . '" supprimée.');
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
 
@@ -280,7 +280,7 @@ class StudentAdminController extends Controller
       }
     }
 
-    $this->get('session')->setFlash('notice', 'Étudiants passés dans la promotion supérieure.');
+    $this->get('session')->getFlashBag()->add('notice', 'Étudiants passés dans la promotion supérieure.');
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
 }

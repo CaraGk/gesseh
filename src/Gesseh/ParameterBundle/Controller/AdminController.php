@@ -59,7 +59,7 @@ class AdminController extends Controller
     $formHandler = new ParameterHandler($form, $this->get('request'), $em);
 
     if( $formHandler->process() ) {
-      $this->get('session')->setFlash('notice', 'Paramètre "' . $parameter->getLabel() . ' : ' . $parameter->getValue() . '" modifié.');
+      $this->get('session')->getFlashBag()->add('notice', 'Paramètre "' . $parameter->getLabel() . ' : ' . $parameter->getValue() . '" modifié.');
       return $this->redirect($this->generateUrl('GParameter_PAIndex'));
     }
 

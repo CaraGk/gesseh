@@ -72,7 +72,7 @@ class DefaultController extends Controller
         $form = $this->createForm(new EvaluationType($eval_form->getCriterias()));
         $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_form->getCriterias());
         if ($form_handler->process()) {
-          $this->get('session')->setFlash('notice', 'Évaluation du stage "' . $placement->getDepartment()->getName() . ' à ' . $placement->getDepartment()->getHospital()->getName() . '" enregistrée.');
+          $this->get('session')->getFlashBag()->add('notice', 'Évaluation du stage "' . $placement->getDepartment()->getName() . ' à ' . $placement->getDepartment()->getHospital()->getName() . '" enregistrée.');
           return $this->redirect($this->generateUrl('GCore_PIndex'));
         }
 
