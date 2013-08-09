@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post" {{ form_enctype(form) }}>
+  {{ form_start(form) }}>
     <fieldset name="student">
       <label>Nom</label><div>{{ form_widget(form.surname) }}</div>
       <label>Prénom</label><div>{{ form_widget(form.name) }}</div>
@@ -19,5 +19,5 @@
       <label>Téléphone</label><div>{{ form_widget(form.phone) }}</div>
       {{ form_rest(form) }}
     <p><button type="submit" title="Enregistrer les modifications">Enregistrer</button></p>
-  </form>
+  {{ form_end(form) }}
 {% endblock %}

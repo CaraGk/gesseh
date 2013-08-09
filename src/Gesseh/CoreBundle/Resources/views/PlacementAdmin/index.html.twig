@@ -7,7 +7,7 @@
   {% if period_form is not empty %}
     {% form_theme period_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(period_form) }}</div>
-    <form method="post" {{ form_enctype(period_form) }}>
+    {{ form_start(period_form) }}>
   {% endif %}
   <table>
     <thead>
@@ -39,13 +39,13 @@
       </tr>
     </tfoot>
   </table>
-  {% if period_form is not empty %}</form>{% endif %}
+  {% if period_form is not empty %}{{ form_end(period_form) }}{% endif %}
 
   <h2>Stages</h2>
   {% if placement_form is not empty %}
     {% form_theme placement_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(placement_form) }}</div>
-    <form method="post" {{ form_enctype(placement_form) }}>
+    {{ form_start(placement_form) }}>
   {% endif %}
   <table>
     <thead>
@@ -80,7 +80,7 @@
       </tr>
     </tfoot>
   </table>
-  {% if placement_form is not empty %}</form>{% endif %}
+  {% if placement_form is not empty %}{{ form_end(placement_form) }}{% endif %}
 {% endblock %}
 
 {% block javascripts %}

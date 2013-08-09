@@ -47,10 +47,10 @@
         {% endfor %}
       </tbody>
     </table>
-  <div>{{ form_errors(wish_form) }}</div>
-  <form method="post" action="{{ path('GSimul_SAIndexWish', {'id': simstudent.id}) }}" {{ form_enctype(wish_form) }}>
+  {{ form_start(wish_form) }}
+    <div>{{ form_errors(wish_form) }}</div>
     {{ form_widget(wish_form.department) }}
     {{ form_rest(wish_form) }}
     <button type="submit" title="Ajouter un vœu à la liste">Ajouter</button>
-  </form>
+  {{ form_end(wish_form) }}
 {% endblock %}

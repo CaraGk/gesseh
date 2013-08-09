@@ -6,7 +6,7 @@
   {% if rule_form is not empty %}
     {% form_theme rule_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(rule_form) }}</div>
-    <form method="post" {{ form_enctype(rule_form) }}>
+    {{ form_start(rule_form) }}>
   {% endif %}
   <table>
     <thead>
@@ -57,5 +57,5 @@
       </tr>
     </tfoot>
   </table>
-  {% if rule_form is not empty %}</form>{% endif %}
+  {% if rule_form is not empty %}{{ form_end(rule_form) }}{% endif %}
 {% endblock %}

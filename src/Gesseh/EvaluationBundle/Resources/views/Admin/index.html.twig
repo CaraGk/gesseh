@@ -7,7 +7,7 @@
   {% if eval_form_form is not empty %}
     {% form_theme eval_form_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(eval_form_form) }}</div>
-    <form method="post" {{ form_enctype(eval_form_form) }}>
+    {{ form_start(eval_form_form) }}>
   {% endif %}
   <table>
     <thead>
@@ -34,13 +34,13 @@
       </tr>
     </tfoot>
   </table>
-  {% if eval_form_form is not empty %}</form>{% endif %}
+  {% if eval_form_form is not empty %}{{ form_end(eval_form_form) }}{% endif %}
 
   <h2>Table d'association de Catégorie de stage / Formulaire d'évaluation</h2>
   {% if sector_form is not empty %}
     {% form_theme sector_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(sector_form) }}</div>
-    <form method="post" {{ form_enctype(sector_form) }}>
+    {{ form_start(sector_form) }}>
   {% endif %}
   <table>
     <thead>
@@ -68,7 +68,7 @@
       </tr>
     </tfoot>
   </table>
-  {% if sector_form is not empty %}</form>{% endif %}
+  {% if sector_form is not empty %}{{ form_end(sector_form) }}{% endif %}
 {% endblock %}
 
 {% block javascripts %}

@@ -6,7 +6,7 @@
   {% if sector_form is not empty %}
     {% form_theme sector_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(sector_form) }}</div>
-    <form method="post" {{ form_enctype(sector_form) }}>
+    {{ form_start(sector_form) }}>
   {% endif %}
   <h2>Catégories :</h2>
   <table>
@@ -34,14 +34,14 @@
       </tr>
     </tfoot>
   </table>
-  {% if sector_form is not empty %}</form>{% endif %}
+  {% if sector_form is not empty %}{{ form_end(sector_form) }}{% endif %}
 
   <h2>Hôpitaux et services :</h2>
 
   {% if hospital_form is not empty %}
     {% form_theme hospital_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(hospital_form) }}</div>
-    <form method="post" {{ form_enctype(hospital_form) }}>
+    {{ form_start(hospital_form) }}>
   {% endif %}
   <table>
     <thead>
@@ -71,7 +71,7 @@
       </tr>
     </tfoot>
   </table>
-  {% if hospital_form is not empty %}</form>{% endif %}
+  {% if hospital_form is not empty %}{{ form_end(hospital_form) }}{% endif %}
 {% endblock %}
 
 {% block javascripts %}

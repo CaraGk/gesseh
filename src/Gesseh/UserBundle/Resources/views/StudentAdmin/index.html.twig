@@ -6,7 +6,7 @@
   {% if grade_form is not empty %}
     {% form_theme grade_form 'GessehCoreBundle:Form:fields.html.twig' %}
     {% if form_errors(grade_form) is not empty %}<div class="error">{{ form_errors(grade_form) }}</div>{% endif %}
-    <form method="post" {{ form_enctype(grade_form) }}>
+    {{ form_start(grade_form) }}>
   {% endif %}
   <h2>Promotions :</h2>
   <table>
@@ -36,12 +36,12 @@
       </tr>
     </tfoot>
   </table>
-  {% if grade_form is not empty %}</form>{% endif %}
+  {% if grade_form is not empty %}{{ form_end(grade_form) }}{% endif %}
 
   {% if student_form is not empty %}
     {% form_theme student_form 'GessehCoreBundle:Form:fields.html.twig' %}
     {% if form_errors(student_form) is not empty %}<div class="error">{{ form_errors(student_form) }}</div>{% endif %}
-    <form method="post" {{ form_enctype(student_form) }}>
+    {{ form_start(student_form) }}>
   {% endif %}
   <h2>Étudiants :</h2>
   <table>
@@ -78,5 +78,5 @@
       </tr>
     </tfoot>
   </table>
-  {% if student_form is not empty %}</form>{% endif %}
+  {% if student_form is not empty %}{{ form_end(student_form) }}{% endif %}
 {% endblock %}

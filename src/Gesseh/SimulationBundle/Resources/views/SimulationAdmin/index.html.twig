@@ -7,7 +7,7 @@
   {% if period_form is not empty %}
     {% form_theme period_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(period_form) }}</div>
-    <form method="post" {{ form_enctype(period_form) }}>
+    {{ form_start(period_form) }}>
   {% endif %}
   <table>
     <thead>
@@ -40,7 +40,7 @@
       </tr>
     </tfoot>
   </table>
-  {% if period_form is not empty %}</form>{% endif %}
+  {% if period_form is not empty %}{{ form_end(period_form) }}{% endif %}
 
   <h2>Table de simulation</h2>
   <table>

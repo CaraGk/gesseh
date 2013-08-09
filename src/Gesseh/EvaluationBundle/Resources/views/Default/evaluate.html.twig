@@ -4,10 +4,10 @@
 
 {% block content %}
   {% if eval_form is not null %}
-    <form method="post" {{ form_enctype(form) }}>
+    {{ form_start(form) }}>
       {{ form_widget(form) }}
       <button type="submit" title="Valider l'évaluation du stage. Vous ne pourrez plus revenir en arrière.">Valider</button>
-    </form>
+    {{ form_end(form) }}
   {% else %}
     <div>Il n'y a aucun formulaire d'évaluation défini pour ce stage. Veuillez contacter un administrateur.</div>
   {% endif %}
