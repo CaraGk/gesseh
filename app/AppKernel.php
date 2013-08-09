@@ -16,21 +16,21 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Gesseh\CoreBundle\GessehCoreBundle(),
 //            new JMS\AopBundle\JMSAopBundle(),
 //            new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            new KDB\ParametersBundle\KDBParametersBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new Gesseh\UserBundle\GessehUserBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+            new Gesseh\CoreBundle\GessehCoreBundle(),
+            new Gesseh\UserBundle\GessehUserBundle(),
             new Gesseh\SimulationBundle\GessehSimulationBundle(),
             new Gesseh\EvaluationBundle\GessehEvaluationBundle(),
-            new KDB\ParametersBundle\KDBParametersBundle(),
+//            new Gesseh\InstallBundle\GessehInstallBundle(),
             new Gesseh\ParameterBundle\GessehParameterBundle(),
-            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
 //            new Gesseh\MigrateOldDbBundle\GessehMigrateOldDbBundle(), // Bundle de migration des données de la version 0.2alpha
-            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
-            new Gesseh\InstallBundle\GessehInstallBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

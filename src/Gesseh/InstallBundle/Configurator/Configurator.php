@@ -27,7 +27,7 @@ class Configurator
     public function __construct($kernelDir)
     {
         $this->kernelDir = $kernelDir;
-        $this->filename = $kernelDir.'/config/parameters.ini';
+        $this->filename = $kernelDir.'/config/parameters.yml';
 
         $this->steps = array();
         $this->parameters = $this->read();
@@ -153,7 +153,7 @@ class Configurator
     }
 
     /**
-     * Writes parameters to parameters.ini or temporary in the cache directory.
+     * Writes parameters to parameters.yml or temporary in the cache directory.
      *
      * @return boolean
      */
@@ -195,6 +195,6 @@ class Configurator
      */
     protected function getCacheFilename()
     {
-        return $this->kernelDir.'/cache/parameters.ini';
+        return $this->kernelDir.'/cache/parameters.yml';
     }
 }

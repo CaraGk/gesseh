@@ -97,7 +97,7 @@ class ConfiguratorController extends ContainerAware
         return $this->container->get('templating')->renderResponse('GessehInstallBundle::Configurator/final.html.twig', array(
             'welcome_url' => $welcomeUrl,
             'parameters'  => $configurator->render(),
-            'ini_path'    => $this->container->getParameter('kernel.root_dir').'/config/parameters.ini',
+            'ini_path'    => $this->container->getParameter('kernel.root_dir').'/config/parameters.yml',
             'is_writable' => $configurator->isFileWritable(),
         ));
     }
