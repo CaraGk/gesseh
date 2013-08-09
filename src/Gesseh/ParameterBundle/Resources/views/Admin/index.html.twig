@@ -4,7 +4,6 @@
 
 {% block content %}
   {% if parameter_form is not empty %}
-    {% form_theme parameter_form 'GessehCoreBundle:Form:fields.html.twig' %} #}
     {{ form_start(parameter_form)}}
     <div>{{ form_errors(parameter_form) }}</div>
   {% endif %}

@@ -4,6 +4,6 @@
   {% endspaceless %}
 {% endblock %}
 
-{% block form_widget %}
+{% block form %}
   <tr {{ block('widget_container_attributes') }}>{{ block('field_rows') }}{{ form_rest(form) }}</tr>
 {% endblock %}
