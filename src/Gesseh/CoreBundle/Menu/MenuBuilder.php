@@ -72,4 +72,14 @@ class MenuBuilder
 
     return $menu;
   }
+
+  public function createFieldSetAdminMenu(Request $request)
+  {
+    $menu = $this->factory->createItem('field_set_admin');
+    $menu->addChild('Hospitals', array('route' => 'GCore_FSAIndex', 'label' => 'Hôpitaux et services', 'attributes' => array('title' => 'Gérer les hôpitaux et services associés')));
+    $menu->addChild('Sectors', array('route' => 'GCore_FSAIndex', 'label' => 'Catégories de service', 'attributes' => array('title' => 'Gérer les catégories de services')));
+    $menu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres', 'attributes' => array('title' => 'Gérer les paramètres des terrains de stage')));
+
+    return $menu;
+  }
 }

@@ -1,81 +1,43 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block titlecontent %}Catégories, hôpitaux et services{% endblock %}
+{% block titlecontent %}Hôpitaux et services{% endblock %}
 
 {% block content %}
-  {% if sector_form is not empty %}
-    {% form_theme sector_form 'GessehCoreBundle:Form:fields.html.twig' %}
-    <div>{{ form_errors(sector_form) }}</div>
-    {{ form_start(sector_form) }}>
-  {% endif %}
-  <h2>Catégories :</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for sector in sectors %}
-        {% include sector_id == sector.id ? 'GessehCoreBundle:FieldSetAdmin:editSector.html.twig' : 'GessehCoreBundle:FieldSetAdmin:indexSector.html.twig' %}
-      {% endfor %}
-      {% if sector_form is not empty and sector_id is empty %}
-        {% include 'GessehCoreBundle:FieldSetAdmin:editSector.html.twig' %}
-      {% endif %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <td class="actions">
-          <ul>
-            <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie">Ajouter</a></li>
-          </ul>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
-  {% if sector_form is not empty %}{{ form_end(sector_form) }}{% endif %}
-
-  <h2>Hôpitaux et services :</h2>
-
-  {% if hospital_form is not empty %}
-    {% form_theme hospital_form 'GessehCoreBundle:Form:fields.html.twig' %}
-    <div>{{ form_errors(hospital_form) }}</div>
-    {{ form_start(hospital_form) }}>
-  {% endif %}
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Adresse</th>
-        <th>Site web</th>
-        <th>Téléphone</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for hospital in hospitals %}
+    {% include 'GessehCoreBundle:FieldSetAdmin:subMenu.html.twig' %}
+    {% if hospital_form is not empty %}
+        <div>{{ form_errors(hospital_form) }}</div>
+        {{ form_start(hospital_form) }}>
+    {% endif %}
+    {% for hospital in hospitals %}
         {% include hospital_id == hospital.id ? 'GessehCoreBundle:FieldSetAdmin:editHospital.html.twig' : 'GessehCoreBundle:FieldSetAdmin:indexHospital.html.twig' %}
-      {% endfor %}
-      {% if hospital_form is not empty and hospital_id is empty %}
+    {% endfor %}
+    {% if hospital_form is not empty and hospital_id is empty %}
         {% include 'GessehCoreBundle:FieldSetAdmin:editHospital.html.twig' %}
-      {% endif %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <td class="actions">
-          <ul>
-            <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital">Ajouter</a></li>
-          </ul>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
-  {% if hospital_form is not empty %}{{ form_end(hospital_form) }}{% endif %}
+    {% endif %}
+    <ul>
+        <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital">Ajouter</a></li>
+    </ul>
+    {% if hospital_form is not empty %}{{ form_end(hospital_form) }}{% endif %}
 {% endblock %}
 
 {% block javascripts %}
-  {{ parent() }}
-  <script src="{{ asset('bundles/gessehcore/js/addSub.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehcore/js/addSub.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+    <script>
+        $('document').ready(function(){
+            $('.actions').hide();
+
+            $('li.hospital').hover(function(){
+                $(this).children('.actions').show();
+            }, function(){
+                $(this).children('.actions').hide();
+            });
+            $('li.department').hover(function(){
+                $(this).children('.actions').show();
+            }, function(){
+                $(this).children('.actions').hide();
+            });
+        });
+    </script>
 {% endblock %}
