@@ -34,7 +34,7 @@ class Department
     /**
      * @var string $name
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="nameOB", type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(min = 5)
      */
@@ -80,6 +80,11 @@ class Department
      * @ORM\OneToMany(targetEntity="Placement", mappedBy="department", cascade={"remove"})
      */
     private $placements;
+
+    /**
+     * @ORM\Column(name="cluster", type="string", length=100, nullable=true)
+     */
+    private $cluster;
 
 
     public function __construct()
@@ -251,5 +256,28 @@ class Department
     public function getPlacements()
     {
         return $this->placements;
+    }
+
+    /**
+     * Set cluster
+     *
+     * @param string $cluster
+     * @return Department
+     */
+    public function setCluster($cluster)
+    {
+        $this->cluster = $cluster;
+    
+        return $this;
+    }
+
+    /**
+     * Get cluster
+     *
+     * @return string 
+     */
+    public function getCluster()
+    {
+        return $this->cluster;
     }
 }

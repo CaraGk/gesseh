@@ -20,7 +20,7 @@
           <th>Complément</th>
         </tr>
       </thead>
-      <tbody id="gesseh_evaluationbundle_evalformtype_criterias" data-prototype="{{ form_widget(eval_form_form.criterias.get('prototype')) | e }}">
+      <tbody id="gesseh_evaluationbundle_evalformtype_criterias" data-prototype="{{ form_widget(eval_form_form.criterias.vars.prototype) | e }}">
         {% for criteria in eval_form_form.criterias %}
           {{ form_widget(criteria) }}
         {% endfor %}

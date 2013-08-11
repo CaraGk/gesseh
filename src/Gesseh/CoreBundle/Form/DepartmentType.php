@@ -30,7 +30,8 @@ class DepartmentType extends AbstractType
   {
     $builder->add('name')
             ->add('head')
-            ->add('sector');
+            ->add('sector')
+            ->add('cluster');
 
     // Si les simulations sont activées
     if ($this->testSimulActive == true)

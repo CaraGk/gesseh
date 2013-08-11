@@ -20,6 +20,7 @@
           <th>Service</th>
           <th>Chef de service</th>
           <th>Catégorie</th>
+          <th>Cluster</th>
           {% if kparam('simul_active') == true %}
             <th>Postes</th>
           {% endif %}
@@ -32,6 +33,7 @@
             <td>{{ department.name }}</td>
             <td>{{ department.head }}</td>
             <td>{{ department.sector }}</td>
+            <td>{{ department.cluster }}</td>
             {% if kparam('simul_active') == true %}
               <td>{{ department.number }}</td>
             {% endif %}

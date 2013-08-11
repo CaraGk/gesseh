@@ -20,12 +20,13 @@
           <th>Service</th>
           <th>Patron</th>
           <th>Catégorie</th>
+          <th>Cluster</th>
           {% if kparam('simul_active') == true %}
             <th>Postes</th>
           {% endif %}
         </tr>
       </thead>
-      <tbody id="gesseh_corebundle_hospitaltype_departments" data-prototype="{{ form_widget(hospital_form.departments.get('prototype')) | e }}">
+      <tbody id="gesseh_corebundle_hospitaltype_departments" data-prototype="{{ form_widget(hospital_form.departments.vars.prototype) | e }}">
         {% for department in hospital_form.departments %}
           {{ form_widget(department) }}
         {% endfor %}
