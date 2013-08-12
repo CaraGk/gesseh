@@ -49,22 +49,16 @@ class WishHandler
 
   public function onSuccess(Wish $wish)
   {
-    $rank = $this->em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($this->simstudent->getStudent())+1;
+    $rank = $this->em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($this->simstudent->getStudent());
 
     $cluster = $this->em->getRepository('GessehCoreBundle:Department')->getAllCluster($wish->getDepartment()->getId());
-    if(false != $cluster) {
-        $n = 0;
-        foreach($cluster as $department) {
-            $n++;
-            $wish_cluster = new Wish();
-            $wish_cluster->setSimstudent($this->simstudent);
-            $wish_cluster->setRank($rank+$n);
-            $wish_cluster->setDepartment($department);
-            $this->em->persist($wish_cluster);
-        }
-    } else {
+    $n = 0;
+    foreach($cluster as $department) {
+        $n++;
+        $wish = new Wish();
         $wish->setSimstudent($this->simstudent);
-        $wish->setRank($rank);
+        $wish->setRank($rank+$n);
+        $wish->setDepartment($department);
         $this->em->persist($wish);
     }
 

@@ -323,18 +323,20 @@ class SimulationAdminController extends Controller
     {
       $em = $this->getDoctrine()->getEntityManager();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getSimStudent($id);
-      $wish = $em->getRepository('GessehSimulationBundle:Wish')->find($wish);
+      $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getWishCluster($wish);
 
-      if (!$wish)
+      if (!$wishes)
         throw $this->createNotFoundException('Unable to find wish entity.');
 
-      $rank = $wish->getRank();
-      $wishes_after = $em->getRepository('GessehSimulationBundle:Wish')->findByRankAfter($simstudent->getStudent(), $rank);
-      foreach($wishes_after as $wish_after) {
-        $wish_after->setRank($wish_after->getRank()-1);
-        $em->persist($wish_after);
+      foreach($wishes as $wish) {
+        $rank = $wish->getRank();
+        $wishes_after = $em->getRepository('GessehSimulationBundle:Wish')->findByRankAfter($simstudent->getStudent(), $rank);
+        foreach($wishes_after as $wish_after) {
+          $wish_after->setRank($wish_after->getRank()-1);
+          $em->persist($wish_after);
+        }
+        $em->remove($wish);
       }
-      $em->remove($wish);
 
       if($simstudent->countWishes() <= 1) {
         $simstudent->setDepartment(null);

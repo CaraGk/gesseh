@@ -83,7 +83,7 @@ class DepartmentRepository extends EntityRepository
         return $query->getQuery()
                      ->getResult();
       } else {
-        return false;
+        return array($department);
       }
   }
 
