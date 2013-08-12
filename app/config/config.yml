@@ -98,7 +98,7 @@ knp_paginator:
 knp_snappy:
     pdf:
         enabled: true
-        binary:  /usr/bin/wkhtmltopdf
+        binary:  /var/www/script/wkhtmltopdf
         options: []
     image:
         enabled: false

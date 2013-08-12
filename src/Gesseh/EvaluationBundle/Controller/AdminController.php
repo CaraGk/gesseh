@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 use Gesseh\EvaluationBundle\Entity\EvalForm;
 use Gesseh\EvaluationBundle\Form\EvalFormType;
 use Gesseh\EvaluationBundle\Form\EvalFormHandler;
@@ -309,4 +310,34 @@ class AdminController extends Controller
       'evaluations' => $evaluations,
     );
   }
+    /**
+     * Exporte les évaluations en PDF
+     *
+     * @Route("/export", name="GEval_APdfExport")
+     */
+    public function pdfExportAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $departments = $em->getRepository('GessehCoreBundle:Department')->getAll();
+
+        foreach($departments as $department) {
+            $eval[$department->getId()]['text'] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getTextByDepartment($department->getId());
+            $eval[$department->getId()]['num'] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getNumByDepartment($department->getId());
+            $eval[$department->getId()]['form'] = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId());
+        }
+
+        $content = $this->renderView('GessehEvaluationBundle:Admin:pdfExport.html.twig', array(
+            'eval'        => $eval,
+            'departments' => $departments,
+        ));
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($content),
+            200,
+            array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="Evaluations.pdf"'
+            )
+        );
+    }
 }

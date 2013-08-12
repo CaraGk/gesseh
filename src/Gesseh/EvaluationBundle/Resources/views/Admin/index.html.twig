@@ -3,6 +3,7 @@
 {% block titlecontent %}Évaluations{% endblock %}
 
 {% block content %}
+  <div><a href="{{ path('GEval_APdfExport') }}" title="Exporter les évaluations en fichier PDF">Exporter</a></div>
   <h2>Formulaires d'évaluation</h2>
   {% if eval_form_form is not empty %}
     {% form_theme eval_form_form 'GessehCoreBundle:Form:fields.html.twig' %}
