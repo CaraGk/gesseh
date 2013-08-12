@@ -184,12 +184,7 @@ class SimulationAdminController extends Controller
 
       $em->flush();
 
-      $flash = "Les données de la simulation ont été supprimées.";
-
-      if ($this->get('session')->hasFlash('notice'))
-        $flash = $this->get('session')->getFlash('notice') . " " . $flash;
-
-      $this->get('session')->getFlashBag()->add('notice', $flash);
+      $this->get('session')->getFlashBag()->add('notice', "Les données de la simulation ont été supprimées.");
       return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
     }
 
@@ -323,7 +318,7 @@ class SimulationAdminController extends Controller
     {
       $em = $this->getDoctrine()->getEntityManager();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getSimStudent($id);
-      $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getWishCluster($wish);
+      $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getWishCluster($simstudent->getStudent(), $wish);
 
       if (!$wishes)
         throw $this->createNotFoundException('Unable to find wish entity.');

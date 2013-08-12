@@ -76,10 +76,24 @@ class WishRepository extends EntityRepository
   public function findByStudentAndRank($student_id, $rank)
   {
     $query = $this->getWishStudentQuery($student_id);
-    $query->andWhere('w.rank = :rank')
-            ->setParameter('rank', $rank);
+    $query->join('w.department', 'd')
+          ->addSelect('d')
+          ->andWhere('w.rank = :rank')
+          ->setParameter('rank', $rank);
+    $wish = $query->getQuery()->getSingleResult();
 
-    return $query->getQuery()->getSingleResult();
+    if($wish->getDepartment()->getCluster() != null) {
+        $query = $this->getWishQuery();
+        $query->where('t.student = :student_id')
+              ->setParameter('student_id', $student_id)
+              ->andWhere('d.cluster = :cluster')
+              ->setParameter('cluster', $wish->getDepartment()->getCluster());
+
+        return $query->getQuery()
+                     ->getResult();
+    } else {
+        return array($wish);
+    }
   }
 
   public function findByStudentAndId($student_id, $id)
@@ -137,17 +151,19 @@ class WishRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
  */
-  public function getWishCluster($wish_id)
+  public function getWishCluster($student_id, $wish_id)
   {
       $query = $this->getWishQuery();
       $query->where('w.id = :wish_id')
-            ->setParameter('wish_id', $wish_id);
+            ->setParameter('wish_id', $wish_id)
+            ->andWhere('t.student = :student_id')
+            ->setParameter('student_id', $student_id);
       $wish = $query->getQuery()->getSingleResult();
 
       if(null != $wish->getDepartment()->getCluster()) {
         $query = $this->getWishQuery();
-        $query->where('t.id = :student_id')
-              ->setParameter('student_id', $wish->getSimstudent()->getId())
+        $query->where('t.student = :student_id')
+              ->setParameter('student_id', $student_id)
               ->andWhere('d.cluster = :cluster')
               ->setParameter('cluster', $wish->getDepartment()->getCluster());
 
