@@ -160,7 +160,10 @@ class SimulationAdminController extends Controller
       $departments = $em->getRepository('GessehCoreBundle:Department')->findAll();
 
       foreach($departments as $department) {
-        $department_table[$department->getId()] = $department->getNumber();
+          $department_table[$department->getId()] = $department->getNumber();
+          if($department->getCluster() != null) {
+              $department_table['cl_' . $department->getCluster()][] = $department->getId();
+          }
       }
 
       $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
