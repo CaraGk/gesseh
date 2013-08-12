@@ -61,7 +61,7 @@ class MenuBuilder
   {
     $menu = $this->factory->createItem('admin');
     $menu->addChild('Home', array('route' => 'homepage', 'label' => 'Retour', 'attributes' => array('title' => 'Retour au site public')));
-    $menu->addChild('Fieldset', array('route' => 'GCore_FSAIndex', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Gérer les catégoriées, hôpitaux et services')));
+    $menu->addChild('Fieldset', array('route' => 'GCore_FSAHospital', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Gérer les catégoriées, hôpitaux et services')));
     $menu->addChild('Student', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants', 'attributes' => array('title' => 'Gérer les étudiants et les promotions')));
     $menu->addChild('Placement', array('route' => 'GCore_PAIndex', 'label' => 'Stages', 'attributes' => array('title' => 'Gérer les stages')));
     $menu->addChild('Simulation', array('route' => 'GSimulation_SAIndex', 'label' => 'Simulations', 'attributes' => array('title' => 'Gérer les simulations')));
@@ -76,8 +76,8 @@ class MenuBuilder
   public function createFieldSetAdminMenu(Request $request)
   {
     $menu = $this->factory->createItem('field_set_admin');
-    $menu->addChild('Hospitals', array('route' => 'GCore_FSAIndex', 'label' => 'Hôpitaux et services', 'attributes' => array('title' => 'Gérer les hôpitaux et services associés')));
-    $menu->addChild('Sectors', array('route' => 'GCore_FSAIndex', 'label' => 'Catégories de service', 'attributes' => array('title' => 'Gérer les catégories de services')));
+    $menu->addChild('Hospitals', array('route' => 'GCore_FSAHospital', 'label' => 'Hôpitaux et services', 'attributes' => array('title' => 'Gérer les hôpitaux et services associés')));
+    $menu->addChild('Sectors', array('route' => 'GCore_FSAHospital', 'label' => 'Catégories de service', 'attributes' => array('title' => 'Gérer les catégories de services')));
     $menu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres', 'attributes' => array('title' => 'Gérer les paramètres des terrains de stage')));
 
     return $menu;

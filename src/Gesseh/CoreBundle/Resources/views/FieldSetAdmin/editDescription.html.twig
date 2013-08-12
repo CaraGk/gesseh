@@ -2,11 +2,11 @@
 
 {% block titlecontent %}Modifier la description de {{ entity.name }}{% endblock %}
 
-{% block actionscontent %}<a href="{{ path('GCore_FSAIndex') }}" title="Retour vers la liste des catégories, hôpitaux et services">Retour</a>{% endblock %}
+{% block actionscontent %}<a href="{{ path('GCore_FSAHospital') }}" title="Retour vers la liste des catégories, hôpitaux et services">Retour</a>{% endblock %}
 
 {% block content %}
   <div class="description">{{ entity.description|raw }}</div>
-  {{ form_start(edit_form) }}>
+  {{ form_start(edit_form) }}
     <div class="error">{{ form_errors(edit_form) }}</div>
     <fieldset>
       {{ form_row(edit_form.description) }}

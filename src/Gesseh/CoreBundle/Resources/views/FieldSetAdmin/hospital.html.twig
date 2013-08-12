@@ -6,14 +6,19 @@
     {% include 'GessehCoreBundle:FieldSetAdmin:subMenu.html.twig' %}
     {% if hospital_form is not empty %}
         <div>{{ form_errors(hospital_form) }}</div>
-        {{ form_start(hospital_form) }}>
+        {{ form_start(hospital_form) }}
     {% endif %}
+    <ul>
+        <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital">Ajouter</a></li>
+    </ul>
+    <ul class="entities">
     {% for hospital in hospitals %}
-        {% include hospital_id == hospital.id ? 'GessehCoreBundle:FieldSetAdmin:editHospital.html.twig' : 'GessehCoreBundle:FieldSetAdmin:indexHospital.html.twig' %}
+        {% include hospital_id == hospital.id ? 'GessehCoreBundle:FieldSetAdmin:hospitalEdit.html.twig' : 'GessehCoreBundle:FieldSetAdmin:hospitalIndex.html.twig' %}
     {% endfor %}
     {% if hospital_form is not empty and hospital_id is empty %}
-        {% include 'GessehCoreBundle:FieldSetAdmin:editHospital.html.twig' %}
+        {% include 'GessehCoreBundle:FieldSetAdmin:hospitalEdit.html.twig' %}
     {% endif %}
+    </ul>
     <ul>
         <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital">Ajouter</a></li>
     </ul>
@@ -24,20 +29,5 @@
     {{ parent() }}
     <script src="{{ asset('bundles/gessehcore/js/addSub.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
-    <script>
-        $('document').ready(function(){
-            $('.actions').hide();
-
-            $('li.hospital').hover(function(){
-                $(this).children('.actions').show();
-            }, function(){
-                $(this).children('.actions').hide();
-            });
-            $('li.department').hover(function(){
-                $(this).children('.actions').show();
-            }, function(){
-                $(this).children('.actions').hide();
-            });
-        });
-    </script>
+    <script src="{{ asset('bundles/gessehcore/js/actions.js') }}" type="text/javascript"></script>
 {% endblock %}

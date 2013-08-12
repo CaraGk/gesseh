@@ -1,0 +1,33 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Catégories{% endblock %}
+
+{% block content %}
+    {% include 'GessehCoreBundle:FieldSetAdmin:subMenu.html.twig' %}
+    <ul>
+        <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie">Ajouter</a></li>
+    </ul>
+    {% if sector_form is not empty %}
+        <div>{{ form_errors(sector_form) }}</div>
+        {{ form_start(sector_form) }}
+        {% endif %}
+    <ul class="entities">
+        {% for sector in sectors %}
+            {% include sector_id == sector.id ? 'GessehCoreBundle:FieldSetAdmin:sectorEdit.html.twig' : 'GessehCoreBundle:FieldSetAdmin:sectorIndex.html.twig' %}
+        {% endfor %}
+    {% if sector_form is not empty and sector_id is empty %}
+        {% include 'GessehCoreBundle:FieldSetAdmin:sectorEdit.html.twig' %}
+    {% endif %}
+    </ul>
+    <ul>
+        <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie">Ajouter</a></li>
+    </ul>
+    {% if sector_form is not empty %}{{ form_end(sector_form) }}{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehcore/js/addSub.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/gessehcore/js/actions.js') }}" type="text/javascript"></script>
+{% endblock %}

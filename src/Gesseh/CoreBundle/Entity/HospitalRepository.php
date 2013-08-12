@@ -30,7 +30,7 @@ class HospitalRepository extends EntityRepository
                 ->addSelect('s');
   }
 
-  public function getAll(array $orderBy = array ( 'h' => 'asc', 'd' => 'asc'))
+  public function getAllOrdered(array $orderBy = array ( 'h' => 'asc', 'd' => 'asc'))
   {
     $query = $this->getHospitalQuery();
     $query->addOrderBy('h.name', 'asc');
@@ -40,5 +40,20 @@ class HospitalRepository extends EntityRepository
 
     return $query->getQuery()
                  ->getResult();
+  }
+
+  public function getAll(array $limit = null)
+  {
+      $query = $this->getHospitalQuery();
+      $query->addOrderBy('h.name', 'asc')
+            ->addOrderBy('d.name', 'asc');
+
+    if (null != $limit and (preg_match('/^[s,h,d].id$/', $limit['type']) or $limit['type'] == "d.cluster")) {
+      $query->where($limit['type'] . ' = :value')
+            ->setParameter('value', $limit['value']);
+    }
+
+      return $query->getQuery()
+                   ->getResult();
   }
 }
