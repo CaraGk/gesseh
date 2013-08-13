@@ -2,8 +2,8 @@
   <td>{{ eval_form.name }}</td>
   <td rowspan=2 class="actions">
     <ul>
-      <li><a href="{{ path('GEval_AEdit', { 'id': eval_form.id }) }}" title="Modifier le formulaire d'évaluation '{{ eval_form.name }}'">Modifier</a></li>
-      <li><a href="{{ path('GEval_ADelete', { 'id': eval_form.id }) }}" title="Supprimer le formulaire d'évaluation '{{ eval_form.name }}'" class="confirm">Supprimer</a></li>
+      <li><a href="{{ path('GEval_AEdit', { 'id': eval_form.id }) }}" title="Modifier le formulaire d'évaluation '{{ eval_form.name }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
+      <li><a href="{{ path('GEval_ADelete', { 'id': eval_form.id }) }}" title="Supprimer le formulaire d'évaluation '{{ eval_form.name }}'" class="confirm"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
     </ul>
   </td>
 </tr>
@@ -28,7 +28,7 @@
             <td>{{ criteria.more }}</td>
             <td class="actions">
               <ul>
-                <li><a href="{{ path('GEval_ADeleteCriteria', { 'id': criteria.id }) }}" title="Supprimer le critère d'évaluation '{{ criteria.name }}'" class="confirm">Supprimer</a></li>
+                <li><a href="{{ path('GEval_ADeleteCriteria', { 'id': criteria.id }) }}" title="Supprimer le critère d'évaluation '{{ criteria.name }}'" class="confirm"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
               </ul>
             </td>
           </tr>

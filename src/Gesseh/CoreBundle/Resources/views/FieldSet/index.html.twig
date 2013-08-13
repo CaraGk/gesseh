@@ -22,10 +22,10 @@
         <td>{{ department.head }}</td>
         <td>{{ department.sector }}</td>
         {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}<td class="small">{{ department.number }}</td>{% endif %}
-        <td>
+        <td class="actions">
           <ul>
-            <li><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}" title="Afficher les informations du service '{{ department.name }}'">Afficher</a></li>
-            {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li><a href="{{ path('GEval_DShow', { 'id': department.id }) }}" title="Afficher les évaluations du service '{{ department.name }}'">Évaluations</a></li>{% endif %}
+            <li><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}" title="Afficher les informations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Afficher" /></a></li>
+            {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li><a href="{{ path('GEval_DShow', { 'id': department.id }) }}" title="Afficher les évaluations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>{% endif %}
           </ul>
         </td>
       </tr>

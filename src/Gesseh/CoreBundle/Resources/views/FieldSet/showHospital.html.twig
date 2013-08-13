@@ -6,7 +6,7 @@
   <ul class="nav">
     <li><a href="{{ path('GCore_FSIndex') }}" title="Retour à la liste des terrains">Retour</a></li>
     {% if is_granted('ROLE_ADMIN') %}
-      <li><a href="{{ path('GCore_FSAEditHospitalDescription', {id: hospital.id}) }}" title="Modifier la description de l'hôpital '{{ hospital.name }}'">Modifier</a>
+      <li><a href="{{ path('GCore_FSAEditHospitalDescription', {id: hospital.id}) }}" title="Modifier la description de l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a>
     {% endif %}
   </ul>
 </div>

@@ -21,10 +21,10 @@
           <td>{{ evaluation.evalCriteria.name }}</td>
           <td>{{ evaluation.value }}</td>
           <td class="small">{{ evaluation.createdAt|date('d-m-Y') }}</td>
-          <td>
+          <td class="actions">
             <ul>
-              <li><a href="" title="Modifier le commentaire">Modifier</a></li>
-              <li><a href="{{ path('GEval_ATextDelete', {'id': evaluation.id}) }}" title="Supprimer le commentaire" class="confirm">Supprimer</a></li>
+              <li><a href="" title="Modifier le commentaire"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
+              <li><a href="{{ path('GEval_ATextDelete', {'id': evaluation.id}) }}" title="Supprimer le commentaire" class="confirm"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
             </ul>
           </td>
         </tr>

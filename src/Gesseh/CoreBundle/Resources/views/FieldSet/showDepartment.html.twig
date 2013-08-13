@@ -7,10 +7,10 @@
     <li><a href="{{ path('GCore_FSIndex') }}" title="Retour à la liste des terrains">Retour</a></li>
     <li><a href="{{ path('GCore_FSShowHospital', {id: department.hospital.id}) }}" title="Afficher les informations concernant l'hôpital '{{ department.hospital }}'">Infos hôpital</a></li>
     {% if kparam('eval_active') == true %}
-      <li><a href="{{ path('GEval_DShow', {id: department.id}) }}" title="Afficher les évaluations pour ce service">Évaluations</a></li>
+      <li><a href="{{ path('GEval_DShow', {id: department.id}) }}" title="Afficher les évaluations pour ce service"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>
     {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
-      <li><a href="{{ path('GCore_FSAEditDepartmentDescription', {id: department.id}) }}" title="Modifier la description du service '{{ department.name }}'">Modifier</a></li>
+      <li><a href="{{ path('GCore_FSAEditDepartmentDescription', {id: department.id}) }}" title="Modifier la description du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
     {% endif %}
   </ul>
 {% endblock %}

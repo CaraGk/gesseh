@@ -72,6 +72,7 @@ ul.submenu li { padding: 3px; margin: 0; }
 #content td.odd { background-color: #fcfca0; }
 #content td.even { background-color: #fefee3; }
 #content td.actions { width: 90px; vertical-align: top; }
+#content td.actions ul, #content td.actions li { display: inline; }
 #content td.small { width: 45px; text-align: center; }
 #content td.pagination { text-align: center; }
 #content thead { background-color: #fdef55; }
