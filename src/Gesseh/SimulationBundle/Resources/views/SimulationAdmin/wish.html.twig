@@ -1,12 +1,7 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
 {% block titlecontent %}Vœux de {{ simstudent.student }}{% endblock %}
-
-{% block actionscontent %}
-  <ul>
-    <li><a href="{{ path('GSimulation_SAIndex') }}" title="Retour à la liste des simulations">Retour</a></li>
-  </ul>
-{% endblock %}
+{% block actionscontent %}{% include 'GessehSimulationBundle:SimulationAdmin:subMenu.html.twig' %}{% endblock %}
 
 {% block content %}
   <div>Attention, il est déconseillé de modifier les vœux d'un étudiant sans son accord. Des modifications intempestives par l'administrateur peuvent fausser la simulation.</div>

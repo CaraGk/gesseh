@@ -26,7 +26,7 @@ use Gesseh\SimulationBundle\Form\WishHandler;
 class SimulationController extends Controller
 {
     /**
-     * @Route("/", name="GSimulation_SIndex")
+     * @Route("/", name="GSimul_SIndex")
      * @Template()
      */
     public function indexAction()
@@ -48,7 +48,7 @@ class SimulationController extends Controller
 
       if($formHandler->process()) {
         $this->get('session')->getFlashBag()->add('notice', 'Nouveau vœu : "' . $new_wish->getDepartment() . '" enregistré.');
-        return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+        return $this->redirect($this->generateUrl('GSimul_SIndex'));
       }
 
       return array(
@@ -60,7 +60,7 @@ class SimulationController extends Controller
     }
 
     /**
-     * @Route("/{wish_id}/up", name="GSimulation_SUp", requirements={"wish_id" = "\d+"})
+     * @Route("/{wish_id}/up", name="GSimul_SUp", requirements={"wish_id" = "\d+"})
      */
     public function setRankUpAction($wish_id)
     {
@@ -93,11 +93,11 @@ class SimulationController extends Controller
         }
       }
       $em->flush();
-      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+      return $this->redirect($this->generateUrl('GSimul_SIndex'));
     }
 
     /**
-     * @Route("/{wish_id}/down", name="GSimulation_SDown", requirements={"wish_id" = "\d+"})
+     * @Route("/{wish_id}/down", name="GSimul_SDown", requirements={"wish_id" = "\d+"})
      */
     public function setRankDownAction($wish_id)
     {
@@ -131,11 +131,11 @@ class SimulationController extends Controller
         }
       }
       $em->flush();
-      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+      return $this->redirect($this->generateUrl('GSimul_SIndex'));
     }
 
     /**
-     * @Route("/{wish_id}/d", name="GSimulation_SDelete", requirements={"wish_id" = "\d+"})
+     * @Route("/{wish_id}/d", name="GSimul_SDelete", requirements={"wish_id" = "\d+"})
      */
     public function deleteAction($wish_id)
     {
@@ -170,11 +170,11 @@ class SimulationController extends Controller
       $em->flush();
 
       $this->get('session')->getFlashBag()->add('notice', 'Vœu : "' . $wish->getDepartment() . '" supprimé.');
-      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+      return $this->redirect($this->generateUrl('GSimul_SIndex'));
     }
 
     /**
-     * @Route("/out", name="GSimulation_SGetout")
+     * @Route("/out", name="GSimul_SGetout")
      */
     public function getoutAction()
     {
@@ -200,11 +200,11 @@ class SimulationController extends Controller
       $em->flush();
 
       $this->get('session')->getFlashBag()->add('notice', 'Vous ne participez plus à la simulation. Tous vos vœux ont été effacés.');
-      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+      return $this->redirect($this->generateUrl('GSimul_SIndex'));
     }
 
     /**
-     * @Route("/in", name="GSimulation_SGetin")
+     * @Route("/in", name="GSimul_SGetin")
      */
     public function getinAction()
     {
@@ -222,11 +222,11 @@ class SimulationController extends Controller
       $em->flush();
 
       $this->get('session')->getFlashBag()->add('notice', 'Vous pouvez désormais faire vos choix pour la simulation.');
-      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+      return $this->redirect($this->generateUrl('GSimul_SIndex'));
     }
 
     /**
-     * @Route("/sim", name="GSimulation_SSim")
+     * @Route("/sim", name="GSimul_SSim")
      */
     public function simAction()
     {
@@ -247,7 +247,7 @@ class SimulationController extends Controller
       $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
 
       $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été actualisées');
-      return $this->redirect($this->generateUrl('GSimulation_SIndex'));
+      return $this->redirect($this->generateUrl('GSimul_SIndex'));
     }
 
     /**

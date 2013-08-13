@@ -1,0 +1,49 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Périodes de simulation{% endblock %}
+{% block actionscontent %}{% include 'GessehSimulationBundle:SimulationAdmin:subMenu.html.twig' %}{% endblock %}
+
+{% block content %}
+  {% if period_form is not empty %}
+    {% form_theme period_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    <div>{{ form_errors(period_form) }}</div>
+    {{ form_start(period_form) }}
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th>Période de stage</th>
+        <th>Début des simulations</th>
+        <th>Fin des simulations</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for period in periods %}
+        {% include period_id == period.id ? 'GessehSimulationBundle:SimulationAdmin:periodEdit.html.twig' : 'GessehSimulationBundle:SimulationAdmin:periodIndex.html.twig' %}
+      {% else %}
+        <tr>
+          <td colspan=4>Aucune session de simulation à afficher.</td>
+        </tr>
+      {% endfor %}
+      {% if period_form is not empty and period_id is empty %}
+        {% include 'GessehSimulationBundle:SimulationAdmin:periodEdit.html.twig' %}
+      {% endif %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <ul>
+            <li><a href="{{ path('GSimul_SANewPeriod') }}" title="Ajouter une nouvelle session de simulation">Ajouter</a></li>
+          </ul>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  {% if period_form is not empty %}{{ form_end(period_form) }}{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+{% endblock %}

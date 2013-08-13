@@ -1,9 +1,9 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
 {% block titlecontent %}Hôpitaux et services{% endblock %}
+{% block actionscontent %}{% include 'GessehCoreBundle:FieldSetAdmin:subMenu.html.twig' %}{% endblock %}
 
 {% block content %}
-    {% include 'GessehCoreBundle:FieldSetAdmin:subMenu.html.twig' %}
     {% if hospital_form is not empty %}
         <div>{{ form_errors(hospital_form) }}</div>
         {{ form_start(hospital_form) }}

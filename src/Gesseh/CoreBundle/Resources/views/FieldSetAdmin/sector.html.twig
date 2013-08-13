@@ -1,9 +1,9 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
 {% block titlecontent %}Catégories{% endblock %}
+{% block actionscontent %}{% include 'GessehCoreBundle:FieldSetAdmin:subMenu.html.twig' %}{% endblock %}
 
 {% block content %}
-    {% include 'GessehCoreBundle:FieldSetAdmin:subMenu.html.twig' %}
     <ul>
         <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie">Ajouter</a></li>
     </ul>

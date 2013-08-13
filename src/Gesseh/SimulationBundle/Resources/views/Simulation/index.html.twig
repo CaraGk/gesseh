@@ -8,9 +8,9 @@
     <li><a href="{{ path('GSimul_SLeft') }}" title="Affiche les postes restants au moment de mon choix">Mes postes restants</a></li>
   </ul>
   {% if not simstudent.active %}
-    <div>Vous ne participez pas à la simulation. Pour participer à nouveau à la simulation et faire vos vœux, <a href="{{ path('GSimulation_SGetin') }}">cliquez ici</a>.</div>
+    <div>Vous ne participez pas à la simulation. Pour participer à nouveau à la simulation et faire vos vœux, <a href="{{ path('GSimul_SGetin') }}">cliquez ici</a>.</div>
   {% else %}
-    <div>Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, master, inter-CHU, etc.), <a href="{{ path('GSimulation_SGetout') }}">cliquez ici</a></div>
+    <div>Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, master, inter-CHU, etc.), <a href="{{ path('GSimul_SGetout') }}">cliquez ici</a></div>
 
     <div>Votre vœu retenu est : <strong>{{ simstudent.department }}</strong>. Au moment de votre choix, il reste {{ simstudent.extra }} place(s) pour ce poste.</div>
     <div>Devant vous, {{ missing }} personne(s) n'ont pas de vœu validé par la simulation à ce jour.</div>
@@ -36,9 +36,9 @@
             <td class="small">{{ wish.department.number }}</td>
             <td class="actions">
               <ul>
-                <li><a href="{{ path('GSimulation_SUp', {wish_id: wish.id}) }}" title="Monter le vœu d'une place">Monter</a></li>
-                <li><a href="{{ path('GSimulation_SDown', {wish_id: wish.id}) }}" title="Descendre le vœu d'une place">Descendre</a></li>
-                <li><a href="{{ path('GSimulation_SDelete', {wish_id: wish.id}) }}" title="Supprimer le vœu">Supprimer</a></li>
+                <li><a href="{{ path('GSimul_SUp', {wish_id: wish.id}) }}" title="Monter le vœu d'une place">Monter</a></li>
+                <li><a href="{{ path('GSimul_SDown', {wish_id: wish.id}) }}" title="Descendre le vœu d'une place">Descendre</a></li>
+                <li><a href="{{ path('GSimul_SDelete', {wish_id: wish.id}) }}" title="Supprimer le vœu">Supprimer</a></li>
               </ul>
             </td>
           <tr>
@@ -56,7 +56,7 @@
     <button type="submit" title="Ajouter un vœu à la liste">Ajouter</button>
   {{ form_end(wish_form) }}
   <ul>
-    <li><a href="{{ path('GSimulation_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels">Lancer la simulation</a></li>
+    <li><a href="{{ path('GSimul_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels">Lancer la simulation</a></li>
   </ul>
   {% endif %}
 {% endblock %}

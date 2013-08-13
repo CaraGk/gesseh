@@ -34,19 +34,31 @@ use Gesseh\SimulationBundle\Form\SectorRuleHandler;
 class SimulationAdminController extends Controller
 {
     /**
-     * @Route("/", name="GSimulation_SAIndex")
+     * @Route("/", name="GSimul_SAList")
      * @Template()
      */
-    public function indexAction()
+    public function listAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
       $paginator = $this->get('knp_paginator');
       $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
       $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
-      $periods = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findAll();
 
       return array(
         'simulations' => $simulations,
+      );
+    }
+
+    /**
+     * @Route("/p", name="GSimul_SAPeriod")
+     * @Template()
+     */
+    public function periodAction()
+    {
+      $em = $this->getDoctrine()->getEntityManager();
+      $periods = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findAll();
+
+      return array(
         'periods'     => $periods,
         'period_id'   => null,
         'period_form' => null,
@@ -55,14 +67,11 @@ class SimulationAdminController extends Controller
 
     /**
      * @Route("/p/n", name="GSimul_SANewPeriod")
-     * @Template("GessehSimulationBundle:SimulationAdmin:index.html.twig")
+     * @Template("GessehSimulationBundle:SimulationAdmin:period.html.twig")
      */
     public function newPeriodAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
-      $paginator = $this->get('knp_paginator');
-      $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
-      $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
       $periods = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findAll();
 
       $simul_period = new SimulPeriod();
@@ -71,11 +80,10 @@ class SimulationAdminController extends Controller
 
       if ($form_handler->process()) {
         $this->get('session')->getFlashBag()->add('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" enregistrée.');
-        return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+        return $this->redirect($this->generateUrl('GSimul_SAPeriod'));
       }
 
       return array(
-        'simulations' => $simulations,
         'periods'     => $periods,
         'period_id'   => null,
         'period_form' => $form->createView(),
@@ -84,14 +92,11 @@ class SimulationAdminController extends Controller
 
     /**
      * @Route("/p/{id}/e", name="GSimul_SAEditPeriod", requirements={"id" = "\d+"})
-     * @Template("GessehSimulationBundle:SimulationAdmin:index.html.twig")
+     * @Template("GessehSimulationBundle:SimulationAdmin:period.html.twig")
      */
     public function editPeriodAction($id)
     {
       $em = $this->getDoctrine()->getEntityManager();
-      $paginator = $this->get('knp_paginator');
-      $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
-      $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
       $periods = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findAll();
 
       $simul_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->find($id);
@@ -104,11 +109,10 @@ class SimulationAdminController extends Controller
 
       if ($form_handler->process()) {
         $this->get('session')->getFlashBag()->add('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" modifiée.');
-        return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+        return $this->redirect($this->generateUrl('GSimul_SAPeriod'));
       }
 
       return array(
-        'simulations' => $simulations,
         'periods'     => $periods,
         'period_id'   => $id,
         'period_form' => $form->createView(),
@@ -130,11 +134,11 @@ class SimulationAdminController extends Controller
       $em->flush();
 
       $this->get('session')->getFlashBag()->add('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" supprimée.');
-      return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+      return $this->redirect($this->generateUrl('GSimul_SAPeriod'));
     }
 
     /**
-     * @Route("/define", name="GSimulation_SADefine")
+     * @Route("/define", name="GSimul_SADefine")
      */
     public function defineAction()
     {
@@ -148,11 +152,11 @@ class SimulationAdminController extends Controller
         $this->get('session')->getFlashBag()->add('error', 'Attention : Aucun étudiant enregistré dans la table de simulation.');
       }
 
-      return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+      return $this->redirect($this->generateUrl('GSimul_SAList'));
     }
 
     /**
-     * @Route("/sim", name="GSimulation_SASim")
+     * @Route("/sim", name="GSimul_SASim")
      */
     public function simAction()
     {
@@ -169,11 +173,11 @@ class SimulationAdminController extends Controller
       $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
 
       $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été actualisées.');
-      return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+      return $this->redirect($this->generateUrl('GSimul_SAList'));
     }
 
     /**
-     * @Route("/purge", name="GSimulation_SAPurge")
+     * @Route("/purge", name="GSimul_SAPurge")
      */
     public function purgeAction()
     {
@@ -188,11 +192,11 @@ class SimulationAdminController extends Controller
       $em->flush();
 
       $this->get('session')->getFlashBag()->add('notice', "Les données de la simulation ont été supprimées.");
-      return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+      return $this->redirect($this->generateUrl('GSimul_SAList'));
     }
 
     /**
-     * @Route("/save", name="GSimulation_SASave")
+     * @Route("/save", name="GSimul_SASave")
      */
     public function saveAction()
     {
@@ -200,7 +204,7 @@ class SimulationAdminController extends Controller
 
       if ($em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
         $this->get('session')->getFlashBag()->add('error', 'La simulation est toujours active ! Vous ne pourrez la valider qu\'une fois qu\'elle sera inactive. Aucune donnée n\'a été copiée.');
-        return $this->redirect($this->generateUrl('GSimulation_SAIndex'));
+        return $this->redirect($this->generateUrl('GSimul_SAList'));
       }
 
       $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getAllValid();
@@ -217,16 +221,16 @@ class SimulationAdminController extends Controller
       $em->flush();
 
       $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été copiées dans les stages.');
-      return $this->redirect($this->generateUrl('GSimulation_SAPurge'));
+      return $this->redirect($this->generateUrl('GSimul_SAPurge'));
     }
 
     /**
      * Affiche un tableau de SectorRule
      *
-     * @Route("/s/", name="GSimul_SAIndexRule")
+     * @Route("/s/", name="GSimul_SARule")
      * @Template()
      */
-    public function indexRuleAction()
+    public function ruleAction()
     {
       $em = $this->getDoctrine()->getEntityManager();
       $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getAll();
@@ -241,7 +245,7 @@ class SimulationAdminController extends Controller
      * Affiche un formulaire d'ajout de SectorRule
      *
      * @Route("/s/new", name="GSimul_SANewRule")
-     * @Template("GessehSimulationBundle:SimulationAdmin:indexRule.html.twig")
+     * @Template("GessehSimulationBundle:SimulationAdmin:rule.html.twig")
      */
     public function newRuleAction()
     {
@@ -254,7 +258,7 @@ class SimulationAdminController extends Controller
 
       if ($form_handler->process()) {
         $this->get('session')->getFlashBag()->add('notice', 'Relation entre "' . $sector_rule->getSector()->getName() . '" et "' . $sector_rule->getGrade()->getName() . '" ajoutée.');
-        return $this->redirect($this->generateUrl('GSimul_SAIndexRule'));
+        return $this->redirect($this->generateUrl('GSimul_SARule'));
       }
 
       return array(
@@ -280,16 +284,16 @@ class SimulationAdminController extends Controller
       $em->flush();
 
       $this->get('session')->getFlashBag()->add('notice', 'Règle de simulation pour "' . $rule . '" supprimée.');
-      return $this->redirect($this->generateUrl('GSimul_SAIndexRule'));
+      return $this->redirect($this->generateUrl('GSimul_SARule'));
     }
 
     /**
      * Show the student's wishes
      *
-     * @Route("/w/{id}", name="GSimul_SAIndexWish", requirements={"id" = "\d+"})
+     * @Route("/w/{id}", name="GSimul_SAWish", requirements={"id" = "\d+"})
      * @Template()
      */
-    public function indexWishAction($id)
+    public function wishAction($id)
     {
       $em = $this->getDoctrine()->getEntityManager();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getSimStudent($id);
@@ -302,7 +306,7 @@ class SimulationAdminController extends Controller
 
       if($formHandler->process()) {
         $this->get('session')->getFlashBag()->add('notice', 'Nouveau vœu : "' . $new_wish->getDepartment() . '" enregistré.');
-        return $this->redirect($this->generateUrl('GSimul_SAIndexWish', array('id' => $simstudent->getId())));
+        return $this->redirect($this->generateUrl('GSimul_SAWish', array('id' => $simstudent->getId())));
       }
 
       return array(
@@ -344,6 +348,6 @@ class SimulationAdminController extends Controller
       $em->flush();
 
       $this->get('session')->getFlashBag()->add('notice', 'Le vœu "' . $wish->getRank() . '" a été supprimé.');
-      return $this->redirect($this->generateUrl('GSimul_SAIndexWish', array('id' => $id)));
+      return $this->redirect($this->generateUrl('GSimul_SAWish', array('id' => $id)));
     }
 }
