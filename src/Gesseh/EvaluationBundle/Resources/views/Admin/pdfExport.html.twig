@@ -1,55 +1,68 @@
-<h1>Évaluation des stages</h1>
-<div>
-    {% for department in departments %}
-        <h2>{{ department.hospital.name }} - {{ department.name }}</h2>
-        <div class="description">
-            <h3>Informations générales</h3>
-            <div>Catégorie : {{ department.sector }}</div>
-            <div>{{ department.description }}</div>
-        </div>
-        <div class="eval_num">
-            <h3>Évaluations numériques</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Critère</th>
-                        <th class="small">Moyenne</th>
-                        <th class="small">Évaluations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for criteria in eval[department.id]['num'] %}
-                        <tr>
-                            <td>{{ criteria['name'] }}</td>
-                            <td class="small">{{ criteria['mean'] }}</td>
-                            <td class="small">{{ criteria['count'] }}</td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan=2>Aucune évaluation numérique.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="eval_text">
-            <h3>Évaluations textuelles</h3>
-            {% set crit = null %}
-            {% for text in eval[department.id]['text'] %}
-                {% if crit != text.evalCriteria.id %}
-                    {% if crit %}</div>{% endif %}
-                    {% set crit = text.evalCriteria.id %}
-                    <div class="criteria_block">
-                        <div class="criteria_name">{{ text.evalCriteria.name }}</div>
-                {% endif %}
-                <div class="criteria_content">
-                    <span class="eval_title">{{ text.createdAt|date('d-m-Y') }} :</span>
-                    <span class="eval_content">{{ text.value }}</span>
+<!DOCTYPE html5>
+<html lang="fr-FR">
+    <head>
+        <base href="http://{{app.request.host}}">
+        <meta charset="UTF-8" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Gesseh{% endblock %}</title>
+        <link href="{{ asset('bundles/gessehevaluation/css/pdf.css') }}" type="text/css" rel="stylesheet" media="all" />
+        <link rel="shortcut icon" href="{{ asset('bundles/gessehcore/images/favicon.ico') }}" />
+    </head>
+    <body>
+        <h1>Évaluation des stages - {{ kparam('title') }}</h1>
+        <div class="department">
+            {% for department in departments %}
+                <h2>{{ department.hospital.name }} - {{ department.name }}</h2>
+                <div class="description">
+                    <h3>Informations générales</h3>
+                    <div>Catégorie : {{ department.sector }}</div>
+                    <div>{{ department.description|raw }}</div>
                 </div>
-            {% else %}
-                <div class="criteria_block">Aucun commentaire.
+                <div class="eval_num">
+                    <h3>Évaluations numériques</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Critère</th>
+                                <th class="small">Moyenne</th>
+                                <th class="small">Évaluations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for criteria in eval[department.id]['num'] %}
+                                <tr>
+                                    <td>{{ criteria['name'] }}</td>
+                                    <td class="small">{{ criteria['mean'] }}</td>
+                                    <td class="small">{{ criteria['count'] }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan=2>Aucune évaluation numérique.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="eval_text">
+                    <h3>Évaluations textuelles</h3>
+                    {% set crit = null %}
+                    {% for text in eval[department.id]['text'] %}
+                        {% if crit != text.evalCriteria.id %}
+                            {% if crit %}</div>{% endif %}
+                            {% set crit = text.evalCriteria.id %}
+                            <div class="criteria_block">
+                                <div class="criteria_name">{{ text.evalCriteria.name }}</div>
+                        {% endif %}
+                        <div class="criteria_content">
+                            <span class="eval_title">{{ text.createdAt|date('d-m-Y') }} :</span>
+                            <span class="eval_content">{{ text.value }}</span>
+                        </div>
+                    {% else %}
+                        <div class="criteria_block">Aucun commentaire.
+                    {% endfor %}
+                    </div>
+                </div>
             {% endfor %}
-            </div>
         </div>
-    {% endfor %}
-</div>
+    </body>
+</html>
