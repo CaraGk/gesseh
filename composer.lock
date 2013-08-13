@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "984377f817c7306c8ca3f4fd66d30124",
+    "hash": "10d57917b48387b872a62919a0558a85",
     "packages": [
         {
             "name": "caragk/kdb-parameters-bundle",
@@ -501,6 +501,17 @@
                 "User management"
             ],
             "time": "2013-08-09 14:47:08"
+        },
+        {
+            "name": "google/wkhtmltopdf-i386",
+            "version": "0.11.0-RC1",
+            "dist": {
+                "type": "tar",
+                "url": "http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-i386.tar.bz2",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1806,6 +1817,7 @@
         "knplabs/knp-menu-bundle": 20,
         "knplabs/knp-paginator-bundle": 20,
         "knplabs/knp-snappy-bundle": 20,
+        "google/wkhtmltopdf-i386": 5,
         "stfalcon/tinymce-bundle": 20,
         "doctrine/migrations": 20,
         "doctrine/doctrine-migrations-bundle": 20,

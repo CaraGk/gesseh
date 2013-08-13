@@ -24,6 +24,7 @@
         "knplabs/knp-menu-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "knplabs/knp-snappy-bundle": "dev-master",
+        "google/wkhtmltopdf-i386": "0.11.0-RC1",
         "stfalcon/tinymce-bundle": "dev-master",
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
@@ -45,6 +46,19 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "google/wkhtmltopdf-i386",
+                "version": "0.11.0-RC1",
+                "dist": {
+                    "url": "http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-i386.tar.bz2",
+                    "type": "tar"
+                }
+            }
+        }
+    ],
     "config": {
         "bin-dir": "bin"
     },

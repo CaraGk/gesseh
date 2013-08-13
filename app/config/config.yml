@@ -98,7 +98,7 @@ knp_paginator:
 knp_snappy:
     pdf:
         enabled: true
-        binary:  /var/www/script/wkhtmltopdf
+        binary:  "%kernel.root_dir%/../vendor/google/wkhtmltopdf-i386/wkhtmltopdf-i386"
         options: []
     image:
         enabled: false

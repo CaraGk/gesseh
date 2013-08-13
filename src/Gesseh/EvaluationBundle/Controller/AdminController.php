@@ -333,7 +333,6 @@ class AdminController extends Controller
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($content, array(
-                'ignore-load-errors' => true,
             )),
             200,
             array(
