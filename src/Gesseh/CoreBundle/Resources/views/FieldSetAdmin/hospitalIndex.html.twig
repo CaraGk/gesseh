@@ -1,6 +1,12 @@
-<li class="entity hosptial">
-    <span class="field hospital_name"><a href="{{ hospital.web }}">{{ hospital.name }}</a></span>
-    <span class="field hospital_address">{{ hospital.address }}</span>
+<li class="entity hospital">
+    <span class="field hospital_name">
+        {% if hospital.web is not null %}
+            <a href="{{ hospital.web }}">{{ hospital.name }}</a>
+        {% else %}
+            {{ hospital.name }}
+        {% endif %}
+    </span>
+    <span class="field hospital_address">({{ hospital.address }})</span>
     <span class="field hospital_phone">{{ hospital.phone }}</span>
     <span class="action"><a href="{{ path('GCore_FSAEditHospitalDescription', { 'id': hospital.id }) }}" title="Modifier la page de description de '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Description" /></a></span>
     <span class="action"><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id }) }}#hospital_{{ hospital.id }}" title="Modifier l'hôpital '{{ hospital.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></span>
