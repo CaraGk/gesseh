@@ -1,31 +1,9 @@
-<tr>
-  {{ form_row(eval_form_form.name) }}
-  <td rowspan=2 class="actions">
-    <ul>
-      <li><button type="submit" title="Enregistrer les modifications">Enregistrer</button></li>
-      <li><button type="button" id="add_crit" title="Ajouter un service au formulaire d'évaluation">Ajouter un critère</button></li>
-      <li><button type="button" id="rm_crit" title="Supprimer le dernier critrère au formulaire d'évaluation">Supprimer</button></li>
-      <li><a href="{{ path('GEval_AForm') }}" title="Abandonner les modifications">Annuler</a></li>
+<li id="evalform_{% if eval_form is defined %}{{ eval_form.id }}{% else %}new{% endif %}">
+    {{ form_widget(eval_form_form) }}
+    <ul class="actions">
+      <li><button type="submit" title="Enregistrer les modifications" class="save">Enregistrer</button></li>
+      <li><button type="button" id="add_crit" title="Ajouter un service au formulaire d'évaluation" class="add">Ajouter un critère</button></li>
+      <li><button type="button" id="rm_crit" title="Supprimer le dernier critrère au formulaire d'évaluation" class="delete">Supprimer</button></li>
+      <li><a href="{{ path('GEval_AForm') }}" title="Abandonner les modifications" class="cancel">Annuler</a></li>
     </ul>
-  </td>
-</tr>
-<tr>
-  <td>
-    <table>
-      <thead>
-        <tr>
-          <th class="small">Rang</th>
-          <th>Critère</th>
-          <th class="small">Type</th>
-          <th>Complément</th>
-        </tr>
-      </thead>
-      <tbody id="gesseh_evaluationbundle_evalformtype_criterias" data-prototype="{{ form_widget(eval_form_form.criterias.vars.prototype) | e }}">
-        {% for criteria in eval_form_form.criterias %}
-          {{ form_widget(criteria) }}
-        {% endfor %}
-      </tbody>
-    </table>
-    {{ form_rest(eval_form_form) }}
-  </td>
-</tr>
+</li>

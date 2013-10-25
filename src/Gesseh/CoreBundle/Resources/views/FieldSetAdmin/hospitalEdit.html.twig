@@ -1,9 +1,9 @@
 <li id="hospital_{% if hospital is defined %}{{ hospital.id }}{% else %}new{% endif %}">
     {{ form_widget(hospital_form) }}
     <ul class="actions">
-        <li><button type="submit" title="Enregistrer les modifications">Enregistrer</button></li>
-        <li><button type="button" id="add_dpt" title="Ajouter un service à l'hôpital">Ajouter un service</button></li>
-        <li><button type="button" id="rm_dpt" title="Supprimer le dernier service de l'hôpital">Supprimer</button></li>
-        <li><a href="{{ path('GCore_FSAHospital') }}" title="Abandonner les modifications">Annuler</a></li>
+        <li><button type="submit" title="Enregistrer les modifications" class="save">Enregistrer</button></li>
+        <li><button type="button" id="add_dpt" title="Ajouter un service à l'hôpital" class="add">Ajouter un service</button></li>
+        <li><button type="button" id="rm_dpt" title="Supprimer le dernier service de l'hôpital" class="delete">Supprimer</button></li>
+        <li><a href="{{ path('GCore_FSAHospital') }}" title="Abandonner les modifications" class="delete">Annuler</a></li>
     </ul>
 </li>

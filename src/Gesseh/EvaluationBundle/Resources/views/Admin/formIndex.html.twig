@@ -1,43 +1,18 @@
-<tr>
-  <td>{{ eval_form.name }}</td>
-  <td rowspan=2 class="actions">
-    <ul>
-      <li><a href="{{ path('GEval_AEdit', { 'id': eval_form.id }) }}" title="Modifier le formulaire d'évaluation '{{ eval_form.name }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-      <li><a href="{{ path('GEval_ADelete', { 'id': eval_form.id }) }}" title="Supprimer le formulaire d'évaluation '{{ eval_form.name }}'" class="confirm"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
-    </ul>
-  </td>
-</tr>
-<tr>
-  <td>
-    <table>
-      <thead>
-        <tr>
-          <th class="small">Rang</th>
-          <th>Nom</th>
-          <th class="small">Type</th>
-          <th>Complément</th>
-          <th></th>
-        </th>
-      </thead>
-      <tbody>
+<li class="entity evalform">
+    <span class="field entity_title evalform_name">{{ eval_form.name }}</span>
+    <span class="action"><a href="{{ path('GEval_AEdit', { 'id': eval_form.id }) }}" title="Modifier le formulaire d'évaluation '{{ eval_form.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></span>
+    <span class="action"><a href="{{ path('GEval_ADelete', { 'id': eval_form.id }) }}" title="Supprimer le formulaire d'évaluation '{{ eval_form.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></span>
+    <ul class="subentities criterias">
         {% for criteria in eval_form.criterias %}
-          <tr>
-            <td class="small">{{ criteria.rank }}</td>
-            <td>{{ criteria.name }}</td>
-            <td class="small">{{ criteria.readableType }}</td>
-            <td>{{ criteria.more }}</td>
-            <td class="actions">
-              <ul>
-                <li><a href="{{ path('GEval_ADeleteCriteria', { 'id': criteria.id }) }}" title="Supprimer le critère d'évaluation '{{ criteria.name }}'" class="confirm"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
-              </ul>
-            </td>
-          </tr>
+            <li class="subentity criteria">
+                <span class="criteria_rank">{{ criteria.rank }}</span>
+                <span class="field subentity_title criteria_name">{{ criteria.name }}</span>
+                <span class="field criteria_type">{{ criteria.readableType }}</span>
+                <span class="field criteria_more">{{ criteria.more }}</span>
+                <span class="action"><a href="{{ path('GEval_ADeleteCriteria', { 'id': criteria.id }) }}" title="Supprimer le critère d'évaluation '{{ criteria.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+            </li>
         {% else %}
-          <tr>
-            <td colspan=5>Aucun critère associé</td>
-          </tr>
+            <span class="noentity criteria">Aucun critère associé</span>
         {% endfor %}
-      </tbody>
-    </table>
-  </td>
-</tr>
+    </ul>
+</li>
