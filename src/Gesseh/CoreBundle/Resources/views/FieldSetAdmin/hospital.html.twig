@@ -8,10 +8,10 @@
         <div>{{ form_errors(hospital_form) }}</div>
         {{ form_start(hospital_form) }}
     {% endif %}
-    <ul>
-        <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital">Ajouter</a></li>
+    <ul class="actions">
+        <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital" class="add">Ajouter</a></li>
     </ul>
-    <ul class="entities">
+    <ul class="entities hospitals">
     {% for hospital in hospitals %}
         {% include hospital_id == hospital.id ? 'GessehCoreBundle:FieldSetAdmin:hospitalEdit.html.twig' : 'GessehCoreBundle:FieldSetAdmin:hospitalIndex.html.twig' %}
     {% endfor %}
@@ -19,8 +19,8 @@
         {% include 'GessehCoreBundle:FieldSetAdmin:hospitalEdit.html.twig' %}
     {% endif %}
     </ul>
-    <ul>
-        <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital">Ajouter</a></li>
+    <ul class="actions">
+        <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital" class="add">Ajouter</a></li>
     </ul>
     {% if hospital_form is not empty %}{{ form_end(hospital_form) }}{% endif %}
 {% endblock %}

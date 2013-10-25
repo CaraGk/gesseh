@@ -4,14 +4,14 @@
 {% block actionscontent %}{% include 'GessehCoreBundle:FieldSetAdmin:subMenu.html.twig' %}{% endblock %}
 
 {% block content %}
-    <ul>
-        <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie">Ajouter</a></li>
+    <ul class="actions">
+        <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie" class="add" >Ajouter</a></li>
     </ul>
     {% if sector_form is not empty %}
         <div>{{ form_errors(sector_form) }}</div>
         {{ form_start(sector_form) }}
         {% endif %}
-    <ul class="entities">
+    <ul class="entities sectors">
         {% for sector in sectors %}
             {% include sector_id == sector.id ? 'GessehCoreBundle:FieldSetAdmin:sectorEdit.html.twig' : 'GessehCoreBundle:FieldSetAdmin:sectorIndex.html.twig' %}
         {% endfor %}
@@ -19,8 +19,8 @@
         {% include 'GessehCoreBundle:FieldSetAdmin:sectorEdit.html.twig' %}
     {% endif %}
     </ul>
-    <ul>
-        <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie">Ajouter</a></li>
+    <ul class="actions">
+        <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie" class="add">Ajouter</a></li>
     </ul>
     {% if sector_form is not empty %}{{ form_end(sector_form) }}{% endif %}
 {% endblock %}
