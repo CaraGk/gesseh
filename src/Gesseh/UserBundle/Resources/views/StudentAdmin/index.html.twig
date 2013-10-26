@@ -71,7 +71,7 @@
         <td class="actions">
           <ul>
             <li><a href="{{ path('GUser_SANewStudent') }}#student_new" title="Ajouter un nouvel étudiant"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
-            <li><a href="{{ path('GUser_SAUpdateGrade') }}" title="Passer tous les étudiants dans la promotion supérieure">Changer de promo</a></li>
+            <li><a href="{{ path('GUser_SAUpdateGrade') }}" title="Passer tous les étudiants dans la promotion supérieure" class="confirm" confirm="Attention ! Cette opération va passer tous les internes dans la promotion suivante ! Êtes-vous sûrs de vouloir continuer ?">Changer de promo</a></li>
           </ul>
         </td>
         <td class="pagination">{{ knp_pagination_render(students) }}</td>
@@ -79,4 +79,9 @@
     </tfoot>
   </table>
   {% if student_form is not empty %}{{ form_end(student_form) }}{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
 {% endblock %}
