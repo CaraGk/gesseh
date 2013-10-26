@@ -46,6 +46,20 @@ class StudentRepository extends EntityRepository
     return $query->getQuery();
   }
 
+    public function countAll($active = true)
+    {
+        $query=$this->createQueryBuilder('s')
+            ->select('COUNT(s)');
+
+        if ($active) {
+            $query->join('s.grade', 'p')
+                ->where('p.isActive = true');
+        }
+
+        return $query->getQuery()
+            ->getSingleScalarResult();
+    }
+
   public function getByUsername($username)
   {
     $query = $this->getStudentQuery();

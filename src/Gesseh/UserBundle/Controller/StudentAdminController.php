@@ -37,6 +37,7 @@ class StudentAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
     $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
@@ -44,6 +45,7 @@ class StudentAdminController extends Controller
       'students'     => $students,
       'student_id'   => null,
       'student_form' => null,
+      'students_count' => $students_count,
       'grades'       => $grades,
       'grade_id'     => null,
       'grade_form'   => null,
@@ -59,6 +61,7 @@ class StudentAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
     $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
     $manager = $this->container->get('kdb_parameters.manager');
@@ -77,6 +80,7 @@ class StudentAdminController extends Controller
       'students'     => $students,
       'student_id'   => null,
       'student_form' => $form->createView(),
+      'students_count'=> $students_count,
       'grades'       => $grades,
       'grade_id'     => null,
       'grade_form'   => null,
@@ -92,6 +96,7 @@ class StudentAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
     $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
     $manager = $this->container->get('kdb_parameters.manager');
@@ -114,6 +119,7 @@ class StudentAdminController extends Controller
       'students'     => $students,
       'student_id'   => $id,
       'student_form' => $form->createView(),
+      'students_count'=> $students_count,
       'grades'       => $grades,
       'grade_id'     => null,
       'grade_form'   => null,
@@ -189,6 +195,7 @@ class StudentAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
     $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
@@ -206,6 +213,7 @@ class StudentAdminController extends Controller
       'students'     => $students,
       'student_id'   => null,
       'student_form' => null,
+      'students_count'=> $students_count,
       'grades'       => $grades,
       'grade_id'     => null,
       'grade_form'   => $form->createView(),
@@ -221,6 +229,7 @@ class StudentAdminController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
+    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
     $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAll();
 
@@ -241,6 +250,7 @@ class StudentAdminController extends Controller
       'students'     => $students,
       'student_id'   => null,
       'student_form' => null,
+      'students_count'=> $students_count,
       'grades'       => $grades,
       'grade_id'     => $id,
       'grade_form'   => $form->createView(),

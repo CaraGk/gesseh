@@ -43,7 +43,7 @@
     {% if form_errors(student_form) is not empty %}<div class="error">{{ form_errors(student_form) }}</div>{% endif %}
     {{ form_start(student_form) }}
   {% endif %}
-  <h2>Étudiants :</h2>
+  <h2>Étudiants ({{ students_count }}) :</h2>
   <table>
     <thead>
       <tr>
