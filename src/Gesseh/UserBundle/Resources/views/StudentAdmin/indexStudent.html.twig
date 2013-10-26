@@ -9,8 +9,8 @@
   {% endif %}
   <td class="actions">
     <ul>
-      <li><a href="{{ path('GUser_SAEditStudent', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Modifier l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-      <li><a href="{{ path('GUser_SADeleteStudent', {'id': student.id}) }}" title="Supprimer l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+      <li><a href="{{ path('GUser_SAEditStudent', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Modifier l'étudiant '{{ student }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
+      <li><a href="{{ path('GUser_SADeleteStudent', {'id': student.id}) }}" title="Supprimer l'étudiant '{{ student }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
       {% if 'ROLE_ADMIN' in student.user.roles %}
         <li><a href="{{ path('GUser_SADemoteStudent', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Démettre l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Fav.png') }}" alt="Démettre" /></a></li>
       {% else %}
