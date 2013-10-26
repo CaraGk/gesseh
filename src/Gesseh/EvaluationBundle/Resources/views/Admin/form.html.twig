@@ -11,7 +11,7 @@
         {{ form_start(eval_form_form) }}
     {% endif %}
     <ul class="actions">
-        <li><a href="{{ path('GEval_ANew') }}#eval_new" title="Ajouter un nouveau formulaire d'évaluation" class="add">Ajouter</a></li>
+        <li><a href="{{ path('GEval_ANew') }}#eval_new" title="Ajouter un nouveau formulaire d'évaluation" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
         <li><a href="{{ path('GEval_APdfExport') }}" title="Exporter les évaluations en fichier PDF">Exporter</a></li>
     </ul>
     <ul class="entities evalforms">
@@ -23,7 +23,7 @@
         {% endif %}
     </ul>
     <ul>
-        <li><a href="{{ path('GEval_ANew') }}" title="Ajouter un nouveau formulaire d'évaluation" class="add">Ajouter</a></li>
+        <li><a href="{{ path('GEval_ANew') }}" title="Ajouter un nouveau formulaire d'évaluation" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
     </ul>
     {% if eval_form_form is not empty %}{{ form_end(eval_form_form) }}{% endif %}
 {% endblock %}

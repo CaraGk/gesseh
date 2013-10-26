@@ -6,7 +6,7 @@
 
 {% block content %}
     <ul class="actions">
-        <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie" class="add" >Ajouter</a></li>
+        <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie" class="add" ><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
     </ul>
     {% if sector_form is not empty %}
         <div>{{ form_errors(sector_form) }}</div>
@@ -21,7 +21,7 @@
     {% endif %}
     </ul>
     <ul class="actions">
-        <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie" class="add">Ajouter</a></li>
+        <li><a href="{{ path('GCore_FSANewSector') }}" title="Ajouter une nouvelle catégorie" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
     </ul>
     {% if sector_form is not empty %}{{ form_end(sector_form) }}{% endif %}
 {% endblock %}

@@ -10,7 +10,7 @@
         {{ form_start(hospital_form) }}
     {% endif %}
     <ul class="actions">
-        <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital" class="add">Ajouter</a></li>
+        <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
     </ul>
     <ul class="entities hospitals">
     {% for hospital in hospitals %}
@@ -21,7 +21,7 @@
     {% endif %}
     </ul>
     <ul class="actions">
-        <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital" class="add">Ajouter</a></li>
+        <li><a href="{{ path('GCore_FSANewHospital') }}#hospital_new" title="Ajouter un nouvel hôpital" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
     </ul>
     {% if hospital_form is not empty %}{{ form_end(hospital_form) }}{% endif %}
 {% endblock %}
