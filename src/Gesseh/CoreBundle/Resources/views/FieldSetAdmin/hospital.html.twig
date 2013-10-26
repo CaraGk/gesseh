@@ -15,6 +15,8 @@
     <ul class="entities hospitals">
     {% for hospital in hospitals %}
         {% include hospital_id == hospital.id ? 'GessehCoreBundle:FieldSetAdmin:hospitalEdit.html.twig' : 'GessehCoreBundle:FieldSetAdmin:hospitalIndex.html.twig' %}
+    {% else %}
+        <li class="noentity hospital">Aucun hôpital à afficher</li>
     {% endfor %}
     {% if hospital_form is not empty and hospital_id is empty %}
         {% include 'GessehCoreBundle:FieldSetAdmin:hospitalEdit.html.twig' %}

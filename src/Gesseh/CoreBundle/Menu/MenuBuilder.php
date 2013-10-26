@@ -63,7 +63,7 @@ class MenuBuilder
     $menu->addChild('Home', array('route' => 'homepage', 'label' => 'Retour', 'attributes' => array('title' => 'Retour au site public')));
     $menu->addChild('Fieldset', array('route' => 'GCore_FSAHospital', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Gérer les catégoriées, hôpitaux et services')));
     $menu->addChild('Student', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants', 'attributes' => array('title' => 'Gérer les étudiants et les promotions')));
-    $menu->addChild('Placement', array('route' => 'GCore_PAIndex', 'label' => 'Stages', 'attributes' => array('title' => 'Gérer les stages')));
+    $menu->addChild('Placement', array('route' => 'GCore_PAPeriodIndex', 'label' => 'Stages', 'attributes' => array('title' => 'Gérer les stages')));
     $menu->addChild('Simulation', array('route' => 'GSimul_SAList', 'label' => 'Simulations', 'attributes' => array('title' => 'Gérer les simulations')));
     $menu->addChild('Evaluation', array('route' => 'GEval_AForm', 'label' => 'Évaluations', 'attributes' => array('title' => 'Gérer les évaluations de stage')));
     $menu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres', 'attributes' => array('title' => 'Gérer les paramètres du site')));

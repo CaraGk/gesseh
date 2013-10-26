@@ -10,7 +10,7 @@
     <span class="field hospital_phone">{{ hospital.phone }}</span>
     <span class="action"><a href="{{ path('GCore_FSAEditHospitalDescription', { 'id': hospital.id }) }}" title="Modifier la page de description de '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Description" /></a></span>
     <span class="action"><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id }) }}#hospital_{{ hospital.id }}" title="Modifier l'hôpital '{{ hospital.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></span>
-    <span class="action"><a href="{{ path('GCore_PAIndex', {'limit': {'type': 'h.id', 'value': hospital.id}}) }}" title="Afficher les stages dans l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></span>
+    <span class="action"><a href="{{ path('GCore_PAPeriodIndex', {'limit': {'type': 'h.id', 'value': hospital.id}}) }}" title="Afficher les stages dans l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></span>
     <span class="action"><a href="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id }) }}" title="Supprimer l'hôpital '{{ hospital.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></span>
     <ul class="subentities departments">
         {% for department in hospital.departments %}
@@ -23,7 +23,7 @@
                   <span class="field department_number">{{ department.number }}</span>
                 {% endif %}
                 <span class="action"><a href="{{ path('GCore_FSAEditDepartmentDescription', {'id': department.id}) }}" title="Modifier la description du service '{{ department.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Description" /></a></span>
-                <span class="action"><a href="{{ path('GCore_PAIndex', {'limit': {'type': 'd.id', 'value': department.id}}) }}" title="Afficher les stages associés au service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></span>
+                <span class="action"><a href="{{ path('GCore_PAPeriodIndex', {'limit': {'type': 'd.id', 'value': department.id}}) }}" title="Afficher les stages associés au service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></span>
                 <span class="action"><a href="{{ path('GCore_FSADeleteDepartment', {'id': department.id}) }}" title="Supprimer le service '{{ department.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></span>
             </li>
         {% else %}

@@ -1,0 +1,7 @@
+<li id="period_{% if hospital is defined %}{{ hospital.id }}{% else %}new{% endif %}">
+    {{ form_widget(period_form) }}
+    <ul class="actions">
+        <li><button type="submit" title="Enregistrer les modifications" class="save">Enregistrer</button></li>
+        <li><a href="{{ path('GCore_PAPeriodIndex') }}" title="Annuler les modifications" class="cancel">Annuler</a></li>
+    </ul>
+</li>

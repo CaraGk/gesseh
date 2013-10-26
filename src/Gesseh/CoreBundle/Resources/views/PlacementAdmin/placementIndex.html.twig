@@ -1,0 +1,14 @@
+{% if kparam('eval_active') == true %}
+    {% if placement.id in evaluated %}
+        <li class="entity placement evaluated">
+    {% else %}
+        <li class="entity placement">
+    {% endif %}
+{% endif %}
+    <span class="field placement_period">{{ placement.period }}</span>
+    <span class="field placement_student"><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 's.id', 'value': placement.student.id}}) }}" title="Afficher les stages de l'étudiant {{ placement.student }}">{{ placement.student }}</a></span>
+    <span class="field placement_department"><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 'd.id', 'value': placement.department.id}}) }}" title="Afficher les étudiants par stage dans le service {{ placement.department }}">{{ placement.department }}</a></span>
+    <span class="action"><a href="{{ path('GCore_PAPlacementEdit', {'id': placement.id}) }}?{{ app.request.queryString }}#placement_{{ placement.id }}" title="Modifier le stage" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></span>
+    <span class="action"><a href="{{ path('GCore_PAPlacementDelete', {'id': placement.id}) }}?{{ app.request.queryString }}" title="Supprimer le stage" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></span>
+    {% if kparam('eval_active') == true and placement.id not in evaluated %}<span class="action"><a href="" title="Envoyer un message de rappel"><img src="{{ asset('bundles/gessehcore/images/Mail_Add.png') }}" alt="Rappel" /></a></span>{% endif %}
+</li>
