@@ -11,7 +11,7 @@
         {{ form_start(placement_form) }}
     {% endif %}
     <ul class="actions">
-        <li><a href="{{ path('GCore_PAPlacementIndex') }}#placement_new" title="Ajouter un nouveau stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
+        <li><a href="{{ path('GCore_PAPlacementNew') }}#placement_new" title="Ajouter un nouveau stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
     </ul>
     <ul class="entities placements">
         {% for placement in placements %}

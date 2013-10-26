@@ -11,7 +11,7 @@
         {{ form_start(period_form) }}
     {% endif %}
     <ul class="actions">
-        <li><a href="{{ path('GCore_PAPeriodIndex') }}#period_new" title="Ajouter une nouvelle session de stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></li>
+        <li><a href="{{ path('GCore_PAPeriodNew') }}#period_new" title="Ajouter une nouvelle session de stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></li>
     </ul>
     <ul class="entities periods">
         {% for period in periods %}
@@ -24,7 +24,7 @@
         {% endif %}
     </ul>
     <ul class="actions">
-        <li><a href="{{ path('GCore_PAPeriodIndex') }}#period_new" title="Ajouter une nouvelle session de stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></li>
+        <li><a href="{{ path('GCore_PAPeriodNew') }}#period_new" title="Ajouter une nouvelle session de stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></li>
     </ul>
     {% if period_form is not empty %}{{ form_end(period_form) }}{% endif %}
 {% endblock %}
