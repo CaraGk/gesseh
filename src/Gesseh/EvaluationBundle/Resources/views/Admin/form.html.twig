@@ -6,7 +6,6 @@
 
 {% block content %}
     {% if eval_form_form is not empty %}
-        {% form_theme eval_form_form 'GessehCoreBundle:Form:fields.html.twig' %}
         <div>{{ form_errors(eval_form_form) }}</div>
         {{ form_start(eval_form_form) }}
     {% endif %}
