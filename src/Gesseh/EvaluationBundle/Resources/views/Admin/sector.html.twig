@@ -1,10 +1,10 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block titlecontent %}Évaluations{% endblock %}
+{% block titlecontent %}Table d'association de Catégorie de stage / Formulaire d'évaluation{% endblock %}
+{% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
 {% block actionscontent %}{% include 'GessehEvaluationBundle:Admin:subMenu.html.twig' %}{% endblock %}
 
 {% block content %}
-  <h2>Table d'association de Catégorie de stage / Formulaire d'évaluation</h2>
   {% if sector_form is not empty %}
     {% form_theme sector_form 'GessehCoreBundle:Form:fields.html.twig' %}
     <div>{{ form_errors(sector_form) }}</div>
