@@ -17,6 +17,8 @@ security:
           provider:      fos_userbundle
           csrf_provider: form.csrf_provider
           remember_me:   true
+          #login_path:    /login
+          #check_path:    /login_check
         logout:          true
         anonymous:       true
         remember_me:
