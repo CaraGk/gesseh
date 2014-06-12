@@ -47,7 +47,7 @@ class AdminController extends Controller
    */
   public function editParameterAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $parameters = $em->getRepository('GessehParameterBundle:Parameter')->findAll();
 
     $parameter = $em->getRepository('GessehParameterBundle:Parameter')->find($id);

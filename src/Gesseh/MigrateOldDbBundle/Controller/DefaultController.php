@@ -42,7 +42,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $etudiants = $em->getRepository('GessehMigrateOldDbBundle:GessehEtudiant')->findAll();
       $promos = $em->getRepository('GessehMigrateOldDbBundle:GessehPromo')->findAll();
       $hopitals = $em->getRepository('GessehMigrateOldDbBundle:GessehHopital')->findAll();

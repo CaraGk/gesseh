@@ -31,7 +31,7 @@ class StudentController extends Controller
      */
     public function editAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $user = $this->get('security.context')->getToken()->getUsername();
       $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
 

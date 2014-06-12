@@ -146,7 +146,7 @@ class ConfiguratorController extends ContainerAware
 
     public function createConfigAction()
     {
-      $em = $this->container->get('doctrine')->getEntityManager();
+      $em = $this->container->get('doctrine')->getManager();
 
       $parameters = array(
         array(
@@ -198,7 +198,7 @@ class ConfiguratorController extends ContainerAware
 
     public function createAdminAction()
     {
-      $em = $this->container->get('doctrine')->getEntityManager();
+      $em = $this->container->get('doctrine')->getManager();
       $admin = new Student();
       $form = $this->container->get('form.factory')->create(new AdminType(), $admin);
       $formHandler = new StudentHandler($form, $this->container->get('request'), $em, $this->container->get('fos_user.user_manager'));

@@ -29,7 +29,7 @@ class FieldSetController extends Controller
    */
   public function indexAction()
   {
-    $departments = $this->getDoctrine()->getEntityManager()->getRepository('GessehCoreBundle:Department')->getAll();
+    $departments = $this->getDoctrine()->getManager()->getRepository('GessehCoreBundle:Department')->getAll();
 
     return array(
       'departments' => $departments
@@ -42,7 +42,7 @@ class FieldSetController extends Controller
    */
   public function showDepartmentAction($id)
   {
-    $department = $this->getDoctrine()->getEntityManager()->getRepository('GessehCoreBundle:Department')->find($id);
+    $department = $this->getDoctrine()->getManager()->getRepository('GessehCoreBundle:Department')->find($id);
 
     return array(
       'department' => $department
@@ -57,7 +57,7 @@ class FieldSetController extends Controller
    */
   public function showHospitalAction($id)
   {
-    $hospital = $this->getDoctrine()->getEntityManager()->getRepository('GessehCoreBundle:Hospital')->find($id);
+    $hospital = $this->getDoctrine()->getManager()->getRepository('GessehCoreBundle:Hospital')->find($id);
 
     if (!$hospital) {
         throw $this->createNotFoundException('Unable to find Hospital entity.');

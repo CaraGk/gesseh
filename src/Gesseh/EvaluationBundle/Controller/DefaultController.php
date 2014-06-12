@@ -31,7 +31,7 @@ class DefaultController extends Controller
      */
     public function showAction($id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
 
       if (!$department)
@@ -59,7 +59,7 @@ class DefaultController extends Controller
      */
     public function evaluateAction($id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $placement = $em->getRepository('GessehCoreBundle:Placement')->find($id);
 
       if (!$placement)

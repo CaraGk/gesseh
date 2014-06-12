@@ -42,7 +42,7 @@ class FieldSetAdminController extends Controller
    */
   public function hospitalAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll($this->get('request')->query->get('limit', null));
 
     return array(
@@ -60,7 +60,7 @@ class FieldSetAdminController extends Controller
    */
   public function sectorAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
 
     return array(
@@ -78,7 +78,7 @@ class FieldSetAdminController extends Controller
    */
   public function newHospitalAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
@@ -107,7 +107,7 @@ class FieldSetAdminController extends Controller
    */
   public function editHospitalAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
@@ -139,7 +139,7 @@ class FieldSetAdminController extends Controller
    */
   public function deleteHospitalAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
 
     if (!$hospital)
@@ -159,7 +159,7 @@ class FieldSetAdminController extends Controller
    */
   public function deleteDepartmentAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
 
     if (!$department)
@@ -180,7 +180,7 @@ class FieldSetAdminController extends Controller
    */
   public function newSectorAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
 
     $sector = new Sector();
@@ -208,7 +208,7 @@ class FieldSetAdminController extends Controller
    */
   public function editSectorAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
 
     $sector = $em->getRepository('GessehCoreBundle:Sector')->find($id);
@@ -238,7 +238,7 @@ class FieldSetAdminController extends Controller
    */
   public function deleteSectorAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $sector = $em->getRepository('GessehCoreBundle:Sector')->find($id);
 
     if (!$sector)
@@ -259,7 +259,7 @@ class FieldSetAdminController extends Controller
    */
   public function editDepartmentDescriptionAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
 
     if (!$department)
@@ -286,7 +286,7 @@ class FieldSetAdminController extends Controller
    */
   public function editHospitalDescriptionAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
 
     if (!$hospital)

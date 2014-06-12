@@ -34,7 +34,7 @@ class StudentAdminController extends Controller
    */
   public function indexAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
     $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
@@ -58,7 +58,7 @@ class StudentAdminController extends Controller
    */
   public function newStudentAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
     $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
@@ -93,7 +93,7 @@ class StudentAdminController extends Controller
    */
   public function editStudentAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
     $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
@@ -131,7 +131,7 @@ class StudentAdminController extends Controller
    */
   public function deleteStudentAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
     if( !$student )
@@ -149,7 +149,7 @@ class StudentAdminController extends Controller
    */
   public function promoteStudentAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $um = $this->container->get('fos_user.user_manager');
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
@@ -170,7 +170,7 @@ class StudentAdminController extends Controller
    */
   public function demoteStudentAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $um = $this->container->get('fos_user.user_manager');
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
@@ -192,7 +192,7 @@ class StudentAdminController extends Controller
    */
   public function newGradeAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
     $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
@@ -226,7 +226,7 @@ class StudentAdminController extends Controller
    */
   public function editGradeAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
     $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
@@ -262,7 +262,7 @@ class StudentAdminController extends Controller
    */
   public function deleteGradeAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $grade = $em->getRepository('GessehUserBundle:Grade')->find($id);
 
     if( !$grade )
@@ -280,7 +280,7 @@ class StudentAdminController extends Controller
    */
   public function updateGradeAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAllActiveInverted();
 
     foreach( $grades as $grade ) {

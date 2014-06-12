@@ -36,7 +36,7 @@ class AdminController extends Controller
    */
   public function formAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
 
     return array(
@@ -52,7 +52,7 @@ class AdminController extends Controller
    */
   public function sectorAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
 
     return array(
@@ -70,7 +70,7 @@ class AdminController extends Controller
    */
   public function newFormAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
 
     $eval_form = new EvalForm();
@@ -97,7 +97,7 @@ class AdminController extends Controller
    */
   public function editFormAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
 
     $eval_form = $em->getRepository('GessehEvaluationBundle:EvalForm')->find($id);
@@ -127,7 +127,7 @@ class AdminController extends Controller
    */
   public function deleteFormAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $eval_form = $em->getRepository('GessehEvaluationBundle:EvalForm')->find($id);
 
     if (!$eval_form)
@@ -155,7 +155,7 @@ class AdminController extends Controller
    */
   public function deleteCriteriaAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $criteria = $em->getRepository('GessehEvaluationBundle:EvalCriteria')->find($id);
 
     if (!$criteria)
@@ -176,7 +176,7 @@ class AdminController extends Controller
    */
   public function newSectorAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
     $exclude_sectors = array();
 
@@ -208,7 +208,7 @@ class AdminController extends Controller
    */
 /*  public function editSectorAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
 
     $eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->find($id);
@@ -238,7 +238,7 @@ class AdminController extends Controller
    */
   public function deleteSectorAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->find($id);
 
     if (!$eval_sector)
@@ -259,7 +259,7 @@ class AdminController extends Controller
    */
   public function textIndexAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $evaluation_query = $em->getRepository('GessehEvaluationBundle:Evaluation')->getAllText();
     $evaluations = $paginator->paginate($evaluation_query, $this->get('request')->query->get('page', 1), 20);
@@ -276,7 +276,7 @@ class AdminController extends Controller
    */
   public function textDeleteAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $evaluation = $em->getRepository('GessehEvaluationBundle:Evaluation')->find($id);
 
     if (!$evaluation)
@@ -297,7 +297,7 @@ class AdminController extends Controller
    */
   public function textEditAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $evaluation_query = $em->getRepository('GessehEvaluationBundle:Evaluation')->getAllText();
     $evaluations = $paginator->paginate($evaluation_query, $this->get('request')->query->get('page', 1), 20);
@@ -313,7 +313,7 @@ class AdminController extends Controller
      */
     public function pdfExportAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $departments = $em->getRepository('GessehCoreBundle:Department')->getAll();
 
         foreach($departments as $department) {

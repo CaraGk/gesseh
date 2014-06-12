@@ -39,7 +39,7 @@ class SimulationAdminController extends Controller
      */
     public function listAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $paginator = $this->get('knp_paginator');
       $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
       $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
@@ -55,7 +55,7 @@ class SimulationAdminController extends Controller
      */
     public function periodAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $periods = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findAll();
 
       return array(
@@ -71,7 +71,7 @@ class SimulationAdminController extends Controller
      */
     public function newPeriodAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $periods = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findAll();
 
       $simul_period = new SimulPeriod();
@@ -96,7 +96,7 @@ class SimulationAdminController extends Controller
      */
     public function editPeriodAction($id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $periods = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findAll();
 
       $simul_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->find($id);
@@ -124,7 +124,7 @@ class SimulationAdminController extends Controller
      */
     public function deletePeriodAction($id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $simul_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->find($id);
 
       if (!$simul_period)
@@ -142,7 +142,7 @@ class SimulationAdminController extends Controller
      */
     public function defineAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $students = $em->getRepository('GessehUserBundle:Student')->getRankingOrder();
       $count = $em->getRepository('GessehSimulationBundle:Simulation')->setSimulationTable($students, $em);
 
@@ -160,7 +160,7 @@ class SimulationAdminController extends Controller
      */
     public function simAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $departments = $em->getRepository('GessehCoreBundle:Department')->findAll();
 
       foreach($departments as $department) {
@@ -181,7 +181,7 @@ class SimulationAdminController extends Controller
      */
     public function purgeAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 //      $em->getRepository('GessehSimulationBundle:Simulation')->deleteAll();
       $sims = $em->getRepository('GessehSimulationBundle:Simulation')->findAll();
 
@@ -200,7 +200,7 @@ class SimulationAdminController extends Controller
      */
     public function saveAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if ($em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
         $this->get('session')->getFlashBag()->add('error', 'La simulation est toujours active ! Vous ne pourrez la valider qu\'une fois qu\'elle sera inactive. Aucune donnée n\'a été copiée.');
@@ -232,7 +232,7 @@ class SimulationAdminController extends Controller
      */
     public function ruleAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getAll();
 
       return array(
@@ -249,7 +249,7 @@ class SimulationAdminController extends Controller
      */
     public function newRuleAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getAll();
 
       $sector_rule = new SectorRule();
@@ -274,7 +274,7 @@ class SimulationAdminController extends Controller
      */
     public function deleteRuleAction($id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $rule = $em->getRepository('GessehSimulationBundle:SectorRule')->find($id);
 
       if (!$rule)
@@ -295,7 +295,7 @@ class SimulationAdminController extends Controller
      */
     public function wishAction($id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getSimStudent($id);
       $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getForStudent($simstudent);
 //      $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent());
@@ -323,7 +323,7 @@ class SimulationAdminController extends Controller
      */
     public function deleteWishAction($id, $wish)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getSimStudent($id);
       $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getWishCluster($simstudent->getStudent(), $wish);
 

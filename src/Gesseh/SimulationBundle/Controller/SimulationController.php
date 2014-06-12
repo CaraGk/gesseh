@@ -31,7 +31,7 @@ class SimulationController extends Controller
      */
     public function indexAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
@@ -64,7 +64,7 @@ class SimulationController extends Controller
      */
     public function setRankUpAction($wish_id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
@@ -101,7 +101,7 @@ class SimulationController extends Controller
      */
     public function setRankDownAction($wish_id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
@@ -139,7 +139,7 @@ class SimulationController extends Controller
      */
     public function deleteAction($wish_id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
@@ -178,7 +178,7 @@ class SimulationController extends Controller
      */
     public function getoutAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
@@ -208,7 +208,7 @@ class SimulationController extends Controller
      */
     public function getinAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
@@ -230,7 +230,7 @@ class SimulationController extends Controller
      */
     public function simAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
@@ -258,7 +258,7 @@ class SimulationController extends Controller
      */
     public function listLeftPlacementsAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
@@ -289,7 +289,7 @@ class SimulationController extends Controller
      */
     public function listSimulationsAction()
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
@@ -309,7 +309,7 @@ class SimulationController extends Controller
      */
     public function listSimulDeptAction($id)
     {
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');

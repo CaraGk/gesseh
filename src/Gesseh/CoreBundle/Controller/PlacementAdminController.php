@@ -34,7 +34,7 @@ class PlacementAdminController extends Controller
    */
   public function periodAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
 
     return array(
@@ -50,7 +50,7 @@ class PlacementAdminController extends Controller
    */
   public function newPeriodAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
 
     $period = new Period();
@@ -75,7 +75,7 @@ class PlacementAdminController extends Controller
    */
   public function editPeriodAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
 
@@ -104,7 +104,7 @@ class PlacementAdminController extends Controller
    */
   public function deletePeriodeAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $period = $em->getRepository('GessehCoreBundle:Period')->find($id);
 
     if( !$period )
@@ -123,7 +123,7 @@ class PlacementAdminController extends Controller
    */
   public function placementAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($this->get('request')->query->get('limit', null));
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
@@ -148,7 +148,7 @@ class PlacementAdminController extends Controller
    */
   public function editPlacementAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($this->get('request')->query->get('limit', null));
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
@@ -186,7 +186,7 @@ class PlacementAdminController extends Controller
    */
   public function newPlacementAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
     $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($this->get('request')->query->get('limit', null));
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
@@ -219,7 +219,7 @@ class PlacementAdminController extends Controller
    */
   public function deletePlacementAction($id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $placement = $em->getRepository('GessehCoreBundle:Placement')->find($id);
 
     if( !$placement )

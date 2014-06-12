@@ -72,7 +72,7 @@ class StudentRepository extends EntityRepository
 
   public function setGradeUp($current_grade, $next_grade)
   {
-    $query = $this->getEntityManager()
+    $query = $this->getManager()
                     ->createQuery('UPDATE GessehUserBundle:Student s SET s.grade = :next_grade WHERE s.grade = :current_grade')
                       ->setParameters(array(
                         'current_grade' => $current_grade,
