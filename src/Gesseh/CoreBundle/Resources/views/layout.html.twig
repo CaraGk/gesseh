@@ -9,10 +9,15 @@
 {% block sitename %}{{ parent() }}{% endblock %}
 
 {% block nav %}
-  {% if 'admin' in app.request.uri %}
-    {{ knp_menu_render('admin', {'currentAsLink': false}) }}
-  {% elseif is_granted('ROLE_STUDENT') %}
-    {{ knp_menu_render('student') }}
+  {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    {% if is_granted('ROLE_STUDENT') %}
+      <div class="header">Étudiant</div>
+      {{ knp_menu_render('student') }}
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+      <div class="header">Administation</div>
+      {{ knp_menu_render('admin', {'currentAsLink': false}) }}
+    {% endif %}
   {% else %}
     {{ knp_menu_render('anon') }}
   {% endif %}

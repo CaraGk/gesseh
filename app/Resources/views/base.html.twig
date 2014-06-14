@@ -24,7 +24,6 @@
             <span>{% block logo %}<a href="{{ path('homepage') }}"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo.png') }}" alt="logo" /></a>{% endblock %}</span>
             <h1>{% block site %}{{ kparam('title') }}{% endblock %}</h1>
           </header>
-          <div id="table">
           <nav id="menu">
             {% block nav %}
               <ul>
@@ -36,7 +35,6 @@
           <section id="content">
             {% block body %}{% endblock %}
           </section>
-          </div>
           <footer id="footer">
             <span class="miniature"><a href=https://github.com/CaraGk/gessehh"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo_small.png') }}" alt="gesseh" /></a> powered by <a href="http://symfony.com/"><img src="{{ asset('bundles/gessehcore/images/symfony_logo.png') }}" alt="symfony 2" /></a></span>
             <ul>
