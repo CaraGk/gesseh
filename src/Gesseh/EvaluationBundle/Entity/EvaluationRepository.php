@@ -104,4 +104,24 @@ class EvaluationRepository extends EntityRepository
 
     return $query->getQuery();
   }
+
+    public function studentHasNonEvaluated($student, $current_period, $count_placements)
+    {
+        $query = $this->getEvaluationQuery();
+        $query->select('COUNT(DISTINCT p.department)')
+              ->where('p.student = :student')
+              ->setParameter('student', $student);
+
+        if($current_period != null) {
+            $query->andWhere('p.period != :current_period')
+                  ->setParameter('current_period', $current_period);
+        }
+
+        $count_evaluations = $query->getQuery()->getSingleScalarResult();
+
+        if($count_evaluations < $count_placements)
+            return true;
+        else
+            return false;
+    }
 }

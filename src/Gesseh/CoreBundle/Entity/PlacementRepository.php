@@ -62,4 +62,19 @@ class PlacementRepository extends EntityRepository
 
     return $query->getQuery();
   }
+
+  public function getCountByStudentWithoutCurrentPeriod($student, $current_period)
+  {
+      $query = $this->createQueryBuilder('p')
+                    ->select('COUNT(p)')
+                    ->where('p.student = :student')
+                    ->setParameter('student', $student);
+
+    if ($current_period != null) {
+        $query->andWhere('p.period != :current_period')
+              ->setParameter('current_period', $current_period);
+    }
+
+    return $query->getQuery()->getSingleScalarResult();
+  }
 }

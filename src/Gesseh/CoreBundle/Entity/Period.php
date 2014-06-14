@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Gesseh\CoreBundle\Entity\Period
  *
  * @ORM\Table(name="period")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Gesseh\CoreBundle\Entity\PeriodRepository")
  */
 class Period
 {

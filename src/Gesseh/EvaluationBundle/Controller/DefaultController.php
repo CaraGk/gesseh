@@ -20,7 +20,7 @@ use Gesseh\EvaluationBundle\Entity\EvalSector;
 use Gesseh\EvaluationBundle\Form\EvaluationType;
 use Gesseh\EvaluationBundle\Form\EvaluationHandler;
 
-/**
+/**R
  * EvaluationBundle DefaultController
  */
 class DefaultController extends Controller
@@ -32,6 +32,15 @@ class DefaultController extends Controller
     public function showAction($id)
     {
       $em = $this->getDoctrine()->getManager();
+
+      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($this->get('security.context')->getToken()->getUsername());
+      $current_period = $em->getRepository('GessehCoreBundle:Period')->getCurrent();
+      $count_placements = $em->getRepository('GessehCoreBundle:Placement')->getCountByStudentWithoutCurrentPeriod($student, $current_period);
+      if($em->getRepository('GessehEvaluationBundle:Evaluation')->studentHasNonEvaluated($student, $current_period, $count_placements)) {
+          $this->get('session')->getFlashBag()->add('error', 'Il y a des évaluations non réalisées. Veuillez évaluer tous vos stages avant de pouvoir accéder aux autres évaluations.');
+          return $this->redirect($this->generateUrl('GCore_PIndex'));
+      }
+
       $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
 
       if (!$department)
