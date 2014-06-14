@@ -8,7 +8,7 @@
 */
 
 html { }
-body { font: 13px arial, sans-serif; background-color: red; margin: 0; padding: 0;}
+body { font: 13px arial, sans-serif; background-color: #AAAAAA; margin: 0; padding: 0;}
 img { border: none; }
 select, input, button, textarea { font: 99% arial, sans-serif; outline: none; }
 table { text-align: left; background-color: #dfdfdf; border-radius: 5px; border-collapse: collapse; }
@@ -60,11 +60,11 @@ ul.submenu li { padding: 3px; margin: 0; }
 #search input:hover{ }
 #search input:active{ }
 
-#content { width: auto; text-align: left; margin: 0; padding: 5px 5px 5px 210px; background-color: #eee; display: inline-block; }
+#content { width: auto; min-height: 530px; text-align: left; margin: 0; padding: 5px 5px 5px 230px; background-color: #eee; display: inline-block; }
 #content h1 { width:100%; font-size: 1.8em; font-weight: bold; text-align: center; margin: 5px; padding: 0; }
 #content ol.infos { display: inline-block; }
 #content ol.infos li{ display: inline; list-style: decimal; margin-right: 5px; }
-#content ul { }
+#content ul {}
 #content ul li { list-style: none; }
 #content div.comments { margin: 10px; border: 1px solid black; padding: 5px; }
 #content div.eval{ margin: 10px }
@@ -90,7 +90,7 @@ ul.submenu li { padding: 3px; margin: 0; }
 #content span.eval_title { font-weight: bold; text-decoration: underline }
 #content span.eval_content { }
 
-#footer { width: 100%; padding-top: 15px; font-size: 90%; height: 30px; position: relative; background-color: #aaa; border-radius: 0 0 15px 15px; }
+#footer { width: 100%; padding-top: 15px; font-size: 90%; height: 30px; background-color: #AAAAAA; }
 #footer ul{ display: inline-block; }
 #footer li{ list-style: none; margin-right: 15px; display: inline-block; }
 #footer li a{ text-decoration: none; color: #77766F; }
