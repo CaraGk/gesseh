@@ -59,11 +59,18 @@ class MenuBuilder
   public function createAdminMenu(Request $request)
   {
     $menu = $this->factory->createItem('admin');
-    $menu->addChild('Fieldset', array('route' => 'GCore_FSAHospital', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Gérer les catégoriées, hôpitaux et services')));
-    $menu->addChild('Student', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants', 'attributes' => array('title' => 'Gérer les étudiants et les promotions')));
-    $menu->addChild('Placement', array('route' => 'GCore_PAPeriodIndex', 'label' => 'Stages', 'attributes' => array('title' => 'Gérer les stages')));
+    $menu->addChild('Fieldsets', array('route' => 'GCore_FSAHospital', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Gérer les hôpitaux et services')));
+    $menu->addChild('Sectors', array('route' => 'GCore_FSASector', 'label' => 'Catégories', 'attributes' => array('title' => 'Gérer les catégories')));
+    $menu->addChild('Students', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants', 'attributes' => array('title' => 'Gérer les étudiants')));
+    $menu->addChild('Grades', array('route' => 'GUser_SAIndex', 'label' => 'Promotions', 'attributes' => array('title' => 'Gérer les promotions')));
+    $menu->addChild('Placements', array('route' => 'GCore_PAPlacementIndex', 'label' => 'Stages', 'attributes' => array('title' => 'Gérer les stages')));
+    $menu->addChild('Periods', array('route' => 'GCore_PAPeriodIndex', 'label' => 'Périodes de stage', 'attributes' => array('title' => 'Gérer les périodes de stage')));
     $menu->addChild('Simulation', array('route' => 'GSimul_SAList', 'label' => 'Simulations', 'attributes' => array('title' => 'Gérer les simulations')));
-    $menu->addChild('Evaluation', array('route' => 'GEval_AForm', 'label' => 'Évaluations', 'attributes' => array('title' => 'Gérer les évaluations de stage')));
+    $menu->addChild('SimPeriods', array('route' => 'GSimul_SAPeriod', 'label' => 'Périodes de simulation', 'attributes' => array('title' => 'Gérer les périodes de simulation')));
+    $menu->addChild('SimRules', array('route' => 'GSimul_SARule', 'label' => 'Règles de simulation', 'attributes' => array('title' => 'Gérer les règles de simulation')));
+    $menu->addChild('EvalForms', array('route' => 'GEval_AForm', 'label' => 'Formulaires d\'évaluation', 'attributes' => array('title' => 'Gérer les formulaires d\'évaluation de stage')));
+    $menu->addChild('EvalRules', array('route' => 'GEval_ASector', 'label' => 'Table d\'association', 'attributes' => array('title' => 'Gérer la table d\'association des évaluations de stage')));
+    $menu->addChild('Moderation', array('route' => 'GEval_AForm', 'label' => 'Modérer', 'attributes' => array('title' => 'Modérer les évaluations de stage')));
     $menu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres', 'attributes' => array('title' => 'Gérer les paramètres du site')));
 
     return $menu;

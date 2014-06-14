@@ -37,13 +37,13 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #header nav a { color: #252525; }
 #header nav a:hover { color: #EEEEEE; }
 
-#menu { width: 200px; font-size: 110%; font-weight: bold; text-align: left; margin: 0; padding: 10px 0; background-color: #252525; display: inline-block; position: fixed; }
-#menu div.header { width: 100%; font-size: 120%; color: #BBBBBB; padding: 5px 2px 0 2px; margin: 0 0 5px 0; border-bottom: 1px dotted #FDEF55; }
+#menu { width: 200px; font-size: 110%; font-weight: bold; text-align: left; margin: 0; padding: 0 0 25px 0; background-color: #252525; display: inline-block; position: fixed; }
+#menu div.header { width: 100%; font-size: 120%; color: #BBBBBB; padding: 20px 3px 0 3px; margin: 0 0 3px 0; border-bottom: 1px dotted #FDEF55; }
 #menu ul { margin: 0; padding: 0; border: 0; }
 #menu li { list-style: none; padding: 0; border-left: 5px solid #252525; }
 #menu li:hover { border-left-color: #FDEF55; background-color: #303030; }
 #menu li:hover a { color: #FDEF55; }
-#menu li a { color: #BBBBBB; padding: 5px 0px 5px 15px; width: 100%; display: inline-block; }
+#menu li a, #menu li span { color: #BBBBBB; padding: 5px 0px 5px 15px; width: 100%; display: inline-block; }
 #menu li a:hover { color: #FDEF55; text-decoration: none; }
 /*#menu li.current { background-color: #EEEEEE; }
 #menu li.current span, #menu li.current a { color: #252525; padding: 5px 0 5px 15px; width: 100%; display: inline-block; }
