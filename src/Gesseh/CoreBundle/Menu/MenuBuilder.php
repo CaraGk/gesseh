@@ -70,7 +70,7 @@ class MenuBuilder
     $menu->addChild('SimRules', array('route' => 'GSimul_SARule', 'label' => 'Règles de simulation', 'attributes' => array('title' => 'Gérer les règles de simulation')));
     $menu->addChild('EvalForms', array('route' => 'GEval_AForm', 'label' => 'Formulaires d\'évaluation', 'attributes' => array('title' => 'Gérer les formulaires d\'évaluation de stage')));
     $menu->addChild('EvalRules', array('route' => 'GEval_ASector', 'label' => 'Table d\'association', 'attributes' => array('title' => 'Gérer la table d\'association des évaluations de stage')));
-    $menu->addChild('Moderation', array('route' => 'GEval_AForm', 'label' => 'Modérer', 'attributes' => array('title' => 'Modérer les évaluations de stage')));
+    $menu->addChild('Moderation', array('route' => 'GEval_ATextIndex', 'label' => 'Modérer', 'attributes' => array('title' => 'Modérer les évaluations de stage')));
     $menu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres', 'attributes' => array('title' => 'Gérer les paramètres du site')));
 
     return $menu;

@@ -2,7 +2,6 @@
 
 {% block titlecontent %}Hôpitaux et services{% endblock %}
 {% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
-{% block actionscontent %}{% include 'GessehCoreBundle:FieldSetAdmin:subMenu.html.twig' %}{% endblock %}
 
 {% block content %}
     {% if hospital_form is not empty %}

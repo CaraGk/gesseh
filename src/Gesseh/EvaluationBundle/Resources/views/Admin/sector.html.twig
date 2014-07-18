@@ -2,7 +2,6 @@
 
 {% block titlecontent %}Table d'association de Catégorie de stage / Formulaire d'évaluation{% endblock %}
 {% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
-{% block actionscontent %}{% include 'GessehEvaluationBundle:Admin:subMenu.html.twig' %}{% endblock %}
 
 {% block content %}
   {% if sector_form is not empty %}
