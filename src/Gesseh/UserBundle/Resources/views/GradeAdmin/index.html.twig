@@ -1,0 +1,44 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Promotions{% endblock %}
+
+{% block content %}
+  {% if grade_form is not empty %}
+    {% form_theme grade_form 'GessehCoreBundle:Form:fields.html.twig' %}
+    {% if form_errors(grade_form) is not empty %}<div class="error">{{ form_errors(grade_form) }}</div>{% endif %}
+    {{ form_start(grade_form) }}
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th class="small">Ordre</th>
+        <th>Nom</th>
+        <th class="small">Active ?</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for grade in grades %}
+        {% include grade_id == grade.id ? 'GessehUserBundle:GradeAdmin:edit.html.twig' : 'GessehUserBundle:GradeAdmin:show.html.twig' %}
+      {% endfor %}
+      {% if grade_form is not empty and grade_id is empty %}
+        {% include 'GessehUserBundle:GradeAdmin:edit.html.twig' %}
+      {% endif %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="actions">
+          <ul>
+            <li><a href="{{ path('GUser_GANew') }}" title="Ajouter un nouveau niveau"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
+          </ul>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  {% if grade_form is not empty %}{{ form_end(grade_form) }}{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+{% endblock %}

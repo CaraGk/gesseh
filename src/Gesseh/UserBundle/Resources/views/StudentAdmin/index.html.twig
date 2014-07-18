@@ -1,49 +1,13 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block titlecontent %}Étudiants{% endblock %}
+{% block titlecontent %}Étudiants ({{ students_count }}){% endblock %}
 
 {% block content %}
-  {% if grade_form is not empty %}
-    {% form_theme grade_form 'GessehCoreBundle:Form:fields.html.twig' %}
-    {% if form_errors(grade_form) is not empty %}<div class="error">{{ form_errors(grade_form) }}</div>{% endif %}
-    {{ form_start(grade_form) }}
-  {% endif %}
-  <h2>Promotions :</h2>
-  <table>
-    <thead>
-      <tr>
-        <th class="small">Ordre</th>
-        <th>Nom</th>
-        <th class="small">Active ?</th>
-        <th class="actions">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for grade in grades %}
-        {% include grade_id == grade.id ? 'GessehUserBundle:StudentAdmin:editGrade.html.twig' : 'GessehUserBundle:StudentAdmin:indexGrade.html.twig' %}
-      {% endfor %}
-      {% if grade_form is not empty and grade_id is empty %}
-        {% include 'GessehUserBundle:StudentAdmin:editGrade.html.twig' %}
-      {% endif %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <td class="actions">
-          <ul>
-            <li><a href="{{ path('GUser_SANewGrade') }}" title="Ajouter un nouveau niveau"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
-          </ul>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
-  {% if grade_form is not empty %}{{ form_end(grade_form) }}{% endif %}
-
   {% if student_form is not empty %}
     {% form_theme student_form 'GessehCoreBundle:Form:fields.html.twig' %}
     {% if form_errors(student_form) is not empty %}<div class="error">{{ form_errors(student_form) }}</div>{% endif %}
     {{ form_start(student_form) }}
   {% endif %}
-  <h2>Étudiants ({{ students_count }}) :</h2>
   <table>
     <thead>
       <tr>
@@ -60,18 +24,18 @@
     </thead>
     <tbody>
       {% for student in students %}
-        {% include student_id == student.id ? 'GessehUserBundle:StudentAdmin:editStudent.html.twig' : 'GessehUserBundle:StudentAdmin:indexStudent.html.twig' %}
+        {% include student_id == student.id ? 'GessehUserBundle:StudentAdmin:edit.html.twig' : 'GessehUserBundle:StudentAdmin:show.html.twig' %}
       {% endfor %}
       {% if student_form is not empty and student_id is empty %}
-        {% include 'GessehUserBundle:StudentAdmin:editStudent.html.twig' %}
+        {% include 'GessehUserBundle:StudentAdmin:edit.html.twig' %}
       {% endif %}
     </tbody>
     <tfoot>
       <tr>
         <td class="actions">
           <ul>
-            <li><a href="{{ path('GUser_SANewStudent') }}#student_new" title="Ajouter un nouvel étudiant"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
-            <li><a href="{{ path('GUser_SAUpdateGrade') }}" title="Passer tous les étudiants dans la promotion supérieure" class="confirm" confirm="Attention ! Cette opération va passer tous les internes dans la promotion suivante ! Êtes-vous sûrs de vouloir continuer ?">Changer de promo</a></li>
+            <li><a href="{{ path('GUser_SANew') }}#student_new" title="Ajouter un nouvel étudiant"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
+            <li><a href="{{ path('GUser_GAUpdateNext') }}" title="Passer tous les étudiants dans la promotion supérieure" class="confirm" confirm="Attention ! Cette opération va passer tous les internes dans la promotion suivante ! Êtes-vous sûrs de vouloir continuer ?">Changer de promo</a></li>
           </ul>
         </td>
         <td class="pagination">{{ knp_pagination_render(students) }}</td>

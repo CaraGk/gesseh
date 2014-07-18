@@ -62,7 +62,7 @@ class MenuBuilder
     $menu->addChild('Fieldsets', array('route' => 'GCore_FSAHospital', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Gérer les hôpitaux et services')));
     $menu->addChild('Sectors', array('route' => 'GCore_FSASector', 'label' => 'Catégories', 'attributes' => array('title' => 'Gérer les catégories')));
     $menu->addChild('Students', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants', 'attributes' => array('title' => 'Gérer les étudiants')));
-    $menu->addChild('Grades', array('route' => 'GUser_SAIndex', 'label' => 'Promotions', 'attributes' => array('title' => 'Gérer les promotions')));
+    $menu->addChild('Grades', array('route' => 'GUser_GAIndex', 'label' => 'Promotions', 'attributes' => array('title' => 'Gérer les promotions')));
     $menu->addChild('Placements', array('route' => 'GCore_PAPlacementIndex', 'label' => 'Stages', 'attributes' => array('title' => 'Gérer les stages')));
     $menu->addChild('Periods', array('route' => 'GCore_PAPeriodIndex', 'label' => 'Périodes de stage', 'attributes' => array('title' => 'Gérer les périodes de stage')));
     $menu->addChild('Simulation', array('route' => 'GSimul_SAList', 'label' => 'Simulations', 'attributes' => array('title' => 'Gérer les simulations')));
@@ -76,13 +76,4 @@ class MenuBuilder
     return $menu;
   }
 
-  public function createFieldSetAdminMenu(Request $request)
-  {
-    $menu = $this->factory->createItem('field_set_admin');
-    $menu->addChild('Hospitals', array('route' => 'GCore_FSAHospital', 'label' => 'Hôpitaux et services', 'attributes' => array('title' => 'Gérer les hôpitaux et services associés')));
-    $menu->addChild('Sectors', array('route' => 'GCore_FSAHospital', 'label' => 'Catégories de service', 'attributes' => array('title' => 'Gérer les catégories de services')));
-    $menu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres', 'attributes' => array('title' => 'Gérer les paramètres des terrains de stage')));
-
-    return $menu;
-  }
 }
