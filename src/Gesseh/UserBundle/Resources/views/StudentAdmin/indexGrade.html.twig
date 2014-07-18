@@ -11,7 +11,7 @@
   <td class="actions">
     <ul>
       <li><a href="{{ path('GUser_SAEditGrade', {'id': grade.id}) }}" title="Modifier la promotion '{{ grade }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-      <li><a href="{{ path('GUser_SADeleteGrade', {'id': grade.id}) }}" title="Supprimer la promotion '{{ grade }}'" class="confirm delete" confirm="Attention ! Cette opération va supprimer toutes les informations se rapportant à cette session de stage. Cette action est irrévocable. Êtes-vous sûrs de vouloir continuer ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+      <li><a href="{{ path('GUser_SADeleteGrade', {'id': grade.id}) }}" title="Supprimer la promotion '{{ grade }}'" class="confirm delete" confirm="Attention ! Cette opération va supprimer tous les étudiants de cette promotion et toutes les informations liées. Cette action est irrévocable. Êtes-vous sûrs de vouloir continuer ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
     </ul>
   </td>
 </tr>
