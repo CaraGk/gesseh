@@ -29,11 +29,13 @@ class FieldSetController extends Controller
    */
   public function indexAction()
   {
-    $em = $this->getDoctrine()->getManager();
-    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll($this->get('request')->query->get('limit', null));
+      $em = $this->getDoctrine()->getManager();
+    $limit = $this->get('request')->query->get('limit', null);
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll($limit);
 
     return array(
-      'hospitals' => $hospitals
+        'hospitals' => $hospitals,
+        'limit'     => $limit
     );
   }
 
