@@ -23,21 +23,22 @@ use Gesseh\CoreBundle\Entity\Hospital;
 class FieldSetController extends Controller
 {
   /**
-   * @Route("/f/", name="GCore_FSIndex")
+   * @Route("/fieldset/", name="GCore_FSIndex")
    * @Route("/", name="homepage")
    * @Template()
    */
   public function indexAction()
   {
-    $departments = $this->getDoctrine()->getManager()->getRepository('GessehCoreBundle:Department')->getAll();
+    $em = $this->getDoctrine()->getManager();
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll($this->get('request')->query->get('limit', null));
 
     return array(
-      'departments' => $departments
+      'hospitals' => $hospitals
     );
   }
 
   /**
-   * @Route("/f/{id}/d", name="GCore_FSShowDepartment", requirements={"id" = "\d+"})
+   * @Route("/department/{id}/show", name="GCore_FSShowDepartment", requirements={"id" = "\d+"})
    * @Template()
    */
   public function showDepartmentAction($id)
@@ -52,7 +53,7 @@ class FieldSetController extends Controller
   /**
    * Finds and displays a Hospital entity.
    *
-   * @Route("/f/{id}/h", name="GCore_FSShowHospital")
+   * @Route("/hospital/{id}/show", name="GCore_FSShowHospital")
    * @Template()
    */
   public function showHospitalAction($id)

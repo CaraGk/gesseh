@@ -3,35 +3,42 @@
 {% block titlecontent %}Terrains de stage{% endblock %}
 
 {% block content %}
-<table>
-  <thead>
-    <tr>
-      <th>Hôpital</th>
-      <th>Service</th>
-      <th>Chef de service</th>
-      <th>Catégorie</th>
-      {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}<th class="small">Postes</th>{% endif %}
-      <th class="actions">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for department in departments %}
-      <tr>
-        <td><a href="{{ path('GCore_FSShowHospital', {id: department.hospital.id}) }}" title="Afficher les informations de l'hôpital '{{ department.hospital.name }}'">{{ department.hospital }}</a></td>
-        <td><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}" title="Afficher les informations du service '{{ department.name }}'">{{ department.name }}</a></td>
-        <td>{{ department.head }}</td>
-        <td>{{ department.sector }}</td>
-        {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}<td class="small">{{ department.number }}</td>{% endif %}
-        <td class="actions">
-          <ul>
-            <li><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}" title="Afficher les informations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Afficher" /></a></li>
-            {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li><a href="{{ path('GEval_DShow', { 'id': department.id }) }}" title="Afficher les évaluations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>{% endif %}
-          </ul>
-        </td>
-      </tr>
-    {% else %}
-      <tr><td colspan="5">Aucun service enregistré</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+    <ul class="entities hospitals">
+        {% for hospital in hospitals %}
+            <li class="entity hospital">
+            <div class="field entity_title hospital_name"><a href="{{ path('GCore_FSIndex', {limit: {type: 'h.id', value: hospital.id}}) }}" title="Afficher les terrains de stage de l'hôpital '{{ hospital.name }}'">{{ hospital }}</a></div>
+                <ul class="actions">
+                    <li class="action show"><a href="{{ path('GCore_FSShowHospital', {id: hospital.id}) }}" title="Afficher les informations de l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" /></a></li>
+                </ul>
+                <ul class="entities departments">
+                    {% for department in hospital.departments %}
+                        <li class="entity department">
+                            <div class="field entity_title department_name">{{ department.name }}</div>
+                            <div class="field entity_item department_head">{{ department.head }}</div>
+                            <div class="field entity_item department_sector"><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: department.sector.id}}) }}">{{ department.sector }}</a></div>
+                            {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}
+                                <div class="field entity_item deparment_number">
+                                    {% if department.number > 1 %}
+                                        {{ department.number }} postes proposés.
+                                    {% elseif department.number == 1 %}
+                                        1 poste proposé.
+                                    {% else %}
+                                        Aucun poste proposé.
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            <ul class="actions">
+                                <li class="action show"><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}" title="Afficher les informations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Afficher" /></a></li>
+                                {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li class="action stat"><a href="{{ path('GEval_DShow', { 'id': department.id }) }}" title="Afficher les évaluations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>{% endif %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="noentity department">Aucun service enregistré.</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% else %}
+            <li class="noentity hospital">Aucun hôpital enregistré</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -37,7 +37,6 @@ class FieldSetAdminController extends Controller
    * Lists all Hospital and Department entities.
    *
    * @Route("/", name="GCore_FSAHospital")
-   * @Route("/", name="admin_hp")
    * @Template()
    */
   public function hospitalAction()
