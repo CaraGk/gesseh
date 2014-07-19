@@ -15,15 +15,15 @@
                         <li class="entity department">
                             <div class="field entity_title department_name">{{ department.name }}</div>
                             <div class="field entity_item department_head">{{ department.head }}</div>
-                            <div class="field entity_item department_sector"><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: department.sector.id}}) }}">{{ department.sector }}</a></div>
+                            <div class="field entity_item department_sector"><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: department.sector.id}}) }} title="Afficher les terrains de la catégorie {{ department.sector }}">{{ department.sector }}</a></div>
                             {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}
                                 <div class="field entity_item deparment_number">
                                     {% if department.number > 1 %}
-                                        {{ department.number }} postes proposés.
+                                        <div class="field entity_item department_number">{{ department.number }} postes proposés.</div>
                                     {% elseif department.number == 1 %}
-                                        1 poste proposé.
+                                        <div class="field entity_item department_number warning">1 poste proposé.</div>
                                     {% else %}
-                                        Aucun poste proposé.
+                                        <div class="empyfield department_number error">Aucun poste proposé.</div>
                                     {% endif %}
                                 </div>
                             {% endif %}
