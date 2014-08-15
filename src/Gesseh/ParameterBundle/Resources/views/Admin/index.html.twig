@@ -3,31 +3,7 @@
 {% block titlecontent %}Paramètres{% endblock %}
 
 {% block content %}
-  {% if parameter_form is not empty %}
-    {{ form_start(parameter_form)}}
-    <div>{{ form_errors(parameter_form) }}</div>
-  {% endif %}
-  <table>
-    <thead>
-      <tr>
-        <th>Label</th>
-        <th>Groupe</th>
-        <th>Type</th>
-        <th>Valeur</th>
-        <th class="actions">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for parameter in parameters %}
-        {% include parameter_id == parameter.id ? 'GessehParameterBundle:Admin:editParameter.html.twig' : 'GessehParameterBundle:Admin:indexParameter.html.twig' %}
-      {% else %}
-        <tr>
-          <td colspan=4>Aucun paramètre à afficher</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% if parameter_form is not empty %}{{ form_end(parameter_form) }}{% endif %}
+  {{ form(parameter_form) }}
 {% endblock %}
 
 {% block javascripts %}

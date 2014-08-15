@@ -19,14 +19,31 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class ParametersType extends AbstractType
 {
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    var_dump($options);
-    foreach($options['data'] as $parameter) {
-//      $builder->add($parameter->getName(), new ParameterType('Gesseh\ParameterBundle\Entity\Parameter'));
-      $builder->add($parameter->getName(), new ParameterType($parameter));
+    public function __construct($parameters)
+    {
+        $this->parameters = $parameters;
     }
-  }
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        foreach($this->parameters as $parameter) {
+            if($parameter->getType() == "string") {
+                $builder->add($parameter->getName(), 'text', array(
+                    'required' => false,
+                    'label'    => $parameter->getLabel(),
+                    'data'     => $parameter->getValue(),
+                ));
+            } elseif($parameter->getType() == "boolean") {
+                $builder->add($parameter->getName(), 'checkbox', array(
+                    'required' => false,
+                    'value'    => false,
+                    'label'    => $parameter->getLabel(),
+                    'data'     => (bool) $parameter->getValue(),
+                ));
+            }
+        }
+        $builder->add('Enregistrer', 'submit');
+    }
 
   public function getName()
   {

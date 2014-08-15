@@ -13,7 +13,7 @@ namespace Gesseh\ParameterBundle\Form;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManager;
+use KDB\ParametersBundle\Entity\ParameterManager;
 use Gesseh\ParameterBundle\Entity\Parameter;
 
 /**
@@ -25,11 +25,12 @@ class ParametersHandler
   private $request;
   private $em;
 
-  public function __construct(Form $form, Request $request, EntityManager $em)
+  public function __construct(Form $form, Request $request, ParameterManager $pm, array $parameters)
   {
-    $this->form    = $form;
-    $this->request = $request;
-    $this->em      = $em;
+    $this->form       = $form;
+    $this->request    = $request;
+    $this->pm         = $pm;
+    $this->parameters = $parameters;
   }
 
   public function process()
@@ -47,9 +48,13 @@ class ParametersHandler
     return false;
   }
 
-  public function onSuccess(Parameter $parameter)
+  public function onSuccess($data)
   {
-    $this->em->persist($parameter);
-    $this->em->flush();
+      foreach($this->parameters as $parameter) {
+        if($data[$parameter->getName()] == null)
+          $data[$parameter->getName()] = 0;
+        $parameter->setValue($data[$parameter->getName()]);
+        $this->pm->persistParameter($parameter);
+    }
   }
 }
