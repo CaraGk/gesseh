@@ -31,10 +31,10 @@ use Gesseh\EvaluationBundle\Form\EvalSectorHandler;
 class AdminController extends Controller
 {
   /**
-   * @Route("/", name="GEval_AForm")
+   * @Route("/", name="GEval_AIndex")
    * @Template()
    */
-  public function formAction()
+  public function indexAction()
   {
     $em = $this->getDoctrine()->getManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
@@ -59,7 +59,6 @@ class AdminController extends Controller
   public function newFormAction()
   {
     $em = $this->getDoctrine()->getManager();
-    $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
 
     $eval_form = new EvalForm();
     $form = $this->createForm(new EvalFormType(), $eval_form);
@@ -71,9 +70,7 @@ class AdminController extends Controller
     }
 
     return array(
-      'eval_forms'     => $eval_forms,
-      'eval_form_id'   => null,
-      'eval_form_form' => $form->createView(),
+      'form' => $form->createView(),
     );
   }
 
@@ -86,15 +83,13 @@ class AdminController extends Controller
   public function editFormAction($id)
   {
     $em = $this->getDoctrine()->getManager();
-    $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
-
     $eval_form = $em->getRepository('GessehEvaluationBundle:EvalForm')->find($id);
 
     if (!$eval_form)
       throw $this->createNotFoundException('Unable to find eval_form entity.');
 
-    $editForm = $this->createForm(new EvalFormType(), $eval_form);
-    $formHandler = new EvalFormHandler($editForm, $this->get('request'), $em);
+    $form = $this->createForm(new EvalFormType(), $eval_form);
+    $formHandler = new EvalFormHandler($form, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" modifié.');
@@ -102,9 +97,7 @@ class AdminController extends Controller
     }
 
     return array(
-      'eval_forms'     => $eval_forms,
-      'eval_form_id'   => $id,
-      'eval_form_form' => $editForm->createView(),
+      'form' => $form->createView(),
     );
   }
 
