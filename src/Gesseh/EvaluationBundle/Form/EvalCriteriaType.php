@@ -33,6 +33,8 @@ class EvalCriteriaType extends AbstractType
               'expanded' => false,
             ))
             ->add('more')
+            ->add('required')
+            ->add('moderate')
     ;
   }
 

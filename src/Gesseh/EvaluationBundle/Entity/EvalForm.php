@@ -164,4 +164,27 @@ class EvalForm
     {
         return $this->sectors;
     }
+
+    /**
+     * Add sectors
+     *
+     * @param \Gesseh\EvaluationBundle\Entity\EvalSector $sectors
+     * @return EvalForm
+     */
+    public function addSector(\Gesseh\EvaluationBundle\Entity\EvalSector $sectors)
+    {
+        $this->sectors[] = $sectors;
+
+        return $this;
+    }
+
+    /**
+     * Remove sectors
+     *
+     * @param \Gesseh\EvaluationBundle\Entity\EvalSector $sectors
+     */
+    public function removeSector(\Gesseh\EvaluationBundle\Entity\EvalSector $sectors)
+    {
+        $this->sectors->removeElement($sectors);
+    }
 }

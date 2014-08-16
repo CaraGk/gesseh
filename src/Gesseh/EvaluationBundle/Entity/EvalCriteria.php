@@ -68,6 +68,20 @@ class EvalCriteria
      */
     private $eval_form;
 
+    /**
+     * @var boolean $required
+     *
+     * @ORM\Column(name="required", type="boolean", nullable=true)
+     */
+    private $required;
+
+    /**
+     * @var boolean $moderate
+     *
+     * @ORM\Column(name="moderate", type="boolean", nullable=true)
+     */
+    private $moderate;
+
 
     public function __toString()
     {
@@ -197,5 +211,51 @@ class EvalCriteria
     public function getEvalForm()
     {
         return $this->evalform;
+    }
+
+    /**
+     * Set required
+     *
+     * @param boolean $required
+     * @return EvalCriteria
+     */
+    public function setRequired($required)
+    {
+        $this->required = $required;
+
+        return $this;
+    }
+
+    /**
+     * Get required
+     *
+     * @return boolean
+     */
+    public function getRequired()
+    {
+        return $this->required;
+    }
+
+    /**
+     * Set moderate
+     *
+     * @param boolean $moderate
+     * @return EvalCriteria
+     */
+    public function setModerate($moderate)
+    {
+        $this->moderate = $moderate;
+
+        return $this;
+    }
+
+    /**
+     * Get moderate
+     *
+     * @return boolean
+     */
+    public function getModerate()
+    {
+        return $this->moderate;
     }
 }

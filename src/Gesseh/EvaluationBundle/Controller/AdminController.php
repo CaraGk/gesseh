@@ -66,7 +66,7 @@ class AdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" enregistré.');
-      return $this->redirect($this->generateUrl('GEval_AForm'));
+      return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 
     return array(
@@ -93,7 +93,7 @@ class AdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" modifié.');
-      return $this->redirect($this->generateUrl('GEval_AForm'));
+      return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 
     return array(
@@ -126,7 +126,7 @@ class AdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" supprimé.');
-    return $this->redirect($this->generateUrl('GEval_AForm'));
+    return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
 
   /**
@@ -146,7 +146,7 @@ class AdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Critère d\'évaluation "' . $criteria->getName() . '" supprimé.');
-    return $this->redirect($this->generateUrl('GEval_AForm'));
+    return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
 
   /**
@@ -169,7 +169,7 @@ class AdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" enregistrée.');
-      return $this->redirect($this->generateUrl('GEval_AForm'));
+      return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 
     return array(
@@ -199,7 +199,7 @@ class AdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" supprimée.');
-    return $this->redirect($this->generateUrl('GEval_AForm'));
+    return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
 
   /**
