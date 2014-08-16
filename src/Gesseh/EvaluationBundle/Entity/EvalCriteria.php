@@ -139,6 +139,21 @@ class EvalCriteria
     }
 
     /**
+     * Get type name
+     * @return string
+     */
+    public function getTypeName()
+    {
+        if($this->type == 1) {
+            return "Choix pondéré";
+        } elseif($this->type == 2) {
+            return "Texte long";
+        } else {
+            return "Type inconnu";
+        }
+    }
+
+    /**
      * Get readable type
      *
      * @return string

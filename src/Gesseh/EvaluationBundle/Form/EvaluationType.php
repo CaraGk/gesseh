@@ -32,14 +32,14 @@ class EvaluationType extends AbstractType
       if ($criteria->getType() == 1) {
         $builder->add('criteria_' . $criteria->getId(), 'choice', array(
           'choices'  => $this->getCriteriaChoiceOptions($criteria->getMore()),
-          'required' => true,
+          'required' => $criteria->getRequired(),
           'multiple' => false,
           'expanded' => true,
           'label'    => $criteria->getName(),
         ));
       } elseif ($criteria->getType() == 2) {
         $builder->add('criteria_' . $criteria->getId(), 'textarea', array(
-          'required'   => false,
+          'required'   => $criteria->getRequired(),
           'trim'       => true,
           'max_length' => 250,
           'label'      => $criteria->getName(),
