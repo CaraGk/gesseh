@@ -1,0 +1,56 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Formulaires d'évaluations{% endblock %}
+{% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
+
+{% block content %}
+    <ul class="actions">
+        <li><a href="{{ path('GEval_ANew') }}#eval_new" title="Ajouter un nouveau formulaire d'évaluation" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
+        <li><a href="{{ path('GEval_APdfExport') }}" title="Exporter les évaluations en fichier PDF">Exporter</a></li>
+    </ul>
+    <ul class="entities evalforms">
+        {% for eval_form in eval_forms %}
+            <li class="entity evalform">
+                <span class="field entity_title evalform_name">{{ eval_form.name }}</span>
+                <span class="action"><a href="{{ path('GEval_AEdit', { 'id': eval_form.id }) }}" title="Modifier le formulaire d'évaluation '{{ eval_form.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></span>
+                <span class="action"><a href="{{ path('GEval_ADelete', { 'id': eval_form.id }) }}" title="Supprimer le formulaire d'évaluation '{{ eval_form.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></span>
+                <div>
+                    {% if sector_form is not null and form_id == eval_form.id %}
+                        <span>{{ form(sector_form) }}</span>
+                    {% else %}
+                        <span><a href="{{ path('GEval_ASectorAdd', { 'form_id': eval_form.id }) }}" title="Ajouter une association au formulaire '{{ eval_form.name }}'" class=""><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>
+                    {% endif %}
+                    {% for sector in sectors[eval_form.id] %}
+                        <span class="field evalform_sector">
+                            <a href="{{ path('GCore_FSAHospital', { 'limit': { 'type': 's.id', 'value': sector.sector.id }}) }}" title="Afficher les terrains de la catégorie {{ sector.sector.name }}">{{ sector.sector.name }}</a>
+                            <a href="{{ path('GEval_ASectorDelete', { 'id': sector.id }) }}" title="Supprimer l'association avec la catégorie de terrain de stage '{{ sector.sector.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a>
+                        </span>
+                    {% endfor %}
+                </div>
+                <ul class="subentities criterias">
+                    {% for criteria in eval_form.criterias %}
+                        <li class="subentity criteria">
+                            <span class="criteria_rank">{{ criteria.rank }}</span>
+                            <span class="field subentity_title criteria_name">{{ criteria.name }}</span>
+                            <span class="field criteria_type">{{ criteria.readableType }}</span>
+                            <span class="field criteria_more">{{ criteria.more }}</span>
+                            <span class=""><a href="{{ path('GEval_ADeleteCriteria', { 'id': criteria.id }) }}" title="Supprimer le critère d'évaluation '{{ criteria.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+                        </li>
+                    {% else %}
+                        <span class="noentity criteria">Aucun critère associé</span>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+    <ul>
+        <li><a href="{{ path('GEval_ANew') }}" title="Ajouter un nouveau formulaire d'évaluation" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehcore/js/addSub.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/gessehcore/js/actions.js') }}" type="text/javascript"></script>
+{% endblock %}
