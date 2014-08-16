@@ -33,7 +33,7 @@ class SectorRuleRepository extends EntityRepository
 
   public function getForStudent($simstudent)
   {
-    $em = $this->getManager();
+    $em = $this->getEntityManager();
 
     $query = $this->createQueryBuilder('r')
                   ->join('r.sector', 's')
