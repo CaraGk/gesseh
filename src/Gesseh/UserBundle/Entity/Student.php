@@ -86,7 +86,7 @@ class Student
   /**
    * @var boolean $anonymous
    *
-   * @ORM\Column(name="anonymous", type="boolean")
+   * @ORM\Column(name="anonymous", type="boolean", nullable=true)
    */
   private $anonymous;
 
