@@ -21,9 +21,10 @@ class EvalSectorType extends AbstractType
 {
   private $exclude_sectors;
 
-  public function __construct($exclude_sectors)
+  public function __construct($exclude_sectors, $eval_form)
   {
     $this->exclude_sectors = $exclude_sectors;
+    $this->eval_form = $eval_form;
   }
 
   public function buildForm(FormBuilderInterface $builder, array $options)
@@ -31,11 +32,15 @@ class EvalSectorType extends AbstractType
     $exclude_sectors = $this->exclude_sectors;
 
     $builder
-      ->add('sector', 'entity', array(
-        'class'         => 'GessehCoreBundle:Sector',
-        'query_builder' => function(\Gesseh\CoreBundle\Entity\SectorRepository $er) use ($exclude_sectors) { return $er->listOtherSectors($exclude_sectors); },
-      ))
-      ->add('form')
+        ->add('sector', 'entity', array(
+            'class'         => 'GessehCoreBundle:Sector',
+            'query_builder' => function(\Gesseh\CoreBundle\Entity\SectorRepository $er) use ($exclude_sectors) { return $er->listOtherSectors($exclude_sectors); },
+            'label'         => 'Lier une catégorie de stage : ',
+        ))
+        ->add('form', 'hidden', array(
+            'data' => $this->eval_form->getId(),
+        ))
+        ->add('Enregistrer', 'submit')
     ;
   }
 

@@ -26,7 +26,7 @@ use Gesseh\EvaluationBundle\Form\EvalSectorHandler;
 /**
  * Admin controller.
  *
- * @Route("/admin/e")
+ * @Route("/admin/evaluation")
  */
 class AdminController extends Controller
 {
@@ -38,27 +38,15 @@ class AdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
+    $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->getAllByForm($eval_forms);
 
     return array(
       'eval_forms'     => $eval_forms,
       'eval_form_id'   => null,
       'eval_form_form' => null,
-    );
-  }
-
-  /**
-   * @Route("/es", name="GEval_ASector")
-   * @Template()
-   */
-  public function sectorAction()
-  {
-    $em = $this->getDoctrine()->getManager();
-    $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
-
-    return array(
       'sectors'        => $sectors,
-      'sector_id'      => null,
       'sector_form'    => null,
+      'form_id'        => null,
     );
   }
 
@@ -92,7 +80,7 @@ class AdminController extends Controller
   /**
    * Displays a form to edit an existing eval_form entity.
    *
-   * @Route("/{id}/e", name="GEval_AEdit", requirements={"id" = "\d+"})
+   * @Route("/{id}/edit", name="GEval_AEdit", requirements={"id" = "\d+"})
    * @Template("GessehEvaluationBundle:Admin:form.html.twig")
    */
   public function editFormAction($id)
@@ -123,7 +111,7 @@ class AdminController extends Controller
   /**
    * Deletes a eval_form entity.
    *
-   * @Route("/{id}/d", name="GEval_ADelete", requirements={"id" = "\d+"}))
+   * @Route("/{id}/delete", name="GEval_ADelete", requirements={"id" = "\d+"}))
    */
   public function deleteFormAction($id)
   {
@@ -151,7 +139,7 @@ class AdminController extends Controller
   /**
    * Deletes a eval_criteria entity.
    *
-   * @Route("/c/{id}/d", name="GEval_ADeleteCriteria", requirements={"id" = "\d+"}))
+   * @Route("/criteria/{id}/delete", name="GEval_ADeleteCriteria", requirements={"id" = "\d+"}))
    */
   public function deleteCriteriaAction($id)
   {
@@ -169,72 +157,42 @@ class AdminController extends Controller
   }
 
   /**
-   * Display a form to create a new eval_sector entity
+   * Display a form to add a sector to an eval_form entity
    *
-   * @Route("/es/new", name="GEval_ASectorNew")
-   * @Template("GessehEvaluationBundle:Admin:sector.html.twig")
+   * @Route("/{form_id}/sector/add", name="GEval_ASectorAdd", requirements={"form_id" = "\d+"})
+   * @Template("GessehEvaluationBundle:Admin:form.html.twig")
    */
-  public function newSectorAction()
+  public function addSectorAction($form_id)
   {
     $em = $this->getDoctrine()->getManager();
-    $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
-    $exclude_sectors = array();
-
-    foreach($sectors as $sector) {
-      $exclude_sectors[] = $sector->getSector()->getId();
-    }
+    $eval_forms = $em->getRepository('GessehEvaluationBundle:EvalForm')->findAll();
+    $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->getAllByForm($eval_forms);
+    $exclude_sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->getAssignedSectors();
+    $eval_form = $em->getRepository('GessehEvaluationBundle:EvalForm')->find($form_id);
 
     $eval_sector = new EvalSector();
-    $form = $this->createForm(new EvalSectorType($exclude_sectors), $eval_sector);
-    $formHandler = new EvalSectorHandler($form, $this->get('request'), $em);
+    $form = $this->createForm(new EvalSectorType($exclude_sectors, $eval_form), $eval_sector);
+    $formHandler = new EvalSectorHandler($form, $this->get('request'), $em, $eval_form);
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" enregistrée.');
-      return $this->redirect($this->generateUrl('GEval_ASector'));
+      return $this->redirect($this->generateUrl('GEval_AForm'));
     }
 
     return array(
+      'eval_forms'     => $eval_forms,
+      'eval_form_id'   => null,
+      'eval_form_form' => null,
       'sectors'        => $sectors,
-      'sector_id'      => null,
       'sector_form'    => $form->createView(),
+      'form_id'        => $form_id,
     );
   }
 
   /**
-   * Display a form to edit an eval_sector entity
-   *
-   * @Route("/es/{id}/e", name="GEval_ASectorEdit", requirements={"id" = "\d+"})
-   * @Template("GessehEvaluationBundle:Admin:sector.html.twig")
-   */
-/*  public function editSectorAction($id)
-  {
-    $em = $this->getDoctrine()->getManager();
-    $sectors = $em->getRepository('GessehEvaluationBundle:EvalSector')->findAll();
-
-    $eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->find($id);
-
-    if (!$eval_sector)
-      throw $this->createNotFoundException('Unable to find eval_sector entity.');
-
-    $editForm = $this->createForm(new EvalSectorType(), $eval_sector);
-    $formHandler = new EvalSectorHandler($editForm, $this->get('request'), $em);
-
-    if ( $formHandler->process() ) {
-      $this->get('session')->getFlashBag()->add('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" modifiée.');
-      return $this->redirect($this->generateUrl('GEval_ASector'));
-    }
-
-    return array(
-      'sectors'        => $sectors,
-      'sector_id'      => $id,
-      'sector_form'    => $editForm->createView(),
-    );
-  } */
-
-  /**
    * Deletes a eval_sector entity.
    *
-   * @Route("/es/{id}/d", name="GEval_ASectorDelete", requirements={"id" = "\d+"}))
+   * @Route("/sector/{id}/delete", name="GEval_ASectorDelete", requirements={"id" = "\d+"}))
    */
   public function deleteSectorAction($id)
   {
@@ -248,7 +206,7 @@ class AdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" supprimée.');
-    return $this->redirect($this->generateUrl('GEval_ASector'));
+    return $this->redirect($this->generateUrl('GEval_AForm'));
   }
 
   /**
@@ -272,7 +230,7 @@ class AdminController extends Controller
   /**
    * Supprime une évaluation textuelle
    *
-   * @Route("/t/{id}/d", name="GEval_ATextDelete", requirements={"id" = "\d+"})
+   * @Route("/moderation/{id}/delete", name="GEval_ATextDelete", requirements={"id" = "\d+"})
    */
   public function textDeleteAction($id)
   {
@@ -292,7 +250,7 @@ class AdminController extends Controller
   /**
    * Modifie une évaluation textuelle
    *
-   * @Route("/t/{id}/e", name="GEval_ATextEdit", requirements={"id" = "\d+"})
+   * @Route("/moderation/{id}/edit", name="GEval_ATextEdit", requirements={"id" = "\d+"})
    * @Template()
    */
   public function textEditAction($id)

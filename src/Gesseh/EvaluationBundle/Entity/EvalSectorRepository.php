@@ -18,14 +18,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class EvalSectorRepository extends EntityRepository
 {
-  public function getEvalSectorQuery()
+  public function getSimpleEvalSectorQuery()
   {
     return $this->createQueryBuilder('s')
                 ->join('s.form', 'f')
-                ->join('f.criterias', 'c')
-                ->join('s.sector', 't')
-                ->addSelect('f')
-                ->addSelect('c')
+    ;
+  }
+
+  public function getEvalSectorQuery()
+  {
+    $query = $this->getSimpleEvalSectorQuery();
+    return $query->join('f.criterias', 'c')
+                 ->join('s.sector', 't')
+                 ->addSelect('f')
+                 ->addSelect('c')
     ;
   }
 
@@ -44,5 +50,28 @@ class EvalSectorRepository extends EntityRepository
     $query = $this->getEvalSectorQuery();
 
     return $query->getQuery()->getResult();
+  }
+
+  public function getAllByForm($forms)
+  {
+    $result = array();
+    foreach($forms as $form) {
+        $query = $this->getSimpleEvalSectorQuery();
+        $query->where('f.id = :id')
+              ->setParameter('id', $form->getId());
+        $result[$form->getId()] = $query->getQuery()->getResult();
+    }
+
+    return $result;
+  }
+
+  public function getAssignedSectors()
+  {
+    $eval_sectors = $this->getSimpleEvalSectorQuery()->getQuery()->getResult();
+    foreach($eval_sectors as $eval_sector) {
+        $assigned_sectors[] = $eval_sector->getSector()->getId();
+    }
+
+    return $assigned_sectors;
   }
 }

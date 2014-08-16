@@ -25,11 +25,12 @@ class EvalSectorHandler
   private $request;
   private $em;
 
-  public function __construct(Form $form, Request $request, EntityManager $em)
+  public function __construct(Form $form, Request $request, EntityManager $em, $eval_form)
   {
     $this->form    = $form;
     $this->request = $request;
     $this->em      = $em;
+    $this->eval_form = $eval_form;
   }
 
   public function process()
@@ -49,6 +50,7 @@ class EvalSectorHandler
 
   public function onSuccess(EvalSector $eval_sector)
   {
+    $eval_sector->setForm($this->eval_form);
     $this->em->persist($eval_sector);
     $this->em->flush();
   }
