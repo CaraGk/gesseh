@@ -21,7 +21,7 @@ use Gesseh\UserBundle\Form\StudentHandler;
 /**
  * Student controller.
  *
- * @Route("/u/")
+ * @Route("/user")
  */
 class StudentController extends Controller
 {
