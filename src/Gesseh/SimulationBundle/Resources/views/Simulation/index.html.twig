@@ -31,7 +31,12 @@
           <tr>
             <td>{{ wish.rank }}</td>
             <td>{{ wish.department.hospital }}</td>
-            <td>{{ wish.department.name }}</td>
+            <td>
+                {{ wish.department.name }}
+                {% if wish.department.cluster is not null %}
+                  <img src="{{ asset('bundles/gessehcore/images/Warning.png') }}" alt="Cluster" title="Ce terrain de stage fait partie d'un cluster" />
+                {% endif %}
+            </td>
             <td>{{ wish.department.sector.name }}</td>
             <td class="small">{{ wish.department.number }}</td>
             <td class="actions">

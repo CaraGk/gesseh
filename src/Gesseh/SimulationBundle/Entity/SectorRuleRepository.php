@@ -79,10 +79,16 @@ class SectorRuleRepository extends EntityRepository
       }
     }
 
-    $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getStudentWishList($simstudent->getId());
+    $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getStudentWishList($simstudent->getId()); /* student's wish list */
 
     foreach ($wishes as $wish) {
-      array_push($rules['department']['NOT'], $wish->getDepartment()->getId());
+        array_push($rules['department']['NOT'], $wish->getDepartment()->getId()); /* don't choose again a department you've already chosen */
+        if($wish->getDepartment()->getCluster() != null) { /* don't choose a department linked to a department you've already chosen */
+            $clusters = $em->getRepository('GessehCoreBundle:Department')->getAllCluster($wish->getDepartment()->getId());
+            foreach ($clusters as $cluster) {
+                array_push($rules['department']['NOT'], $cluster->getId());
+            }
+        }
     }
 
     return $rules;

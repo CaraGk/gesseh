@@ -21,7 +21,7 @@ use Gesseh\SimulationBundle\Form\WishHandler;
 /**
  * Simulation controller
  *
- * @Route("/u/s")
+ * @Route("/simulation")
  */
 class SimulationController extends Controller
 {
@@ -71,27 +71,25 @@ class SimulationController extends Controller
 
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
-      $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getWishCluster($simstudent->getStudent(), $wish_id);
+      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($simstudent->getStudent(), $wish_id);
 
-      if(!$wishes)
-        throw $this->createNotFoundException('Unable to find Wish entity');
+      if(!$wish)
+          throw $this->createNotFoundException('Unable to find Wish entity');
 
-      foreach($wishes as $wish) {
         $rank = $wish->getRank();
         if($rank > 1) {
             $wishes_before = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($simstudent->getStudent(), $rank - 1);
-          foreach($wishes_before as $wish_before) {
-            $wish_before->setRank($rank);
-            $em->persist($wish_before);
-            $rank--;
-          }
-          $wish->setRank($rank);
-          $em->persist($wish);
-          $this->get('session')->getFlashBag()->add('notice', 'Vœu : "' . $wish->getDepartment() . '" mis à jour.');
+            foreach($wishes_before as $wish_before) {
+                $wish_before->setRank($rank);
+                $em->persist($wish_before);
+                $rank--;
+              }
+            $wish->setRank($rank);
+            $em->persist($wish);
+            $this->get('session')->getFlashBag()->add('notice', 'Vœu : "' . $wish->getDepartment() . '" mis à jour.');
         } else {
-          $this->get('session')->getFlashBag()->add('error', 'Attention : le vœu "' . $wish->getDepartment() . '" est déjà le premier de la liste !');
+            $this->get('session')->getFlashBag()->add('error', 'Attention : le vœu "' . $wish->getDepartment() . '" est déjà le premier de la liste !');
         }
-      }
       $em->flush();
       return $this->redirect($this->generateUrl('GSimul_SIndex'));
     }
@@ -108,12 +106,11 @@ class SimulationController extends Controller
 
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
-      $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getWishCluster($simstudent->getStudent(), $wish_id);
+      $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($simstudent->getStudent(), $wish_id);
 
-      if(!$wishes)
+      if(!$wish)
         throw $this->createNotFoundException('Unable to find Wish entity');
 
-      foreach($wishes as $wish) {
         $rank = $wish->getRank();
         $max_rank = $em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($simstudent->getStudent());
         if($rank < $max_rank) {
@@ -129,48 +126,45 @@ class SimulationController extends Controller
         } else {
           $this->get('session')->getFlashBag()->add('error', 'Attention : le vœu "' . $wish->getDepartment() . '" est déjà le dernier de la liste !');
         }
-      }
       $em->flush();
       return $this->redirect($this->generateUrl('GSimul_SIndex'));
     }
 
     /**
-     * @Route("/{wish_id}/d", name="GSimul_SDelete", requirements={"wish_id" = "\d+"})
+     * @Route("/{wish_id}/delete", name="GSimul_SDelete", requirements={"wish_id" = "\d+"})
      */
     public function deleteAction($wish_id)
     {
-      $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
-        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+        if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+            throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
 
-      $user = $this->get('security.context')->getToken()->getUsername();
-      $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
-      $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getWishCluster($simstudent->getStudent(), $wish_id);
+        $user = $this->get('security.context')->getToken()->getUsername();
+        $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
+        $wish = $em->getRepository('GessehSimulationBundle:Wish')->findByStudentAndId($simstudent->getStudent(), $wish_id);
 
-      if(!$wishes)
-        throw $this->createNotFoundException('Unable to find Wish entity');
+        if(!$wish)
+            throw $this->createNotFoundException('Unable to find Wish entity');
 
-      foreach($wishes as $wish) {
         $rank = $wish->getRank();
         $wishes_after = $em->getRepository('GessehSimulationBundle:Wish')->findByRankAfter($simstudent->getStudent(), $rank);
         foreach($wishes_after as $wish_after) {
-          $wish_after->setRank($wish_after->getRank()-1);
-          $em->persist($wish_after);
+            $wish_after->setRank($wish_after->getRank()-1);
+            $em->persist($wish_after);
         }
         $em->remove($wish);
-      }
 
-      if($simstudent->countWishes() <= 1) {
-        $simstudent->setDepartment(null);
-        $simstudent->setExtra(null);
-        $em->persist($simstudent);
-      }
+        if($simstudent->countWishes() <= 1) {
+            $simstudent->setDepartment(null);
+            $simstudent->setExtra(null);
+            $em->persist($simstudent);
+        }
 
-      $em->flush();
+        $em->flush();
 
-      $this->get('session')->getFlashBag()->add('notice', 'Vœu : "' . $wish->getDepartment() . '" supprimé.');
-      return $this->redirect($this->generateUrl('GSimul_SIndex'));
+        $this->get('session')->getFlashBag()->add('notice', 'Vœu : "' . $wish->getDepartment() . '" supprimé.');
+        return $this->redirect($this->generateUrl('GSimul_SIndex'));
     }
 
     /**
@@ -304,7 +298,7 @@ class SimulationController extends Controller
     /**
      * Affiche la liste des simulations pour un department donné
      *
-     * @Route("/list/{id}", name="GSimul_SListDept")
+     * @Route("/department/{id}", name="GSimul_SListDept")
      * @Template("GessehSimulationBundle:Simulation:listSimulations.html.twig")
      */
     public function listSimulDeptAction($id)
