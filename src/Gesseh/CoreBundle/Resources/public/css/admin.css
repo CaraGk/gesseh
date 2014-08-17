@@ -23,57 +23,57 @@ ul.entities span {
 li.entity {
     margin-bottom: 10px;
 }
-span.entity_title {
+.entity_title {
     font-size: 150%;
     font-weight: bold;
 }
 
-span.hospital_name a {
+.hospital_name a {
     color: #000;
 }
-span.hospital_address {
+.hospital_address {
     font-size: 80%;
     font-style: italic;
 }
-span.hospital_phone {
+.hospital_phone {
 }
 
 li.subentity {
     padding-bottom: 3px;
 }
-span.subentity_title {
+.subentity_title {
     font-size: 110%;
     color: #00638F;
 }
 
-span.departemnt_head {
+.departemnt_head {
 }
-span.department_sector {
+.department_sector {
     font-size: 90%;
     font-style: italic;
 }
-span.department_sector a,
-span.department_sector a:active,
-span.department_sector a:focus,
-span.department_sector a:hover {
+.department_sector a,
+.department_sector a:active,
+.department_sector a:focus,
+.department_sector a:hover {
     color: #B60016;
 }
-span.department_cluster {
+.department_cluster {
     font-size: 90%;
 }
-span.department_cluster a,
-span.department_cluster a:active,
-span.department_cluster a:focus,
-span.department_cluster a:hover {
+.department_cluster a,
+.department_cluster a:active,
+.department_cluster a:focus,
+.department_cluster a:hover {
 }
-ul.hospitals span.department_number {
+ul.hospitals .department_number {
     background-color: #111111;
     border-radius: 10px;
     padding: 0 4px 0 4px;
     color: #EEEEEE;
 }
 
-ul.entities span.action {
+ul.entities .action {
     padding: 1px;
     margin: 0;
 }

@@ -45,14 +45,6 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #menu li:hover a { color: #FDEF55; }
 #menu li a, #menu li span { color: #BBBBBB; padding: 5px 0px 5px 15px; width: 100%; display: inline-block; }
 #menu li a:hover { color: #FDEF55; text-decoration: none; }
-/*#menu li.current { background-color: #EEEEEE; }
-#menu li.current span, #menu li.current a { color: #252525; padding: 5px 0 5px 15px; width: 100%; display: inline-block; }
-#menu li.current:hover { background-color: #303030; color: #FDEF55; border-left-color: #FDEF55; }
-#menu li.current:hover a, #menu li.current:hover span { color:#FDEF55; }*/
-ul.submenu, ul.actions, ul.action { display: inline; }
-ul.submenu li, ul.actions li, ul.action li { display: inline; }
-ul.submenu { padding-bottom: 10px; margin-bottom: 10px; }
-ul.submenu li { padding: 3px; margin: 0; }
 
 #search{ width: auto; height: 25px; margin: auto; font-size: 110%; }
 #search select{ border: 1px; width: 50%; margin-left: 10px; }
@@ -89,6 +81,19 @@ ul.submenu li { padding: 3px; margin: 0; }
 #content div.criteria_content { padding: 2px; }
 #content span.eval_title { font-weight: bold; text-decoration: underline }
 #content span.eval_content { }
+#content ul.entities { }
+#content li.entity { display: block; }
+#content div.hospital_name { font-weight: bold; font-size: 150%; }
+#content div.department_name { font-weight: bold; }
+#content li.department div, #content li.department ul.actions, #content li.department ul.actions li { display: inline-block; }
+#content div.hospital_name, #content li.hospital ul.actions { display: inline-block; }
+#content li.department div { margin: 0 5px 0 5px; }
+#content li.hospital { margin: 20px 0 10px 0; }
+#content ul li { display: inline-block; }
+#content .department_sector { font-size: 90%; font-style: italic; }
+#content .department_sector a, #content .department_sector a:active, #content .department_sector a:focus, #content .department_sector a:hover { color: #B60016; }
+#content .department_cluster { font-size: 90%; }
+#content .department_cluster a, #content .department_cluster a:active, #content .department_cluster a:focus, #content .department_cluster a:hover { }
 
 #footer { width: 100%; padding-top: 15px; font-size: 90%; height: 30px; background-color: #AAAAAA; }
 #footer ul{ display: inline-block; }

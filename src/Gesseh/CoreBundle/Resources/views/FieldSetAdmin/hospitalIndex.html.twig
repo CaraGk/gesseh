@@ -1,11 +1,12 @@
 <li class="entity hospital">
-    <span class="field entity_title hospital_name">
+    <div class="field entity_title hospital_name">
+        <a href="{{ path('GCore_FSIndex', {limit: {type: 'h.id', value: hospital.id, description: hospital.name}}) }}" title="Afficher les terrains de stage de l'hôpital '{{ hospital.name }}'">{{ hospital }}</a>
+    </div>
         {% if hospital.web is not null %}
             <a href="{{ hospital.web }}">{{ hospital.name }}</a>
         {% else %}
             {{ hospital.name }}
         {% endif %}
-    </span>
     <span class="field hospital_address">({{ hospital.address }})</span>
     <span class="field hospital_phone">{{ hospital.phone }}</span>
     <span class="action"><a href="{{ path('GCore_FSAEditHospitalDescription', { 'id': hospital.id }) }}" title="Modifier la page de description de '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Description" /></a></span>
