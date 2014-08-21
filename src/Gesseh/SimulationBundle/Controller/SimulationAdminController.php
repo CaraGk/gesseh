@@ -211,11 +211,23 @@ class SimulationAdminController extends Controller
       $last_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getLastActive();
 
       foreach($sims as $sim) {
-        $placement = new Placement();
-        $placement->setStudent($sim->getStudent());
-        $placement->setDepartment($sim->getDepartment());
-        $placement->setPeriod($last_period->getPeriod());
-        $em->persist($placement);
+        if($sim->getDepartment()->getCluster() != null) {
+            $clusters = $em->getRepository('GessehCoreBundle:Departemnt')->getAllCluster($sim->getDepartment()->getId());
+
+            foreach($clusters as $cluster) {
+                $placement = new Placement();
+                $placement->setStudent($sim->getStudent());
+                $placement->setDepartment($cluster);
+                $placement->setPeriod($last_period->getPeriod());
+                $em->persist($placement);
+            }
+        } else {
+            $placement = new Placement();
+            $placement->setStudent($sim->getStudent());
+            $placement->setDepartment($sim->getDepartment());
+            $placement->setPeriod($last_period->getPeriod());
+            $em->persist($placement);
+        }
       }
 
       $em->flush();
