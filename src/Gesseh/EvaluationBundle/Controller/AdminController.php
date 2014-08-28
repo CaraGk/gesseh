@@ -153,7 +153,7 @@ class AdminController extends Controller
    * Display a form to add a sector to an eval_form entity
    *
    * @Route("/{form_id}/sector/add", name="GEval_ASectorAdd", requirements={"form_id" = "\d+"})
-   * @Template("GessehEvaluationBundle:Admin:form.html.twig")
+   * @Template("GessehEvaluationBundle:Admin:index.html.twig")
    */
   public function addSectorAction($form_id)
   {
