@@ -25,6 +25,7 @@ class StudentUserType extends AbstractType
             ->add('name')
             ->add('anonymous')
             ->add('phone')
+            ->add('address')
             ->add('user', new UserType('Gesseh\UserBundle\Entity\User'));
   }
 
