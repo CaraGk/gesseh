@@ -32,9 +32,10 @@ class StudentAdminController extends Controller
   public function indexAction()
   {
     $em = $this->getDoctrine()->getManager();
+    $search = $this->get('request')->query->get('search', null);
     $paginator = $this->get('knp_paginator');
-    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
+    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll($search);
+    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll(true, $search);
     $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
 
     return array(
@@ -42,6 +43,7 @@ class StudentAdminController extends Controller
       'student_id'   => null,
       'student_form' => null,
       'students_count' => $students_count,
+      'search'       => $search,
     );
   }
 
@@ -52,9 +54,10 @@ class StudentAdminController extends Controller
   public function newAction()
   {
     $em = $this->getDoctrine()->getManager();
+    $search = $this->get('request')->query->get('search', null);
     $paginator = $this->get('knp_paginator');
-    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
+    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll($search);
+    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll(true, $search);
     $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
@@ -83,9 +86,10 @@ class StudentAdminController extends Controller
   public function editAction($id)
   {
     $em = $this->getDoctrine()->getManager();
+    $search = $this->get('request')->query->get('search', null);
     $paginator = $this->get('knp_paginator');
-    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll();
-    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll();
+    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll($search);
+    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll(true, $search);
     $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');

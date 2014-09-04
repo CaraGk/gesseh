@@ -37,16 +37,21 @@ class StudentRepository extends EntityRepository
                  ->getSingleResult();
   }
 
-  public function getAll()
+  public function getAll($search = null)
   {
     $query = $this->getStudentQuery();
     $query->addOrderBy('p.isActive', 'desc')
           ->addOrderBy('s.surname', 'asc');
 
+    if($search != null) {
+        $query->where('s.surname like :search')
+              ->setParameter('search', '%'.$search.'%');
+    }
+
     return $query->getQuery();
   }
 
-    public function countAll($active = true)
+    public function countAll($active = true, $search = null)
     {
         $query=$this->createQueryBuilder('s')
             ->select('COUNT(s)');
@@ -55,6 +60,11 @@ class StudentRepository extends EntityRepository
             $query->join('s.grade', 'p')
                 ->where('p.isActive = true');
         }
+
+      if($search != null) {
+          $query->andWhere('s.surname like :search')
+                ->setParameter('search', '%'.$search.'%');
+      }
 
         return $query->getQuery()
             ->getSingleScalarResult();
