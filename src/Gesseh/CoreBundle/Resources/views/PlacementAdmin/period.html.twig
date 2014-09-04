@@ -2,7 +2,6 @@
 
 {% block titlecontent %}Sessions de stages{% endblock %}
 {% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
-{% block actionscontent %}{% include 'GessehCoreBundle:PlacementAdmin:subMenu.html.twig' %}{% endblock %}
 
 {% block content %}
     {% if period_form is not empty %}

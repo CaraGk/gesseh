@@ -1,8 +1,8 @@
 {% if kparam('eval_active') == true %}
     {% if placement.id in evaluated %}
-        <li class="entity placement evaluated">
+        <li class="entity placement evaluated"><span>Évalué</span>
     {% else %}
-        <li class="entity placement">
+        <li class="entity placement"><span>NON ÉVALUÉ</span>
     {% endif %}
 {% endif %}
     <span class="field placement_period">{{ placement.period }}</span>
