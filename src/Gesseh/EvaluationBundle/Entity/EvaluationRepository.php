@@ -27,7 +27,7 @@ class EvaluationRepository extends EntityRepository
     ;
   }
 
-  public function getTextByDepartment($id)
+  public function getTextByDepartment($id, $date = null)
   {
     $query = $this->getEvaluationQuery();
     $query->where('d.id = :id')
@@ -37,16 +37,26 @@ class EvaluationRepository extends EntityRepository
           ->addOrderBy('c.rank', 'asc')
           ->addOrderBy('e.created_at', 'asc');
 
+    if ($date != null) {
+      $query->andWhere('e.created_at > :date')
+            ->setParameter('date', $date);
+    }
+
     return $query->getQuery()->getResult();
   }
 
-  public function getNumByDepartment($id)
+  public function getNumByDepartment($id, $date = null)
   {
     $query = $this->getEvaluationQuery();
     $query->where('d.id = :id')
             ->setParameter('id', $id)
           ->andWhere('c.type = 1')
           ->orderBy('c.name', 'asc');
+
+    if ($date != null) {
+      $query->andWhere('e.created_at > :date')
+            ->setParameter('date', $date);
+    }
 
     $results = $query->getQuery()->getResult();
     $calc = array();
