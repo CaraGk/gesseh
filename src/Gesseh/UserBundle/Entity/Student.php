@@ -58,6 +58,13 @@ class Student
   private $phone;
 
   /**
+   * @var text $address
+   *
+   * @ORM\Column(name="address", type="text", nullable=true)
+   */
+  private $address;
+
+  /**
    * @ORM\OneToOne(targetEntity="User", cascade={"persist", "remove"})
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
@@ -305,5 +312,28 @@ class Student
     public function setAnonymous($anonymous)
     {
       $this->anonymous = $anonymous;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     * @return Student
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string 
+     */
+    public function getAddress()
+    {
+        return $this->address;
     }
 }
