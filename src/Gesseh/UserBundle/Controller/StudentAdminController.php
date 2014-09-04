@@ -76,6 +76,7 @@ class StudentAdminController extends Controller
       'student_id'   => null,
       'student_form' => $form->createView(),
       'students_count'=> $students_count,
+      'search'       => $search,
     );
   }
 
@@ -112,6 +113,7 @@ class StudentAdminController extends Controller
       'student_id'   => $id,
       'student_form' => $form->createView(),
       'students_count'=> $students_count,
+      'search'       => $search,
     );
   }
 
