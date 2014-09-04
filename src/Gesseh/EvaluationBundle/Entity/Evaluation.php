@@ -58,6 +58,13 @@ class Evaluation
      */
     private $created_at;
 
+    /**
+     * @var boolean $moderated
+     *
+     * @ORM\Column(name="moderated", type="boolean", nullable=true)
+     */
+    private $moderated;
+
 
     public function __toString()
     {
@@ -152,5 +159,28 @@ class Evaluation
     public function getCreatedAt()
     {
         return $this->created_at;
+    }
+
+    /**
+     * Set moderated
+     *
+     * @param boolean $moderated
+     * @return Evaluation
+     */
+    public function setModerated($moderated)
+    {
+        $this->moderated = $moderated;
+
+        return $this;
+    }
+
+    /**
+     * Get moderated
+     *
+     * @return boolean 
+     */
+    public function getModerated()
+    {
+        return $this->moderated;
     }
 }

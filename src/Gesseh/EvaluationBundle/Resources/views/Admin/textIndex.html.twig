@@ -23,7 +23,8 @@
           <td class="small">{{ evaluation.createdAt|date('d-m-Y') }}</td>
           <td class="actions">
             <ul>
-              <li><a href="" title="Modifier le commentaire"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
+              <li><a href="{{ path('GEval_AModerationValid', {'id': evaluation.id}) }}" title="Valider l'évaluation"><img src="{{ asset('bundles/gessehcore/images/Valid.png') }}" alt="Valider" /></a></li>
+              <li><a href="" title="Modifier l'évaluation"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
               <li><a href="{{ path('GEval_ATextDelete', {'id': evaluation.id}) }}" title="Supprimer le commentaire" class="confirm"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
             </ul>
           </td>

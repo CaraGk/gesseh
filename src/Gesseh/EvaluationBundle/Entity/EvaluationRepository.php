@@ -32,7 +32,8 @@ class EvaluationRepository extends EntityRepository
     $query = $this->getEvaluationQuery();
     $query->where('d.id = :id')
             ->setParameter('id', $id)
-          ->andWhere('c.type = 2')
+            ->andWhere('c.type = 2')
+            ->andWhere('not(c.moderate = true and e.moderated = false)')
           ->addOrderBy('c.rank', 'asc')
           ->addOrderBy('e.created_at', 'asc');
 
@@ -96,10 +97,11 @@ class EvaluationRepository extends EntityRepository
       return null;
   }
 
-  public function getAllText()
+  public function getAllToModerate()
   {
     $query = $this->getEvaluationQuery();
-    $query->where('c.type = 2')
+    $query->where('c.moderate = true')
+          ->andWhere('e.moderated = false')
           ->addOrderBy('e.created_at', 'asc');
 
     return $query->getQuery();

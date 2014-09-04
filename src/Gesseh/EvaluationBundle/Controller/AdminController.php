@@ -212,12 +212,33 @@ class AdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
-    $evaluation_query = $em->getRepository('GessehEvaluationBundle:Evaluation')->getAllText();
+    $evaluation_query = $em->getRepository('GessehEvaluationBundle:Evaluation')->getAllToModerate();
     $evaluations = $paginator->paginate($evaluation_query, $this->get('request')->query->get('page', 1), 20);
 
     return array(
       'evaluations' => $evaluations,
     );
+  }
+
+  /**
+   * Valide une évaluation textuelle
+   *
+   * @Route("/moderation/{id}/valid", name="GEval_AModerationValid", requirements={"id" = "\d+"})
+   */
+  public function validModeration($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $evaluation = $em->getRepository('GessehEvaluationBundle:Evaluation')->find($id);
+
+    if(!$evaluation)
+      throw $this->createNotFoundException('Impossible de trouver l\'évaluation');
+
+    $evaluation->setModerated(true);
+    $em->persist($evaluation);
+    $em->flush();
+
+    $this->get('session')->getFlashBag()->add('notice', 'Évaluation validée.');
+    return $this->redirect($this->generateUrl('GEval_ATextIndex'));
   }
 
   /**
