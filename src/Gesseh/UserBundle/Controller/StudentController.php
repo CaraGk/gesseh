@@ -41,8 +41,9 @@ class StudentController extends Controller
       $form = $this->createForm(new StudentUserType(), $student);
       $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
-      if( $formHandler->process() ) {
+      if ( $formHandler->process() ) {
         $this->get('session')->getFlashBag()->add('notice', 'Votre compte a bien été modifié.');
+
         return $this->redirect($this->generateUrl('GUser_SEdit'));
       }
 

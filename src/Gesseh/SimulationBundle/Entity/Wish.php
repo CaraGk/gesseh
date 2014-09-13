@@ -53,7 +53,6 @@ class Wish
      */
     private $simstudent;
 
-
     public function __toString()
     {
       return $this->department;

@@ -98,7 +98,7 @@ class MailerStep implements StepInterface
   /**
    * @return array
    */
-  static public function getTransportKeys()
+  public static function getTransportKeys()
   {
     return array_keys(static::getTransports());
   }
@@ -106,7 +106,7 @@ class MailerStep implements StepInterface
   /**
    * @return array
    */
-  static public function getTransports()
+  public static function getTransports()
   {
     return array(
       'smtp' => 'SMTP',

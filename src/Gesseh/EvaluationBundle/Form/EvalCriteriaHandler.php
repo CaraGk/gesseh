@@ -14,7 +14,6 @@ namespace Gesseh\EvaluationBundle\Form;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
-use Gesseh\EvaluationBundle\Entity\EvalCriteria;
 
 /**
  * EvalCriteriaForm Handler

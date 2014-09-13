@@ -37,7 +37,7 @@ class DefaultController extends Controller
       $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($this->get('security.context')->getToken()->getUsername());
       $current_period = $em->getRepository('GessehCoreBundle:Period')->getCurrent();
       $count_placements = $em->getRepository('GessehCoreBundle:Placement')->getCountByStudentWithoutCurrentPeriod($student, $current_period);
-//      if($em->getRepository('GessehEvaluationBundle:Evaluation')->studentHasNonEvaluated($student, $current_period, $count_placements)) {
+//      if ($em->getRepository('GessehEvaluationBundle:Evaluation')->studentHasNonEvaluated($student, $current_period, $count_placements)) {
 //          $this->get('session')->getFlashBag()->add('error', 'Il y a des évaluations non réalisées. Veuillez évaluer tous vos stages avant de pouvoir accéder aux autres évaluations.');
 //          return $this->redirect($this->generateUrl('GCore_PIndex'));
 //      }
@@ -84,6 +84,7 @@ class DefaultController extends Controller
         $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_form->getCriterias());
         if ($form_handler->process()) {
           $this->get('session')->getFlashBag()->add('notice', 'Évaluation du stage "' . $placement->getDepartment()->getName() . ' à ' . $placement->getDepartment()->getHospital()->getName() . '" enregistrée.');
+
           return $this->redirect($this->generateUrl('GCore_PIndex'));
         }
 

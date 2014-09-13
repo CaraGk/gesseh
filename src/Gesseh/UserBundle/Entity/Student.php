@@ -97,7 +97,6 @@ class Student
    */
   private $anonymous;
 
-
   public function __toString()
   {
     if ($this->isAnonymous())
@@ -317,7 +316,7 @@ class Student
     /**
      * Set address
      *
-     * @param string $address
+     * @param  string  $address
      * @return Student
      */
     public function setAddress($address)
@@ -330,7 +329,7 @@ class Student
     /**
      * Get address
      *
-     * @return string 
+     * @return string
      */
     public function getAddress()
     {

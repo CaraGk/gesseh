@@ -55,7 +55,6 @@ class Placement
    */
   private $department;
 
-
   public function __toString()
   {
     return $this->department->getName() . " à " . $this->departement->getHospital()->getName();

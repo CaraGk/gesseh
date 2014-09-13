@@ -14,7 +14,7 @@ class Version20130811125356 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
-        
+
         $this->addSql("ALTER TABLE department ADD cluster VARCHAR(100) DEFAULT NULL, CHANGE name nameOB VARCHAR(255) NOT NULL");
     }
 
@@ -22,7 +22,7 @@ class Version20130811125356 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
-        
+
         $this->addSql("ALTER TABLE department DROP cluster, CHANGE nameob name VARCHAR(255) NOT NULL");
     }
 }

@@ -14,7 +14,7 @@ class Version20130119162046 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
-        
+
         $this->addSql("CREATE TABLE hospital (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, address VARCHAR(255) DEFAULT NULL, web VARCHAR(255) DEFAULT NULL, phone VARCHAR(20) DEFAULT NULL, description LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) ENGINE = InnoDB");
         $this->addSql("CREATE TABLE department (id INT AUTO_INCREMENT NOT NULL, hospital_id INT DEFAULT NULL, sector_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, head VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, number SMALLINT DEFAULT NULL, INDEX IDX_CD1DE18A63DBB69 (hospital_id), INDEX IDX_CD1DE18ADE95C867 (sector_id), PRIMARY KEY(id)) ENGINE = InnoDB");
         $this->addSql("CREATE TABLE period (id INT AUTO_INCREMENT NOT NULL, begin DATE NOT NULL, end DATE NOT NULL, PRIMARY KEY(id)) ENGINE = InnoDB");
@@ -57,7 +57,7 @@ class Version20130119162046 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
-        
+
         $this->addSql("ALTER TABLE department DROP FOREIGN KEY FK_CD1DE18A63DBB69");
         $this->addSql("ALTER TABLE placement DROP FOREIGN KEY FK_48DB750EAE80F5DF");
         $this->addSql("ALTER TABLE wish DROP FOREIGN KEY FK_D7D174C9CD1DE18A");

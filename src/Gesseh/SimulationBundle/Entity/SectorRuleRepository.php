@@ -54,7 +54,7 @@ class SectorRuleRepository extends EntityRepository
         $departments = $em->getRepository('GessehCoreBundle:Department')->getBySector($sector_id);  /* departments from sector */
         $placements = $em->getRepository('GessehCoreBundle:Department')->getByStudent($simstudent->getStudent()->getId()); /* student's placements */
 
-        if(array_intersect($placements, $departments)) { /* if student did allready go to a department from sector, she don't have to do it again */
+        if (array_intersect($placements, $departments)) { /* if student did allready go to a department from sector, she don't have to do it again */
           continue;
         }
 
@@ -65,7 +65,7 @@ class SectorRuleRepository extends EntityRepository
 
         foreach ($departments as $department) {
           $simul_extra = $em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentExtraForStudent($simstudent, $department);
-          if(isset($simul_extra)) {
+          if (isset($simul_extra)) {
             $total_extra += $simul_extra->getExtra();
           } else {
             $total_extra += $department->getNumber();
@@ -83,7 +83,7 @@ class SectorRuleRepository extends EntityRepository
 
     foreach ($wishes as $wish) {
         array_push($rules['department']['NOT'], $wish->getDepartment()->getId()); /* don't choose again a department you've already chosen */
-        if($wish->getDepartment()->getCluster() != null) { /* don't choose a department linked to a department you've already chosen */
+        if ($wish->getDepartment()->getCluster() != null) { /* don't choose a department linked to a department you've already chosen */
             $clusters = $em->getRepository('GessehCoreBundle:Department')->getAllCluster($wish->getDepartment()->getId());
             foreach ($clusters as $cluster) {
                 array_push($rules['department']['NOT'], $cluster->getId());

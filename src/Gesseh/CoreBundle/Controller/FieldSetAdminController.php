@@ -12,7 +12,6 @@
 namespace Gesseh\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Gesseh\CoreBundle\Entity\Hospital;
@@ -88,6 +87,7 @@ class FieldSetAdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" enregistré.');
+
       return $this->redirect($this->generateUrl('GCore_FSAHospital'));
     }
 
@@ -121,6 +121,7 @@ class FieldSetAdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" modifié.');
+
       return $this->redirect($this->generateUrl('GCore_FSAHospital'));
     }
 
@@ -148,6 +149,7 @@ class FieldSetAdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" supprimé.');
+
     return $this->redirect($this->generateUrl('GCore_FSAHospital'));
   }
 
@@ -168,6 +170,7 @@ class FieldSetAdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Service "' . $department->getName() . '" supprimé.');
+
     return $this->redirect($this->generateUrl('GCore_FSAHospital'));
   }
 
@@ -189,6 +192,7 @@ class FieldSetAdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Catégorie "' . $sector->getName() . '" enregistrée.');
+
       return $this->redirect($this->generateUrl('GCore_FSAHospital'));
     }
 
@@ -220,6 +224,7 @@ class FieldSetAdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Catégorie "' . $sector->getName() . '" modifiée.');
+
       return $this->redirect($this->generateUrl('GCore_FSAHospital'));
     }
 
@@ -247,6 +252,7 @@ class FieldSetAdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Catégorie "' . $sector->getName() . '" supprimée.');
+
     return $this->redirect($this->generateUrl('GCore_FSAHospital'));
   }
 
@@ -269,6 +275,7 @@ class FieldSetAdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Description du service "' . $department->getName() . '" enregistrée.');
+
       return $this->redirect($this->generateUrl('GCore_FSAEditDepartmentDescription', array('id' => $id)));
     }
 
@@ -296,6 +303,7 @@ class FieldSetAdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Description de l\'hôpital "' . $hospital->getName() . '" enregistrée.');
+
       return $this->redirect($this->generateUrl('GCore_FSAEditHospitalDescription', array('id' => $id)));
     }
 

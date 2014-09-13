@@ -12,7 +12,6 @@
 namespace Gesseh\EvaluationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Gesseh\EvaluationBundle\Entity\EvalForm
@@ -48,7 +47,6 @@ class EvalForm
      * @ORM\OneToMany(targetEntity="EvalSector", mappedBy="form", cascade={"remove"})
      */
     private $sectors;
-
 
     public function __construct()
     {
@@ -168,7 +166,7 @@ class EvalForm
     /**
      * Add sectors
      *
-     * @param \Gesseh\EvaluationBundle\Entity\EvalSector $sectors
+     * @param  \Gesseh\EvaluationBundle\Entity\EvalSector $sectors
      * @return EvalForm
      */
     public function addSector(\Gesseh\EvaluationBundle\Entity\EvalSector $sectors)

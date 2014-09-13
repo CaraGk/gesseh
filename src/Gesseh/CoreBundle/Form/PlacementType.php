@@ -24,7 +24,7 @@ class PlacementType extends AbstractType
     $builder->add('period')
             ->add('student', 'entity', array(
               'class'         => 'GessehUserBundle:Student',
-              'query_builder' => function(\Gesseh\UserBundle\Entity\StudentRepository $er) {
+              'query_builder' => function (\Gesseh\UserBundle\Entity\StudentRepository $er) {
                 return $er->createQueryBuilder('s')
                   ->addOrderBy('s.surname', 'ASC')
                   ->addOrderBy('s.name', 'ASC');

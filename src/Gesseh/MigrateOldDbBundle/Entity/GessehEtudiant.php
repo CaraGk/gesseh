@@ -84,7 +84,6 @@ class GessehEtudiant
      */
     private $updated_at;
 
-
     /**
      * Get id
      *

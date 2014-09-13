@@ -26,14 +26,14 @@ class ParametersType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        foreach($this->parameters as $parameter) {
-            if($parameter->getType() == "string") {
+        foreach ($this->parameters as $parameter) {
+            if ($parameter->getType() == "string") {
                 $builder->add($parameter->getName(), 'text', array(
                     'required' => false,
                     'label'    => $parameter->getLabel(),
                     'data'     => $parameter->getValue(),
                 ));
-            } elseif($parameter->getType() == "boolean") {
+            } elseif ($parameter->getType() == "boolean") {
                 $builder->add($parameter->getName(), 'checkbox', array(
                     'required' => false,
                     'value'    => false,

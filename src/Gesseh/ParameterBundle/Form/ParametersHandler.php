@@ -35,7 +35,7 @@ class ParametersHandler
 
   public function process()
   {
-    if( $this->request->getMethod() == 'POST' ) {
+    if ( $this->request->getMethod() == 'POST' ) {
       $this->form->bind($this->request);
 
       if ($this->form->isValid()) {
@@ -50,7 +50,7 @@ class ParametersHandler
 
   public function onSuccess($data)
   {
-      foreach($this->parameters as $parameter) {
+      foreach ($this->parameters as $parameter) {
         if($data[$parameter->getName()] == null)
           $data[$parameter->getName()] = 0;
         $parameter->setValue($data[$parameter->getName()]);

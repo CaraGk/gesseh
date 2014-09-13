@@ -50,7 +50,7 @@ class GradeRepository extends EntityRepository
 
     try {
       $grade = $query->getQuery()->getSingleResult();
-    } catch( \Doctrine\Orm\NoResultException $e ) {
+    } catch ( \Doctrine\Orm\NoResultException $e ) {
       $grade = null;
     }
 
@@ -69,7 +69,7 @@ class GradeRepository extends EntityRepository
       $grade = $query->getQuery()->getSingleResult();
 
       return $grade->getRank();
-    } catch( \Doctrine\Orm\NoResultException $e ) {
+    } catch ( \Doctrine\Orm\NoResultException $e ) {
       return null;
     }
   }

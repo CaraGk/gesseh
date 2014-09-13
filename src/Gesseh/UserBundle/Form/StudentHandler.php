@@ -37,7 +37,7 @@ class StudentHandler
 
   public function process()
   {
-    if( $this->request->getMethod() == 'POST' ) {
+    if ( $this->request->getMethod() == 'POST' ) {
       $this->form->bind($this->request);
 
       if ($this->form->isValid()) {
@@ -60,9 +60,9 @@ class StudentHandler
 
   private function updateUser($user)
   {
-    if( null == $user->getUsername() ) {
+    if ( null == $user->getUsername() ) {
       $this->um->createUser();
-      if(!$user->getPlainPassword()) {
+      if (!$user->getPlainPassword()) {
         $user->setPlainPassword($this->generatePwd(8));
       } else {
         $user->addRole('ROLE_ADMIN');

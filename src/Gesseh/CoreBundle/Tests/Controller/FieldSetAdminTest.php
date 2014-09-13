@@ -13,7 +13,7 @@ namespace Gesseh\CoreBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class FieldSetAdminControllerTest extends WebTestCase
+class FieldSetAdminTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()

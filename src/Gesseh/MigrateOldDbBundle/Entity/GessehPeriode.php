@@ -58,7 +58,6 @@ class GessehPeriode
      */
     private $fin_simul;
 
-
     /**
      * Get id
      *

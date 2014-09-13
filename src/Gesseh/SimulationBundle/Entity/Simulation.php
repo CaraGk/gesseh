@@ -66,7 +66,6 @@ class Simulation
      */
     private $wishes;
 
-
     public function __construct()
     {
       $this->wishes = new \Doctrine\Common\Collections\ArrayCollection();

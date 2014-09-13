@@ -63,7 +63,6 @@ class GessehChoix
      */
     private $updated_at;
 
-
     /**
      * Get id
      *

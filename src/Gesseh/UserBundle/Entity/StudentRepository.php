@@ -43,7 +43,7 @@ class StudentRepository extends EntityRepository
     $query->addOrderBy('p.isActive', 'desc')
           ->addOrderBy('s.surname', 'asc');
 
-    if($search != null) {
+    if ($search != null) {
         $query->where('s.surname like :search')
               ->setParameter('search', '%'.$search.'%');
     }
@@ -61,7 +61,7 @@ class StudentRepository extends EntityRepository
                 ->where('p.isActive = true');
         }
 
-      if($search != null) {
+      if ($search != null) {
           $query->andWhere('s.surname like :search')
                 ->setParameter('search', '%'.$search.'%');
       }

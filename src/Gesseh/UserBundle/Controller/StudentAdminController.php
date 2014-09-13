@@ -66,8 +66,9 @@ class StudentAdminController extends Controller
     $form = $this->createForm(new StudentType($mod_simul->getValue()), $student);
     $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
-    if( $formHandler->process() ) {
+    if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Étudiant "' . $student . '" enregistré.');
+
       return $this->redirect($this->generateUrl('GUser_SAIndex'));
     }
 
@@ -103,8 +104,9 @@ class StudentAdminController extends Controller
     $form = $this->createForm(new StudentType($mod_simul->getValue()), $student);
     $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
-    if( $formHandler->process() ) {
+    if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Étudiant "' . $student . '" modifié.');
+
       return $this->redirect($this->generateUrl('GUser_SAIndex'));
     }
 
@@ -132,6 +134,7 @@ class StudentAdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Etudiant "' . $student . '" supprimé.');
+
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
 
@@ -153,6 +156,7 @@ class StudentAdminController extends Controller
     $um->updateUser($user);
 
     $this->get('session')->getFlashBag()->add('notice', 'Droits d\'administration donnés à l\'étudiant "' . $student . '"');
+
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
 
@@ -174,6 +178,7 @@ class StudentAdminController extends Controller
     $um->updateUser($user);
 
     $this->get('session')->getFlashBag()->add('notice', 'Droits d\'administration retirés à l\'étudiant "' . $student . '"');
+
     return $this->redirect($this->generateUrl('GUser_SAIndex'));
   }
 

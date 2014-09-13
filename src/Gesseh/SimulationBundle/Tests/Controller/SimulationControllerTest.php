@@ -13,7 +13,7 @@ namespace Gesseh\SimulationBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+class SimulationControllerTest extends WebTestCase
 {
     public function testIndex()
     {

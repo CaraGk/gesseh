@@ -59,7 +59,7 @@ class EvaluationType extends AbstractType
     $label = explode(",", $opt[1]);
     $choices = array();
 
-    for($i = 0 ; $i < (int) $opt[0] ; $i ++) {
+    for ($i = 0 ; $i < (int) $opt[0] ; $i ++) {
       $j = $i + 1;
       $choices[$j] = (string) $j;
       if ($label[$i] != null)

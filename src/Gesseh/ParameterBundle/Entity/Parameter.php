@@ -57,7 +57,6 @@ class Parameter extends BaseParameter
      */
     private $type;
 
-
     public function __construct()
     {
       parent::__construct();

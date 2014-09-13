@@ -65,7 +65,7 @@ class SimulationRepository extends EntityRepository
   {
     $count = 1;
 
-    foreach($students as $student) {
+    foreach ($students as $student) {
       $simulation = new Simulation();
       $simulation->setId($count);
       $simulation->setStudent($student);
@@ -76,6 +76,7 @@ class SimulationRepository extends EntityRepository
     }
 
     $em->flush();
+
     return --$count;
   }
 
@@ -88,16 +89,16 @@ class SimulationRepository extends EntityRepository
 
     $sims = $query->getQuery()->getResult();
 
-    foreach($sims as $sim) {
+    foreach ($sims as $sim) {
       $student = $sim->getStudent();
       $sim->setDepartment(null);
       $sim->setExtra(null);
       if(false == $sim->getActive())
         continue;
-      foreach($sim->getWishes() as $wish) {
-        if(null === $sim->getDepartment() and $department_table[$wish->getDepartment()->getId()] > 0) {
-          if(null != $wish->getDepartment()->getCluster()) {
-              foreach($department_table['cl_' . $wish->getDepartment()->getCluster()] as $department_id) {
+      foreach ($sim->getWishes() as $wish) {
+        if (null === $sim->getDepartment() and $department_table[$wish->getDepartment()->getId()] > 0) {
+          if (null != $wish->getDepartment()->getCluster()) {
+              foreach ($department_table['cl_' . $wish->getDepartment()->getCluster()] as $department_id) {
                 $department_table[$department_id]--;
               }
           } else {
@@ -118,7 +119,7 @@ class SimulationRepository extends EntityRepository
                   ->select('COUNT(t.id)')
                   ->where('t.department is null');
 
-    if($simstudent !== null) {
+    if ($simstudent !== null) {
       $query->andWhere('t.id < :id')
               ->setParameter('id', $simstudent->getId());
     }
@@ -132,7 +133,7 @@ class SimulationRepository extends EntityRepository
                   ->select('COUNT(t.id)')
                   ->where('t.active = false');
 
-    if($simstudent !== null) {
+    if ($simstudent !== null) {
       $query->andWhere('t.id < :id')
               ->setParameter('id', $simstudent->getId());
     }

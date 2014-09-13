@@ -114,7 +114,6 @@ class sfGuardUser
      */
     private $updated_at;
 
-
     /**
      * Get id
      *

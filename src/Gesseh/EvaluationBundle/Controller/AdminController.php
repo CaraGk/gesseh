@@ -12,7 +12,6 @@
 namespace Gesseh\EvaluationBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,6 +65,7 @@ class AdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" enregistré.');
+
       return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 
@@ -93,6 +93,7 @@ class AdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" modifié.');
+
       return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 
@@ -114,9 +115,9 @@ class AdminController extends Controller
     if (!$eval_form)
       throw $this->createNotFoundException('Unable to find eval_form entity.');
 
-    foreach($eval_form->getCriterias() as $criteria) {
-      if($evaluations = $em->getRepository('GessehEvaluationBundle:Evaluation')->findByEvalCriteria($criteria->getId())) {
-        foreach($evaluations as $evaluation) {
+    foreach ($eval_form->getCriterias() as $criteria) {
+      if ($evaluations = $em->getRepository('GessehEvaluationBundle:Evaluation')->findByEvalCriteria($criteria->getId())) {
+        foreach ($evaluations as $evaluation) {
           $em->remove($evaluation);
         }
       }
@@ -126,6 +127,7 @@ class AdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Formulaire d\'évaluation "' . $eval_form->getName() . '" supprimé.');
+
     return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
 
@@ -146,6 +148,7 @@ class AdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Critère d\'évaluation "' . $criteria->getName() . '" supprimé.');
+
     return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
 
@@ -169,6 +172,7 @@ class AdminController extends Controller
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" enregistrée.');
+
       return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 
@@ -199,6 +203,7 @@ class AdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Relation "' . $eval_sector->getSector() . " : " . $eval_sector->getForm() . '" supprimée.');
+
     return $this->redirect($this->generateUrl('GEval_AIndex'));
   }
 
@@ -238,6 +243,7 @@ class AdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Évaluation validée.');
+
     return $this->redirect($this->generateUrl('GEval_ATextIndex'));
   }
 
@@ -258,6 +264,7 @@ class AdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Évaluation textuelle supprimée.');
+
     return $this->redirect($this->generateUrl('GEval_ATextIndex'));
   }
 
@@ -288,7 +295,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $departments = $em->getRepository('GessehCoreBundle:Department')->getAll();
 
-        foreach($departments as $department) {
+        foreach ($departments as $department) {
             $eval[$department->getId()]['text'] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getTextByDepartment($department->getId());
             $eval[$department->getId()]['num'] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getNumByDepartment($department->getId());
             $eval[$department->getId()]['form'] = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId());

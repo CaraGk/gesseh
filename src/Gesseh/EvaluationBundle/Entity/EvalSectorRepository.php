@@ -28,6 +28,7 @@ class EvalSectorRepository extends EntityRepository
   public function getEvalSectorQuery()
   {
     $query = $this->getSimpleEvalSectorQuery();
+
     return $query->join('f.criterias', 'c')
                  ->join('s.sector', 't')
                  ->addSelect('f')
@@ -55,7 +56,7 @@ class EvalSectorRepository extends EntityRepository
   public function getAllByForm($forms)
   {
     $result = array();
-    foreach($forms as $form) {
+    foreach ($forms as $form) {
         $query = $this->getSimpleEvalSectorQuery();
         $query->where('f.id = :id')
               ->setParameter('id', $form->getId());
@@ -68,7 +69,7 @@ class EvalSectorRepository extends EntityRepository
   public function getAssignedSectors()
   {
     $eval_sectors = $this->getSimpleEvalSectorQuery()->getQuery()->getResult();
-    foreach($eval_sectors as $eval_sector) {
+    foreach ($eval_sectors as $eval_sector) {
         $assigned_sectors[] = $eval_sector->getSector()->getId();
     }
 

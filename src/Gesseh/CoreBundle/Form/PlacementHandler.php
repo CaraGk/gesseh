@@ -34,7 +34,7 @@ class PlacementHandler
 
   public function process()
   {
-    if( $this->request->getMethod() == 'POST' ) {
+    if ( $this->request->getMethod() == 'POST' ) {
       $this->form->bind($this->request);
 
       if ($this->form->isValid()) {
@@ -49,10 +49,10 @@ class PlacementHandler
 
   public function onSuccess(Placement $placement)
   {
-      if($placement->getDepartment()->getCluster()) {
+      if ($placement->getDepartment()->getCluster()) {
         $clusters = $this->em->getRepository('GessehCoreBundle:Department')->getAllCluster($placement->getDepartment());
 
-        foreach($clusters as $cluster) {
+        foreach ($clusters as $cluster) {
             $placement_cluster = new Placement();
             $placement_cluster->setStudent($placement->getStudent());
             $placement_cluster->setDepartment($cluster);

@@ -44,7 +44,6 @@ class Sector
    */
   private $departments;
 
-
     public function __construct()
     {
         $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
@@ -54,7 +53,6 @@ class Sector
     {
       return $this->name;
     }
-
 
     /**
      * Get id

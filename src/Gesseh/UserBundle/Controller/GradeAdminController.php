@@ -55,8 +55,9 @@ class GradeAdminController extends Controller
     $form = $this->createForm(new GradeType(), $grade);
     $formHandler = new GradeHandler($form, $this->get('request'), $em);
 
-    if( $formHandler->process() ) {
+    if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Promotion "' . $grade . '" enregistrée.');
+
       return $this->redirect($this->generateUrl('GUser_GAIndex'));
     }
 
@@ -84,8 +85,9 @@ class GradeAdminController extends Controller
     $form = $this->createForm(new GradeType(), $grade);
     $formHandler = new GradeHandler($form, $this->get('request'), $em);
 
-    if( $formHandler->process() ) {
+    if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Promotion "' . $grade . '" modifiée.');
+
       return $this->redirect($this->generateUrl('GUser_GAIndex'));
     }
 
@@ -111,6 +113,7 @@ class GradeAdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Promotion "' . $grade . '" supprimée.');
+
     return $this->redirect($this->generateUrl('GUser_GAIndex'));
   }
 
@@ -122,14 +125,15 @@ class GradeAdminController extends Controller
     $em = $this->getDoctrine()->getManager();
     $grades = $em->getRepository('GessehUserBundle:Grade')->getAllActiveInverted();
 
-    foreach( $grades as $grade ) {
+    foreach ($grades as $grade) {
       $next_grade = $em->getRepository('GessehUserBundle:Grade')->getNext($grade->getRank());
-      if( null !== $next_grade ) {
+      if (null !== $next_grade) {
         $em->getRepository('GessehUserBundle:Student')->setGradeUp($grade->getId(), $next_grade->getId());
       }
     }
 
     $this->get('session')->getFlashBag()->add('notice', 'Étudiants passés dans la promotion supérieure.');
+
     return $this->redirect($this->generateUrl('GUser_GAIndex'));
   }
 }

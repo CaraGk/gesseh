@@ -75,7 +75,6 @@ class Hospital
      */
     private $departments;
 
-
     public function __construct()
     {
         $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
@@ -85,7 +84,6 @@ class Hospital
     {
       return $this->name;
     }
-
 
     /**
      * Get id

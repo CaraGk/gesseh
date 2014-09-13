@@ -64,7 +64,6 @@ class GessehCritere
      */
     private $ordre;
 
-
     /**
      * Get id
      *

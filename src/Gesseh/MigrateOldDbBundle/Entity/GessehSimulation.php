@@ -56,7 +56,6 @@ class GessehSimulation
      */
     private $absent;
 
-
     /**
      * Get id
      *

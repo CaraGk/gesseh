@@ -33,7 +33,7 @@ class WishType extends AbstractType
       $builder
         ->add('department', 'entity', array(
           'class' => 'GessehCoreBundle:Department',
-          'query_builder' => function(\Gesseh\CoreBundle\Entity\DepartmentRepository $er) use ($rules) { return $er->getAdaptedUserList($rules); },
+          'query_builder' => function (\Gesseh\CoreBundle\Entity\DepartmentRepository $er) use ($rules) { return $er->getAdaptedUserList($rules); },
         )
       );
     }

@@ -65,7 +65,6 @@ class Evaluation
      */
     private $moderated;
 
-
     public function __toString()
     {
       return $this->value;
@@ -164,7 +163,7 @@ class Evaluation
     /**
      * Set moderated
      *
-     * @param boolean $moderated
+     * @param  boolean    $moderated
      * @return Evaluation
      */
     public function setModerated($moderated)
@@ -177,7 +176,7 @@ class Evaluation
     /**
      * Get moderated
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getModerated()
     {

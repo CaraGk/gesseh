@@ -13,7 +13,7 @@ namespace Gesseh\ParameterBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+class AdminControllerTest extends WebTestCase
 {
     public function testIndex()
     {

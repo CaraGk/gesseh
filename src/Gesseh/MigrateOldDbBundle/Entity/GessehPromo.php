@@ -57,7 +57,6 @@ class GessehPromo
      */
     private $form;
 
-
     /**
      * Get id
      *

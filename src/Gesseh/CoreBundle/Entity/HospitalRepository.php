@@ -34,7 +34,7 @@ class HospitalRepository extends EntityRepository
   {
     $query = $this->getHospitalQuery();
     $query->addOrderBy('h.name', 'asc');
-    foreach( $orderBy as $col => $order ) {
+    foreach ($orderBy as $col => $order) {
       $query->addOrderBy($col . '.name', $order);
     }
 

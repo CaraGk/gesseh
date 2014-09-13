@@ -65,7 +65,6 @@ class GessehHopital
      */
     private $page;
 
-
     /**
      * Get id
      *

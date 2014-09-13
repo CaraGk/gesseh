@@ -45,8 +45,7 @@ class EvalSector
      */
     private $form;
 
-
-    public function  __toString()
+    public function __toString()
     {
       return $sector . " : " . $form;
     }

@@ -35,7 +35,7 @@ class EvalSectorHandler
 
   public function process()
   {
-    if( $this->request->getMethod() == 'POST' ) {
+    if ( $this->request->getMethod() == 'POST' ) {
       $this->form->bind($this->request);
 
       if ($this->form->isValid()) {

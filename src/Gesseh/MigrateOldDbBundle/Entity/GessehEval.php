@@ -56,7 +56,6 @@ class GessehEval
      */
     private $created_at;
 
-
     /**
      * Get id
      *

@@ -35,8 +35,8 @@ class StudentType extends AbstractType
             ->add('grade');
 
     // Si la simulation est activée
-    //if($this->getContainer()->get('kbd_parameters.manager')->findParamByName('simulation_active')->getValue()) {
-    if($this->testSimulActive == true) {
+    //if ($this->getContainer()->get('kbd_parameters.manager')->findParamByName('simulation_active')->getValue()) {
+    if ($this->testSimulActive == true) {
       $builder->add('ranking')
               ->add('graduate');
     }

@@ -82,7 +82,7 @@ class WishRepository extends EntityRepository
           ->setParameter('rank', $rank);
     $wish = $query->getQuery()->getSingleResult();
 
-    if($wish->getDepartment()->getCluster() != null) {
+    if ($wish->getDepartment()->getCluster() != null) {
         $query = $this->getWishQuery();
         $query->where('t.student = :student_id')
               ->setParameter('student_id', $student_id)
@@ -128,7 +128,7 @@ class WishRepository extends EntityRepository
     $dql = 'SELECT s.id, count(w.id) AS wishcount FROM GessehSimulationBundle:Wish w JOIN w.student s GROUP BY w.student';
     $results = $this->getEntityManager()->createQuery($dql)->getResult();
 
-    foreach($results as $result) {
+    foreach ($results as $result) {
       $count_wish[$result['id']] = $result['wishcount'];
     }
 
@@ -160,7 +160,7 @@ class WishRepository extends EntityRepository
             ->setParameter('student_id', $student_id);
       $wish = $query->getQuery()->getSingleResult();
 
-      if(null != $wish->getDepartment()->getCluster()) {
+      if (null != $wish->getDepartment()->getCluster()) {
         $query = $this->getWishQuery();
         $query->where('t.student = :student_id')
               ->setParameter('student_id', $student_id)

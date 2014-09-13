@@ -14,9 +14,6 @@ namespace Gesseh\ParameterBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Gesseh\ParameterBundle\Entity\Parameter;
-use Gesseh\ParameterBundle\Form\ParameterType;
-use Gesseh\ParameterBundle\Form\ParameterHandler;
 use Gesseh\ParameterBundle\Form\ParametersType;
 use Gesseh\ParameterBundle\Form\ParametersHandler;
 
@@ -39,8 +36,9 @@ class AdminController extends Controller
         $form = $this->createForm(new ParametersType($parameters), $parameters);
         $formHandler = new ParametersHandler($form, $this->get('request'), $pm, $parameters);
 
-        if( $formHandler->process() ) {
+        if ( $formHandler->process() ) {
             $this->get('session')->getFlashBag()->add('notice', 'Paramètres mis à jour.');
+
             return $this->redirect($this->generateUrl('GParameter_PAIndex'));
         }
 

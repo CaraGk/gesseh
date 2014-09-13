@@ -34,7 +34,7 @@ class EvalSectorType extends AbstractType
     $builder
         ->add('sector', 'entity', array(
             'class'         => 'GessehCoreBundle:Sector',
-            'query_builder' => function(\Gesseh\CoreBundle\Entity\SectorRepository $er) use ($exclude_sectors) { return $er->listOtherSectors($exclude_sectors); },
+            'query_builder' => function (\Gesseh\CoreBundle\Entity\SectorRepository $er) use ($exclude_sectors) { return $er->listOtherSectors($exclude_sectors); },
             'label'         => 'Lier une catégorie de stage : ',
         ))
         ->add('form', 'hidden', array(

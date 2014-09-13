@@ -77,7 +77,6 @@ class GessehTerrain
      */
     private $is_active;
 
-
     /**
      * Get id
      *

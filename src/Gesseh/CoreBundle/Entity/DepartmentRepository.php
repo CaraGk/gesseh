@@ -63,7 +63,7 @@ class DepartmentRepository extends EntityRepository
   public function getAll(array $orderBy = array('h' => 'asc', 's' => 'asc'))
   {
     $query = $this->getDepartmentQuery();
-    foreach ( $orderBy as $col => $order ) {
+    foreach ($orderBy as $col => $order) {
       $query->addOrderBy($col . '.name', $order);
     }
 
@@ -75,7 +75,7 @@ class DepartmentRepository extends EntityRepository
   {
       $department = $this->getById($id);
 
-      if(null != $department->getCluster()) {
+      if (null != $department->getCluster()) {
         $query = $this->getDepartmentQuery();
         $query->where('d.cluster = :cluster')
               ->setParameter('cluster', $department->getCluster());

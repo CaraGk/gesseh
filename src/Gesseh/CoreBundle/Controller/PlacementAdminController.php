@@ -57,8 +57,9 @@ class PlacementAdminController extends Controller
     $form = $this->createForm(new PeriodType(), $period);
     $formHandler = new PeriodHandler($form, $this->get('request'), $em);
 
-    if( $formHandler->process() ) {
+    if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Session "' . $period . '" enregistrée.');
+
       return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
     }
 
@@ -87,8 +88,9 @@ class PlacementAdminController extends Controller
     $form = $this->createForm(new PeriodType(), $period);
     $formHandler = new PeriodHandler($form, $this->get('request'), $em);
 
-    if( $formHandler->process() ) {
+    if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Session "' . $period . '" modifiée.');
+
       return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
     }
 
@@ -114,6 +116,7 @@ class PlacementAdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Session "' . $period . '" supprimée.');
+
     return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
   }
 
@@ -161,8 +164,9 @@ class PlacementAdminController extends Controller
     $form = $this->createForm(new PlacementType(), $placement);
     $formHandler = new PlacementHandler($form, $this->get('request'), $em);
 
-    if( $formHandler->process() ) {
+    if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" modifié.');
+
       return $this->redirect($this->generateUrl('GCore_PAPlacementIndex'));
     }
 
@@ -195,8 +199,9 @@ class PlacementAdminController extends Controller
     $form = $this->createForm(new PlacementType(), $placement);
     $formHandler = new PlacementHandler($form, $this->get('request'), $em);
 
-    if( $formHandler->process() ) {
+    if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" enregistré.');
+
       return $this->redirect($this->generateUrl('GCore_PAPlacementIndex'));
     }
 
@@ -229,6 +234,7 @@ class PlacementAdminController extends Controller
     $em->flush();
 
     $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" supprimé.');
+
     return $this->redirect($this->generateUrl('GCore_PAPlacementIndex'));
   }
 }

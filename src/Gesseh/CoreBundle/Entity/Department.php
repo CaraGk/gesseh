@@ -86,7 +86,6 @@ class Department
      */
     private $cluster;
 
-
     public function __construct()
     {
       $this->placements = new \Doctrine\Common\Collections\ArrayCollection();
@@ -96,7 +95,6 @@ class Department
     {
       return $this->name . " à " . $this->getHospital();
     }
-
 
     /**
      * Get id
@@ -261,20 +259,20 @@ class Department
     /**
      * Set cluster
      *
-     * @param string $cluster
+     * @param  string     $cluster
      * @return Department
      */
     public function setCluster($cluster)
     {
         $this->cluster = $cluster;
-    
+
         return $this;
     }
 
     /**
      * Get cluster
      *
-     * @return string 
+     * @return string
      */
     public function getCluster()
     {

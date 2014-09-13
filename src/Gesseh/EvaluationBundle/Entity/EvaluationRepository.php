@@ -61,8 +61,7 @@ class EvaluationRepository extends EntityRepository
     $results = $query->getQuery()->getResult();
     $calc = array();
 
-    foreach ($results as $result)
-    {
+    foreach ($results as $result) {
       if (!isset($calc[$result->getEvalCriteria()->getId()]['count'])) {
         $calc[$result->getEvalCriteria()->getId()]['total'] = 0;
         $calc[$result->getEvalCriteria()->getId()]['count'] = 0;
@@ -124,7 +123,7 @@ class EvaluationRepository extends EntityRepository
               ->where('p.student = :student')
               ->setParameter('student', $student);
 
-        if($current_period != null) {
+        if ($current_period != null) {
             $query->andWhere('p.period != :current_period')
                   ->setParameter('current_period', $current_period);
         }
@@ -132,6 +131,7 @@ class EvaluationRepository extends EntityRepository
         $count_evaluations = $query->getQuery()->getSingleScalarResult();
 
         if($count_evaluations < $count_placements)
+
             return true;
         else
             return false;

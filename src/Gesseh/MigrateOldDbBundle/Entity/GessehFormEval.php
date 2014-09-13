@@ -37,7 +37,6 @@ class GessehFormEval
      */
     private $titre;
 
-
     /**
      * Get id
      *

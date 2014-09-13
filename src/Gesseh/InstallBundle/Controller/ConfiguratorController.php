@@ -116,7 +116,7 @@ class ConfiguratorController extends ContainerAware
       $newMigrations = count($availableMigrations) - count($executedMigrations);
       $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
 
-      if($newMigrations > 0) {
+      if ($newMigrations > 0) {
         $migration = new Migration($configuration);
 
         if ($executedUnavailableMigrations) {
@@ -127,7 +127,7 @@ class ConfiguratorController extends ContainerAware
           $warning .= '</ul>';
           $infos[0] = $warning;
         } else {
-          if($infos[1] = $migration->migrate()) {
+          if ($infos[1] = $migration->migrate()) {
             $infos[0] = 'Création des tables réussie.';
             // création et import des données de base : administrateur
           } else {
@@ -175,9 +175,9 @@ class ConfiguratorController extends ContainerAware
         ),
       );
 
-      foreach($parameters as $parameter) {
+      foreach ($parameters as $parameter) {
         $param = new Parameter();
-        foreach($parameter as $key=>$value) {
+        foreach ($parameter as $key=>$value) {
           $func = 'set' . $key;
           $param->$func($value);
         }
@@ -203,8 +203,9 @@ class ConfiguratorController extends ContainerAware
       $form = $this->container->get('form.factory')->create(new AdminType(), $admin);
       $formHandler = new StudentHandler($form, $this->container->get('request'), $em, $this->container->get('fos_user.user_manager'));
 
-      if($formHandler->process()) {
+      if ($formHandler->process()) {
         $this->container->get('session')->getFlashBag()->add('notice', 'Administrateur "' . $admin . '" enregistré.');
+
         return new RedirectResponse($this->container->get('router')->generate('GCore_FSIndex'));
       }
 

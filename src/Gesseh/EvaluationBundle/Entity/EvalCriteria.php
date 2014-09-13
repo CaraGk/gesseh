@@ -82,7 +82,6 @@ class EvalCriteria
      */
     private $moderate;
 
-
     public function __toString()
     {
       return $this->name;
@@ -144,9 +143,9 @@ class EvalCriteria
      */
     public function getTypeName()
     {
-        if($this->type == 1) {
+        if ($this->type == 1) {
             return "Choix pondéré";
-        } elseif($this->type == 2) {
+        } elseif ($this->type == 2) {
             return "Texte long";
         } else {
             return "Type inconnu";
@@ -161,6 +160,7 @@ class EvalCriteria
     public function getReadableType()
     {
       if($this->type == 1)
+
         return 'Bouton radio';
       elseif($this->type == 2)
         return 'Texte long';
@@ -231,7 +231,7 @@ class EvalCriteria
     /**
      * Set required
      *
-     * @param boolean $required
+     * @param  boolean      $required
      * @return EvalCriteria
      */
     public function setRequired($required)
@@ -254,7 +254,7 @@ class EvalCriteria
     /**
      * Set moderate
      *
-     * @param boolean $moderate
+     * @param  boolean      $moderate
      * @return EvalCriteria
      */
     public function setModerate($moderate)

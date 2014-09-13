@@ -75,7 +75,6 @@ class GessehStage
      */
     private $updated_at;
 
-
     /**
      * Get id
      *

@@ -35,7 +35,7 @@ class WishHandler
 
   public function process()
   {
-    if( $this->request->getMethod() == 'POST' ) {
+    if ( $this->request->getMethod() == 'POST' ) {
       $this->form->bind($this->request);
 
       if ($this->form->isValid()) {
@@ -44,6 +44,7 @@ class WishHandler
         return true;
       }
     }
+
     return false;
   }
 
@@ -53,7 +54,7 @@ class WishHandler
 
 //    $cluster = $this->em->getRepository('GessehCoreBundle:Department')->getAllCluster($wish->getDepartment()->getId());
 //    $n = 0;
-//    foreach($cluster as $department) {
+//    foreach ($cluster as $department) {
 //        $n++;
 //        $wish = new Wish();
         $wish->setSimstudent($this->simstudent);
