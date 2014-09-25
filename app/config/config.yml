@@ -97,7 +97,7 @@ knp_paginator:
 knp_snappy:
     pdf:
         enabled: true
-        binary:  "%kernel.root_dir%/../bin/wkhtmltopdf-amd64"
+        binary:  "%kernel.root_dir%/../bin/wkhtmltopdf"
         options: []
     image:
         enabled: false

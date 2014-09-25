@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new Gesseh\ParameterBundle\GessehParameterBundle(),
             //            new Gesseh\MigrateOldDbBundle\GessehMigrateOldDbBundle(), // Bundle de migration des données de la version 0.2alpha
             new Liuggio\ExcelBundle\LiuggioExcelBundle(),
+            new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

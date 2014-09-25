@@ -27,7 +27,8 @@
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "caragk/kdb-parameters-bundle": "dev-master",
-        "liuggio/excelbundle": "~2.0"
+        "liuggio/excelbundle": "~2.0",
+        "whiteoctober/tcpdf-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
