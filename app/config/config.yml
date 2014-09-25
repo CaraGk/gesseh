@@ -94,14 +94,6 @@ knp_paginator:
     filtration: KnpPaginatorBundle:Pagination:filtration.html.twig
     sortable:   KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
-knp_snappy:
-    pdf:
-        enabled: true
-        binary:  "%kernel.root_dir%/../bin/wkhtmltopdf"
-        options: []
-    image:
-        enabled: false
-
 stfalcon_tinymce:
   include_jquery: true
   tinymce_jquery: true

@@ -293,7 +293,9 @@ class AdminController extends Controller
     public function pdfExportAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $pm = $this->container->get('kdb_parameters.manager');
         $departments = $em->getRepository('GessehCoreBundle:Department')->getAll();
+        $pdf = $this->get("white_october.tcpdf")->create();
 
         foreach ($departments as $department) {
             $eval[$department->getId()]['text'] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getTextByDepartment($department->getId());
@@ -306,13 +308,17 @@ class AdminController extends Controller
             'departments' => $departments,
         ));
 
+        $pdf->SetTitle($pm->findParamByName('title')->getValue() . ' : évaluations');
+        $pdf->AddPage();
+        $pdf->writeHTML($content);
+        $pdf->lastPage();
+
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($content, array(
-            )),
+            $pdf->Output('Evaluations.pdf'),
             200,
             array(
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="Evaluations.pdf"'
+                'Content-Disposition' => 'attachment; filename="Evaluations.pdf"',
             )
         );
     }
