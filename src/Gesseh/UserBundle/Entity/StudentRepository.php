@@ -22,9 +22,9 @@ class StudentRepository extends EntityRepository
   {
     return $this->createQueryBuilder('s')
                 ->join('s.user', 'u')
-                ->join('s.grade', 'p')
+                ->join('s.grade', 'g')
                 ->addSelect('u')
-                ->addSelect('p');
+                ->addSelect('g');
   }
 
   public function getById($id)
@@ -40,7 +40,7 @@ class StudentRepository extends EntityRepository
   public function getAll($search = null)
   {
     $query = $this->getStudentQuery();
-    $query->addOrderBy('p.isActive', 'desc')
+    $query->addOrderBy('g.isActive', 'desc')
           ->addOrderBy('s.surname', 'asc');
 
     if ($search != null) {
@@ -57,8 +57,8 @@ class StudentRepository extends EntityRepository
             ->select('COUNT(s)');
 
         if ($active) {
-            $query->join('s.grade', 'p')
-                ->where('p.isActive = true');
+            $query->join('s.grade', 'g')
+                ->where('g.isActive = true');
         }
 
       if ($search != null) {
@@ -96,11 +96,22 @@ class StudentRepository extends EntityRepository
   {
     $query = $this->getStudentQuery();
     $query->where('u.enabled = true')
-          ->andWhere('p.isActive = true')
-          ->addOrderBy('p.rank', 'desc')
+          ->andWhere('g.isActive = true')
+          ->addOrderBy('g.rank', 'desc')
           ->addOrderBy('s.graduate', 'asc')
           ->addOrderBy('s.ranking', 'asc');
 
     return $query->getQuery()->getResult();
+  }
+
+  public function getWithPlacementNotIn($notInList)
+  {
+      $query = $this->getStudentQuery();
+      $query->join('s.placements', 'p')
+          ->addSelect('p')
+          ->where('g.isActive = true')
+          ->andWhere('p.id NOT IN (' . implode(',', $notInList) . ')');
+
+      return $query->getQuery()->getResult();
   }
 }

@@ -74,7 +74,7 @@ class AdminController extends Controller
     );
   }
 
-  /**
+   /**
    * Displays a form to edit an existing eval_form entity.
    *
    * @Route("/{id}/edit", name="GEval_AEdit", requirements={"id" = "\d+"})
@@ -321,5 +321,35 @@ class AdminController extends Controller
                 'Content-Disposition' => 'attachment; filename="Evaluations.pdf"',
             )
         );
+    }
+
+    /**
+     * Envoie un mail de rappel aux étudiants n'ayant pas évalué tous leurs
+     * stages
+     *
+     * @Route("/mail", name="GEval_ASendMails")
+     */
+    public function sendMailsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $evaluatedList = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList();
+        $students = $em->getRepository('GessehUserBundle:Student')->getWithPlacementNotIn($evaluatedList);
+        $count = 0;
+
+        foreach($students as $student) {
+            $mail = \Swift_Message::newInstance()
+                ->setSubject('[GESSEH] Des évaluations sont en attente')
+                ->setFrom('tmp@angrand.fr')
+                ->setTo($student->getUser()->getEmail())
+                ->setBody($this->renderView('GessehEvaluationBundle:Admin:sendMails.txt.twig', array(
+                    'student' => $student,
+                )));
+            ;
+            $this->get('mailer')->send($mail);
+            $count++;
+        }
+
+        $this->get('session')->getFlashBag()->add('notice', $count . ' email(s) ont été envoyé(s).');
+        return $this->redirect($this->generateUrl('GEval_AIndex'));
     }
 }

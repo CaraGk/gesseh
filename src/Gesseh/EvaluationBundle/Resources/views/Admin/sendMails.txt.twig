@@ -1,0 +1,13 @@
+Bonjour {{ student.name }},
+
+Tu reçois ce mail de rappel car tu n'as pas évalué certains stages que tu as effectué sur le site {{ app.request.host }}.
+
+Voici la liste des stages restant à évaluer :
+
+{% for placement in student.placements %}
+    - {{ placement.department.name }} à {{ placement.department.hospital.name }} du {{ placement.period.begin|date('d-m-Y') }} au {{ placement.period.end|date('d-m-Y') }} (http://{{ app.request.host }}{{ path('GEval_DEval', {'id': placement.id}) }})
+{% endfor %}
+
+Merci de ta participation.
+--
+L'équipe de « {{ kparam('title') }} »
