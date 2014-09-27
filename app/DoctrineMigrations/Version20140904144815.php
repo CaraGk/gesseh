@@ -25,5 +25,6 @@ class Version20140904144815 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
 
         $this->addSql("ALTER TABLE student DROP address");
+        $this->addSql("DELETE FROM parameter WHERE name='eval_limit'");
     }
 }

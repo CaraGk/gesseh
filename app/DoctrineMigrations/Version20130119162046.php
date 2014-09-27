@@ -51,6 +51,9 @@ class Version20130119162046 extends AbstractMigration
         $this->addSql("ALTER TABLE eval_criteria ADD CONSTRAINT FK_F3886C92BF951A59 FOREIGN KEY (evalform_id) REFERENCES eval_form(id)");
         $this->addSql("ALTER TABLE eval_sector ADD CONSTRAINT FK_52F3BF4FDE95C867 FOREIGN KEY (sector_id) REFERENCES sector(id)");
         $this->addSql("ALTER TABLE eval_sector ADD CONSTRAINT FK_52F3BF4F5FF69B7D FOREIGN KEY (form_id) REFERENCES eval_form(id)");
+        $this->addSql("INSERT INTO parameter (name, value, active, activates_at, label, category, type) VALUES ('title', 'Site d\'exemple', 1, now(), 'Nom du site', 'General', 1)");
+        $this->addSql("INSERT INTO parameter (name, value, active, activates_at, label, category, type) VALUES ('eval_active', '1', 1, now(), 'Activer le module d\'évaluation', 'Evaluation', 2)");
+        $this->addSql("INSERT INTO parameter (name, value, active, activates_at, label, category, type) VALUES ('simul_active', '1', 1, now(), 'Activer le module de simulation', 'Simulation', 2)");
     }
 
     public function down(Schema $schema)
