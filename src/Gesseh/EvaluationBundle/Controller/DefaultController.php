@@ -20,13 +20,15 @@ use Gesseh\EvaluationBundle\Entity\EvalSector;
 use Gesseh\EvaluationBundle\Form\EvaluationType;
 use Gesseh\EvaluationBundle\Form\EvaluationHandler;
 
-/**R
+/**
  * EvaluationBundle DefaultController
+ *
+ * @Route("/evaluation")
  */
 class DefaultController extends Controller
 {
     /**
-     * @Route("/u/e/{id}/show", name="GEval_DShow", requirements={"id" = "\d+"})
+     * @Route("/department/{id}", name="GEval_DShow", requirements={"id" = "\d+"})
      * @Template()
      */
     public function showAction($id)
@@ -65,12 +67,13 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/u/e/{id}/eval", name="GEval_DEval", requirements={"id" = "\d+"})
+     * @Route("/placement/{id}", name="GEval_DEval", requirements={"id" = "\d+"})
      * @Template()
      */
     public function evaluateAction($id)
     {
       $em = $this->getDoctrine()->getManager();
+      $pm = $this->container->get('kdb_parameters.manager');
       $placement = $em->getRepository('GessehCoreBundle:Placement')->find($id);
 
       if (!$placement)
@@ -81,7 +84,7 @@ class DefaultController extends Controller
       if (null !== $eval_sector) {
         $eval_form = $eval_sector->getForm();
         $form = $this->createForm(new EvaluationType($eval_form->getCriterias()));
-        $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_form->getCriterias());
+        $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_form->getCriterias(), $pm->findParamByName('eval_moderate')->getValue());
         if ($form_handler->process()) {
           $this->get('session')->getFlashBag()->add('notice', 'Évaluation du stage "' . $placement->getDepartment()->getName() . ' à ' . $placement->getDepartment()->getHospital()->getName() . '" enregistrée.');
 

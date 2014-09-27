@@ -109,8 +109,7 @@ class EvaluationRepository extends EntityRepository
   public function getAllToModerate()
   {
     $query = $this->getEvaluationQuery();
-    $query->where('c.moderate = true')
-          ->andWhere('e.moderated = false')
+    $query->where('e.moderated = false')
           ->addOrderBy('e.created_at', 'asc');
 
     return $query->getQuery();
