@@ -4,7 +4,7 @@
 
 {% block content %}
   {% if eval_form is not null %}
-    {{ form_start(form) }}>
+    {{ form_start(form) }}
       {{ form_widget(form) }}
       <button type="submit" title="Valider l'évaluation du stage. Vous ne pourrez plus revenir en arrière.">Valider</button>
     {{ form_end(form) }}

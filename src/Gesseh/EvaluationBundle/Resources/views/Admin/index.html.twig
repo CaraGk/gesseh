@@ -7,6 +7,7 @@
     <ul class="actions">
         <li><a href="{{ path('GEval_ANew') }}#eval_new" title="Ajouter un nouveau formulaire d'évaluation" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
         <li><a href="{{ path('GEval_APdfExport') }}" title="Exporter les évaluations en fichier PDF">Exporter</a></li>
+        <li><a href="{{ path('GEval_ASendMails') }}" title="Envoyer un mail de rappel aux étudiants n'ayant pas évalué tous leurs stages">Mail de rappel</a></li>
     </ul>
     <ul class="entities evalforms">
         {% for eval_form in eval_forms %}

@@ -20,13 +20,15 @@ use Gesseh\EvaluationBundle\Entity\EvalSector;
 use Gesseh\EvaluationBundle\Form\EvaluationType;
 use Gesseh\EvaluationBundle\Form\EvaluationHandler;
 
-/**R
+/**
  * EvaluationBundle DefaultController
+ *
+ * @Route("/evaluation")
  */
 class DefaultController extends Controller
 {
     /**
-     * @Route("/u/e/{id}/show", name="GEval_DShow", requirements={"id" = "\d+"})
+     * @Route("/department/{id}", name="GEval_DShow", requirements={"id" = "\d+"})
      * @Template()
      */
     public function showAction($id)
@@ -37,10 +39,10 @@ class DefaultController extends Controller
       $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($this->get('security.context')->getToken()->getUsername());
       $current_period = $em->getRepository('GessehCoreBundle:Period')->getCurrent();
       $count_placements = $em->getRepository('GessehCoreBundle:Placement')->getCountByStudentWithoutCurrentPeriod($student, $current_period);
-//      if ($em->getRepository('GessehEvaluationBundle:Evaluation')->studentHasNonEvaluated($student, $current_period, $count_placements)) {
-//          $this->get('session')->getFlashBag()->add('error', 'Il y a des évaluations non réalisées. Veuillez évaluer tous vos stages avant de pouvoir accéder aux autres évaluations.');
-//          return $this->redirect($this->generateUrl('GCore_PIndex'));
-//      }
+      if ($em->getRepository('GessehEvaluationBundle:Evaluation')->studentHasNonEvaluated($student, $current_period, $count_placements)) {
+          $this->get('session')->getFlashBag()->add('error', 'Il y a des évaluations non réalisées. Veuillez évaluer tous vos stages avant de pouvoir accéder aux autres évaluations.');
+          return $this->redirect($this->generateUrl('GCore_PIndex'));
+      }
       $eval_limit = date('Y-m-d H:i:s', strtotime('-' . $pm->findParamByName('eval_limit')->getValue() . ' year'));
 
       $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
@@ -65,12 +67,13 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/u/e/{id}/eval", name="GEval_DEval", requirements={"id" = "\d+"})
+     * @Route("/placement/{id}", name="GEval_DEval", requirements={"id" = "\d+"})
      * @Template()
      */
     public function evaluateAction($id)
     {
       $em = $this->getDoctrine()->getManager();
+      $pm = $this->container->get('kdb_parameters.manager');
       $placement = $em->getRepository('GessehCoreBundle:Placement')->find($id);
 
       if (!$placement)
@@ -81,7 +84,7 @@ class DefaultController extends Controller
       if (null !== $eval_sector) {
         $eval_form = $eval_sector->getForm();
         $form = $this->createForm(new EvaluationType($eval_form->getCriterias()));
-        $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_form->getCriterias());
+        $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_form->getCriterias(), $pm->findParamByName('eval_moderate')->getValue());
         if ($form_handler->process()) {
           $this->get('session')->getFlashBag()->add('notice', 'Évaluation du stage "' . $placement->getDepartment()->getName() . ' à ' . $placement->getDepartment()->getHospital()->getName() . '" enregistrée.');
 

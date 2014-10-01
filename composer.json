@@ -22,7 +22,6 @@
         "knplabs/knp-menu": "2.0.*@dev",
         "knplabs/knp-menu-bundle": "2.0.*@dev",
         "knplabs/knp-paginator-bundle": "dev-master",
-        "knplabs/knp-snappy-bundle": "dev-master",
         "stfalcon/tinymce-bundle": "dev-master",
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",

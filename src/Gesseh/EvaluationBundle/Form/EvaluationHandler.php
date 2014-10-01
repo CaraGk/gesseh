@@ -25,13 +25,14 @@ class EvaluationHandler
   private $request;
   private $em;
 
-  public function __construct(Form $form, Request $request, EntityManager $em, \Gesseh\CoreBundle\Entity\Placement $placement, $criterias)
+  public function __construct(Form $form, Request $request, EntityManager $em, \Gesseh\CoreBundle\Entity\Placement $placement, $criterias, $moderate)
   {
     $this->form      = $form;
     $this->request   = $request;
     $this->em        = $em;
     $this->placement = $placement;
     $this->criterias = $criterias;
+    $this->moderate  = $moderate;
   }
 
   public function process()
@@ -63,7 +64,12 @@ class EvaluationHandler
       }
 
       if ($eval_criteria->getEvalCriteria()->getType() == 2 and $value == null)
-        continue;
+          continue;
+
+      if(($this->moderate == true and $eval_criteria->getEvalCriteria()->getModerate() == false) or $this->moderate == false)
+          $eval_criteria->setModerated(true);
+      else
+          $eval_criteria->setModerated(false);
 
       $eval_criteria->setPlacement($this->placement);
       $eval_criteria->setEvalCriteria($criteria_orig);

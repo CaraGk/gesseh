@@ -97,6 +97,11 @@ class Student
    */
   private $anonymous;
 
+  /**
+   * @ORM\OneToMany(targetEntity="Gesseh\CoreBundle\Entity\Placement", mappedBy="student", cascade={"remove", "persist"}, orphanRemoval=true)
+   */
+  private $placements;
+
   public function __toString()
   {
     if ($this->isAnonymous())
@@ -335,4 +340,53 @@ class Student
     {
         return $this->address;
     }
+    /**
+     * Add placements
+     *
+     * @param Gesseh\CoreBundle\Entity\Placement $placement
+     */
+    public function addPlacement(\Gesseh\CoreBundle\Entity\Placement $placement)
+    {
+        $this->placements[] = $placement;
+        $placement->setStudent($this);
+    }
+
+    /**
+     * Remove placements
+     *
+     * @param Gesseh\CoreBundle\Entity\Placement $placement
+     */
+    public function removePlacement(\Gesseh\CoreBundle\Entity\Placement $placement)
+    {
+    }
+
+    /**
+     * Set placements
+     *
+     * @param Doctrine\Common\Collections\Collection $placements
+     */
+    public function setPlacements(\Doctrine\Common\Collections\Collection $placements)
+    {
+      $this->placements = $placements;
+      foreach($placements as $placement)
+        $placement->setStudent($this);
+    }
+
+    /**
+     * Get placements
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getPlacements()
+    {
+        return $this->placements;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->placements = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 }
