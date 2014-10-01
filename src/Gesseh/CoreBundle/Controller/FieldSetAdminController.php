@@ -33,24 +33,6 @@ use Gesseh\CoreBundle\Form\DepartmentHandler;
 class FieldSetAdminController extends Controller
 {
   /**
-   * Lists all Hospital and Department entities.
-   *
-   * @Route("/", name="GCore_FSAHospital")
-   * @Template()
-   */
-  public function hospitalAction()
-  {
-    $em = $this->getDoctrine()->getManager();
-    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll($this->get('request')->query->get('limit', null));
-
-    return array(
-      'hospitals'     => $hospitals,
-      'hospital_id'   => null,
-      'hospital_form' => null,
-    );
-  }
-
-  /**
    * Lists all Sector entities.
    *
    * @Route("/s", name="GCore_FSASector")
@@ -72,12 +54,11 @@ class FieldSetAdminController extends Controller
    * Displays a form to create a new Hospital entity.
    *
    * @Route("/h/n", name="GCore_FSANewHospital")
-   * @Template("GessehCoreBundle:FieldSetAdmin:hospital.html.twig")
+   * @Template("GessehCoreBundle:FieldSetAdmin:hospitalForm.html.twig")
    */
   public function newHospitalAction()
   {
     $em = $this->getDoctrine()->getManager();
-    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
 
@@ -88,12 +69,10 @@ class FieldSetAdminController extends Controller
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" enregistré.');
 
-      return $this->redirect($this->generateUrl('GCore_FSAHospital'));
+      return $this->redirect($this->generateUrl('GCore_FSIndex'));
     }
 
     return array(
-      'hospitals'     => $hospitals,
-      'hospital_id'   => null,
       'hospital_form' => $form->createView(),
     );
   }
@@ -102,12 +81,11 @@ class FieldSetAdminController extends Controller
    * Displays a form to edit an existing Hospital entity.
    *
    * @Route("/h/{id}/e", name="GCore_FSAEditHospital", requirements={"id" = "\d+"})
-   * @Template("GessehCoreBundle:FieldSetAdmin:hospital.html.twig")
+   * @Template("GessehCoreBundle:FieldSetAdmin:hospitalForm.html.twig")
    */
   public function editHospitalAction($id)
   {
     $em = $this->getDoctrine()->getManager();
-    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
 
@@ -122,12 +100,10 @@ class FieldSetAdminController extends Controller
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" modifié.');
 
-      return $this->redirect($this->generateUrl('GCore_FSAHospital'));
+      return $this->redirect($this->generateUrl('GCore_FSIndex'));
     }
 
     return array(
-      'hospitals'     => $hospitals,
-      'hospital_id'   => $id,
       'hospital_form' => $editForm->createView(),
     );
   }
@@ -150,7 +126,7 @@ class FieldSetAdminController extends Controller
 
     $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" supprimé.');
 
-    return $this->redirect($this->generateUrl('GCore_FSAHospital'));
+    return $this->redirect($this->generateUrl('GCore_FSAIndex'));
   }
 
   /**
@@ -171,7 +147,7 @@ class FieldSetAdminController extends Controller
 
     $this->get('session')->getFlashBag()->add('notice', 'Service "' . $department->getName() . '" supprimé.');
 
-    return $this->redirect($this->generateUrl('GCore_FSAHospital'));
+    return $this->redirect($this->generateUrl('GCore_FSIndex'));
   }
 
   /**
@@ -193,7 +169,7 @@ class FieldSetAdminController extends Controller
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Catégorie "' . $sector->getName() . '" enregistrée.');
 
-      return $this->redirect($this->generateUrl('GCore_FSAHospital'));
+      return $this->redirect($this->generateUrl('GCore_FSASector'));
     }
 
     return array (
@@ -225,7 +201,7 @@ class FieldSetAdminController extends Controller
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Catégorie "' . $sector->getName() . '" modifiée.');
 
-      return $this->redirect($this->generateUrl('GCore_FSAHospital'));
+      return $this->redirect($this->generateUrl('GCore_FSASector'));
     }
 
     return array (
@@ -253,7 +229,7 @@ class FieldSetAdminController extends Controller
 
     $this->get('session')->getFlashBag()->add('notice', 'Catégorie "' . $sector->getName() . '" supprimée.');
 
-    return $this->redirect($this->generateUrl('GCore_FSAHospital'));
+    return $this->redirect($this->generateUrl('GCore_FSASector'));
   }
 
   /**

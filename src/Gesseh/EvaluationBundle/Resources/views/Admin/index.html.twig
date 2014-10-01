@@ -23,7 +23,7 @@
                     {% endif %}
                     {% for sector in sectors[eval_form.id] %}
                         <span class="field evalform_sector">
-                            <a href="{{ path('GCore_FSAHospital', { 'limit': { 'type': 's.id', 'value': sector.sector.id }}) }}" title="Afficher les terrains de la catégorie {{ sector.sector.name }}">{{ sector.sector.name }}</a>
+                            <a href="{{ path('GCore_FSIndex', { 'limit': { 'type': 's.id', 'value': sector.sector.id }}) }}" title="Afficher les terrains de la catégorie {{ sector.sector.name }}">{{ sector.sector.name }}</a>
                             <a href="{{ path('GEval_ASectorDelete', { 'id': sector.id }) }}" title="Supprimer l'association avec la catégorie de terrain de stage '{{ sector.sector.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a>
                         </span>
                     {% endfor %}

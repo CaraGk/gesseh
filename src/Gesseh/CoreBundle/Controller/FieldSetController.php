@@ -29,7 +29,7 @@ class FieldSetController extends Controller
    */
   public function indexAction()
   {
-      $em = $this->getDoctrine()->getManager();
+    $em = $this->getDoctrine()->getManager();
     $limit = $this->get('request')->query->get('limit', null);
     $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll($limit);
 

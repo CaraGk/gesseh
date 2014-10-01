@@ -24,12 +24,12 @@ use Gesseh\CoreBundle\Form\PlacementHandler;
 /**
  * PlacementAdmin controller.
  *
- * @Route("/admin/p")
+ * @Route("/admin")
  */
 class PlacementAdminController extends Controller
 {
   /**
-   * @Route("/p", name="GCore_PAPeriodIndex")
+   * @Route("/period", name="GCore_PAPeriodIndex")
    * @Template()
    */
   public function periodAction()
@@ -45,7 +45,7 @@ class PlacementAdminController extends Controller
   }
 
   /**
-   * @Route("/p/n", name="GCore_PAPeriodNew")
+   * @Route("/period/new", name="GCore_PAPeriodNew")
    * @Template("GessehCoreBundle:PlacementAdmin:period.html.twig")
    */
   public function newPeriodAction()
@@ -71,7 +71,7 @@ class PlacementAdminController extends Controller
   }
 
   /**
-   * @Route("/p/{id}/e", name="GCore_PAPeriodEdit", requirements={"id" = "\d+"})
+   * @Route("/period/{id}/edit", name="GCore_PAPeriodEdit", requirements={"id" = "\d+"})
    * @Template("GessehCoreBundle:PlacementAdmin:period.html.twig")
    */
   public function editPeriodAction($id)
@@ -102,7 +102,7 @@ class PlacementAdminController extends Controller
   }
 
   /**
-   * @Route("/p/{id}/d", name="GCore_PAPeriodDelete", requirements={"id" = "\d+"})
+   * @Route("/period/{id}/delete", name="GCore_PAPeriodDelete", requirements={"id" = "\d+"})
    */
   public function deletePeriodeAction($id)
   {
@@ -121,7 +121,7 @@ class PlacementAdminController extends Controller
   }
 
   /**
-   * @Route("/", name="GCore_PAPlacementIndex")
+   * @Route("/placement", name="GCore_PAPlacementIndex")
    * @Template()
    */
   public function placementAction()
@@ -146,7 +146,7 @@ class PlacementAdminController extends Controller
   }
 
   /**
-   * @Route("/{id}/e", name="GCore_PAPlacementEdit", requirements={"id" = "\d+"})
+   * @Route("/placement/{id}/edit", name="GCore_PAPlacementEdit", requirements={"id" = "\d+"})
    * @Template("GessehCoreBundle:PlacementAdmin:placement.html.twig")
    */
   public function editPlacementAction($id)
@@ -185,7 +185,7 @@ class PlacementAdminController extends Controller
   }
 
   /**
-   * @Route("/n", name="GCore_PAPlacementNew")
+   * @Route("/placement/new", name="GCore_PAPlacementNew")
    * @Template("GessehCoreBundle:PlacementAdmin:placement.html.twig")
    */
   public function newPlacementAction()
@@ -220,7 +220,7 @@ class PlacementAdminController extends Controller
   }
 
   /**
-   * @Route("/{id}/d", name="GCore_PAPlacementDelete", requirements={"id" = "\d+"})
+   * @Route("/placement/{id}/delete", name="GCore_PAPlacementDelete", requirements={"id" = "\d+"})
    */
   public function deletePlacementAction($id)
   {

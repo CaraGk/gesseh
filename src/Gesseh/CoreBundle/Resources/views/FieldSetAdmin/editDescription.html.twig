@@ -2,7 +2,7 @@
 
 {% block titlecontent %}Modifier la description de {{ entity.name }}{% endblock %}
 
-{% block actionscontent %}<a href="{{ path('GCore_FSAHospital') }}" title="Retour vers la liste des catégories, hôpitaux et services">Retour</a>{% endblock %}
+{% block actionscontent %}<a href="{{ path('GCore_FSIndex') }}" title="Retour vers la liste des catégories, hôpitaux et services">Retour</a>{% endblock %}
 
 {% block content %}
   <div class="description">{{ entity.description|raw }}</div>
