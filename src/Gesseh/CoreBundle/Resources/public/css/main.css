@@ -81,9 +81,9 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content div.criteria_content { padding: 2px; }
 #content span.eval_title { font-weight: bold; text-decoration: underline }
 #content span.eval_content { }
-#content ul.actions, #content ul.actions li { display: inline-block; }
-#content ul.entities, #content ul.subentities { display: inline-block; }
-#content li.entity, #content li.subentity { display: inline-block; }
+#content ul.actions, #content ul.actions li { display: inline; }
+#content ul.entities, #content ul.subentities { display: block; }
+#content li.entity, #content li.subentity { display: block; }
 #content div.field { display: inline-block; }
 #content div.hospital_name { font-weight: bold; font-size: 150%; }
 #content div.department_name { font-weight: bold; }
