@@ -21,10 +21,14 @@
     </thead>
     <tbody>
       {% for criteria in eval_num %}
-        <tr>
+      <tr title="Évolution :
+          {% for id,mean in criteria['mean'] %}
+            {{ mean }} ({{ criteria['count'][id] }})
+          {% endfor %}">
           <td>{{ criteria['name'] }}</td>
-          <td class="small">{{ criteria['mean'] }}</td>
-          <td class="small">{{ criteria['count'] }}</td>
+          <td class="small"
+              >{{ criteria['mean'][0] }}</td>
+          <td class="small">{{ criteria['count'][0] }}</td>
         </tr>
       {% else %}
         <tr>

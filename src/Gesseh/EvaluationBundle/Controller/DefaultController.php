@@ -28,6 +28,8 @@ use Gesseh\EvaluationBundle\Form\EvaluationHandler;
 class DefaultController extends Controller
 {
     /**
+     * Affiche les évaluations d'un terrain de stage
+     *
      * @Route("/department/{id}", name="GEval_DShow", requirements={"id" = "\d+"})
      * @Template()
      */
@@ -36,34 +38,35 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $pm = $this->container->get('kdb_parameters.manager');
 
-      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($this->get('security.context')->getToken()->getUsername());
-      $current_period = $em->getRepository('GessehCoreBundle:Period')->getCurrent();
-      $count_placements = $em->getRepository('GessehCoreBundle:Placement')->getCountByStudentWithoutCurrentPeriod($student, $current_period);
-      if ($em->getRepository('GessehEvaluationBundle:Evaluation')->studentHasNonEvaluated($student, $current_period, $count_placements)) {
-          $this->get('session')->getFlashBag()->add('error', 'Il y a des évaluations non réalisées. Veuillez évaluer tous vos stages avant de pouvoir accéder aux autres évaluations.');
-          return $this->redirect($this->generateUrl('GCore_PIndex'));
-      }
-      $eval_limit = date('Y-m-d H:i:s', strtotime('-' . $pm->findParamByName('eval_limit')->getValue() . ' year'));
+        /* Vérification de l'évaluation de tous ses stages (sauf le courant) par l'étudiant */
+        $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($this->get('security.context')->getToken()->getUsername());
+        $current_period = $em->getRepository('GessehCoreBundle:Period')->getCurrent();
+        $count_placements = $em->getRepository('GessehCoreBundle:Placement')->getCountByStudentWithoutCurrentPeriod($student, $current_period);
+        if ($em->getRepository('GessehEvaluationBundle:Evaluation')->studentHasNonEvaluated($student, $current_period, $count_placements)) {
+            $this->get('session')->getFlashBag()->add('error', 'Il y a des évaluations non réalisées. Veuillez évaluer tous vos stages avant de pouvoir accéder aux autres évaluations.');
+            return $this->redirect($this->generateUrl('GCore_PIndex'));
+        }
+        $eval_limit = date('Y-m-d H:i:s', strtotime('-' . $pm->findParamByName('eval_limit')->getValue() . ' year'));
 
-      $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
+        $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
 
-      if (!$department)
-        throw $this->createNotFoundException('Unable to find department entity.');
+        if (!$department)
+            throw $this->createNotFoundException('Unable to find department entity.');
 
-      $eval_text = $em->getRepository('GessehEvaluationBundle:Evaluation')->getTextByDepartment($id, $eval_limit);
-      $eval_num = $em->getRepository('GessehEvaluationBundle:Evaluation')->getNumByDepartment($id, $eval_limit);
+        $eval_text = $em->getRepository('GessehEvaluationBundle:Evaluation')->getTextByDepartment($id, $eval_limit);
+        $eval_num = $em->getRepository('GessehEvaluationBundle:Evaluation')->getNumByDepartment($id, $eval_limit);
 
-      if ($eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId()))
-        $eval_form = $eval_sector->getForm();
-      else
-        throw $this->createNotFoundException('Aucun formulaire d\'évaluation attribué à ce stage ! Veuillez contacter un administrateur.');
+        if ($eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId()))
+            $eval_form = $eval_sector->getForm();
+        else
+            throw $this->createNotFoundException('Aucun formulaire d\'évaluation attribué à ce stage ! Veuillez contacter un administrateur.');
 
-      return array(
-        'eval_text'  => $eval_text,
-        'eval_num'   => $eval_num,
-        'department' => $department,
-        'eval_form'  => $eval_form,
-      );
+        return array(
+            'eval_text'  => $eval_text,
+            'eval_num'   => $eval_num,
+            'department' => $department,
+            'eval_form'  => $eval_form,
+        );
     }
 
     /**
