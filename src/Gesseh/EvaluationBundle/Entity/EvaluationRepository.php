@@ -82,16 +82,13 @@ class EvaluationRepository extends EntityRepository
                     $calc[$criteria->getId()]['count'][0] = 0;
                 }
                 if (!isset($calc[$criteria->getId()]['count'][$period_id])) {
-                    $calc[$criteria->getId()]['total'][$period_id] = 0;
                     $calc[$criteria->getId()]['count'][$period_id] = 0;
                 }
 
                 $calc[$criteria->getId()]['count'][0] += (int) $value;
-                $calc[$criteria->getId()]['total'][0] ++;
                 $calc[$criteria->getId()]['mean'][0] = round($calc[$criteria->getId()]['count'][0] / $calc[$criteria->getId()]['total'][0], 1);
 //                $calc[$criteria->getId()]['ratio'][0] = $result->getEvalCriteria()->getRatio();
-                $calc[$criteria->getId()]['count'][$period_id] += (int) $result->getValue();
-                $calc[$criteria->getId()]['total'][$period_id] ++;
+                $calc[$criteria->getId()]['count'][$period_id] += (int) $value;
                 $calc[$criteria->getId()]['mean'][$period_id] = round($calc[$criteria->getId()]['count'][$period_id] / $calc[$criteria->getId()]['total'][$period_id], 1);
             } elseif($criteria->getType() == 3) {
                 if (!isset($calc[$criteria->getId()]['count'][0][$value])) {

@@ -100,6 +100,7 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content div.rank { width: 20px; }
 #content div.name { width: 300px; padding: 5px; font-weight: bold; }
 #content div.mean { padding: 5px; background-color: pink; border-radius: 15px; }
+#content div.total { font-style: italic; font-size: 80%; }
 #content ul.comments { padding: 0; margin: 0; }
 #content li.comment { padding: 5px; margin: 5px; }
 

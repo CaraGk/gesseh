@@ -29,8 +29,8 @@
             <li class="criteria {{ cycle(['odd', 'even'], loop.index0) }}">
                 <div class="rank">{{ rank }}.</div>
                 <div class="name">{{ item['name'] }} : </div>
-                <div class="mean">{{ item['mean'][0] }}</div>
-                <div class="total"> ({{ item['total'][0] }})</div>
+                <div class="mean" title="Évaluations antérieures : {% for period,mean in item['mean'] %}{% if period > 0 %}{{ mean }} ({{ item['total'][period] }}) ; {% endif %}{% endfor %}">{{ item['mean'][0] }}</div>
+                <div class="total"> ({{ item['total'][0] }} évaluations)</div>
             </li>
         {% elseif item['type'] == 3 %}
             <li class="criteria {{ cycle(['odd', 'even'], loop.index0) }}">
