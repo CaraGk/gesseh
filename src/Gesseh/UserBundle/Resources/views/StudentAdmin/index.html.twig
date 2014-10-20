@@ -23,7 +23,7 @@
         <th {% if students.isSorted('s.name') %} class="sorted" {% endif %}>{{ knp_pagination_sortable(students, 'Prénom', 's.name') }}</th>
         <th>E-mail</th>
         <th>Téléphone</th>
-        <th {% if students.isSorted('p.rank') %} class="sorted small" {% else %} class="small" {% endif %}>{{ knp_pagination_sortable(students, 'Promotion', 'p.rank') }}</th>
+        <th {% if students.isSorted('g.rank') %} class="sorted small" {% else %} class="small" {% endif %}>{{ knp_pagination_sortable(students, 'Promotion', 'g.rank') }}</th>
         {% if kparam('simul_active') == true %}
           <th>Classement/Année</th>
         {% endif %}
