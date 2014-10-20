@@ -23,20 +23,20 @@
                         <li><a href="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id }) }}" title="Supprimer l'hôpital '{{ hospital.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
                     {% endif %}
                 </ul>
-                <ul class="entities departments">
+                <ul class="subentities departments">
                     {% for department in hospital.departments %}
-                        <li class="entity department">
-                            <div class="field entity_title department_name">{{ department.name }}</div>
-                            <div class="field entity_item department_head">({{ department.head }})</div>
-                            <div class="field entity_item department_sector"><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: department.sector.id, description: department.sector.name}}) }}" title="Afficher les terrains de la catégorie {{ department.sector }}">{{ department.sector }}</a></div>
+                        <li class="subentity department">
+                            <div class="field subentity_title department_name">{{ department.name }}</div>
+                            <div class="field subentity_item department_head">({{ department.head }})</div>
+                            <div class="field subentity_item department_sector"><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: department.sector.id, description: department.sector.name}}) }}" title="Afficher les terrains de la catégorie {{ department.sector }}">{{ department.sector }}</a></div>
                             {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}
                                 {% if department.cluster is not null %}
-                                    <div class="field entity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'd.cluster', value: department.cluster, description: department.cluster }}) }}" title="Afficher les terrains du cluster {{ department.cluster }}">{{ department.cluster }}</a></div>
+                                    <div class="field subentity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'd.cluster', value: department.cluster, description: department.cluster }}) }}" title="Afficher les terrains du cluster {{ department.cluster }}">{{ department.cluster }}</a></div>
                                 {% endif %}
                                 {% if department.number > 1 %}
-                                    <div class="field entity_item department_number">{{ department.number }} postes proposés.</div>
+                                    <div class="field subentity_item department_number">{{ department.number }} postes proposés.</div>
                                 {% elseif department.number == 1 %}
-                                    <div class="field entity_item department_number warning">1 poste proposé.</div>
+                                    <div class="field subentity_item department_number warning">1 poste proposé.</div>
                                 {% else %}
                                     <div class="field empty department_number error">Aucun poste proposé.</div>
                                 {% endif %}
