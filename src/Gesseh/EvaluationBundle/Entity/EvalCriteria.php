@@ -138,35 +138,23 @@ class EvalCriteria
     }
 
     /**
-     * Get type name
-     * @return string
-     */
-    public function getTypeName()
-    {
-        if ($this->type == 1) {
-            return "Choix pondéré";
-        } elseif ($this->type == 2) {
-            return "Texte long";
-        } else {
-            return "Type inconnu";
-        }
-    }
-
-    /**
      * Get readable type
      *
      * @return string
      */
     public function getReadableType()
     {
-      if($this->type == 1)
-
-        return 'Bouton radio';
-      elseif($this->type == 2)
-        return 'Texte long';
-      else
-        return $this->type;
+        if ($this->type == 1) {
+            return "Choix pondéré";
+        } elseif ($this->type == 2) {
+            return "Texte long";
+        } elseif ($this->type == 3) {
+            return "Choix multiples";
+        } else {
+            return "Type inconnu";
+        }
     }
+
 
     /**
      * Set more

@@ -21,7 +21,7 @@ class EvaluationRepository extends EntityRepository
     /*
      * Generic query with joins
      *
-     * returns QueryBuilder
+     * @return QueryBuilder
      */
     public function getEvaluationQuery()
     {
@@ -60,7 +60,7 @@ class EvaluationRepository extends EntityRepository
     /*
      * Récupère les évaluations numériques d'un terrain de stage
      *
-     * returns QueryResult
+     * @returns array
      */
     public function getNumByDepartment($id, $date = null)
     {
@@ -83,28 +83,82 @@ class EvaluationRepository extends EntityRepository
         $calc = array();
 
         foreach ($results as $result) {
-            if (!isset($calc[$result->getEvalCriteria()->getId()]['count'][0])) {
-                $calc[$result->getEvalCriteria()->getId()]['total'][0] = 0;
-                $calc[$result->getEvalCriteria()->getId()]['count'][0] = 0;
-                $calc[$result->getEvalCriteria()->getId()]['name'] = $result->getEvalCriteria()->getName();
+            $criteria_id = $result->getEvalCriteria()->getId();
+            $period_id = $result->getPlacement()->getPeriod()->getId();
+            if (!isset($calc[$criteria_id]['count'][0])) {
+                $calc[$criteria_id]['total'][0] = 0;
+                $calc[$criteria_id]['count'][0] = 0;
+                $calc[$criteria_id]['name'] = $result->getEvalCriteria()->getName();
             }
 
-            if (!isset($calc[$result->getEvalCriteria()->getId()]['count'][$result->getPlacement()->getPeriod()->getId()])) {
-                $calc[$result->getEvalCriteria()->getId()]['total'][$result->getPlacement()->getPeriod()->getId()] = 0;
-                $calc[$result->getEvalCriteria()->getId()]['count'][$result->getPlacement()->getPeriod()->getId()] = 0;
+            if (!isset($calc[$criteria_id]['count'][$period_id])) {
+                $calc[$criteria_id]['total'][$period_id] = 0;
+                $calc[$criteria_id]['count'][$period_id] = 0;
             }
 
-            $calc[$result->getEvalCriteria()->getId()]['total'][0] += (int) $result->getValue();
-            $calc[$result->getEvalCriteria()->getId()]['count'][0] ++;
-            $calc[$result->getEvalCriteria()->getId()]['mean'][0] = round($calc[$result->getEvalCriteria()->getId()]['total'][0] / $calc[$result->getEvalCriteria()->getId()]['count'][0], 1);
-//            $calc[$result->getEvalCriteria()->getId()]['ratio'][0] = $result->getEvalCriteria()->getRatio();
-            $calc[$result->getEvalCriteria()->getId()]['total'][$result->getPlacement()->getPeriod()->getId()] += (int) $result->getValue();
-            $calc[$result->getEvalCriteria()->getId()]['count'][$result->getPlacement()->getPeriod()->getId()] ++;
-            $calc[$result->getEvalCriteria()->getId()]['mean'][$result->getPlacement()->getPeriod()->getId()] = round($calc[$result->getEvalCriteria()->getId()]['total'][$result->getPlacement()->getPeriod()->getId()] / $calc[$result->getEvalCriteria()->getId()]['count'][$result->getPlacement()->getPeriod()->getId()], 1);
+            $calc[$criteria_id]['total'][0] += (int) $result->getValue();
+            $calc[$criteria_id]['count'][0] ++;
+            $calc[$criteria_id]['mean'][0] = round($calc[$criteria_id]['total'][0] / $calc[$criteria_id]['count'][0], 1);
+//            $calc[$criteria_id]['ratio'][0] = $result->getEvalCriteria()->getRatio();
+            $calc[$criteria_id]['total'][$period_id] += (int) $result->getValue();
+            $calc[$criteria_id]['count'][$period_id] ++;
+            $calc[$criteria_id]['mean'][$period_id] = round($calc[$criteria_id]['total'][$period_id] / $calc[$criteria_id]['count'][$period_id], 1);
         }
 
         return $calc;
     }
+
+    /*
+     * Récupère les évaluations multiples d'un terrain de stage
+     *
+     * return @array
+     */
+    public function getMultByDepartment($id, $date = null)
+    {
+        $query = $this->getEvaluationQuery();
+        $query->join('p.period', 'q')
+            ->where('d.id = :id')
+            ->setParameter('id', $id)
+            ->andWhere('c.type = 3')
+            ->addOrderBy('c.name', 'asc')
+            ->addOrderBy('q.begin', 'asc')
+        ;
+
+        if ($date != null) {
+            $query->andWhere('e.created_at > :date')
+                ->setParameter('date', $date)
+            ;
+        }
+
+        $results = $query->getQuery()->getResult();
+        $calc = array();
+
+        if($results) {
+            foreach ($results as $result) {
+                $criteria = $result->getEvalCriteria();
+                $criteria_id = $criteria->getId();
+                $criteria_item = $result->getValue();
+                if (!isset($calc[$criteria_id]['total'])) {
+                    $calc[$criteria_id]['total'] = 0;
+                    $calc[$criteria_id]['name'] = $result->getEvalCriteria()->getName();
+                }
+                if (!isset($calc[$criteria_id]['count'][$criteria_item])) {
+                    $calc[$criteria_id]['count'][$criteria_item] = 0;
+                }
+                $calc[$criteria_id]['count'][$criteria_item] ++;
+                $calc[$criteria_id]['total'] ++;
+            }
+
+            foreach(explode('|', $criteria->getMore()) as $item) {
+                if (isset($calc[$criteria->getId()]['count'][$item])) {
+                    $calc[$criteria->getId()]['size'][$item] = 0.5 + round(($calc[$criteria->getId()]['count'][$item] - min($calc[$criteria->getId()]['count'])) * (2 - 0.5) / (max($calc[$criteria->getId()]['count']) - min($calc[$criteria->getId()]['count'])), 1);
+                }
+            }
+        }
+
+        return $calc;
+    }
+
 
   public function getEvaluatedList($type = 'array', $username = null)
   {
@@ -147,7 +201,7 @@ class EvaluationRepository extends EntityRepository
     public function studentHasNonEvaluated($student, $current_period, $count_placements)
     {
         $query = $this->getEvaluationQuery();
-        $query->select('COUNT(DISTINCT p.department)')
+        $query->select('COUNT(DISTINCT p.id)')
               ->where('p.student = :student')
               ->setParameter('student', $student);
 

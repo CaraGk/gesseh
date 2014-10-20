@@ -26,27 +26,35 @@ class EvaluationType extends AbstractType
     $this->criterias = $criterias;
   }
 
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    foreach ($this->criterias as $criteria) {
-      if ($criteria->getType() == 1) {
-        $builder->add('criteria_' . $criteria->getId(), 'choice', array(
-          'choices'  => $this->getCriteriaChoiceOptions($criteria->getMore()),
-          'required' => $criteria->getRequired(),
-          'multiple' => false,
-          'expanded' => true,
-          'label'    => $criteria->getName(),
-        ));
-      } elseif ($criteria->getType() == 2) {
-        $builder->add('criteria_' . $criteria->getId(), 'textarea', array(
-          'required'   => $criteria->getRequired(),
-          'trim'       => true,
-          'max_length' => 250,
-          'label'      => $criteria->getName(),
-        ));
-      }
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        foreach ($this->criterias as $criteria) {
+            if ($criteria->getType() == 1) {
+                $builder->add('criteria_' . $criteria->getId(), 'choice', array(
+                    'choices'  => $this->getCriteriaChoiceOptions($criteria->getMore()),
+                    'required' => $criteria->getRequired(),
+                    'multiple' => false,
+                    'expanded' => true,
+                    'label'    => $criteria->getName(),
+                ));
+            } elseif ($criteria->getType() == 2) {
+                $builder->add('criteria_' . $criteria->getId(), 'textarea', array(
+                    'required'   => $criteria->getRequired(),
+                    'trim'       => true,
+                    'max_length' => 250,
+                    'label'      => $criteria->getName(),
+                ));
+            } elseif ($criteria->getType() == 3) {
+                $builder->add('criteria_' . $criteria->getId(), 'choice', array(
+                    'choices'  => $this->getCriteriaMultipleChoiceOptions($criteria->getMore()),
+                    'required' => $criteria->getRequired(),
+                    'multiple' => true,
+                    'expanded' => true,
+                    'label'    => $criteria->getName(),
+                ));
+            }
+        }
     }
-  }
 
   public function getName()
   {
@@ -67,5 +75,15 @@ class EvaluationType extends AbstractType
     }
 
     return $choices;
+  }
+
+    public function getCriteriaMultipleChoiceOptions($options)
+    {
+        $opt = explode("|", $options);
+        $choice = array();
+        foreach($opt as $value) {
+            $choice[$value] = $value;
+        }
+        return $choice;
   }
 }

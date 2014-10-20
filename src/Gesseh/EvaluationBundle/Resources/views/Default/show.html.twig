@@ -1,6 +1,7 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block titlecontent %}Évaluations du stage '{{ department.name }} à {{ department.hospital.name }}'{% endblock %}
+{% block title %}{{ parent() }} - {{ department.name }} à {{ department.hospital.name }} : évaluations{% endblock %}
+{% block titlecontent %}{{ department.name }} à {{ department.hospital.name }} : évaluations{% endblock %}
 
 {% block actionscontent %}
   <ul>
@@ -10,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-  <h2>Évaluations numériques</h2>
+  <h2>Évaluations pondérées</h2>
   <table>
     <thead>
       <tr>
@@ -37,6 +38,15 @@
       {% endfor %}
     </tbody>
   </table>
+  {% for criteria in eval_mult %}
+    <div>{{ criteria['name'] }} :
+    {% for item,count in criteria['count'] %}
+      {% if count > 0 %}
+          <span style="font-size:{{ criteria['size'][item] }}em;">{{ item }}</span>
+      {% endif %}
+    {% endfor %}
+    </div>
+  {% endfor %}
   <h2>Évaluations textuelles</h2>
   {% set crit = null %}
   {% for text in eval_text %}

@@ -50,34 +50,48 @@ class EvaluationHandler
     return false;
   }
 
-  public function onSuccess($form)
-  {
-    foreach ($form as $criteria => $value) {
-      $eval_criteria = new Evaluation();
+    public function onSuccess($form)
+    {
+        foreach ($form as $criteria => $value) {
 
-      $criteria_id = explode("_", $criteria);
-      foreach ($this->criterias as $criteria_orig) {
-        if ($criteria_orig->getId() == $criteria_id[1]) {
-          $eval_criteria->setEvalCriteria($criteria_orig);
-          break;
+            /* Identification du critère d'évaluation correspondant */
+            $criteria_id = explode("_", $criteria);
+            $criteria_orig = null;
+            foreach ($this->criterias as $criteria_item) {
+                if ($criteria_item->getId() == $criteria_id[1]) {
+                    $criteria_orig = $criteria_item;
+                    break;
+                }
+            }
+            if($criteria_orig->getType() == 3) {
+                foreach($value as $item) {
+                    $this->setEvalItem($criteria_orig, $item);
+                }
+            } else {
+                $this->setEvalItem($criteria_orig, $value);
+            }
         }
-      }
-
-      if ($eval_criteria->getEvalCriteria()->getType() == 2 and $value == null)
-          continue;
-
-      if(($this->moderate == true and $eval_criteria->getEvalCriteria()->getModerate() == false) or $this->moderate == false)
-          $eval_criteria->setModerated(true);
-      else
-          $eval_criteria->setModerated(false);
-
-      $eval_criteria->setPlacement($this->placement);
-      $eval_criteria->setEvalCriteria($criteria_orig);
-      $eval_criteria->setValue($value);
-      $eval_criteria->setCreatedAt(new \DateTime('now'));
-
-      $this->em->persist($eval_criteria);
+        $this->em->flush();
     }
-    $this->em->flush();
-  }
+
+    private function setEvalItem($criteria, $value)
+    {
+        $eval_criteria = new Evaluation();
+
+
+        if ($criteria->getRequired() == false and $value == null)
+            continue;
+
+        if(($this->moderate == true and $criteria->getModerate() == false) or $this->moderate == false)
+            $eval_criteria->setModerated(true);
+        else
+            $eval_criteria->setModerated(false);
+
+        $eval_criteria->setPlacement($this->placement);
+        $eval_criteria->setEvalCriteria($criteria);
+        $eval_criteria->setCreatedAt(new \DateTime('now'));
+        $eval_criteria->setValue($value);
+
+        $this->em->persist($eval_criteria);
+    }
 }
