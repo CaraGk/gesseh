@@ -29,6 +29,7 @@ class EvalCriteriaType extends AbstractType
                 '5' => 'Choix unique non pondéré',
                 '3' => 'Choix multiple',
                 '4' => 'Valeur numérique',
+                '6' => 'Horaire',
                 '2' => 'Texte long',
               ),
               'required' => true,

@@ -49,7 +49,7 @@
                 <div class="field mean">{{ item['mean'][0] }}</div>
                 <div class="field total"> ({{ item['total'][0] }} évaluations)</div>
             </li>
-        {% elseif item['type'] == 5 %}
+        {% elseif item['type'] == 5 or item['type'] == 6 %}
             <li class="criteria {{ cycle(['odd', 'even'], loop.index0) }}">
                 <div class="field rank">{{ rank }}</div>
                 <div class="field name">{{ item['name'] }}</div>

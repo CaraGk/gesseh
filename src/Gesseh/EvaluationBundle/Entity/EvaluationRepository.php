@@ -91,7 +91,7 @@ class EvaluationRepository extends EntityRepository
 //                $calc[$criteria->getId()]['ratio'][0] = $result->getEvalCriteria()->getRatio();
                 $calc[$criteria->getId()]['count'][$period_id] += (int) $value;
                 $calc[$criteria->getId()]['mean'][$period_id] = round($calc[$criteria->getId()]['count'][$period_id] / $calc[$criteria->getId()]['total'][$period_id], 1);
-            } elseif ($criteria->getType() == 3 or $criteria->getType() == 5) {
+            } elseif ($criteria->getType() == 3 or $criteria->getType() == 5 or $criteria->getType() == 6) {
                 if (!in_array($criteria, $crits)) {
                     $crits[] = $criteria;
                 }
@@ -113,9 +113,14 @@ class EvaluationRepository extends EntityRepository
                         $calc[$criteria->getId()]['size'][0][$item] = 0.5 + round(($calc[$criteria->getId()]['count'][0][$item] - min($calc[$criteria->getId()]['count'][0])) * (2 - 0.5) / (max($calc[$criteria->getId()]['count'][0]) - min($calc[$criteria->getId()]['count'][0])), 1);
                     }
                 }
-            } elseif ($criteria->getType() == 5) {
+            } elseif ($criteria->getType() == 5 or $criteria->getType() == 6) {
+                $max = 1;
+                if ($criteria->getMore()) {
+                    $explode = explode('|', $criteria->getMore());
+                    $max = (int) $explode[0];
+                }
                 asort($calc[$criteria->getId()]['count'][0]);
-                $calc[$criteria->getId()]['max'] = (int) $criteria->getMore();
+                $calc[$criteria->getId()]['max'] = $max;
             }
         }
 

@@ -152,8 +152,10 @@ class EvalCriteria
             return "Choix multiple";
         } elseif ($this->type == 4) {
             return "Valeur numérique";
-        } elseif ($this->type == 4) {
+        } elseif ($this->type == 5) {
             return "Choix unique non pondéré";
+        } elseif ($this->type == 6) {
+            return "Horaire";
         } else {
             return "Type inconnu";
         }

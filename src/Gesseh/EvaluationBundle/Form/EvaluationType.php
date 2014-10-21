@@ -66,6 +66,14 @@ class EvaluationType extends AbstractType
                     'expanded' => true,
                     'label'    => $criteria->getName(),
                 ));
+            } elseif ($criteria->getType() == 6) {
+                $builder->add('criteria_' . $criteria->getId(), 'time', array(
+                    'input'        => 'string',
+                    'widget'       => 'single_text',
+                    'with_seconds' => false,
+                    'required'     => $criteria->getRequired(),
+                    'label'        => $criteria->getName(),
+                ));
             }
         }
     }
