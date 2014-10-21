@@ -56,6 +56,7 @@ class EvaluationRepository extends EntityRepository
 
         $results = $query->getQuery()->getResult();
         $calc = array();
+        $crit3 = array();
 
         foreach ($results as $result) {
             $criteria = $result->getEvalCriteria();
@@ -77,11 +78,11 @@ class EvaluationRepository extends EntityRepository
             if($criteria->getType() == 2) {
                 $calc[$criteria->getId()]['text'][$period_id] = $value;
 
-            } elseif($criteria->getType() == 1) {
-                if (!isset($calc[$criteria->getId()]['count'][0])) {
+            } elseif($criteria->getType() == 1 or $criteria->getType() == 4) {
+                if(!isset($calc[$criteria->getId()]['count'][0])) {
                     $calc[$criteria->getId()]['count'][0] = 0;
                 }
-                if (!isset($calc[$criteria->getId()]['count'][$period_id])) {
+                if(!isset($calc[$criteria->getId()]['count'][$period_id])) {
                     $calc[$criteria->getId()]['count'][$period_id] = 0;
                 }
 
@@ -91,19 +92,21 @@ class EvaluationRepository extends EntityRepository
                 $calc[$criteria->getId()]['count'][$period_id] += (int) $value;
                 $calc[$criteria->getId()]['mean'][$period_id] = round($calc[$criteria->getId()]['count'][$period_id] / $calc[$criteria->getId()]['total'][$period_id], 1);
             } elseif($criteria->getType() == 3) {
-                if (!isset($calc[$criteria->getId()]['count'][0][$value])) {
+                if(!in_array($criteria, $crit3)) {
+                    $crit3[] = $criteria;
+                }
+                if(!isset($calc[$criteria->getId()]['count'][0][$value])) {
                     $calc[$criteria->getId()]['count'][0][$value] = 0;
                 }
-                if (!isset($calc[$criteria->getId()]['count'][$period_id][$value])) {
+                if(!isset($calc[$criteria->getId()]['count'][$period_id][$value])) {
                     $calc[$criteria->getId()]['count'][$period_id][$value] = 0;
                 }
                 $calc[$criteria->getId()]['count'][0][$value] ++;
                 $calc[$criteria->getId()]['count'][$period_id][$value] ++;
-
             }
         }
 
-        if($criteria->getType() == 3) {
+        foreach($crit3 as $criteria) {
             foreach(explode('|', $criteria->getMore()) as $item) {
                 if (isset($calc[$criteria->getId()]['count'][0][$item])) {
                     $calc[$criteria->getId()]['size'][0][$item] = 0.5 + round(($calc[$criteria->getId()]['count'][0][$item] - min($calc[$criteria->getId()]['count'][0])) * (2 - 0.5) / (max($calc[$criteria->getId()]['count'][0]) - min($calc[$criteria->getId()]['count'][0])), 1);

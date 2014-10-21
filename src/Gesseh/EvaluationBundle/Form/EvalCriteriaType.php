@@ -27,6 +27,7 @@ class EvalCriteriaType extends AbstractType
               'choices' => array(
                 '1' => 'Choix pondéré',
                 '3' => 'Choix multiple',
+                '4' => 'Valeur numérique',
                 '2' => 'Texte long',
               ),
               'required' => true,

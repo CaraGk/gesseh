@@ -41,7 +41,14 @@
                         <li class="tag" style="font-size:{{ size }}em;">{{ tag }}</li>
                     {% endfor %}
                 </ul>
-            </div>
+            </li>
+        {% elseif item['type'] == 4 %}
+            <li class="criteria {{ cycle(['odd', 'even'], loop.index0) }}">
+                <div class="rank">{{ rank }}</div>
+                <div class="name">{{ item['name'] }} :</div>
+                <div class="mean">{{ item['mean'][0] }}</div>
+                <div class="total"> ({{ item['total'][0] }} évaluations)</div>
+            </li>
         {% endif %}
     {% else %}
         <div class="criteria">Aucune évaluation pour le terrain de stage.</div>

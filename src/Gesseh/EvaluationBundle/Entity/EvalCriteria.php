@@ -149,7 +149,9 @@ class EvalCriteria
         } elseif ($this->type == 2) {
             return "Texte long";
         } elseif ($this->type == 3) {
-            return "Choix multiples";
+            return "Choix multiple";
+        } elseif ($this->type == 4) {
+            return "Valeur numérique";
         } else {
             return "Type inconnu";
         }

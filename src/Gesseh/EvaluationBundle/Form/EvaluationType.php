@@ -52,6 +52,12 @@ class EvaluationType extends AbstractType
                     'expanded' => true,
                     'label'    => $criteria->getName(),
                 ));
+            } elseif ($criteria->getType() == 4) {
+                $builder->add('criteria_' . $criteria->getId(), 'integer', array(
+                    'precision' => $criteria->getMore(),
+                    'required'  => $criteria->getRequired(),
+                    'label'     => $criteria->getName(),
+                ));
             }
         }
     }
