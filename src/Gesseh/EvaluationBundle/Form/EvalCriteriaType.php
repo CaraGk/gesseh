@@ -25,7 +25,8 @@ class EvalCriteriaType extends AbstractType
             ->add('name')
             ->add('type', 'choice', array(
               'choices' => array(
-                '1' => 'Choix pondéré',
+                '1' => 'Choix unique pondéré',
+                '5' => 'Choix unique non pondéré',
                 '3' => 'Choix multiple',
                 '4' => 'Valeur numérique',
                 '2' => 'Texte long',

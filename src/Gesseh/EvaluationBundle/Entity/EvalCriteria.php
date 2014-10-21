@@ -145,13 +145,15 @@ class EvalCriteria
     public function getReadableType()
     {
         if ($this->type == 1) {
-            return "Choix pondéré";
+            return "Choix unique pondéré";
         } elseif ($this->type == 2) {
             return "Texte long";
         } elseif ($this->type == 3) {
             return "Choix multiple";
         } elseif ($this->type == 4) {
             return "Valeur numérique";
+        } elseif ($this->type == 4) {
+            return "Choix unique non pondéré";
         } else {
             return "Type inconnu";
         }

@@ -31,7 +31,7 @@ class EvaluationType extends AbstractType
         foreach ($this->criterias as $criteria) {
             if ($criteria->getType() == 1) {
                 $builder->add('criteria_' . $criteria->getId(), 'choice', array(
-                    'choices'  => $this->getCriteriaChoiceOptions($criteria->getMore()),
+                    'choices'  => $this->getCriteriaSubjectiveChoiceOptions($criteria->getMore()),
                     'required' => $criteria->getRequired(),
                     'multiple' => false,
                     'expanded' => true,
@@ -46,7 +46,7 @@ class EvaluationType extends AbstractType
                 ));
             } elseif ($criteria->getType() == 3) {
                 $builder->add('criteria_' . $criteria->getId(), 'choice', array(
-                    'choices'  => $this->getCriteriaMultipleChoiceOptions($criteria->getMore()),
+                    'choices'  => $this->getCriteriaChoiceOptions($criteria->getMore()),
                     'required' => $criteria->getRequired(),
                     'multiple' => true,
                     'expanded' => true,
@@ -58,6 +58,14 @@ class EvaluationType extends AbstractType
                     'required'  => $criteria->getRequired(),
                     'label'     => $criteria->getName(),
                 ));
+            } elseif ($criteria->getType() == 5) {
+                $builder->add('criteria_' . $criteria->getId(), 'choice', array(
+                    'choices'  => $this->getCriteriaChoiceOptions($criteria->getMore(), array(0)),
+                    'required' => $criteria->getRequired(),
+                    'multiple' => false,
+                    'expanded' => true,
+                    'label'    => $criteria->getName(),
+                ));
             }
         }
     }
@@ -67,7 +75,7 @@ class EvaluationType extends AbstractType
     return 'gesseh_simulationbundle_evaluationtype';
   }
 
-  public function getCriteriaChoiceOptions($options)
+  public function getCriteriaSubjectiveChoiceOptions($options)
   {
     $opt = explode("|", $options);
     $label = explode(",", $opt[1]);
@@ -83,12 +91,14 @@ class EvaluationType extends AbstractType
     return $choices;
   }
 
-    public function getCriteriaMultipleChoiceOptions($options)
+    public function getCriteriaChoiceOptions($options, $except = array())
     {
         $opt = explode("|", $options);
         $choice = array();
-        foreach($opt as $value) {
-            $choice[$value] = $value;
+        foreach($opt as $key => $value) {
+            if (!in_array($key, $except)) {
+                $choice[$value] = $value;
+            }
         }
         return $choice;
   }
