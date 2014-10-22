@@ -28,11 +28,11 @@ Pour son installation, vous aurez besoin d'un serveur web (apache, lighttpd, ...
 
 ###Via une archive snapshot
 
-1. Récupérez la dernière archive sur [Google code](https://code.google.com/p/gesseh/downloads/list).
+1. Récupérez la dernière version sur [GitHub](https://github.com/CaraGk/gesseh/releases).
 2. Extrayez-la dans votre répertoire web.
 3. Copiez le fichier *app/config/parameters.ini.dist* vers *app/config/parameters.ini* et adaptez-le à vos besoins (connexion MySQL, etc).
-4. Importez le fichiers **gesseh_x.y-z.sql** dans votre base de données (en utilisant phpMyAdmin par exemple).
-5. Les identifiants sont : *admin@exemple.fr* ; mot de passe : *admin*
+4. Importez le fichiers **gesseh_release_x.y.z.sql** dans votre base de données (en utilisant phpMyAdmin par exemple).
+5. Les identifiants sont : *admin@exemple.fr* ; mot de passe : *admin*. Il est essentiel que vous changiez cet identifiant et le mot de passe dès l’installation effectuée.
 
 ###Via les dépots Git
 
