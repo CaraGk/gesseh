@@ -1,0 +1,8 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Adresses mails ({{ grade }}){% endblock %}
+{% block titlecontent %}{{ grade }} : adresses mails{% endblock %}
+
+{% block content %}
+    <textarea disabled class="export">{{ mails }}</textarea>
+{% endblock %}

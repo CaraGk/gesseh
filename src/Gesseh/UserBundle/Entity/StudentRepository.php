@@ -114,4 +114,20 @@ class StudentRepository extends EntityRepository
 
       return $query->getQuery()->getResult();
   }
+
+    public function getMailsByGrade($grade_id)
+    {
+        $query = $this->getStudentQuery();
+        $query->where('s.grade = :grade_id')
+            ->setParameter('grade_id', $grade_id);
+
+        $result= $query->getQuery()->getResult();
+        $list = "";
+
+        foreach ($result as $student) {
+            $list .= $student->getUser()->getEmail() . ", ";
+        }
+
+        return $list;
+    }
 }

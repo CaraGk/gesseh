@@ -329,4 +329,22 @@ class StudentAdminController extends Controller
     );
   }
 
+    /**
+     * Exporter les adresses mail des étudiants par promotion
+     *
+     * @Route("/export/{grade_id}/mail", name="GUser_SAExportMail", requirements={"grade_id" = "\d+"})
+     * @Template()
+     */
+    public function exportMailAction($grade_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $mails = $em->getRepository('GessehUserBundle:Student')->getMailsByGrade($grade_id);
+        $grade = $em->getRepository('GessehUserBundle:Grade')->find($grade_id);
+
+        return array(
+            'mails'  => $mails,
+            'grade' => $grade,
+        );
+    }
+
 }
