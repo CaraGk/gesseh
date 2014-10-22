@@ -4,13 +4,17 @@
 
 {% block content %}
 
-  <div>
+  <div class="field">
       <form>
           <label for="search">Nom :</label>
           <input type="text" id="search" name="search" value="{{ search }}" />
           <button type="submit"><img src="{{ asset('bundles/gessehcore/images/Search.png') }}" alt="Rechercher" /></button>
       </form>
   </div>
+  <ul class="actions">
+      <li class=""><a href="{{ path('GUser_SAImport') }}" title="Importer une promotion d'internes">Importer</a></li>
+  </ul>
+
   {% if student_form is not empty %}
     {% form_theme student_form 'GessehCoreBundle:Form:fields.html.twig' %}
     {% if form_errors(student_form) is not empty %}<div class="error">{{ form_errors(student_form) }}</div>{% endif %}
