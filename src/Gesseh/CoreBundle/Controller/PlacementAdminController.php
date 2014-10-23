@@ -127,6 +127,7 @@ class PlacementAdminController extends Controller
   public function placementAction()
   {
     $em = $this->getDoctrine()->getManager();
+    $limit = $this->get('request')->query->get('limit', null);
     $paginator = $this->get('knp_paginator');
     $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($this->get('request')->query->get('limit', null));
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
@@ -142,6 +143,7 @@ class PlacementAdminController extends Controller
       'placement_id'   => null,
       'placement_form' => null,
       'evaluated'      => $evaluated,
+      'limit'          => $limit,
     );
   }
 

@@ -210,7 +210,7 @@ class AdminController extends Controller
   /**
    * Affiche les evaluations textuelles pour modération
    *
-   * @Route("/t", name="GEval_ATextIndex")
+   * @Route("/moderation/", name="GEval_ATextIndex")
    * @Template()
    */
   public function textIndexAction()
@@ -351,5 +351,36 @@ class AdminController extends Controller
 
         $this->get('session')->getFlashBag()->add('notice', $count . ' email(s) ont été envoyé(s).');
         return $this->redirect($this->generateUrl('GEval_AIndex'));
+    }
+
+    /**
+     * Supprime l'évaluation d'un stage
+     *
+     * @Route("/placement/{id}/delete", name="GEval_ADeleteEval", requirements={"id" = "\d+"})
+     */
+    public function deleteEval($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $evaluations = $em->getRepository('GessehEvaluationBundle:Evaluation')->findByPlacement($id);
+
+        if (!$evaluations)
+          throw $this->createNotFoundException('Unable to find evaluation entity.');
+
+        foreach($evaluations as $evaluation) {
+            $em->remove($evaluation);
+        }
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('notice', 'Évaluation complète supprimée.');
+
+        $queryArray = [];
+        if($limit = $this->getRequest()->query->get('limit')) {
+            $queryArray['limit'] = array(
+                'type'        => $limit['type'],
+                'value'       => $limit['value'],
+                'description' => $limit['description'],
+            );
+        }
+        return $this->redirect($this->generateUrl('GCore_PAPlacementIndex', $queryArray));
     }
 }
