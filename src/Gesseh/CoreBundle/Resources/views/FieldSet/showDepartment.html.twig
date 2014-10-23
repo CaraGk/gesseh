@@ -1,21 +1,23 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
+{% block title %}{{ parent() }} - {{ department.hospital.name }}/{{ department.name }} : informations{% endblock %}
+
 {% block titlecontent %}{{ department.name }} à {{ department.hospital.name }}{% endblock %}
 
 {% block actionscontent %}
-  <ul>
-    <li><a href="{{ path('GCore_FSIndex') }}" title="Retour à la liste des terrains">Retour</a></li>
-    <li><a href="{{ path('GCore_FSShowHospital', {id: department.hospital.id}) }}" title="Afficher les informations concernant l'hôpital '{{ department.hospital }}'">Infos hôpital</a></li>
-    {% if kparam('eval_active') == true %}
-      <li><a href="{{ path('GEval_DShow', {id: department.id}) }}" title="Afficher les évaluations pour ce service"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>
-    {% endif %}
-    {% if is_granted('ROLE_ADMIN') %}
-      <li><a href="{{ path('GCore_FSAEditDepartmentDescription', {id: department.id}) }}" title="Modifier la description du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-    {% endif %}
-  </ul>
+    <ul class="actions">
+        <li class=""><a href="{{ path('GCore_FSIndex') }}" title="Retour à la liste des terrains"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
+        <li class=""><a href="{{ path('GCore_FSShowHospital', {id: department.hospital.id}) }}" title="Afficher les informations concernant l'hôpital '{{ department.hospital }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Infos hôpital"></a></li>
+        {% if kparam('eval_active') == true %}
+            <li class=""><a href="{{ path('GEval_DShow', {id: department.id}) }}" title="Afficher les évaluations pour ce service"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <li class=""><a href="{{ path('GCore_FSAEditDepartmentDescription', {id: department.id}) }}" title="Modifier la description du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
+        {% endif %}
+    </ul>
 {% endblock %}
 
 {% block content %}
-<div>Chef de service : {{ department.head }}</div>
-<div>{{ department.description|raw }}</div>
+    <div class="content">Chef de service : {{ department.head }}</div>
+    <div class="content">{{ department.description|raw }}</div>
 {% endblock %}
