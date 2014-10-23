@@ -128,6 +128,8 @@ class StudentRepository extends EntityRepository
             $list .= $student->getUser()->getEmail() . ", ";
         }
 
+        $list = substr($list, 0, -2);
+
         return $list;
     }
 }

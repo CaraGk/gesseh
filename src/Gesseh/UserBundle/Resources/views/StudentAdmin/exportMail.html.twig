@@ -4,5 +4,11 @@
 {% block titlecontent %}{{ grade }} : adresses mails{% endblock %}
 
 {% block content %}
-    <textarea disabled class="export">{{ mails }}</textarea>
+    <div><select id="separator" class=""><option value="," selected>,</option><option value=" ;">;</option></select></div>
+    <div><textarea disabled id="showlist" class="export">{{ mails }}</textarea></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehuser/js/switchSeparator.js') }}" type="text/javascript"></script>
 {% endblock %}
