@@ -8,8 +8,8 @@
     <ul class="entities placements">
         {% for placement in placements %}
             <li class="field entity placement">
-                <ul class="actions">
-                    {% if kparam('eval_active') == true %}
+                {% if kparam('eval_active') == true %}
+                    <ul class="actions">
                         {% if placement.id not in evaluated %}
                             <li class="nonevaluated">
                                 <a href="{{ path('GEval_DEval', { 'id': placement.id }) }}" title="Évaluer le stage"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" /></a>
@@ -19,8 +19,8 @@
                                 <a href="{{ path('GCore_PIndex') }}"><img src="{{ asset('bundles/gessehcore/images/Checkmark.png') }}" alt="Évaluation" /></a>
                             </li>
                         {% endif %}
-                    {% endif %}
-                </ul>
+                    </ul>
+                {% endif %}
                 <div class="field entity_item period">{{ placement.period }} : </div>
                 <div class="field entity_item fieldset">{{ placement.department.name }} à {{ placement.department.hospital }}</div>
                 <div class="field entity_item department_sector">({{ placement.department.sector.name }})</div>

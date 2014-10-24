@@ -19,7 +19,7 @@ use Gesseh\CoreBundle\Entity\Placement;
 /**
  * Placement controller.
  *
- * @Route("/u/p")
+ * @Route("/placement")
  */
 class PlacementController extends Controller
 {
@@ -32,11 +32,12 @@ class PlacementController extends Controller
     $user = $this->get('security.context')->getToken()->getUsername();
     $em = $this->getDoctrine()->getManager();
     $placements = $em->getRepository('GessehCoreBundle:Placement')->getByUsername($user);
-    $manager = $this->container->get('kdb_parameters.manager');
-    $mod_eval = $manager->findParamByName('eval_active');
+    $pm = $this->container->get('kdb_parameters.manager');
 
-    if (true == $mod_eval->getValue()) { // si les évaluations sont activées
+    if (true == $pm->findParamByName('eval_active')->getValue()) {
       $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $user);
+    } else {
+        $evaluated = array();
     }
 
     return array(
