@@ -102,6 +102,10 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content div.help { font-style: italic; }
 #content div.help span { color: red; font-weight: bold; }
 #content textarea.export { width: 600px; }
+#content .valid { background-color: #AFFFAF; }
+#content .invalid { background-color: #FFCDCD; }
+#content .mouseHand { cursor: pointer; }
+#content li.placement { padding: 5px; margin: 3px; }
 
 #footer { width: 100%; padding-top: 15px; font-size: 90%; height: 30px; background-color: #AAAAAA; }
 #footer ul{ display: inline-block; }

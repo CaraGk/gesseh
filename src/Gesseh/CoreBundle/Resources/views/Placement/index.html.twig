@@ -1,40 +1,37 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
+{% block title %}{{ parent() }} - Stages{% endblock %}
+
 {% block titlecontent %}Mes stages{% endblock %}
 
 {% block content %}
-  <table>
-    <thead>
-      <tr>
-        <th>Session</th>
-        <th>Hôpital</th>
-        <th>Service</th>
-        <th>Catégorie</th>
-        <th class="actions">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for placement in placements %}
-        <tr>
-          <td>{{ placement.period }}</td>
-          <td>{{ placement.department.hospital }}</td>
-          <td>{{ placement.department.name }}</td>
-          <td>{{ placement.department.sector.name }}</td>
-          <td>
-            <ul>
-              {% if kparam('eval_active') == true %}
-                {% if placement.id not in evaluated %}
-                  <li><a href="{{ path('GEval_DEval', { 'id': placement.id }) }}" title="Évaluer le stage">Évaluer</a></li>
-                {% endif %}
-              {% endif %}
-            </ul>
-          </td>
-        <tr>
-      {% else %}
-        <tr>
-          <td colspan=5>Aucun stage effectué</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <ul class="entities placements">
+        {% for placement in placements %}
+            <li class="field entity placement">
+                <ul class="actions">
+                    {% if kparam('eval_active') == true %}
+                        {% if placement.id not in evaluated %}
+                            <li class="nonevaluated">
+                                <a href="{{ path('GEval_DEval', { 'id': placement.id }) }}" title="Évaluer le stage"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" /></a>
+                            </li>
+                        {% else %}
+                            <li class="evaluated">
+                                <a href="{{ path('GCore_PIndex') }}"><img src="{{ asset('bundles/gessehcore/images/Checkmark.png') }}" alt="Évaluation" /></a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+                <div class="field entity_item period">{{ placement.period }} : </div>
+                <div class="field entity_item fieldset">{{ placement.department.name }} à {{ placement.department.hospital }}</div>
+                <div class="field entity_item department_sector">({{ placement.department.sector.name }})</div>
+            </li>
+        {% else %}
+            <li class="field noentity error">Aucun stage effectué</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehevaluation/js/clickEval.js') }}" type="text/javascript"></script>
 {% endblock %}

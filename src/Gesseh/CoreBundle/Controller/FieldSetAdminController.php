@@ -28,14 +28,14 @@ use Gesseh\CoreBundle\Form\DepartmentHandler;
 /**
  * FieldSetAdmin controller.
  *
- * @Route("/admin/f")
+ * @Route("/admin")
  */
 class FieldSetAdminController extends Controller
 {
   /**
    * Lists all Sector entities.
    *
-   * @Route("/s", name="GCore_FSASector")
+   * @Route("/sector", name="GCore_FSASector")
    * @Template()
    */
   public function sectorAction()
@@ -53,7 +53,7 @@ class FieldSetAdminController extends Controller
   /**
    * Displays a form to create a new Hospital entity.
    *
-   * @Route("/h/n", name="GCore_FSANewHospital")
+   * @Route("/hospital/new", name="GCore_FSANewHospital")
    * @Template("GessehCoreBundle:FieldSetAdmin:hospitalForm.html.twig")
    */
   public function newHospitalAction()
@@ -80,7 +80,7 @@ class FieldSetAdminController extends Controller
   /**
    * Displays a form to edit an existing Hospital entity.
    *
-   * @Route("/h/{id}/e", name="GCore_FSAEditHospital", requirements={"id" = "\d+"})
+   * @Route("/hospital/{id}/edit", name="GCore_FSAEditHospital", requirements={"id" = "\d+"})
    * @Template("GessehCoreBundle:FieldSetAdmin:hospitalForm.html.twig")
    */
   public function editHospitalAction($id)
@@ -111,7 +111,7 @@ class FieldSetAdminController extends Controller
   /**
    * Deletes a Hospital entity.
    *
-   * @Route("/h/{id}/d", name="GCore_FSADeleteHospital", requirements={"id" = "\d+"}))
+   * @Route("/hospital/{id}/delete", name="GCore_FSADeleteHospital", requirements={"id" = "\d+"}))
    */
   public function deleteHospitalAction($id)
   {
@@ -132,7 +132,7 @@ class FieldSetAdminController extends Controller
   /**
    * Deletes a Department entity.
    *
-   * @Route("/h/d/{id}/d", name="GCore_FSADeleteDepartment", requirements={"id" = "\d+"}))
+   * @Route("/department/{id}/delete", name="GCore_FSADeleteDepartment", requirements={"id" = "\d+"}))
    */
   public function deleteDepartmentAction($id)
   {
@@ -153,7 +153,7 @@ class FieldSetAdminController extends Controller
   /**
    * Displays a form to create a new Sector entity.
    *
-   * @Route("/s/n", name="GCore_FSANewSector")
+   * @Route("/sector/new", name="GCore_FSANewSector")
    * @Template("GessehCoreBundle:FieldSetAdmin:sector.html.twig")
    */
   public function newSectorAction()
@@ -182,7 +182,7 @@ class FieldSetAdminController extends Controller
   /**
    * Displays a form to edit an existing Sector entity.
    *
-   * @Route("/s/{id}/e", name="GCore_FSAEditSector", requirements={"id" = "\d+"})
+   * @Route("/sector/{id}/edit", name="GCore_FSAEditSector", requirements={"id" = "\d+"})
    * @Template("GessehCoreBundle:FieldSetAdmin:sector.html.twig")
    */
   public function editSectorAction($id)
@@ -214,7 +214,7 @@ class FieldSetAdminController extends Controller
   /**
    * Deletes a Sector entity.
    *
-   * @Route("/s/{id}/d", name="GCore_FSADeleteSector")
+   * @Route("/sector/{id}/delete", name="GCore_FSADeleteSector")
    */
   public function deleteSectorAction($id)
   {
@@ -235,7 +235,7 @@ class FieldSetAdminController extends Controller
   /**
    * Edit the description of the Department entity.
    *
-   * @Route("/d/{id}", name="GCore_FSAEditDepartmentDescription", requirements={"id" = "\d+"})
+   * @Route("/department/{id}", name="GCore_FSAEditDepartmentDescription", requirements={"id" = "\d+"})
    * @Template("GessehCoreBundle:FieldSetAdmin:editDescription.html.twig")
    */
   public function editDepartmentDescriptionAction($id)
@@ -263,7 +263,7 @@ class FieldSetAdminController extends Controller
   /**
    * Edit the description of the Hospital entity.
    *
-   * @Route("/h/{id}", name="GCore_FSAEditHospitalDescription", requirements={"id" = "\d+"})
+   * @Route("/hospital/{id}", name="GCore_FSAEditHospitalDescription", requirements={"id" = "\d+"})
    * @Template("GessehCoreBundle:FieldSetAdmin:editDescription.html.twig")
    */
   public function editHospitalDescriptionAction($id)
