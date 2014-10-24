@@ -47,8 +47,15 @@ class FieldSetController extends Controller
   {
     $department = $this->getDoctrine()->getManager()->getRepository('GessehCoreBundle:Department')->find($id);
 
+    if (true == $pm->findParamByName('eval_active')->getValue()) {
+      $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $user);
+    } else {
+        $evaluated = array();
+    }
+
     return array(
-      'department' => $department
+        'department' => $department,
+        'evaluated'  => $evaluated,
     );
   }
 
