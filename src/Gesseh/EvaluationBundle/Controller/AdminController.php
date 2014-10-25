@@ -294,18 +294,19 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $pm = $this->container->get('kdb_parameters.manager');
-        $departments = $em->getRepository('GessehCoreBundle:Department')->getAll();
+        $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
+        $eval_limit = date('Y-m-d H:i:s', strtotime('-' . $pm->findParamByName('eval_limit')->getValue() . ' year'));
         $pdf = $this->get("white_october.tcpdf")->create();
 
-        foreach ($departments as $department) {
-            $eval[$department->getId()]['text'] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getTextByDepartment($department->getId());
-            $eval[$department->getId()]['num'] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getNumByDepartment($department->getId());
-            $eval[$department->getId()]['form'] = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId());
+        foreach ($hospitals as $hospital) {
+            foreach ($hospital->getDepartments() as $department) {
+                $eval[$department->getId()] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvalByDepartment($department->getId(), $eval_limit);
+            }
         }
 
         $content = $this->renderView('GessehEvaluationBundle:Admin:pdfExport.html.twig', array(
             'eval'        => $eval,
-            'departments' => $departments,
+            'hospitals'   => $hospitals,
         ));
 
         $pdf->SetTitle($pm->findParamByName('title')->getValue() . ' : évaluations');
@@ -317,7 +318,7 @@ class AdminController extends Controller
             $pdf->Output('Evaluations.pdf'),
             200,
             array(
-                'Content-Type' => 'application/pdf',
+                'Content-Type'        => 'application/pdf',
                 'Content-Disposition' => 'attachment; filename="Evaluations.pdf"',
             )
         );

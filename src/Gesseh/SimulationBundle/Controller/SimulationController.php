@@ -189,7 +189,6 @@ class SimulationController extends Controller
       $simstudent->setExtra(null);
 /*      if ($simstudent->countWishes() > 0) {
         foreach ($simstudent->getWishes() as $wish) {
-          var_dump($wish);
           $em->remove($wish);
         }
       }

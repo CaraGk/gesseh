@@ -1,75 +1,52 @@
 /**
- * This file is part of GESSEH project
- *
- * @author: Pierre-François Angrand <caragk@angrand.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
- * @license: GPLv3
- * See LICENSE file or http://www.gnu.org/licenses/gpl.html
+* This file is part of GESSEH project
+*
+* @author: Pierre-François Angrand <caragk@angrand.fr>
+* @copyright: Copyright 2013 Pierre-François Angrand
+* @license: GPLv3
+* See LICENSE file or http://www.gnu.org/licenses/gpl.html
 */
 
 html { }
 body { font: 13px arial, sans-serif; }
 img { border: none; }
 select, input, button, textarea{ font: 99% arial, sans-serif; outline: none; }
-table { text-align: left; background-color: #dfdfdf; border-radius: 5px; border-collapse: collapse; }
-td, th { padding: 7px; margin: 0; }
-th { text-align: center; font-weight: bold; }
-pre, code, kbd, samp, tt { font-family: monospace; font-size: 99%; line-height:100% }
 a { color: #524F46; outline: none; text-decoration: underline; }
 strong { font-weight: bold; }
 em { font-style: italic; }
 div { margin: 0; padding: 0; }
 h1, h2 { text-align: center; width: 100%; }
+h1 { width:100%; font-size: 1.8em; font-weight: bold; text-align: center; margin: 5px; padding: 0; }
+h2 { font-size: 1.6em; text-decoration: underline; }
+h3 { font-size: 1.4em; font-style: italic; }
 :invalid { background-color: #e55; outline: none; }
+ul { margin: 0; padding: 0; }
+ul li { list-style: none; margin: 0; padding: 0; }
 
-#container { margin-left: 5%; margin-right: 5%; background-color: #b5bfc8; border: 2px solid #606d73; border-radius: 15px; }
-
-#header { width: 100%; height: 100px; text-align: center; position: relative; background-color: #77aaff; border-radius: 15px 15px 0 0; }
-#header img, h1 { display: inline-block; }
-#header h1 { padding: 15px; margin: 0 10px 10px 10px; font-size: 3em; color: white; }
-#header a { text-decoration: none; color: black; }
-#header img { margin: 5px; position: absolute; left: 10px; top: 15px; }
-#header nav { text-align: right; font-weight: bold; font-size: 0.9em; margin-right: 15px; padding-top: 2px; }
-#header nav a { color: #333; }
-#header nav a:hover { color: #FFF; }
-
-.department { text-align: left; padding: 10px; background-color: #eee; }
-.department h1 { width:100%; font-size: 1.8em; font-weight: bold; text-align: center; margin: 5px; padding: 0; }
-.department ol.infos { display: inline-block; }
-.department ol.infos li{ display: inline; list-style: decimal; margin-right: 5px; }
-.department ul { }
-.department ul li { list-style: none; }
-.department div.comments { margin: 10px; border: 1px solid black; padding: 5px; }
-.department div.eval{ margin: 10px }
-.department div.description { border: 1px dotted black; margin: 10px; }
-.department table { width: auto; border: 1px solid grey; border-collapse: collapse; }
-.department td, th { margin: 0; padding: 2px; border: 1px dotted grey; }
-.department td { width: 180px; }
-.department td.odd { background-color: #fcfca0; }
-.department td.even { background-color: #fefee3; }
-.department td.actions { width: 90px; vertical-align: top; }
-.department td.small { width: 45px; text-align: center; }
-.department td.pagination { text-align: center; }
-.department thead { background-color: #fdef55; }
-.department tfoot {}
-.department table ul { display: inline-block; margin: 0; padding: 0; }
-.department table li { display: block; margin: 2px; padding: 0; }
-.department textarea { width: 99%; height: 200px; }
-.department table.mceToolbar th, .department table.mceToolbar td { border: none; }
-.department div.criteria_block { border: 1px solid black; margin: 1px; }
-.department div.criteria_name { border: 1px solid black; padding: 1px; background-color: #fdef55; font-weight: bold; text-align: center; }
-.department div.criteria_content { padding: 2px; }
-.department span.eval_title { font-weight: bold; text-decoration: underline }
-.department span.eval_content { }
-
-#footer { width: 100%; padding-top: 15px; font-size: 90%; height: 30px; position: relative; background-color: #aaa; border-radius: 0 0 15px 15px; }
-#footer ul{ display: inline-block; }
-#footer li{ list-style: none; margin-right: 15px; display: inline-block; }
-#footer li a{ text-decoration: none; color: #77766F; }
-#footer li a:hover{ color: #333; text-decoration: underline; }
-#footer .miniature { font-family: arial,sans-serif; font-size: 80%; float: right; margin-right:10px; color: #666; }
-#footer .miniature img{ vertical-align: middle; }
-#footer form{ margin: 10px 0; color: #5f6364; }
+div.title { text-align: center; width: 100%; font-weight: bold; }
+ul.entities { display: block; }
+li.entity { display: block; }
+ul.subentities { display: block; }
+li.subentity { display: block; }
+ul.evaluations { }
+li.criteria { display: inline-block; padding: 5px; margin: 5px; }
+.noentity { text-align: center; width: 100%; }
+div.rank, #content div.name, #content div.mean, #content div.total, #content ul.tags, #content li.tag { display: inline-block }
+div.rank { width: 20px; }
+div.name { width: 300px; padding: 5px; font-weight: bold; }
+div.mean { padding: 5px; background-color: pink; border-radius: 15px; }
+div.total { font-style: italic; font-size: 80%; }
+ul.comments { padding: 0; margin: 0; }
+li.comment { padding: 5px; margin: 5px; }
+div.comments { margin: 10px; border: 1px solid black; padding: 5px; }
+div.eval{ margin: 10px }
+div.description { border: 1px dotted black; margin: 5px; padding: 5px; }
+.field { display: inline-block; }
+.odd { background-color: #fefee3; }
+.even { background-color: #fefee3; }
+.subodd { background-color: #e1e1e1; }
+.subeven { background-color: #f1f1f1; }
+.actions { width: 90px; vertical-align: top; }
 
 .active{ background-color: #aa7777; }
 .valide{ background-color: #77aa77; }

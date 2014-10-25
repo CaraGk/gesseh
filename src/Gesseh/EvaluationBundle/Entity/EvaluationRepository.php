@@ -110,7 +110,11 @@ class EvaluationRepository extends EntityRepository
             if ($criteria->getType() == 3) {
                 foreach (explode('|', $criteria->getMore()) as $item) {
                     if (isset($calc[$criteria->getId()]['count'][0][$item])) {
-                        $calc[$criteria->getId()]['size'][0][$item] = 0.5 + round(($calc[$criteria->getId()]['count'][0][$item] - min($calc[$criteria->getId()]['count'][0])) * (2 - 0.5) / (max($calc[$criteria->getId()]['count'][0]) - min($calc[$criteria->getId()]['count'][0])), 1);
+                        $divisor = max($calc[$criteria->getId()]['count'][0]) - min($calc[$criteria->getId()]['count'][0]);
+                        if ($divisor <= 0) {
+                            $divisor = 1;
+                        }
+                        $calc[$criteria->getId()]['size'][0][$item] = 0.5 + round(($calc[$criteria->getId()]['count'][0][$item] - min($calc[$criteria->getId()]['count'][0])) * (2 - 0.5) / $divisor, 1);
                     }
                 }
             } elseif ($criteria->getType() == 5 or $criteria->getType() == 6) {
