@@ -268,7 +268,7 @@ class SimulationController extends Controller
 
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
-      $departments = $em->getRepository('GessehCoreBundle:Department')->getAll();
+      $departments = $em->getRepository('GessehCoreBundle:Department')->getAvailable();
       $left = array();
 
       foreach ($departments as $department) {

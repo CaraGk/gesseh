@@ -1,31 +1,31 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
+{% block title %}{{ parent() }} - Postes restants{% endblock %}
+
 {% block titlecontent %}Postes restants au moment de mon choix{% endblock %}
 
+{% block actionscontent %}
+<li><a href="{{ path('GSimul_SIndex') }}" title="Retour à mes vœux"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
+{% endblock %}
+
 {% block content %}
-  <ul>
-    <li><a href="{{ path('GSimul_SIndex') }}" title="Retour à mes vœux">Retour</a></li>
-  </ul>
-  <table>
-    <thead>
-      <tr>
-        <th>Hôpital</th>
-        <th>Service</th>
-        <th>Catégorie</th>
-        <th class="small">Postes restants</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for department in departments %}
-        <tr>
-          <td>{{ department.hospital.name }}</td>
-          <td>{{ department.name }}</td>
-          <td>{{ department.sector.name }}</td>
-          <td class="small">{{ left[department.id] }} / {{ department.number }}</td>
-        </tr>
-      {% else %}
-        <tr><td colspan=4>Aucun service retrouvé dans la base de données. Contactez un administrateur.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <ul class="entities wishes">
+        {% for department in departments %}
+            <li class="entity wish
+                {% if department.number == 0 %}
+                    grey
+                {% elseif left[department.id] > 0 %}
+                    valid
+                {% else %}
+                    invalid
+                {% endif %}
+            ">
+                <div class="entity_item fieldset">{{ department.name }} à {{ department.hospital.name }}</div>
+                <div class="entity_item sector">{{ department.sector.name }}</div>
+                <div class="entity_item number">{{ left[department.id] }} / {{ department.number }}</div>
+            </li>
+        {% else %}
+            <li class="noentity error">Aucun service retrouvé dans la base de données. Contactez un administrateur.</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

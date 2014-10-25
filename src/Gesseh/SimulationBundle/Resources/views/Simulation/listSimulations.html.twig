@@ -1,35 +1,43 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
+{% block title %}{{ parent() }} - Simulation{% endblock %}
+
 {% block titlecontent %}Résultats de la simulation{% endblock %}
 
+{% block actionscontent %}
+<li><a href="{{ path('GSimul_SIndex') }}" title="Retour à mes vœux"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
+{% endblock %}
+
 {% block content %}
-  <ul>
-    <li><a href="{{ path('GSimul_SIndex') }}" title="Retour à mes vœux">Retour</a></li>
-  </ul>
-  <table>
-    <thead>
-      <tr>
-        <th class="small">Rang</th>
-        <th>Étudiant</th>
-        <th>Poste</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for simulation in simulations %}
-        <tr>
-          <td class="small">{{ simulation.id }}</td>
-          <td>{{ simulation.student }}</td>
-          <td>
-            {% if simulation.department is not null %}
-              <a href="{{ path('GSimul_SListDept', {'id': simulation.department.id}) }}" title="Afficher les simulations pour ce poste">{{ simulation.department }}</a>
-            {% elseif not simulation.active %}
-              Ne participe pas à la simulation.
-            {% else %}
-              Aucun choix valide.
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <ul class="entities wishes">
+        {% for simulation in simulations %}
+            <li class="entity wish">
+                <div class="entity_item rank">{{ simulation.id }}.</div>
+                <div class="entity_item student">{{ simulation.student }} : </div>
+                {% if simulation.department is not null %}
+                    <div class="entity_item valid">
+                        <a href="{{ path('GSimul_SListDept', {'id': simulation.department.id}) }}" title="Afficher les simulations pour ce poste">{{ simulation.department }}</a>
+                    </div>
+                {% elseif not simulation.active %}
+                    <div class="entity_item grey">
+                        Ne participe pas à la simulation.
+                    </div>
+                {% else %}
+                    <div class="entity_item invalid">
+                        Aucun choix valide.
+                    </div>
+                {% endif %}
+          {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $('.valid').parent('li').addClass('valid');
+            $('.invalid').parent('li').addClass('invalid');
+            $('.grey').parent('li').addClass('grey');
+        });
+    </script>
 {% endblock %}

@@ -71,6 +71,15 @@ class DepartmentRepository extends EntityRepository
                  ->getResult();
   }
 
+    public function getAvailable()
+    {
+        $query = $this->getDepartmentQuery();
+        $query->where('d.number > 0');
+
+        return $query->getQuery()
+            ->getResult();
+    }
+
   public function getAllCluster($id)
   {
       $department = $this->getById($id);

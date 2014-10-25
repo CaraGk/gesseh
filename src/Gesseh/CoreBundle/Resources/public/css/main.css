@@ -84,6 +84,7 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content ul.entities, #content ul.subentities { display: block; }
 #content li.entity, #content li.subentity { display: block; }
 #content li.entity { margin: 20px 0 10px 0; }
+#content div.entity_title, #content div.entity_item { display: inline-block; }
 #content div.entity_title { font-weight: bold; font-size: 150%; }
 #content div.subentity_title { font-weight: bold; }
 #content li.subentity div { margin: 0 5px 0 5px; }
@@ -134,3 +135,4 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 .orange{ background-color: #FFA500; text-align: center; font-weight: bold; }
 .yellow{ background-color: yellow; text-align: center; font-weight: bold; }
 .green{ background-color: green; text-align: center; font-weight: bold; }
+.grey { background-color: #e1e1e1; }

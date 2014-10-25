@@ -6,9 +6,9 @@
 
 {% block actionscontent %}
     <ul class="actions">
-        <li><a href="{{ path('GSimul_SList') }}" title="Affiche un tableau global des simulations">Tableau de simulation</a></li>
-        <li><a href="{{ path('GSimul_SLeft') }}" title="Affiche les postes restants au moment de mon choix">Mes postes restants</a></li>
-        <li><a href="{{ path('GSimul_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels">Lancer la simulation</a></li>
+        <li class=""><a class="button" href="{{ path('GSimul_SList') }}" title="Affiche un tableau global des simulations"><button type="button">Tableau de simulation</button></a></li>
+        <li class=""><a class="button" href="{{ path('GSimul_SLeft') }}" title="Affiche les postes restants au moment de mon choix"><button type="button">Mes postes restants</button></a></li>
+        <li class=""><a class="button" href="{{ path('GSimul_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels"><button type="button">Lancer la simulation</button></a></li>
     </ul>
 {% endblock %}
 
@@ -49,4 +49,15 @@
         </ul>
         <div>{{ form(wish_form) }}</div>
     {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+                $('.button').html(function() {
+                        var button = '<button type="button" href="' + $(this).attr('href') + '">' + $(this).text() + '
+                });
+        });
+    </script>
 {% endblock %}
