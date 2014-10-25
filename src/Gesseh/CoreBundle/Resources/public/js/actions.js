@@ -2,8 +2,8 @@ $('document').ready(function(){
     $('.action').hide();
 
     $('li.entity').hover(function(){
-        $(this).children('.action').show();
+        $(this).children('ul').children('.action').show();
     }, function(){
-        $(this).children('.action').hide();
+        $(this).children('ul').children('.action').hide();
     });
 });
