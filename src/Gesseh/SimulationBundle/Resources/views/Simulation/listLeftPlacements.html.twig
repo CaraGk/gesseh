@@ -21,7 +21,7 @@
                 {% endif %}
             ">
                 <div class="entity_item fieldset">{{ department.name }} à {{ department.hospital.name }}</div>
-                <div class="entity_item sector">{{ department.sector.name }}</div>
+                <div class="entity_item sector">({{ department.sector.name }})</div>
                 <div class="entity_item number">{{ left[department.id] }} / {{ department.number }}</div>
             </li>
         {% else %}
