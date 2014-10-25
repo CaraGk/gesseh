@@ -20,7 +20,8 @@
         {% for sector in sectors %}
             <li class="entity sector">
                 {% if sector_id == sector.id and sector_form is not empty %}
-                    {{ form(sector_form) }}
+                    <div class="field sector">{{ form(sector_form) }}</div>
+                    <div class="field"><a href="{{ path('GCore_FSASector') }}" title="Annuler l'ajout de catégorie" class="back"><img src="{{ asset('bundles/gessehcore/images/Error_Symbol.png') }}" alt="Annuler"></a></div>
                 {% else %}
                     <div class="entity_item sector_name">{{ sector.name }}</div>
                     <ul class="actions">
