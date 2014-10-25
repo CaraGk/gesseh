@@ -38,6 +38,9 @@ class SimulationController extends Controller
 
       $user = $this->get('security.context')->getToken()->getUsername();
       $simstudent = $em->getRepository('GessehSimulationBundle:Simulation')->getByUsername($user);
+      if(!$simstudent)
+          throw $this->createNotFoundException('Vous ne participez pas aux simulations. Contacter l\'administrateur du site si vous pensez que cette situation est anormale.');
+
       $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent());
       $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getForStudent($simstudent);
       $missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing($simstudent);

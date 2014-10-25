@@ -47,7 +47,7 @@ class SimulationRepository extends EntityRepository
     $query->where('u.username = :user')
             ->setParameter('user', $user);
 
-    return $query->getQuery()->getSingleResult();
+    return $query->getQuery()->getOneOrNullResult();
   }
 
   public function getSimStudent($id)
