@@ -93,7 +93,7 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content .department_cluster a, #content .department_cluster a:active, #content .department_cluster a:focus, #content .department_cluster a:hover { }
 #content li.criteria { display: block; padding: 5px; margin: 5px; }
 #content div.rank, #content div.name, #content div.mean, #content div.total, #content ul.tags, #content li.tag { display: inline-block }
-#content div.rank { width: 20px; }
+#content div.rank { padding: 1px; margin-right: 10px; }
 #content div.name { width: 300px; padding: 5px; font-weight: bold; }
 #content div.mean { padding: 5px; background-color: pink; border-radius: 15px; }
 #content div.total { font-style: italic; font-size: 80%; }
@@ -106,6 +106,8 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content .invalid { background-color: #FFCDCD; }
 #content .mouseHand { cursor: pointer; }
 #content li.placement { padding: 5px; margin: 3px; }
+#content li.wish { margin: 5px; padding: 5px; }
+#content div.number { border-radius: 20px; background-color: #77AAFF; padding: 2px 6px 2px 6px; }
 
 #footer { width: 100%; padding-top: 15px; font-size: 90%; height: 30px; background-color: #AAAAAA; }
 #footer ul{ display: inline-block; }

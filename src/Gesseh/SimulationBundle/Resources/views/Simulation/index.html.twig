@@ -1,67 +1,52 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
+{% block title %}{{ parent() }} - Vœux{% endblock %}
+
 {% block titlecontent %}Mes vœux de stage{% endblock %}
 
+{% block actionscontent %}
+    <ul class="actions">
+        <li><a href="{{ path('GSimul_SList') }}" title="Affiche un tableau global des simulations">Tableau de simulation</a></li>
+        <li><a href="{{ path('GSimul_SLeft') }}" title="Affiche les postes restants au moment de mon choix">Mes postes restants</a></li>
+        <li><a href="{{ path('GSimul_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels">Lancer la simulation</a></li>
+    </ul>
+{% endblock %}
+
 {% block content %}
-  <ul>
-    <li><a href="{{ path('GSimul_SList') }}" title="Affiche un tableau global des simulations">Tableau de simulation</a></li>
-    <li><a href="{{ path('GSimul_SLeft') }}" title="Affiche les postes restants au moment de mon choix">Mes postes restants</a></li>
-  </ul>
-  {% if not simstudent.active %}
-    <div>Vous ne participez pas à la simulation. Pour participer à nouveau à la simulation et faire vos vœux, <a href="{{ path('GSimul_SGetin') }}">cliquez ici</a>.</div>
-  {% else %}
-    <div>Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, master, inter-CHU, etc.), <a href="{{ path('GSimul_SGetout') }}">cliquez ici</a></div>
+    {% if not simstudent.active %}
+        <div class="content">Vous ne participez pas à la simulation. Pour participer à nouveau à la simulation et faire vos vœux, <a href="{{ path('GSimul_SGetin') }}">cliquez ici</a>.</div>
+    {% else %}
+        <div class="content">Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, master, inter-CHU, etc.), <a href="{{ path('GSimul_SGetout') }}">cliquez ici</a></div>
+        <div class="content">Votre vœu retenu est : <strong>{{ simstudent.department }}</strong>. Au moment de votre choix, il reste {{ simstudent.extra }} place(s) pour ce poste.</div>
+        <div class="content">Devant vous, {{ missing }} personne(s) n'ont pas de vœu validé par la simulation à ce jour.</div>
 
-    <div>Votre vœu retenu est : <strong>{{ simstudent.department }}</strong>. Au moment de votre choix, il reste {{ simstudent.extra }} place(s) pour ce poste.</div>
-    <div>Devant vous, {{ missing }} personne(s) n'ont pas de vœu validé par la simulation à ce jour.</div>
-
-  <table>
-      <thead>
-        <tr>
-          <th>Rang</th>
-          <th>Hôpital</th>
-          <th>Service</th>
-          <th>Catégorie</th>
-          <th class="small">Postes</th>
-          <th class="actions">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for wish in wishes %}
-          <tr>
-            <td>{{ wish.rank }}</td>
-            <td>{{ wish.department.hospital }}</td>
-            <td>
-                {{ wish.department.name }}
-                {% if wish.department.cluster is not null %}
-                  <img src="{{ asset('bundles/gessehcore/images/Warning.png') }}" alt="Cluster" title="Ce terrain de stage fait partie d'un cluster" />
-                {% endif %}
-            </td>
-            <td>{{ wish.department.sector.name }}</td>
-            <td class="small">{{ wish.department.number }}</td>
-            <td class="actions">
-              <ul>
-                <li><a href="{{ path('GSimul_SUp', {wish_id: wish.id}) }}" title="Monter le vœu d'une place"><img src="{{ asset('bundles/gessehcore/images/Button_Up.png') }}" alt="Monter" /></a></li>
-                <li><a href="{{ path('GSimul_SDown', {wish_id: wish.id}) }}" title="Descendre le vœu d'une place"><img src="{{ asset('bundles/gessehcore/images/Button_Down.png') }}" alt="Descendre" /></a></li>
-                <li><a href="{{ path('GSimul_SDelete', {wish_id: wish.id}) }}" title="Supprimer le vœu"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
-              </ul>
-            </td>
-          <tr>
-        {% else %}
-          <tr>
-            <td colspan=5>Aucun vœu enregistré.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  <div>{{ form_errors(wish_form) }}</div>
-  {{ form_start(wish_form) }}
-    {{ form_widget(wish_form.department) }}
-    {{ form_rest(wish_form) }}
-    <button type="submit" title="Ajouter un vœu à la liste">Ajouter</button>
-  {{ form_end(wish_form) }}
-  <ul>
-    <li><a href="{{ path('GSimul_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels">Lancer la simulation</a></li>
-  </ul>
-  {% endif %}
+        <ul class="entities wishes">
+            {% for wish in wishes %}
+                <li class="entity wish
+                    {% if wish.department.id == simstudent.department.id %}
+                        valid
+                    {% else %}
+                        invalid
+                    {% endif %}
+                ">
+                    <ul class="actions">
+                        <li class=""><a href="{{ path('GSimul_SUp', {wish_id: wish.id}) }}" title="Monter le vœu d'une place"><img src="{{ asset('bundles/gessehcore/images/Button_Up.png') }}" alt="Monter" /></a></li>
+                        <li class=""><a href="{{ path('GSimul_SDown', {wish_id: wish.id}) }}" title="Descendre le vœu d'une place"><img src="{{ asset('bundles/gessehcore/images/Button_Down.png') }}" alt="Descendre" /></a></li>
+                    </ul>
+                    <div class="field entity_item rank">{{ wish.rank }}</div>
+                    <div class="field entity_title fieldset">{{ wish.department.name }} à {{ wish.department.hospital }}</div>
+                    {% if wish.department.cluster is not null %}
+                        <div class="field entity_item cluster"><img src="{{ asset('bundles/gessehcore/images/Warning.png') }}" alt="Cluster" title="Ce terrain de stage fait partie d'un cluster" /></div>
+                    {% endif %}
+                    <div class="field entity_item sector">({{ wish.department.sector.name }})</div>
+                    <div class="field entity_item number">{{ wish.department.number }}</div>
+                    <ul class="actions">
+                        <li class=""><a href="{{ path('GSimul_SDelete', {wish_id: wish.id}) }}" title="Supprimer le vœu"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+                    </ul>
+            {% else %}
+                <li class="noentity error">Aucun vœu enregistré.</li>
+            {% endfor %}
+        </ul>
+        <div>{{ form(wish_form) }}</div>
+    {% endif %}
 {% endblock %}

@@ -28,14 +28,14 @@ class WishType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-      $rules = $this->rules;
+        $rules = $this->rules;
 
-      $builder
-        ->add('department', 'entity', array(
-          'class' => 'GessehCoreBundle:Department',
-          'query_builder' => function (\Gesseh\CoreBundle\Entity\DepartmentRepository $er) use ($rules) { return $er->getAdaptedUserList($rules); },
-        )
-      );
+        $builder->add('department', 'entity', array(
+            'class'         => 'GessehCoreBundle:Department',
+            'query_builder' => function (\Gesseh\CoreBundle\Entity\DepartmentRepository $er) use ($rules) { return $er->getAdaptedUserList($rules); },
+            'label'         => ' ',
+        ));
+        $builder->add('Ajouter', 'submit');
     }
 
     public function getName()
