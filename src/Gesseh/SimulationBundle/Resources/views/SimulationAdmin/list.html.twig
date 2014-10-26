@@ -1,6 +1,15 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
+{% block title %}
+{% endblock %}
+
 {% block titlecontent %}Table de simulation{% endblock %}
+
+{% block actionscontent %}
+    <li class="field"><a href="{{ path('GSimul_SASim') }}" title="Lancer l'algorithme de simulation"><button type="button">Lancer les simulations</button></a></li>
+    <li class="field"><a href="{{ path('GSimul_SAPurge') }}" title="Supprimer la table de simulation" class="confirm" confirm="Attention ! Cette opéracion va supprimer toutes les données concernant la simulation en cours. Souhaitez-vous continuer ?"><button type="button">Supprimer la table de simulation</button></a></li>
+    <li class="field"><a href="{{ path('GSimul_SASave') }}" title="Valider les simulation et les enregistrer dans les stages."><button type="button">Valider les simulations</button></a></li>
+{% endblock %}
 
 {% block content %}
   <table>
@@ -51,9 +60,6 @@
     {% if simulations is not empty %}
       <div>
         <ul>
-          <li><a href="{{ path('GSimul_SASim') }}" title="Lancer l'algorithme de simulation">Lancer les simulations</a></li>
-          <li><a href="{{ path('GSimul_SAPurge') }}" title="Supprimer la table de simulation (supprime TOUTES les données)" class="confirm">Supprimer la table de simulation</a></li>
-          <li><a href="{{ path('GSimul_SASave') }}" title="Valider les simulation et les enregistrer dans les stages.">Valider les simulations</a></li>
         </ul>
       </div>
     {% endif %}

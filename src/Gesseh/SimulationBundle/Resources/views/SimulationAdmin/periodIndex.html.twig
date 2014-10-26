@@ -5,7 +5,7 @@
   <td class="actions">
     <ul>
       <li><a href="{{ path('GSimul_SAEditPeriod', {'id': period.id}) }}" title="Modifier la session '{{ period }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-      <li><a href="{{ path('GSimul_SADeletePeriod', {'id': period.id}) }}" title="Supprimer la session '{{ period }}'" class="confirm"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+      <li><a href="{{ path('GSimul_SADeletePeriod', {'id': period.id}) }}" title="Supprimer la session '{{ period }}'" class="confirm delete" confirm="Attention ! Cette opération va supprimer également toutes les simulations associées à cette période de simulation. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
     </ul>
   </td>
 </tr>

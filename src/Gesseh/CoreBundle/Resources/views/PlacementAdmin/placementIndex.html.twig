@@ -18,7 +18,7 @@
     <div class="field placement_department"><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 'd.id', 'value': placement.department.id, 'description': placement.department.name ~ ' à ' ~ placement.department.hospital.name}}) }}" title="Afficher les étudiants par stage dans le service {{ placement.department }}">{{ placement.department }}</a></div>
     <ul class="actions">
         <li class=""><a href="{{ path('GCore_PAPlacementEdit', {'id': placement.id}) }}?{{ app.request.queryString }}#placement_{{ placement.id }}" title="Modifier le stage" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-        <li class=""><a href="{{ path('GCore_PAPlacementDelete', {'id': placement.id}) }}?{{ app.request.queryString }}" title="Supprimer le stage" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+        <li class=""><a href="{{ path('GCore_PAPlacementDelete', {'id': placement.id}) }}?{{ app.request.queryString }}" title="Supprimer le stage" class="confirm delete" confirm="Attention ! Cette opération va supprimer le stage et tous les éléments qui s'y rapportent. Voulez-vous continuer ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
         {% if false %}{% if kparam('eval_active') == true and placement.id not in evaluated %}
             <li class=""><a href="" title="Envoyer un message de rappel"><img src="{{ asset('bundles/gessehcore/images/Mail_Add.png') }}" alt="Rappel" /></a></li>
         {% endif %}{% endif %}

@@ -1,6 +1,9 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block titlecontent %}Modération des évaluations textuelles{% endblock %}
+{% block title %}{{ parent() }} - Modération{% endblock %}
+
+{% block titlecontent %}Modération des évaluations{% endblock %}
+
 {% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
 
 {% block content %}
@@ -25,7 +28,7 @@
             <ul>
               <li><a href="{{ path('GEval_AModerationValid', {'id': evaluation.id}) }}" title="Valider l'évaluation"><img src="{{ asset('bundles/gessehcore/images/Valid.png') }}" alt="Valider" /></a></li>
               <li><a href="" title="Modifier l'évaluation"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-              <li><a href="{{ path('GEval_ATextDelete', {'id': evaluation.id}) }}" title="Supprimer le commentaire" class="confirm"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+              <li><a href="{{ path('GEval_ATextDelete', {'id': evaluation.id}) }}" title="Supprimer l'évaluation de l'item" class="confirm delete" confirm="Attention ! Vous allez supprimer une partie d'une évaluation et non l'évaluation complète. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
             </ul>
           </td>
         </tr>

@@ -27,7 +27,7 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         <li><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id }) }}#hospital_{{ hospital.id }}" title="Modifier l'hôpital '{{ hospital.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
                         <li><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 'h.id', 'value': hospital.id, 'description': hospital.name }}) }}" title="Afficher les stages dans l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
-                        <li><a href="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id }) }}" title="Supprimer l'hôpital '{{ hospital.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+                        <li><a href="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id }) }}" title="Supprimer l'hôpital '{{ hospital.name }}'" class="confirm delete" confirm="Attention ! Supprimer cet hôpital supprimera également tous les terrains de stage qui lui sont liés ainsi que les données qui s'y rapportent. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
                     {% endif %}
                 </ul>
                 <ul class="subentities departments">
@@ -53,7 +53,7 @@
                                 {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li class="action stat"><a href="{{ path('GEval_DShow', { 'id': department.id }) }}" title="Afficher les évaluations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>{% endif %}
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <li><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 'd.id', 'value': department.id, 'description': department.name ~ ' à ' ~ department.hospital.name }}) }}" title="Afficher les stages associés au service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
-                                    <li><a href="{{ path('GCore_FSADeleteDepartment', {'id': department.id}) }}" title="Supprimer le service '{{ department.name }}'" class="confirm delete"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+                                    <li><a href="{{ path('GCore_FSADeleteDepartment', {'id': department.id}) }}" title="Supprimer le service '{{ department.name }}'" class="confirm delete" confirm="Attention ! Supprimer ce terrain de stage suprimera également toutes les données qui s'y rapportent (stages, évaluations, etc). Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
                                 {% endif %}
                             </ul>
                         </li>
