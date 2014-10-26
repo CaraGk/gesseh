@@ -28,6 +28,8 @@ use Gesseh\UserBundle\Entity\User;
 class StudentAdminController extends Controller
 {
   /**
+   * Affiche la liste des student
+   *
    * @Route("/", name="GUser_SAIndex")
    * @Template()
    */
@@ -41,26 +43,21 @@ class StudentAdminController extends Controller
     $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
 
     return array(
-      'students'     => $students,
-      'student_id'   => null,
-      'student_form' => null,
+      'students'       => $students,
       'students_count' => $students_count,
-      'search'       => $search,
+      'search'         => $search,
     );
   }
 
   /**
+   * Affiche un formulaire d'ajout d'un nouveau student
+   *
    * @Route("/new", name="GUser_SANew")
    * @Template("GessehUserBundle:StudentAdmin:edit.html.twig")
    */
   public function newAction()
   {
     $em = $this->getDoctrine()->getManager();
-    $search = $this->get('request')->query->get('search', null);
-    $paginator = $this->get('knp_paginator');
-    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll($search);
-    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll(true, $search);
-    $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
 
@@ -75,26 +72,20 @@ class StudentAdminController extends Controller
     }
 
     return array(
-      'students'     => $students,
-      'student_id'   => null,
+      'student'      => null,
       'student_form' => $form->createView(),
-      'students_count'=> $students_count,
-      'search'       => $search,
     );
   }
 
   /**
+   * Affiche un formulaire de modification de student
+   *
    * @Route("/{id}/edit", name="GUser_SAEdit", requirements={"id" = "\d+"})
    * @Template("GessehUserBundle:StudentAdmin:edit.html.twig")
    */
   public function editAction($id)
   {
     $em = $this->getDoctrine()->getManager();
-    $search = $this->get('request')->query->get('search', null);
-    $paginator = $this->get('knp_paginator');
-    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll($search);
-    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll(true, $search);
-    $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
 
@@ -113,11 +104,8 @@ class StudentAdminController extends Controller
     }
 
     return array(
-      'students'     => $students,
-      'student_id'   => $id,
+      'student'      => $student,
       'student_form' => $form->createView(),
-      'students_count'=> $students_count,
-      'search'       => $search,
     );
   }
 

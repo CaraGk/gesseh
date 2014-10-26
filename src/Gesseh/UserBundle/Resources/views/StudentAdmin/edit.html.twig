@@ -1,10 +1,20 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block title %}{{ parent() }} - Étudiants{% endblock %}
+{% block title %}
+    {{ parent() }} - Étudiants :
+    {% if student is not null %}
+        modifier {{ student }}
+    {% else %}
+        ajouter
+    {% endif %}
+{% endblock %}
 
 {% block titlecontent %}
-    Étudiants ({{ students_count }})
-    <span><a href="{{ path('GUser_SANew') }}#student_new" title="Ajouter un nouvel étudiant"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>
+    {% if student is not null %}
+        Modifier : {{ student }}
+    {% else %}
+        Ajouter un étudiant
+    {% endif %}
 {% endblock %}
 
 {% block actionscontent %}
