@@ -26,21 +26,30 @@ class StudentType extends AbstractType
     $this->testSimulActive = $testSimulActive;
   }
 
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder->add('surname')
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('surname')
             ->add('name')
             ->add('phone')
-            ->add('user', new UserType('Gesseh\UserBundle\Entity\User'))
-            ->add('grade');
+            ->add('user', new UserType('Gesseh\UserBundle\Entity\User'), array(
+                'label' => ' ',
+            ))
+            ->add('grade')
+        ;
 
-    // Si la simulation est activée
-    //if ($this->getContainer()->get('kbd_parameters.manager')->findParamByName('simulation_active')->getValue()) {
-    if ($this->testSimulActive == true) {
-      $builder->add('ranking')
-              ->add('graduate');
+        /* Si la simulation est activée */
+        if ($this->testSimulActive == true) {
+            $builder
+                ->add('ranking')
+                ->add('graduate')
+            ;
+        }
+
+        $builder
+            ->add('Ajouter', 'submit')
+        ;
     }
-  }
 
   public function getName()
   {

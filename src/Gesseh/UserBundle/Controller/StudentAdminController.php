@@ -51,7 +51,7 @@ class StudentAdminController extends Controller
 
   /**
    * @Route("/new", name="GUser_SANew")
-   * @Template("GessehUserBundle:StudentAdmin:index.html.twig")
+   * @Template("GessehUserBundle:StudentAdmin:edit.html.twig")
    */
   public function newAction()
   {
@@ -85,7 +85,7 @@ class StudentAdminController extends Controller
 
   /**
    * @Route("/{id}/edit", name="GUser_SAEdit", requirements={"id" = "\d+"})
-   * @Template("GessehUserBundle:StudentAdmin:index.html.twig")
+   * @Template("GessehUserBundle:StudentAdmin:edit.html.twig")
    */
   public function editAction($id)
   {

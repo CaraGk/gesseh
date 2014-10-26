@@ -111,6 +111,7 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content div.number { border-radius: 20px; background-color: #77AAFF; padding: 2px 6px 2px 6px; }
 #content div.sector { font-style: italic; font-size: 0.9em; }
 #content div.fieldset { font-weight: bold; }
+#content div.student_grade { font-style: italic; }
 
 #footer { width: 100%; padding-top: 15px; font-size: 90%; height: 30px; background-color: #AAAAAA; }
 #footer ul{ display: inline-block; }
