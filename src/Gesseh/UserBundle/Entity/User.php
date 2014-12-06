@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Gesseh\UserBundle\Entity\User
  *
  * @ORM\Table(name="user")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Gesseh\UserBundle\Entity\UserRepository")
  */
 class User extends BaseUser
 {

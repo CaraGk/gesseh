@@ -184,6 +184,7 @@ class StudentAdminController extends Controller
     $em = $this->getDoctrine()->getManager();
     $um = $this->container->get('fos_user.user_manager');
     $error = null;
+    $listUsers = $em->getRepository('GessehUserBundle:User')->getAllEmail();
     $choices = array(
         '0'  => '1re colonne',
         '1'  => '2e colonne',
@@ -222,6 +223,13 @@ class StudentAdminController extends Controller
             'multiple' => false,
             'choices'  => $choices,
         ))
+        ->add('email', 'choice', array(
+            'label'    => 'E-mail',
+            'required' => true,
+            'expanded' => false,
+            'multiple' => false,
+            'choices'  => $choices,
+        ))
         ->add('phone', 'choice', array(
             'label'    => 'Téléphone',
             'required' => false,
@@ -239,13 +247,6 @@ class StudentAdminController extends Controller
             'choices'  => $choices,
             'empty_value' => 'aucune',
             'empty_data'  => null,
-        ))
-        ->add('email', 'choice', array(
-            'label'    => 'E-mail',
-            'required' => true,
-            'expanded' => false,
-            'multiple' => false,
-            'choices'  => $choices,
         ))
         ->add('ranking', 'choice', array(
             'label'    => 'Classement ECN',
@@ -281,6 +282,8 @@ class StudentAdminController extends Controller
         $fileConstraint->mimeTypes = array(
             'application/vnd.oasis.opendocument.spreadsheet',
             'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/octet-stream',
         );
         $errorList = $this->get('validator')->validateValue($form['file']->getData(), $fileConstraint);
 
@@ -288,6 +291,8 @@ class StudentAdminController extends Controller
 
         $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($form['file']->getData())->setActiveSheetIndex();
         $students_count = 2;
+        $students_error = 0;
+        $newUsers = array();
 
         while ($objPHPExcel->getCellByColumnAndRow($form['surname']->getData(), $students_count)->getValue()) {
             $student = new Student();
@@ -312,14 +317,44 @@ class StudentAdminController extends Controller
             $user->addRole('ROLE_STUDENT');
             $user->setPlainPassword('tatatatata');
             $student->setUser($user);
-            $em->persist($student);
-            $um->updateUser($user);
+
+            if (!(in_array(array("emailCanonical" => $user->getEmail()), $listUsers) || in_array($user->getEmail(), $newUsers))) {
+                $em->persist($student);
+                $um->updateUser($user);
+                $newUsers[] = $user->getEmail();
+            } else {
+                $this->get('session')->getFlashBag()->add('error', $student->getName() . ' ' . $student->getSurname() . ' (' . $student->getUser()->getEmail() . ') : l\'utilisateur existe déjà dans la base de données.');
+                $students_error++;
+            }
             $students_count++;
         }
 
         $em->flush();
 
-        $this->get('session')->getFlashBag()->add('notice', $students_count - 2 . " ont été enregistrés dans la base de données.");
+        if ($students_count - 2 > 1) {
+            $message = $students_count - 2 . " lignes ont été traitées. ";
+        } elseif ($students_count - 2 == 1) {
+            $message = "Une ligne a été traitée. ";
+        } else {
+            $message = "Aucune ligne n'a été traitée.";
+        }
+        if ($students_error) {
+            if ($students_count - 2 - $students_error > 1) {
+                $message .= $students_count - 2 - $students_error . " étudiants ont été enregistrés dans la base de données. ";
+            } elseif ($students_count - 2 - $students_error == 1) {
+                $message .= "Un étudiant a été enregistré dans la base de données. ";
+            } else {
+                $message .= "Aucun étudiant n'a été enregistré dans la base de données. ";
+            }
+            if ($students_error > 1) {
+                $message .= $students_error . " doublons n'ont pas été ajoutés.";
+            } else {
+                $message .= "Un doublon n'a pas été ajouté.";
+            }
+        } else {
+            $message .= $students_count - 2 . " étudiants ont été enregistrés dans la base de données. Il n'y a pas de doublons traités.";
+        }
+        $this->get('session')->getFlashBag()->add('notice', $message);
 
         return $this->redirect($this->generateUrl('GUser_SAIndex'));
         } else {
