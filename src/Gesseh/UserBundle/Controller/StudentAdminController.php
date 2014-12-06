@@ -19,6 +19,7 @@ use Gesseh\UserBundle\Entity\Student;
 use Gesseh\UserBundle\Form\StudentType;
 use Gesseh\UserBundle\Form\StudentHandler;
 use Gesseh\UserBundle\Entity\User;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * StudentAdmin controller.
@@ -182,6 +183,7 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $um = $this->container->get('fos_user.user_manager');
+    $error = null;
     $choices = array(
         '0'  => '1re colonne',
         '1'  => '2e colonne',
@@ -274,6 +276,16 @@ class StudentAdminController extends Controller
     $form->handleRequest($request);
 
     if ($form->isValid()) {
+        $fileConstraint = new File();
+        $fileConstraint->mimeTypesMessage = "Invalid mime type : ODS or XLS required.";
+        $fileConstraint->mimeTypes = array(
+            'application/vnd.oasis.opendocument.spreadsheet',
+            'application/vnd.ms-excel',
+        );
+        $errorList = $this->get('validator')->validateValue($form['file']->getData(), $fileConstraint);
+
+        if(count($errorList) == 0) {
+
         $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($form['file']->getData())->setActiveSheetIndex();
         $students_count = 2;
 
@@ -310,10 +322,14 @@ class StudentAdminController extends Controller
         $this->get('session')->getFlashBag()->add('notice', $students_count - 2 . " ont été enregistrés dans la base de données.");
 
         return $this->redirect($this->generateUrl('GUser_SAIndex'));
+        } else {
+            $error = $errorList[0]->getMessage();
+        }
     }
 
     return array(
-        'form' => $form->createView(),
+        'form'  => $form->createView(),
+        'error' => $error,
     );
   }
 
