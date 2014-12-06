@@ -4,7 +4,13 @@
 {% block titlecontent %}{{ grade }} : adresses mails{% endblock %}
 
 {% block content %}
-    <div><select id="separator" class=""><option value="," selected>,</option><option value=" ;">;</option></select></div>
+    <div>
+        <select id="separator" class="">
+            <option value=", " selected>,</option>
+            <option value=" ; ">;</option>
+            <option value="retour">À la ligne</option>
+        </select>
+    </div>
     <div><textarea id="showlist" class="export">{{ mails }}</textarea></div>
 {% endblock %}
 
