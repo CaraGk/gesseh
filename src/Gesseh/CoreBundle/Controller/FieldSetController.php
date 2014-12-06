@@ -45,7 +45,11 @@ class FieldSetController extends Controller
    */
   public function showDepartmentAction($id)
   {
-    $department = $this->getDoctrine()->getManager()->getRepository('GessehCoreBundle:Department')->find($id);
+    $em = $this->getDoctrine()->getManager();
+    $pm = $this->container->get('kdb_parameters.manager');
+    $user = $this->get('security.context')->getToken()->getUsername();
+    $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
+    $limit = $this->get('request')->query->get('limit', null);
 
     if (true == $pm->findParamByName('eval_active')->getValue()) {
       $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $user);
@@ -56,6 +60,7 @@ class FieldSetController extends Controller
     return array(
         'department' => $department,
         'evaluated'  => $evaluated,
+        'limit'      => $limit,
     );
   }
 
@@ -67,14 +72,19 @@ class FieldSetController extends Controller
    */
   public function showHospitalAction($id)
   {
-    $hospital = $this->getDoctrine()->getManager()->getRepository('GessehCoreBundle:Hospital')->find($id);
+    $em = $this->getDoctrine()->getManager();
+    $pm = $this->container->get('kdb_parameters.manager');
+    $user = $this->get('security.context')->getToken()->getUsername();
+    $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
+    $limit = $this->get('request')->query->get('limit', null);
 
     if (!$hospital) {
         throw $this->createNotFoundException('Unable to find Hospital entity.');
     }
 
     return array(
-      'hospital' => $hospital,
+        'hospital' => $hospital,
+        'limit'    => $limit,
     );
   }
 }

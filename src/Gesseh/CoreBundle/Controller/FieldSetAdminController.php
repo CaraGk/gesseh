@@ -61,6 +61,7 @@ class FieldSetAdminController extends Controller
     $em = $this->getDoctrine()->getManager();
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
+    $limit = $this->get('request')->query->get('limit', null);
 
     $hospital = new Hospital();
     $form   = $this->createForm(new HospitalType($mod_simul->getValue()), $hospital);
@@ -73,7 +74,8 @@ class FieldSetAdminController extends Controller
     }
 
     return array(
-      'hospital_form' => $form->createView(),
+        'hospital_form' => $form->createView(),
+        'limit'         => $limit,
     );
   }
 
@@ -88,6 +90,7 @@ class FieldSetAdminController extends Controller
     $em = $this->getDoctrine()->getManager();
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
+    $limit = $this->get('request')->query->get('limit', null);
 
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
 
@@ -104,7 +107,8 @@ class FieldSetAdminController extends Controller
     }
 
     return array(
-      'hospital_form' => $editForm->createView(),
+        'hospital_form' => $editForm->createView(),
+        'limit'         => $limit,
     );
   }
 
@@ -117,6 +121,7 @@ class FieldSetAdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
+    $limit = $this->get('request')->query->get('limit', null);
 
     if (!$hospital)
       throw $this->createNotFoundException('Unable to find Hospital entity.');
@@ -126,7 +131,7 @@ class FieldSetAdminController extends Controller
 
     $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" supprimé.');
 
-    return $this->redirect($this->generateUrl('GCore_FSAIndex'));
+    return $this->redirect($this->generateUrl('GCore_FSAIndex', array('limit' => $limit)));
   }
 
   /**
@@ -138,6 +143,7 @@ class FieldSetAdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
+    $limit = $this->get('request')->query->get('limit', null);
 
     if (!$department)
       throw $this->createNotFoundException('Unable to find Department entity.');
@@ -147,7 +153,7 @@ class FieldSetAdminController extends Controller
 
     $this->get('session')->getFlashBag()->add('notice', 'Service "' . $department->getName() . '" supprimé.');
 
-    return $this->redirect($this->generateUrl('GCore_FSIndex'));
+    return $this->redirect($this->generateUrl('GCore_FSIndex', array('limit' => $limit)));
   }
 
   /**
@@ -242,6 +248,7 @@ class FieldSetAdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
+    $limit = $this->get('request')->query->get('limit', null);
 
     if (!$department)
       throw $this->createNotFoundException('Unable to find Department entity.');
@@ -252,12 +259,13 @@ class FieldSetAdminController extends Controller
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Description du service "' . $department->getName() . '" enregistrée.');
 
-      return $this->redirect($this->generateUrl('GCore_FSAEditDepartmentDescription', array('id' => $id)));
+      return $this->redirect($this->generateUrl('GCore_FSAEditDepartmentDescription', array('id' => $id, 'limit' => $limit)));
     }
 
     return array(
-      'entity'  => $department,
+      'entity'    => $department,
       'edit_form' => $editForm->createView(),
+      'limit'     => $limit,
     );
   }
   /**
@@ -270,6 +278,7 @@ class FieldSetAdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
+    $limit = $this->get('request')->query->get('limit', null);
 
     if (!$hospital)
       throw $this->createNotFoundException('Unable to find Hospital entity.');
@@ -280,12 +289,13 @@ class FieldSetAdminController extends Controller
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Description de l\'hôpital "' . $hospital->getName() . '" enregistrée.');
 
-      return $this->redirect($this->generateUrl('GCore_FSAEditHospitalDescription', array('id' => $id)));
+      return $this->redirect($this->generateUrl('GCore_FSAEditHospitalDescription', array('id' => $id, 'limit' => $limit)));
     }
 
     return array(
-      'entity'  => $hospital,
+      'entity'    => $hospital,
       'edit_form' => $editForm->createView(),
+      'limit'     => $limit,
     );
   }
 }
