@@ -218,7 +218,7 @@ class SimulationAdminController extends Controller
 
       foreach ($sims as $sim) {
         if ($sim->getDepartment()->getCluster() != null) {
-            $clusters = $em->getRepository('GessehCoreBundle:Departemnt')->getAllCluster($sim->getDepartment()->getId());
+            $clusters = $em->getRepository('GessehCoreBundle:Department')->getAllCluster($sim->getDepartment()->getId());
 
             foreach ($clusters as $cluster) {
                 $placement = new Placement();
