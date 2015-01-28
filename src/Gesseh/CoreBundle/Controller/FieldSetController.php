@@ -16,6 +16,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Gesseh\CoreBundle\Entity\Department;
 use Gesseh\CoreBundle\Entity\Hospital;
+use Doctrine\DBAL\Migrations\Migration,
+  Doctrine\DBAL\Migrations\Configuration\Configuration;
 
 /**
  * FieldSet controller.
@@ -25,11 +27,24 @@ class FieldSetController extends Controller
   /**
    * @Route("/fieldset/", name="GCore_FSIndex")
    * @Route("/", name="homepage")
+   * @Route("/update", name="GCore_DBUpdate")
    * @Template()
    */
   public function indexAction()
   {
-    $em = $this->getDoctrine()->getManager();
+      /** Update database if some migrations are pending */
+      if ($this->hasToMigrate($this->getDoctrine()->getConnection())) {
+            $this->get('session')->getFlashBag()->add('notice', 'Mise à jour de la base de donnée effectuée.');
+            return $this->redirect($this->generateUrl('GCore_FSIndex'));
+      }
+
+      $em = $this->getDoctrine()->getManager();
+
+      /** Go to first user form if repository User is empty */
+      if(!$em->getRepository('GessehUserBundle:User')->findAll()){
+          return $this->redirect($this->generateUrl('GUser_SInstall'));
+      }
+
     $limit = $this->get('request')->query->get('limit', null);
     $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll($limit);
 
@@ -38,6 +53,29 @@ class FieldSetController extends Controller
         'limit'     => $limit
     );
   }
+
+    private function hasToMigrate($conn)
+    {
+      $dir = __DIR__.'/../../../../app/DoctrineMigrations';
+      $configuration = new Configuration($conn);
+      $configuration->setMigrationsNamespace('Application\Migrations');
+      $configuration->setMigrationsTableName('migration_versions');
+      $configuration->setMigrationsDirectory($dir);
+      $configuration->registerMigrationsFromDirectory($dir);
+
+      $executedMigrations = $configuration->getMigratedVersions();
+      $availableMigrations = $configuration->getAvailableVersions();
+      $newMigrations = count($availableMigrations) - count($executedMigrations);
+      $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
+
+      if ($newMigrations > 0 and !$executedUnavailableMigrations) {
+        $migration = new Migration($configuration);
+        if ($migration->migrate()) {
+            return true;
+        }
+      }
+      return false;
+    }
 
   /**
    * @Route("/department/{id}/show", name="GCore_FSShowDepartment", requirements={"id" = "\d+"})

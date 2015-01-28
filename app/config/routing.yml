@@ -1,8 +1,3 @@
-#GessehInstallBundle:
-#    resource: "@GessehInstallBundle/Controller/"
-#    type:     annotation
-#    prefix:   /
-
 #GessehMigrateOldDbBundle:
 #    resource: "@GessehMigrateOldDbBundle/Controller/"
 #    type:     annotation

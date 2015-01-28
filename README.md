@@ -28,15 +28,17 @@ Pour son installation, vous aurez besoin d'un serveur web (apache, lighttpd, ...
 
 ###Via une archive snapshot
 
-1. Récupérez la dernière version sur [GitHub](https://github.com/CaraGk/gesseh/releases).
-2. Extrayez-la dans votre répertoire web.
-3. Copiez le fichier *app/config/parameters.ini.dist* vers *app/config/parameters.ini* et adaptez-le à vos besoins (connexion MySQL, etc).
-4. Importez le fichiers **gesseh_release_x.y.z.sql** dans votre base de données (en utilisant phpMyAdmin par exemple).
-5. Les identifiants sont : *admin@exemple.fr* ; mot de passe : *admin*. Il est essentiel que vous changiez cet identifiant et le mot de passe dès l’installation effectuée.
+1. Récupérer la dernière version sur [GitHub](https://github.com/CaraGk/gesseh/releases).
+2. Extraire les fichiers (BZip ou 7zip) dans un répertoire.
+3. Copier le fichier *app/config/parameters.yml.dist* vers *app/config/parameters.yml* et le modifier selon les besoins (connexion MySQL, etc).
+4. Envoyer les fichiers via FTP (ou autre) dans le répertoire web du serveur.
+5. Le site est accessible via l’URL : *http://ipduserverweb/gesseh/web* ; la base de donnée est automatiquement créée et un formulaire demande à créer le premier utilisateur.
+
+Pour les mises à jour, il faut suivre les mêmes étapes sauf que le fichier *app/config/parameters.yml* est déjà configuré et qu’il n’y aura pas de création du premier utilisateur.
 
 ###Via les dépots Git
 
-Il est conseillé d'utiliser une archive stable mais si vous souhaitez vraiment l'installer depuis Git, lancez les commandes suivantes :
+Il est conseillé, hors développeurs, d'utiliser une archive stable mais si vous souhaitez vraiment l'installer depuis Git, lancez les commandes suivantes :
 
     git clone http://github.com/CaraGk/gesseh.git gesseh
     cd gesseh

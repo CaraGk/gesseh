@@ -54,6 +54,7 @@ class Version20130119162046 extends AbstractMigration
         $this->addSql("INSERT INTO parameter (name, value, active, activates_at, label, category, type) VALUES ('title', 'Site d\'exemple', 1, now(), 'Nom du site', 'General', 1)");
         $this->addSql("INSERT INTO parameter (name, value, active, activates_at, label, category, type) VALUES ('eval_active', '1', 1, now(), 'Activer le module d\'évaluation', 'Evaluation', 2)");
         $this->addSql("INSERT INTO parameter (name, value, active, activates_at, label, category, type) VALUES ('simul_active', '1', 1, now(), 'Activer le module de simulation', 'Simulation', 2)");
+        $this->addSql("INSERT INTO grade (name, rank, is_active) VALUES ('Hors promo', '1', false)");
     }
 
     public function down(Schema $schema)

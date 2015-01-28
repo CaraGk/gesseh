@@ -27,12 +27,13 @@ class StudentHandler
   private $em;
   private $um;
 
-  public function __construct(Form $form, Request $request, EntityManager $em, UserManager $um)
+  public function __construct(Form $form, Request $request, EntityManager $em, UserManager $um, $admin = false)
   {
     $this->form    = $form;
     $this->request = $request;
     $this->em      = $em;
     $this->um      = $um;
+    $this->admin   = $admin;
   }
 
   public function process()
@@ -66,6 +67,9 @@ class StudentHandler
         $user->setPlainPassword($this->generatePwd(8));
       } else {
         $user->addRole('ROLE_ADMIN');
+      }
+      if ($this->admin) {
+          $user->addRole('ROLE_ADMIN');
       }
       $user->setConfirmationToken(null);
       $user->setEnabled(true);
