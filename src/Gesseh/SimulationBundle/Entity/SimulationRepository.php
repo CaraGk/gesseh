@@ -47,7 +47,7 @@ class SimulationRepository extends EntityRepository
     $query->where('u.username = :user')
             ->setParameter('user', $user);
 
-    return $query->getQuery()->getOneOrNullResult();
+    return $query->getQuery()->getSingleResult();
   }
 
   public function getSimStudent($id)
@@ -113,11 +113,19 @@ class SimulationRepository extends EntityRepository
     $em->flush();
   }
 
+  public function countTotal()
+  {
+      $query = $this->createQueryBuilder('t')
+          ->select('COUNT(t.id)');
+
+      return $query->getQuery()->getSingleScalarResult();
+  }
+
   public function countMissing($simstudent = null)
   {
     $query = $this->createQueryBuilder('t')
                   ->select('COUNT(t.id)')
-                  ->where('t.department is null');
+                  ->where('t.department IS NULL');
 
     if ($simstudent !== null) {
       $query->andWhere('t.id < :id')

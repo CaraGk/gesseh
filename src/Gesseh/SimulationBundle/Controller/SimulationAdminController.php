@@ -43,9 +43,13 @@ class SimulationAdminController extends Controller
       $paginator = $this->get('knp_paginator');
       $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
       $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
+      $simul_missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing();
+      $simul_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
 
       return array(
-        'simulations' => $simulations,
+          'simulations'   => $simulations,
+          'simul_missing' => $simul_missing,
+          'simul_total'   => $simul_total,
       );
     }
 
