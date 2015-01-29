@@ -13,7 +13,7 @@
 
 {% block content %}
     <div id="simul_progress">
-        <span>{{ simul_total - simul_missing }} / {{ simul_total }} participants</span>
+        Progression de la simulation : <span>{{ simul_total - simul_missing }} / {{ simul_total }} participants</span>
         <progress class="progressbar" value="{{ (simul_total - simul_missing) / simul_total * 100 }}" max="100"></progress>
     </div>
   <table>
