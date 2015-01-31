@@ -41,11 +41,11 @@ class SimulationRepository extends EntityRepository
                   ->addSelect('g');
   }
 
-  public function getByUsername($user)
+  public function getByUser($user)
   {
     $query = $this->getSimulationQuery();
-    $query->where('u.username = :user')
-            ->setParameter('user', $user);
+    $query->where('u.id = :user')
+            ->setParameter('user', $user->getId());
 
     return $query->getQuery()->getSingleResult();
   }
@@ -53,8 +53,6 @@ class SimulationRepository extends EntityRepository
   public function getSimStudent($id)
   {
     $query = $this->getSimulationQuery();
-//    $query->join('t.wishes', 'w')
-//          ->addSelect('w')
     $query->where('t.id = :id')
             ->setParameter('id', $id);
 

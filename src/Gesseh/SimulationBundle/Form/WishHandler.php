@@ -52,17 +52,9 @@ class WishHandler
   {
     $rank = $this->em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($this->simstudent->getStudent());
 
-//    $cluster = $this->em->getRepository('GessehCoreBundle:Department')->getAllCluster($wish->getDepartment()->getId());
-//    $n = 0;
-//    foreach ($cluster as $department) {
-//        $n++;
-//        $wish = new Wish();
-        $wish->setSimstudent($this->simstudent);
-//        $wish->setRank($rank+$n);
-//        $wish->setDepartment($department);
-        $wish->setRank($rank+1);
-        $this->em->persist($wish);
-//    }
+    $wish->setSimstudent($this->simstudent);
+    $wish->setRank($rank+1);
+    $this->em->persist($wish);
 
     $this->em->flush();
   }

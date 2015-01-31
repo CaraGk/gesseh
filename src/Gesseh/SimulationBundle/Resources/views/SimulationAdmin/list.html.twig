@@ -45,7 +45,7 @@
             <td class="small">{{ simulation.extra }}</td>
             <td class="actions">
               <ul>
-                <li><a href="{{ path('GSimul_SAWish', {'id': simulation.id}) }}" title="Afficher les vœux de l'étudiant {{ simulation.student }}"><img src="{{ asset('bundles/gessehcore/images/Target.png') }}" alt="Vœux" /></a></li>
+                <li><a href="{{ path('GSimul_SIndex', {'simid': simulation.id}) }}" title="Afficher les vœux de l'étudiant {{ simulation.student }}"><img src="{{ asset('bundles/gessehcore/images/Target.png') }}" alt="Vœux" /></a></li>
               </ul>
             </td>
           <tr>

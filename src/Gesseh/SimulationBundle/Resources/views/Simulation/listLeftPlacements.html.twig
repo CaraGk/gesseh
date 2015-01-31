@@ -2,10 +2,17 @@
 
 {% block title %}{{ parent() }} - Postes restants{% endblock %}
 
-{% block titlecontent %}Postes restants au moment de mon choix{% endblock %}
+{% block titlecontent %}
+    Postes restants au moment
+    {% if simname is not null %}
+        du choix de {{ simname }}
+    {% else %}
+        de mon choix
+    {% endif %}
+{% endblock %}
 
 {% block actionscontent %}
-<li><a href="{{ path('GSimul_SIndex') }}" title="Retour à mes vœux"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
+    <li><a href="{{ path('GSimul_SIndex', {simid: simid}) }}" title="Retour à mes vœux"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
 {% endblock %}
 
 {% block content %}
