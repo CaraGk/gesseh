@@ -45,6 +45,8 @@ class StudentRepository extends EntityRepository
 
     if ($search != null) {
         $query->where('s.surname like :search')
+              ->orWhere('s.name like :search')
+              ->orWhere('u.email like :search')
               ->setParameter('search', '%'.$search.'%');
     }
 
