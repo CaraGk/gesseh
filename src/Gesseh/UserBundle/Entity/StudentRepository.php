@@ -40,14 +40,15 @@ class StudentRepository extends EntityRepository
   public function getAll($search = null)
   {
     $query = $this->getStudentQuery();
-    $query->addOrderBy('g.isActive', 'desc')
-          ->addOrderBy('s.surname', 'asc');
+    $query->addOrderBy('s.surname', 'asc');
 
     if ($search != null) {
         $query->where('s.surname like :search')
               ->orWhere('s.name like :search')
               ->orWhere('u.email like :search')
               ->setParameter('search', '%'.$search.'%');
+    } else {
+        $query->where('g.isActive = true');
     }
 
     return $query->getQuery();
@@ -60,12 +61,16 @@ class StudentRepository extends EntityRepository
 
         if ($active) {
             $query->join('s.grade', 'g')
-                ->where('g.isActive = true');
+                  ->join('s.user', 'u');
         }
 
       if ($search != null) {
-          $query->andWhere('s.surname like :search')
+          $query->where('s.surname like :search')
+                ->orWhere('s.name like :search')
+                ->orWhere('u.email like :search')
                 ->setParameter('search', '%'.$search.'%');
+      } else {
+          $query->where('g.isActive = true');
       }
 
         return $query->getQuery()

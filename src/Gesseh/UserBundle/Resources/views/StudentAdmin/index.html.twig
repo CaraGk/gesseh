@@ -4,15 +4,14 @@
 
 {% block titlecontent %}
     Étudiants ({{ students_count }})
-    <span><a href="{{ path('GUser_SANew') }}#student_new" title="Ajouter un nouvel étudiant"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>
+    <span><a href="{{ path('GUser_SANew') }}" title="Ajouter un nouvel étudiant"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>
 {% endblock %}
 
 {% block actionscontent %}
     <li class="field">
       <form>
-          <label for="search">Nom :</label>
+          <label for="search"><img src="{{ asset('bundles/gessehcore/images/Search.png') }}" alt="Rechercher" /></label>
           <input type="text" id="search" name="search" value="{{ search }}" />
-          <button type="submit"><img src="{{ asset('bundles/gessehcore/images/Search.png') }}" alt="Rechercher" /></button>
       </form>
     </li>
     <li class="field"><a href="{{ path('GUser_SAImport') }}" title="Importer une promotion d'internes"><button type="button">Importer une promo</button></a></li>

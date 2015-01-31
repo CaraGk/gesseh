@@ -46,9 +46,9 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #menu li a, #menu li span { color: #BBBBBB; padding: 5px 0px 5px 15px; width: 100%; display: inline-block; }
 #menu li a:hover { color: #FDEF55; text-decoration: none; }
 
-#search{ width: auto; height: 25px; margin: auto; font-size: 110%; }
-#search select{ border: 1px; width: 50%; margin-left: 10px; }
-#search input{ border: 1px; margin-left: 10px; }
+#search{ width: auto; height: 25px; margin: 0; padding: 0px; font-size: 110%; }
+#search select{ border: 1px; width: 50%; }
+#search input{ border: 1px; }
 #search input:hover{ }
 #search input:active{ }
 
