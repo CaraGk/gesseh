@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <caragk@angrand.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2015 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -52,6 +52,13 @@ class DefaultController extends Controller
         if (!$department)
             throw $this->createNotFoundException('Unable to find department entity.');
 
+        /** Find other cluster's departments if exists */
+        if ($department->getCluster() != null) {
+            $cluster = $em->getRepository('GessehCoreBundle:Department')->getAllCluster($id);
+        } else {
+            $cluster = null;
+        }
+
         $eval = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvalByDepartment($id, $eval_limit);
 
         if ($eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId()))
@@ -62,7 +69,8 @@ class DefaultController extends Controller
         return array(
             'department' => $department,
             'eval_form'  => $eval_form,
-            'eval'  => $eval,
+            'eval'       => $eval,
+            'cluster'    => $cluster,
         );
     }
 
