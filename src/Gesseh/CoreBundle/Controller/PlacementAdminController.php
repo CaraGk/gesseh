@@ -129,7 +129,7 @@ class PlacementAdminController extends Controller
     $em = $this->getDoctrine()->getManager();
     $limit = $this->get('request')->query->get('limit', null);
     $paginator = $this->get('knp_paginator');
-    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($this->get('request')->query->get('limit', null));
+    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($limit);
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
 
     $manager = $this->container->get('kdb_parameters.manager');
@@ -154,8 +154,9 @@ class PlacementAdminController extends Controller
   public function editPlacementAction($id)
   {
     $em = $this->getDoctrine()->getManager();
+    $limit = $this->get('request')->query->get('limit', null);
     $paginator = $this->get('knp_paginator');
-    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($this->get('request')->query->get('limit', null));
+    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($limit);
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
 
     $placement = $em->getRepository('GessehCoreBundle:Placement')->find($id);
@@ -183,6 +184,7 @@ class PlacementAdminController extends Controller
       'placement_id'   => $id,
       'placement_form' => $form->createView(),
       'evaluated'      => $evaluated,
+      'limit'          => $limit,
     );
   }
 
@@ -193,8 +195,9 @@ class PlacementAdminController extends Controller
   public function newPlacementAction()
   {
     $em = $this->getDoctrine()->getManager();
+    $limit = $this->get('request')->query->get('limit', null);
     $paginator = $this->get('knp_paginator');
-    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($this->get('request')->query->get('limit', null));
+    $placements_query = $em->getRepository('GessehCoreBundle:Placement')->getAll($limit);
     $placements = $paginator->paginate( $placements_query, $this->get('request')->query->get('page', 1), 20);
 
     $placement = new Placement();
@@ -218,6 +221,7 @@ class PlacementAdminController extends Controller
       'placement_id'   => null,
       'placement_form' => $form->createView(),
       'evaluated'      => $evaluated,
+      'limit'          => $limit,
     );
   }
 
@@ -227,6 +231,7 @@ class PlacementAdminController extends Controller
   public function deletePlacementAction($id)
   {
     $em = $this->getDoctrine()->getManager();
+    $limit = $this->get('request')->query->get('limit', null);
     $placement = $em->getRepository('GessehCoreBundle:Placement')->find($id);
 
     if( !$placement )

@@ -2,17 +2,17 @@
 
 {% block title %}
     {{ parent() }} - Stages
-    {% if limit %}
+    {% if limit is not null %}
         ({{ limit.description }})
     {% endif %}
 {% endblock %}
 
 {% block titlecontent %}
     Stages
-    {% if limit %}
+    {% if limit is not null %}
         ({{ limit.description }})
     {% endif %}
-        <span class=""><a href="{{ path('GCore_PAPlacementNew') }}#placement_new" title="Ajouter un nouveau stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>
+    <span class=""><a href="{{ path('GCore_PAPlacementNew') }}?{{ app.request.queryString }}" title="Ajouter un nouveau stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>
 {% endblock %}
 
 {% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
@@ -23,6 +23,9 @@
         <div>{{ form_errors(placement_form) }}</div>
         {{ form_start(placement_form) }}
     {% endif %}
+    {% if placement_form is not empty and placement_id is empty %}
+        <ul class="entities placements">{% include 'GessehCoreBundle:PlacementAdmin:placementEdit.html.twig' %}</ul>
+    {% endif %}
     <ul class="entities placements">
         {% for placement in placements %}
             {% include placement_id == placement.id ? 'GessehCoreBundle:PlacementAdmin:placementEdit.html.twig' : 'GessehCoreBundle:PlacementAdmin:placementIndex.html.twig' %}
@@ -30,9 +33,6 @@
             <li class="noentity placement">Aucun stage à afficher</li>
         {% endfor %}
     </ul>
-    {% if placement_form is not empty and placement_id is empty %}
-        {% include 'GessehCoreBundle:PlacementAdmin:placementEdit.html.twig' %}
-    {% endif %}
     <div class="pagination">{{ knp_pagination_render(placements) }}</div>
     {% if placement_form is not empty %}{{ form_end(placement_form) }}{% endif %}
 {% endblock %}
