@@ -4,7 +4,7 @@
 
 {% block titlecontent %}
     Étudiants ({{ students_count }})
-    <span><a href="{{ path('GUser_SANew') }}" title="Ajouter un nouvel étudiant"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>
+    <span><a href="{{ path('GUser_SANew') }}?{{ app.request.queryString }}" title="Ajouter un nouvel étudiant"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>
 {% endblock %}
 
 {% block actionscontent %}
@@ -36,7 +36,7 @@
             </div>
             <ul class="actions">
                 <li class="action"><a href="{{ path('GUser_SAEdit', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Modifier l'étudiant '{{ student }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-                <li class="action"><a href="{{ path('GUser_SADelete', {'id': student.id}) }}" title="Supprimer l'étudiant '{{ student }}'" class="confirm delete" confirm="Attention, vous allez supprimer l'étudiant et toutes les informations s'y rapportant ! Voulez-vous continuer ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+                <li class="action"><a href="{{ path('GUser_SADelete', {'id': student.id}) }}?{{ app.request.queryString }}" title="Supprimer l'étudiant '{{ student }}'" class="confirm delete" confirm="Attention, vous allez supprimer l'étudiant et toutes les informations s'y rapportant ! Voulez-vous continuer ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
                 {% if 'ROLE_ADMIN' in student.user.roles %}
                     <li class="action"><a href="{{ path('GUser_SADemote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Démettre l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Fav.png') }}" alt="Démettre" /></a></li>
                 {% else %}

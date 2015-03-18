@@ -116,6 +116,7 @@ class StudentAdminController extends Controller
   public function deleteAction($id)
   {
     $em = $this->getDoctrine()->getManager();
+    $search = $this->get('request')->query->get('search', null);
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
     if( !$student )
@@ -126,7 +127,7 @@ class StudentAdminController extends Controller
 
     $this->get('session')->getFlashBag()->add('notice', 'Etudiant "' . $student . '" supprimé.');
 
-    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    return $this->redirect($this->generateUrl('GUser_SAIndex', array('search' => $search)));
   }
 
   /**
@@ -136,6 +137,7 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $um = $this->container->get('fos_user.user_manager');
+    $search = $this->get('request')->query->get('search', null);
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
     if( !$student )
@@ -148,7 +150,7 @@ class StudentAdminController extends Controller
 
     $this->get('session')->getFlashBag()->add('notice', 'Droits d\'administration donnés à l\'étudiant "' . $student . '"');
 
-    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    return $this->redirect($this->generateUrl('GUser_SAIndex', array('search' => $search)));
   }
 
   /**
@@ -158,6 +160,7 @@ class StudentAdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $um = $this->container->get('fos_user.user_manager');
+    $search = $this->get('request')->query->get('search', null);
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
     if( !$student )
@@ -170,7 +173,7 @@ class StudentAdminController extends Controller
 
     $this->get('session')->getFlashBag()->add('notice', 'Droits d\'administration retirés à l\'étudiant "' . $student . '"');
 
-    return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    return $this->redirect($this->generateUrl('GUser_SAIndex', array('search' => $search)));
   }
 
   /**
