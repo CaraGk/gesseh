@@ -1,9 +1,15 @@
 $('document').ready(function(){
-    $('.action').hide();
+    $('.actions').hide();
 
     $('li.entity').hover(function(){
-        $(this).children('ul').children('.action').show();
+        $(this).children('ul.actions').show();
     }, function(){
-        $(this).children('ul').children('.action').hide();
+        $(this).children('ul.actions').hide();
+    });
+
+    $('li.subentity').hover(function(){
+        $(this).children('ul.actions').show();
+    }, function(){
+        $(this).children('ul.actions').hide();
     });
 });

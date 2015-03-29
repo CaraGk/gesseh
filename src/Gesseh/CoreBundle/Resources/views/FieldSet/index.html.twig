@@ -25,16 +25,16 @@
             <li class="entity hospital">
                 <div class="field entity_title hospital_name"><a href="{{ path('GCore_FSIndex', {'limit': {'type': 'h.id', 'value': hospital.id, 'description': hospital.name}}) }}" title="Afficher les terrains de stage de l'hôpital '{{ hospital.name }}'">{{ hospital }}</a></div>
                 <ul class="actions">
-                    <li class="action show"><a href="{{ path('GCore_FSShowHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Afficher les informations de l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" /></a></li>
+                    <li class="show"><a href="{{ path('GCore_FSShowHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Afficher les informations de l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" /></a></li>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <li><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Modifier l'hôpital '{{ hospital.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-                        <li><a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'h.id', 'value': hospital.id, 'description': hospital.name }}) }}" title="Afficher les stages dans l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
-                        <li><a href="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Supprimer l'hôpital '{{ hospital.name }}'" class="confirm delete" confirm="Attention ! Supprimer cet hôpital supprimera également tous les terrains de stage qui lui sont liés ainsi que les données qui s'y rapportent. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+                        <li class="edit"><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Modifier l'hôpital '{{ hospital.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
+                        <li class="list"><a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'h.id', 'value': hospital.id, 'description': hospital.name }}) }}" title="Afficher les stages dans l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
+                        <li class="delete"><a href="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Supprimer l'hôpital '{{ hospital.name }}'" class="confirm delete" confirm="Attention ! Supprimer cet hôpital supprimera également tous les terrains de stage qui lui sont liés ainsi que les données qui s'y rapportent. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
                     {% endif %}
                 </ul>
                 <ul class="subentities departments">
                     {% for department in hospital.departments %}
-                        <li class="subentity department">
+                    <li class="subentity department {% if department.number < 1 %}notactive{% endif %}">
                             <div class="field subentity_title department_name">{{ department.name }}</div>
                             <div class="field subentity_item department_head">({{ department.head }})</div>
                             <div class="field subentity_item department_sector"><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: department.sector.id, description: department.sector.name}}) }}" title="Afficher les terrains de la catégorie {{ department.sector }}">{{ department.sector }}</a></div>
@@ -51,11 +51,11 @@
                                 {% endif %}
                             {% endif %}
                             <ul class="actions">
-                                <li class="action show"><a href="{{ path('GCore_FSShowDepartment', { 'id': department.id, 'limit': limit }) }}" title="Afficher les informations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Afficher" /></a></li>
-                                {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li class="action stat"><a href="{{ path('GEval_DShow', { 'id': department.id, 'limit': limit }) }}" title="Afficher les évaluations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>{% endif %}
+                                <li class="show"><a href="{{ path('GCore_FSShowDepartment', { 'id': department.id, 'limit': limit }) }}" title="Afficher les informations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Afficher" /></a></li>
+                                {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li class="stat"><a href="{{ path('GEval_DShow', { 'id': department.id, 'limit': limit }) }}" title="Afficher les évaluations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>{% endif %}
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <li><a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'd.id', 'value': department.id, 'description': department.name ~ ' à ' ~ department.hospital.name }}) }}" title="Afficher les stages associés au service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
-                                    <li><a href="{{ path('GCore_FSADeleteDepartment', { 'id': department.id, 'limit': limit }) }}" title="Supprimer le service '{{ department.name }}'" class="confirm delete" confirm="Attention ! Supprimer ce terrain de stage suprimera également toutes les données qui s'y rapportent (stages, évaluations, etc). Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+                                    <li class="list"><a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'd.id', 'value': department.id, 'description': department.name ~ ' à ' ~ department.hospital.name }}) }}" title="Afficher les stages associés au service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
+                                    <li class="delete"><a href="{{ path('GCore_FSADeleteDepartment', { 'id': department.id, 'limit': limit }) }}" title="Supprimer le service '{{ department.name }}'" class="confirm delete" confirm="Attention ! Supprimer ce terrain de stage suprimera également toutes les données qui s'y rapportent (stages, évaluations, etc). Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
                                 {% endif %}
                             </ul>
                         </li>
@@ -68,4 +68,10 @@
             <li class="noentity hospital">Aucun hôpital enregistré</li>
         {% endfor %}
     </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/gessehcore/js/actions.js') }}" type="text/javascript"></script>
 {% endblock %}
