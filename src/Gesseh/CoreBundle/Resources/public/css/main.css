@@ -93,6 +93,8 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content .department_cluster { font-size: 90%; }
 #content .department_cluster a, #content .department_cluster a:active, #content .department_cluster a:focus, #content .department_cluster a:hover { }
 #content li.notactive, #content li.notactive .department_sector a { color: #CCCCCC; }
+#content li.evaluation { background-color: #DDDDDD; border: 1px solid #AAAAAA; width: 100%; border-radius: 5px; padding: 5px; }
+#content li.evaluation .value { background-color: #E6E6E6; border: 1px solid #CCCCCC; border-radius: 5px; padding: 3px; }
 #content li.criteria { display: block; padding: 5px; margin: 5px; }
 #content div.rank, #content div.name, #content div.mean, #content div.total, #content ul.tags, #content li.tag { display: inline-block }
 #content div.rank { padding: 1px; margin-right: 10px; }

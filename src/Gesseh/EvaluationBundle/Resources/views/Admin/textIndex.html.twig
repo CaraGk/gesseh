@@ -7,41 +7,22 @@
 {% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
 
 {% block content %}
-  <table>
-    <thead>
-      <tr>
-        <th>Terrain de stage</th>
-        <th>Critère</th>
-        <th>Commentaire</th>
-        <th class="small">Posté le</th>
-        <th class="actions">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for evaluation in evaluations %}
-        <tr>
-          <td>{{ evaluation.placement.department.name }} à {{ evaluation.placement.department.hospital.name }}</td>
-          <td>{{ evaluation.evalCriteria.name }}</td>
-          <td>{{ evaluation.value }}</td>
-          <td class="small">{{ evaluation.createdAt|date('d-m-Y') }}</td>
-          <td class="actions">
-            <ul>
-              <li><a href="{{ path('GEval_AModerationValid', {'id': evaluation.id}) }}" title="Valider l'évaluation"><img src="{{ asset('bundles/gessehcore/images/Valid.png') }}" alt="Valider" /></a></li>
-              <li><a href="" title="Modifier l'évaluation"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-              <li><a href="{{ path('GEval_ATextDelete', {'id': evaluation.id}) }}" title="Supprimer l'évaluation de l'item" class="confirm delete" confirm="Attention ! Vous allez supprimer une partie d'une évaluation et non l'évaluation complète. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
-            </ul>
-          </td>
-        </tr>
-      {% else %}
-        <tr><td colspan="5">Aucun commentaire à afficher.</td></tr>
-      {% endfor %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <td class="pagination">{{ knp_pagination_render(evaluations) }}</td>
-      </tr>
-    </tfoot>
-  </table>
+    <ul class="entities evaluations">
+        {% for evaluation in evaluations %}
+            <li class="entity evaluation">
+                <ul class="actions">
+                    <li><a href="{{ path('GEval_AModerationValid', {'id': evaluation.id}) }}" title="Valider l'évaluation"><img src="{{ asset('bundles/gessehcore/images/Valid.png') }}" alt="Valider" /></a></li>
+                    <li><a href="{{ path('GEval_ATextDelete', {'id': evaluation.id}) }}" title="Supprimer l'évaluation de l'item" class="confirm delete" confirm="Attention ! Vous allez supprimer une partie d'une évaluation et non l'évaluation complète. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+                </ul>
+                <div class=""><strong>{{ evaluation.placement.department.name }} à {{ evaluation.placement.department.hospital.name }}</strong></div>
+                <div class=""><em>{{ evaluation.evalCriteria.name }}</em> du {{ evaluation.createdAt|date('d-m-Y') }} : </div>
+                <div class="value">{{ evaluation.value }}</div>
+            </li>
+        {% else %}
+            <li class="noentity evaluation">Aucun commentaire à afficher.</li>
+        {% endfor %}
+    </ul>
+    <div class="pagination">{{ knp_pagination_render(evaluations) }}</div>
 {% endblock %}
 
 {% block javascripts %}
