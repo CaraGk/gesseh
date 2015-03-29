@@ -8,10 +8,10 @@
     {{ form_start(hospital_form) }}
     {{ form_widget(hospital_form) }}
     <ul class="actions">
+      <li><a href="{{ path('GCore_FSIndex', { 'limit': limit }) }}" title="Abandonner les modifications" class="cancel"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
+      <li><input type="image" id="add_dpt" src="{{ asset('bundles/gessehcore/images/Add.png') }}" title="Ajouter un service à l'hôpital" class="add" /></li>
+      <li><input type="image" id="rm_dpt" src="{{ asset('bundles/gessehcore/images/Denided.png')}}" title="Supprimer le dernier service ajouté à l'hôpital" class="delete"/></li>
       <li><button type="submit" title="Enregistrer les modifications" class="save">Enregistrer</button></li>
-      <li><button type="button" id="add_dpt" title="Ajouter un service à l'hôpital" class="add">Ajouter un service</button></li>
-      <li><button type="button" id="rm_crit" title="Supprimer le dernier service ajouté à l'hôpital" class="delete">Supprimer</button></li>
-      <li><a href="{{ path('GCore_FSIndex', { 'limit': limit }) }}" title="Abandonner les modifications" class="cancel">Annuler</a></li>
     </ul>
     {{ form_end(hospital_form) }}
 {% endblock %}
