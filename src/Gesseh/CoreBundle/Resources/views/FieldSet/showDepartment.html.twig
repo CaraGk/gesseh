@@ -18,6 +18,17 @@
 {% endblock %}
 
 {% block content %}
+    {% if cluster is not null %}
+        <div>Stage couplé ({{ department.cluster }}) avec :
+            <ul>
+                {% for dept in cluster %}
+                    {% if dept.id != department.id %}
+                        <li><a href="{{ path('GCore_FSShowDepartment', { 'id': dept.id, 'limit': limit }) }}">{{ dept }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <div class="content">Chef de service : {{ department.head }}</div>
     <div class="content">{{ department.description|raw }}</div>
 {% endblock %}

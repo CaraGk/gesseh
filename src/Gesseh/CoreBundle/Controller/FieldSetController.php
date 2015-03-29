@@ -89,6 +89,12 @@ class FieldSetController extends Controller
     $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
     $limit = $this->get('request')->query->get('limit', null);
 
+    if ($cluster_name = $department->getCluster()) {
+        $cluster = $em->getRepository('GessehCoreBundle:Department')->findByCluster($cluster_name);
+    } else {
+        $cluster = null;
+    }
+
     if (true == $pm->findParamByName('eval_active')->getValue()) {
       $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $user);
     } else {
@@ -99,6 +105,7 @@ class FieldSetController extends Controller
         'department' => $department,
         'evaluated'  => $evaluated,
         'limit'      => $limit,
+        'cluster'    => $cluster,
     );
   }
 
