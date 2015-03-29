@@ -24,6 +24,7 @@ class GradeType extends AbstractType
         $builder->add('name')
                 ->add('rank')
                 ->add('isActive')
+                ->add('Enregistrer', 'submit')
         ;
     }
 

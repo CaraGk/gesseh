@@ -1,44 +1,37 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block titlecontent %}Promotions{% endblock %}
+{% block titlecontent %}
+    Promotions
+    <span><a href="{{ path('GUser_GANew') }}" title="Ajouter un nouveau niveau"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>
+{% endblock %}
 
 {% block content %}
-  {% if grade_form is not empty %}
-    {% form_theme grade_form 'GessehCoreBundle:Form:fields.html.twig' %}
-    {% if form_errors(grade_form) is not empty %}<div class="error">{{ form_errors(grade_form) }}</div>{% endif %}
-    {{ form_start(grade_form) }}
-  {% endif %}
-  <table>
-    <thead>
-      <tr>
-        <th class="small">Ordre</th>
-        <th>Nom</th>
-        <th class="small">Active ?</th>
-        <th class="actions">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for grade in grades %}
-        {% include grade_id == grade.id ? 'GessehUserBundle:GradeAdmin:edit.html.twig' : 'GessehUserBundle:GradeAdmin:show.html.twig' %}
-      {% endfor %}
-      {% if grade_form is not empty and grade_id is empty %}
-        {% include 'GessehUserBundle:GradeAdmin:edit.html.twig' %}
-      {% endif %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <td class="actions">
-          <ul>
-            <li><a href="{{ path('GUser_GANew') }}" title="Ajouter un nouveau niveau"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
-          </ul>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
-  {% if grade_form is not empty %}{{ form_end(grade_form) }}{% endif %}
+    <ul class="entities grades">
+        {% for grade in grades %}
+            <li class="entity grade {% if not grade.isActive %}notactive{% endif %}">
+                {% if grade_id == grade.id and grade_form is not empty %}
+                    <div class="field grade">{{ form(grade_form) }}</div>
+                    <div class="field"><a href="{{ path('GUser_GAIndex') }}" title="Annuler l'ajout de catégorie" class="back"><img src="{{ asset('bundles/gessehcore/images/Error_Symbol.png') }}" alt="Annuler"></a></div>
+                {% else %}
+                    <div class="field rank">{{ grade.rank }}.</div>
+                    <div class="field title">{{ grade.name }}</div>
+                    <ul class="actions">
+                        <li><a href="{{ path('GUser_GAEdit', {'id': grade.id}) }}" title="Modifier la promotion '{{ grade }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
+                        <li><a href="{{ path('GUser_GADelete', {'id': grade.id}) }}" title="Supprimer la promotion '{{ grade }}'" class="confirm delete" confirm="Attention ! Cette opération va supprimer tous les étudiants de cette promotion et toutes les informations liées. Cette action est irrévocable. Êtes-vous sûrs de vouloir continuer ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+                        <li><a href="{{ path('GUser_SAExportMail', {'grade_id': grade.id}) }}" title="Exporter les emails des étudiants de la promotion '{{ grade }}'" class=""><img src="{{ asset('bundles/gessehcore/images/Mail_Add.png') }}" alt="Mails"></a></li>
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+        {% if grade_form is not empty and grade_id is empty %}
+            <div class="field grade">{{ form(grade_form) }}</div>
+            <div class="field"><a href="{{ path('GUser_GAIndex') }}" title="Annuler l'ajout de catégorie" class="back"><img src="{{ asset('bundles/gessehcore/images/Error_Symbol.png') }}" alt="Annuler"></a></div>
+        {% endif %}
+    </ul>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/gessehcore/js/actions.js') }}" type="text/javascript"></script>
 {% endblock %}

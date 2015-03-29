@@ -1,18 +1,12 @@
-<tr>
-  <td class="small">{{ grade.rank }}</td>
-  <td>{{ grade.name }}</td>
-  <td class="small">
+<div class="field rank">{{ grade.rank }}</div>
+<div class="field title">{{ grade.name }}</div>
     {% if grade.isActive %}
       oui
     {% else %}
       non
     {% endif %}
-  </td>
-  <td class="actions">
-    <ul>
+    <ul class="actions">
       <li><a href="{{ path('GUser_GAEdit', {'id': grade.id}) }}" title="Modifier la promotion '{{ grade }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
       <li><a href="{{ path('GUser_GADelete', {'id': grade.id}) }}" title="Supprimer la promotion '{{ grade }}'" class="confirm delete" confirm="Attention ! Cette opération va supprimer tous les étudiants de cette promotion et toutes les informations liées. Cette action est irrévocable. Êtes-vous sûrs de vouloir continuer ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
       <li><a href="{{ path('GUser_SAExportMail', {'grade_id': grade.id}) }}" title="Exporter les emails des étudiants de la promotion '{{ grade }}'" class="">Exporter</a></li>
     </ul>
-  </td>
-</tr>
