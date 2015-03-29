@@ -21,15 +21,16 @@ class SectorRuleType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    $builder->add('sector')
-            ->add('grade')
-            ->add('relation', 'choice', array(
-              'choices' => array('NOT' => 'ne doit pas faire de stage de', 'FULL' => 'doit compléter les stage de'),
-              'required' => true,
-              'multiple' => false,
-              'expanded' => false,
-            ))
-    ;
+      $builder->add('grade')
+              ->add('relation', 'choice', array(
+                  'choices' => array('NOT' => 'ne doit pas faire de stage de', 'FULL' => 'doit compléter les stage de'),
+                  'required' => true,
+                  'multiple' => false,
+                  'expanded' => false,
+              ))
+              ->add('sector')
+              ->add('Enregistrer', 'submit')
+      ;
   }
 
   public function getName()
