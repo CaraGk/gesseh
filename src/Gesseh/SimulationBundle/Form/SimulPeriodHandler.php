@@ -24,12 +24,14 @@ class SimulPeriodHandler
   private $form;
   private $request;
   private $em;
+  private $period;
 
-  public function __construct(Form $form, Request $request, EntityManager $em)
+  public function __construct(Form $form, Request $request, EntityManager $em, \Gesseh\CoreBundle\Entity\Period $period)
   {
     $this->form    = $form;
     $this->request = $request;
     $this->em      = $em;
+    $this->period  = $period;
   }
 
   public function process()
@@ -47,9 +49,12 @@ class SimulPeriodHandler
     return false;
   }
 
-  public function onSuccess(SimulPeriod $period)
+  public function onSuccess(SimulPeriod $simul_period)
   {
-    $this->em->persist($period);
+      if (!$simul_period->getPeriod()) {
+          $simul_period->setPeriod($period);
+      }
+    $this->em->persist($simul_period);
     $this->em->flush();
   }
 }

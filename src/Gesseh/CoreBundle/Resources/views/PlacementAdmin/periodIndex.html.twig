@@ -1,7 +1,12 @@
 <li class="entity period">
-    <span class="field entity_title period_begin">Du {{ period.begin|date('d-m-Y') }}</span>
-    <span class="field entity_title period_end">au {{ period.end|date('d-m-Y') }}</span>
-    <span class="action"><a href="{{ path('GCore_PAPeriodEdit', {'id': period.id}) }}" title="Modifier la session '{{ period }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></span>
-    <span class="action"><a href="{{ path('GCore_PAPeriodDelete', {'id': period.id}) }}" title="Supprimer la session '{{ period }}'" class="confirm" confirm="Attention ! Cette opération va supprimer le stage et les éventuels éléments liés. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></span>
-    <span class="action"><a href="{{ path('GCore_PAPeriodIndex', {'limit': {'type': 'q.id', 'value': period.id}}) }}" title="Afficher les stages de la session '{{ period }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></span>
+    <div class="field period_begin">Du {{ period.begin|date('d-m-Y') }}</div>
+    <div class="field period_end">au {{ period.end|date('d-m-Y') }}</div>
+    <ul class="actions">
+        <li><a href="{{ path('GCore_PAPeriodEdit', {'id': period.id}) }}" title="Modifier la session '{{ period }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
+        <li><a href="{{ path('GCore_PAPeriodDelete', {'id': period.id}) }}" title="Supprimer la session '{{ period }}'" class="confirm" confirm="Attention ! Cette opération va supprimer le stage et les éventuels éléments liés. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+        <li><a href="{{ path('GCore_PAPeriodIndex', {'limit': {'type': 'q.id', 'value': period.id}}) }}" title="Afficher les stages de la session '{{ period }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
+        {% if kparam('simul_active') == true %}
+            <li><a href="{{ path('GSimul_SAPeriod', {'id': period.id}) }}" title="Gérer la période de simulation associée"><img src="{{ asset('bundles/gessehcore/images/Target.png') }}" alt="Simulations" /></a></li>
+        {% endif %}
+    </ul>
 </li>

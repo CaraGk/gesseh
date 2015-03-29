@@ -1,6 +1,9 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block titlecontent %}Sessions de stages{% endblock %}
+{% block titlecontent %}
+    Sessions de stages
+    <span><a href="{{ path('GCore_PAPeriodNew') }}#period_new" title="Ajouter une nouvelle session de stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></span>
+{% endblock %}
 {% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
 
 {% block content %}
@@ -23,7 +26,6 @@
         {% endif %}
     </ul>
     <ul class="actions">
-        <li><a href="{{ path('GCore_PAPeriodNew') }}#period_new" title="Ajouter une nouvelle session de stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></li>
     </ul>
     {% if period_form is not empty %}{{ form_end(period_form) }}{% endif %}
 {% endblock %}

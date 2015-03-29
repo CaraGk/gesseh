@@ -21,9 +21,10 @@ class SimulPeriodType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    $builder->add('period')
-            ->add('begin')
-            ->add('end');
+    $builder->add('begin')
+            ->add('end')
+            ->add('Enregistrer', 'submit')
+    ;
   }
 
   public function getName()

@@ -22,7 +22,9 @@ class PeriodType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->add('begin')
-            ->add('end');
+            ->add('end')
+            ->add('Enregistrer', 'submit')
+    ;
   }
 
   public function getName()

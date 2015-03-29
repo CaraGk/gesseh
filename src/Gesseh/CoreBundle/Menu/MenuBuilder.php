@@ -65,7 +65,6 @@ class MenuBuilder
     $menu->addChild('Placements', array('route' => 'GCore_PAPlacementIndex', 'label' => 'Stages', 'attributes' => array('title' => 'Gérer les stages')));
     $menu->addChild('Periods', array('route' => 'GCore_PAPeriodIndex', 'label' => 'Périodes de stage', 'attributes' => array('title' => 'Gérer les périodes de stage')));
     $menu->addChild('Simulation', array('route' => 'GSimul_SAList', 'label' => 'Simulations', 'attributes' => array('title' => 'Gérer les simulations')));
-    $menu->addChild('SimPeriods', array('route' => 'GSimul_SAPeriod', 'label' => 'Périodes de simulation', 'attributes' => array('title' => 'Gérer les périodes de simulation')));
     $menu->addChild('SimRules', array('route' => 'GSimul_SARule', 'label' => 'Règles de simulation', 'attributes' => array('title' => 'Gérer les règles de simulation')));
     $menu->addChild('EvalForms', array('route' => 'GEval_AIndex', 'label' => 'Formulaires d\'évaluation', 'attributes' => array('title' => 'Gérer les formulaires d\'évaluation de stage')));
     $menu->addChild('Moderation', array('route' => 'GEval_ATextIndex', 'label' => 'Modérer', 'attributes' => array('title' => 'Modérer les évaluations de stage')));

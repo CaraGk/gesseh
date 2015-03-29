@@ -1,45 +1,14 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block titlecontent %}Périodes de simulation{% endblock %}
+{% block titlecontent %}Période {{ period }} : simulations{% endblock %}
+
+{% block actionscontent %}
+    <li><a href="{{ path('GCore_PAPeriodIndex') }}" title="Retour à la liste des sessions de stage"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour" /></a></li>
+    <li><a href="{{ path('GSimul_SAPeriodDelete', {'id': simul_period.id}) }}" title="Supprimer la période de simulation '{{ period }}'" class="confirm delete" confirm="Attention ! Cette opération va supprimer également toutes les simulations associées à cette période de simulation. Elle ne supprimera pas, par contre, la session de stages associée. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+{% endblock %}
 
 {% block content %}
-  {% if period_form is not empty %}
-    {% form_theme period_form 'GessehCoreBundle:Form:fields.html.twig' %}
-    <div>{{ form_errors(period_form) }}</div>
-    {{ form_start(period_form) }}
-  {% endif %}
-  <table>
-    <thead>
-      <tr>
-        <th>Période de stage</th>
-        <th>Début des simulations</th>
-        <th>Fin des simulations</th>
-        <th class="actions">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for period in periods %}
-        {% include period_id == period.id ? 'GessehSimulationBundle:SimulationAdmin:periodEdit.html.twig' : 'GessehSimulationBundle:SimulationAdmin:periodIndex.html.twig' %}
-      {% else %}
-        <tr>
-          <td colspan=4>Aucune session de simulation à afficher.</td>
-        </tr>
-      {% endfor %}
-      {% if period_form is not empty and period_id is empty %}
-        {% include 'GessehSimulationBundle:SimulationAdmin:periodEdit.html.twig' %}
-      {% endif %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <td>
-          <ul>
-            <li><a href="{{ path('GSimul_SANewPeriod') }}" title="Ajouter une nouvelle session de simulation"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></li>
-          </ul>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
-  {% if period_form is not empty %}{{ form_end(period_form) }}{% endif %}
+    {{ form(period_form) }}
 {% endblock %}
 
 {% block javascripts %}
