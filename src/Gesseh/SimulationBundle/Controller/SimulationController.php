@@ -239,6 +239,12 @@ class SimulationController extends Controller
     public function simAction()
     {
       $em = $this->getDoctrine()->getManager();
+        $um = $this->container->get('fos_user.user_manager');
+        $user = $um->findUserBy(array(
+            'username' => $this->get('security.context')->getToken()->getUsername(),
+        ));
+        $simid = $this->getRequest()->get('simid');
+        $simstudent = $this->testAdminTakeOver($em, $user, $simid);
 
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
