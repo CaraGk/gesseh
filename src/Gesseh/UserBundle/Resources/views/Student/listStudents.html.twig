@@ -1,0 +1,13 @@
+{% extends "GessehCoreBundle::layout.html.twig" %}
+
+{% block titlecontent %}
+    Co-internes de {{ placement.department }}
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for student in students %}
+            <li><a href="mailto:{{ student.user.email }}">{{ student.surname }} {{ student.name}}</a> : {{ student.phone }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -33,7 +33,7 @@ class PlacementRepository extends EntityRepository
                 ->addSelect('t');
   }
 
-  public function getByUsername($user)
+  public function getByUsername($user, $id = null)
   {
     $query = $this->getPlacementQuery();
     $query->where('u.username = :user')
@@ -41,6 +41,13 @@ class PlacementRepository extends EntityRepository
           ->addOrderBy('q.begin', 'desc')
           ->addOrderBy('h.name', 'asc')
           ->addOrderBy('d.name', 'asc');
+
+    if ($id) {
+        $query->andWhere('p.id = :id')
+            ->setParameter('id', $id);
+
+        return $query->getQuery()->getOneOrNullResult();
+    }
 
     return $query->getQuery()->getResult();
   }

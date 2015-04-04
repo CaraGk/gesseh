@@ -139,4 +139,16 @@ class StudentRepository extends EntityRepository
 
         return $list;
     }
+
+    public function getSamePlacement($period_id, $department_id)
+    {
+        $query = $this->getStudentQuery();
+        $query->join('s.placements', 'p')
+            ->where('p.period = :period_id')
+            ->andWhere('p.department = :department_id')
+            ->setParameter('period_id', $period_id)
+            ->setParameter('department_id', $department_id);
+
+        return $query->getQuery()->getResult();
+    }
 }

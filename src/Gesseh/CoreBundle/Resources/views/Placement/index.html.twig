@@ -24,6 +24,9 @@
                 <div class="field entity_item period">{{ placement.period }} : </div>
                 <div class="field entity_item fieldset">{{ placement.department.name }} à {{ placement.department.hospital }}</div>
                 <div class="field entity_item department_sector">({{ placement.department.sector.name }})</div>
+                <ul class="actions">
+                    <li><a href="{{ path('GUser_SListStudents', { 'id': placement.id })}}" title="Voir les autres étudiants">Co-internes</a></li>
+                </ul>
             </li>
         {% else %}
             <li class="field noentity error">Aucun stage effectué</li>

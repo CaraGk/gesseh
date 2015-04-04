@@ -84,4 +84,27 @@ class StudentController extends Controller
         'student_form' => $form->createView(),
       );
     }
+
+    /**
+     * Show other students in the same placement
+     *
+     * @Route("/coworkers/{id}", name="GUser_SListStudents", requirements={"id" = "\d+"})
+     * @Template()
+     */
+    public function listStudentsAction($id)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $user = $this->get('security.context')->getToken()->getUsername();
+      $placement = $em->getRepository('GessehCoreBundle:Placement')->getByUsername($user, $id);
+
+      if (!$placement)
+          throw $this->createNotFoundException('Unable to find placement entity.');
+
+      $students = $em->getRepository('GessehUserBundle:Student')->getSamePlacement($placement->getPeriod()->getId(), $placement->getDepartment()->getId());
+
+      return array(
+          'students'  => $students,
+          'placement' => $placement,
+      );
+    }
 }
