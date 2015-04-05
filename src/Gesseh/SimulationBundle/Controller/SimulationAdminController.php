@@ -29,7 +29,7 @@ use Gesseh\SimulationBundle\Form\SectorRuleHandler;
 /**
  * Simulation admin controller
  *
- * @Route("/admin/s")
+ * @Route("/admin/simulation")
  */
 class SimulationAdminController extends Controller
 {
@@ -42,12 +42,12 @@ class SimulationAdminController extends Controller
       $em = $this->getDoctrine()->getManager();
       $paginator = $this->get('knp_paginator');
       $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
-      $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
+//      $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
       $simul_missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing();
       $simul_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
 
       return array(
-          'simulations'   => $simulations,
+          'simulations'   => $simulations_query->getResult(),
           'simul_missing' => $simul_missing,
           'simul_total'   => $simul_total,
       );

@@ -22,10 +22,7 @@ class SimulationRepository extends EntityRepository
   {
     $query = $this->createQueryBuilder('t')
                   ->join('t.student', 's')
-//                  ->join('t.department', 'd')
-//                  ->join('d.hospital', 'h')
                   ->addSelect('s')
-//                  ->addSelect('d')
                   ->orderBy('t.id', 'asc');
 
     return $query->getQuery();

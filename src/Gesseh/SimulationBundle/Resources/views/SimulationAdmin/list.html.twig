@@ -1,14 +1,13 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block title %}
-{% endblock %}
+{% block title %}{{ parent() }} - Simulation{% endblock %}
 
-{% block titlecontent %}Table de simulation{% endblock %}
+{% block titlecontent %}Résultats de la simulation{% endblock %}
 
 {% block actionscontent %}
     <li class="field"><a href="{{ path('GSimul_SASim') }}" title="Lancer l'algorithme de simulation"><button type="button">Actualiser les simulations</button></a></li>
-    <li class="field"><a href="{{ path('GSimul_SAPurge') }}" title="Supprimer la table de simulation" class="confirm" confirm="Attention ! Cette opéracion va supprimer toutes les données concernant la simulation en cours. Souhaitez-vous continuer ?"><button type="button">Supprimer la table de simulation</button></a></li>
-    <li class="field"><a href="{{ path('GSimul_SASave') }}" title="Valider les simulation et les enregistrer dans les stages."><button type="button">Valider les simulations</button></a></li>
+    <li class="field"><a href="{{ path('GSimul_SASave') }}" title="Valider les simulation et les enregistrer dans les stages."><img src="{{ asset('bundles/gessehcore/images/Valid.png') }}" alt="Valider les simulations" /></a></li>
+    <li class="field"><a href="{{ path('GSimul_SAPurge') }}" title="Supprimer la table de simulation" class="confirm" confirm="Attention ! Cette opéracion va supprimer toutes les données concernant la simulation en cours. Souhaitez-vous continuer ?"><img src="{{ asset('bundles/gessehcore/images/Error.png') }}" alt="Supprimer la table de simulation" /></a></li>
 {% endblock %}
 
 {% block content %}
@@ -16,60 +15,17 @@
         Progression de la simulation : <span>{{ simul_total - simul_missing }} / {{ simul_total }} participants</span>
         <progress class="progressbar" value="{{ (simul_total - simul_missing) / simul_total * 100 }}" max="100"></progress>
     </div>
-  <table>
-      <thead>
-        <tr>
-          <th class="small">Rang</th>
-          <th>Étudiant</th>
-          <th>Poste</th>
-          <th class="small">Vœux</th>
-          <th class="small">Reste</th>
-          <th class="actions">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for simulation in simulations %}
-          <tr>
-            <td class="small">{{ simulation.id }}</td>
-            <td>{{ simulation.student.surname }} {{ simulation.student.name }}</td>
-            {% if simulation.active %}
-              {% if simulation.department %}
-                <td>{{ simulation.department }}</td>
-              {% else %}
-                <td>Aucun choix valide</td>
-              {% endif %}
-            {% else %}
-              <td>Ne participe pas aux simulations</td>
-            {% endif %}
-            <td class="small">{{ simulation.countWishes }}</td>
-            <td class="small">{{ simulation.extra }}</td>
-            <td class="actions">
-              <ul>
-                <li><a href="{{ path('GSimul_SIndex', {'simid': simulation.id}) }}" title="Afficher les vœux de l'étudiant {{ simulation.student }}"><img src="{{ asset('bundles/gessehcore/images/Target.png') }}" alt="Vœux" /></a></li>
-              </ul>
-            </td>
-          <tr>
-        {% else %}
-          <tr>
-            <td colspan=5>La table de simulation n'est pas générée. <a href="{{ path('GSimul_SADefine') }}" title="Cliquez pour générer la table de simulation">Générer la table</a></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-      <tfoot>
-        <tr>
-          <td class="pagination" colspan=6>{{ knp_pagination_render(simulations) }}</td>
-        </tr>
-      </tfoot>
-  </table>
-    {% if simulations is not empty %}
-      <div>
-        <ul>
-        </ul>
-      </div>
-    {% endif %}
+    {{ include('GessehSimulationBundle:Simulation:simulations.html.twig', {'simulations': simulations}) }}
 {% endblock %}
 
 {% block javascripts %}
-  {{ parent() }}
-  <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $('.valid').parent('li').addClass('valid');
+            $('.invalid').parent('li').addClass('invalid');
+            $('.grey').parent('li').addClass('grey');
+            $('.warning').parent('li').addClass('warning');
+        });
+    </script>
 {% endblock %}
