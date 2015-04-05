@@ -69,7 +69,8 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content table.mceToolbar th, #content table.mceToolbar td { border: none; }
 #content .field { display: inline-block; }
 #content ul.fields { margin: 2px; padding: 0; display: inline-block; }
-#content ul.actions, #content ul.actions li { display: inline-block; float: right; }
+#content ul.actions { display: inline-block; float: right; }
+#content ul.actions li { display: inline-block; }
 #content ul.entities, #content ul.subentities { display: block; }
 #content li.entity, #content li.subentity { display: block; }
 #content li.entity { margin: 20px 0 10px 0; }
