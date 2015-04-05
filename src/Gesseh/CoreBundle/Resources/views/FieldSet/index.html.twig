@@ -45,9 +45,9 @@
                                 {% if department.number > 1 %}
                                     <div class="field subentity_item department_number">({{ department.number }} postes proposés)</div>
                                 {% elseif department.number == 1 %}
-                                    <div class="field subentity_item department_number warning">(1 poste proposé)</div>
+                                    <div class="field subentity_item department_number">(1 poste proposé)</div>
                                 {% else %}
-                                    <div class="field empty department_number error">(aucun poste proposé)</div>
+                                    <div class="field empty department_number">(aucun poste proposé)</div>
                                 {% endif %}
                             {% endif %}
                             <ul class="actions">
