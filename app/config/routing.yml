@@ -1,3 +1,8 @@
+gesseh_register:
+    resource: "@GessehRegisterBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 #GessehMigrateOldDbBundle:
 #    resource: "@GessehMigrateOldDbBundle/Controller/"
 #    type:     annotation
