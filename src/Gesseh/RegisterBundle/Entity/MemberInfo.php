@@ -35,14 +35,13 @@ class MemberInfo
      * @ORM\ManyToOne(targetEntity="Membership", inversedBy="infos", cascade={"persist"})
      * @ORM\JoinColumn(name="membership_id", referencedColumnName="id")
      */
-    private $membershipId;
+    private $membership;
 
     /**
-     * @ORM\Column(name="question_id", type="integer")
      * @ORM\ManyToOne(targetEntity="MemberQuestion")
      * @ORM\JoinColumn(name="memberquestion_id", referencedColumnName="id")
      */
-    private $questionId;
+    private $question;
 
     /**
      * @var string
@@ -63,48 +62,48 @@ class MemberInfo
     }
 
     /**
-     * Set membershipId
+     * Set membership
      *
-     * @param Gesseh\RegisterBundle\Entity\Membership $membershipId
+     * @param Gesseh\RegisterBundle\Entity\Membership $membership
      * @return MemberInfo
      */
-    public function setMembershipId(\Gesseh\RegisterBundle\Entity\Membership $membershipId)
+    public function setMembership(\Gesseh\RegisterBundle\Entity\Membership $membership_)
     {
-        $this->membershipId = $membershipId;
+        $this->membership = $membership;
 
         return $this;
     }
 
     /**
-     * Get membershipId
+     * Get membership
      *
      * @return Gesseh\RegisterBundle\Entity\Membership
      */
-    public function getMembershipId()
+    public function getMembership()
     {
-        return $this->membershipId;
+        return $this->membership;
     }
 
     /**
-     * Set questionId
+     * Set question
      *
-     * @param Gesseh\RegisterBundle\Entity\MemberQuestion $questionId
+     * @param Gesseh\RegisterBundle\Entity\MemberQuestion $question
      * @return MemberInfo
      */
-    public function setQuestionId(\Gesseh\RegisterBundle\Entity\MemberQuestion $questionId)
+    public function setQuestion(\Gesseh\RegisterBundle\Entity\MemberQuestion $question)
     {
-        $this->questionId = $questionId;
+        $this->question = $question;
 
         return $this;
     }
     /**
-     * Get questionId
+     * Get question
      *
      * @return Gesseh\RegisterBundle\Entity\MemberQuestion
      */
-    public function getQuestionId()
+    public function getQuestion()
     {
-        return $this->questionId;
+        return $this->question;
     }
 
 

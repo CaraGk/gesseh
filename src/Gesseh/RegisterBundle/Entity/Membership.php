@@ -32,9 +32,10 @@ class Membership
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Gesseh\UserBundle\Entity\Student")
+     * @ORM\ManyToOne(targetEntity="\Gesseh\UserBundle\Entity\Student", cascade={"persist"})
+     * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
      */
-    private $studentId;
+    private $student;
 
     /**
      * @var integer
@@ -76,26 +77,26 @@ class Membership
     }
 
     /**
-     * Set studentId
+     * Set student
      *
-     * @param Gesseh\UserBundle\Entity\Student $studentId
+     * @param Gesseh\UserBundle\Entity\Student $student
      * @return Membership
      */
-    public function setStudentId(\Gesseh\UserBundle\Entity\Student $studentId)
+    public function setStudent(\Gesseh\UserBundle\Entity\Student $student = null)
     {
-        $this->studentId = $studentId;
+        $this->student = $student;
 
         return $this;
     }
 
     /**
-     * Get studentId
+     * Get student
      *
      * @return Gesseh\UserBundle\Entity\Student
      */
-    public function getStudentId()
+    public function getStudent()
     {
-        return $this->studentId;
+        return $this->student;
     }
 
     /**
@@ -189,4 +190,5 @@ class Membership
     {
         return $this->expiredOn;
     }
+
 }
