@@ -22,8 +22,6 @@
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="entity_item field">({{ simulation.countWishes }} vœu{% if simulation.countWishes > 1 %}x{% endif %})</div>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
                 <ul class="actions">
                     <li><a href="{{ path('GSimul_SIndex', {'simid': simulation.id}) }}" title="Afficher les vœux de l'étudiant {{ simulation.student }}"><img src="{{ asset('bundles/gessehcore/images/Target.png') }}" alt="Vœux" /></a></li>
                 </ul>
