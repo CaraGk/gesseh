@@ -30,12 +30,18 @@ class GradeRepository extends EntityRepository
     return $this->getGradeQuery()->getQuery()->getResult();
   }
 
-  public function getAllActiveInverted()
+  public function getActiveQuery()
   {
     $query = $this->getGradeQuery();
-    $query->where('g.isActive = :active')
-            ->setParameter('active', true)
-          ->orderBy('g.rank', 'desc');
+    $query->where('g.isActive = true');
+
+    return $query;
+  }
+
+  public function getAllActiveInverted()
+  {
+    $query = $this->getActiveQuery();
+    $query->orderBy('g.rank', 'desc');
 
     return $query->getQuery()
                  ->getResult();

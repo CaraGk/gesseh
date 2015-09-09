@@ -34,11 +34,13 @@ class UserController extends Controller
     public function createAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $um = $this->container->get('fos_user.user_manager');
+        $pm = $this->container->get('kdb_parameters.manager');
 
         $questions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
 
         $form = $this->createForm(new RegisterType($questions));
-        $form_handler = new RegisterHandler($form, $this->get('request'), $em);
+        $form_handler = new RegisterHandler($form, $this->get('request'), $em, $um, $pm->findParamByName('reg_payment'));
         if($form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Utilisateur créé.');
 

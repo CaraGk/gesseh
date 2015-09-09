@@ -54,7 +54,7 @@ class Membership
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="payed_on", type="datetime")
+     * @ORM\Column(name="payed_on", type="datetime", nullable=true)
      */
     private $payedOn;
 

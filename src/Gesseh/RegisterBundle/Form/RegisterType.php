@@ -13,17 +13,25 @@ namespace Gesseh\RegisterBundle\Form;
 
 use Symfony\Component\Form\AbstractType,
     Symfony\Component\Form\FormBuilderInterface,
-    Gesseh\UserBundle\Form\StudentType;
+    Gesseh\UserBundle\Form\StudentRegisterType;
 
 /**
  * RegisterType
  */
 class RegisterType extends AbstractType
 {
+    private $testSimulActive;
+
+    public function __construct($testSimulActive = true)
+    {
+        $this->testSimulActive = $testSimulActive;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('student', new StudentType('Gesseh\UserBundle\Entity\Student'), array(
+            ->add('student', new StudentRegisterType('Gesseh\UserBundle\Entity\Student', $this->testSimulActive), array(
+                'label' => ' ',
             ))
             ->add('method', 'choice', array(
                 'choices' => array(
@@ -32,6 +40,7 @@ class RegisterType extends AbstractType
                 'required' => true,
                 'multiple' => false,
                 'expanded' => true,
+                'label'    => 'Moyen de paiement'
             ))
             ->add('Enregistrer', 'submit')
         ;
