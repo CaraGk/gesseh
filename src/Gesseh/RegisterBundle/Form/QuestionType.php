@@ -83,4 +83,33 @@ class QuestionType extends AbstractType
     {
         return 'gesseh_registerbundle_questiontype';
     }
+
+    public function getQuestionSubjectiveChoiceOptions($options)
+    {
+        $opt = explode("|", $options);
+        $label = explode(",", $opt[1]);
+        $choices = array();
+
+        for ($i = 0 ; $i < (int) $opt[0] ; $i ++) {
+            $j = $i + 1;
+            $choices[$j] = (string) $j;
+            if ($label[$i] != null)
+                $choices[$j] .= ' (' . $label[$i] . ')';
+        }
+
+        return $choices;
+    }
+
+    public function getQuestionChoiceOptions($options, $except = array())
+    {
+        $opt = explode("|", $options);
+        $choice = array();
+        foreach($opt as $key => $value) {
+            if (!in_array($key, $except)) {
+                $choice[$value] = $value;
+            }
+        }
+        return $choice;
+  }
+}
 }

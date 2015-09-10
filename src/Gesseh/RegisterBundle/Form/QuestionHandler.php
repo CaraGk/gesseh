@@ -51,19 +51,19 @@ class QuestionHandler
     {
         foreach($form as $question => $value) {
             $question_id = explode("_", $question);
-            $criteria_orig = null;
+            $question_orig = null;
             foreach($this->questions as $question_item) {
                 if($question_item->getId() == $question_id[1]) {
                     $question_orig = $question_item;
                     break;
                 }
             }
-            if($criteria_orig->getType() == 3) {
+            if($question_orig->getType() == 3) {
                 foreach($value as $item) {
                     $this->setQuestionInfo($question_orig, $item);
                 }
             } else {
-                $this->setQuestionInfo($criteria_orig, $value);
+                $this->setQuestionInfo($question_orig, $value);
             }
         }
         $this->em->flush();
