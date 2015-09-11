@@ -115,12 +115,21 @@ class StudentAdminController extends Controller
    */
   public function deleteAction($id)
   {
-    $em = $this->getDoctrine()->getManager();
+      $em = $this->getDoctrine()->getManager();
+      $pm = $this->container->get('kdb_parameters.manager');
     $search = $this->get('request')->query->get('search', null);
     $student = $em->getRepository('GessehUserBundle:Student')->find($id);
 
     if( !$student )
-      throw $this->createNotFoundException('Unable to find Student entity.');
+        throw $this->createNotFoundException('Unable to find Student entity.');
+
+    if(true == $pm->findParamByName('reg_active')->getValue()) {
+        if($memberships = $em->getRepository('GessehRegisterBundle:Membership')->findBy(array('student' => $student))) {
+            foreach($memberships as $membership) {
+                $em->remove($membership);
+            }
+        }
+    }
 
     $em->remove($student);
     $em->flush();
