@@ -21,4 +21,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class MembershipRepository extends EntityRepository
 {
+    public function getLastByUsername($username)
+    {
+        $query = $this->createQueryBuilder('m');
+        $query->join('m.student', 's')
+            ->join('s.user', 'u')
+            ->addSelect('s')
+            ->addSelect('u')
+            ->where('u.username = :username')
+            ->setParameter('username', $username)
+            ->orderBy('m.id', 'desc')
+            ->setMaxResults(1)
+        ;
+
+        return $query->getQuery()->getSingleResult();
+    }
 }

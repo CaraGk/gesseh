@@ -110,6 +110,5 @@ class QuestionType extends AbstractType
             }
         }
         return $choice;
-  }
-}
+    }
 }

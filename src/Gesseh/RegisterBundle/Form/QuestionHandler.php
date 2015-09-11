@@ -71,11 +71,11 @@ class QuestionHandler
 
     private function setQuestionInfo($question, $value)
     {
-        $question_info = new QuestionInfo();
-        $question_info->setMembership($this->membership);
-        $question_info->setValue($value);
-        $question_info->setMemberQuestion($question);
+        $member_info = new MemberInfo();
+        $member_info->setMembership($this->membership);
+        $member_info->setValue($value);
+        $member_info->setQuestion($question);
 
-        $this->em->persist($question_info);
+        $this->em->persist($member_info);
     }
 }

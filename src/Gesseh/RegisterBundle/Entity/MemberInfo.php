@@ -67,7 +67,7 @@ class MemberInfo
      * @param Gesseh\RegisterBundle\Entity\Membership $membership
      * @return MemberInfo
      */
-    public function setMembership(\Gesseh\RegisterBundle\Entity\Membership $membership_)
+    public function setMembership(\Gesseh\RegisterBundle\Entity\Membership $membership)
     {
         $this->membership = $membership;
 

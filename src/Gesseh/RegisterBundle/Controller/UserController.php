@@ -50,8 +50,9 @@ class UserController extends Controller
                 ->setSubject('GESSEH - Confirmation d\'adresse mail')
                 ->setFrom($this->container->getParameter('mailer_mail'))
                 ->setTo($username)
-                ->setBody($this->renderView('confirmation.html.twig', array('email' => $username, 'url' => $url)), 'text/html')
-                ->addPart($this->renderView('confirmation.txt.twig', array('email' => $username, 'url' => $url)), 'text/plain')
+                ->setBody('URL de validation du mail : ' . $url, 'text/plain')
+//                ->setBody($this->renderView('RegisterBundle:User:confirmation.html.twig', array('email' => $username, 'url' => $url)), 'text/html')
+//                ->addPart($this->renderView('RegisterBundle:User:confirmation.txt.twig', array('email' => $username, 'url' => $url)), 'text/plain')
             ;
             $this->get('mailer')->send($email);
 
@@ -76,7 +77,7 @@ class UserController extends Controller
         $user = $this->get('request')->query->get('user');
 
         $questions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
-        $membership = $em->getRepository('Gesseh\RegisterBundle\Entity\Membership')->getLastByUsername();
+        $membership = $em->getRepository('Gesseh\RegisterBundle\Entity\Membership')->getLastByUsername($user);
 
         $form = $this->createForm(new QuestionType($questions));
         $form_handler = new QuestionHandler($form, $this->get('request'), $em, $membership, $questions);
