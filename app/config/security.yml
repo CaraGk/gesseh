@@ -15,10 +15,9 @@ security:
         pattern:         ^/
         form_login:
           provider:      fos_userbundle
-          csrf_provider: form.csrf_provider
+          #csrf_provider: form.csrf_provider
+          csrf_provider: security.csrf.token_manager
           remember_me:   true
-          #login_path:    /login
-          #check_path:    /login_check
         logout:          true
         anonymous:       true
         remember_me:
@@ -30,6 +29,6 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/f/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/fieldset/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/u/, role: ROLE_STUDENT }
+        - { path: ^/user/, role: ROLE_STUDENT }
