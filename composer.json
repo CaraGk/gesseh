@@ -28,7 +28,8 @@
         "liuggio/excelbundle": "~2.0",
         "whiteoctober/tcpdf-bundle": "dev-master",
         "jms/payment-core-bundle": "master-dev",
-        "jms/payment-paypal-bundle": "master-dev"
+        "jms/payment-paypal-bundle": "master-dev",
+        "jms/di-extra-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

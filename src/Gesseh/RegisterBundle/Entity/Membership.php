@@ -13,6 +13,7 @@ namespace Gesseh\RegisterBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 /**
  * Membership
@@ -40,7 +41,7 @@ class Membership
     /**
      * @var integer
      *
-     * @ORM\Column(name="payment", type="smallint")
+     * @ORM\Column(name="payment", type="decimal", precision=2)
      */
     private $payment;
 
@@ -64,6 +65,12 @@ class Membership
      * @ORM\Column(name="expired_on", type="datetime")
      */
     private $expiredOn;
+
+    /**
+     * @ORM\OneToOne(targetEntity="\JMS\Payment\CoreBundle\Entity\PaymentInstruction")
+     * @ORM\JoinColumn(name="payment_instruction_id", referencedColumnName="id")
+     */
+    private $paymentInstruction;
 
 
     /**
@@ -191,4 +198,14 @@ class Membership
         return $this->expiredOn;
     }
 
+    public function getPaymentInstruction()
+    {
+        return $this->paymentInstruction;
+    }
+
+    public function setPaymentInstruction(PaymentInstruction $instruction)
+    {
+        $this->paymentInstruction = $instruction;
+    }
 }
+

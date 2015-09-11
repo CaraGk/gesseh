@@ -64,10 +64,7 @@ swiftmailer:
     password:  %mailer_password%
 #   spool:     { type: memory }
 
-#jms_security_extra:
-#    secure_controllers:  true
-#    secure_all_services: false
-
+# User control configuration
 fos_user:
   db_driver:     orm
   firewall_name: main
@@ -76,10 +73,12 @@ fos_user:
     address:     %mailer_mail%
     sender_name: Admin Gesseh
 
+# Application's parameters configuration
 kdb_parameters:
   db_driver: orm
   class:     Gesseh\ParameterBundle\Entity\Parameter
 
+# Pagination configuration
 knp_paginator:
   page_range: 5                       # default page range used in pagination control
   default_options:
@@ -94,60 +93,18 @@ knp_paginator:
     filtration: KnpPaginatorBundle:Pagination:filtration.html.twig
     sortable:   KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
+# TinyMCE configuration
 stfalcon_tinymce:
   include_jquery: true
   tinymce_jquery: true
-#  textarea_class: "tinymce"
   selector:       ".tinymce"
   language:       %locale%
   theme: ~
-#    simple:
-#      mode:                             "textareas"
-#      theme_advanced_toolbar_locatione:                            "advanced"
-#      theme_advanced_buttons1:          "mylistbox,mysplitbutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,undo,redo,link,unlink"
-#      theme_advanced_buttons2:           ""
-#      theme_advanced_buttons3:           ""
-#      theme_advanced_toolbar_location:   "top"
-#      theme_advanced_toolbar_align:      "left"
-#      theme_advanced_statusbar_location: "bottom"
-#      plugins:                           "fullscreen"
-#      theme_advanced_buttons1_add:       "fullscreen"
-#      language:                          %locale%
-#    advanced:
-#      theme: "advanced"
-#      plugins: "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template"
-#      theme_advanced_buttons1: "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect"
-#      theme_advanced_buttons2: "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor"
-#      theme_advanced_buttons3: "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen"
-#      theme_advanced_buttons4: "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak"
-#      theme_advanced_toolbar_location: "top"
-#      theme_advanced_toolbar_align: "left"
-#      theme_advanced_statusbar_location: "bottom"
-#      theme_advanced_resizing: true
-#    medium:
-#      mode: "textareas"
-#      theme: "advanced"
-#      plugins: "table,advhr,advlink,paste,xhtmlxtras,spellchecker"
-#      theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,forecolor,backcolor,|,hr,removeformat,|,sub,sup,|,spellchecker"
-#      theme_advanced_buttons2: "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,undo,redo,|,link,unlink,anchor,cleanup,code,|,tablecontrols"
-#      theme_advanced_buttons3: ""
-#      theme_advanced_toolbar_location: "top"
-#      theme_advanced_toolbar_align: "left"
-#      theme_advanced_statusbar_location: ""
-#      paste_auto_cleanup_on_paste: true
-#      spellchecker_languages: "+English=en,Dutch=nl"
-#    bbcode:
-#      mode: "none"
-#      theme: "advanced"
-#      plugins: "bbcode"
-#      theme_advanced_buttons1: "bold,italic,underline,undo,redo,link,unlink,image,forecolor,styleselect,removeformat,cleanup,code"
-#      theme_advanced_buttons2: ""
-#      theme_advanced_buttons3: ""
-#      theme_advanced_toolbar_location: "bottom"
-#      theme_advanced_toolbar_align: "center"
-#      theme_advanced_styles: "Code=codeStyle;Quote=quoteStyle"
-#      entity_encoding: "raw"
-#      add_unload_trigger: false
-#      remove_linebreaks: false
-#      inline_styles: false
-#      convert_fonts_to_spans: false
+
+# Payment configuration
+jms_payment_core: 
+    secret: %payment_secret%
+jms_payment_paypal:
+    username: %payment_paypal_user%
+    password: %payment_paypal_pswd%
+    signature: %payment_paypal_sign%

@@ -50,8 +50,8 @@ class UserController extends Controller
                 ->setSubject('GESSEH - Confirmation d\'adresse mail')
                 ->setFrom($this->container->getParameter('mailer_mail'))
                 ->setTo($username)
-                ->setBody($this->renderView('User/confirmation.html.twig', array('email' => $username, 'url' => $url)), 'text/html')
-                ->addPart($this->renderView('User/confirmation.txt.twig', array('email' => $username, 'url' => $url)), 'text/plain')
+                ->setBody($this->renderView('confirmation.html.twig', array('email' => $username, 'url' => $url)), 'text/html')
+                ->addPart($this->renderView('confirmation.txt.twig', array('email' => $username, 'url' => $url)), 'text/plain')
             ;
             $this->get('mailer')->send($email);
 
