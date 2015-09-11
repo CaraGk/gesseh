@@ -40,7 +40,7 @@ class UserController extends Controller
         $pm = $this->container->get('kdb_parameters.manager');
         $tokenGenerator = $this->container->get('fos_user.util.token_generator');
         $token = $tokenGenerator->generateToken();
-        $url = $this->router->generate('fos_user.registration_confirm', array('token' => $token), true);
+        $url = $this->generateUrl('fos_user_registration_confirm', array('token' => $token), true);
 
         $form = $this->createForm(new RegisterType($pm->findParamByName('simul_active')));
         $form_handler = new RegisterHandler($form, $this->get('request'), $em, $um, $pm->findParamByName('reg_payment'), $token);
@@ -48,7 +48,7 @@ class UserController extends Controller
             $this->get('session')->getFlashBag()->add('notice', 'Utilisateur ' . $username . ' créé.');
             $email = \Swift_Message::newInstance()
                 ->setSubject('GESSEH - Confirmation d\'adresse mail')
-                ->setFrom('')
+                ->setFrom($this->container->getParameter('mailer_mail'))
                 ->setTo($username)
                 ->setBody($this->renderView('User/confirmation.html.twig', array('email' => $username, 'url' => $url)), 'text/html')
                 ->addPart($this->renderView('User/confirmation.txt.twig', array('email' => $username, 'url' => $url)), 'text/plain')
