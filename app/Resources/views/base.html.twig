@@ -18,6 +18,9 @@
               {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <a href="{{ path('GUser_SEdit') }}" title="Modifier mes informations personnelles">{{ app.user.username }}</a> | <a href="{{ path('fos_user_security_logout') }}" title="Se déconnecter">se déconnecter</a>
               {% else %}
+                {% if kparam('reg_active') and kparam('reg_auto') %}
+                    <a href="{{ path('GRegister_UCreate') }}" title="S'inscrire et adhérer">S'inscrire</a> |
+                {% endif %}
                 <a href="{{ path('fos_user_security_login') }}" title="Se connecter">Se connecter</a> | <a href="{{ path('fos_user_resetting_request') }}" title="Réinitialiser le mot de passe">Mot de passe oublié</a>
               {% endif %}
             </nav>
