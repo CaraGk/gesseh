@@ -13,12 +13,17 @@ namespace Gesseh\UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Gesseh\UserBundle\Entity\User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="Gesseh\UserBundle\Entity\UserRepository")
+ * @UniqueEntity(
+ *      fields={"emailCanonical"},
+ *      errorPath="emailCanonical",
+ *      message="Cette adresse e-mail est déjà utilisée.")
  */
 class User extends BaseUser
 {
