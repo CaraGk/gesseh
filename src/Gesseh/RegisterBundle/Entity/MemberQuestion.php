@@ -57,8 +57,12 @@ class MemberQuestion
      *
      * @ORM\Column(name="rank", type="smallint")
      */
-    private $rank;
 
+    private $rank;
+    /**
+     * @ORM\OneToMany(targetEntity="MemberInfo", mappedBy="question", cascade={"remove", "persist"}, orphanRemoval=true)
+     */
+    private $infos;
 
     /**
      * Get id
@@ -184,5 +188,45 @@ class MemberQuestion
     public function getRank()
     {
         return $this->rank;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->infos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add infos
+     *
+     * @param \Gesseh\RegisterBundle\Entity\MemberInfo $infos
+     * @return MemberQuestion
+     */
+    public function addInfo(\Gesseh\RegisterBundle\Entity\MemberInfo $infos)
+    {
+        $this->infos[] = $infos;
+
+        return $this;
+    }
+
+    /**
+     * Remove infos
+     *
+     * @param \Gesseh\RegisterBundle\Entity\MemberInfo $infos
+     */
+    public function removeInfo(\Gesseh\RegisterBundle\Entity\MemberInfo $infos)
+    {
+        $this->infos->removeElement($infos);
+    }
+
+    /**
+     * Get infos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInfos()
+    {
+        return $this->infos;
     }
 }
