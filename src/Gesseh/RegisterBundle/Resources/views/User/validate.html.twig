@@ -1,0 +1,9 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Adhésion - 3/3{% endblock %}
+
+{% block content %}
+    Un email de confirmation a été envoyé à l'adresse {{ email }}. Cliquez sur le lien présent dans l'email pour activer votre compte.
+
+    En cas de non-réception du mail, <a href="{{ path('GRegister_USendConfirmation', {'username': email}) }}">renvoyer la confirmation</a>.
+{% endblock %}

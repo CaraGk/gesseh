@@ -72,6 +72,9 @@ fos_user:
   from_email:
     address:     %mailer_mail%
     sender_name: Admin Gesseh
+  registration:
+      confirmation:
+          enabled: true
 
 # Application's parameters configuration
 kdb_parameters:

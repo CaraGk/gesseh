@@ -50,9 +50,8 @@ class UserController extends Controller
                 ->setSubject('GESSEH - Confirmation d\'adresse mail')
                 ->setFrom($this->container->getParameter('mailer_mail'))
                 ->setTo($username)
-                ->setBody('URL de validation du mail : ' . $url, 'text/plain')
-//                ->setBody($this->renderView('RegisterBundle:User:confirmation.html.twig', array('email' => $username, 'url' => $url)), 'text/html')
-//                ->addPart($this->renderView('RegisterBundle:User:confirmation.txt.twig', array('email' => $username, 'url' => $url)), 'text/plain')
+                ->setBody($this->renderView('GessehRegisterBundle:User:confirmation.html.twig', array('email' => $username, 'url' => $url)), 'text/html')
+                ->addPart($this->renderView('GessehRegisterBundle:User:confirmation.txt.twig', array('email' => $username, 'url' => $url)), 'text/plain')
             ;
             $this->get('mailer')->send($email);
 
@@ -84,7 +83,7 @@ class UserController extends Controller
         if($form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Utilisateur créé.');
 
-            return $this->redirect($this->generateUrl('GRegister_UValidate'));
+            return $this->redirect($this->generateUrl('GRegister_UValidate', array('user' => $user)));
         }
 
         return array(
@@ -100,6 +99,10 @@ class UserController extends Controller
      */
     public function validateAction()
     {
-        return array();
+        $user = $this->get('request')->query->get('user');
+
+        return array(
+            'email' => $user,
+        );
     }
 }
