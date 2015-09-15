@@ -30,7 +30,7 @@ class UserController extends Controller
     /**
      * Create Membership
      *
-     * @Route("/create", name="GRegister_URegister")
+     * @Route("/", name="GRegister_URegister")
      * @Template()
      */
     public function registerAction()
@@ -93,7 +93,7 @@ class UserController extends Controller
     }
 
     /**
-     * Validate
+     * Checkmail
      *
      * @Route("/validate", name="GRegister_UValidate")
      * @Template()
