@@ -16,6 +16,7 @@
             <li class=""><a class="button" href="{{ path('GSimul_SAList') }}" title="Retour à la simulation"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
         {% else %}
             <li class=""><a class="button" href="{{ path('GSimul_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels"><button type="button">Actualiser la simulation</button></a></li>
+            <li class=""><a class="button" href="{{ path('GSimul_SList', {simid: simid}) }}" title="Affiche le résultat de la simulation"><button type="button">Résultat de la simulation</button></a></li>
         {% endif %}
         <li class=""><a class="button" href="{{ path('GSimul_SLeft', {simid: simid}) }}" title="Affiche les postes restants au moment de mon choix"><button type="button">Mes postes restants</button></a></li>
     </ul>
