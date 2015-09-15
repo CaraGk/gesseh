@@ -40,9 +40,9 @@ class RegisterHandler
             $this->form->bind($this->request);
 
             if($this->form->isValid()) {
-                $username = $this->onSuccess($this->form->getData());
+                $this->onSuccess($this->form->getData());
 
-                return $username;
+                return true;
             }
         }
 
@@ -51,28 +51,21 @@ class RegisterHandler
 
     public function onSuccess(Membership $membership)
     {
-        $username = $this->updateUser($membership->getStudent()->getUser());
-        $membership->getStudent()->setAnonymous(false);
         $membership->setPayment($this->payment);
         $membership->setExpiredOn((new \DateTime())->modify('+ 1 year'));
+
+        $student = $membership->getStudent();
+        $student->setAnonymous(false);
+
+        $user = $student->getUser();
+        $user->addRole('ROLE_STUDENT');
+        $user->setConfirmationToken($this->token);
+
         $this->em->persist($membership);
-        $this->em->flush();
-
-        return $username;
-    }
-
-    private function updateUser($user)
-    {
-        if(null == $user->getUsername()) {
-            $this->um->createUser();
-            $user->setEnabled('false');
-            $user->addRole('ROLE_STUDENT');
-            $user->setConfirmationToken($this->token);
-        }
-        $user->setUsername($user->getEmail());
-
+        $this->em->persist($student);
+        $this->um->createUser();
         $this->um->updateUser($user);
 
-        return $user->getUsername();
+        $this->em->flush();
     }
 }

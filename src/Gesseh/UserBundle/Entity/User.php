@@ -21,8 +21,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="Gesseh\UserBundle\Entity\UserRepository")
  * @UniqueEntity(
- *      fields={"emailCanonical"},
- *      errorPath="emailCanonical",
+ *      fields={"emailCanonical", "email", "username", "usernameCanonical"},
+ *      errorPath="email",
  *      message="Cette adresse e-mail est déjà utilisée.")
  */
 class User extends BaseUser
@@ -50,4 +50,30 @@ class User extends BaseUser
     {
         return $this->id;
     }
+
+  /**
+   * Set email
+   *
+   * @return User
+   */
+  public function setEmail($email)
+  {
+      $this->email = $email;
+      $this->username = $email;
+
+      return $this;
+  }
+
+  /**
+   * Set emailCanonical
+   *
+   * @return User
+   */
+  public function setEmailCanonical($emailCanonical)
+  {
+    $this->emailCanonical = $emailCanonical;
+    $this->usenameCanonical = $emailCanonical;
+
+    return $this;
+  }
 }

@@ -62,6 +62,7 @@ class StudentRegisterType extends AbstractType
   {
     $resolver->setDefaults(array(
         'data_class' => 'Gesseh\UserBundle\Entity\Student',
+        'cascade_validation' => true,
     ));
 
     $resolver->setAllowedValues(array(

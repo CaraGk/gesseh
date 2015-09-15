@@ -30,10 +30,10 @@ class UserController extends Controller
     /**
      * Create Membership
      *
-     * @Route("/create", name="GRegister_UCreate")
+     * @Route("/create", name="GRegister_URegister")
      * @Template()
      */
-    public function createAction()
+    public function registerAction()
     {
         $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
@@ -44,7 +44,8 @@ class UserController extends Controller
 
         $form = $this->createForm(new RegisterType($pm->findParamByName('simul_active')));
         $form_handler = new RegisterHandler($form, $this->get('request'), $em, $um, $pm->findParamByName('reg_payment'), $token);
-        if($username = $form_handler->process()) {
+
+        if($form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Utilisateur ' . $username . ' créé.');
             $email = \Swift_Message::newInstance()
                 ->setSubject('GESSEH - Confirmation d\'adresse mail')
@@ -55,7 +56,7 @@ class UserController extends Controller
             ;
             $this->get('mailer')->send($email);
 
-            return $this->redirect($this->generateUrl('GRegister_UQuestion', array('user' => $username)));
+            return $this->redirect($this->generateUrl('GRegister_UValidate'));
         }
 
         return array(

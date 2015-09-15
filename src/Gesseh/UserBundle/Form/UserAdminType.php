@@ -33,4 +33,14 @@ class UserAdminType extends BaseType
   {
     return 'gesseh_user_admin';
   }
+
+  public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver)
+  {
+    $resolver->setDefaults(array(
+        'data_class' => 'Gesseh\UserBundle\Entity\User',
+    ));
+
+    $resolver->setAllowedValues(array(
+    ));
+  }
 }

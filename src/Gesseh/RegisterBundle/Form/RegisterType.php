@@ -55,6 +55,7 @@ class RegisterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Gesseh\RegisterBundle\Entity\Membership',
+            'cascade_validation' => true,
         ));
 
         $resolver->setAllowedValues(array(
