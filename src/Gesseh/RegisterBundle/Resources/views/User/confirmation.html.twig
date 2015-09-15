@@ -1,8 +1,6 @@
-L'utilisateur {{ email }} a été créé.
-
-Pour valider votre inscription, il reste une dernière étape : confirmer votre email en cliquant sur le lien suivant.
-
-{{ url }}
-
-Bien confraternellement,
-L'équipe.
+<p>Bonjour,</p>
+<p>L'utilisateur {{ user.emailCanonical }} a été créé sur le site « {{ kparam('title')}} ».</p>
+<p>Pour valider votre inscription, il reste une dernière étape : confirmer votre email en cliquant sur le lien suivant.</p>
+<p><a href="{{ url }}">{{ url }}</a></p>
+<p>Bien confraternellement,
+<br/>L'équipe.</p>

@@ -40,9 +40,9 @@ class RegisterHandler
             $this->form->bind($this->request);
 
             if($this->form->isValid()) {
-                $this->onSuccess($this->form->getData());
+                $username = $this->onSuccess($this->form->getData());
 
-                return true;
+                return $username;
             }
         }
 
@@ -67,5 +67,7 @@ class RegisterHandler
         $this->um->updateUser($user);
 
         $this->em->flush();
+
+        return $user->getUsername();
     }
 }

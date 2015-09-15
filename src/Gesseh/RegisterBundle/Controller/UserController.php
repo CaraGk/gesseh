@@ -40,23 +40,14 @@ class UserController extends Controller
         $pm = $this->container->get('kdb_parameters.manager');
         $tokenGenerator = $this->container->get('fos_user.util.token_generator');
         $token = $tokenGenerator->generateToken();
-        $url = $this->generateUrl('fos_user_registration_confirm', array('token' => $token), true);
 
         $form = $this->createForm(new RegisterType($pm->findParamByName('simul_active')));
         $form_handler = new RegisterHandler($form, $this->get('request'), $em, $um, $pm->findParamByName('reg_payment'), $token);
 
-        if($form_handler->process()) {
+        if($username = $form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Utilisateur ' . $username . ' créé.');
-            $email = \Swift_Message::newInstance()
-                ->setSubject('GESSEH - Confirmation d\'adresse mail')
-                ->setFrom($this->container->getParameter('mailer_mail'))
-                ->setTo($username)
-                ->setBody($this->renderView('GessehRegisterBundle:User:confirmation.html.twig', array('email' => $username, 'url' => $url)), 'text/html')
-                ->addPart($this->renderView('GessehRegisterBundle:User:confirmation.txt.twig', array('email' => $username, 'url' => $url)), 'text/plain')
-            ;
-            $this->get('mailer')->send($email);
 
-            return $this->redirect($this->generateUrl('GRegister_UValidate'));
+            return $this->redirect($this->generateUrl('GRegister_USendConfirmation', array('email' => $username)));
         }
 
         return array(
@@ -93,30 +84,35 @@ class UserController extends Controller
     }
 
     /**
-     * Checkmail
+     * Send confirmation email
      *
-     * @Route("/validate", name="GRegister_UValidate")
+     * @Route("/send/{email}", name="GRegister_USendConfirmation", requirements={"email" = ".+\@.+\.\w+" })
      * @Template()
      */
-    public function validateAction()
-    {
-        $user = $this->get('request')->query->get('user');
-
-        return array(
-            'email' => $user,
-        );
-    }
-
-    /**
-     * Re-send confirmation email
-     *
-     * @Route("/send", name="GRegister_USendConfirmation")
-     */
-    public function sendConfirmationAction()
+    public function sendConfirmationAction($email)
     {
         $username = $this->get('request')->query->get('username');
         $um = $this->container->get('fos_user.user_manager');
+        $user = $um->findUserByUsername($email);
 
-        return $this->redirect($this->generateUrl('GRegister_UValidate', array('user' => $username)));
+        if(!$user)
+            throw $this->createNotFoundException('Aucun utilisateur lié à cette adresse mail.');
+
+        if(!$user->getConfirmationToken())
+            throw $this->createNotFoundException('Cet utilisateur n\'a pas de jeton de confirmation défini. Est-il déjà validé ? Contactez un administrateur.');
+
+        $url = $this->generateUrl('fos_user_registration_confirm', array('token' => $user->getConfirmationToken()), true);
+        $sendmail = \Swift_Message::newInstance()
+                ->setSubject('GESSEH - Confirmation d\'adresse mail')
+                ->setFrom($this->container->getParameter('mailer_mail'))
+                ->setTo($user->getEmailCanonical())
+                ->setBody($this->renderView('GessehRegisterBundle:User:confirmation.html.twig', array('user' => $user, 'url' => $url)), 'text/html')
+                ->addPart($this->renderView('GessehRegisterBundle:User:confirmation.txt.twig', array('user' => $user, 'url' => $url)), 'text/plain')
+        ;
+        $this->get('mailer')->send($sendmail);
+
+        return array(
+            'email' => $user->getEmailCanonical(),
+        );
     }
 }
