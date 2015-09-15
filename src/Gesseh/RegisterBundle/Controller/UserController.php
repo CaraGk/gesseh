@@ -94,7 +94,7 @@ class UserController extends Controller
     /**
      * Validate
      *
-     * @Route("/Validate", name="GRegister_UValidate")
+     * @Route("/validate", name="GRegister_UValidate")
      * @Template()
      */
     public function validateAction()
@@ -104,5 +104,18 @@ class UserController extends Controller
         return array(
             'email' => $user,
         );
+    }
+
+    /**
+     * Re-send confirmation email
+     *
+     * @Route("/send", name="GRegister_USendConfirmation")
+     */
+    public function sendConfirmationAction()
+    {
+        $username = $this->get('request')->query->get('username');
+        $um = $this->container->get('fos_user.user_manager');
+
+        return $this->redirect($this->generateUrl('GRegister_UValidate', array('user' => $username)));
     }
 }
