@@ -17,6 +17,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Gesseh\RegisterBundle\Entity\MemberQuestion,
     Gesseh\RegisterBundle\Form\RegisterType,
     Gesseh\RegisterBundle\Form\RegisterHandler,
+    Gesseh\RegisterBundle\Form\JoinType,
+    Gesseh\RegisterBundle\Form\JoinHandler,
     Gesseh\RegisterBundle\Form\QuestionType,
     Gesseh\RegisterBundle\Form\QuestionHandler;
 
@@ -35,6 +37,9 @@ class UserController extends Controller
      */
     public function registerAction()
     {
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+            return $this->redirect($this->generateUrl('GRegister_UJoin'));
+
         $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $pm = $this->container->get('kdb_parameters.manager');
@@ -114,5 +119,36 @@ class UserController extends Controller
         return array(
             'email' => $user->getEmailCanonical(),
         );
+    }
+
+    /**
+     * Join action
+     *
+     * @Route("/join", name="GRegister_UJoin")
+     * @Template()
+     */
+    public function joinAction()
+    {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+            return $this->redirect($this->generateUrl('GRegister_URegister'));
+
+        $em = $this->getDoctrine()->getManager();
+        $pm = $this->container->get('kdb_parameters.manager');
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($username);
+
+        $form = $this->createForm(new JoinType());
+        $form_handler = new JoinHandler($form, $this->get('request'), $em, $pm->findParamByName('reg_payment'), $student);
+
+        if($form_handler->process()) {
+            $this->get('session')->getFlashBag()->add('notice', 'Adhésion enregistrée pour ' . $student . '.');
+
+            return $this->redirect($this->generateUrl('GCore_FSIndex'));
+        }
+
+        return array(
+            'form' => $form->createView(),
+        );
+
     }
 }
