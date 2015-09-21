@@ -168,15 +168,29 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
-        $user = $um->findUserBy(array(
-            'username' => $this->get('security.context')->getToken()->getUsername(),
-        ));
-        $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user->getUsername());
+        $user = $um->findUserByUsername($this->get('security.context')->getToken()->getUsername());
+        $student = $this->testAdminTakeOver($em, $um, $user, $this->getRequest()->get('userid'));
 
         $memberships = $em->getRepository('GessehRegisterBundle:Membership')->findBy(array('student' => $student));
 
         return array(
             'memberships' => $memberships,
         );
+    }
+
+    /**
+     * Test for admin take over function
+     *
+     * @return
+     */
+    public function testAdminTakeOver($em, $um, $user, $user_id = null)
+    {
+        if ($user->hasRole('ROLE_ADMIN') and $user_id != null) {
+            $user = $um->findUserBy(array(
+                'id' => $user_id,
+            ));
+        }
+
+        return $em->getRepository('GessehUserBundle:Student')->getByUsername($user->getUsername());
     }
 }
