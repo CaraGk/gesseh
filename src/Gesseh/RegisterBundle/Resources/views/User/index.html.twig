@@ -9,11 +9,15 @@
 {% block content %}
     <ol>
         {% for membership in memberships %}
-            <li>Adhésion jusqu'au {{ membership.expiredOn|date('d/m/Y') }} payée par {{ membership.readableMethod|lower }}
+            <li>Adhésion jusqu'au {{ membership.expiredOn|date('d/m/Y') }} payée ({{ membership.payment }} €) par {{ membership.readableMethod|lower }}
                 {% if membership.payedOn is not null %}
                     le {{ membership.payedOn|date('d/m/Y') }}.
                 {% else %}
                     ; la transaction n'a pas été validée.
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') and membership.payedOn is null %}
+                    <a href="{{ path('GRegister_AValidate', {'id': membership.id, 'userid': userid}) }}" title="Valider la réception du paiement pour cette adhésion">Valider</a>
+                    <a href="{{ path('GRegister_ADelete', {'id': membership.id, 'userid': userid}) }}" title="Supprimer cette adhésion">Supprimer</a>
                 {% endif %}
             </li>
         {% else %}

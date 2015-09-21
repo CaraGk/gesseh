@@ -46,8 +46,8 @@ class UserController extends Controller
         $tokenGenerator = $this->container->get('fos_user.util.token_generator');
         $token = $tokenGenerator->generateToken();
 
-        $form = $this->createForm(new RegisterType($pm->findParamByName('simul_active')));
-        $form_handler = new RegisterHandler($form, $this->get('request'), $em, $um, $pm->findParamByName('reg_payment'), $token);
+        $form = $this->createForm(new RegisterType($pm->findParamByName('simul_active')->getValue()));
+        $form_handler = new RegisterHandler($form, $this->get('request'), $em, $um, $pm->findParamByName('reg_payment')->getValue(), $token);
 
         if($username = $form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Utilisateur ' . $username . ' créé.');
@@ -144,12 +144,12 @@ class UserController extends Controller
         }
 
         $form = $this->createForm(new JoinType());
-        $form_handler = new JoinHandler($form, $this->get('request'), $em, $pm->findParamByName('reg_payment'), $student);
+        $form_handler = new JoinHandler($form, $this->get('request'), $em, $pm->findParamByName('reg_payment')->getValue(), $student);
 
         if($form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Adhésion enregistrée pour ' . $student . '.');
 
-            return $this->redirect($this->generateUrl('GCore_FSIndex'));
+            return $this->redirect($this->generateUrl('GRegister_UIndex'));
         }
 
         return array(
@@ -169,12 +169,14 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $user = $um->findUserByUsername($this->get('security.context')->getToken()->getUsername());
-        $student = $this->testAdminTakeOver($em, $um, $user, $this->getRequest()->get('userid'));
+        $userid = $this->get('request')->query->get('userid');
+        $student = $this->testAdminTakeOver($em, $um, $user, $userid);
 
         $memberships = $em->getRepository('GessehRegisterBundle:Membership')->findBy(array('student' => $student));
 
         return array(
             'memberships' => $memberships,
+            'userid'      => $userid,
         );
     }
 
