@@ -25,14 +25,14 @@ use Gesseh\RegisterBundle\Entity\MemberQuestion,
 /**
  * RegisterBundle UserController
  *
- * @Route("/register")
+ * @Route("/")
  */
 class UserController extends Controller
 {
     /**
      * Create Membership
      *
-     * @Route("/", name="GRegister_URegister")
+     * @Route("/register", name="GRegister_URegister")
      * @Template()
      */
     public function registerAction()
@@ -63,7 +63,7 @@ class UserController extends Controller
     /**
      * Complementary questions
      *
-     * @Route("/questions", name="GRegister_UQuestion")
+     * @Route("/user/questions", name="GRegister_UQuestion")
      * @Template()
      */
     public function questionAction()
@@ -91,7 +91,7 @@ class UserController extends Controller
     /**
      * Send confirmation email
      *
-     * @Route("/send/{email}", name="GRegister_USendConfirmation", requirements={"email" = ".+\@.+\.\w+" })
+     * @Route("/register/send/{email}", name="GRegister_USendConfirmation", requirements={"email" = ".+\@.+\.\w+" })
      * @Template()
      */
     public function sendConfirmationAction($email)
@@ -124,7 +124,7 @@ class UserController extends Controller
     /**
      * Join action
      *
-     * @Route("/join", name="GRegister_UJoin")
+     * @Route("/user/join", name="GRegister_UJoin")
      * @Template()
      */
     public function joinAction()
@@ -136,6 +136,12 @@ class UserController extends Controller
         $pm = $this->container->get('kdb_parameters.manager');
         $username = $this->get('security.context')->getToken()->getUsername();
         $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($username);
+
+        if (null !== $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student)) {
+            $this->get('session')->getFlashBag()->add('error', 'Adhésion déjà à jour de cotisation.');
+
+            return $this->redirect($this->generateUrl('GRegister_UIndex'));
+        }
 
         $form = $this->createForm(new JoinType());
         $form_handler = new JoinHandler($form, $this->get('request'), $em, $pm->findParamByName('reg_payment'), $student);
@@ -150,5 +156,27 @@ class UserController extends Controller
             'form' => $form->createView(),
         );
 
+    }
+
+    /**
+     * Index action
+     *
+     * @Route("/user/membership", name="GRegister_UIndex")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $um = $this->container->get('fos_user.user_manager');
+        $user = $um->findUserBy(array(
+            'username' => $this->get('security.context')->getToken()->getUsername(),
+        ));
+        $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user->getUsername());
+
+        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->findBy(array('student' => $student));
+
+        return array(
+            'memberships' => $memberships,
+        );
     }
 }

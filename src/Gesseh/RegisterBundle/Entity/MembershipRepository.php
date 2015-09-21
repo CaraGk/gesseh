@@ -36,4 +36,18 @@ class MembershipRepository extends EntityRepository
 
         return $query->getQuery()->getSingleResult();
     }
+
+    public function getCurrentForStudent($student)
+    {
+        $query = $this->createQueryBuilder('m');
+        $query->where('m.student = :student')
+            ->setParameter('student', $student)
+            ->andWhere('m.payedOn is not NULL')
+            ->andWhere('m.expiredOn > :now')
+            ->setParameter('now', new \DateTime('now'))
+            ->setMaxResults(1)
+        ;
+
+        return $query->getQuery()->getOneOrNullResult();
+    }
 }

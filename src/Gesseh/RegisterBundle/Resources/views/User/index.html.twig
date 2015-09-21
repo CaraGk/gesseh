@@ -1,0 +1,23 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Mes adhésions{% endblock %}
+
+{% block actionscontent %}
+    <li><a href="{{ path('GRegister_UJoin')}}">Adhérer</a></li>
+{% endblock %}
+
+{% block content %}
+    <ol>
+        {% for membership in memberships %}
+            <li>Adhésion jusqu'au {{ membership.expiredOn|date('d/m/Y') }} payée par {{ membership.readableMethod|lower }}
+                {% if membership.payedOn is not null %}
+                    le {{ membership.payedOn|date('d/m/Y') }}.
+                {% else %}
+                    ; la transaction n'a pas été validée.
+                {% endif %}
+            </li>
+        {% else %}
+            <li>Aucune adhésion enregistrée.</li>
+        {% endfor %}
+    </ol>
+{% endblock %}

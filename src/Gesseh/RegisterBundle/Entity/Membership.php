@@ -158,6 +158,17 @@ class Membership
     }
 
     /**
+     * Get readable method
+     *
+     * @return string
+     */
+    public function getReadableMethod()
+    {
+        if($this->method == 1)
+            return 'Chèque';
+    }
+
+    /**
      * Set payedOn
      *
      * @param \DateTime $payedOn
@@ -246,7 +257,7 @@ class Membership
     /**
      * Get infos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getInfos()
     {
