@@ -21,4 +21,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class MemberQuestionRepository extends EntityRepository
 {
+    public function countAll()
+    {
+        $query = $this->createQueryBuilder('q')
+            ->select('COUNT(q)');
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
 }

@@ -21,4 +21,35 @@ use Doctrine\ORM\EntityRepository;
  */
 class MemberInfoRepository extends EntityRepository
 {
+    public function getByStudentQuery($student)
+    {
+        return $this->createQueryBuilder('i')
+            ->join('i.membership', 'm')
+            ->join('m.student', 's')
+            ->join('i.question', 'q')
+            ->addSelect('m')
+            ->addSelect('s')
+            ->addSelect('q')
+            ->where('s.id = :student')
+            ->setParameter('student', $student->getId())
+            ->addOrderBy('m.payedOn', 'asc')
+            ->addOrderBy('q.id', 'asc');
+    }
+
+    public function getByMembershipQuery($student, $membership)
+    {
+        $query = $this->getByStudentQuery($student);
+        $query->andWhere('m.id = :membership')
+            ->setParameter('membership', $membership->getId());
+
+        return $query;
+    }
+
+    public function countByMembership($student, $membership)
+    {
+        $query = $this->getByStudentQuery($student, $membership)
+            ->select('COUNT(i)');
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
 }

@@ -69,18 +69,18 @@ class UserController extends Controller
     public function questionAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $pm = $this->container->get('kdb_parameters.manager');
-        $user = $this->get('request')->query->get('user');
+        $username = $this->get('security.context')->getToken()->getUsername();
+        $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($username);
 
         $questions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
-        $membership = $em->getRepository('Gesseh\RegisterBundle\Entity\Membership')->getLastByUsername($user);
+        $membership = $em->getRepository('Gesseh\RegisterBundle\Entity\Membership')->getCurrentForStudent($student);
 
         $form = $this->createForm(new QuestionType($questions));
         $form_handler = new QuestionHandler($form, $this->get('request'), $em, $membership, $questions);
         if($form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Utilisateur créé.');
 
-            return $this->redirect($this->generateUrl('GRegister_UValidate', array('user' => $user)));
+            return $this->redirect($this->generateUrl('GRegister_UIndex'));
         }
 
         return array(
@@ -171,6 +171,14 @@ class UserController extends Controller
         $user = $um->findUserByUsername($this->get('security.context')->getToken()->getUsername());
         $userid = $this->get('request')->query->get('userid');
         $student = $this->testAdminTakeOver($em, $um, $user, $userid);
+
+        if ($current_membership = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student)) {
+            $count_infos = $em->getRepository('GessehRegisterBundle:MemberInfo')->countByMembership($student, $current_membership);
+            $count_questions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->countAll();
+            if ($count_infos < $count_questions) {
+                return $this->redirect($this->generateUrl('GRegister_UQuestion'));
+            }
+        }
 
         $memberships = $em->getRepository('GessehRegisterBundle:Membership')->findBy(array('student' => $student));
 
