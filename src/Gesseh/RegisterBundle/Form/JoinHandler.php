@@ -51,8 +51,13 @@ class JoinHandler
 
     public function onSuccess(Membership $membership)
     {
+        $expire = new \DateTime($this->date);
+        while ($expire < \DateTime('now')) {
+            $expire->modify($this->periodicity);
+        }
+
         $membership->setPayment($this->payment);
-        $membership->setExpiredOn((new \DateTime($this->date))->modify($this->periodicity));
+        $membership->setExpiredOn($expire);
         $membership->setStudent($this->student);
 
         $this->em->persist($membership);
