@@ -53,7 +53,7 @@ class JoinHandler
     {
         $expire = new \DateTime($this->date);
         $now = new \DateTime('now');
-        while ($expire <== $now) {
+        while ($expire <= $now) {
             $expire->modify($this->periodicity);
         }
 
