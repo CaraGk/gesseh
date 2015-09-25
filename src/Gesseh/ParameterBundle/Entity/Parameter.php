@@ -57,6 +57,13 @@ class Parameter extends BaseParameter
      */
     private $type;
 
+    /**
+     * @var array more
+     *
+     * @ORM\Column(name="more", type="array", nullable=true)
+     */
+    private $more;
+
     public function __construct()
     {
       parent::__construct();
@@ -117,7 +124,9 @@ class Parameter extends BaseParameter
       if ($this->type == 1)
         return 'string';
       elseif ($this->type == 2)
-        return 'boolean';
+          return 'boolean';
+      elseif ($this->type == 3)
+          return 'choice';
       else
         return $this->type;
     }
@@ -140,5 +149,27 @@ class Parameter extends BaseParameter
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set more
+     *
+     * @param array $more
+     * @return Parameter
+     */
+    public function setMore($more)
+    {
+        $this->more = $more;
+        return $this;
+    }
+
+    /**
+     * Get more
+     *
+     * @return array
+     */
+    public function getMore()
+    {
+        return $this->more;
     }
 }

@@ -40,6 +40,15 @@ class ParametersType extends AbstractType
                     'label'    => $parameter->getLabel(),
                     'data'     => (bool) $parameter->getValue(),
                 ));
+            } elseif ($parameter->getType() == "choice") {
+                $builder->add($parameter->getName(), 'choice', array(
+                    'required'    => false,
+                    'choices'     => $parameter->getMore(),
+                    'multiple'    => false,
+                    'expanded'    => false,
+                    'label'       => $parameter->getLabel(),
+                    'data'        => $parameter->getValue(),
+                ));
             }
         }
         $builder->add('Enregistrer', 'submit');

@@ -24,7 +24,7 @@ class RegisterHandler
 {
     private $form, $request, $em, $um, $payment, $token;
 
-    public function __construct(Form $form, Request $request, EntityManager $em, UserManager $um, $payment, $token)
+    public function __construct(Form $form, Request $request, EntityManager $em, UserManager $um, $payment, $token, $reg_date = "2015-09-01", $reg_periodicity = "+ 1 year")
     {
       $this->form    = $form;
       $this->request = $request;
@@ -32,6 +32,8 @@ class RegisterHandler
       $this->um      = $um;
       $this->payment = $payment;
       $this->token   = $token;
+      $this->date    = $reg_date;
+      $this->periodicity = $reg_periodicity;
     }
 
     public function process()
@@ -52,7 +54,7 @@ class RegisterHandler
     public function onSuccess(Membership $membership)
     {
         $membership->setPayment($this->payment);
-        $membership->setExpiredOn((new \DateTime())->modify('+ 1 year'));
+        $membership->setExpiredOn((new \DateTime($this->date))->modify($this->periodicity));
 
         $student = $membership->getStudent();
         $student->setAnonymous(false);

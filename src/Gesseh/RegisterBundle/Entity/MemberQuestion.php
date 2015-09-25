@@ -46,9 +46,9 @@ class MemberQuestion
     private $type;
 
     /**
-     * @var string
+     * @var array
      *
-     * @ORM\Column(name="more", type="string", length=255)
+     * @ORM\Column(name="more", type="array", nullable=true)
      */
     private $more;
 
@@ -57,8 +57,8 @@ class MemberQuestion
      *
      * @ORM\Column(name="rank", type="smallint")
      */
-
     private $rank;
+
     /**
      * @ORM\OneToMany(targetEntity="MemberInfo", mappedBy="question", cascade={"remove", "persist"}, orphanRemoval=true)
      */
@@ -139,6 +139,12 @@ class MemberQuestion
             return "Choix unique non pondéré";
         } elseif ($this->type == 6) {
             return "Horaire";
+        } elseif ($this->type == 7) {
+            return "Date";
+        } elseif ($this->type == 8) {
+            return "Menu déroulant";
+        } elseif ($this->type == 9) {
+            return "Texte court";
         } else {
             return "Type inconnu";
         }
@@ -147,7 +153,7 @@ class MemberQuestion
     /**
      * Set more
      *
-     * @param string $more
+     * @param array $more
      * @return MemberQuestion
      */
     public function setMore($more)
@@ -160,7 +166,7 @@ class MemberQuestion
     /**
      * Get more
      *
-     * @return string
+     * @return array
      */
     public function getMore()
     {
@@ -223,7 +229,7 @@ class MemberQuestion
     /**
      * Get infos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getInfos()
     {

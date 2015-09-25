@@ -46,7 +46,8 @@ class QuestionType extends AbstractType
                 ));
             } elseif ($question->getType() == 3) {
                 $builder->add('question_' . $question->getId(), 'choice', array(
-                    'choices'  => $this->getQuestionChoiceOptions($question->getMore()),
+                    'choices' => $question->getMore(),
+//                    'choices'  => $this->getQuestionChoiceOptions($question->getMore()),
                     'required' => true,
                     'multiple' => true,
                     'expanded' => true,
@@ -60,7 +61,8 @@ class QuestionType extends AbstractType
                 ));
             } elseif ($question->getType() == 5) {
                 $builder->add('question_' . $question->getId(), 'choice', array(
-                    'choices'  => $this->getQuestionChoiceOptions($question->getMore(), array(0)),
+                    'choices' => $question->getMore(),
+//                    'choices'  => $this->getQuestionChoiceOptions($question->getMore(), array(0)),
                     'required' => true,
                     'multiple' => false,
                     'expanded' => true,
@@ -71,6 +73,29 @@ class QuestionType extends AbstractType
                     'input'        => 'string',
                     'widget'       => 'single_text',
                     'with_seconds' => false,
+                    'required'     => true,
+                    'label'        => $question->getName(),
+                ));
+            } elseif ($question->getType() == 7) {
+                $builder->add('question_' . $question->getId(), 'date', array(
+                    'input'        => 'string',
+                    'widget'       => 'single_text',
+                    'format'       => 'dd/MM/yyyy',
+                    'required'     => true,
+                    'label'        => $question->getName(),
+                ));
+            } elseif ($question->getType() == 8) {
+                $builder->add('question_' . $question->getId(), 'choice', array(
+                    'choices' => $question->getMore(),
+//                    'choices'  => $this->getQuestionChoiceOptions($question->getMore(), array(0)),
+                    'required' => true,
+                    'multiple' => false,
+                    'expanded' => false,
+                    'required' => true,
+                    'label'    => $question->getName(),
+                ));
+            } elseif ($question->getType() == 9) {
+                $builder->add('question_' . $question->getId(), 'text', array(
                     'required'     => true,
                     'label'        => $question->getName(),
                 ));
@@ -100,7 +125,7 @@ class QuestionType extends AbstractType
         return $choices;
     }
 
-    public function getQuestionChoiceOptions($options, $except = array())
+/*    public function getQuestionChoiceOptions($options, $except = array())
     {
         $opt = explode("|", $options);
         $choice = array();
@@ -110,5 +135,5 @@ class QuestionType extends AbstractType
             }
         }
         return $choice;
-    }
+    } */
 }

@@ -47,7 +47,7 @@ class UserController extends Controller
         $token = $tokenGenerator->generateToken();
 
         $form = $this->createForm(new RegisterType($pm->findParamByName('simul_active')->getValue()));
-        $form_handler = new RegisterHandler($form, $this->get('request'), $em, $um, $pm->findParamByName('reg_payment')->getValue(), $token);
+        $form_handler = new RegisterHandler($form, $this->get('request'), $em, $um, $pm->findParamByName('reg_payment')->getValue(), $token, $pm->findParamByName('reg_date'), $pm->findParamByName('reg_periodicity'));
 
         if($username = $form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Utilisateur ' . $username . ' créé.');
@@ -144,7 +144,7 @@ class UserController extends Controller
         }
 
         $form = $this->createForm(new JoinType());
-        $form_handler = new JoinHandler($form, $this->get('request'), $em, $pm->findParamByName('reg_payment')->getValue(), $student);
+        $form_handler = new JoinHandler($form, $this->get('request'), $em, $pm->findParamByName('reg_payment')->getValue(), $student, $pm->findParamByName('reg_date')->getValue(), $pm->findParamByName('reg_periodicity')->getValue());
 
         if($form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Adhésion enregistrée pour ' . $student . '.');

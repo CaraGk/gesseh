@@ -32,6 +32,13 @@ class Student
   private $id;
 
   /**
+   * @var string $title
+   *
+   * @ORM\Column(name="title", type="string", length=5)
+   */
+  private $title;
+
+  /**
    * @var string $surname
    *
    * @ORM\Column(name="surname", type="string", length=255)
@@ -58,9 +65,9 @@ class Student
   private $phone;
 
   /**
-   * @var text $address
+   * @var array $address
    *
-   * @ORM\Column(name="address", type="text", nullable=true)
+   * @ORM\Column(name="address", type="array", nullable=true)
    */
   private $address;
 
@@ -387,6 +394,29 @@ class Student
     public function __construct()
     {
         $this->placements = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set title
+     *
+     * @param $title
+     * @return Student
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
 }

@@ -23,13 +23,15 @@ class JoinHandler
 {
     private $form, $request, $em, $um, $payment, $token;
 
-    public function __construct(Form $form, Request $request, EntityManager $em, $payment, $student)
+    public function __construct(Form $form, Request $request, EntityManager $em, $payment, $student, $reg_date = "2015-09-01", $reg_periodicity = "+ 1 year")
     {
       $this->form    = $form;
       $this->request = $request;
       $this->em      = $em;
       $this->payment = $payment;
       $this->student = $student;
+      $this->date    = $reg_date;
+      $this->periodicity = $reg_periodicity;
     }
 
     public function process()
@@ -50,7 +52,7 @@ class JoinHandler
     public function onSuccess(Membership $membership)
     {
         $membership->setPayment($this->payment);
-        $membership->setExpiredOn((new \DateTime())->modify('+ 1 year'));
+        $membership->setExpiredOn((new \DateTime($this->date))->modify($this->periodicity));
         $membership->setStudent($this->student);
 
         $this->em->persist($membership);

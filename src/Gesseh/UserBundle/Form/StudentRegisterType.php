@@ -13,7 +13,8 @@ namespace Gesseh\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType,
     Symfony\Component\Form\FormBuilderInterface;
-use Gesseh\UserBundle\Form\UserAdminType;
+use Gesseh\UserBundle\Form\UserAdminType,
+    Gesseh\UserBundle\Form\AddressType;
 
 /**
  * StudentRegisterType
@@ -30,12 +31,28 @@ class StudentRegisterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('surname')
-            ->add('name')
-            ->add('phone')
-            ->add('address')
+            ->add('title', 'choice', array(
+                'label' => 'Titre',
+                'choices' => array(
+                    'M.' => 'M.',
+                    'Mme' => 'Mme',
+                    'Mlle' => 'Mlle',
+                ),
+            ))
+            ->add('surname', 'text', array(
+                'label' => 'Nom',
+            ))
+            ->add('name', 'text', array(
+                'label' => 'Prénom',
+            ))
             ->add('user', new UserAdminType('Gesseh\UserBundle\Entity\User'), array(
                 'label' => ' ',
+            ))
+            ->add('phone', 'text', array(
+                'label' => 'Téléphone',
+            ))
+            ->add('address', new AddressType(), array(
+                'label' => 'Adresse :'
             ))
             ->add('grade', 'entity', array(
                 'class' => 'GessehUserBundle:Grade',
@@ -47,8 +64,12 @@ class StudentRegisterType extends AbstractType
         /* Si la simulation est activée */
         if ($this->testSimulActive == true) {
             $builder
-                ->add('ranking')
-                ->add('graduate')
+                ->add('ranking', 'integer', array(
+                    'label' => 'Rang de classement',
+                ))
+                ->add('graduate', 'integer', array(
+                    'label' => 'Année de passage des ECN',
+                ))
             ;
         }
     }
