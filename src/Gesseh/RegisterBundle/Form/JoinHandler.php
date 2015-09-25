@@ -52,7 +52,8 @@ class JoinHandler
     public function onSuccess(Membership $membership)
     {
         $expire = new \DateTime($this->date);
-        while ($expire < \DateTime('now')) {
+        $now = new \DateTime('now');
+        while ($expire <== $now) {
             $expire->modify($this->periodicity);
         }
 
