@@ -149,7 +149,7 @@ class UserController extends Controller
         if($form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Adhésion enregistrée pour ' . $student . '.');
 
-            return $this->redirect($this->generateUrl('GRegister_UIndex'));
+            return $this->redirect($this->generateUrl('GRegister_UQuestion'));
         }
 
         return array(
