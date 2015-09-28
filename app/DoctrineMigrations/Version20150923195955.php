@@ -29,10 +29,10 @@ class Version20150923195955 extends AbstractMigration
         $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Date de naissance\', 7, null, 1)');
         $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Ville de naissance\', 9, null, 2)');
         $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Département ou pays de naissance\', 9, null, 3)');
-        $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Inscrit à un DESC\', 8, null, 11)');
-        $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Intéressé par un DESC\', 8, null, 12)');
-        $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Recevoir la newsletter FAYR-GP\', 5, \'a:2:{s:3:"Oui";s:3:"oui";s:3:"Non";s:3:"non";}\', 13)');
-        $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Bénéficier de la responsabilité civile GPM\', 5, \'a:2:{s:3:"Oui";s:3:"oui";s:3:"Non";s:3:"non";}\', 14)');
+        $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Inscrit à un DESC\', 8, \'a:11:{s:10:"Andrologie";s:10:"Andrologie";s:12:"Cancerologie";s:12:"Cancerologie";s:16:"Hemo transfusion";s:16:"Hemo transfusion";s:21:"Maladies infectieuses";s:21:"Maladies infectieuses";s:17:"Medecine du sport";s:17:"Medecine du sport";s:18:"Medecine d urgence";s:18:"Medecine d urgence";s:19:"Medecine vasculaire";s:19:"Medecine vasculaire";s:9:"Nutrition";s:9:"Nutrition";s:13:"Pharmacologie";s:13:"Pharmacologie";s:27:"Douleur et soins palliatifs";s:27:"Douleur et soins palliatifs";s:9:"Geriatrie";s:9:"Geriatrie";}\', 11)');
+        $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Intéressé par un DESC\', 8, \'a:11:{s:10:"Andrologie";s:10:"Andrologie";s:12:"Cancerologie";s:12:"Cancerologie";s:16:"Hemo transfusion";s:16:"Hemo transfusion";s:21:"Maladies infectieuses";s:21:"Maladies infectieuses";s:17:"Medecine du sport";s:17:"Medecine du sport";s:18:"Medecine d urgence";s:18:"Medecine d urgence";s:19:"Medecine vasculaire";s:19:"Medecine vasculaire";s:9:"Nutrition";s:9:"Nutrition";s:13:"Pharmacologie";s:13:"Pharmacologie";s:27:"Douleur et soins palliatifs";s:27:"Douleur et soins palliatifs";s:9:"Geriatrie";s:9:"Geriatrie";}\', 12)');
+        $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Recevoir la newsletter FAYR-GP\', 5, \'a:2:{s:3:"oui";s:3:"Oui";s:3:"non";s:3:"Non";}\', 13)');
+        $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Bénéficier de la responsabilité civile GPM\', 5, \'a:2:{s:3:"oui";s:3:"Oui";s:3:"non";s:3:"Non";}\', 14)');
         $this->addSql('INSERT INTO member_question (name, type, more, rank) VALUES (\'Bénéficier de la prévoyance GPM\', 5, \'a:2:{s:3:"Oui";s:3:"oui";s:3:"Non";s:3:"non";}\', 15)');
     }
 

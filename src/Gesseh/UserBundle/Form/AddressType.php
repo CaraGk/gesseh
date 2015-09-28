@@ -68,6 +68,7 @@ class AddressType extends AbstractType
             ))
             ->add('complement', 'text', array(
                 'label' => 'Complément d\'adresse',
+                'required' => false,
             ))
             ->add('code', 'integer', array(
                 'label' => 'Code postal',

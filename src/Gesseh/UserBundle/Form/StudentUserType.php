@@ -21,12 +21,32 @@ class StudentUserType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    $builder->add('surname')
-            ->add('name')
+      $builder
+            ->add('title', 'choice', array(
+                'label' => 'Titre',
+                'choices' => array(
+                    'M.' => 'M.',
+                    'Mme' => 'Mme',
+                    'Mlle' => 'Mlle',
+                ),
+            ))
+            ->add('surname', 'text', array(
+                'label' => 'Nom',
+            ))
+            ->add('name', 'text', array(
+                'label' => 'Prénom',
+            ))
             ->add('anonymous')
-            ->add('phone')
-            ->add('address')
-            ->add('user', new UserType('Gesseh\UserBundle\Entity\User'));
+            ->add('user', new UserType('Gesseh\UserBundle\Entity\User'), array(
+                'label' => ' ',
+            ))
+            ->add('phone', 'text', array(
+                'label' => 'Téléphone',
+            ))
+            ->add('address', new AddressType(), array(
+                'label' => 'Adresse :'
+            ))
+    ;
   }
 
   public function getName()
@@ -38,6 +58,7 @@ class StudentUserType extends AbstractType
   {
     $resolver->setDefaults(array(
         'data_class' => 'Gesseh\UserBundle\Entity\Student',
+        'cascade_validation' => true,
     ));
 
     $resolver->setAllowedValues(array(

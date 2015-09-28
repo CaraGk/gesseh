@@ -10,14 +10,5 @@
 {% endblock %}
 
 {% block content %}
-  {{ form_start(form) }}
-    <fieldset name="student">
-      <label>Nom</label><div>{{ form_widget(form.surname) }}</div>
-      <label>Prénom</label><div>{{ form_widget(form.name) }}</div>
-      <label>Anonyme ?</label><div>{{ form_widget(form.anonymous) }}</div>
-      <label>E-mail</label><div>{{ form_widget(form.user.email) }}</div>
-      <label>Téléphone</label><div>{{ form_widget(form.phone) }}</div>
-      {{ form_rest(form) }}
-    <p><button type="submit" title="Enregistrer les modifications">Enregistrer</button></p>
-  {{ form_end(form) }}
+  {{ form(form) }}
 {% endblock %}
