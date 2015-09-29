@@ -45,6 +45,14 @@ class StudentRegisterType extends AbstractType
             ->add('name', 'text', array(
                 'label' => 'Prénom',
             ))
+            ->add('birthday', 'birthday', array(
+                'label' => 'Date de naissance',
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+            ))
+            ->add('birthplace', 'text', array(
+                'label' => 'Lieu de naissance',
+            ))
             ->add('user', new UserAdminType('Gesseh\UserBundle\Entity\User'), array(
                 'label' => ' ',
             ))

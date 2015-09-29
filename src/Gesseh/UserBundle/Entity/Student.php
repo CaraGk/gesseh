@@ -57,6 +57,20 @@ class Student
   private $name;
 
   /**
+   * @var date $birthday
+   *
+   * @ORM\Column(name="birthday", type="date")
+   */
+  private $birthday;
+
+  /**
+   * @var string $birthplace
+   *
+   * @ORM\Column(name="birthplace", type="string")
+   */
+  private $birthplace;
+
+  /**
    * @var string $phone
    *
    * @ORM\Column(name="phone", type="string", length=18, nullable=true)
@@ -417,6 +431,52 @@ class Student
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set birthday
+     *
+     * @param $birthday
+     * @return Student
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * Get birthday
+     *
+     * @return $birthday
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * Set birthplace
+     *
+     * @param $birthplace
+     * @return Student
+     */
+    public function setBirthplace($birthplace)
+    {
+        $this->birthplace = $birthplace;
+
+        return $this;
+    }
+
+    /**
+     * Get birthplace
+     *
+     * @return $birthplace
+     */
+    public function getBirthplace()
+    {
+        return $this->birthplace;
     }
 
 }

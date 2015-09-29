@@ -78,7 +78,7 @@ class UserController extends Controller
         $form = $this->createForm(new QuestionType($questions));
         $form_handler = new QuestionHandler($form, $this->get('request'), $em, $membership, $questions);
         if($form_handler->process()) {
-            $this->get('session')->getFlashBag()->add('notice', 'Utilisateur créé.');
+            $this->get('session')->getFlashBag()->add('notice', 'Informations complémentaires enregistrées.');
 
             return $this->redirect($this->generateUrl('GRegister_UIndex'));
         }
