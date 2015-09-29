@@ -47,7 +47,7 @@ class UserController extends Controller
         $token = $tokenGenerator->generateToken();
 
         $form = $this->createForm(new RegisterType($pm->findParamByName('simul_active')->getValue()));
-        $form_handler = new RegisterHandler($form, $this->get('request'), $em, $um, $pm->findParamByName('reg_payment')->getValue(), $token, $pm->findParamByName('reg_date'), $pm->findParamByName('reg_periodicity'));
+        $form_handler = new RegisterHandler($form, $this->get('request'), $em, $um, $pm->findParamByName('reg_payment')->getValue(), $token, $pm->findParamByName('reg_date')->getValue(), $pm->findParamByName('reg_periodicity')->getValue());
 
         if($username = $form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Utilisateur ' . $username . ' créé.');
