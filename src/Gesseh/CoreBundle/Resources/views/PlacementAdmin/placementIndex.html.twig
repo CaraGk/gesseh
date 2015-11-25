@@ -12,6 +12,8 @@
                 <img src="{{ asset('bundles/gessehcore/images/Error.png') }}" alt="Non évalué" />
             </div>
     {% endif %}
+{% else %}
+    <li class="entity placement">
 {% endif %}
     <div class="field placement_period">{{ placement.period }}</div>
     <div class="field placement_student"><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 's.id', 'value': placement.student.id, 'description': placement.student.surname ~ ' ' ~ placement.student.name}}) }}" title="Afficher les stages de l'étudiant {{ placement.student }}">{{ placement.student }}</a></div>

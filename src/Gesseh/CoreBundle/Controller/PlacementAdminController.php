@@ -136,6 +136,8 @@ class PlacementAdminController extends Controller
     $mod_eval = $manager->findParamByName('eval_active');
     if (true == $mod_eval->getValue()) { // Si les évaluations sont activées
       $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array');
+    } else {
+        $evaluated = null;
     }
 
     return array(
@@ -177,6 +179,8 @@ class PlacementAdminController extends Controller
     $mod_eval = $manager->findParamByName('eval_active');
     if (true == $mod_eval->getValue()) { // Si les évaluations sont activées
       $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array');
+    } else {
+        $evaluated = null;
     }
 
     return array(
@@ -214,6 +218,8 @@ class PlacementAdminController extends Controller
     $mod_eval = $manager->findParamByName('eval_active');
     if (true == $mod_eval->getValue()) { // Si les évaluations sont activées
       $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array');
+    } else {
+        $evaluated = null;
     }
 
     return array(
