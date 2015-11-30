@@ -32,6 +32,7 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $userid = $this->get('request')->query->get('userid', null);
+        $view = $this->get('request')->query->get('view', null);
         $membership = $em->getRepository('GessehRegisterBundle:Membership')->find($id);
 
         if (!$membership or $membership->getPayedOn() != null)
@@ -43,7 +44,10 @@ class AdminController extends Controller
 
         $this->get('session')->getFlashBag()->add('notice', 'Paiement validé !');
 
-        return $this->redirect($this->generateUrl('GRegister_UIndex', array('userid' => $userid)));
+        if ($view == 'index')
+            return $this->redirect($this->generateUrl('GRegister_AIndex'));
+        else
+            return $this->redirect($this->generateUrl('GRegister_UIndex', array('userid' => $userid)));
     }
 
     /**
@@ -55,6 +59,7 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $userid = $this->get('request')->query->get('userid', null);
+        $view = $this->get('request')->query->get('view', null);
         $membership = $em->getRepository('GessehRegisterBundle:Membership')->find($id);
 
         if (!$membership or $membership->getPayedOn() != null)
@@ -65,6 +70,25 @@ class AdminController extends Controller
 
         $this->get('session')->getFlashBag()->add('notice', 'Adhésion supprimée !');
 
-        return $this->redirect($this->generateUrl('GRegister_UIndex', array('userid' => $userid)));
+        if ($view == 'index')
+            return $this->redirect($this->generateUrl('GRegister_AIndex'));
+        else
+            return $this->redirect($this->generateUrl('GRegister_UIndex', array('userid' => $userid)));
+    }
+
+    /**
+     * List active memberships
+     *
+     * @Route("/", name="GRegister_AIndex")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll();
+
+        return array(
+            'memberships' => $memberships,
+        );
     }
 }

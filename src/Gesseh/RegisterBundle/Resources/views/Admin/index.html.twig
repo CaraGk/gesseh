@@ -1,0 +1,31 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Adhérents{% endblock %}
+
+{% block titlecontent %}
+    Adhérents
+{% endblock %}
+
+{% block actionscontent %}
+    <li class="field"></li>
+{% endblock %}
+
+{% block content %}
+    <ul>
+    {% for membership in memberships %}
+        <li class="entity student">
+            <div class="field">{{ membership.student }}</div>
+            {% if membership.payedOn is not null %}
+                <div class="field">Paiement par {{ membership.readableMethod|lower }} effectué ({{ membership.payedOn|date('d/m/Y') }})</div>
+            {% else %}
+                <div class="field">
+                    <a href="{{ path('GRegister_AValidate', {'id': membership.id, 'userid': membership.student.user.id, view: 'index'}) }}" title="Valider la réception du paiement pour cette adhésion">Valider</a>
+                    <a href="{{ path('GRegister_ADelete', {'id': membership.id, 'userid': membership.student.user.id, 'view': 'index'}) }}" title="Supprimer cette adhésion">Supprimer</a>
+                </div>
+            {% endif %}
+        </li>
+    {% else %}
+        <li>Aucune adhésion enregistrée.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

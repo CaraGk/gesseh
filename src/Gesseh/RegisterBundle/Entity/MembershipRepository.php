@@ -52,4 +52,21 @@ class MembershipRepository extends EntityRepository
 
         return $query->getQuery()->getOneOrNullResult();
     }
+
+    public function getCurrentForAll($paidOnly = false)
+    {
+        $query = $this->createQueryBuilder('m')
+            ->join('m.student', 's')
+            ->addSelect('s')
+            ->join('s.user', 'u')
+            ->addSelect('u')
+            ->where('m.expiredOn > :now')
+            ->setParameter('now', new \DateTime('now'))
+            ->orderBy('s.name', 'asc');
+
+        if ($paidOnly)
+            $query->andWhere('m.payedOn is not NULL');
+
+        return $query->getQuery()->getResult();
+    }
 }
