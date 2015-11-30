@@ -3,11 +3,15 @@
 {% block title %}{{ parent() }} - Adhérents{% endblock %}
 
 {% block titlecontent %}
-    Adhérents
+    Adhérents en cours {% if limit %}(validés){% endif %}
 {% endblock %}
 
 {% block actionscontent %}
-    <li class="field"></li>
+    {% if limit is not null %}
+        <li class="field"><a href="{{ path('GRegister_AIndex') }}"><button type="button">Toutes adhésions</button></a></li>
+    {% else %}
+        <li class="field"><a href="{{ path('GRegister_AIndex', {'limit': true}) }}"><button type="button">Adhésions validées</button></a></li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

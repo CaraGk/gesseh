@@ -85,10 +85,12 @@ class AdminController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll();
+        $limit = $this->get('request')->query->get('limit', null);
+        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll($limit);
 
         return array(
             'memberships' => $memberships,
+            'limit'       => $limit,
         );
     }
 }
