@@ -27,6 +27,7 @@
                     <a href="{{ path('GRegister_ADelete', {'id': membership.id, 'userid': membership.student.user.id, 'view': 'index'}) }}" title="Supprimer cette adhésion">Supprimer</a>
                 </div>
             {% endif %}
+            <div class="field"><a href="{{ path('GRegister_UIndex', {'userid': membership.student.user.id}) }}" title="Afficher le détail des adhésions de l'étudiant">Détail</a></div>
         </li>
     {% else %}
         <li>Aucune adhésion enregistrée.</li>
