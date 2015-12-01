@@ -104,6 +104,8 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAllComplete();
+        $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
+        $memberquestions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
 
         $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
         $phpExcelObject->getProperties()->setCreator("GESSEH")
@@ -112,7 +114,49 @@ class AdminController extends Controller
         $phpExcelObject->setActiveSheetIndex(0);
         $phpExcelObject->getActiveSheet()->setTitle('Adherents');
 
-        $i = 1;
+        $i = 2;
+        $phpExcelObject->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'Titre')
+            ->setCellValue('B1', 'Nom')
+            ->setCellValue('C1', 'Prénom')
+            ->setCellValue('D1', 'Date de naissance')
+            ->setCellValue('E1', 'Lieu de naissance')
+            ->setCellValue('F1', 'Téléphone')
+            ->setCellValue('G1', 'E-mail')
+            ->setCellValue('H1', 'Nº')
+            ->setCellValue('I1', 'Type')
+            ->setCellValue('J1', 'Adresse')
+            ->setCellValue('K1', 'Complément')
+            ->setCellValue('L1', 'Code postal')
+            ->setCellValue('M1', 'Ville')
+            ->setCellValue('N1', 'Pays')
+            ->setCellValue('O1', 'Ville d\'externat')
+            ->setCellValue('P1', 'Rang de classement')
+            ->setCellValue('Q1', 'ECN')
+            ->setCellValue('R1', 'Stages validés')
+            ;
+        $column = array('S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AZ');
+        foreach ($sectors as $sector) {
+            $key = each($column);
+            $phpExcelObject->setActiveSheetIndex(0)
+                ->setCellValue($key['value'] . '1', $sector->getName());
+            $columns[$sector->getName()] = $key['value'];
+        }
+        foreach ($memberquestions as $question) {
+            $key = each($column);
+            $phpExcelObject->setActiveSheetIndex(0)
+                ->setCellValue($key['value'] . '1', $question->getName());
+            $columns[$question->getName()] = $key['value'];
+        }
+        $key = each($column);
+        $phpExcelObject->setActiveSheetIndex(0)
+            ->setCellValue($key['value'] . '1', 'Mode de paiement');
+        $columns['Mode de paiement'] = $key['value'];
+        $key = each($column);
+        $phpExcelObject->setActiveSheetIndex(0)
+            ->setCellValue($key['value'] . '1', 'Date d\'adhésion');
+        $columns['Date d\'adhésion'] = $key['value'];
+
         foreach ($memberships as $membership) {
             $address = $membership->getStudent()->getAddress();
             $phpExcelObject->setActiveSheetIndex(0)
@@ -130,16 +174,18 @@ class AdminController extends Controller
                 ->setCellValue('L'.$i, $address['code'])
                 ->setCellValue('M'.$i, $address['city'])
                 ->setCellValue('N'.$i, $address['country'])
-                ->setCellValue('O'.$i, $membership->getStudent()->getRanking())
-                ->setCellValue('P'.$i, $membership->getStudent()->getGraduate());
+                ->setCellValue('P'.$i, $membership->getStudent()->getRanking())
+                ->setCellValue('Q'.$i, $membership->getStudent()->getGraduate());
             $count = 0;
             foreach ($membership->getStudent()->getPlacements() as $placement) {
                 if ($placement->getPeriod()->getEnd() < new \DateTime('now')) {
                     $count++;
+                    $phpExcelObject->setActiveSheetIndex(0)
+                        ->setCellValue($columns[$placement->getDepartment()->getSector()->getName()].$i, 'oui');
                 }
             }
             $phpExcelObject->setActiveSheetIndex(0)
-                ->setCellValue('Q'.$i, $count);
+                ->setCellValue('R'.$i, $count);
         }
 
         $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
