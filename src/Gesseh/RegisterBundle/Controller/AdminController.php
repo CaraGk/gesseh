@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Gesseh\RegisterBundle\Entity\Membership;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * RegisterBundle AdminController
@@ -92,5 +93,63 @@ class AdminController extends Controller
             'memberships' => $memberships,
             'limit'       => $limit,
         );
+    }
+
+    /**
+     * Export active memberships
+     *
+     * @Route("/export", name="GRegister_AExport")
+     */
+    public function exportAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAllComplete();
+
+        $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
+        $phpExcelObject->getProperties()->setCreator("GESSEH")
+                       ->setTitle("Listing adhérents")
+                       ->setSubject("Listing adhérents GESSEH");
+        $phpExcelObject->setActiveSheetIndex(0);
+        $phpExcelObject->getActiveSheet()->setTitle('Adherents');
+
+        $i = 1;
+        foreach ($memberships as $membership) {
+            $address = $membership->getStudent()->getAddress();
+            $phpExcelObject->setActiveSheetIndex(0)
+                ->setCellValue('A'.$i, $membership->getStudent()->getTitle())
+                ->setCellValue('B'.$i, $membership->getStudent()->getSurname())
+                ->setCellValue('C'.$i, $membership->getStudent()->getName())
+                ->setCellValue('D'.$i, $membership->getStudent()->getBirthday())
+                ->setCellValue('E'.$i, $membership->getStudent()->getBirthplace())
+                ->setCellValue('F'.$i, $membership->getStudent()->getPhone())
+                ->setCellValue('G'.$i, $membership->getStudent()->getUser()->getEmail())
+                ->setCellValue('H'.$i, $address['number'])
+                ->setCellValue('I'.$i, $address['type'])
+                ->setCellValue('J'.$i, $address['street'])
+                ->setCellValue('K'.$i, $address['complement'])
+                ->setCellValue('L'.$i, $address['code'])
+                ->setCellValue('M'.$i, $address['city'])
+                ->setCellValue('N'.$i, $address['country'])
+                ->setCellValue('O'.$i, $membership->getStudent()->getRanking())
+                ->setCellValue('P'.$i, $membership->getStudent()->getGraduate());
+            $count = 0;
+            foreach ($membership->getStudent()->getPlacements() as $placement) {
+                if ($placement->getPeriod()->getEnd() < new \DateTime('now')) {
+                    $count++;
+                }
+            }
+            $phpExcelObject->setActiveSheetIndex(0)
+                ->setCellValue('Q'.$i, $count);
+        }
+
+        $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'adherents.xls');
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;
     }
 }

@@ -69,4 +69,35 @@ class MembershipRepository extends EntityRepository
 
         return $query->getQuery()->getResult();
     }
+
+    public function getCurrentForAllComplete()
+    {
+        $query = $this->createQueryBuilder('m')
+            ->join('m.student', 's')
+            ->addSelect('s')
+            ->join('s.user', 'u')
+            ->addSelect('u')
+            ->join('s.placements', 'p')
+            ->addSelect('p')
+            ->join('p.department', 'd')
+            ->addSelect('d')
+            ->join('d.sector', 't')
+            ->addSelect('t')
+            ->join('p.period', 'r')
+            ->addSelect('r')
+            ->join('m.infos', 'i')
+            ->addSelect('i')
+            ->join('i.question', 'q')
+            ->addSelect('q')
+            ->join('s.grade', 'g')
+            ->addSelect('g')
+            ->where('m.expiredOn > :now')
+            ->setParameter('now', new \DateTime('now'))
+            ->andWhere('m.payedOn is not NULL')
+            ->addOrderBy('s.surname', 'asc')
+            ->addOrderBy('s.name', 'asc')
+        ;
+
+        return $query->getQuery()->getResult();
+    }
 }
