@@ -175,7 +175,9 @@ class AdminController extends Controller
                 ->setCellValue('M'.$i, $address['city'])
                 ->setCellValue('N'.$i, $address['country'])
                 ->setCellValue('P'.$i, $membership->getStudent()->getRanking())
-                ->setCellValue('Q'.$i, $membership->getStudent()->getGraduate());
+                ->setCellValue('Q'.$i, $membership->getStudent()->getGraduate())
+                ->setCellValue($columns['Mode de paiement'].$i, $membership->getReadableMethod())
+                ->setCellValue($columns['Date d\'adhésion'].$i, $membership->getPayedOn());
             $count = 0;
             foreach ($membership->getStudent()->getPlacements() as $placement) {
                 if ($placement->getPeriod()->getEnd() < new \DateTime('now')) {
