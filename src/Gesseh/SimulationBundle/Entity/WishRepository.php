@@ -123,34 +123,6 @@ class WishRepository extends EntityRepository
     return $query->getQuery()->getSingleScalarResult();
   }
 
-/*  public function getCountUser()
-  {
-    $dql = 'SELECT s.id, count(w.id) AS wishcount FROM GessehSimulationBundle:Wish w JOIN w.student s GROUP BY w.student';
-    $results = $this->getEntityManager()->createQuery($dql)->getResult();
-
-    foreach ($results as $result) {
-      $count_wish[$result['id']] = $result['wishcount'];
-    }
-
-    return $count_wish;
-  }
-
-  public function getAllOrdered()
-  {
-    $query = $this->createQueryBuilder('w')
-                  ->join('w.student')
-                  ->join('s.grade', 'p')
-                  ->join('s.user', 'u')
-                  ->join('w.department', 'd')
-                  ->where('u.enabled = true')
-                  ->addOrderBy('p.rank', 'desc')
-                  ->addOrderBy('s.graduate', 'asc')
-                  ->addOrderBy('s.ranking', 'asc')
-                  ->addOrderBy('w.rank', 'asc');
-
-    return $query->getQuery()->getResult();
-  }
- */
   public function getWishCluster($student_id, $wish_id)
   {
       $query = $this->getWishQuery();

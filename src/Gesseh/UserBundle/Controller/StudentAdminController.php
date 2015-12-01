@@ -248,7 +248,7 @@ class StudentAdminController extends Controller
             'expanded' => false,
             'multiple' => false,
             'choices'  => $choices,
-            'empty_value' => 'aucune',
+            'placeholder' => 'aucune',
             'empty_data'  => null,
         ))
         ->add('address', 'choice', array(
@@ -257,7 +257,7 @@ class StudentAdminController extends Controller
             'expanded' => false,
             'multiple' => false,
             'choices'  => $choices,
-            'empty_value' => 'aucune',
+            'placeholder' => 'aucune',
             'empty_data'  => null,
         ))
         ->add('ranking', 'choice', array(
@@ -266,7 +266,7 @@ class StudentAdminController extends Controller
             'expanded' => false,
             'multiple' => false,
             'choices'  => $choices,
-            'empty_value' => 'aucune',
+            'placeholder' => 'aucune',
             'empty_data'  => null,
         ))
         ->add('graduate', 'choice', array(
@@ -275,7 +275,7 @@ class StudentAdminController extends Controller
             'expanded' => false,
             'multiple' => false,
             'choices'  => $choices,
-            'empty_value' => 'aucune',
+            'placeholder' => 'aucune',
             'empty_data'  => null,
         ))
         ->add('grade', 'entity', array(

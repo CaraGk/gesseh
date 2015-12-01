@@ -29,7 +29,7 @@ class PlacementController extends Controller
    */
   public function indexAction()
   {
-    $user = $this->get('security.context')->getToken()->getUsername();
+    $user = $this->get('security.token_storage')->getToken()->getUsername();
     $em = $this->getDoctrine()->getManager();
     $placements = $em->getRepository('GessehCoreBundle:Placement')->getByUsername($user);
     $pm = $this->container->get('kdb_parameters.manager');

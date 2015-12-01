@@ -32,7 +32,7 @@ class PeriodType extends AbstractType
     return 'gesseh_corebundle_periodtype';
   }
 
-  public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver)
+  public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
   {
     $resolver->setDefaults(array(
         'data_class' => 'Gesseh\CoreBundle\Entity\Period',

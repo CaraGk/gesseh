@@ -43,7 +43,7 @@ class WishType extends AbstractType
         return 'gesseh_simulationbundle_wishtype';
     }
 
-  public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver)
+  public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
   {
     $resolver->setDefaults(array(
         'data_class' => 'Gesseh\SimulationBundle\Entity\Wish',

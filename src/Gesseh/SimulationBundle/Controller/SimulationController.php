@@ -34,7 +34,7 @@ class SimulationController extends Controller
         $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $user = $um->findUserBy(array(
-            'username' => $this->get('security.context')->getToken()->getUsername(),
+            'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ));
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($em, $user, $simid);
@@ -43,7 +43,7 @@ class SimulationController extends Controller
             throw $this->createNotFoundException('Vous ne participez pas aux simulations. Contacter l\'administrateur du site si vous pensez que cette situation est anormale.');
 
         $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent());
-        $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getForStudent($simstudent);
+        $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getForStudent($simstudent, $em);
         $missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing($simstudent);
 
         $new_wish = new Wish();
@@ -80,7 +80,7 @@ class SimulationController extends Controller
       $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $user = $um->findUserBy(array(
-            'username' => $this->get('security.context')->getToken()->getUsername(),
+            'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ));
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($em, $user, $simid);
@@ -117,7 +117,7 @@ class SimulationController extends Controller
       $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $user = $um->findUserBy(array(
-            'username' => $this->get('security.context')->getToken()->getUsername(),
+            'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ));
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($em, $user, $simid);
@@ -155,7 +155,7 @@ class SimulationController extends Controller
         $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $user = $um->findUserBy(array(
-            'username' => $this->get('security.context')->getToken()->getUsername(),
+            'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ));
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($em, $user, $simid);
@@ -194,7 +194,7 @@ class SimulationController extends Controller
       $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $user = $um->findUserBy(array(
-            'username' => $this->get('security.context')->getToken()->getUsername(),
+            'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ));
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($em, $user, $simid);
@@ -218,7 +218,7 @@ class SimulationController extends Controller
       $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $user = $um->findUserBy(array(
-            'username' => $this->get('security.context')->getToken()->getUsername(),
+            'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ));
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($em, $user, $simid);
@@ -241,7 +241,7 @@ class SimulationController extends Controller
       $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $user = $um->findUserBy(array(
-            'username' => $this->get('security.context')->getToken()->getUsername(),
+            'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ));
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($em, $user, $simid);
@@ -276,7 +276,7 @@ class SimulationController extends Controller
       $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $user = $um->findUserBy(array(
-            'username' => $this->get('security.context')->getToken()->getUsername(),
+            'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ));
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($em, $user, $simid);

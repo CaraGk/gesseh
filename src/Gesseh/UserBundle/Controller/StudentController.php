@@ -33,7 +33,7 @@ class StudentController extends Controller
     public function editAction()
     {
       $em = $this->getDoctrine()->getManager();
-      $user = $this->get('security.context')->getToken()->getUsername();
+      $user = $this->get('security.token_storage')->getToken()->getUsername();
       $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
 
       if( !$student )
@@ -94,7 +94,7 @@ class StudentController extends Controller
     public function listStudentsAction($id)
     {
       $em = $this->getDoctrine()->getManager();
-      $user = $this->get('security.context')->getToken()->getUsername();
+      $user = $this->get('security.token_storage')->getToken()->getUsername();
       $placement = $em->getRepository('GessehCoreBundle:Placement')->getByUsername($user, $id);
 
       if (!$placement)

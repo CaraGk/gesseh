@@ -32,13 +32,15 @@ class UserController extends Controller
     /**
      * Create Membership
      *
-     * @Route("/register", name="GRegister_URegister")
+     * @Route("/register/", name="GRegister_URegister")
      * @Template()
      */
     public function registerAction()
     {
-        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $this->get('session')->getFlashBag()->add('error', 'Utilisateur déjà enregistré');
             return $this->redirect($this->generateUrl('GRegister_UJoin'));
+        }
 
         $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
@@ -69,7 +71,7 @@ class UserController extends Controller
     public function questionAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $username = $this->get('security.context')->getToken()->getUsername();
+        $username = $this->get('security.token_storage')->getToken()->getUsername();
         $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($username);
 
         $questions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
@@ -129,12 +131,12 @@ class UserController extends Controller
      */
     public function joinAction()
     {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
             return $this->redirect($this->generateUrl('GRegister_URegister'));
 
         $em = $this->getDoctrine()->getManager();
         $pm = $this->container->get('kdb_parameters.manager');
-        $username = $this->get('security.context')->getToken()->getUsername();
+        $username = $this->get('security.token_storage')->getToken()->getUsername();
         $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($username);
 
         if (null !== $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student)) {
@@ -168,7 +170,7 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
-        $user = $um->findUserByUsername($this->get('security.context')->getToken()->getUsername());
+        $user = $um->findUserByUsername($this->get('security.token_storage')->getToken()->getUsername());
         $userid = $this->get('request')->query->get('userid');
         $student = $this->testAdminTakeOver($em, $um, $user, $userid);
 

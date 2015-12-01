@@ -85,7 +85,7 @@ class FieldSetController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $pm = $this->container->get('kdb_parameters.manager');
-    $user = $this->get('security.context')->getToken()->getUsername();
+    $user = $this->get('security.token_storage')->getToken()->getUsername();
     $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
     $limit = $this->get('request')->query->get('limit', null);
 
@@ -119,7 +119,7 @@ class FieldSetController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $pm = $this->container->get('kdb_parameters.manager');
-    $user = $this->get('security.context')->getToken()->getUsername();
+    $user = $this->get('security.token_storage')->getToken()->getUsername();
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
     $limit = $this->get('request')->query->get('limit', null);
 
