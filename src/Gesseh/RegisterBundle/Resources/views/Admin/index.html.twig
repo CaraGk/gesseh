@@ -12,6 +12,7 @@
     {% else %}
         <li class="field"><a href="{{ path('GRegister_AIndex', {'limit': true}) }}"><button type="button">Adhésions validées</button></a></li>
     {% endif %}
+    <li class="field"><a href="{{ path('GRegister_AExport') }}"><button type="button">Exporter (xls)</button></a></li>
 {% endblock %}
 
 {% block content %}
