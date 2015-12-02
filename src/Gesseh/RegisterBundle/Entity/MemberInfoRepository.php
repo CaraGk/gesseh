@@ -23,17 +23,9 @@ class MemberInfoRepository extends EntityRepository
 {
     public function getByStudentQuery($student)
     {
-        return $this->createQueryBuilder('i')
-            ->join('i.membership', 'm')
-            ->join('m.student', 's')
-            ->join('i.question', 'q')
-            ->addSelect('m')
-            ->addSelect('s')
-            ->addSelect('q')
+        return $this->getBaseQuery()
             ->where('s.id = :student')
-            ->setParameter('student', $student->getId())
-            ->addOrderBy('m.payedOn', 'asc')
-            ->addOrderBy('q.id', 'asc');
+            ->setParameter('student', $student->getId());
     }
 
     public function getByMembershipQuery($student, $membership)
@@ -51,5 +43,38 @@ class MemberInfoRepository extends EntityRepository
             ->select('COUNT(i)');
 
         return $query->getQuery()->getSingleScalarResult();
+    }
+
+    public function getBaseQuery()
+    {
+        return $this->createQueryBuilder('i')
+            ->join('i.membership', 'm')
+            ->addSelect('m')
+            ->join('m.student', 's')
+            ->addSelect('s')
+            ->join('i.question', 'q')
+            ->addSelect('q')
+            ->addOrderBy('s.surname', 'asc')
+            ->addOrderBy('s.name', 'asc')
+            ->addOrderBy('m.payedOn', 'asc')
+            ->addOrderBy('q.id', 'asc');
+    }
+
+    public function getCurrentQuery()
+    {
+        return $this->getBaseQuery()
+            ->where('m.expiredOn > :now')
+            ->setParameter('now', new \DateTime('now'));
+    }
+
+    public function getCurrentInArray()
+    {
+        $query = $this->getCurrentQuery();
+
+        foreach ($query->getQuery()->getResult() as $memberinfo) {
+            $array[$memberinfo->getMembership()->getId()][$memberinfo->getQuestion()->getName()] = $memberinfo->getValue();
+        }
+
+        return $array;
     }
 }

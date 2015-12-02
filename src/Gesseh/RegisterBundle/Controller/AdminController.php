@@ -106,6 +106,7 @@ class AdminController extends Controller
         $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAllComplete();
         $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
         $memberquestions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
+        $memberinfos = $em->getRepository('GessehRegisterBundle:MemberInfo')->getCurrentInArray();
 
         $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
         $phpExcelObject->getProperties()->setCreator("GESSEH")
@@ -177,7 +178,8 @@ class AdminController extends Controller
                 ->setCellValue('P'.$i, $membership->getStudent()->getRanking())
                 ->setCellValue('Q'.$i, $membership->getStudent()->getGraduate())
                 ->setCellValue($columns['Mode de paiement'].$i, $membership->getReadableMethod())
-                ->setCellValue($columns['Date d\'adhésion'].$i, $membership->getPayedOn());
+                ->setCellValue($columns['Date d\'adhésion'].$i, $membership->getPayedOn())
+            ;
             $count = 0;
             foreach ($membership->getStudent()->getPlacements() as $placement) {
                 if ($placement->getPeriod()->getEnd() < new \DateTime('now')) {
@@ -188,6 +190,10 @@ class AdminController extends Controller
             }
             $phpExcelObject->setActiveSheetIndex(0)
                 ->setCellValue('R'.$i, $count);
+            foreach ($memberinfos[$membership->getId()] as $question => $info) {
+                $phpExcelObject->setActiveSheetIndex(0)
+                    ->setCellValue($columns[$question].$i, $info);
+            }
         }
 
         $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
