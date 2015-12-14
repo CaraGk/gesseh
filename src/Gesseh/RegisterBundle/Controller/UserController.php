@@ -136,13 +136,18 @@ class UserController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $pm = $this->container->get('kdb_parameters.manager');
-        $username = $this->get('security.token_storage')->getToken()->getUsername();
-        $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($username);
+        $um = $this->container->get('fos_user.user_manager');
+        $user = $um->findUserByUsername($this->get('security.token_storage')->getToken()->getUsername());
+        $userid = $this->get('request')->query->get('userid');
+        $student = $this->testAdminTakeOver($em, $um, $user, $userid);
 
         if (null !== $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student)) {
             $this->get('session')->getFlashBag()->add('error', 'Adhésion déjà à jour de cotisation.');
 
-            return $this->redirect($this->generateUrl('GRegister_UIndex'));
+            if ($userid and $user->hasRole('ROLE_ADMIN'))
+                return $this->redirect($this->generateUrl('GRegister_UIndex', array("userid" => $userid)));
+            else
+                return $this->redirect($this->generateUrl('GRegister_UIndex'));
         }
 
         $form = $this->createForm(new JoinType());
@@ -151,7 +156,10 @@ class UserController extends Controller
         if($form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Adhésion enregistrée pour ' . $student . '.');
 
-            return $this->redirect($this->generateUrl('GRegister_UQuestion'));
+            if ($userid and $user->hasRole('ROLE_ADMIN'))
+                return $this->redirect($this->generateUrl('GRegister_AIndex'));
+            else
+                return $this->redirect($this->generateUrl('GRegister_UQuestion'));
         }
 
         return array(
@@ -174,7 +182,7 @@ class UserController extends Controller
         $userid = $this->get('request')->query->get('userid');
         $student = $this->testAdminTakeOver($em, $um, $user, $userid);
 
-        if ($current_membership = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student)) {
+        if ($userid == null && $current_membership = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student)) {
             $count_infos = $em->getRepository('GessehRegisterBundle:MemberInfo')->countByMembership($student, $current_membership);
             $count_questions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->countAll();
             if ($count_infos < $count_questions) {
@@ -187,6 +195,7 @@ class UserController extends Controller
         return array(
             'memberships' => $memberships,
             'userid'      => $userid,
+            'student'     => $student,
         );
     }
 
@@ -203,7 +212,14 @@ class UserController extends Controller
             ));
         }
 
-        return $em->getRepository('GessehUserBundle:Student')->getByUsername($user->getUsername());
+        $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user->getUsername());
+
+        if (!$student) {
+            $this->get('session')->getFlashBag()->add('error', 'Étudiant inconnu.');
+            return $this->redirect($this->generateUrl('GRegister_UIndex'));
+        } else {
+            return $student;
+        }
     }
 
     /**
@@ -229,8 +245,9 @@ class UserController extends Controller
         $memberinfos = $em->getRepository('GessehRegisterBundle:MemberInfo')->getByMembership($student, $membership);
 
         return array(
-            'infos'  => $memberinfos,
-            'userid' => $userid,
+            'infos'   => $memberinfos,
+            'userid'  => $userid,
+            'student' => $student,
         );
     }
 }

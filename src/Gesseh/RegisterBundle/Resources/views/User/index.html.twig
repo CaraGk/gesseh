@@ -1,9 +1,15 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block titlecontent %}Mes adhésions{% endblock %}
+{% block titlecontent %}
+    {% if userid is not null %}
+        Adhésions ({{ student }})
+    {% else %}
+        Mes adhésions
+    {% endif %}
+{% endblock %}
 
 {% block actionscontent %}
-    <li><a href="{{ path('GRegister_UJoin')}}">Adhérer</a></li>
+<li><a href="{{ path('GRegister_UJoin')}}?{{ app.request.queryString }}">Adhérer</a></li>
 {% endblock %}
 
 {% block content %}
