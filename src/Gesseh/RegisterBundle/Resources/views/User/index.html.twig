@@ -15,10 +15,13 @@
                 {% else %}
                     ; la transaction n'a pas été validée.
                 {% endif %}
-                {% if is_granted('ROLE_ADMIN') and membership.payedOn is null %}
-                    <a href="{{ path('GRegister_AValidate', {'id': membership.id, 'userid': userid}) }}" title="Valider la réception du paiement pour cette adhésion">Valider</a>
-                    <a href="{{ path('GRegister_ADelete', {'id': membership.id, 'userid': userid}) }}" title="Supprimer cette adhésion">Supprimer</a>
+                <ul class="actions">
+                    <li><a href="{{ path('GRegister_UInfos', {'memberid': membership.id, 'userid': userid}) }}" title="Afficher les réponses aux questions complémentaires">Infos</a></li>
+                    {% if is_granted('ROLE_ADMIN') and membership.payedOn is null %}
+                        <li><a href="{{ path('GRegister_AValidate', {'id': membership.id, 'userid': userid}) }}" title="Valider la réception du paiement pour cette adhésion">Valider</a></li>
+                        <li><a href="{{ path('GRegister_ADelete', {'id': membership.id, 'userid': userid}) }}" title="Supprimer cette adhésion">Supprimer</a></li>
                 {% endif %}
+                </ul>
             </li>
         {% else %}
             <li>Aucune adhésion enregistrée.</li>

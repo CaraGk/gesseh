@@ -1,0 +1,25 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Questions complémentaires{% endblock %}
+
+{% block titlecontent %}
+    Questions complémentaires
+    {% if userid is not null %}({{ userid }}){% endif %}
+{% endblock %}
+
+{% block actionscontent %}
+    <li><a href="{{ path('GRegister_UIndex') }}?{{ app.request.queryString }}" title="Retour à la liste des adhésions">Retour</a></li>
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for info in infos %}
+            <li class="entity memberinfo">
+                <div class="field title">{{ info.question.name }} : </div>
+                <div class="field response">{{ info.value }}</div>
+            </li>
+        {% else %}
+            <li class="noentity">Aucune réponse aux questions complémentaires</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

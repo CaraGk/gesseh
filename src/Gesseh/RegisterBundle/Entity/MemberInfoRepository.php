@@ -77,4 +77,11 @@ class MemberInfoRepository extends EntityRepository
 
         return $array;
     }
+
+    public function getByMembership($student, $membership)
+    {
+        $query = $this->getByMembershipQuery($student, $membership);
+
+        return $query->getQuery()->getResult();
+    }
 }

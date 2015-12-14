@@ -205,4 +205,32 @@ class UserController extends Controller
 
         return $em->getRepository('GessehUserBundle:Student')->getByUsername($user->getUsername());
     }
+
+    /**
+     * Show MemberInfo action
+     *
+     * @Route("/user/{memberid}/infos/", name="GRegister_UInfos", requirements={"memberid" = "\d+"})
+     * @Template()
+     */
+    public function showInfosAction($memberid)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $um = $this->container->get('fos_user.user_manager');
+        $user = $um->findUserByUsername($this->get('security.token_storage')->getToken()->getUsername());
+        $userid = $this->get('request')->query->get('userid');
+        $student = $this->testAdminTakeOver($em, $um, $user, $userid);
+        $membership = $em->getRepository('GessehRegisterBundle:Membership')->find($memberid);
+
+        if (!$membership) {
+            $this->get('session')->getFlashBag()->add('error', 'Adhésion inconnue.');
+            return $this->redirect($this->generateUrl('GRegister_UIndex'));
+        }
+
+        $memberinfos = $em->getRepository('GessehRegisterBundle:MemberInfo')->getByMembership($student, $membership);
+
+        return array(
+            'infos'  => $memberinfos,
+            'userid' => $userid,
+        );
+    }
 }
