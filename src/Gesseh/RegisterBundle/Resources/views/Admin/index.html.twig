@@ -16,6 +16,7 @@
 {% endblock %}
 
 {% block content %}
+    {{ form(filter) }}
     <ul>
     {% for membership in memberships %}
         <li class="entity student">

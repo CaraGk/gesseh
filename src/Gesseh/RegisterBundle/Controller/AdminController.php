@@ -16,6 +16,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Gesseh\RegisterBundle\Entity\Membership;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Gesseh\RegisterBundle\Form\FilterType,
+    Gesseh\RegisterBundle\Form\FilterHandler;
 
 /**
  * RegisterBundle AdminController
@@ -87,11 +89,22 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $limit = $this->get('request')->query->get('limit', null);
-        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll($limit);
+        $questions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
+
+        $form = $this->createForm(new FilterType($questions));
+        $form_handler = new FilterHandler($form, $this->get('request'), $questions);
+        if ($new_filter = $form_handler->process()) {
+            $filter = $new_filter;
+        } else {
+            $filter = null;
+        }
+
+        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll($limit, $filter);
 
         return array(
             'memberships' => $memberships,
             'limit'       => $limit,
+            'filter'      => $form->createView(),
         );
     }
 

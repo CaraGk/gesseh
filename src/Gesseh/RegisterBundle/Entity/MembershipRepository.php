@@ -53,7 +53,7 @@ class MembershipRepository extends EntityRepository
         return $query->getQuery()->getOneOrNullResult();
     }
 
-    public function getCurrentForAll($paidOnly = false)
+    public function getCurrentForAll($paidOnly = false, $filter = null)
     {
         $query = $this->createQueryBuilder('m')
             ->join('m.student', 's')
@@ -66,6 +66,15 @@ class MembershipRepository extends EntityRepository
 
         if ($paidOnly)
             $query->andWhere('m.payedOn is not NULL');
+
+        if ($filter) {
+            $query->join('m.infos', 'i')
+                ->join('i.question', 'q')
+                ->andWhere('q.id = :question_id')
+                ->setParameter('question_id', $filter['question'])
+                ->andWhere('i.value = :info_value')
+                ->setParameter('info_value', $filter['value']);
+        }
 
         return $query->getQuery()->getResult();
     }
