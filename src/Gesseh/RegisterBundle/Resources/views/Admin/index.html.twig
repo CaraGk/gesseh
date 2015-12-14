@@ -36,3 +36,8 @@
     {% endfor %}
     </ul>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehregister/js/filter.js') }}" type="text/javascript"></script>
+{% endblock %}
