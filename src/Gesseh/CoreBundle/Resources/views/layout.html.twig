@@ -9,6 +9,8 @@
 {% block sitename %}{{ parent() }}{% endblock %}
 
 {% block nav %}
+  <div class="header">Général</div>
+  {{ knp_menu_render('anon') }}
   {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     {% if is_granted('ROLE_STUDENT') %}
       <div class="header">Étudiant</div>
@@ -18,8 +20,6 @@
       <div class="header">Administation</div>
       {{ knp_menu_render('admin', {'currentAsLink': false}) }}
     {% endif %}
-  {% else %}
-    {{ knp_menu_render('anon') }}
   {% endif %}
 {% endblock %}
 

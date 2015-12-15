@@ -46,7 +46,6 @@ class MenuBuilder
   public function createStudentMenu(Request $request)
   {
     $menu = $this->factory->createItem('student');
-    $menu->addChild('Fieldset', array('route' => 'GCore_FSIndex', 'label' => 'Terrains de stage', 'attributes' => array('title' => 'Liste des terrains de stage')));
     $menu->addChild('My places', array('route' => 'GCore_PIndex', 'label' => 'Mes stages', 'attributes' => array('title' => 'Mes stages en cours ou effectués')));
     $menu->addChild('My wishes', array('route' => 'GSimul_SIndex', 'label' => 'Mes vœux', 'attributes' => array('title' => 'Mes vœux de stage pour les simulations')));
     $menu->addChild('My memberships', array('route' => 'GRegister_UIndex', 'label' => 'Mes adhésions', 'attributes' => array('title' => 'Mes adhésions à la structure')));

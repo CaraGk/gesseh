@@ -1,0 +1,13 @@
+{% extends "GessehCoreBundle::layout.html.twig" %}
+
+{% block titlecontent %}Création de l'administrateur du site{% endblock %}
+
+{% block actionscontent %}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {{ form_widget(form) }}
+        <button type="submit">Enregistrer</button>
+    </form>
+{% endblock %}

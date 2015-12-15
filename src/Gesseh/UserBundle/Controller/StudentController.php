@@ -17,7 +17,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Gesseh\UserBundle\Entity\Student;
 use Gesseh\UserBundle\Form\StudentUserType;
 use Gesseh\UserBundle\Form\StudentHandler;
-use Gesseh\UserBundle\Form\StudentFirstType;
+use Gesseh\UserBundle\Form\UserAdminType,
+    Gesseh\UserBundle\Form\UserHandler;
 
 /**
  * Student controller.
@@ -57,7 +58,7 @@ class StudentController extends Controller
      * Install first user
      *
      * @Route("/firstuser", name="GUser_SInstall")
-     * @Template("GessehUserBundle:StudentAdmin:edit.html.twig")
+     * @Template()
      */
     public function installAction()
     {
@@ -66,22 +67,20 @@ class StudentController extends Controller
         return $this->redirect($this->generateUrl('homepage'));
       }
 
-      $manager = $this->container->get('kdb_parameters.manager');
-      $mod_simul = $manager->findParamByName('simul_active');
-
-      $student = new Student();
-      $form = $this->createForm(new StudentFirstType($mod_simul->getValue()), $student);
-      $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
+      $um = $this->container->get('fos_user.user_manager');
+      $request = $this->get('request');
+      $user = $um->createUser();
+      $form = $this->createForm(new UserAdminType($user));
+      $formHandler = new UserHandler($form, $request, $um);
 
       if ( $formHandler->process() ) {
-        $this->get('session')->getFlashBag()->add('notice', $student . '" enregistré. Vous pouvez maintenant vous identifier.');
+        $this->get('session')->getFlashBag()->add('notice', 'Administrateur "' . $user->getUsername() . '" enregistré. Vous pouvez maintenant vous identifier.');
 
         return $this->redirect($this->generateUrl('fos_user_security_login'));
       }
 
       return array(
-        'student'      => null,
-        'student_form' => $form->createView(),
+        'form' => $form->createView(),
       );
     }
 
