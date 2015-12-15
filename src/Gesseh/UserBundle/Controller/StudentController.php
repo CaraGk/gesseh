@@ -22,12 +22,12 @@ use Gesseh\UserBundle\Form\StudentFirstType;
 /**
  * Student controller.
  *
- * @Route("/user")
+ * @Route("/")
  */
 class StudentController extends Controller
 {
     /**
-     * @Route("/edit", name="GUser_SEdit")
+     * @Route("/user/edit", name="GUser_SEdit")
      * @Template()
      */
     public function editAction()
@@ -88,7 +88,7 @@ class StudentController extends Controller
     /**
      * Show other students in the same placement
      *
-     * @Route("/coworkers/{id}", name="GUser_SListStudents", requirements={"id" = "\d+"})
+     * @Route("/user/coworkers/{id}", name="GUser_SListStudents", requirements={"id" = "\d+"})
      * @Template()
      */
     public function listStudentsAction($id)
