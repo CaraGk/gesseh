@@ -18,6 +18,7 @@ use Gesseh\RegisterBundle\Entity\Membership;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Gesseh\RegisterBundle\Form\FilterType,
     Gesseh\RegisterBundle\Form\FilterHandler;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * RegisterBundle AdminController
@@ -85,26 +86,21 @@ class AdminController extends Controller
      * @Route("/", name="GRegister_AIndex")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $limit = $this->get('request')->query->get('limit', null);
+        $limit = $request->query->get('limit', null);
         $questions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
-
-        $form = $this->createForm(new FilterType($questions));
-        $form_handler = new FilterHandler($form, $this->get('request'), $questions);
-        if ($new_filter = $form_handler->process()) {
-            $filter = $new_filter;
-        } else {
-            $filter = null;
-        }
-
-        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll($limit, $filter);
+        $membership_filters = $request->getSession()->get('gregister_membership_filter', array(
+            'valid'     => null,
+            'questions' => null,
+        ));
+        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll($membership_filters);
 
         return array(
             'memberships' => $memberships,
-            'limit'       => $limit,
-            'filter'      => $form->createView(),
+            'filters'     => $membership_filters,
+            'questions'   => $questions,
         );
     }
 
@@ -218,5 +214,55 @@ class AdminController extends Controller
         $response->headers->set('Content-Disposition', $dispositionHeader);
 
         return $response;
+    }
+
+    /**
+     * Add Filter action
+     *
+     * @Route("/filter/add/{type}/{id}/{value}", name="GRegister_AAddFilter")
+     */
+    public function addFilterAction($type, $id, $value)
+    {
+        $session = $this->get('session');
+        $membership_filters = $session->get('gregister_membership_filter', array(
+            'valid'     => null,
+            'questions' => null,
+        ));
+
+        if ($type == "valid") {
+            $membership_filters['valid'] = $value;
+        } else {
+            $membership_filters[$type][$id] = $value;
+        }
+
+        $session->set('gregister_membership_filter', $membership_filters);
+
+        return $this->redirect($this->generateUrl('GRegister_AIndex'));
+    }
+
+    /**
+     * Remove Filter action
+     *
+     * @Route("/filter/remove/{type}/{id}", name="GRegister_ARemoveFilter")
+     */
+    public function removeFilterAction($type, $id)
+    {
+        $session = $this->get('session');
+        $membership_filters = $session->get('gregister_membership_filter', array(
+            'valid'     => null,
+            'questions' => null,
+        ));
+
+        if ($type == "valid") {
+            $membership_filters['valid'] = null;
+        } else {
+            if ($membership_filters[$type][$id] != null) {
+                unset($membership_filters[$type][$id]);
+            }
+        }
+
+        $session->set('gregister_membership_filter', $membership_filters);
+
+        return $this->redirect($this->generateUrl('GRegister_AIndex'));
     }
 }

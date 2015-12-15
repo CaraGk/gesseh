@@ -2,21 +2,36 @@
 
 {% block title %}{{ parent() }} - Adhérents{% endblock %}
 
-{% block titlecontent %}
-    Adhérents en cours {% if limit %}(validés){% endif %}
-{% endblock %}
+{% block titlecontent %}Adhérents actuels{% endblock %}
 
 {% block actionscontent %}
-    {% if limit is not null %}
-        <li class="field"><a href="{{ path('GRegister_AIndex') }}"><button type="button">Toutes adhésions</button></a></li>
-    {% else %}
-        <li class="field"><a href="{{ path('GRegister_AIndex', {'limit': true}) }}"><button type="button">Adhésions validées</button></a></li>
-    {% endif %}
     <li class="field"><a href="{{ path('GRegister_AExport') }}"><button type="button">Exporter (xls)</button></a></li>
 {% endblock %}
 
 {% block content %}
-    {{ form(filter) }}
+    <ul class="filters">
+        <li>
+            <div class="title">Validation</div>
+            {% if filters['valid'] is not null %}
+                <div class="item set"><a href="{{ path('GRegister_ARemoveFilter', {'type': 'valid', 'id': 0}) }}" title="Supprimer le filtre par adhésion">{{ filters['valid'] }}</a></div>
+            {% else %}
+                <div class="item"><a href="{{ path('GRegister_AAddFilter', {'type': 'valid', 'id': 0, 'value': 1}) }}" title="Filtrer par adhésion validée">Oui</a></div>
+                <div class="item"><a href="{{ path('GRegister_AAddFilter', {'type': 'valid', 'id': 0, 'value': 0}) }}" title="Filtrer par adhésion non validée">Non</a></div>
+            {% endif %}
+        </li>
+        {% for question in questions %}
+            <li>
+                <div class="title">{{ question.name }}</div>
+                {% if filters['questions'][question.id] is defined %}
+                    <div class="item"><a href="{{ path('GRegister_ARemoveFilter', {'type': 'questions', 'id': question.id}) }}" title="Suprimer le filtre {{ question.name }} : {{ filters['questions'][question.id] }}">{{ filters['questions'][question.id] }}</a></div>
+                {% else %}
+                    {% for answer in question.more %}
+                        <div class="item"><a href="{{ path('GRegister_AAddFilter', {'type': 'questions', 'id': question.id, 'value': answer}) }}" title="Filtrer par {{ question.name }} : {{ answer }}">{{ answer }}</a></div>
+                    {% endfor %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
     <ul>
     {% for membership in memberships %}
         <li class="entity student">
