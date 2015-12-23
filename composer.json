@@ -30,7 +30,9 @@
         "jms/payment-core-bundle": "master-dev",
         "jms/payment-paypal-bundle": "master-dev",
         "jms/di-extra-bundle": "dev-master",
-        "jms/security-extra-bundle": "dev-master"
+        "jms/security-extra-bundle": "dev-master",
+        "mopa/bootstrap-bundle": "^3.0",
+        "twbs/bootstrap": "^3.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -111,3 +111,7 @@ jms_payment_paypal:
     username: %payment_paypal_user%
     password: %payment_paypal_pswd%
     signature: %payment_paypal_sign%
+
+mopa_bootstrap:
+    form: ~
+    menu: ~
