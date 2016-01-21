@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -22,43 +22,51 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Placement
 {
-  /**
-   * @var integer $id
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Period")
-   * @ORM\JoinColumn(name="period_id", referencedColumnName="id")
-   * @Assert\NotBlank()
-   * @Assert\Type(type="Gesseh\CoreBundle\Entity\Period")
-   */
-  private $period;
+    /**
+     * @ORM\ManyToOne(targetEntity="Period")
+     * @ORM\JoinColumn(name="period_id", referencedColumnName="id")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="Gesseh\CoreBundle\Entity\Period")
+     */
+    private $period;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Gesseh\UserBundle\Entity\Student")
-   * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
-   * @Assert\NotBlank()
-   * @Assert\Type(type="Gesseh\UserBundle\Entity\Student")
-   */
-  private $student;
+    /**
+     * @ORM\ManyToOne(targetEntity="Gesseh\UserBundle\Entity\Student")
+     * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="Gesseh\UserBundle\Entity\Student")
+     */
+    private $student;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Department")
-   * @ORM\JoinColumn(name="department_id")
-   * @Assert\NotBlank()
-   * @Assert\Type(type="Gesseh\CoreBundle\Entity\Department")
-   */
-  private $department;
+    /**
+     * @ORM\ManyToOne(targetEntity="Department")
+     * @ORM\JoinColumn(name="department_id")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="Gesseh\CoreBundle\Entity\Department")
+     */
+    private $department;
 
-  public function __toString()
-  {
-    return $this->department->getName() . " à " . $this->departement->getHospital()->getName();
-  }
+    /**
+     * @ORM\ManyToOne(targetEntity="Repartition", inversedBy="placements", cascade={"persist"})
+     * @ORM\JoinColumn(name="repartition_id", referencedColumnName="id")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="Gesseh\CoreBundle\Entity\Repartition")
+     */
+    private $repartition;
+
+    public function __toString()
+    {
+      return $this->department->getName() . " à " . $this->departement->getHospital()->getName();
+    }
 
     /**
      * Get id
@@ -128,5 +136,25 @@ class Placement
     public function getDepartment()
     {
         return $this->department;
+    }
+
+    /**
+     * Set repartition
+     *
+     * @param Gesseh\CoreBundle\Entity\Repartition $repartition
+     */
+    public function setRepartition(\Gesseh\CoreBundle\Entity\Repartition $repartition)
+    {
+        $this->repartition = $repartition;
+    }
+
+    /**
+     * Get repartition
+     *
+     * @return Gesseh\CoreBundle\Entity\Repartition
+     */
+    public function getRepartition()
+    {
+        return $this->repartition;
     }
 }

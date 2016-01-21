@@ -22,32 +22,37 @@ use Doctrine\ORM\Mapping as ORM;
 class Period
 {
   /**
-   * @var integer $id
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @var date $begin
-   *
-   * @ORM\Column(name="begin", type="date")
-   */
-  private $begin;
+    /**
+     * @var date $begin
+     *
+     * @ORM\Column(name="begin", type="date")
+     */
+    private $begin;
 
-  /**
-   * @var date $end
-   *
-   * @ORM\Column(name="end", type="date")
-   */
-  private $end;
+    /**
+     * @var date $end
+     *
+     * @ORM\Column(name="end", type="date")
+     */
+    private $end;
 
-  public function __toString()
-  {
-    return "Du " . $this->begin->format('d-m-Y') . " au " . $this->end->format('d-m-Y');
-  }
+    /**
+     * @ORM\OneToMany(targetEntity="Repartition", mappedBy="period", cascade={"remove"})
+     */
+    private $repartitions;
+
+    public function __toString()
+    {
+        return "Du " . $this->begin->format('d-m-Y') . " au " . $this->end->format('d-m-Y');
+    }
 
     /**
      * Get id
@@ -97,5 +102,34 @@ class Period
     public function getEnd()
     {
         return $this->end;
+    }
+
+    /**
+     * Add repartitions
+     *
+     * @param Gesseh\CoreBundle\Entity/Repartition $repartition
+     */
+    public function addRepartition(\Gesseh\CoreBundle\Entity\Repartition $repartition)
+    {
+        $this->repartitions[] = $repartition;
+    }
+
+    /**
+     * Remove repartition
+     *
+     * @param Gesseh\CoreBundle\Entity\Repartition $repartition
+     */
+    public function removeRepartition(\Gesseh\CoreBundle\Entity\Repartition $repartition)
+    {
+    }
+
+    /**
+     * Get repartitions
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getRepartitions()
+    {
+        return $this->repartitions;
     }
 }

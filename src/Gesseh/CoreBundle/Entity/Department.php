@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -80,6 +80,11 @@ class Department
      * @ORM\OneToMany(targetEntity="Placement", mappedBy="department", cascade={"remove"})
      */
     private $placements;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Repartition", mappedBy="department", cascade={"remove"})
+     */
+    private $repartitions;
 
     /**
      * @ORM\Column(name="cluster", type="string", length=100, nullable=true)
@@ -254,6 +259,35 @@ class Department
     public function getPlacements()
     {
         return $this->placements;
+    }
+
+    /**
+     * Add repartition
+     *
+     * @param Gesseh\CoreBundle\Entity\Repartition $repartition
+     */
+    public function addRepartition(\Gesseh\CoreBundle\Entity\Repartition $repartition)
+    {
+        $this->repartitions[] = $repartition;
+    }
+
+    /**
+     * Remove repartition
+     *
+     * @param Gesseh\CoreBundle\Entity\Repartition $repartition
+     */
+    public function removeRepartition(\Gesseh\CoreBundle\Entity\Repartition $repartition)
+    {
+    }
+
+    /**
+     * Get repartitions
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getRepartitions()
+    {
+        return $this->repartitions;
     }
 
     /**
