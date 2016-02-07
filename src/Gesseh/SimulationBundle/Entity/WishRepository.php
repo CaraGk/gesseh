@@ -36,14 +36,20 @@ class WishRepository extends EntityRepository
                 ->addSelect('d')
                 ->addSelect('h')
                 ->addSelect('t')
-                ->addSelect('u');
+                ->addSelect('u')
+    ;
   }
 
-  public function getByStudent($student_id)
+  public function getByStudent($student_id, $period_id)
   {
     $query = $this->getWishQuery();
     $query->where('t.student = :student')
-            ->setParameter('student', $student_id)
+          ->setParameter('student', $student_id)
+          ->join('d.repartitions', 'r')
+          ->join('r.period', 'p')
+          ->addSelect('r')
+          ->andWhere('r.period = :period_id')
+          ->setParameter('period_id', $period_id)
           ->addOrderBy('w.rank', 'asc');
 
     return $query->getQuery()->getResult();
@@ -66,7 +72,7 @@ class WishRepository extends EntityRepository
                   ->join('w.department', 'd')
                   ->join('d.sector', 's')
                   ->where('w.simstudent = :simstudent_id')
-                    ->setParameter('simstudent_id', $simstudent_id)
+                  ->setParameter('simstudent_id', $simstudent_id)
                   ->addSelect('d')
                   ->addSelect('s');
 

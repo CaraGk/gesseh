@@ -42,7 +42,8 @@ class SimulationController extends Controller
         if(!$simstudent)
             throw $this->createNotFoundException('Vous ne participez pas aux simulations. Contacter l\'administrateur du site si vous pensez que cette situation est anormale.');
 
-        $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent());
+        $last_period = $em->getRepository('GessehCoreBundle:Period')->getLast();
+        $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent(), $last_period->getId());
         $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getForStudent($simstudent, $em);
         $missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing($simstudent);
 
@@ -238,7 +239,7 @@ class SimulationController extends Controller
      */
     public function simAction()
     {
-      $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $um = $this->container->get('fos_user.user_manager');
         $user = $um->findUserBy(array(
             'username' => $this->get('security.token_storage')->getToken()->getUsername(),
@@ -246,23 +247,24 @@ class SimulationController extends Controller
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($em, $user, $simid);
 
-      if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
-        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+        if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+            throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
 
-      $departments = $em->getRepository('GessehCoreBundle:Department')->findAll();
+        $last_period = $em->getRepository('GessehCoreBundle:Period')->getLast();
+        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($last_period->getId());
 
-      foreach ($departments as $department) {
-        $department_table[$department->getId()] = $department->getNumber();
-        if ($department->getCluster() != null) {
-          $department_table['cl_'.$department->getCluster()][] = $department->getId();
+        foreach ($repartitions as $repartition) {
+            $department_table[$repartition->getDepartment()->getId()] = $repartition->getNumber();
+            if ($repartition->getCluster() != null) {
+                $department_table['cl_'.$repartition->getCluster()][] = $repartition->getDepartment->getId();
+            }
         }
-      }
 
-      $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
+        $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
 
-      $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été actualisées');
+        $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été actualisées');
 
-      return $this->redirect($this->generateUrl('GSimul_SIndex', array('simid' => $simid)));
+        return $this->redirect($this->generateUrl('GSimul_SIndex', array('simid' => $simid)));
     }
 
     /**
@@ -281,13 +283,14 @@ class SimulationController extends Controller
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($em, $user, $simid);
 
-      $departments = $em->getRepository('GessehCoreBundle:Department')->getAvailable();
+      $last_period = $em->getRepository('GessehCoreBundle:Period')->getLast();
+      $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getAvailable($last_period);
       $left = array();
 
-      foreach ($departments as $department) {
-        $left[$department->getId()] = $department->getNumber();
-        if ($sim = $em->getRepository('GessehSimulationBundle:Simulation')->getNumberLeft($department->getId(), $simstudent->getId())) {
-          $left[$department->getId()] = $sim->getExtra();
+      foreach($repartitions as $repartition) {
+        $left[$repartition->getDepartment()->getId()] = $repartition->getNumber();
+        if($sim = $em->getRepository('GessehSimulationBundle:Simulation')->getNumberLeft($repartition->getDepartment()->getId(), $simstudent->getId())) {
+          $left[$repartition->getDepartment()->getId()] = $sim->getExtra();
         }
       }
 
@@ -298,10 +301,10 @@ class SimulationController extends Controller
         }
 
       return array(
-        'departments' => $departments,
-        'left'        => $left,
-        'simid'       => $simid,
-        'simname'     => $simname,
+        'repartitions' => $repartitions,
+        'left'         => $left,
+        'simid'        => $simid,
+        'simname'      => $simname,
       );
     }
 

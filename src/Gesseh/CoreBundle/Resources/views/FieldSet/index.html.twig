@@ -34,7 +34,8 @@
                 </ul>
                 <ul class="subentities departments">
                     {% for department in hospital.departments %}
-                    <li class="subentity department {% if department.number < 1 %}notactive{% endif %}">
+                                {% for repartition in department.repartitions %}
+                    <li class="subentity department {% if repartition.number < 1 %}notactive{% endif %}">
                             <div class="field subentity_title department_name">{{ department.name }}</div>
                             <div class="field subentity_item department_head">({{ department.head }})</div>
                             <div class="field subentity_item department_sector"><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: department.sector.id, description: department.sector.name}}) }}" title="Afficher les terrains de la catégorie {{ department.sector }}">{{ department.sector }}</a></div>
@@ -42,14 +43,15 @@
                                 {% if department.cluster is not null %}
                                     <div class="field subentity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'd.cluster', value: department.cluster, description: department.cluster }}) }}" title="Afficher les terrains du cluster {{ department.cluster }}">{{ department.cluster }}</a></div>
                                 {% endif %}
-                                {% if department.number > 1 %}
-                                    <div class="field subentity_item department_number">({{ department.number }} postes proposés)</div>
-                                {% elseif department.number == 1 %}
-                                    <div class="field subentity_item department_number">(1 poste proposé)</div>
-                                {% else %}
-                                    <div class="field empty department_number">(aucun poste proposé)</div>
-                                {% endif %}
+                                    {% if repartition.number > 1 %}
+                                        <div class="field subentity_item department_number">({{ repartition.number }} postes proposés)</div>
+                                    {% elseif repartition.number == 1 %}
+                                        <div class="field subentity_item department_number">(1 poste proposé)</div>
+                                    {% else %}
+                                        <div class="field empty department_number">(aucun poste proposé)</div>
+                                    {% endif %}
                             {% endif %}
+                                {% endfor %}
                             <ul class="actions">
                                 <li class="show"><a href="{{ path('GCore_FSShowDepartment', { 'id': department.id, 'limit': limit }) }}" title="Afficher les informations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Afficher" /></a></li>
                                 {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li class="stat"><a href="{{ path('GEval_DShow', { 'id': department.id, 'limit': limit }) }}" title="Afficher les évaluations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>{% endif %}

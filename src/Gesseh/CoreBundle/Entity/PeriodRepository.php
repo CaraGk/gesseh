@@ -27,4 +27,13 @@ class PeriodRepository extends EntityRepository
                     ->getQuery()
                     ->getOneOrNullResult();
     }
+
+    public function getLast()
+    {
+        return $this->createQueryBuilder('p')
+                    ->orderBy('p.end', 'desc')
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getOneOrNullResult();
+    }
 }

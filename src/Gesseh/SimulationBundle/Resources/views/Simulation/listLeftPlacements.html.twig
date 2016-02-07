@@ -17,19 +17,19 @@
 
 {% block content %}
     <ul class="entities wishes">
-        {% for department in departments %}
+        {% for repartition in repartitions %}
             <li class="entity wish
-                {% if department.number == 0 %}
+                {% if repartition.department.number == 0 %}
                     grey
-                {% elseif left[department.id] > 0 %}
+                {% elseif left[repartition.department.id] > 0 %}
                     valid
                 {% else %}
                     invalid
                 {% endif %}
             ">
-                <div class="entity_item fieldset">{{ department.name }} à {{ department.hospital.name }}</div>
-                <div class="entity_item sector">({{ department.sector.name }})</div>
-                <div class="entity_item number">{{ left[department.id] }} / {{ department.number }}</div>
+                <div class="entity_item fieldset">{{ repartition.department.name }} à {{ repartition.department.hospital.name }}</div>
+                <div class="entity_item sector">({{ repartition.department.sector.name }})</div>
+                <div class="entity_item number">{{ left[repartition.department.id] }} / {{ repartition.department.number }}</div>
             </li>
         {% else %}
             <li class="noentity error">Aucun service retrouvé dans la base de données. Contactez un administrateur.</li>

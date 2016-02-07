@@ -42,15 +42,25 @@ class HospitalRepository extends EntityRepository
                  ->getResult();
   }
 
-  public function getAll(array $limit = null)
+  public function getAll(array $arg = null)
   {
       $query = $this->getHospitalQuery();
+
+      if($arg['period']) {
+          $query->join('d.repartitions', 'r')
+              ->join('r.period', 'p')
+              ->addSelect('r')
+              ->andWhere('p.id = :id')
+              ->setParameter('id', $arg['period'])
+          ;
+      }
+
       $query->addOrderBy('h.name', 'asc')
             ->addOrderBy('d.name', 'asc');
 
-    if (null != $limit and (preg_match('/^[s,h,d].id$/', $limit['type']) or $limit['type'] == "d.cluster")) {
-      $query->where($limit['type'] . ' = :value')
-            ->setParameter('value', $limit['value']);
+    if (null != $arg['limit'] and (preg_match('/^[s,h,d].id$/', $arg['limit']['type']) or $arg['limit']['type'] == "d.cluster")) {
+      $query->andWhere($arg['limit']['type'] . ' = :value')
+            ->setParameter('value', $arg['limit']['value']);
     }
 
       return $query->getQuery()

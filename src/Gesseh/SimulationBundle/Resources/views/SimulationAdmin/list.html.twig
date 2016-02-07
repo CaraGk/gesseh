@@ -6,7 +6,7 @@
 
 {% block actionscontent %}
     {% if simulations is not empty %}
-        <li class="field"><a href="{{ path('GSimul_SASim') }}" title="Lancer l'algorithme de simulation"><button type="button">Actualiser les simulations</button></a></li>
+        <li class="field"><a href="{{ path('GSimul_SSim') }}" title="Lancer l'algorithme de simulation"><button type="button">Actualiser les simulations</button></a></li>
         <li class="field"><a href="{{ path('GSimul_SASave') }}" title="Valider les simulation et les enregistrer dans les stages."><img src="{{ asset('bundles/gessehcore/images/Valid.png') }}" alt="Valider les simulations" /></a></li>
         <li class="field"><a href="{{ path('GSimul_SAPurge') }}" title="Supprimer la table de simulation" class="confirm" confirm="Attention ! Cette opération va supprimer toutes les données concernant la simulation en cours. Souhaitez-vous continuer ?"><img src="{{ asset('bundles/gessehcore/images/Error.png') }}" alt="Supprimer la table de simulation" /></a></li>
     {% else %}

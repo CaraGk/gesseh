@@ -45,12 +45,23 @@ class FieldSetController extends Controller
           return $this->redirect($this->generateUrl('GUser_SInstall'));
       }
 
-    $limit = $this->get('request')->query->get('limit', null);
-    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll($limit);
+    $arg['limit'] = $this->get('request')->query->get('limit', null);
+
+    $pm = $this->container->get('kdb_parameters.manager');
+    if($pm->findParamByName('simul_active')->getValue()) {
+        $period = $em->getRepository('GessehCoreBundle:Period')->getLast();
+        if($period) {
+            $arg['period'] = $period->getId();
+        }
+    } else {
+        $arg['period'] = null;
+    }
+
+    $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll($arg);
 
     return array(
         'hospitals' => $hospitals,
-        'limit'     => $limit
+        'limit'     => $arg['limit'],
     );
   }
 

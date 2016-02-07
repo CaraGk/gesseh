@@ -49,6 +49,7 @@ class SectorRuleRepository extends EntityRepository
       } elseif ($result->getRelation() == "FULL") {  /* sector must be complete after the student's prom' */
         $sector_id = $result->getSector()->getId();
 
+        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndSector($period->getId(), $sector_id);  /* repartitions and departments from sector */
         $departments = $em->getRepository('GessehCoreBundle:Department')->getBySector($sector_id);  /* departments from sector */
         $placements = $em->getRepository('GessehCoreBundle:Department')->getByStudent($simstudent->getStudent()->getId()); /* student's placements */
 
@@ -66,7 +67,9 @@ class SectorRuleRepository extends EntityRepository
           if (isset($simul_extra)) {
             $total_extra += $simul_extra->getExtra();
           } else {
-            $total_extra += $department->getNumber();
+              foreach($department->getRepartitions() as $repartition) {
+                  $total_extra += $repartition->getNumber();
+              }
           }
           array_push($list, $department->getId());
         }

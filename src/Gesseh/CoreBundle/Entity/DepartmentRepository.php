@@ -30,6 +30,14 @@ class DepartmentRepository extends EntityRepository
                 ->addSelect('s');
   }
 
+  public function getDepartmentQueryWithRepartitions()
+  {
+    $query = $this->getDepartmentQuery();
+
+    return $query->join('d.repartitions', 'r')
+                 ->addSelect('r');
+  }
+
   public function getById($id)
   {
     $query = $this->getDepartmentQuery();
@@ -51,13 +59,21 @@ class DepartmentRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
-  public function getBySector($sector_id)
+  public function getBySectorForPeriod($sector_id, $period_id)
   {
     $query = $this->getDepartmentQuery();
     $query->where('s.id = :sector_id')
-            ->setParameter('sector_id', $sector_id);
+          ->setParameter('sector_id', $sector_id)
+          ->join('d.repartitions', 'r')
+          ->join('r.period', 'p')
+          ->addSelect('r')
+          ->andWhere('p.id = :period_id')
+          ->setParameter('period_id', $period_id)
+    ;
 
-    return $query->getQuery()->getResult();
+    return $query->getQuery()
+                 ->getResult()
+    ;
   }
 
   public function getAll(array $orderBy = array('h' => 'asc', 's' => 'asc'))
@@ -73,8 +89,8 @@ class DepartmentRepository extends EntityRepository
 
     public function getAvailable()
     {
-        $query = $this->getDepartmentQuery();
-        $query->where('d.number > 0');
+        $query = $this->getDepartmentQueryWithRepartitions();
+        $query->where('r.number > 0');
 
         return $query->getQuery()
             ->getResult();
@@ -98,10 +114,10 @@ class DepartmentRepository extends EntityRepository
 
   public function getAdaptedUserList($rules)
   {
-    $query = $this->getDepartmentQuery();
+    $query = $this->getDepartmentQueryWithRepartitions();
     $query->addOrderBy('h.name', 'asc')
           ->addOrderBy('d.name', 'asc')
-          ->where('d.number > 0');
+          ->where('r.number > 0');
 
     if ($rules['department']['NOT'])
       $query->andWhere('d.id NOT IN (' . implode(',', $rules['department']['NOT']) . ')');

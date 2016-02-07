@@ -121,28 +121,6 @@ class SimulationAdminController extends Controller
     }
 
     /**
-     * @Route("/sim", name="GSimul_SASim")
-     */
-    public function simAction()
-    {
-      $em = $this->getDoctrine()->getManager();
-      $departments = $em->getRepository('GessehCoreBundle:Department')->findAll();
-
-      foreach ($departments as $department) {
-          $department_table[$department->getId()] = $department->getNumber();
-          if ($department->getCluster() != null) {
-              $department_table['cl_' . $department->getCluster()][] = $department->getId();
-          }
-      }
-
-      $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
-
-      $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été actualisées.');
-
-      return $this->redirect($this->generateUrl('GSimul_SAList'));
-    }
-
-    /**
      * @Route("/purge", name="GSimul_SAPurge")
      */
     public function purgeAction()
