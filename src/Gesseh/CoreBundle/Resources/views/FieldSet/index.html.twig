@@ -40,8 +40,8 @@
                             <div class="field subentity_item department_head">({{ department.head }})</div>
                             <div class="field subentity_item department_sector"><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: department.sector.id, description: department.sector.name}}) }}" title="Afficher les terrains de la catégorie {{ department.sector }}">{{ department.sector }}</a></div>
                             {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}
-                                {% if department.cluster is not null %}
-                                    <div class="field subentity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'd.cluster', value: department.cluster, description: department.cluster }}) }}" title="Afficher les terrains du cluster {{ department.cluster }}">{{ department.cluster }}</a></div>
+                                {% if repartition.cluster is not null %}
+                                    <div class="field subentity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'r.cluster', value: repartition.cluster, description: repartition.cluster }}) }}" title="Afficher les terrains du cluster {{ repartition.cluster }}">{{ repartition.cluster }}</a></div>
                                 {% endif %}
                                     {% if repartition.number > 1 %}
                                         <div class="field subentity_item department_number">({{ repartition.number }} postes proposés)</div>

@@ -75,7 +75,7 @@ class SimulationRepository extends EntityRepository
     return --$count;
   }
 
-  public function doSimulation($department_table, \Doctrine\ORM\EntityManager $em)
+  public function doSimulation($department_table, \Doctrine\ORM\EntityManager $em, $period)
   {
     $query = $this->createQueryBuilder('t')
                   ->join('t.wishes', 'w')
@@ -92,12 +92,14 @@ class SimulationRepository extends EntityRepository
         continue;
       foreach ($sim->getWishes() as $wish) {
         if (null === $sim->getDepartment() and $department_table[$wish->getDepartment()->getId()] > 0) {
-          if (null != $wish->getDepartment()->getCluster()) {
-              foreach ($department_table['cl_' . $wish->getDepartment()->getCluster()] as $department_id) {
+          if($current_repartition = $wish->getDepartment()->findRepartition($period)) {
+            if ($cluster_name = $current_repartition->getCluster()) {
+              foreach ($department_table['cl_' . $cluster_name] as $department_id) {
                 $department_table[$department_id]--;
               }
-          } else {
+            } else {
               $department_table[$wish->getDepartment()->getId()]--;
+            }
           }
           $sim->setDepartment($wish->getDepartment());
           $sim->setExtra($department_table[$wish->getDepartment()->getId()]);

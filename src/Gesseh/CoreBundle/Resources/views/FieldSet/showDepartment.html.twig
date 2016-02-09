@@ -18,17 +18,17 @@
 {% endblock %}
 
 {% block content %}
-    {% if cluster is not null %}
-        <div>Stage couplé ({{ department.cluster }}) avec :
+    {% for cluster in clusters %}
+        <div>Stage couplé ({{ cluster['period'].begin|date('d-m-Y') }}) avec :
             <ul>
-                {% for dept in cluster %}
-                    {% if dept.id != department.id %}
-                        <li><a href="{{ path('GCore_FSShowDepartment', { 'id': dept.id, 'limit': limit }) }}">{{ dept }}</a></li>
+                {% for repartition in cluster['repartitions'] %}
+                    {% if repartition.department.id != department.id %}
+                        <li><a href="{{ path('GCore_FSShowDepartment', { 'id': repartition.department.id, 'limit': limit }) }}">{{ repartition.department }}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
         </div>
-    {% endif %}
+    {% endfor %}
     <div class="content">Chef de service : {{ department.head }}</div>
     <div class="content">{{ department.description|raw }}</div>
 {% endblock %}

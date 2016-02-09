@@ -31,36 +31,36 @@ class RepartitionRepository extends EntityRepository
         ;
     }
 
-    public function getAvailable($period_id)
+    public function getByPeriodQuery($period_id)
     {
         $query = $this->getQuery();
-        $query->where('r.number > 0')
-              ->andWhere('p.id = :period_id')
-              ->setParameter('period_id', $period_id)
+        return $query->where('p.id = :period_id')
+                     ->setParameter('period_id', $period_id)
         ;
-
-        return $query->getQuery()
-            ->getResult();
     }
 
-    public function getByPeriod($period_id)
+    public function getAvailable($period_id)
     {
-        $query = $this->getQuery();
-        $query->where('p.id = :period_id')
-              ->setParameter('period_id', $period_id)
-        ;
+        $query = $this->getByPeriodQuery($period_id);
+        $query->andWhere('r.number > 0');
 
         return $query->getQuery()
                      ->getResult()
         ;
     }
 
+    public function getByPeriod($period_id)
+    {
+        return $this->getByPeriodQuery($period_id)
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
     public function getByPeriodAndDepartmentSector($period_id, $sector_id)
     {
-        $query = $this->getQuery();
-        $query->where('p.id = :period_id')
-              ->setParameter('period_id', $period_id)
-              ->andWhere('s.id = :sector_id')
+        $query = $this->getByPeriodQuery($period_id);
+        $query->andWhere('s.id = :sector_id')
               ->setParameter('sector_id', $sector_id)
         ;
 
@@ -69,4 +69,15 @@ class RepartitionRepository extends EntityRepository
         ;
     }
 
+    public function getByPeriodAndCluster($period_id, $cluster)
+    {
+        $query = $this->getByPeriodQuery($period_id);
+        $query->andWhere('r.cluster = :cluster')
+              ->setParameter('cluster', $cluster)
+        ;
+
+        return $query->getQuery()
+                     ->getResult()
+        ;
+    }
 }

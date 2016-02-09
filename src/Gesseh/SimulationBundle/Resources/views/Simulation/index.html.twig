@@ -39,15 +39,17 @@
                         invalid
                     {% endif %}
                 ">
-                    <div class="field entity_item rank">{{ wish.rank }}</div>
-                    <div class="field entity_title fieldset">
-                        <a href="{{ path('GSimul_SListDept', {'id': wish.department.id}) }}" title="Afficher les simulations pour ce poste">{{ wish.department }}</a>
-                    </div>
-                    {% if wish.department.cluster is not null %}
-                        <div class="field entity_item cluster"><img src="{{ asset('bundles/gessehcore/images/Warning.png') }}" alt="Cluster" title="Ce terrain de stage fait partie d'un cluster" /></div>
-                    {% endif %}
-                    <div class="field entity_item sector">({{ wish.department.sector.name }})</div>
-                    <div class="field entity_item number">{% for repartition in wish.department.repartitions %}{{ repartition.number }}{% endfor %}</div>
+                    {% for repartition in wish.department.repartitions %}
+                        <div class="field entity_item rank">{{ wish.rank }}</div>
+                        <div class="field entity_title fieldset">
+                            <a href="{{ path('GSimul_SListDept', {'id': wish.department.id}) }}" title="Afficher les simulations pour ce poste">{{ wish.department }}</a>
+                        </div>
+                        {% if repartition.cluster is not null %}
+                            <div class="field entity_item cluster"><img src="{{ asset('bundles/gessehcore/images/Warning.png') }}" alt="Cluster" title="Ce terrain de stage fait partie d'un cluster" /></div>
+                        {% endif %}
+                        <div class="field entity_item sector">({{ wish.department.sector.name }})</div>
+                        <div class="field entity_item number">{{ repartition.number }}</div>
+                    {% endfor %}
                     <ul class="actions">
                         <li class=""><a href="{{ path('GSimul_SUp', {wish_id: wish.id, simid: simid}) }}" title="Monter le vœu d'une place"><img src="{{ asset('bundles/gessehcore/images/Button_Up.png') }}" alt="Monter" /></a></li>
                         <li class=""><a href="{{ path('GSimul_SDown', {wish_id: wish.id, simid: simid}) }}" title="Descendre le vœu d'une place"><img src="{{ asset('bundles/gessehcore/images/Button_Down.png') }}" alt="Descendre" /></a></li>

@@ -79,7 +79,7 @@ class WishRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
-  public function findByStudentAndRank($student_id, $rank)
+  public function findByStudentAndRank($student_id, $rank, $period)
   {
     $query = $this->getWishStudentQuery($student_id);
     $query->join('w.department', 'd')
@@ -88,17 +88,19 @@ class WishRepository extends EntityRepository
           ->setParameter('rank', $rank);
     $wish = $query->getQuery()->getSingleResult();
 
-    if ($wish->getDepartment()->getCluster() != null) {
-        $query = $this->getWishQuery();
-        $query->where('t.student = :student_id')
-              ->setParameter('student_id', $student_id)
-              ->andWhere('d.cluster = :cluster')
-              ->setParameter('cluster', $wish->getDepartment()->getCluster());
+    if ($current_repartition = $wish->getDepartment()->findRepartition($period)) {
+        if($cluster_name = $current_repartition->getCluster()) {
+            $query = $this->getWishQuery();
+            $query->where('t.student = :student_id')
+                  ->setParameter('student_id', $student_id)
+                  ->andWhere('r.cluster = :cluster')
+                  ->setParameter('cluster', $cluster_name);
 
-        return $query->getQuery()
-                     ->getResult();
-    } else {
-        return array($wish);
+            return $query->getQuery()
+                         ->getResult();
+        } else {
+            return array($wish);
+        }
     }
   }
 
@@ -129,7 +131,7 @@ class WishRepository extends EntityRepository
     return $query->getQuery()->getSingleScalarResult();
   }
 
-  public function getWishCluster($student_id, $wish_id)
+  public function getWishCluster($student_id, $wish_id, $period)
   {
       $query = $this->getWishQuery();
       $query->where('w.id = :wish_id')
@@ -138,17 +140,21 @@ class WishRepository extends EntityRepository
             ->setParameter('student_id', $student_id);
       $wish = $query->getQuery()->getSingleResult();
 
-      if (null != $wish->getDepartment()->getCluster()) {
-        $query = $this->getWishQuery();
-        $query->where('t.student = :student_id')
-              ->setParameter('student_id', $student_id)
-              ->andWhere('d.cluster = :cluster')
-              ->setParameter('cluster', $wish->getDepartment()->getCluster());
+      if($current_repartition = $wish->getDepartment()->findRepartition($period)) {
+          if($cluster_name = $current_repartition->getCluster()) {
+              $query = $this->getWishQuery();
+              $query->where('t.student = :student_id')
+                    ->setParameter('student_id', $student_id)
+                    ->andWhere('r.cluster = :cluster')
+                    ->setParameter('cluster', $cluster_name())
+              ;
 
-        return $query->getQuery()
-                     ->getResult();
-      } else {
-          return array($wish);
+              return $query->getQuery()
+                           ->getResult()
+              ;
+          } else {
+              return array($wish);
+          }
       }
   }
 }

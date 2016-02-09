@@ -96,22 +96,6 @@ class DepartmentRepository extends EntityRepository
             ->getResult();
     }
 
-  public function getAllCluster($id)
-  {
-      $department = $this->getById($id);
-
-      if (null != $department->getCluster()) {
-        $query = $this->getDepartmentQuery();
-        $query->where('d.cluster = :cluster')
-              ->setParameter('cluster', $department->getCluster());
-
-        return $query->getQuery()
-                     ->getResult();
-      } else {
-        return array($department);
-      }
-  }
-
   public function getAdaptedUserList($rules)
   {
     $query = $this->getDepartmentQueryWithRepartitions();

@@ -58,7 +58,7 @@ class HospitalRepository extends EntityRepository
       $query->addOrderBy('h.name', 'asc')
             ->addOrderBy('d.name', 'asc');
 
-    if (null != $arg['limit'] and (preg_match('/^[s,h,d].id$/', $arg['limit']['type']) or $arg['limit']['type'] == "d.cluster")) {
+    if (null != $arg['limit'] and (preg_match('/^[s,h,d].id$/', $arg['limit']['type']) or $arg['limit']['type'] == "r.cluster")) {
       $query->andWhere($arg['limit']['type'] . ' = :value')
             ->setParameter('value', $arg['limit']['value']);
     }

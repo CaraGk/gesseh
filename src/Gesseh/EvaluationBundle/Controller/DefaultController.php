@@ -52,13 +52,6 @@ class DefaultController extends Controller
         if (!$department)
             throw $this->createNotFoundException('Unable to find department entity.');
 
-        /** Find other cluster's departments if exists */
-        if ($department->getCluster() != null) {
-            $cluster = $em->getRepository('GessehCoreBundle:Department')->getAllCluster($id);
-        } else {
-            $cluster = null;
-        }
-
         $eval = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvalByDepartment($id, $eval_limit);
 
         if ($eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId()))
@@ -70,7 +63,6 @@ class DefaultController extends Controller
             'department' => $department,
             'eval_form'  => $eval_form,
             'eval'       => $eval,
-            'cluster'    => $cluster,
         );
     }
 

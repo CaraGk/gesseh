@@ -91,9 +91,11 @@ class SimulationController extends Controller
       if(!$wish)
           throw $this->createNotFoundException('Unable to find Wish entity');
 
+      $period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
+
         $rank = $wish->getRank();
         if ($rank > 1) {
-            $wishes_before = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($simstudent->getStudent(), $rank - 1);
+            $wishes_before = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($simstudent->getStudent(), $rank - 1, $period);
             foreach ($wishes_before as $wish_before) {
                 $wish_before->setRank($rank);
                 $em->persist($wish_before);
@@ -128,10 +130,12 @@ class SimulationController extends Controller
       if(!$wish)
         throw $this->createNotFoundException('Unable to find Wish entity');
 
+      $period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
+
         $rank = $wish->getRank();
         $max_rank = $em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($simstudent->getStudent());
         if ($rank < $max_rank) {
-          $wishes_after = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($simstudent->getStudent(), $rank + 1);
+          $wishes_after = $em ->getRepository('GessehSimulationBundle:Wish')->findByStudentAndRank($simstudent->getStudent(), $rank + 1, $period);
           foreach ($wishes_after as $wish_after) {
             $wish_after->setRank($rank);
             $em->persist($wish_after);
@@ -250,17 +254,17 @@ class SimulationController extends Controller
         if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
             throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
 
-        $last_period = $em->getRepository('GessehCoreBundle:Period')->getLast();
+        $last_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getLast()->getPeriod();
         $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($last_period->getId());
 
         foreach ($repartitions as $repartition) {
             $department_table[$repartition->getDepartment()->getId()] = $repartition->getNumber();
             if ($repartition->getCluster() != null) {
-                $department_table['cl_'.$repartition->getCluster()][] = $repartition->getDepartment->getId();
+                $department_table['cl_'.$repartition->getCluster()][] = $repartition->getDepartment()->getId();
             }
         }
 
-        $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em);
+        $em->getRepository('GessehSimulationBundle:Simulation')->doSimulation($department_table, $em, $last_period);
 
         $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été actualisées');
 

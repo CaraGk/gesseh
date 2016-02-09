@@ -154,24 +154,26 @@ class SimulationAdminController extends Controller
       }
 
       $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getAllValid();
-      $last_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getLastActive();
+      $period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
 
       foreach ($sims as $sim) {
-        if ($sim->getDepartment()->getCluster() != null) {
-            $clusters = $em->getRepository('GessehCoreBundle:Department')->getAllCluster($sim->getDepartment()->getId());
+        if ($current_repartition = $sim->getDepartment()->findRepartition($period)) {
+            if($cluster_name = $repartition->getCluster()) {
+                $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
 
-            foreach ($clusters as $cluster) {
-                $placement = new Placement();
-                $placement->setStudent($sim->getStudent());
-                $placement->setDepartment($cluster);
-                $placement->setPeriod($last_period->getPeriod());
-                $em->persist($placement);
+                foreach ($other_repartitions as $other_repartition) {
+                    $placement = new Placement();
+                    $placement->setStudent($sim->getStudent());
+                    $placement->setDepartment($other_repartition->getDepartment());
+                    $placement->setPeriod($period);
+                    $em->persist($placement);
+                }
             }
         } else {
             $placement = new Placement();
             $placement->setStudent($sim->getStudent());
             $placement->setDepartment($sim->getDepartment());
-            $placement->setPeriod($last_period->getPeriod());
+            $placement->setPeriod($period);
             $em->persist($placement);
         }
       }

@@ -49,14 +49,17 @@ class PlacementHandler
 
   public function onSuccess(Placement $placement)
   {
-      if ($placement->getDepartment()->getCluster()) {
-        $clusters = $this->em->getRepository('GessehCoreBundle:Department')->getAllCluster($placement->getDepartment());
+      $period = $placement->getPeriod();
+      if ($current_repartition = $placement->getDepartment()->findRepartition($period)) {
+          if($cluster_name = $current_repartition->getCluster()) {
+              $other_repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
+          }
 
-        foreach ($clusters as $cluster) {
+        foreach ($repartitions as $repartition) {
             $placement_cluster = new Placement();
             $placement_cluster->setStudent($placement->getStudent());
-            $placement_cluster->setDepartment($cluster);
-            $placement_cluster->setPeriod($placement->getPeriod());
+            $placement_cluster->setDepartment($repartition->getDepartment());
+            $placement_cluster->setPeriod($period());
             $this->em->persist($placement_cluster);
         }
     } else {

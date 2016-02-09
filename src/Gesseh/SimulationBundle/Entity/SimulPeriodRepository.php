@@ -44,4 +44,32 @@ class SimulPeriodRepository extends EntityRepository
 
     return $query->getQuery()->getSingleResult();
   }
+
+  public function getActive()
+  {
+    $query = $this->createQueryBuilder('p')
+                  ->where('p.begin < :now')
+                  ->andWhere('p.end > :now')
+                  ->setParameter('now', new \DateTime('now'))
+                  ->setMaxResults(1);
+    ;
+
+    return $query->getQuery()
+                 ->getOneOrNullResult()
+    ;
+  }
+
+  public function getLast()
+  {
+    $query = $this->createQueryBuilder('p')
+                  ->where('p.begin < :now')
+                  ->setParameter('now', new \DateTime('now'))
+                  ->orderBy('p.end', 'desc')
+                  ->setMaxResults(1);
+    ;
+
+    return $query->getQuery()
+                 ->getOneOrNullResult()
+    ;
+  }
 }

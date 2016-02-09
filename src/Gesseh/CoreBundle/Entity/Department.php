@@ -93,7 +93,7 @@ class Department
 
     public function __construct()
     {
-      $this->placements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->placements = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -278,6 +278,7 @@ class Department
      */
     public function removeRepartition(\Gesseh\CoreBundle\Entity\Repartition $repartition)
     {
+        $this->repartitions->removeElement($repartition);
     }
 
     /**
@@ -288,6 +289,20 @@ class Department
     public function getRepartitions()
     {
         return $this->repartitions;
+    }
+
+    /**
+     * Find repartition
+     *
+     * @return Gesseh\CoreBundle\Entity\Repartition $repartition
+     */
+    public function findRepartition($period)
+    {
+        foreach($this->repartitions as $repartition) {
+            if($repartition->getPeriod() == $period) {
+                return $repartition;
+            }
+        }
     }
 
     /**

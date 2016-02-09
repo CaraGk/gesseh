@@ -81,13 +81,16 @@ class SectorRuleRepository extends EntityRepository
     }
 
     $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getStudentWishList($simstudent->getId()); /* student's wish list */
+    $period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
 
     foreach ($wishes as $wish) {
         array_push($rules['department']['NOT'], $wish->getDepartment()->getId()); /* don't choose again a department you've already chosen */
-        if ($wish->getDepartment()->getCluster() != null) { /* don't choose a department linked to a department you've already chosen */
-            $clusters = $em->getRepository('GessehCoreBundle:Department')->getAllCluster($wish->getDepartment()->getId());
-            foreach ($clusters as $cluster) {
-                array_push($rules['department']['NOT'], $cluster->getId());
+        if($current_repartition = $wish->getDepartment()->findRepartition($period)) {
+            if($cluster_name = $current_repartition->getCluster()) { /* don't choose a department linked to a department you've already chosen */
+                $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
+                foreach ($other_repartitions as $other_repartition) {
+                    array_push($rules['department']['NOT'], $other_repartition->getDepartment()->getId());
+                }
             }
         }
     }
