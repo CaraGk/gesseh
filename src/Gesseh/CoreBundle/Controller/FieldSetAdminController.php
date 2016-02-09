@@ -59,12 +59,10 @@ class FieldSetAdminController extends Controller
   public function newHospitalAction()
   {
     $em = $this->getDoctrine()->getManager();
-    $manager = $this->container->get('kdb_parameters.manager');
-    $mod_simul = $manager->findParamByName('simul_active');
     $limit = $this->get('request')->query->get('limit', null);
 
     $hospital = new Hospital();
-    $form   = $this->createForm(new HospitalType($mod_simul->getValue()), $hospital);
+    $form   = $this->createForm(new HospitalType(), $hospital);
     $formHandler = new HospitalHandler($form, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
@@ -88,8 +86,6 @@ class FieldSetAdminController extends Controller
   public function editHospitalAction($id)
   {
     $em = $this->getDoctrine()->getManager();
-    $manager = $this->container->get('kdb_parameters.manager');
-    $mod_simul = $manager->findParamByName('simul_active');
     $limit = $this->get('request')->query->get('limit', null);
 
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
@@ -97,7 +93,7 @@ class FieldSetAdminController extends Controller
     if (!$hospital)
       throw $this->createNotFoundException('Unable to find Hospital entity.');
 
-    $editForm = $this->createForm(new HospitalType($mod_simul->getValue()), $hospital);
+    $editForm = $this->createForm(new HospitalType(), $hospital);
     $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {

@@ -7,8 +7,7 @@
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
 */
 
-$(document).ready(function() {
-
+jQuery(document).ready(function() {
   function add_sub($container_id) {
     var $container = $($container_id);
     index = $container.children().length;

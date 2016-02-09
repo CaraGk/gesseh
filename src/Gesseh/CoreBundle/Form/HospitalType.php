@@ -19,13 +19,6 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class HospitalType extends AbstractType
 {
-  private $testSimulActive;
-
-  public function __construct($testSimulActive)
-  {
-    $this->testSimulActive = $testSimulActive;
-  }
-
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
@@ -34,12 +27,21 @@ class HospitalType extends AbstractType
       ->add('web')
       ->add('phone')
       ->add('departments', 'collection', array(
-        'type' => new DepartmentType($this->testSimulActive),
+        'type' => new DepartmentType(),
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,
         'by_reference' => false,
-      ));
+        'show_legend' => false,
+        'options' => array(
+            'label_render' => false,
+            'widget_addon_prepend' => array(
+                'text' => '@',
+            ),
+            'horizontal_input_wrapper_class' => "col-lg-8",
+      )))
+      ->add('Enregistrer', 'submit')
+    ;
   }
 
   public function getName()

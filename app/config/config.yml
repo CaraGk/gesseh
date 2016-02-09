@@ -113,5 +113,13 @@ jms_payment_paypal:
     signature: %payment_paypal_sign%
 
 mopa_bootstrap:
-    form: ~
+    form: 
+        show_legend: false
+        show_child_legend: false
+        collection:
+            widget_remove_btn:
+                icon: trash
+                icon_inverted: true
+            widget_add_btn:
+                icon: plus-sign
     menu: ~
