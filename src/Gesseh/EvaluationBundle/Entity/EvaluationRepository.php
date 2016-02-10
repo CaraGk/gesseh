@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -23,11 +23,12 @@ class EvaluationRepository extends EntityRepository
      *
      * @return QueryBuilder
      */
-    public function getEvaluationQuery()
+    public function getBaseQuery()
     {
         return $this->createQueryBuilder('e')
             ->join('e.placement', 'p')
-            ->join('p.department', 'd')
+            ->join('p.repository', 'r')
+            ->join('r.department', 'd')
             ->join('e.evalCriteria', 'c')
         ;
     }
@@ -39,8 +40,8 @@ class EvaluationRepository extends EntityRepository
      */
     public function getEvalByDepartment($id, $date = null)
     {
-        $query = $this->getEvaluationQuery();
-        $query->join('p.period', 'q')
+        $query = $this->getBaseQuery();
+        $query->join('r.period', 'q')
             ->where('d.id = :id')
             ->setParameter('id', $id)
             ->andWhere('not(c.moderate = true and e.moderated = false)')
@@ -60,7 +61,7 @@ class EvaluationRepository extends EntityRepository
 
         foreach ($results as $result) {
             $criteria = $result->getEvalCriteria();
-            $period_id = $result->getPlacement()->getPeriod()->getId();
+            $period_id = $result->getPlacement()->getRepartition()->getPeriod()->getId();
             $value = $result->getValue();
 
             if (!isset($calc[$criteria->getId()]['name'][0])) {
@@ -162,7 +163,7 @@ class EvaluationRepository extends EntityRepository
 
   public function getAllToModerate()
   {
-    $query = $this->getEvaluationQuery();
+    $query = $this->getBaseQuery();
     $query->where('e.moderated = false')
           ->addOrderBy('e.created_at', 'asc');
 
@@ -171,13 +172,13 @@ class EvaluationRepository extends EntityRepository
 
     public function studentHasNonEvaluated($student, $current_period, $count_placements)
     {
-        $query = $this->getEvaluationQuery();
+        $query = $this->getBaseQuery();
         $query->select('COUNT(DISTINCT p.id)')
               ->where('p.student = :student')
               ->setParameter('student', $student);
 
         if ($current_period != null) {
-            $query->andWhere('p.period != :current_period')
+            $query->andWhere('r.period != :current_period')
                   ->setParameter('current_period', $current_period);
         }
 

@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -20,9 +20,9 @@ class SimulPeriodRepository extends EntityRepository
 {
   public function isSimulationActive()
   {
-    $query = $this->createQueryBuilder('p')
-                  ->where('p.begin < :now')
-                  ->andWhere('p.end > :now')
+    $query = $this->createQueryBuilder('s')
+                  ->where('s.begin < :now')
+                  ->andWhere('s.end > :now')
                     ->setParameter('now', new \DateTime('now'));
 
     if ($query->getQuery()->getResult())
@@ -33,13 +33,13 @@ class SimulPeriodRepository extends EntityRepository
 
   public function getLastActive()
   {
-    $query = $this->createQueryBuilder('p')
-                  ->join('p.period', 'q')
-                  ->addSelect('q')
-                  ->where('p.end < :now')
-                  ->andWhere('q.begin < :now')
+    $query = $this->createQueryBuilder('s')
+                  ->join('s.period', 'p')
+                  ->addSelect('p')
+                  ->where('s.end < :now')
+                  ->andWhere('s.begin < :now')
                     ->setParameter('now', new \DateTime('now'))
-                  ->orderBy('p.end', 'desc')
+                  ->orderBy('s.end', 'desc')
                   ->setMaxResults(1);
 
     return $query->getQuery()->getSingleResult();
@@ -47,9 +47,9 @@ class SimulPeriodRepository extends EntityRepository
 
   public function getActive()
   {
-    $query = $this->createQueryBuilder('p')
-                  ->where('p.begin < :now')
-                  ->andWhere('p.end > :now')
+    $query = $this->createQueryBuilder('s')
+                  ->where('s.begin < :now')
+                  ->andWhere('s.end > :now')
                   ->setParameter('now', new \DateTime('now'))
                   ->setMaxResults(1);
     ;
@@ -61,10 +61,10 @@ class SimulPeriodRepository extends EntityRepository
 
   public function getLast()
   {
-    $query = $this->createQueryBuilder('p')
-                  ->where('p.begin < :now')
+    $query = $this->createQueryBuilder('s')
+                  ->where('s.begin < :now')
                   ->setParameter('now', new \DateTime('now'))
-                  ->orderBy('p.end', 'desc')
+                  ->orderBy('s.end', 'desc')
                   ->setMaxResults(1);
     ;
 

@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -161,10 +161,11 @@ class SimulationAdminController extends Controller
             if($cluster_name = $repartition->getCluster()) {
                 $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
 
-                foreach ($other_repartitions as $other_repartition) {
+                foreach ($other_repartitions as $repartition) {
                     $placement = new Placement();
                     $placement->setStudent($sim->getStudent());
-                    $placement->setDepartment($other_repartition->getDepartment());
+                    $placement->setDepartment($repartition->getDepartment());
+                    $placement->setRepartition($repartition);
                     $placement->setPeriod($period);
                     $em->persist($placement);
                 }

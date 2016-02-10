@@ -15,9 +15,9 @@
 {% else %}
     <li class="entity placement">
 {% endif %}
-    <div class="field placement_period">{{ placement.period }}</div>
+    <div class="field placement_period">{{ placement.repartition.period }}</div>
     <div class="field placement_student"><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 's.id', 'value': placement.student.id, 'description': placement.student.surname ~ ' ' ~ placement.student.name}}) }}" title="Afficher les stages de l'étudiant {{ placement.student }}">{{ placement.student }}</a></div>
-    <div class="field placement_department"><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 'd.id', 'value': placement.department.id, 'description': placement.department.name ~ ' à ' ~ placement.department.hospital.name}}) }}" title="Afficher les étudiants par stage dans le service {{ placement.department }}">{{ placement.department }}</a></div>
+    <div class="field placement_department"><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 'd.id', 'value': placement.repartition.department.id, 'description': placement.repartition.department.name ~ ' à ' ~ placement.repartition.department.hospital.name}}) }}" title="Afficher les étudiants par stage dans le service {{ placement.repartition.department }}">{{ placement.repartition.department }}</a></div>
     <ul class="actions">
         <li class=""><a href="{{ path('GCore_PAPlacementEdit', {'id': placement.id}) }}?{{ app.request.queryString }}#placement_{{ placement.id }}" title="Modifier le stage" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
         <li class=""><a href="{{ path('GCore_PAPlacementDelete', {'id': placement.id}) }}?{{ app.request.queryString }}" title="Supprimer le stage" class="confirm delete" confirm="Attention ! Cette opération va supprimer le stage et tous les éléments qui s'y rapportent. Voulez-vous continuer ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>

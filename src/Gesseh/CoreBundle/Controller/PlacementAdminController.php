@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -170,7 +170,7 @@ class PlacementAdminController extends Controller
     $formHandler = new PlacementHandler($form, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
-      $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" modifié.');
+      $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getRepartition()->getDepartment() . $placement->getRepartition()->getPeriod() . '" modifié.');
 
       return $this->redirect($this->generateUrl('GCore_PAPlacementIndex'));
     }
@@ -209,7 +209,7 @@ class PlacementAdminController extends Controller
     $formHandler = new PlacementHandler($form, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
-      $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" enregistré.');
+      $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getRepartition()->getDepartment() . $placement->getRepartition()->getPeriod() . '" enregistré.');
 
       return $this->redirect($this->generateUrl('GCore_PAPlacementIndex'));
     }
@@ -246,7 +246,7 @@ class PlacementAdminController extends Controller
     $em->remove($placement);
     $em->flush();
 
-    $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getDepartment() . $placement->getPeriod() . '" supprimé.');
+    $this->get('session')->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getRepartition()->getDepartment() . $placement->getRepartition()->getPeriod() . '" supprimé.');
 
     return $this->redirect($this->generateUrl('GCore_PAPlacementIndex'));
   }

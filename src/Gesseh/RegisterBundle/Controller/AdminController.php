@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2015 Pierre-François Angrand
+ * @copyright: Copyright 2015-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -191,10 +191,10 @@ class AdminController extends Controller
             ;
             $count = 0;
             foreach ($membership->getStudent()->getPlacements() as $placement) {
-                if ($placement->getPeriod()->getEnd() < new \DateTime('now')) {
+                if ($placement->getRepartition()->getPeriod()->getEnd() < new \DateTime('now')) {
                     $count++;
                     $phpExcelObject->setActiveSheetIndex(0)
-                        ->setCellValue($columns[$placement->getDepartment()->getSector()->getName()].$i, 'oui');
+                        ->setCellValue($columns[$placement->getRepartiton()->getDepartment()->getSector()->getName()].$i, 'oui');
                 }
             }
             $phpExcelObject->setActiveSheetIndex(0)

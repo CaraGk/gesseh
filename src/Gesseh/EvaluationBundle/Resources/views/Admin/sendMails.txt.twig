@@ -5,7 +5,7 @@ Tu reçois ce mail de rappel car tu n'as pas évalué certains stages que tu as 
 Voici la liste des stages restant à évaluer :
 
 {% for placement in student.placements %}
-    - {{ placement.department.name }} à {{ placement.department.hospital.name }} du {{ placement.period.begin|date('d-m-Y') }} au {{ placement.period.end|date('d-m-Y') }} (http://{{ app.request.host }}{{ path('GEval_DEval', {'id': placement.id}) }})
+    - {{ placement.repartition.department.name }} à {{ placement.repartition.department.hospital.name }} du {{ placement.repartition.period.begin|date('d-m-Y') }} au {{ placement.repartition.period.end|date('d-m-Y') }} (http://{{ app.request.host }}{{ path('GEval_DEval', {'id': placement.id}) }})
 {% endfor %}
 
 Merci de ta participation.

@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -49,17 +49,15 @@ class PlacementHandler
 
   public function onSuccess(Placement $placement)
   {
-      $period = $placement->getPeriod();
-      if ($current_repartition = $placement->getDepartment()->findRepartition($period)) {
-          if($cluster_name = $current_repartition->getCluster()) {
-              $other_repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
-          }
-
-        foreach ($repartitions as $repartition) {
+    $period = $placement->getRepartition()->getPeriod();
+    if($cluster_name = $placement->getRepartition()->getCluster()) {
+        $other_repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
+        foreach ($other_repartitions as $repartition) {
             $placement_cluster = new Placement();
             $placement_cluster->setStudent($placement->getStudent());
             $placement_cluster->setDepartment($repartition->getDepartment());
             $placement_cluster->setPeriod($period());
+            $placement_cluster->setRepartition($repartition);
             $this->em->persist($placement_cluster);
         }
     } else {

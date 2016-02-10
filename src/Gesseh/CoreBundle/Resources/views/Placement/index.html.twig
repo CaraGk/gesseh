@@ -8,9 +8,9 @@
     <ul class="entities placements">
         {% for placement in placements %}
             <li class="field entity placement">
-                <div class="field entity_item period">{{ placement.period }} : </div>
-                <div class="field entity_item fieldset">{{ placement.department.name }} à {{ placement.department.hospital }}</div>
-                <div class="field entity_item department_sector">({{ placement.department.sector.name }})</div>
+                <div class="field entity_item period">{{ placement.repartition.period }} : </div>
+                <div class="field entity_item fieldset">{{ placement.repartition.department.name }} à {{ placement.repartition.department.hospital }}</div>
+                <div class="field entity_item department_sector">({{ placement.repartition.department.sector.name }})</div>
                 <ul class="actions">
                     <li><a href="{{ path('GUser_SListStudents', { 'id': placement.id })}}" title="Voir les autres étudiants"><img src="{{ asset('bundles/gessehcore/images/User.png') }}" alt="Co-internes"></a></li>
                     {% if kparam('eval_active') == true %}

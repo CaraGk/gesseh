@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -18,24 +18,27 @@ use Doctrine\ORM\EntityRepository;
  */
 class PlacementRepository extends EntityRepository
 {
-  public function getPlacementQuery()
+  public function getBaseQuery()
   {
     return $this->createQueryBuilder('p')
-                ->join('p.period', 'q')
                 ->join('p.student', 's')
-                ->join('p.department', 'd')
+                ->join('p.repartition', 'r')
+                ->join('r.period', 'q')
+                ->join('r.department', 'd')
                 ->join('s.user', 'u')
                 ->join('d.hospital', 'h')
                 ->join('d.sector', 't')
+                ->addSelect('r')
                 ->addSelect('q')
                 ->addSelect('d')
                 ->addSelect('h')
-                ->addSelect('t');
+                ->addSelect('t')
+    ;
   }
 
   public function getByUsername($user, $id = null)
   {
-    $query = $this->getPlacementQuery();
+    $query = $this->getBaseQuery();
     $query->where('u.username = :user')
             ->setParameter('user', $user)
           ->addOrderBy('q.begin', 'desc')
@@ -54,7 +57,7 @@ class PlacementRepository extends EntityRepository
 
   public function getAll($limit = null)
   {
-    $query = $this->getPlacementQuery();
+    $query = $this->getBaseQuery();
     $query->addOrderBy('q.begin', 'desc')
           ->addOrderBy('s.surname', 'asc')
           ->addOrderBy('s.name', 'asc')
@@ -70,18 +73,23 @@ class PlacementRepository extends EntityRepository
     return $query->getQuery();
   }
 
-  public function getCountByStudentWithoutCurrentPeriod($student, $current_period)
+  public function getCountByStudentWithoutCurrentPeriod($student, $current_period = null)
   {
       $query = $this->createQueryBuilder('p')
                     ->select('COUNT(p)')
                     ->where('p.student = :student')
-                    ->setParameter('student', $student);
+                    ->setParameter('student', $student)
+      ;
 
     if ($current_period != null) {
-        $query->andWhere('p.period != :current_period')
-              ->setParameter('current_period', $current_period);
+        $query->join('p.repartition', 'r')
+              ->andWhere('r.period != :current_period')
+              ->setParameter('current_period', $current_period)
+        ;
     }
 
-    return $query->getQuery()->getSingleScalarResult();
+      return $query->getQuery()
+                   ->getSingleScalarResult()
+      ;
   }
 }

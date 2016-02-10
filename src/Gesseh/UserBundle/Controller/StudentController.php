@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -99,7 +99,7 @@ class StudentController extends Controller
       if (!$placement)
           throw $this->createNotFoundException('Unable to find placement entity.');
 
-      $students = $em->getRepository('GessehUserBundle:Student')->getSamePlacement($placement->getPeriod()->getId(), $placement->getDepartment()->getId());
+      $students = $em->getRepository('GessehUserBundle:Student')->getSamePlacement($placement->getRepartition()->getPeriod()->getId(), $placement->getRepartition()->getDepartment()->getId());
 
       return array(
           'students'  => $students,
