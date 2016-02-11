@@ -70,26 +70,9 @@ class Department
     private $sector;
 
     /**
-     * @var smallint $number
-     *
-     * @ORM\Column(name="number", type="smallint", nullable=true)
-     */
-    private $number;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Placement", mappedBy="department", cascade={"remove"})
-     */
-    private $placements;
-
-    /**
      * @ORM\OneToMany(targetEntity="Repartition", mappedBy="department", cascade={"remove"})
      */
     private $repartitions;
-
-    /**
-     * @ORM\Column(name="cluster", type="string", length=100, nullable=true)
-     */
-    private $cluster;
 
     public function __construct()
     {
@@ -210,55 +193,6 @@ class Department
     public function getSector()
     {
         return $this->sector;
-    }
-
-    /**
-     * Set number
-     *
-     * @param smallint $number
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
-    }
-
-    /**
-     * Get number
-     *
-     * @return smallint
-     */
-    public function getNumber()
-    {
-        return $this->number;
-    }
-
-    /**
-     * Add placements
-     *
-     * @param Gesseh\CoreBundle\Entity\Placement $placements
-     */
-    public function addPlacement(\Gesseh\CoreBundle\Entity\Placement $placements)
-    {
-        $this->placements[] = $placements;
-    }
-
-    /**
-     * Remove placements
-     *
-     * @param Gesseh\CoreBundle\Entity\Placement $placements
-     */
-    public function removePlacement(\Gesseh\CoreBundle\Entity\Placement $placements)
-    {
-    }
-
-    /**
-     * Get placements
-     *
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getPlacements()
-    {
-        return $this->placements;
     }
 
     /**

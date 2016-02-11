@@ -27,7 +27,7 @@ class EvaluationRepository extends EntityRepository
     {
         return $this->createQueryBuilder('e')
             ->join('e.placement', 'p')
-            ->join('p.repository', 'r')
+            ->join('p.repartition', 'r')
             ->join('r.department', 'd')
             ->join('e.evalCriteria', 'c')
         ;
