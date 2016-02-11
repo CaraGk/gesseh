@@ -60,10 +60,11 @@ class FieldSetAdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $limit = $this->get('request')->query->get('limit', null);
+    $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
 
     $hospital = new Hospital();
     $form   = $this->createForm(new HospitalType(), $hospital);
-    $formHandler = new HospitalHandler($form, $this->get('request'), $em);
+    $formHandler = new HospitalHandler($form, $this->get('request'), $em, $periods);
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" enregistré.');
@@ -87,6 +88,7 @@ class FieldSetAdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $limit = $this->get('request')->query->get('limit', null);
+    $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
 
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
 
@@ -94,7 +96,7 @@ class FieldSetAdminController extends Controller
       throw $this->createNotFoundException('Unable to find Hospital entity.');
 
     $editForm = $this->createForm(new HospitalType(), $hospital);
-    $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
+    $formHandler = new HospitalHandler($editForm, $this->get('request'), $em, $periods);
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" modifié.');
@@ -275,12 +277,13 @@ class FieldSetAdminController extends Controller
     $em = $this->getDoctrine()->getManager();
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
     $limit = $this->get('request')->query->get('limit', null);
+    $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
 
     if (!$hospital)
       throw $this->createNotFoundException('Unable to find Hospital entity.');
 
     $editForm = $this->createForm(new HospitalDescriptionType(), $hospital);
-    $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
+    $formHandler = new HospitalHandler($editForm, $this->get('request'), $em, $periods);
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Description de l\'hôpital "' . $hospital->getName() . '" enregistrée.');
