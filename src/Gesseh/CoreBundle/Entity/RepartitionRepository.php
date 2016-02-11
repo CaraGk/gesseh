@@ -18,7 +18,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class RepartitionRepository extends EntityRepository
 {
-    public function getQuery()
+    public function getBaseQuery()
     {
         return $this->createQueryBuilder('r')
                     ->join('r.department', 'd')
@@ -33,9 +33,11 @@ class RepartitionRepository extends EntityRepository
 
     public function getByPeriodQuery($period_id)
     {
-        $query = $this->getQuery();
+        $query = $this->getBaseQuery();
         return $query->where('p.id = :period_id')
                      ->setParameter('period_id', $period_id)
+                     ->addOrderBy('h.name', 'asc')
+                     ->addOrderBy('d.name', 'asc')
         ;
     }
 
@@ -52,6 +54,17 @@ class RepartitionRepository extends EntityRepository
     public function getByPeriod($period_id)
     {
         return $this->getByPeriodQuery($period_id)
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    public function getByDepartment($department_id)
+    {
+        return $this->getBaseQuery()
+                    ->where('d.id = :department_id')
+                    ->setParameter('department_id', $department_id)
+                    ->orderBy('p.begin', 'desc')
                     ->getQuery()
                     ->getResult()
         ;

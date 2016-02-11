@@ -11,15 +11,18 @@
 
 namespace Gesseh\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Gesseh\CoreBundle\Entity\Period;
-use Gesseh\CoreBundle\Form\PeriodType;
-use Gesseh\CoreBundle\Form\PeriodHandler;
-use Gesseh\CoreBundle\Entity\Placement;
-use Gesseh\CoreBundle\Form\PlacementType;
-use Gesseh\CoreBundle\Form\PlacementHandler;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Gesseh\CoreBundle\Entity\Period,
+    Gesseh\CoreBundle\Form\PeriodType,
+    Gesseh\CoreBundle\Form\PeriodHandler;
+use Gesseh\CoreBundle\Entity\Placement,
+    Gesseh\CoreBundle\Form\PlacementType,
+    Gesseh\CoreBundle\Form\PlacementHandler;
+use Gesseh\CoreBundle\Entity\Repartition,
+    Gesseh\CoreBundle\Form\RepartitionsType,
+    Gesseh\CoreBundle\Form\RepartitionsHandler;
 
 /**
  * PlacementAdmin controller.
@@ -58,9 +61,21 @@ class PlacementAdminController extends Controller
     $formHandler = new PeriodHandler($form, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
-      $this->get('session')->getFlashBag()->add('notice', 'Session "' . $period . '" enregistrée.');
+        $last_period = $em->getRepository('GessehCoreBundle:Period')->getLast();
+        $current_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($last_period);
+        foreach($current_repartitions as $repartition) {
+            $new_repartition = new Repartition();
+            $new_repartition->setPeriod($period);
+            $new_repartition->setDepartment($repartition->getDepartment());
+            $new_repartition->setNumber($repartition->getNumber());
+            $new_repartition->setCluster($repartition->getCluster());
+            $em->persist($new_repartition);
+        }
+        $em->flush();
 
-      return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
+        $this->get('session')->getFlashBag()->add('notice', 'Session "' . $period . '" enregistrée.');
+
+        return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
     }
 
     return array(
@@ -250,4 +265,60 @@ class PlacementAdminController extends Controller
 
     return $this->redirect($this->generateUrl('GCore_PAPlacementIndex'));
   }
+
+    /**
+     * @Route("/period/{period_id}/repartitions", name="GCore_PARepartitionsPeriod", requirements={"period_id" = "\d+"})
+     * @Template("GessehCoreBundle:PlacementAdmin:repartitionsEdit.html.twig")
+     */
+    public function repartitionsForPeriodEditAction($period_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $period = $em->getRepository('GessehCoreBundle:Period')->find($period_id);
+
+        if(!$period)
+            throw $this->createNotFoundException('Unable to find period entity.');
+
+        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($period_id);
+
+        $form = $this->createForm(new RepartitionsType($repartitions, 'period'), $repartitions);
+        $form_handler = new RepartitionsHandler($form, $this->get('request'), $em, $repartitions);
+        if($form_handler->process()) {
+            $this->get('session')->getFlashBag()->add('notice', 'Répartition pour la période "' . $period . '" enregistrée.');
+
+            return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
+        }
+
+        return array(
+            'origin'     => $period,
+            'form' => $form->createView(),
+        );
+    }
+
+    /**
+     * @Route("/department/{department_id}/repartitions", name="GCore_PARepartitionsDepartment", requirements={"department_id" = "\d+"})
+     * @Template("GessehCoreBundle:PlacementAdmin:repartitionsEdit.html.twig")
+     */
+    public function repartitionsForDepartmentEditAction($department_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $department = $em->getRepository('GessehCoreBundle:Department')->find($department_id);
+
+        if(!$department)
+            throw $this->createNotFoundException('Unable to find period entity.');
+
+        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByDepartment($department_id);
+
+        $form = $this->createForm(new RepartitionsType($repartitions, 'department'), $repartitions);
+        $form_handler = new RepartitionsHandler($form, $this->get('request'), $em, $repartitions);
+        if ($form_handler->process()) {
+            $this->get('session')->getFlashBag()->add('notice', 'Répartition pour le terrain "' . $department . '" enregistrée.');
+
+            return $this->redirect($this->generateUrl('GCore_FSIndex'));
+        }
+
+        return array(
+            'origin'     => $department,
+            'form' => $form->createView(),
+        );
+    }
 }
