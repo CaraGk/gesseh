@@ -29,7 +29,7 @@ class Version20160211204325 extends AbstractMigration
     /**
      * @var Schema $schema
      */
-    public function postdown(Schema $schema)
+    public function postDown(Schema $schema)
     {
         $this->connection->exec('
             DROP PROCEDURE IF EXISTS copy_repartition;
