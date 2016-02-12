@@ -32,7 +32,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ ]
+    bundles:        [MopaBootstrapBundle]
     # java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -123,3 +123,10 @@ mopa_bootstrap:
             widget_add_btn:
                 icon: plus-sign
     menu: ~
+    navbar: ~
+    initializr: 
+        meta: 
+            keywords: "choix de stage, simulation, interne, internat, évalutations de stage"
+            author_name: "Pierre-François Angrand"
+            nofollow: false
+            noindex: false

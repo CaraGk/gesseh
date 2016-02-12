@@ -1,12 +1,6 @@
-{% extends '::base.html.twig' %}
+{% extends '::layout.html.twig' %}
 
 {% block title %}{{ parent() }}{% endblock %}
-
-{% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/main.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
-
-{% block logo %}{{ parent() }}{% endblock %}
-
-{% block sitename %}{{ parent() }}{% endblock %}
 
 {% block nav %}
   <div class="header">Général</div>
@@ -23,21 +17,10 @@
   {% endif %}
 {% endblock %}
 
-{% block body %}
-  <h1>{% block titlecontent %}{% endblock %}</h1>
+{% block titlecontent %}{% endblock %}
 
-  {% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-      <div class="flash{{ type }}">{{ flashMessage }}</div>
-    {% endfor %}
-  {% endfor %}
+{% block actionscontent %}{% endblock %}
 
+{% block content %}{% endblock %}
 
-  <ul id="submenu">{% block actionscontent %}{% endblock %}</ul>
-
-  <div>{% block content %}{% endblock %}</div>
-{% endblock %}
-
-{% block javascripts %}
-  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-{% endblock %}
+{% block javascripts %}{{ parent() }}{% endblock %}

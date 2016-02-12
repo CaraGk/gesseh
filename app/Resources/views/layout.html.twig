@@ -1,0 +1,109 @@
+{% extends 'MopaBootstrapBundle::base_initializr.html.twig' %}
+
+{% block head_style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    {% stylesheets
+        '@GessehCoreBundle/Resources/public/css/main.css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock head_style %}
+
+{% block head_script %}
+    {% javascripts
+        'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    {% endjavascripts %}
+{% endblock head_script %}
+
+{% block title %}
+    {{ kparam('title') }}
+{% endblock title %}
+
+{% block favicon %}
+    <link rel="shortcut icon" href="{{ asset('bundles/gessehcore/images/favicon.ico') }}" />
+{% endblock favicon %}
+
+{% block head_bottom %}
+    <meta name="application-name" content="GESSEH" />
+{% endblock head_bottom %}
+
+{% block body_tag %}
+    <body>
+{% endblock body_tag %}
+
+{% block container_div_start %}
+    <div class="container-fluid">
+{% endblock container_div_start %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block page_header %}
+<header id="header" class="row">
+    <div class="col-sm-2 hidden-xs">
+        {% block logo %}<a href="{{ path('homepage') }}"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo.png') }}" alt="logo" /></a>{% endblock logo %}
+    </div>
+    <h1 class="col-sm-8 text-center">{% block headline %}{{ kparam('title') }}{% endblock headline %}</h1>
+    <ul class="col-sm-2">
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <li><a href="{{ path('GUser_SEdit') }}" title="Modifier mes informations personnelles">{{ app.user.username }}</a></li>
+        <li><a href="{{ path('fos_user_security_logout') }}" title="Se déconnecter">se déconnecter</a></li>
+        {% else %}
+        {% if kparam('reg_active') and kparam('reg_auto') %}
+        <li><a href="{{ path('GRegister_URegister') }}" title="S'inscrire et adhérer">S'inscrire</a></li>
+        {% endif %}
+        <li><a href="{{ path('fos_user_security_login') }}" title="Se connecter">Se connecter</a></li>
+        <li><a href="{{ path('fos_user_resetting_request') }}" title="Réinitialiser le mot de passe">Mot de passe oublié</a></li>
+        {% endif %}
+    </ul>
+</header>
+{% endblock page_header %}
+
+{% block flashes %}{{ parent() }}{% endblock flashes %}
+
+{% block content_row %}
+<div class="row">
+    <aside id="menu" class="col-lg-2 col-sm-3 col-xs-12">
+        {% block nav %}
+        {% endblock nav %}
+    </aside>
+    <section id="content" class="col-lg-10 col-sm-9 col-xs-12">
+            <h2 class="text-center">{% block titlecontent %}{% endblock titlecontent %}</h2>
+            <ul id="submenu" class="">{% block actionscontent %}{% endblock actionscontent %}</ul>
+            <div class="">{% block content %}{% endblock content %}</div>
+    </section>
+</div>
+{% endblock %}
+
+{% block footer_tag_start %}
+<footer id="footer" class="row">
+{% endblock footer_tag_start %}
+
+{% block footer %}
+<ul class="col-sm-6 col-xs-12 text-center">
+    <li><a href="https://github.com/CaraGk/gesseh/issues">Reporter un bug ou un souhait</a></li>
+</ul>
+<div class="miniature col-sm-6 col-xs-12">
+    <a href=https://github.com/CaraGk/gessehh"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo_small.png') }}" alt="gesseh" /></a> powered by <a href="http://symfony.com/"><img src="{{ asset('bundles/gessehcore/images/symfony_logo.png') }}" alt="symfony 2" /></a>
+</div>
+{% endblock footer %}
+
+{% block foot_script_assetic %}
+
+{% block javascripts %}
+{% javascripts
+'@MopaBootstrapBundle/Resources/public/bootstrap/js/*.js'
+'@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
+'@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
+'@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.js'
+'@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock javascripts %}
+
+{% endblock foot_script_assetic %}
