@@ -41,6 +41,20 @@ class Accreditation
     private $supervisor;
 
     /**
+     * @var date $begin
+     *
+     * @ORM\Column(name="begin", type="date")
+     */
+    private $begin;
+
+    /**
+     * @var date $end
+     *
+     * @ORM\Column(name="end", type="date")
+     */
+    private $end;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Department", inversedBy="accreditations", cascade={"persist"})
      * @ORM\JoinColumn(name="department_id", referencedColumnName="id")
      */
@@ -53,10 +67,17 @@ class Accreditation
     private $sector;
 
     /**
-    * @ORM\OneToOne(targetEntity="Gesseh\UserBundle\Entity\User", cascade={"persist", "remove"})
-    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-    */
+     * @ORM\OneToOne(targetEntity="Gesseh\UserBundle\Entity\User", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
     private $user;
+
+    /**
+     * @var text $comment
+     *
+     * @ORM\Column(name="comment", type="text", nullable=true)
+     */
+    private $comment;
 
     /**
      * Get id
@@ -89,6 +110,52 @@ class Accreditation
     public function getSupervisor()
     {
         return $this->supervisor;
+    }
+
+    /**
+     * Set begin
+     *
+     * @param \DateTime $begin
+     * @return Accreditation
+     */
+    public function setBegin($begin)
+    {
+        $this->begin = $begin;
+
+        return $this;
+    }
+
+    /**
+     * Get begin
+     *
+     * @return \DateTime
+     */
+    public function getBegin()
+    {
+        return $this->begin;
+    }
+
+    /**
+     * Set end
+     *
+     * @param \DateTime $end
+     * @return Accreditation
+     */
+    public function setEnd($end)
+    {
+        $this->end = $end;
+
+        return $this;
+    }
+
+    /**
+     * Get end
+     *
+     * @return \DateTime
+     */
+    public function getEnd()
+    {
+        return $this->end;
     }
 
     /**
@@ -158,5 +225,28 @@ class Accreditation
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set comment
+     *
+     * @param string $comment
+     * @return Accreditation
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
     }
 }
