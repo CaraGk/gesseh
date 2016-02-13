@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -39,6 +39,11 @@ class Sector
    */
   private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Accreditation", mappedBy="sector", cascade={"remove", "persist"})
+     */
+    private $accreditations;
+
   /**
    * @ORM\OneToMany(targetEntity="Department", mappedBy="sector", cascade={"remove", "persist"})
    */
@@ -47,6 +52,7 @@ class Sector
     public function __construct()
     {
         $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->accreditations = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -82,6 +88,39 @@ class Sector
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Add Accreditation
+     *
+     * @param Gesseh\CoreBundle\Entity\Accreditation $accreditation
+     * @return Sector
+     */
+    public function addAccreditatiton(\Gesseh\CoreBundle\Entity\Accreditation $accreditation)
+    {
+        $this->accreditations[] = $accreditation;
+
+        return $this;
+    }
+
+    /**
+     * Remove Accreditation
+     *
+     * @param Gesseh\CoreBundle\Entity\Accreditation $accreditation
+     */
+    public function removeAccreditation(\Gesseh\CoreBundle\Entity\Accreditation $accreditation)
+    {
+        $this->accreditations->removeElement($accreditation);
+    }
+
+    /**
+     * Get Accreditations
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getAccreditations()
+    {
+        return $this->accreditations;
     }
 
     /**

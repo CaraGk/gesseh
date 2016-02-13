@@ -62,6 +62,14 @@ class Period
     }
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->repartitions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return integer

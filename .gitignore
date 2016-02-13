@@ -1,7 +1,14 @@
-/web/bundles/
+/web/bundles/*
+/web/uploads/*
+/web/css/*
+/web/js/*
+/web/images/*
+/web/fonts/*
+/web/media/cache/*
 /app/bootstrap*
 /app/cache/*
 /app/logs/*
+/app/spool/*
 /vendor/
 /app/config/parameters.ini
 /app/config/parameters.yml
