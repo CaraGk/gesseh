@@ -291,18 +291,24 @@ class SimulationController extends Controller
       $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getAvailable($last_period);
       $left = array();
 
-      foreach($repartitions as $repartition) {
-        $left[$repartition->getDepartment()->getId()] = $repartition->getNumber();
-        if($sim = $em->getRepository('GessehSimulationBundle:Simulation')->getNumberLeft($repartition->getDepartment()->getId(), $simstudent->getId())) {
-          $left[$repartition->getDepartment()->getId()] = $sim->getExtra();
+      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentLeftForRank($simstudent->getId(), $last_period);
+      foreach($sims as $sim) {
+        $extra = $sim->getExtra();
+        foreach($sim->getDepartment()->getRepartitions() as $repartition) {
+          if($cluster_name = $repartition->getCluster()) {
+            foreach($em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($last_period, $cluster_name) as $other_repartition) {
+              $left[$other_repartition->getDepartment()->getId()] = $extra;
+            }
+          }
         }
+        $left[$repartition->getDepartment()->getId()] = $extra;
       }
 
-        if ($simid != null) {
-            $simname = $em->getRepository('GessehSimulationBundle:Simulation')->find($simid)->getStudent();
-        } else {
-            $simname = null;
-        }
+      if ($simid != null) {
+        $simname = $em->getRepository('GessehSimulationBundle:Simulation')->find($simid)->getStudent();
+      } else {
+        $simname = null;
+      }
 
       return array(
         'repartitions' => $repartitions,

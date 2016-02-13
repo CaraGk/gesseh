@@ -231,4 +231,23 @@ class SimulationRepository extends EntityRepository
 
     return $query->getQuery()->getOneOrNullResult();
   }
+
+  public function getDepartmentLeftForRank($rank, $period_id)
+  {
+      $query = $this->createQueryBuilder('t')
+                    ->join('t.department', 'd')
+                    ->join('d.repartitions', 'r')
+                    ->join('r.period', 'p')
+                    ->where('t.id < :rank')
+                    ->setParameter('rank', $rank)
+                    ->andWhere('p.id = :period_id')
+                    ->setParameter('period_id', $period_id)
+                    ->groupBy('t.department')
+                    ->orderBy('t.id', 'desc')
+    ;
+
+    return $query->getQuery()
+                 ->getResult()
+    ;
+  }
 }
