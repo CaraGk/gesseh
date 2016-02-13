@@ -29,6 +29,12 @@
             </ul>
         </div>
     {% endfor %}
-    <div class="content">Chef de service : {{ department.head }}</div>
+    <div class="content">Agréments :
+        <ul>
+            {% for accreditation in department.accreditations %}
+                <li>De {{ accreditation.begin|date('F Y') }} à {{ accreditation.end|date('F Y') }} : {{ accreditation.sector.name }} sous la responsabilité de {{ accreditation.supervisor }}</li>
+            {% endfor %}
+        </ul>
+    </div>
     <div class="content">{{ department.description|raw }}</div>
 {% endblock %}

@@ -26,7 +26,11 @@
                                 <h3>{{ department.hospital.name }} - {{ department.name }}</h2>
                                 <div class="description">
                                     <div class="title">Informations générales</div>
-                                    <div>Catégorie : {{ department.sector }}</div>
+                                    <ul>Agréments :
+                                        {% for accreditation in department.accreditations %}
+                                            <li>De {{ accreditation.begin }} à {{ accreditation.end }} : {{ accreditation.sector }} sous la responsabilité de {{ accreditation.supervisor }}.
+                                        {% endfor %}
+                                    </ul>
                                     <div>{{ department.description|raw }}</div>
                                 </div>
                                 <ul class="evaluations">

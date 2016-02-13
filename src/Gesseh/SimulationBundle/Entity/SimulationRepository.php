@@ -196,7 +196,10 @@ class SimulationRepository extends EntityRepository
 
     $query = $this->createQueryBuilder('t')
                   ->join('t.department', 'd')
-                  ->where('d.sector = :sector_id')
+                  ->join('d.accreditations', 'a')
+                  ->where('a.end > :now')
+                  ->setParameter('now', new \DateTime('now'))
+                  ->andWhere('a.sector = :sector_id')
                     ->setParameter('sector_id', $sector->getId())
                   ->andWhere('t.extra > :student_after')
                     ->setParameter('student_after', $student_after)

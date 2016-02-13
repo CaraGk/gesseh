@@ -22,10 +22,10 @@
 {% block content %}
     <ul class="entities hospitals">
         {% for hospital in hospitals %}
-            <li class="entity hospital">
+            <li class="entity hospital row">
                 <div class="field entity_title hospital_name"><a href="{{ path('GCore_FSIndex', {'limit': {'type': 'h.id', 'value': hospital.id, 'description': hospital.name}}) }}" title="Afficher les terrains de stage de l'hôpital '{{ hospital.name }}'">{{ hospital }}</a></div>
                 <ul class="actions">
-                    <li class="show"><a href="{{ path('GCore_FSShowHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Afficher les informations de l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" /></a></li>
+                    <li class=""><a href="{{ path('GCore_FSShowHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Afficher les informations de l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" /></a></li>
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="edit"><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Modifier l'hôpital '{{ hospital.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
                         <li class="list"><a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'h.id', 'value': hospital.id, 'description': hospital.name }}) }}" title="Afficher les stages dans l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
@@ -35,25 +35,39 @@
                 <ul class="subentities departments">
                     {% for department in hospital.departments %}
                                 {% for repartition in department.repartitions %}
-                    <li class="subentity department {% if repartition.number < 1 %}notactive{% endif %}">
-                            <div class="field subentity_title department_name">{{ department.name }}</div>
-                            <div class="field subentity_item department_head">({{ department.head }})</div>
-                            <div class="field subentity_item department_sector"><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: department.sector.id, description: department.sector.name}}) }}" title="Afficher les terrains de la catégorie {{ department.sector }}">{{ department.sector }}</a></div>
+                    <li class="row subentity department {% if repartition.number < 1 %}notactive{% endif %}">
+                            <div class="col-sm-3 field subentity_title department_name">{{ department.name }}</div>
+                            <ul class="col-sm-2 field subentity_item department_head">
+                                {% set current = false %}
+                                {% for accreditation in department.accreditations %}
+                                    {% if current != accreditation.supervisor %}
+                                        <li>{{ accreditation.supervisor }}</li>
+                                    {% endif %}
+                                    {% set current = accreditation.supervisor %}
+                                {% endfor %}
+                            </ul>
+                            <ul class="col-sm-2 field subentity_item department_sector">
+                                {% for accreditation in department.accreditations %}
+                                    <li><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: accreditation.sector.id, description: accreditation.sector.name}}) }}" title="Afficher les terrains de la catégorie {{ accreditation.sector }}">{{ accreditation.sector }}</a></li>
+                                {% endfor %}
+                            </ul>
                             {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}
                                 {% if repartition.cluster is not null %}
-                                    <div class="field subentity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'r.cluster', value: repartition.cluster, description: repartition.cluster }}) }}" title="Afficher les terrains du cluster {{ repartition.cluster }}">{{ repartition.cluster }}</a></div>
+                                    <div class="col-sm-1 field subentity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'r.cluster', value: repartition.cluster, description: repartition.cluster }}) }}" title="Afficher les terrains du cluster {{ repartition.cluster }}">Stage couplé</a></div>
+                                {% else %}
+                                    <div class="col-sm-1"> </div>
                                 {% endif %}
                                     {% if repartition.number > 1 %}
-                                        <div class="field subentity_item department_number">({{ repartition.number }} postes proposés)</div>
+                                        <div class="col-sm-2 field subentity_item department_number">{{ repartition.number }} postes</div>
                                     {% elseif repartition.number == 1 %}
-                                        <div class="field subentity_item department_number">(1 poste proposé)</div>
+                                        <div class="col-sm-2 field subentity_item department_number">1 poste</div>
                                     {% else %}
-                                        <div class="field empty department_number">(aucun poste proposé)</div>
+                                        <div class="col-sm-2 field empty department_number">aucun poste</div>
                                     {% endif %}
                             {% endif %}
                                 {% endfor %}
-                            <ul class="actions">
-                                <li class="show"><a href="{{ path('GCore_FSShowDepartment', { 'id': department.id, 'limit': limit }) }}" title="Afficher les informations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Afficher" /></a></li>
+                            <ul class="actions col-sm-2">
+                                <li class=""><a href="{{ path('GCore_FSShowDepartment', { 'id': department.id, 'limit': limit }) }}" title="Afficher les informations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Afficher" /></a></li>
                                 {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li class="stat"><a href="{{ path('GEval_DShow', { 'id': department.id, 'limit': limit }) }}" title="Afficher les évaluations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>{% endif %}
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <li class="list"><a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'd.id', 'value': department.id, 'description': department.name ~ ' à ' ~ department.hospital.name }}) }}" title="Afficher les stages associés au service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>

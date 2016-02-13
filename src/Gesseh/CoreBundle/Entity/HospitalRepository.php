@@ -25,9 +25,14 @@ class HospitalRepository extends EntityRepository
   {
     return $this->createQueryBuilder('h')
                 ->join('h.departments', 'd')
-                ->join('d.sector', 's')
+                ->join('d.accreditations', 'a')
+                ->join('a.sector', 's')
                 ->addSelect('d')
-                ->addSelect('s');
+                ->addSelect('a')
+                ->addSelect('s')
+                ->where('a.end > :now')
+                ->setParameter('now', new \DateTime('now'))
+    ;
   }
 
   public function getAllOrdered(array $orderBy = array ( 'h' => 'asc', 'd' => 'asc'))

@@ -11,24 +11,22 @@
 {% endblock %}
 
 {% block actionscontent %}
-    <ul class="actions">
-        {% if simname is not null %}
-            <li class=""><a class="button" href="{{ path('GSimul_SAList') }}" title="Retour à la simulation"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
-        {% else %}
-            <li class=""><a class="button" href="{{ path('GSimul_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels"><button type="button">Actualiser la simulation</button></a></li>
-            <li class=""><a class="button" href="{{ path('GSimul_SList', {simid: simid}) }}" title="Affiche le résultat de la simulation"><button type="button">Résultat de la simulation</button></a></li>
-        {% endif %}
-        <li class=""><a class="button" href="{{ path('GSimul_SLeft', {simid: simid}) }}" title="Affiche les postes restants au moment de mon choix"><button type="button">Mes postes restants</button></a></li>
-    </ul>
+    {% if simname is not null %}
+        <li class=""><a class="button" href="{{ path('GSimul_SAList') }}" title="Retour à la simulation"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
+    {% else %}
+        <li class=""><a class="button" href="{{ path('GSimul_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels"><button type="button">Actualiser la simulation</button></a></li>
+        <li class=""><a class="button" href="{{ path('GSimul_SList', {simid: simid}) }}" title="Affiche le résultat de la simulation"><button type="button">Résultat de la simulation</button></a></li>
+    {% endif %}
+    <li class=""><a class="button" href="{{ path('GSimul_SLeft', {simid: simid}) }}" title="Affiche les postes restants au moment de mon choix"><button type="button">Mes postes restants</button></a></li>
 {% endblock %}
 
 {% block content %}
     {% if not simstudent.active %}
-        <div class="content">Vous ne participez pas à la simulation. Pour participer à nouveau à la simulation et faire vos vœux, <a href="{{ path('GSimul_SGetin', {simid: simid}) }}">cliquez ici</a>.</div>
+        <div class="">Vous ne participez pas à la simulation. Pour participer à nouveau à la simulation et faire vos vœux, <a href="{{ path('GSimul_SGetin', {simid: simid}) }}">cliquez ici</a>.</div>
     {% else %}
-        <div class="content">Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, master, inter-CHU, etc.), <a href="{{ path('GSimul_SGetout', {simid: simid}) }}">cliquez ici</a></div>
-        <div class="content">Votre vœu retenu est : <strong>{{ simstudent.department }}</strong>. Au moment de votre choix, il reste {{ simstudent.extra }} place{% if simstudent.extra > 1 %}s{% endif %} pour ce poste.</div>
-        <div class="content">Devant vous, {{ missing }} personne{% if missing > 0 %}s n'ont{% else %} n'a{% endif %} pas de vœu validé par la simulation à ce jour.</div>
+        <div class="">Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, master, inter-CHU, etc.), <a href="{{ path('GSimul_SGetout', {simid: simid}) }}">cliquez ici</a></div>
+        <div class="">Votre vœu retenu est : <strong>{{ simstudent.department }}</strong>. Au moment de votre choix, il reste {{ simstudent.extra }} place{% if simstudent.extra > 1 %}s{% endif %} pour ce poste.</div>
+        <div class="">Devant vous, {{ missing }} personne{% if missing > 0 %}s n'ont{% else %} n'a{% endif %} pas de vœu validé par la simulation à ce jour.</div>
 
         <ul class="entities wishes">
             {% for wish in wishes %}
@@ -47,8 +45,10 @@
                         {% if repartition.cluster is not null %}
                             <div class="field entity_item cluster"><img src="{{ asset('bundles/gessehcore/images/Warning.png') }}" alt="Cluster" title="Ce terrain de stage fait partie d'un cluster" /></div>
                         {% endif %}
-                        <div class="field entity_item sector">({{ wish.department.sector.name }})</div>
-                        <div class="field entity_item number">{{ repartition.number }}</div>
+                        {% for accreditation in wish.department.accreditations %}
+                            <span class="field entity_item sector label label-info">{{ accreditation.sector.name }}</span>
+                        {% endfor %}
+                        <span class="field entity_item number badge">{{ repartition.number }}</span>
                     {% endfor %}
                     <ul class="actions">
                         <li class=""><a href="{{ path('GSimul_SUp', {wish_id: wish.id, simid: simid}) }}" title="Monter le vœu d'une place"><img src="{{ asset('bundles/gessehcore/images/Button_Up.png') }}" alt="Monter" /></a></li>

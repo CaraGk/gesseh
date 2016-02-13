@@ -24,9 +24,11 @@ class RepartitionRepository extends EntityRepository
                     ->join('r.department', 'd')
                     ->join('r.period', 'p')
                     ->join('d.hospital', 'h')
-                    ->join('d.sector', 's')
+                    ->join('d.accreditations', 'a')
+                    ->join('a.sector', 's')
                     ->addSelect('d')
                     ->addSelect('h')
+                    ->addSelect('a')
                     ->addSelect('s')
         ;
     }
@@ -73,7 +75,9 @@ class RepartitionRepository extends EntityRepository
     public function getByPeriodAndDepartmentSector($period_id, $sector_id)
     {
         $query = $this->getByPeriodQuery($period_id);
-        $query->andWhere('s.id = :sector_id')
+        $query->andWhere('a.end > :now')
+              ->setParameter('now', new \DateTime('now'))
+              ->andWhere('s.id = :sector_id')
               ->setParameter('sector_id', $sector_id)
         ;
 

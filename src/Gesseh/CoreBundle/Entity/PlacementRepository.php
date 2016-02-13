@@ -27,11 +27,13 @@ class PlacementRepository extends EntityRepository
                 ->join('r.department', 'd')
                 ->join('s.user', 'u')
                 ->join('d.hospital', 'h')
-                ->join('d.sector', 't')
+                ->join('d.accreditations', 'a')
+                ->join('a.sector', 't')
                 ->addSelect('r')
                 ->addSelect('q')
                 ->addSelect('d')
                 ->addSelect('h')
+                ->addSelect('a')
                 ->addSelect('t')
     ;
   }
