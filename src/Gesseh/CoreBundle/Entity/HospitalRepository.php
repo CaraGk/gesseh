@@ -47,7 +47,7 @@ class HospitalRepository extends EntityRepository
                  ->getResult();
   }
 
-  public function getAll(array $arg = null)
+  public function getAll(array $arg)
   {
       $query = $this->getHospitalQuery();
 

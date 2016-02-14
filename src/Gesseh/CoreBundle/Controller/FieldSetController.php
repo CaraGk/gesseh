@@ -52,6 +52,8 @@ class FieldSetController extends Controller
         $period = $em->getRepository('GessehCoreBundle:Period')->getLast();
         if($period) {
             $arg['period'] = $period->getId();
+        } else {
+            $arg['period'] = null;
         }
     } else {
         $arg['period'] = null;
