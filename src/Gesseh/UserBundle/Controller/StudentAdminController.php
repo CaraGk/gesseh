@@ -214,12 +214,25 @@ class StudentAdminController extends Controller
         '13' => '14e colonne',
         '14' => '15e colonne',
         '15' => '16e colonne',
+        '16' => '17e colonne',
+        '17' => '18e colonne',
+        '18' => '19e colonne',
+        '19' => '20e colonne',
+        '20' => '21e colonne',
+        '21' => '22e colonne',
     );
 
     $form = $this->createFormBuilder()
         ->add('file', 'file', array(
             'label'    => 'Fichier',
             'required' => true,
+        ))
+        ->add('title', 'choice', array(
+            'label' => 'Titre',
+            'required' => true,
+            'expanded' => false,
+            'multiple' => false,
+            'choices'  => $choices,
         ))
         ->add('surname', 'choice', array(
             'label'    => 'Nom',
@@ -242,17 +255,22 @@ class StudentAdminController extends Controller
             'multiple' => false,
             'choices'  => $choices,
         ))
-        ->add('phone', 'choice', array(
-            'label'    => 'Téléphone',
-            'required' => false,
+        ->add('birthday', 'choice', array(
+            'label'    => 'E-mail',
+            'required' => true,
             'expanded' => false,
             'multiple' => false,
             'choices'  => $choices,
-            'placeholder' => 'aucune',
-            'empty_data'  => null,
         ))
-        ->add('address', 'choice', array(
-            'label'    => 'Adresse',
+        ->add('birthplace', 'choice', array(
+            'label'    => 'E-mail',
+            'required' => true,
+            'expanded' => false,
+            'multiple' => false,
+            'choices'  => $choices,
+        ))
+        ->add('phone', 'choice', array(
+            'label'    => 'Téléphone',
             'required' => false,
             'expanded' => false,
             'multiple' => false,
@@ -308,12 +326,15 @@ class StudentAdminController extends Controller
 
         while ($objPHPExcel->getCellByColumnAndRow($form['surname']->getData(), $students_count)->getValue()) {
             $student = new Student();
+            $student->setTitle($objPHPExcel->getCellByColumnAndRow($form['title']->getData(), $students_count)->getValue());
             $student->setSurname($objPHPExcel->getCellByColumnAndRow($form['surname']->getData(), $students_count)->getValue());
             $student->setName($objPHPExcel->getCellByColumnAndRow($form['name']->getData(), $students_count)->getValue());
+            $student->setBirthday($objPHPExcel->getCellByColumnAndRow($form['birthday']->getData(), $students_count)->getValue());
+            $birthday = new \DateTime($objPHPExcel->getCellByColumnAndRow($form['birthday']->getData(), $students_count)->getValue());
+            $student->setBirthday($birthday);
+            $student->setBirthplace($objPHPExcel->getCellByColumnAndRow($form['birthplace']->getData(), $students_count)->getValue());
             if ($form['phone']->getData() != null)
                 $student->setPhone($objPHPExcel->getCellByColumnAndRow($form['phone']->getData(), $students_count)->getValue());
-            if ($form['address']->getData() != null)
-                $student->setAddress($objPHPExcel->getCellByColumnAndRow($form['address']->getData(), $students_count)->getValue());
             if ($form['ranking']->getData() != null)
                 $student->setRanking($objPHPExcel->getCellByColumnAndRow($form['ranking']->getData(), $students_count)->getValue());
             if ($form['graduate']->getData() != null)
