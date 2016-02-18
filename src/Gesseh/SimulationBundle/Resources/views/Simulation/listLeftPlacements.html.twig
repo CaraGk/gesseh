@@ -29,7 +29,7 @@
             ">
                 <div class="entity_item fieldset">{{ repartition.department.name }} à {{ repartition.department.hospital.name }}</div>
                 {% for accreditation in repartition.department.accreditations %}
-                    <span class="entity_item sector label label-info">{{ repartition.department.sector.name }}</span>
+                    <span class="entity_item sector label label-info">{{ accreditation.sector.name }}</span>
                 {% endfor %}
                 <span class="entity_item number badge">
                     {% if repartition.department.id in left|keys %}
