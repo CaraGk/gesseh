@@ -53,15 +53,10 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Unable to find department entity.');
 
         $eval = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvalByDepartment($id, $eval_limit);
-
-        if ($eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId()))
-            $eval_form = $eval_sector->getForm();
-        else
-            throw $this->createNotFoundException('Aucun formulaire d\'évaluation attribué à ce stage ! Veuillez contacter un administrateur.');
+        $accreditations = $em->getRepository('GessehCoreBundle:Accreditation')->getActiveByDepartment($department->getId());
 
         return array(
             'department' => $department,
-            'eval_form'  => $eval_form,
             'eval'       => $eval,
         );
     }
