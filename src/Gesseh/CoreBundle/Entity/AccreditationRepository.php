@@ -42,4 +42,20 @@ class AccreditationRepository extends EntityRepository
                      ->getResult()
         ;
     }
+
+    public function getByDepartmentAndPeriod($department_id, $period)
+    {
+        $query = $this->getBaseQuery();
+        $query->where('d.id = :department_id')
+              ->setParameter('department_id', $department_id)
+              ->andWhere('a.begin < :period_end')
+              ->setParameter('period_end', $period->getEnd())
+              ->andWhere('a.end > :period_begin')
+              ->setParameter('period_begin', $period->getBegin())
+        ;
+
+        return $query->getQuery()
+                     ->getResult()
+        ;
+    }
 }

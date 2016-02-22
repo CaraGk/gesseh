@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -81,6 +81,13 @@ class EvalCriteria
      * @ORM\Column(name="moderate", type="boolean", nullable=true)
      */
     private $moderate;
+
+    /**
+     * @var boolean $private
+     *
+     * @ORM\Column(name="private", type="boolean", nullable=true)
+     */
+    private $private;
 
     public function __toString()
     {
@@ -236,11 +243,11 @@ class EvalCriteria
     }
 
     /**
-     * Get required
+     * Is required
      *
      * @return boolean
      */
-    public function getRequired()
+    public function isRequired()
     {
         return $this->required;
     }
@@ -259,12 +266,35 @@ class EvalCriteria
     }
 
     /**
-     * Get moderate
+     * Is moderate
      *
      * @return boolean
      */
-    public function getModerate()
+    public function isModerate()
     {
         return $this->moderate;
+    }
+
+    /**
+     * Set private
+     *
+     * @param  boolean      $private
+     * @return EvalCriteria
+     */
+    public function setPrivate($private)
+    {
+        $this->private = $private;
+
+        return $this;
+    }
+
+    /**
+     * Is private
+     *
+     * @return boolean
+     */
+    public function isPrivate()
+    {
+        return $this->private;
     }
 }

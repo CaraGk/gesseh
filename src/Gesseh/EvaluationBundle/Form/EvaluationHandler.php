@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -24,14 +24,17 @@ class EvaluationHandler
   private $form;
   private $request;
   private $em;
+  private $placement;
+  private $eval_forms;
+  private $moderate;
 
-  public function __construct(Form $form, Request $request, EntityManager $em, \Gesseh\CoreBundle\Entity\Placement $placement, $criterias, $moderate)
+  public function __construct(Form $form, Request $request, EntityManager $em, \Gesseh\CoreBundle\Entity\Placement $placement, array $eval_forms, $moderate)
   {
     $this->form      = $form;
     $this->request   = $request;
     $this->em        = $em;
     $this->placement = $placement;
-    $this->criterias = $criterias;
+    $this->eval_forms = $eval_forms;
     $this->moderate  = $moderate;
   }
 
@@ -57,10 +60,12 @@ class EvaluationHandler
             /* Identification du critère d'évaluation correspondant */
             $criteria_id = explode("_", $criteria);
             $criteria_orig = null;
-            foreach ($this->criterias as $criteria_item) {
-                if ($criteria_item->getId() == $criteria_id[1]) {
-                    $criteria_orig = $criteria_item;
-                    break;
+            foreach ($this->eval_forms as $eval_form) {
+                foreach ($eval_form->getCriterias() as $criteria_item) {
+                    if ($criteria_item->getId() == $criteria_id[1]) {
+                        $criteria_orig = $criteria_item;
+                        break;
+                    }
                 }
             }
             if($criteria_orig->getType() == 3) {
@@ -79,10 +84,10 @@ class EvaluationHandler
         $eval_criteria = new Evaluation();
 
 
-        if ($criteria->getRequired() == false and $value == null)
+        if ($criteria->isRequired() == false and $value == null)
             continue;
 
-        if(($this->moderate == true and $criteria->getModerate() == false) or $this->moderate == false)
+        if(($this->moderate == true and $criteria->isModerate() == false) or $this->moderate == false)
             $eval_criteria->setModerated(true);
         else
             $eval_criteria->setModerated(false);

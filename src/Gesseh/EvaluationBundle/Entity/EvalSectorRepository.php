@@ -66,13 +66,14 @@ class EvalSectorRepository extends EntityRepository
     return $result;
   }
 
-  public function getAssignedSectors()
-  {
-    $eval_sectors = $this->getSimpleEvalSectorQuery()->getQuery()->getResult();
-    foreach ($eval_sectors as $eval_sector) {
-        $assigned_sectors[] = $eval_sector->getSector()->getId();
-    }
+    public function getAssignedSectors()
+    {
+        $eval_sectors = $this->getSimpleEvalSectorQuery()->getQuery()->getResult();
+        $assigned_sectors = array();
+        foreach ($eval_sectors as $eval_sector) {
+            $assigned_sectors[] = $eval_sector->getSector()->getId();
+        }
 
-    return $assigned_sectors;
-  }
+        return $assigned_sectors;
+    }
 }

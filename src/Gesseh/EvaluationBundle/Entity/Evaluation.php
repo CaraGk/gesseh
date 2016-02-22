@@ -174,11 +174,11 @@ class Evaluation
     }
 
     /**
-     * Get moderated
+     * Is moderated
      *
      * @return boolean
      */
-    public function getModerated()
+    public function isModerated()
     {
         return $this->moderated;
     }

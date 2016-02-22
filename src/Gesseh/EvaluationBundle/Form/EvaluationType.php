@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -19,63 +19,67 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class EvaluationType extends AbstractType
 {
-  private $criterias;
+  private $eval_forms;
 
-  public function __construct($criterias)
+  public function __construct(array $eval_forms)
   {
-    $this->criterias = $criterias;
+    $this->eval_forms = $eval_forms;
   }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        foreach ($this->criterias as $criteria) {
-            if ($criteria->getType() == 1) {
-                $builder->add('criteria_' . $criteria->getId(), 'choice', array(
-                    'choices'  => $this->getCriteriaSubjectiveChoiceOptions($criteria->getMore()),
-                    'required' => $criteria->getRequired(),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'label'    => $criteria->getName(),
-                ));
-            } elseif ($criteria->getType() == 2) {
-                $builder->add('criteria_' . $criteria->getId(), 'textarea', array(
-                    'required'   => $criteria->getRequired(),
-                    'trim'       => true,
-                    'max_length' => 250,
-                    'label'      => $criteria->getName(),
-                ));
-            } elseif ($criteria->getType() == 3) {
-                $builder->add('criteria_' . $criteria->getId(), 'choice', array(
-                    'choices'  => $this->getCriteriaChoiceOptions($criteria->getMore()),
-                    'required' => $criteria->getRequired(),
-                    'multiple' => true,
-                    'expanded' => true,
-                    'label'    => $criteria->getName(),
-                ));
-            } elseif ($criteria->getType() == 4) {
-                $builder->add('criteria_' . $criteria->getId(), 'integer', array(
-                    'precision' => $criteria->getMore(),
-                    'required'  => $criteria->getRequired(),
-                    'label'     => $criteria->getName(),
-                ));
-            } elseif ($criteria->getType() == 5) {
-                $builder->add('criteria_' . $criteria->getId(), 'choice', array(
-                    'choices'  => $this->getCriteriaChoiceOptions($criteria->getMore(), array(0)),
-                    'required' => $criteria->getRequired(),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'label'    => $criteria->getName(),
-                ));
-            } elseif ($criteria->getType() == 6) {
-                $builder->add('criteria_' . $criteria->getId(), 'time', array(
-                    'input'        => 'string',
-                    'widget'       => 'single_text',
-                    'with_seconds' => false,
-                    'required'     => $criteria->getRequired(),
-                    'label'        => $criteria->getName(),
-                ));
+        foreach ($this->eval_forms as $eval_form)
+        {
+            foreach ($eval_form->getCriterias() as $criteria) {
+                if ($criteria->getType() == 1) {
+                    $builder->add('criteria_' . $criteria->getId(), 'choice', array(
+                        'choices'  => $this->getCriteriaSubjectiveChoiceOptions($criteria->getMore()),
+                        'required' => $criteria->isRequired(),
+                        'multiple' => false,
+                        'expanded' => true,
+                        'label'    => $criteria->getName(),
+                    ));
+                } elseif ($criteria->getType() == 2) {
+                    $builder->add('criteria_' . $criteria->getId(), 'textarea', array(
+                        'required'   => $criteria->isRequired(),
+                        'trim'       => true,
+                        'max_length' => 250,
+                        'label'      => $criteria->getName(),
+                    ));
+                } elseif ($criteria->getType() == 3) {
+                    $builder->add('criteria_' . $criteria->getId(), 'choice', array(
+                        'choices'  => $this->getCriteriaChoiceOptions($criteria->getMore()),
+                        'required' => $criteria->isRequired(),
+                        'multiple' => true,
+                        'expanded' => true,
+                        'label'    => $criteria->getName(),
+                    ));
+                } elseif ($criteria->getType() == 4) {
+                    $builder->add('criteria_' . $criteria->getId(), 'integer', array(
+                        'precision' => $criteria->getMore(),
+                        'required'  => $criteria->isRequired(),
+                        'label'     => $criteria->getName(),
+                    ));
+                } elseif ($criteria->getType() == 5) {
+                    $builder->add('criteria_' . $criteria->getId(), 'choice', array(
+                        'choices'  => $this->getCriteriaChoiceOptions($criteria->getMore(), array(0)),
+                        'required' => $criteria->isRequired(),
+                        'multiple' => false,
+                        'expanded' => true,
+                        'label'    => $criteria->getName(),
+                    ));
+                } elseif ($criteria->getType() == 6) {
+                    $builder->add('criteria_' . $criteria->getId(), 'time', array(
+                        'input'        => 'string',
+                        'widget'       => 'single_text',
+                        'with_seconds' => false,
+                        'required'     => $criteria->isRequired(),
+                        'label'        => $criteria->getName(),
+                    ));
+                }
             }
         }
+        $builder->add('Enregister', 'submit');
     }
 
   public function getName()

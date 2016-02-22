@@ -69,36 +69,39 @@ class DefaultController extends Controller
      */
     public function evaluateAction($id)
     {
-      $em = $this->getDoctrine()->getManager();
-      $pm = $this->container->get('kdb_parameters.manager');
-      $placement = $em->getRepository('GessehCoreBundle:Placement')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $pm = $this->container->get('kdb_parameters.manager');
+        $placement = $em->getRepository('GessehCoreBundle:Placement')->find($id);
 
-      if (!$placement)
-        throw $this->createNotFoundException('Unable to find placement entity.');
+        if (!$placement)
+            throw $this->createNotFoundException('Unable to find placement entity.');
 
-      $eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($placement->getRepartition()->getDepartment()->getSector()->getId());
-
-      if (null !== $eval_sector) {
-        $eval_form = $eval_sector->getForm();
-        $form = $this->createForm(new EvaluationType($eval_form->getCriterias()));
-        $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_form->getCriterias(), $pm->findParamByName('eval_moderate')->getValue());
-        if ($form_handler->process()) {
-          $this->get('session')->getFlashBag()->add('notice', 'Évaluation du stage "' . $placement->getRepartition()->getDepartment()->getName() . ' à ' . $placement->getRepartition()->getDepartment()->getHospital()->getName() . '" enregistrée.');
-
-          return $this->redirect($this->generateUrl('GCore_PIndex'));
+        $eval_forms = array();
+        $accreditations = $em->getRepository('GessehCoreBundle:Accreditation')->getByDepartmentAndPeriod($placement->getRepartition()->getDepartment()->getId(), $placement->getRepartition()->getPeriod());
+        foreach ($accreditations as $accreditation) {
+            if($eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($accreditation->getSector()->getId()))
+                $eval_forms[] = $eval_sector->getForm();
         }
 
-        return array(
-          'placement' => $placement,
-          'form'      => $form->createView(),
-          'eval_form' => $eval_form,
-        );
-      } else {
-        return array(
-          'placement' => $placement,
-          'form'      => null,
-          'eval_form' => null,
-        );
-      }
+        if (null != $eval_forms) {
+            $form = $this->createForm(new EvaluationType($eval_forms));
+            $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_forms, $pm->findParamByName('eval_moderate')->getValue());
+
+            if ($form_handler->process()) {
+                $this->get('session')->getFlashBag()->add('notice', 'Évaluation du stage "' . $placement->getRepartition()->getDepartment()->getName() . ' à ' . $placement->getRepartition()->getDepartment()->getHospital()->getName() . '" enregistrée.');
+
+                return $this->redirect($this->generateUrl('GCore_PIndex'));
+            }
+
+            return array(
+                'placement' => $placement,
+                'form'      => $form->createView(),
+            );
+        } else {
+            return array(
+                'placement' => $placement,
+                'form'      => null,
+            );
+        }
     }
 }
