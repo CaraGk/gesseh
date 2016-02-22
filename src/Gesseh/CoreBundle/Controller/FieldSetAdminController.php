@@ -22,8 +22,11 @@ use Gesseh\CoreBundle\Entity\Sector;
 use Gesseh\CoreBundle\Form\SectorType;
 use Gesseh\CoreBundle\Form\SectorHandler;
 use Gesseh\CoreBundle\Entity\Department;
-use Gesseh\CoreBundle\Form\DepartmentDescriptionType;
-use Gesseh\CoreBundle\Form\DepartmentHandler;
+use Gesseh\CoreBundle\Form\DepartmentDescriptionType,
+    Gesseh\CoreBundle\Form\DepartmentHandler;
+use Gesseh\CoreBundle\Entity\Accreditation,
+    Gesseh\CoreBundle\Form\AccreditationType,
+    Gesseh\CoreBundle\Form\AccreditationHandler;
 
 /**
  * FieldSetAdmin controller.
@@ -297,4 +300,103 @@ class FieldSetAdminController extends Controller
       'limit'     => $limit,
     );
   }
+
+  /**
+   * Displays a form to add a new Accreditation entity.
+   *
+   * @Route("/accreditation/{id}/new", name="GCore_FSANewAccreditation", requirements={"id" = "\d+"})
+   * @Template("GessehCoreBundle:FieldSetAdmin:accreditationForm.html.twig")
+   */
+  public function newAccreditationAction($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $limit = $this->get('request')->query->get('limit', null);
+    $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
+
+    if (!$department)
+      throw $this->createNotFoundException('Unable to find Department entity.');
+
+    $accreditation = new Accreditation();
+    $form = $this->createForm(new AccreditationType(), $accreditation);
+    $formHandler = new AccreditationHandler($form, $this->get('request'), $em, $department);
+
+    if($formHandler->process()) {
+      $this->get('session')->getFlashBag()->add('notice', 'Agrément "' . $accreditation->getSector()->getName() . '" modifié.');
+
+    return $this->redirect($this->generateUrl('GCore_FSShowDepartment', array(
+      'id'    => $department->getId(),
+      'limit' => $limit,
+    )));
+  }
+
+    return array(
+        'department_id' => $department->getId(),
+        'accreditation' => null,
+        'form'          => $form->createView(),
+        'limit'         => $limit,
+    );
+  }
+
+  /**
+   * Displays a form to edit an existing Accreditation entity.
+   *
+   * @Route("/accreditation/{id}/edit", name="GCore_FSAEditAccreditation", requirements={"id" = "\d+"})
+   * @Template("GessehCoreBundle:FieldSetAdmin:accreditationForm.html.twig")
+   */
+  public function editAccreditationAction($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $limit = $this->get('request')->query->get('limit', null);
+
+    $accreditation = $em->getRepository('GessehCoreBundle:Accreditation')->find($id);
+
+    if (!$accreditation)
+      throw $this->createNotFoundException('Unable to find Accreditation entity.');
+
+    $form = $this->createForm(new AccreditationType(), $accreditation);
+    $formHandler = new AccreditationHandler($form, $this->get('request'), $em);
+
+    if($formHandler->process()) {
+      $this->get('session')->getFlashBag()->add('notice', 'Agrément "' . $accreditation->getSector()->getName() . '" modifié.');
+
+      return $this->redirect($this->generateUrl('GCore_FSShowDepartment', array(
+        'id'    => $accreditation->getDepartment()->getId(),
+        'limit' => $limit,
+      )));
+    }
+
+    return array(
+        'department_id' => $accreditation->getDepartment()->getId(),
+        'accreditation' => $accreditation,
+        'form'          => $form->createView(),
+        'limit'         => $limit,
+    );
+  }
+
+  /**
+   * Deletes a Accreditation entity.
+   *
+   * @Route("/accreditation/{id}/delete", name="GCore_FSADeleteAccreditation", requirements={"id" = "\d+"}))
+   */
+  public function deleteAccreditationAction($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $accreditation = $em->getRepository('GessehCoreBundle:Accreditation')->find($id);
+    $limit = $this->get('request')->query->get('limit', null);
+
+    if (!$accreditation)
+        throw $this->createNotFoundException('Unable to find Accreditation entity.');
+    $department_id = $accreditation->getDepartment()->getId();
+
+    $em->remove($accreditation);
+    $em->flush();
+
+    $this->get('session')->getFlashBag()->add('notice', 'Agrément "' . $accreditation->getSector()->getName() . '" supprimé.');
+
+    return $this->redirect($this->generateUrl('GCore_FSShowDepartment', array(
+        'id'    => $department_id,
+        'limit' => $limit,
+    )));
+  }
+
 }

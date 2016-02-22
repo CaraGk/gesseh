@@ -21,7 +21,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class DepartmentRepository extends EntityRepository
 {
-  public function getDepartmentQuery()
+  public function getBaseQuery()
   {
     return $this->createQueryBuilder('d')
                 ->join('d.hospital', 'h')
@@ -33,17 +33,22 @@ class DepartmentRepository extends EntityRepository
     ;
   }
 
-  public function getDepartmentQueryWithRepartitions()
+  public function getBaseQueryWithRepartitions()
   {
-    $query = $this->getDepartmentQuery();
+    $query = $this->getBaseQuery();
 
     return $query->join('d.repartitions', 'r')
                  ->addSelect('r');
   }
 
+  /**
+   * Get one department with joinable tables from id
+   *
+   * @return QueryResult
+   */
   public function getById($id)
   {
-    $query = $this->getDepartmentQuery();
+    $query = $this->getBaseQuery();
     $query->where('d.id = :id')
           ->setParameter('id', $id);
 
@@ -53,7 +58,7 @@ class DepartmentRepository extends EntityRepository
 
   public function getByStudent($student_id)
   {
-    $query = $this->getDepartmentQuery();
+    $query = $this->getBaseQuery();
     $query->join('d.placements', 'p')
           ->join('p.student', 't')
           ->where('t.id = :student_id')
@@ -64,7 +69,7 @@ class DepartmentRepository extends EntityRepository
 
   public function getBySectorForPeriod($sector_id, $period_id)
   {
-    $query = $this->getDepartmentQuery();
+    $query = $this->getBaseQuery();
     $query->join('d.repartitions', 'r')
           ->join('r.period', 'p')
           ->addSelect('r')
@@ -83,7 +88,7 @@ class DepartmentRepository extends EntityRepository
 
   public function getAll(array $orderBy = array('h' => 'asc', 's' => 'asc'))
   {
-    $query = $this->getDepartmentQuery();
+    $query = $this->getBaseQuery();
     foreach ($orderBy as $col => $order) {
       $query->addOrderBy($col . '.name', $order);
     }
@@ -94,7 +99,7 @@ class DepartmentRepository extends EntityRepository
 
     public function getAvailable()
     {
-        $query = $this->getDepartmentQueryWithRepartitions();
+        $query = $this->getBaseQueryWithRepartitions();
         $query->where('r.number > 0');
 
         return $query->getQuery()
@@ -103,7 +108,7 @@ class DepartmentRepository extends EntityRepository
 
   public function getAdaptedUserList($rules)
   {
-    $query = $this->getDepartmentQueryWithRepartitions();
+    $query = $this->getBaseQueryWithRepartitions();
     $query->addOrderBy('h.name', 'asc')
           ->addOrderBy('d.name', 'asc')
           ->where('r.number > 0')

@@ -29,10 +29,15 @@
             </ul>
         </div>
     {% endfor %}
-    <div class="content">Agréments :
+    <div class="content">Agréments {% if is_granted("ROLE_ADMIN") %}<span class=""><a href="{{ path('GCore_FSANewAccreditation', {'id': department.id, 'limit': limit }) }}" title="Ajouter un agrément"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></span>{% endif %} :
         <ul>
             {% for accreditation in department.accreditations %}
-                <li>De {{ accreditation.begin|date('F Y') }} à {{ accreditation.end|date('F Y') }} : {{ accreditation.sector.name }} sous la responsabilité de {{ accreditation.supervisor }}</li>
+                <li>
+                    De {{ accreditation.begin|date('F Y') }} à {{ accreditation.end|date('F Y') }} : {{ accreditation.sector.name }} sous la responsabilité de {{ accreditation.supervisor }}
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <span class=""><a href="{{ path('GCore_FSAEditAccreditation', { 'id': accreditation.id, 'limit': limit }) }}" title="Modifier l'agrément du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></span>
+                    {% endif %}
+                </li>
             {% endfor %}
         </ul>
     </div>
