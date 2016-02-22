@@ -41,14 +41,6 @@ class Department
     private $name;
 
     /**
-     * @var string $head
-     *
-     * @ORM\Column(name="head", type="string", length=255)
-     * @Assert\NotBlank()
-     */
-    private $head;
-
-    /**
      * @var text $description
      *
      * @ORM\Column(name="description", type="text", nullable=true)
@@ -65,14 +57,6 @@ class Department
      * @ORM\OneToMany(targetEntity="Accreditation", mappedBy="department", cascade={"remove", "persist"})
      */
     private $accreditations;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Sector", inversedBy="departments", cascade={"persist"})
-     * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
-     * @Assert\NotBlank()
-     * @Assert\Type(type="Gesseh\CoreBundle\Entity\Sector")
-     */
-    private $sector;
 
     /**
      * @ORM\OneToMany(targetEntity="Repartition", mappedBy="department", cascade={"remove"})
@@ -118,26 +102,6 @@ class Department
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set head
-     *
-     * @param string $head
-     */
-    public function setHead($head)
-    {
-        $this->head = $head;
-    }
-
-    /**
-     * Get head
-     *
-     * @return string
-     */
-    public function getHead()
-    {
-        return $this->head;
     }
 
     /**
@@ -211,27 +175,6 @@ class Department
     public function getAccreditations()
     {
         return $this->accreditations;
-    }
-
-    /**
-     * Set sector
-     *
-     * @param Gesseh\CoreBundle\Entity\Sector $sector
-     */
-    public function setSector(\Gesseh\CoreBundle\Entity\Sector $sector)
-    {
-        $this->sector = $sector;
-        $sector->addDepartment($this);
-    }
-
-    /**
-     * Get sector
-     *
-     * @return Gesseh\CoreBundle\Entity\Sector
-     */
-    public function getSector()
-    {
-        return $this->sector;
     }
 
     /**

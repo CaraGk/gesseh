@@ -44,14 +44,8 @@ class Sector
      */
     private $accreditations;
 
-  /**
-   * @ORM\OneToMany(targetEntity="Department", mappedBy="sector", cascade={"remove", "persist"})
-   */
-  private $departments;
-
     public function __construct()
     {
-        $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->accreditations = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -121,34 +115,5 @@ class Sector
     public function getAccreditations()
     {
         return $this->accreditations;
-    }
-
-    /**
-     * Add department
-     *
-     * @param Gesseh\CoreBundle\Entity\Department $department
-     */
-    public function addDepartment(\Gesseh\CoreBundle\Entity\Department $department)
-    {
-        $this->departments[] = $department;
-    }
-
-    /**
-     * Remove department
-     *
-     * @param Gesseh\CoreBundle\Entity\Department $department
-     */
-    public function removeDepartment(\Gesseh\CoreBundle\Entity\Department $department)
-    {
-    }
-
-    /**
-     * Get departments
-     *
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getDepartments()
-    {
-        return $this->departments;
     }
 }
