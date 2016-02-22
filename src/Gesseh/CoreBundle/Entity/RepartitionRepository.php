@@ -18,48 +18,65 @@ use Doctrine\ORM\EntityRepository;
  */
 class RepartitionRepository extends EntityRepository
 {
-    public function getQuery()
+    public function getBaseQuery()
     {
         return $this->createQueryBuilder('r')
                     ->join('r.department', 'd')
                     ->join('r.period', 'p')
                     ->join('d.hospital', 'h')
-                    ->join('d.sector', 's')
+                    ->join('d.accreditations', 'a')
+                    ->join('a.sector', 's')
                     ->addSelect('d')
                     ->addSelect('h')
+                    ->addSelect('a')
                     ->addSelect('s')
+        ;
+    }
+
+    public function getByPeriodQuery($period_id)
+    {
+        $query = $this->getBaseQuery();
+        return $query->where('p.id = :period_id')
+                     ->setParameter('period_id', $period_id)
+                     ->addOrderBy('h.name', 'asc')
+                     ->addOrderBy('d.name', 'asc')
         ;
     }
 
     public function getAvailable($period_id)
     {
-        $query = $this->getQuery();
-        $query->where('r.number > 0')
-              ->andWhere('p.id = :period_id')
-              ->setParameter('period_id', $period_id)
-        ;
-
-        return $query->getQuery()
-            ->getResult();
-    }
-
-    public function getByPeriod($period_id)
-    {
-        $query = $this->getQuery();
-        $query->where('p.id = :period_id')
-              ->setParameter('period_id', $period_id)
-        ;
+        $query = $this->getByPeriodQuery($period_id);
+        $query->andWhere('r.number > 0');
 
         return $query->getQuery()
                      ->getResult()
         ;
     }
 
+    public function getByPeriod($period_id)
+    {
+        return $this->getByPeriodQuery($period_id)
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    public function getByDepartment($department_id)
+    {
+        return $this->getBaseQuery()
+                    ->where('d.id = :department_id')
+                    ->setParameter('department_id', $department_id)
+                    ->orderBy('p.begin', 'desc')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
     public function getByPeriodAndDepartmentSector($period_id, $sector_id)
     {
-        $query = $this->getQuery();
-        $query->where('p.id = :period_id')
-              ->setParameter('period_id', $period_id)
+        $query = $this->getByPeriodQuery($period_id);
+        $query->andWhere('a.end > :now')
+              ->setParameter('now', new \DateTime('now'))
               ->andWhere('s.id = :sector_id')
               ->setParameter('sector_id', $sector_id)
         ;
@@ -69,4 +86,15 @@ class RepartitionRepository extends EntityRepository
         ;
     }
 
+    public function getByPeriodAndCluster($period_id, $cluster)
+    {
+        $query = $this->getByPeriodQuery($period_id);
+        $query->andWhere('r.cluster = :cluster')
+              ->setParameter('cluster', $cluster)
+        ;
+
+        return $query->getQuery()
+                     ->getResult()
+        ;
+    }
 }

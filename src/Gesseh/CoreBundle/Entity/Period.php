@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -31,6 +31,13 @@ class Period
     private $id;
 
     /**
+     * @var text $name
+     *
+     * @ORM\Column(name="name", type="string", length=30)
+     */
+    private $name;
+
+    /**
      * @var date $begin
      *
      * @ORM\Column(name="begin", type="date")
@@ -51,7 +58,15 @@ class Period
 
     public function __toString()
     {
-        return "Du " . $this->begin->format('d-m-Y') . " au " . $this->end->format('d-m-Y');
+        return $this->name;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->repartitions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -62,6 +77,26 @@ class Period
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -121,6 +156,7 @@ class Period
      */
     public function removeRepartition(\Gesseh\CoreBundle\Entity\Repartition $repartition)
     {
+        $this->repartitions->removeElement($repartition);
     }
 
     /**

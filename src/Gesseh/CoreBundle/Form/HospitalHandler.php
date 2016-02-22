@@ -15,6 +15,8 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
 use Gesseh\CoreBundle\Entity\Hospital;
+use Gesseh\CoreBundle\Entity\Department;
+use Gesseh\CoreBundle\Entity\Repartition;
 
 /**
  * HospitalType Handler
@@ -24,12 +26,14 @@ class HospitalHandler
   private $form;
   private $request;
   private $em;
+  private $periods;
 
-  public function __construct(Form $form, Request $request, EntityManager $em)
+  public function __construct(Form $form, Request $request, EntityManager $em, array $periods)
   {
     $this->form    = $form;
     $this->request = $request;
     $this->em      = $em;
+    $this->periods = $periods;
   }
 
   public function process()
@@ -49,6 +53,17 @@ class HospitalHandler
 
   public function onSuccess(Hospital $hospital)
   {
+    foreach($hospital->getDepartments() as $department) {
+        if(!$department->getId()) {
+            foreach($this->periods as $period) {
+                $repartition = new Repartition();
+                $repartition->setDepartment($department);
+                $repartition->setPeriod($period);
+                $repartition->setNumber(0);
+                $this->em->persist($repartition);
+            }
+        }
+    }
     $this->em->persist($hospital);
     $this->em->flush();
   }

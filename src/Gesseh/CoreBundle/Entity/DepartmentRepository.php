@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -21,26 +21,34 @@ use Doctrine\ORM\EntityRepository;
  */
 class DepartmentRepository extends EntityRepository
 {
-  public function getDepartmentQuery()
+  public function getBaseQuery()
   {
     return $this->createQueryBuilder('d')
                 ->join('d.hospital', 'h')
-                ->join('d.sector', 's')
+                ->join('d.accreditations', 'a')
+                ->join('a.sector', 's')
                 ->addSelect('h')
-                ->addSelect('s');
+                ->addSelect('a')
+                ->addSelect('s')
+    ;
   }
 
-  public function getDepartmentQueryWithRepartitions()
+  public function getBaseQueryWithRepartitions()
   {
-    $query = $this->getDepartmentQuery();
+    $query = $this->getBaseQuery();
 
     return $query->join('d.repartitions', 'r')
                  ->addSelect('r');
   }
 
+  /**
+   * Get one department with joinable tables from id
+   *
+   * @return QueryResult
+   */
   public function getById($id)
   {
-    $query = $this->getDepartmentQuery();
+    $query = $this->getBaseQuery();
     $query->where('d.id = :id')
           ->setParameter('id', $id);
 
@@ -50,7 +58,7 @@ class DepartmentRepository extends EntityRepository
 
   public function getByStudent($student_id)
   {
-    $query = $this->getDepartmentQuery();
+    $query = $this->getBaseQuery();
     $query->join('d.placements', 'p')
           ->join('p.student', 't')
           ->where('t.id = :student_id')
@@ -61,12 +69,14 @@ class DepartmentRepository extends EntityRepository
 
   public function getBySectorForPeriod($sector_id, $period_id)
   {
-    $query = $this->getDepartmentQuery();
-    $query->where('s.id = :sector_id')
-          ->setParameter('sector_id', $sector_id)
-          ->join('d.repartitions', 'r')
+    $query = $this->getBaseQuery();
+    $query->join('d.repartitions', 'r')
           ->join('r.period', 'p')
           ->addSelect('r')
+          ->where('a.end > :now')
+          ->setParameter('now', new \DateTime('now'))
+          ->andWhere('s.id = :sector_id')
+          ->setParameter('sector_id', $sector_id)
           ->andWhere('p.id = :period_id')
           ->setParameter('period_id', $period_id)
     ;
@@ -78,7 +88,7 @@ class DepartmentRepository extends EntityRepository
 
   public function getAll(array $orderBy = array('h' => 'asc', 's' => 'asc'))
   {
-    $query = $this->getDepartmentQuery();
+    $query = $this->getBaseQuery();
     foreach ($orderBy as $col => $order) {
       $query->addOrderBy($col . '.name', $order);
     }
@@ -89,40 +99,27 @@ class DepartmentRepository extends EntityRepository
 
     public function getAvailable()
     {
-        $query = $this->getDepartmentQueryWithRepartitions();
+        $query = $this->getBaseQueryWithRepartitions();
         $query->where('r.number > 0');
 
         return $query->getQuery()
             ->getResult();
     }
 
-  public function getAllCluster($id)
-  {
-      $department = $this->getById($id);
-
-      if (null != $department->getCluster()) {
-        $query = $this->getDepartmentQuery();
-        $query->where('d.cluster = :cluster')
-              ->setParameter('cluster', $department->getCluster());
-
-        return $query->getQuery()
-                     ->getResult();
-      } else {
-        return array($department);
-      }
-  }
-
   public function getAdaptedUserList($rules)
   {
-    $query = $this->getDepartmentQueryWithRepartitions();
+    $query = $this->getBaseQueryWithRepartitions();
     $query->addOrderBy('h.name', 'asc')
           ->addOrderBy('d.name', 'asc')
-          ->where('r.number > 0');
+          ->where('r.number > 0')
+          ->andWhere('a.end > :now')
+          ->setParameter('now', new \DateTime('now'))
+    ;
 
     if ($rules['department']['NOT'])
       $query->andWhere('d.id NOT IN (' . implode(',', $rules['department']['NOT']) . ')');
     if ($rules['sector']['NOT'])
-      $query->andWhere('d.sector NOT IN (' . implode(',', $rules['sector']['NOT']) . ')');
+      $query->andWhere('a.sector NOT IN (' . implode(',', $rules['sector']['NOT']) . ')');
     if ($rules['department']['IN'])
       $query->andWhere('d.id IN (' . implode(',', $rules['department']['IN']) . ')');
 

@@ -32,7 +32,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ ]
+    bundles:        [MopaBootstrapBundle]
     # java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -113,5 +113,20 @@ jms_payment_paypal:
     signature: %payment_paypal_sign%
 
 mopa_bootstrap:
-    form: ~
+    form: 
+        show_legend: false
+        show_child_legend: false
+        collection:
+            widget_remove_btn:
+                icon: trash
+                icon_inverted: true
+            widget_add_btn:
+                icon: plus-sign
     menu: ~
+    navbar: ~
+    initializr: 
+        meta: 
+            keywords: "choix de stage, simulation, interne, internat, évalutations de stage"
+            author_name: "Pierre-François Angrand"
+            nofollow: false
+            noindex: false

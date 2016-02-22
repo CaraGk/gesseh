@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -25,9 +25,14 @@ class HospitalRepository extends EntityRepository
   {
     return $this->createQueryBuilder('h')
                 ->join('h.departments', 'd')
-                ->join('d.sector', 's')
+                ->join('d.accreditations', 'a')
+                ->join('a.sector', 's')
                 ->addSelect('d')
-                ->addSelect('s');
+                ->addSelect('a')
+                ->addSelect('s')
+                ->where('a.end > :now')
+                ->setParameter('now', new \DateTime('now'))
+    ;
   }
 
   public function getAllOrdered(array $orderBy = array ( 'h' => 'asc', 'd' => 'asc'))
@@ -42,7 +47,7 @@ class HospitalRepository extends EntityRepository
                  ->getResult();
   }
 
-  public function getAll(array $arg = null)
+  public function getAll(array $arg)
   {
       $query = $this->getHospitalQuery();
 
@@ -58,7 +63,7 @@ class HospitalRepository extends EntityRepository
       $query->addOrderBy('h.name', 'asc')
             ->addOrderBy('d.name', 'asc');
 
-    if (null != $arg['limit'] and (preg_match('/^[s,h,d].id$/', $arg['limit']['type']) or $arg['limit']['type'] == "d.cluster")) {
+    if (null != $arg['limit'] and (preg_match('/^[s,h,d].id$/', $arg['limit']['type']) or $arg['limit']['type'] == "r.cluster")) {
       $query->andWhere($arg['limit']['type'] . ' = :value')
             ->setParameter('value', $arg['limit']['value']);
     }

@@ -9,7 +9,9 @@ $('document').ready(function(){
 
     $('li.subentity').hover(function(){
         $(this).children('ul.actions').show();
+        $(this).addClass('active');
     }, function(){
         $(this).children('ul.actions').hide();
+        $(this).removeClass('active');
     });
 });

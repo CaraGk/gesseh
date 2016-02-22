@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -22,8 +22,11 @@ use Gesseh\CoreBundle\Entity\Sector;
 use Gesseh\CoreBundle\Form\SectorType;
 use Gesseh\CoreBundle\Form\SectorHandler;
 use Gesseh\CoreBundle\Entity\Department;
-use Gesseh\CoreBundle\Form\DepartmentDescriptionType;
-use Gesseh\CoreBundle\Form\DepartmentHandler;
+use Gesseh\CoreBundle\Form\DepartmentDescriptionType,
+    Gesseh\CoreBundle\Form\DepartmentHandler;
+use Gesseh\CoreBundle\Entity\Accreditation,
+    Gesseh\CoreBundle\Form\AccreditationType,
+    Gesseh\CoreBundle\Form\AccreditationHandler;
 
 /**
  * FieldSetAdmin controller.
@@ -59,13 +62,12 @@ class FieldSetAdminController extends Controller
   public function newHospitalAction()
   {
     $em = $this->getDoctrine()->getManager();
-    $manager = $this->container->get('kdb_parameters.manager');
-    $mod_simul = $manager->findParamByName('simul_active');
     $limit = $this->get('request')->query->get('limit', null);
+    $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
 
     $hospital = new Hospital();
-    $form   = $this->createForm(new HospitalType($mod_simul->getValue()), $hospital);
-    $formHandler = new HospitalHandler($form, $this->get('request'), $em);
+    $form   = $this->createForm(new HospitalType(), $hospital);
+    $formHandler = new HospitalHandler($form, $this->get('request'), $em, $periods);
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" enregistré.');
@@ -88,17 +90,16 @@ class FieldSetAdminController extends Controller
   public function editHospitalAction($id)
   {
     $em = $this->getDoctrine()->getManager();
-    $manager = $this->container->get('kdb_parameters.manager');
-    $mod_simul = $manager->findParamByName('simul_active');
     $limit = $this->get('request')->query->get('limit', null);
+    $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
 
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
 
     if (!$hospital)
       throw $this->createNotFoundException('Unable to find Hospital entity.');
 
-    $editForm = $this->createForm(new HospitalType($mod_simul->getValue()), $hospital);
-    $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
+    $editForm = $this->createForm(new HospitalType(), $hospital);
+    $formHandler = new HospitalHandler($editForm, $this->get('request'), $em, $periods);
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" modifié.');
@@ -279,12 +280,13 @@ class FieldSetAdminController extends Controller
     $em = $this->getDoctrine()->getManager();
     $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
     $limit = $this->get('request')->query->get('limit', null);
+    $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
 
     if (!$hospital)
       throw $this->createNotFoundException('Unable to find Hospital entity.');
 
     $editForm = $this->createForm(new HospitalDescriptionType(), $hospital);
-    $formHandler = new HospitalHandler($editForm, $this->get('request'), $em);
+    $formHandler = new HospitalHandler($editForm, $this->get('request'), $em, $periods);
 
     if ( $formHandler->process() ) {
       $this->get('session')->getFlashBag()->add('notice', 'Description de l\'hôpital "' . $hospital->getName() . '" enregistrée.');
@@ -298,4 +300,105 @@ class FieldSetAdminController extends Controller
       'limit'     => $limit,
     );
   }
+
+  /**
+   * Displays a form to add a new Accreditation entity.
+   *
+   * @Route("/accreditation/{id}/new", name="GCore_FSANewAccreditation", requirements={"id" = "\d+"})
+   * @Template("GessehCoreBundle:FieldSetAdmin:accreditationForm.html.twig")
+   */
+  public function newAccreditationAction($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $um = $this->container->get('fos_user.user_manager');
+    $limit = $this->get('request')->query->get('limit', null);
+    $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
+
+    if (!$department)
+      throw $this->createNotFoundException('Unable to find Department entity.');
+
+    $accreditation = new Accreditation();
+    $form = $this->createForm(new AccreditationType(), $accreditation);
+    $formHandler = new AccreditationHandler($form, $this->get('request'), $em, $um, $department);
+
+    if($formHandler->process()) {
+      $this->get('session')->getFlashBag()->add('notice', 'Agrément "' . $accreditation->getSector()->getName() . '" modifié.');
+
+    return $this->redirect($this->generateUrl('GCore_FSShowDepartment', array(
+      'id'    => $department->getId(),
+      'limit' => $limit,
+    )));
+  }
+
+    return array(
+        'department_id' => $department->getId(),
+        'accreditation' => null,
+        'form'          => $form->createView(),
+        'limit'         => $limit,
+    );
+  }
+
+  /**
+   * Displays a form to edit an existing Accreditation entity.
+   *
+   * @Route("/accreditation/{id}/edit", name="GCore_FSAEditAccreditation", requirements={"id" = "\d+"})
+   * @Template("GessehCoreBundle:FieldSetAdmin:accreditationForm.html.twig")
+   */
+  public function editAccreditationAction($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $um = $this->container->get('fos_user.user_manager');
+    $limit = $this->get('request')->query->get('limit', null);
+
+    $accreditation = $em->getRepository('GessehCoreBundle:Accreditation')->find($id);
+
+    if (!$accreditation)
+      throw $this->createNotFoundException('Unable to find Accreditation entity.');
+
+    $form = $this->createForm(new AccreditationType(), $accreditation);
+    $formHandler = new AccreditationHandler($form, $this->get('request'), $em, $um);
+
+    if($formHandler->process()) {
+      $this->get('session')->getFlashBag()->add('notice', 'Agrément "' . $accreditation->getSector()->getName() . '" modifié.');
+
+      return $this->redirect($this->generateUrl('GCore_FSShowDepartment', array(
+        'id'    => $accreditation->getDepartment()->getId(),
+        'limit' => $limit,
+      )));
+    }
+
+    return array(
+        'department_id' => $accreditation->getDepartment()->getId(),
+        'accreditation' => $accreditation,
+        'form'          => $form->createView(),
+        'limit'         => $limit,
+    );
+  }
+
+  /**
+   * Deletes a Accreditation entity.
+   *
+   * @Route("/accreditation/{id}/delete", name="GCore_FSADeleteAccreditation", requirements={"id" = "\d+"}))
+   */
+  public function deleteAccreditationAction($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $accreditation = $em->getRepository('GessehCoreBundle:Accreditation')->find($id);
+    $limit = $this->get('request')->query->get('limit', null);
+
+    if (!$accreditation)
+        throw $this->createNotFoundException('Unable to find Accreditation entity.');
+    $department_id = $accreditation->getDepartment()->getId();
+
+    $em->remove($accreditation);
+    $em->flush();
+
+    $this->get('session')->getFlashBag()->add('notice', 'Agrément "' . $accreditation->getSector()->getName() . '" supprimé.');
+
+    return $this->redirect($this->generateUrl('GCore_FSShowDepartment', array(
+        'id'    => $department_id,
+        'limit' => $limit,
+    )));
+  }
+
 }

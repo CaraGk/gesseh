@@ -1,6 +1,6 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
-{% block titlecontent %}Évaluations du stage '{{ placement.department.name }} à {{ placement.department.hospital.name }} du {{ placement.period.begin|date('d-m-Y') }} au {{ placement.period.end|date('d-m-Y') }}'{% endblock %}
+{% block titlecontent %}Évaluations du stage '{{ placement.repartition.department.name }} à {{ placement.repartition.department.hospital.name }} du {{ placement.repartition.period.begin|date('d-m-Y') }} au {{ placement.repartition.period.end|date('d-m-Y') }}'{% endblock %}
 
 {% block content %}
   {% if eval_form is not null %}

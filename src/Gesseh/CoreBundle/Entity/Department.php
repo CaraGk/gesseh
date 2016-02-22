@@ -62,6 +62,11 @@ class Department
     private $hospital;
 
     /**
+     * @ORM\OneToMany(targetEntity="Accreditation", mappedBy="department", cascade={"remove", "persist"})
+     */
+    private $accreditations;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Sector", inversedBy="departments", cascade={"persist"})
      * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
      * @Assert\NotBlank()
@@ -70,30 +75,14 @@ class Department
     private $sector;
 
     /**
-     * @var smallint $number
-     *
-     * @ORM\Column(name="number", type="smallint", nullable=true)
-     */
-    private $number;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Placement", mappedBy="department", cascade={"remove"})
-     */
-    private $placements;
-
-    /**
      * @ORM\OneToMany(targetEntity="Repartition", mappedBy="department", cascade={"remove"})
      */
     private $repartitions;
 
-    /**
-     * @ORM\Column(name="cluster", type="string", length=100, nullable=true)
-     */
-    private $cluster;
-
     public function __construct()
     {
-      $this->placements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->repartitions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->accreditations = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -192,6 +181,39 @@ class Department
     }
 
     /**
+     * Add Accreditation
+     *
+     * @param Gesseh\CoreBundle\Entity\Accreditation $accreditation
+     * @return Department
+     */
+    public function addAccreditation(\Gesseh\CoreBundle\Entity\Accreditation $accreditation)
+    {
+        $this->accreditations[] = $accreditation;
+
+        return $this;
+    }
+
+    /**
+     * Remove Accreditation
+     *
+     * @param Gesseh\CoreBundle\Entity\Accreditation $accreditation
+     */
+    public function removeAccreditation(\Gesseh\CoreBundle\Entity\Accreditation $accreditation)
+    {
+        $this->accreditations->removeElement($accreditation);
+    }
+
+    /**
+     * Get Accreditations
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getAccreditations()
+    {
+        return $this->accreditations;
+    }
+
+    /**
      * Set sector
      *
      * @param Gesseh\CoreBundle\Entity\Sector $sector
@@ -213,55 +235,6 @@ class Department
     }
 
     /**
-     * Set number
-     *
-     * @param smallint $number
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
-    }
-
-    /**
-     * Get number
-     *
-     * @return smallint
-     */
-    public function getNumber()
-    {
-        return $this->number;
-    }
-
-    /**
-     * Add placements
-     *
-     * @param Gesseh\CoreBundle\Entity\Placement $placements
-     */
-    public function addPlacement(\Gesseh\CoreBundle\Entity\Placement $placements)
-    {
-        $this->placements[] = $placements;
-    }
-
-    /**
-     * Remove placements
-     *
-     * @param Gesseh\CoreBundle\Entity\Placement $placements
-     */
-    public function removePlacement(\Gesseh\CoreBundle\Entity\Placement $placements)
-    {
-    }
-
-    /**
-     * Get placements
-     *
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getPlacements()
-    {
-        return $this->placements;
-    }
-
-    /**
      * Add repartition
      *
      * @param Gesseh\CoreBundle\Entity\Repartition $repartition
@@ -278,6 +251,7 @@ class Department
      */
     public function removeRepartition(\Gesseh\CoreBundle\Entity\Repartition $repartition)
     {
+        $this->repartitions->removeElement($repartition);
     }
 
     /**
@@ -288,6 +262,20 @@ class Department
     public function getRepartitions()
     {
         return $this->repartitions;
+    }
+
+    /**
+     * Find repartition
+     *
+     * @return Gesseh\CoreBundle\Entity\Repartition $repartition
+     */
+    public function findRepartition($period)
+    {
+        foreach($this->repartitions as $repartition) {
+            if($repartition->getPeriod() == $period) {
+                return $repartition;
+            }
+        }
     }
 
     /**

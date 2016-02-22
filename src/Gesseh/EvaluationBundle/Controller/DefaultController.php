@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013-2015 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -52,25 +52,12 @@ class DefaultController extends Controller
         if (!$department)
             throw $this->createNotFoundException('Unable to find department entity.');
 
-        /** Find other cluster's departments if exists */
-        if ($department->getCluster() != null) {
-            $cluster = $em->getRepository('GessehCoreBundle:Department')->getAllCluster($id);
-        } else {
-            $cluster = null;
-        }
-
         $eval = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvalByDepartment($id, $eval_limit);
-
-        if ($eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($department->getSector()->getId()))
-            $eval_form = $eval_sector->getForm();
-        else
-            throw $this->createNotFoundException('Aucun formulaire d\'évaluation attribué à ce stage ! Veuillez contacter un administrateur.');
+        $accreditations = $em->getRepository('GessehCoreBundle:Accreditation')->getActiveByDepartment($department->getId());
 
         return array(
             'department' => $department,
-            'eval_form'  => $eval_form,
             'eval'       => $eval,
-            'cluster'    => $cluster,
         );
     }
 
@@ -89,14 +76,14 @@ class DefaultController extends Controller
       if (!$placement)
         throw $this->createNotFoundException('Unable to find placement entity.');
 
-      $eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($placement->getDepartment()->getSector()->getId());
+      $eval_sector = $em->getRepository('GessehEvaluationBundle:EvalSector')->getEvalSector($placement->getRepartition()->getDepartment()->getSector()->getId());
 
       if (null !== $eval_sector) {
         $eval_form = $eval_sector->getForm();
         $form = $this->createForm(new EvaluationType($eval_form->getCriterias()));
         $form_handler = new EvaluationHandler($form, $this->get('request'), $em, $placement, $eval_form->getCriterias(), $pm->findParamByName('eval_moderate')->getValue());
         if ($form_handler->process()) {
-          $this->get('session')->getFlashBag()->add('notice', 'Évaluation du stage "' . $placement->getDepartment()->getName() . ' à ' . $placement->getDepartment()->getHospital()->getName() . '" enregistrée.');
+          $this->get('session')->getFlashBag()->add('notice', 'Évaluation du stage "' . $placement->getRepartition()->getDepartment()->getName() . ' à ' . $placement->getRepartition()->getDepartment()->getHospital()->getName() . '" enregistrée.');
 
           return $this->redirect($this->generateUrl('GCore_PIndex'));
         }

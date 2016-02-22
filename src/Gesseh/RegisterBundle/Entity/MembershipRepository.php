@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2015 Pierre-François Angrand
+ * @copyright: Copyright 2015-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -95,11 +95,15 @@ class MembershipRepository extends EntityRepository
             ->addSelect('u')
             ->join('s.placements', 'p')
             ->addSelect('p')
-            ->join('p.department', 'd')
+            ->join('p.repartition', 'v')
+            ->addSelect('v')
+            ->join('v.department', 'd')
             ->addSelect('d')
-            ->join('d.sector', 't')
+            ->join('d.accreditations', 'a')
+            ->addSelect('a')
+            ->join('a.sector', 't')
             ->addSelect('t')
-            ->join('p.period', 'r')
+            ->join('v.period', 'r')
             ->addSelect('r')
             ->join('m.infos', 'i')
             ->addSelect('i')
@@ -107,7 +111,9 @@ class MembershipRepository extends EntityRepository
             ->addSelect('q')
             ->join('s.grade', 'g')
             ->addSelect('g')
-            ->where('m.expiredOn > :now')
+            ->where('a.end > :now')
+            ->where('now', new \DateTime('now'))
+            ->andWhere('m.expiredOn > :now')
             ->setParameter('now', new \DateTime('now'))
             ->andWhere('m.payedOn is not NULL')
             ->addOrderBy('s.surname', 'asc')

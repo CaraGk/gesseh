@@ -7,11 +7,16 @@
 {% block content %}
     <ul class="entities placements">
         {% for placement in placements %}
-            <li class="field entity placement">
-                <div class="field entity_item period">{{ placement.period }} : </div>
-                <div class="field entity_item fieldset">{{ placement.department.name }} à {{ placement.department.hospital }}</div>
-                <div class="field entity_item department_sector">({{ placement.department.sector.name }})</div>
-                <ul class="actions">
+            <li class="field entity placement row">
+                <div class="field entity_item period col-sm-2">{{ placement.repartition.period }} : </div>
+                <div class="field entity_item fieldset col-sm-3">{{ placement.repartition.department.name }}</div>
+                <div class="field entity_item fieldset col-sm-3">{{ placement.repartition.department.hospital }}</div>
+                <ul class="field entity_item department_sector col-sm-2">
+                    {% for accreditation in placement.repartition.department.accreditations %}
+                        <li>{{ accreditation.sector.name }}</li>
+                    {% endfor %}
+                </ul>
+                <ul class="actions col-sm-2">
                     <li><a href="{{ path('GUser_SListStudents', { 'id': placement.id })}}" title="Voir les autres étudiants"><img src="{{ asset('bundles/gessehcore/images/User.png') }}" alt="Co-internes"></a></li>
                     {% if kparam('eval_active') == true %}
                         {% if placement.id not in evaluated %}

@@ -19,23 +19,10 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class DepartmentType extends AbstractType
 {
-  private $testSimulActive;
-
-  public function __construct($testSimulActive)
-  {
-    $this->testSimulActive = $testSimulActive;
-  }
-
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->add('name')
-            ->add('head')
-            ->add('sector')
-            ->add('cluster');
-
-    // Si les simulations sont activées
-    if ($this->testSimulActive == true)
-      $builder->add('number');
+    ;
   }
 
   public function getName()

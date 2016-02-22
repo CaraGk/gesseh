@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2016 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -52,6 +52,8 @@ class FieldSetController extends Controller
         $period = $em->getRepository('GessehCoreBundle:Period')->getLast();
         if($period) {
             $arg['period'] = $period->getId();
+        } else {
+            $arg['period'] = null;
         }
     } else {
         $arg['period'] = null;
@@ -99,11 +101,16 @@ class FieldSetController extends Controller
     $user = $this->get('security.token_storage')->getToken()->getUsername();
     $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
     $limit = $this->get('request')->query->get('limit', null);
+    $clusters = null;
 
-    if ($cluster_name = $department->getCluster()) {
-        $cluster = $em->getRepository('GessehCoreBundle:Department')->findByCluster($cluster_name);
-    } else {
-        $cluster = null;
+    foreach($department->getRepartitions() as $repartition) {
+        if ($cluster_name = $repartition->getCluster()) {
+            $period = $repartition->getPeriod();
+            $clusters[] = array(
+                'period'       => $period,
+                'repartitions' => $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name),
+            );
+        }
     }
 
     if (true == $pm->findParamByName('eval_active')->getValue()) {
@@ -116,7 +123,7 @@ class FieldSetController extends Controller
         'department' => $department,
         'evaluated'  => $evaluated,
         'limit'      => $limit,
-        'cluster'    => $cluster,
+        'clusters'    => $clusters,
     );
   }
 

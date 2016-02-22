@@ -1,22 +1,18 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
 
 {% block titlecontent %}Ajouter/modifier un terrain de stage{% endblock %}
-{% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('bundles/mopabootstrap/css/mopabootstrapbundle.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
 
 {% block content %}
-    <div>{{ form_errors(hospital_form) }}</div>
-    {{ form_start(hospital_form) }}
-    {{ form_widget(hospital_form) }}
-    <ul class="actions">
-      <li><a href="{{ path('GCore_FSIndex', { 'limit': limit }) }}" title="Abandonner les modifications" class="cancel"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
-      <li><input type="image" id="add_dpt" src="{{ asset('bundles/gessehcore/images/Add.png') }}" title="Ajouter un service à l'hôpital" class="add" /></li>
-      <li><input type="image" id="rm_dpt" src="{{ asset('bundles/gessehcore/images/Denided.png')}}" title="Supprimer le dernier service ajouté à l'hôpital" class="delete"/></li>
-      <li><button type="submit" title="Enregistrer les modifications" class="save">Enregistrer</button></li>
-    </ul>
-    {{ form_end(hospital_form) }}
+    {{ form(hospital_form) }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/gessehcore/js/addSub.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/mopabootstrap/js/mopabootstrap-collection.js')}}" type="text/javascript"></script>
 {% endblock %}

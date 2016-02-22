@@ -31,7 +31,7 @@ class DepartmentDescriptionType extends AbstractType
 
   public function getName()
   {
-    return 'gesseh_corebundle_departmenttype';
+    return 'gesseh_corebundle_departmentdescriptiontype';
   }
 
   public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)

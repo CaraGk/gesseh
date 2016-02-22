@@ -1,0 +1,14 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Agrément{% endblock %}
+
+{% block actionscontent %}
+    <li><a href="{{ path('GCore_FSShowDepartment', {'id': department_id, 'limit': limit}) }}" title="Retour vers la description du terrain de stage">Retour</a></li>
+    {% if accreditation is not null %}
+        <li><a href="{{ path('GCore_FSADeleteAccreditation', {'id': accreditation.id, 'limit': limit }) }}" title="Supprimer l'agrément">Supprimer</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {{ form(form) }}
+{% endblock %}
