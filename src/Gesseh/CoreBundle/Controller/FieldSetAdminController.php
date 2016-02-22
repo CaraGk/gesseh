@@ -310,6 +310,7 @@ class FieldSetAdminController extends Controller
   public function newAccreditationAction($id)
   {
     $em = $this->getDoctrine()->getManager();
+    $um = $this->container->get('fos_user.user_manager');
     $limit = $this->get('request')->query->get('limit', null);
     $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
 
@@ -318,7 +319,7 @@ class FieldSetAdminController extends Controller
 
     $accreditation = new Accreditation();
     $form = $this->createForm(new AccreditationType(), $accreditation);
-    $formHandler = new AccreditationHandler($form, $this->get('request'), $em, $department);
+    $formHandler = new AccreditationHandler($form, $this->get('request'), $em, $um, $department);
 
     if($formHandler->process()) {
       $this->get('session')->getFlashBag()->add('notice', 'Agrément "' . $accreditation->getSector()->getName() . '" modifié.');
@@ -346,6 +347,7 @@ class FieldSetAdminController extends Controller
   public function editAccreditationAction($id)
   {
     $em = $this->getDoctrine()->getManager();
+    $um = $this->container->get('fos_user.user_manager');
     $limit = $this->get('request')->query->get('limit', null);
 
     $accreditation = $em->getRepository('GessehCoreBundle:Accreditation')->find($id);
@@ -354,7 +356,7 @@ class FieldSetAdminController extends Controller
       throw $this->createNotFoundException('Unable to find Accreditation entity.');
 
     $form = $this->createForm(new AccreditationType(), $accreditation);
-    $formHandler = new AccreditationHandler($form, $this->get('request'), $em);
+    $formHandler = new AccreditationHandler($form, $this->get('request'), $em, $um);
 
     if($formHandler->process()) {
       $this->get('session')->getFlashBag()->add('notice', 'Agrément "' . $accreditation->getSector()->getName() . '" modifié.');

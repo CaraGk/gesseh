@@ -11,8 +11,9 @@
 
 namespace Gesseh\CoreBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType,
+    Symfony\Component\Form\FormBuilderInterface;
+use Gesseh\UserBundle\Form\UserType;
 
 /**
  * Accreditation Type
@@ -25,7 +26,9 @@ class AccreditationType extends AbstractType
                 ->add('end')
                 ->add('sector')
                 ->add('supervisor')
-                ->add('user')
+                ->add('user', new UserType('Gesseh\UserBundle\Entity\User'), array(
+                    'label' => ' ',
+                ))
                 ->add('comment')
                 ->add('Enregister', 'submit')
         ;
