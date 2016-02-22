@@ -27,24 +27,11 @@ class FieldSetController extends Controller
   /**
    * @Route("/fieldset/", name="GCore_FSIndex")
    * @Route("/", name="homepage")
-   * @Route("/update", name="GCore_DBUpdate")
    * @Template()
    */
   public function indexAction()
   {
-      /** Update database if some migrations are pending */
-      if ($this->hasToMigrate($this->getDoctrine()->getConnection())) {
-            $this->get('session')->getFlashBag()->add('notice', 'Mise à jour de la base de donnée effectuée.');
-            return $this->redirect($this->generateUrl('GCore_FSIndex'));
-      }
-
-      $em = $this->getDoctrine()->getManager();
-
-      /** Go to first user form if repository User is empty */
-      if(!$em->getRepository('GessehUserBundle:User')->findAll()){
-          return $this->redirect($this->generateUrl('GUser_SInstall'));
-      }
-
+    $em = $this->getDoctrine()->getManager();
     $arg['limit'] = $this->get('request')->query->get('limit', null);
 
     $pm = $this->container->get('kdb_parameters.manager');
@@ -66,29 +53,6 @@ class FieldSetController extends Controller
         'limit'     => $arg['limit'],
     );
   }
-
-    private function hasToMigrate($conn)
-    {
-      $dir = __DIR__.'/../../../../app/DoctrineMigrations';
-      $configuration = new Configuration($conn);
-      $configuration->setMigrationsNamespace('Application\Migrations');
-      $configuration->setMigrationsTableName('migration_versions');
-      $configuration->setMigrationsDirectory($dir);
-      $configuration->registerMigrationsFromDirectory($dir);
-
-      $executedMigrations = $configuration->getMigratedVersions();
-      $availableMigrations = $configuration->getAvailableVersions();
-      $newMigrations = count($availableMigrations) - count($executedMigrations);
-      $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
-
-      if ($newMigrations > 0 and !$executedUnavailableMigrations) {
-        $migration = new Migration($configuration);
-        if ($migration->migrate()) {
-            return true;
-        }
-      }
-      return false;
-    }
 
   /**
    * @Route("/department/{id}/show", name="GCore_FSShowDepartment", requirements={"id" = "\d+"})
@@ -150,4 +114,52 @@ class FieldSetController extends Controller
         'limit'    => $limit,
     );
   }
+
+    /**
+     * Database update if needed
+     *
+     * @Route("/update", name="GCore_DBUpdate")
+     */
+    public function updateAction()
+    {
+        /** Update database if some migrations are pending */
+        if ($this->hasToMigrate($this->getDoctrine()->getConnection())) {
+            $this->get('session')->getFlashBag()->add('notice', 'Mise à jour de la base de donnée effectuée.');
+
+            $em = $this->getDoctrine()->getManager();
+
+            /** Go to first user form if repository User is empty */
+            if(!$em->getRepository('GessehUserBundle:User')->findAll()){
+                return $this->redirect($this->generateUrl('GUser_SInstall'));
+            }
+        } else {
+            $this->get('session')->getFlashBag()->add('notice', 'Toutes les mises à jour de la base de donnée ont déjà été effectuées.');
+        }
+
+        return $this->redirect($this->generateUrl('GCore_FSIndex'));
+    }
+
+    private function hasToMigrate($conn)
+    {
+        $dir = __DIR__.'/../../../../app/DoctrineMigrations';
+        $configuration = new Configuration($conn);
+        $configuration->setMigrationsNamespace('Application\Migrations');
+        $configuration->setMigrationsTableName('migration_versions');
+        $configuration->setMigrationsDirectory($dir);
+        $configuration->registerMigrationsFromDirectory($dir);
+
+        $executedMigrations = $configuration->getMigratedVersions();
+        $availableMigrations = $configuration->getAvailableVersions();
+        $newMigrations = count($availableMigrations) - count($executedMigrations);
+        $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
+
+        if ($newMigrations > 0 and !$executedUnavailableMigrations) {
+            $migration = new Migration($configuration);
+            if ($migration->migrate()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

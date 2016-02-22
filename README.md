@@ -32,7 +32,8 @@ Pour son installation, vous aurez besoin d'un serveur web (apache, lighttpd, ...
 2. Extraire les fichiers (BZip ou 7zip) dans un répertoire.
 3. Copier le fichier *app/config/parameters.yml.dist* vers *app/config/parameters.yml* et le modifier selon les besoins (connexion MySQL, etc).
 4. Envoyer les fichiers via FTP (ou autre) dans le répertoire web du serveur.
-5. Le site est accessible via l’URL : *http://ipduserverweb/gesseh/web* ; la base de donnée est automatiquement créée et un formulaire demande à créer le premier utilisateur.
+5. Pour mettre à jour la base de donnée : *http://ipduserverweb/gesseh/web/update* ; la base de donnée est automatiquement créée et un formulaire demande à créer le premier utilisateur.
+6. Les accès ultérieurs se font via l’URL : *http://ipduserverweb/gesseh/web/*.
 
 Pour les mises à jour, il faut suivre les mêmes étapes sauf que le fichier *app/config/parameters.yml* est déjà configuré et qu’il n’y aura pas de création du premier utilisateur.
 
