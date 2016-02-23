@@ -20,7 +20,7 @@ a:hover { color: #111111; text-decoration: underline; }
 strong { font-weight: bold; }
 em { font-style: italic; }
 div { margin: 0; padding: 0; }
-:invalid { background-color: #faa; outline: none; }
+input:invalid, textarea:invalid, select:invalid  { background-color: #faa; outline: none; }
 
 .container-fluid { background-color: #EEEEEE; }
 
@@ -131,7 +131,8 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 .error_list{ color: red; }
 .flash_notice{ margin: 3px 0; padding: 7px; background-color: #cfc; }
 .flash_error{ margin: 3px 0; padding: 7px; background-color: #f33; color: #fff; }
-
+.public { color: #d55; }
+.private { color: #5d5; }
 .active { background-color: #D0E2FF; }
 .valide { background-color: #77aa77; }
 .warning { background-color: #ffd699; }
