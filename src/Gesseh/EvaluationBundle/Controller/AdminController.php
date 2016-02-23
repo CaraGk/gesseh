@@ -295,12 +295,13 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $pm = $this->container->get('kdb_parameters.manager');
         $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll();
-        $eval_limit = date('Y-m-d H:i:s', strtotime('-' . $pm->findParamByName('eval_limit')->getValue() . ' year'));
+        $limit['date'] = date('Y-m-d H:i:s', strtotime('-' . $pm->findParamByName('eval_limit')->getValue() . ' year'));
+        $limit['role'] = null;
         $pdf = $this->get("white_october.tcpdf")->create();
 
         foreach ($hospitals as $hospital) {
             foreach ($hospital->getDepartments() as $department) {
-                $eval[$department->getId()] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvalByDepartment($department->getId(), $eval_limit);
+                $eval[$department->getId()] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getByDepartment($department->getId(), $limit);
             }
         }
 

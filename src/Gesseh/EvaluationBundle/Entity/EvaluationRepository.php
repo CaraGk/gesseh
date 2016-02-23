@@ -38,7 +38,7 @@ class EvaluationRepository extends EntityRepository
      *
      * @return array
      */
-    public function getEvalByDepartment($id, $date = null)
+    public function getByDepartment($id, $limit = null)
     {
         $query = $this->getBaseQuery();
         $query->join('r.period', 'q')
@@ -49,19 +49,29 @@ class EvaluationRepository extends EntityRepository
             ->addOrderBy('q.begin', 'asc')
         ;
 
-        if ($date != null) {
-            $query->andWhere('e.created_at > :date')
-                ->setParameter('date', $date)
-            ;
+        if ($limit != null) {
+            if ($limit['date']) {
+                $query->andWhere('e.created_at > :date')
+                      ->setParameter('date', $limit['date'])
+                ;
+            }
+            if ($limit['role']) {
+                $query->andWhere('c.private = false');
+            }
         }
 
-        $results = $query->getQuery()->getResult();
+        $results = $query->getQuery()
+                         ->getResult()
+        ;
         $calc = array();
         $crits = array();
 
         foreach ($results as $result) {
             $criteria = $result->getEvalCriteria();
-            $period_id = $result->getPlacement()->getRepartition()->getPeriod()->getId();
+            $period_id = $result->getPlacement()
+                                ->getRepartition()
+                                ->getPeriod()
+                                ->getId();
             $value = $result->getValue();
 
             if (!isset($calc[$criteria->getId()]['name'][0])) {
@@ -89,7 +99,6 @@ class EvaluationRepository extends EntityRepository
 
                 $calc[$criteria->getId()]['count'][0] += (int) $value;
                 $calc[$criteria->getId()]['mean'][0] = round($calc[$criteria->getId()]['count'][0] / $calc[$criteria->getId()]['total'][0], 1);
-//                $calc[$criteria->getId()]['ratio'][0] = $result->getEvalCriteria()->getRatio();
                 $calc[$criteria->getId()]['count'][$period_id] += (int) $value;
                 $calc[$criteria->getId()]['mean'][$period_id] = round($calc[$criteria->getId()]['count'][$period_id] / $calc[$criteria->getId()]['total'][$period_id], 1);
             } elseif ($criteria->getType() == 3 or $criteria->getType() == 5 or $criteria->getType() == 6) {

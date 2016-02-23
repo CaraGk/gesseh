@@ -37,9 +37,11 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $pm = $this->container->get('kdb_parameters.manager');
+        $um = $this->container->get('fos_user.user_manager');
+        $username = $this->get('security.token_storage')->getToken()->getUsername();
 
         /* Vérification de l'évaluation de tous ses stages (sauf le courant) par l'étudiant */
-        $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($this->get('security.token_storage')->getToken()->getUsername());
+        $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($username);
         $current_period = $em->getRepository('GessehCoreBundle:Period')->getCurrent();
         $count_placements = $em->getRepository('GessehCoreBundle:Placement')->getCountByStudentWithoutCurrentPeriod($student, $current_period);
         if ($pm->findParamByName('eval_block_unevaluated')->getValue() and $em->getRepository('GessehEvaluationBundle:Evaluation')->studentHasNonEvaluated($student, $current_period, $count_placements)) {
@@ -47,12 +49,20 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('GCore_PIndex'));
         }
 
-        $eval_limit = date('Y-m-d H:i:s', strtotime('-' . $pm->findParamByName('eval_limit')->getValue() . ' year'));
+        /* Vérification des droits ROLE_STUDENT sinon sélection uniquement des EvalCriteria où isPrivate == false */
+        $user = $um->findUserByUsername($username);
+        if ($user->hasRole('ROLE_STUDENT') or  $user->hasRole('ROLE_ADMIN')) {
+            $limit['role'] = false;
+        } else {
+            $limit['role'] = true;
+        }
+
+        $limit['date'] = date('Y-m-d H:i:s', strtotime('-' . $pm->findParamByName('eval_limit')->getValue() . ' year'));
         $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
         if (!$department)
             throw $this->createNotFoundException('Unable to find department entity.');
 
-        $eval = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvalByDepartment($id, $eval_limit);
+        $eval = $em->getRepository('GessehEvaluationBundle:Evaluation')->getByDepartment($id, $limit);
         $accreditations = $em->getRepository('GessehCoreBundle:Accreditation')->getActiveByDepartment($department->getId());
 
         return array(
