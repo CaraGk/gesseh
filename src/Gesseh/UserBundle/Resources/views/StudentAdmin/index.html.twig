@@ -14,9 +14,11 @@
           <input type="text" id="search" name="search" value="{{ search }}" />
       </form>
     </li>
-    <li class="field"><a href="{{ path('GUser_SAImport') }}" title="Importer une promotion d'internes"><button type="button">Importer une promo</button></a></li>
-    <li class="field"><a href="{{ path('GUser_GAUpdateNext') }}" title="Passer tous les étudiants dans la promotion supérieure" class="confirm" confirm="Attention ! Cette opération va passer tous les internes dans la promotion suivante ! Êtes-vous sûrs de vouloir continuer ?"><button type="button">Changer de promo</button></a></li>
-    <li class="field"><a href="{{ path('GRegister_AIndex') }}"><button type="button">Adhérents</button></a></li>
+    {% if is_granted('ROLE_ADMIN') %}
+        <li class="field"><a href="{{ path('GUser_SAImport') }}" title="Importer une promotion d'internes"><button type="button">Importer une promo</button></a></li>
+        <li class="field"><a href="{{ path('GUser_GAUpdateNext') }}" title="Passer tous les étudiants dans la promotion supérieure" class="confirm" confirm="Attention ! Cette opération va passer tous les internes dans la promotion suivante ! Êtes-vous sûrs de vouloir continuer ?"><button type="button">Changer de promo</button></a></li>
+        <li class="field"><a href="{{ path('GRegister_AIndex') }}"><button type="button">Adhérents</button></a></li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -36,16 +38,24 @@
                 </div>
             </div>
             <ul class="actions">
+                <li class="action"><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 's.id', 'value': student.id, 'description': student.surname ~ ' ' ~ student.name}}) }}" title="Afficher les stages de l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
                 <li class="action"><a href="{{ path('GUser_SAEdit', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Modifier l'étudiant '{{ student }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
                 <li class="action"><a href="{{ path('GUser_SADelete', {'id': student.id}) }}?{{ app.request.queryString }}" title="Supprimer l'étudiant '{{ student }}'" class="confirm delete" confirm="Attention, vous allez supprimer l'étudiant et toutes les informations s'y rapportant ! Voulez-vous continuer ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
-                {% if 'ROLE_ADMIN' in student.user.roles %}
-                    <li class="action"><a href="{{ path('GUser_SADemote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Démettre l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Fav.png') }}" alt="Démettre" /></a></li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    {% if 'ROLE_ADMIN' in student.user.roles %}
+                        <li class="action"><a href="{{ path('GUser_SADemote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Démettre l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Fav.png') }}" alt="Démettre" /></a></li>
+                    {% else %}
+                        <li class="action"><a href="{{ path('GUser_SAPromote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Promouvoir l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Fav_Empty.png') }}" alt="Promouvoir" /></a></li>
+                    {% endif %}
+                    {% if kparam('reg_active') == true %}
+                        {% if members is not null and student.id in members %}
+                            <li class="action valid"><a href="{{ path('GRegister_UIndex', {'userid': student.user.id}) }}" title="Afficher les adhésions de '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Adhésions" /></a></li>
+                        {% else %}
+                            <li class="action unvalid"><a href="{{ path('GRegister_UIndex', {'userid': student.user.id}) }}" title="Afficher les adhésions de '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Adhésions" /></a></li>
+                        {% endif %}
+                    {% endif %}
                 {% else %}
-                    <li class="action"><a href="{{ path('GUser_SAPromote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Promouvoir l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Fav_Empty.png') }}" alt="Promouvoir" /></a></li>
-                {% endif %}
-                <li class="action"><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 's.id', 'value': student.id, 'description': student.surname ~ ' ' ~ student.name}}) }}" title="Afficher les stages de l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
-                {% if kparam('reg_active') == true and is_granted('ROLE_ADMIN') %}
-                    <li class="action"><a href="{{ path('GRegister_UIndex', {'userid': student.user.id}) }}" title="Afficher les adhésions de '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Adhésions" /></a></li>
+                    <li class="action"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Adhésions" title="{{ student }} est adhérent." /></li>
                 {% endif %}
             </ul>
         </li>

@@ -28,25 +28,40 @@ use Symfony\Component\Validator\Constraints\File;
  */
 class StudentAdminController extends Controller
 {
-  /**
-   * Affiche la liste des student
-   *
-   * @Route("/", name="GUser_SAIndex")
-   * @Template()
-   */
-  public function indexAction()
-  {
-    $em = $this->getDoctrine()->getManager();
-    $search = $this->get('request')->query->get('search', null);
-    $paginator = $this->get('knp_paginator');
-    $students_query = $em->getRepository('GessehUserBundle:Student')->getAll($search);
-    $students_count = $em->getRepository('GessehUserBundle:Student')->countAll(true, $search);
-    $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
+    /**
+     * Affiche la liste des student
+     *
+     * @Route("/", name="GUser_SAIndex")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $pm = $this->container->get('kdb_parameters.manager');
+        $um = $this->container->get('fos_user.user_manager');
+        $username = $this->get('security.token_storage')->getToken()->getUsername();
+        $user = $um->findUserByUsername($username);
+        $search = $this->get('request')->query->get('search', null);
+        $paginator = $this->get('knp_paginator');
+        $students_query = $em->getRepository('GessehUserBundle:Student')->getAll($search);
+        $students_count = $em->getRepository('GessehUserBundle:Student')->countAll(true, $search);
+        $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
+
+        $member_list = null;
+        if ($pm->findParamByName('reg_active')->getValue())
+        {
+            if ($user->hasRole('ROLE_ADMIN') or ($user->hasRole('ROLE_SUPERTEACHER') and $pm->findParamByName('reg_teacher_access')->getValue())) {
+                foreach ($members = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudentArray() as $member) {
+                    $member_list[] = $member['id'];
+                }
+            }
+        }
 
     return array(
       'students'       => $students,
       'students_count' => $students_count,
       'search'         => $search,
+      'members'        => $member_list,
     );
   }
 

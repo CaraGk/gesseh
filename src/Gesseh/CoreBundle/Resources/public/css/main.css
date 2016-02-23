@@ -133,6 +133,8 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 .flash_error{ margin: 3px 0; padding: 7px; background-color: #f33; color: #fff; }
 .public { color: #d55; }
 .private { color: #5d5; }
+.valid { border: 2px solid #5d5; }
+.unvalid { border: 2px solid #d55; }
 .active { background-color: #D0E2FF; }
 .valide { background-color: #77aa77; }
 .warning { background-color: #ffd699; }

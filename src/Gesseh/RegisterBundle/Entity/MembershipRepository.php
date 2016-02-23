@@ -122,4 +122,20 @@ class MembershipRepository extends EntityRepository
 
         return $query->getQuery()->getResult();
     }
+
+    public function getCurrentForStudentArray()
+    {
+        $query = $this->createQueryBuilder('m')
+                      ->join('m.student', 's')
+                      ->where('m.expiredOn > :now')
+                      ->setParameter('now', new \DateTime('now'))
+                      ->andWhere('m.payedOn is not NULL')
+                      ->groupBy('s.id')
+                      ->select('s.id')
+        ;
+
+        return $query->getQuery()
+                     ->getArrayResult()
+        ;
+    }
 }
