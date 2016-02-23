@@ -11,9 +11,10 @@
 
 namespace Gesseh\EvaluationBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Gesseh\CoreBundle\Entity\Department;
 use Gesseh\EvaluationBundle\Entity\Evaluation;
 use Gesseh\EvaluationBundle\Entity\EvalSector;
@@ -87,6 +88,7 @@ class DefaultController extends Controller
      *
      * @Route("/placement/{id}", name="GEval_DEval", requirements={"id" = "\d+"})
      * @Template()
+     * @Security("has_role('ROLE_STUDENT')")
      */
     public function evaluateAction($id)
     {
