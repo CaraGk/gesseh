@@ -64,6 +64,10 @@ class Repartition
      */
     private $cluster;
 
+    public function __toString()
+    {
+        return $this->department->getName() . " à " . $this->department->getHospital()->getName() . " (" . $this->period->getBegin()->format('d/m/Y') . "-" . $this->period->getEnd()->format('d/m/Y') . ")";
+    }
     public function __construct()
     {
       $this->placements = new \Doctrine\Common\Collections\ArrayCollection();
