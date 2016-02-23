@@ -28,16 +28,26 @@ class AccreditationRepository extends EntityRepository
         ;
     }
 
-    public function getActiveByDepartment($department_id)
+    public function getByDepartmentQuery($department_id)
     {
         $query = $this->getBaseQuery();
-        $query->where('a.begin < :now')
-              ->andWhere('a.end > :now')
-              ->setParameter('now', new \DateTime('now'))
-              ->andWhere('d.id = :department_id')
-              ->setParameter('department_id', $department_id)
+        return $query->where('d.id = :department_id')
+                     ->setParameter('department_id', $department_id)
         ;
+    }
 
+    public function getActiveByDepartmentQuery($department_id)
+    {
+        $query = $this->getByDepartmentQuery($department_id);
+        return $query->andWhere('a.begin < :now')
+                     ->andWhere('a.end > :now')
+                     ->setParameter('now', new \DateTime('now'))
+        ;
+    }
+
+    public function getActiveByDepartment($department_id)
+    {
+        $query = $this->getActiveByDepartmentQuery($department_id);
         return $query->getQuery()
                      ->getResult()
         ;
@@ -45,15 +55,25 @@ class AccreditationRepository extends EntityRepository
 
     public function getByDepartmentAndPeriod($department_id, $period)
     {
-        $query = $this->getBaseQuery();
-        $query->where('d.id = :department_id')
-              ->setParameter('department_id', $department_id)
-              ->andWhere('a.begin < :period_end')
+        $query = $this->getByDepartmentQuery($department_id);
+        $query->andWhere('a.begin < :period_end')
               ->setParameter('period_end', $period->getEnd())
               ->andWhere('a.end > :period_begin')
               ->setParameter('period_begin', $period->getBegin())
         ;
 
+        return $query->getQuery()
+                     ->getResult()
+        ;
+    }
+
+    public function getByDepartmentAndUser($department_id, $user_id)
+    {
+        $query = $this->getActiveByDepartmentQuery($department_id);
+        $query->join('a.user', 'u')
+              ->andWhere('u.id = :user_id')
+              ->setParameter('user_id', $user_id)
+        ;
         return $query->getQuery()
                      ->getResult()
         ;

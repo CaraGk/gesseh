@@ -40,27 +40,33 @@ class DefaultController extends Controller
         $um = $this->container->get('fos_user.user_manager');
         $username = $this->get('security.token_storage')->getToken()->getUsername();
 
-        /* Vérification de l'évaluation de tous ses stages (sauf le courant) par l'étudiant */
-        $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($username);
-        $current_period = $em->getRepository('GessehCoreBundle:Period')->getCurrent();
-        $count_placements = $em->getRepository('GessehCoreBundle:Placement')->getCountByStudentWithoutCurrentPeriod($student, $current_period);
-        if ($pm->findParamByName('eval_block_unevaluated')->getValue() and $em->getRepository('GessehEvaluationBundle:Evaluation')->studentHasNonEvaluated($student, $current_period, $count_placements)) {
-            $this->get('session')->getFlashBag()->add('error', 'Il y a des évaluations non réalisées. Veuillez évaluer tous vos stages avant de pouvoir accéder aux autres évaluations.');
-            return $this->redirect($this->generateUrl('GCore_PIndex'));
-        }
-
         /* Vérification des droits ROLE_STUDENT sinon sélection uniquement des EvalCriteria où isPrivate == false */
         $user = $um->findUserByUsername($username);
-        if ($user->hasRole('ROLE_STUDENT') or  $user->hasRole('ROLE_ADMIN')) {
+        if ($user->hasRole('ROLE_STUDENT') or $user->hasRole('ROLE_ADMIN')) {
             $limit['role'] = false;
+
+            /* Vérification de l'évaluation de tous ses stages (sauf le courant) par l'étudiant */
+            $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($username);
+            $current_period = $em->getRepository('GessehCoreBundle:Period')->getCurrent();
+            $count_placements = $em->getRepository('GessehCoreBundle:Placement')->getCountByStudentWithoutCurrentPeriod($student, $current_period);
+            if ($pm->findParamByName('eval_block_unevaluated')->getValue() and $em->getRepository('GessehEvaluationBundle:Evaluation')->studentHasNonEvaluated($student, $current_period, $count_placements)) {
+                $this->get('session')->getFlashBag()->add('error', 'Il y a des évaluations non réalisées. Veuillez évaluer tous vos stages avant de pouvoir accéder aux autres évaluations.');
+                return $this->redirect($this->generateUrl('GCore_PIndex'));
+            }
+
+            /* Vérification de l'adhésion de l'étudiant */
+            if ($pm->findParamByName('eval_block_nonmember')->getValue() and !$em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student, true)) {
+                $this->get('session')->getFlashBag()->add('error', 'Il faut être à jour de ses cotisations pour pouvoir accéder aux évaluations.');
+                return $this->redirect($this->generateUrl('GRegister_UIndex'));
+            }
         } else {
             $limit['role'] = true;
-        }
 
-        /* Vérification de l'adhésion de l'étudiant */
-        if ($pm->findParamByName('eval_block_nonmember')->getValue() and !$em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student, true)) {
-            $this->get('session')->getFlashBag()->add('error', 'Il faut être à jour de ses cotisations pour pouvoir accéder aux évaluations.');
-            return $this->redirect($this->generateUrl('GRegister_UIndex'));
+            if ($user->hasRole('ROLE_SUPERTEACHER') or $em->getRepository('GessehCoreBundle:Accreditation')->getByDepartmentAndUser($id, $user->getId())) {
+            } else {
+                $this->get('session')->getFlashBag()->add('error', 'Vous n\'avez pas les droits suffisants pour accéder aux évaluations d\'autres terrain de stage.');
+                return $this->redirect($this->generateUrl('GCore_FSIndex'));
+            }
         }
 
         $limit['date'] = date('Y-m-d H:i:s', strtotime('-' . $pm->findParamByName('eval_limit')->getValue() . ' year'));
@@ -69,7 +75,6 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Unable to find department entity.');
 
         $eval = $em->getRepository('GessehEvaluationBundle:Evaluation')->getByDepartment($id, $limit);
-        $accreditations = $em->getRepository('GessehCoreBundle:Accreditation')->getActiveByDepartment($department->getId());
 
         return array(
             'department' => $department,
