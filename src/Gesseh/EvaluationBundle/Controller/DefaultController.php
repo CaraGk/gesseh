@@ -57,6 +57,12 @@ class DefaultController extends Controller
             $limit['role'] = true;
         }
 
+        /* Vérification de l'adhésion de l'étudiant */
+        if ($pm->findParamByName('eval_block_nonmember')->getValue() and !$em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student, true)) {
+            $this->get('session')->getFlashBag()->add('error', 'Il faut être à jour de ses cotisations pour pouvoir accéder aux évaluations.');
+            return $this->redirect($this->generateUrl('GRegister_UIndex'));
+        }
+
         $limit['date'] = date('Y-m-d H:i:s', strtotime('-' . $pm->findParamByName('eval_limit')->getValue() . ' year'));
         $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
         if (!$department)
