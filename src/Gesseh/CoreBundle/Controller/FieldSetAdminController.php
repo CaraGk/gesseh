@@ -12,17 +12,18 @@
 namespace Gesseh\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Gesseh\CoreBundle\Entity\Hospital;
-use Gesseh\CoreBundle\Form\HospitalType;
-use Gesseh\CoreBundle\Form\HospitalDescriptionType;
-use Gesseh\CoreBundle\Form\HospitalHandler;
-use Gesseh\CoreBundle\Entity\Sector;
-use Gesseh\CoreBundle\Form\SectorType;
-use Gesseh\CoreBundle\Form\SectorHandler;
-use Gesseh\CoreBundle\Entity\Department;
-use Gesseh\CoreBundle\Form\DepartmentDescriptionType,
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Gesseh\CoreBundle\Entity\Hospital,
+    Gesseh\CoreBundle\Form\HospitalType,
+    Gesseh\CoreBundle\Form\HospitalDescriptionType,
+    Gesseh\CoreBundle\Form\HospitalHandler;
+use Gesseh\CoreBundle\Entity\Sector,
+    Gesseh\CoreBundle\Form\SectorType,
+    Gesseh\CoreBundle\Form\SectorHandler;
+use Gesseh\CoreBundle\Entity\Department,
+    Gesseh\CoreBundle\Form\DepartmentDescriptionType,
     Gesseh\CoreBundle\Form\DepartmentHandler;
 use Gesseh\CoreBundle\Entity\Accreditation,
     Gesseh\CoreBundle\Form\AccreditationType,
@@ -401,4 +402,60 @@ class FieldSetAdminController extends Controller
     )));
   }
 
+  /**
+   * Give a teacher the role ROLE_SUPERTEACHER
+   *
+   * @Route("/accreditation/{id}/promote", name="GCore_FSAPromote", requirements={"id" = "\d+"})
+   * @Security("has_role('ROLE_ADMIN')")
+   */
+  public function promoteAction($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $um = $this->container->get('fos_user.user_manager');
+    $limit = $this->get('request')->query->get('limit', null);
+    $accreditation = $em->getRepository('GessehCoreBundle:Accreditation')->find($id);
+
+    if (!$accreditation)
+      throw $this->createNotFoundException('Unable to find Accreditation entity.');
+
+    $user = $accreditation->getUser();
+    $user->addRole('ROLE_SUPERTEACHER');
+    $um->updateUser($user);
+
+    $this->get('session')->getFlashBag()->add('notice', 'Droits d\'administration donnés à l\'enseignant "' . $accreditation->getSupervisor() . '"');
+
+    return $this->redirect($this->generateUrl('GCore_FSShowDepartment', array(
+        'id'    => $accreditation->getDepartment()->getId(),
+        'limit' => $limit,
+    )));
+  }
+
+  /**
+   * Remove the role ROLE_SUPERTEACHER from a teacher
+   *
+   * @Route("/accreditation/{id}/demote", name="GCore_FSADemote", requirements={"id" = "\d+"})
+   * @Security("has_role('ROLE_ADMIN')")
+   */
+  public function demoteAction($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $um = $this->container->get('fos_user.user_manager');
+    $limit = $this->get('request')->query->get('limit', null);
+    $accreditation = $em->getRepository('GessehCoreBundle:Accreditation')->find($id);
+
+    if (!$accreditation)
+      throw $this->createNotFoundException('Unable to find Accreditation entity.');
+
+    $user = $accreditation->getUser();
+    if( $user->hasRole('ROLE_SUPERTEACHER') )
+      $user->removeRole('ROLE_SUPERTEACHER');
+    $um->updateUser($user);
+
+    $this->get('session')->getFlashBag()->add('notice', 'Droits d\'administration retirés à l\'enseignant "' . $accreditation->getSupervisor() . '"');
+
+    return $this->redirect($this->generateUrl('GCore_FSShowDepartment', array(
+        'id'    => $accreditation->getDepartment()->getId(),
+        'limit' => $limit,
+    )));
+  }
 }

@@ -30,5 +30,5 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/fieldset/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, roles: ROLE_ADMIN }
-        - { path: ^/user/, roles: [ROLE_STUDENT, ROLE_ADMIN] }
+        - { path: ^/admin/, roles: [ROLE_ADMIN, ROLE_SUPERTEACHER] }
+        - { path: ^/user/, roles: [ROLE_STUDENT, ROLE_ADMIN, ROLE_TEACHER, ROLE_PARTNER] }

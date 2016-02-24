@@ -33,7 +33,7 @@ class EvaluationRepository extends EntityRepository
         ;
     }
 
-    /*
+    /**
      * Récupère les évaluations d'un terrain de stage
      *
      * @return query
@@ -227,5 +227,31 @@ class EvaluationRepository extends EntityRepository
             return true;
         else
             return false;
+    }
+
+    /**
+     * Récupère les évaluations d'un étudiant pour un terrain de stage
+     *
+     * @return ArrayCollection
+     */
+    public function getByPlacement($id, $limit = null)
+    {
+        $query = $this->getBaseQuery();
+        $query->join('r.period', 'q')
+            ->where('p.id = :id')
+            ->setParameter('id', $id)
+            ->addOrderBy('c.rank', 'asc')
+            ->addOrderBy('q.begin', 'asc')
+        ;
+
+        if ($limit != null) {
+            if ($limit['role']) {
+                $query->andWhere('c.private = false');
+            }
+        }
+
+        return $query->getQuery()
+                     ->getResult()
+        ;
     }
 }

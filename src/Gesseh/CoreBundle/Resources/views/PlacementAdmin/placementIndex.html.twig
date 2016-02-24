@@ -3,6 +3,7 @@
     <li class="entity placement evaluated row">
         <div class="field is_evaluated col-sm-1" title="Évalué">
             <a href="{{ path('GEval_ADeleteEval', {'id': placement.id}) }}?{{ app.request.queryString }}" title="Supprimer l'évaluation du stage" class="confirm delete" confirm="Attention ! Vous vous apprêtez à supprimer complètement cette évaluation. L'étudiant devra réévaluer son stage. Confirmez-vous ?">
+            <a href="{{ path('GEval_DShowStudent', {'id': placement.id}) }}?{{ app.request.queryString }}" title="Afficher l'évaluation du stage" class="">
                 <img src="{{ asset('bundles/gessehcore/images/Valid.png') }}" alt="Évalué : supprimer l'évaluation ?" />
             </a>
         </div>

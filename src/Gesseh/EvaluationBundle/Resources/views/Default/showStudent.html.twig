@@ -1,0 +1,26 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Evaluation de {{ evals[0].placement.repartition.department }} par {{ evals[0].placement.student }}{% endblock %}
+{% block titlecontent %}Evaluation de {{ evals[0].placement.repartition.department }} par {{ evals[0].placement.repartition.department }}{% endblock %}
+
+{% block actionscontent %}
+    <li><a href="{{ path('GCore_PAPlacementIndex') }}" title="Retour à la liste des stages de l'étudiant"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
+    <li><a href="{{ path('GEval_ADeleteEval', {'id': evals[0].placement.id}) }}?{{ app.request.queryString }}" title="Supprimer l'évaluation du stage" class="confirm delete" confirm="Attention ! Vous vous apprêtez à supprimer complètement cette évaluation. L'étudiant devra réévaluer son stage. Confirmez-vous ?">Supprimer</a></li>
+{% endblock %}
+
+{% block content %}
+        <div class="row">
+            <div class="col-sm-1">Numéro</div>
+            <div class="col-sm-7">Intitulé</div>
+            <div class="col-sm-4">Réponse</div>
+        </div>
+    {% for eval in evals %}
+        <div class="row">
+            <div class="col-sm-1">{{ eval.evalCriteria.rank }}</div>
+            <div class="col-sm-7">{{ eval.evalCriteria.name }}</div>
+            <div class="col-sm-4">{{ eval.value }}</div>
+        </div>
+    {% else %}
+        <div class="row">Il n'y a aucune évaluation par l'étudiant pour ce stage.</div>
+    {% endfor %}
+{% endblock %}

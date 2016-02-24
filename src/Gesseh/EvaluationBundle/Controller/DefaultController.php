@@ -131,4 +131,23 @@ class DefaultController extends Controller
             );
         }
     }
+
+    /**
+     * Affiche l'évaluation d'un étudiant
+     *
+     * @Route("/placement/{id}/show", name="GEval_DShowStudent", requirements={"id" = "\d+"})
+     * @Template()
+     * @Security("has_role('ROLE_SUPERTEACHER')")
+     */
+    public function showStudentAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $pm = $this->container->get('kdb_parameters.manager');
+        $limit['role'] = true;
+        $evals = $em->getRepository('GessehEvaluationBundle:Evaluation')->getByPlacement($id, $limit);
+
+        return array(
+            'evals' => $evals,
+        );
+    }
 }

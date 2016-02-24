@@ -29,13 +29,18 @@
             </ul>
         </div>
     {% endfor %}
-    <div class="content">Agréments {% if is_granted("ROLE_ADMIN") %}<span class=""><a href="{{ path('GCore_FSANewAccreditation', {'id': department.id, 'limit': limit }) }}" title="Ajouter un agrément"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></span>{% endif %} :
+    <div class="content">Agréments {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERTEACHER") %}<span class=""><a href="{{ path('GCore_FSANewAccreditation', {'id': department.id, 'limit': limit }) }}" title="Ajouter un agrément"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></span>{% endif %} :
         <ul>
             {% for accreditation in department.accreditations %}
                 <li>
                     De {{ accreditation.begin|date('F Y') }} à {{ accreditation.end|date('F Y') }} : {{ accreditation.sector.name }} sous la responsabilité de {{ accreditation.supervisor }}
-                    {% if is_granted("ROLE_ADMIN") %}
+                    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERTEACHER") %}
                         <span class=""><a href="{{ path('GCore_FSAEditAccreditation', { 'id': accreditation.id, 'limit': limit }) }}" title="Modifier l'agrément du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></span>
+                        {% if 'ROLE_SUPERTEACHER' in accreditation.user.roles %}
+                            <span class=""><a href="{{ path('GCore_FSADemote', {'id': accreditation.id, 'limit': limit}) }}" title="Démettre l'enseignant '{{ accreditation.supervisor }}'"><img src="{{ asset('bundles/gessehcore/images/Fav.png') }}" alt="Démettre" /></a></li>
+                        {% else %}
+                            <span class=""><a href="{{ path('GCore_FSAPromote', {'id': accreditation.id, 'limit': limit}) }}" title="Promouvoir l'enseignant '{{ accreditation.supervisor }}'"><img src="{{ asset('bundles/gessehcore/images/Fav_Empty.png') }}" alt="Promouvoir" /></a></li>
+                        {% endif %}
                     {% endif %}
                 </li>
             {% endfor %}
