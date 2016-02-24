@@ -73,4 +73,28 @@ class MenuBuilder
     return $menu;
   }
 
+    /**
+     * @param Request $request
+     */
+    public function createTeacherMenu(Request $request)
+    {
+        $menu = $this->factory->createItem('teacher');
+        $menu->addChild('My department', array('route' => 'GCore_FSIndex', 'label' => 'Mes terrains', 'attributes' => array('title' => 'Afficher les terrains de stage dont je suis responsable')));
+
+        return $menu;
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function createSuperteacherMenu(Request $request)
+    {
+        $menu = $this->factory->createItem('superteacher');
+        $menu->addChild('Students', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants', 'attributes' => array('title' => 'Gérer les étudiants')));
+        $menu->addChild('EvalForms', array('route' => 'GEval_AIndex', 'label' => 'Formulaires d\'évaluation', 'attributes' => array('title' => 'Gérer les formulaires d\'évaluation de stage')));
+        $menu->addChild('Moderation', array('route' => 'GEval_ATextIndex', 'label' => 'Modérer', 'attributes' => array('title' => 'Modérer les évaluations de stage')));
+
+        return $menu;
+    }
+
 }
