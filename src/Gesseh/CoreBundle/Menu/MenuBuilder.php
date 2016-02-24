@@ -79,7 +79,7 @@ class MenuBuilder
     public function createTeacherMenu(Request $request)
     {
         $menu = $this->factory->createItem('teacher');
-        $menu->addChild('My department', array('route' => 'GCore_FSIndex', 'label' => 'Mes terrains', 'attributes' => array('title' => 'Afficher les terrains de stage dont je suis responsable')));
+        $menu->addChild('My department', array('route' => 'GCore_FSIndex', 'routeParameters' => array('limit' => array('type' => 'u.username', 'value' => '', 'description' => '')), 'label' => 'Mes terrains', 'attributes' => array('title' => 'Afficher les terrains de stage dont je suis responsable')));
 
         return $menu;
     }

@@ -33,6 +33,11 @@ class FieldSetController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $arg['limit'] = $this->get('request')->query->get('limit', null);
+    if ($arg['limit']['type'] == 'u.username' and $arg['limit']['value'] == '') {
+        $username = $this->get('security.token_storage')->getToken()->getUsername();
+        $arg['limit']['value'] = $username;
+        $arg['limit']['description'] = $username;
+    }
 
     $pm = $this->container->get('kdb_parameters.manager');
     if($pm->findParamByName('simul_active')->getValue()) {

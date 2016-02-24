@@ -30,3 +30,21 @@ services:
     scope: request
     tags:
       - { name: knp_menu.menu, alias: admin }
+
+  gesseh_core.menu.teacher:
+    class: Knp\Menu\MenuItem
+    factory_service: gesseh_core.menu_builder
+    factory_method: createTeacherMenu
+    arguments: [@request]
+    scope: request
+    tags:
+      - { name: knp_menu.menu, alias: teacher }
+
+  gesseh_core.menu.superteacher:
+    class: Knp\Menu\MenuItem
+    factory_service: gesseh_core.menu_builder
+    factory_method: createSuperteacherMenu
+    arguments: [@request]
+    scope: request
+    tags:
+      - { name: knp_menu.menu, alias: superteacher }
