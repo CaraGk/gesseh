@@ -67,7 +67,7 @@ class Accreditation
     private $sector;
 
     /**
-     * @ORM\OneToOne(targetEntity="Gesseh\UserBundle\Entity\User", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Gesseh\UserBundle\Entity\User", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

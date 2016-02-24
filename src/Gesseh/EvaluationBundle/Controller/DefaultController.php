@@ -76,6 +76,10 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Unable to find department entity.');
 
         $eval = $em->getRepository('GessehEvaluationBundle:Evaluation')->getByDepartment($id, $limit);
+        $count_eval = $em->getRepository('GessehEvaluationBundle:Evaluation')->countByDepartment($id, $limit);
+        if (!$user->hasRole('ROLE_STUDENT') and $count_eval < $pm->findParamByName('eval_block_min')->getValue()) {
+            $eval = null;
+        }
 
         return array(
             'department' => $department,
