@@ -21,55 +21,60 @@ use Doctrine\ORM\EntityRepository;
  */
 class HospitalRepository extends EntityRepository
 {
-  public function getHospitalQuery()
-  {
-    return $this->createQueryBuilder('h')
-                ->join('h.departments', 'd')
-                ->join('d.accreditations', 'a')
-                ->join('a.sector', 's')
-                ->addSelect('d')
-                ->addSelect('a')
-                ->addSelect('s')
-                ->where('a.end > :now')
-                ->setParameter('now', new \DateTime('now'))
-    ;
-  }
-
-  public function getAllOrdered(array $orderBy = array ( 'h' => 'asc', 'd' => 'asc'))
-  {
-    $query = $this->getHospitalQuery();
-    $query->addOrderBy('h.name', 'asc');
-    foreach ($orderBy as $col => $order) {
-      $query->addOrderBy($col . '.name', $order);
+    public function getHospitalQuery()
+    {
+        return $this->createQueryBuilder('h')
+                    ->join('h.departments', 'd')
+                    ->join('d.accreditations', 'a')
+                    ->join('a.sector', 's')
+                    ->addSelect('d')
+                    ->addSelect('a')
+                    ->addSelect('s')
+                    ->where('a.end > :now')
+                    ->setParameter('now', new \DateTime('now'))
+        ;
     }
 
-    return $query->getQuery()
-                 ->getResult();
-  }
+    public function getAllOrdered(array $orderBy = array ( 'h' => 'asc', 'd' => 'asc'))
+    {
+        $query = $this->getHospitalQuery();
+        $query->addOrderBy('h.name', 'asc');
+        foreach ($orderBy as $col => $order) {
+            $query->addOrderBy($col . '.name', $order);
+        }
 
-  public function getAll(array $arg)
-  {
-      $query = $this->getHospitalQuery();
-
-      if($arg['period']) {
-          $query->join('d.repartitions', 'r')
-              ->join('r.period', 'p')
-              ->addSelect('r')
-              ->andWhere('p.id = :id')
-              ->setParameter('id', $arg['period'])
-          ;
-      }
-
-      $query->addOrderBy('h.name', 'asc')
-            ->addOrderBy('d.name', 'asc');
-
-      if (null != $arg['limit'] and (preg_match('/^[s,h,d]\.id$|^u\.username$/', $arg['limit']['type']) or $arg['limit']['type'] == "r.cluster")) {
-        $query->join('a.user', 'u')
-              ->andWhere($arg['limit']['type'] . ' = :value')
-              ->setParameter('value', $arg['limit']['value']);
+        return $query->getQuery()
+                     ->getResult()
+        ;
     }
 
-      return $query->getQuery()
-                   ->getResult();
-  }
+    public function getAll(array $arg)
+    {
+        $query = $this->getHospitalQuery();
+
+        if($arg['period']) {
+            $query->join('d.repartitions', 'r')
+                  ->join('r.period', 'p')
+                  ->addSelect('r')
+                  ->andWhere('p.id = :id')
+                  ->setParameter('id', $arg['period'])
+            ;
+        }
+
+        $query->addOrderBy('h.name', 'asc')
+              ->addOrderBy('d.name', 'asc')
+        ;
+
+        if (null != $arg['limit'] and (preg_match('/^[s,h,d,u]\.id$/', $arg['limit']['type']) or $arg['limit']['type'] == "r.cluster")) {
+            $query->join('a.user', 'u')
+                  ->addSelect('u')
+                  ->andWhere($arg['limit']['type'] . ' = :value')
+                  ->setParameter('value', $arg['limit']['value'])
+            ;
+        }
+
+        return $query->getQuery()
+                     ->getResult()
+        ;
+    }
 }

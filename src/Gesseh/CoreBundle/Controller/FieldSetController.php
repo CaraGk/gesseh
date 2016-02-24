@@ -32,14 +32,17 @@ class FieldSetController extends Controller
   public function indexAction()
   {
     $em = $this->getDoctrine()->getManager();
+    $pm = $this->container->get('kdb_parameters.manager');
+    $um = $this->container->get('fos_user.user_manager');
+    $user = $um->findUserByUsername($this->get('security.token_storage')->getToken()->getUsername());
+
+    /* Filtre sur le username pour l'entrée du menu Teacher */
     $arg['limit'] = $this->get('request')->query->get('limit', null);
-    if ($arg['limit']['type'] == 'u.username' and $arg['limit']['value'] == '') {
-        $username = $this->get('security.token_storage')->getToken()->getUsername();
-        $arg['limit']['value'] = $username;
-        $arg['limit']['description'] = $username;
+    if ($arg['limit']['type'] == 'u.id' and $arg['limit']['value'] == '') {
+        $arg['limit']['value'] = $user->getId();
+        $arg['limit']['description'] = $user->getUsername();
     }
 
-    $pm = $this->container->get('kdb_parameters.manager');
     if($pm->findParamByName('simul_active')->getValue()) {
         $period = $em->getRepository('GessehCoreBundle:Period')->getLast();
         if($period) {

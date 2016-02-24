@@ -34,29 +34,31 @@
                 </ul>
                 <ul class="subentities departments">
                     {% for department in hospital.departments %}
-                                {% for repartition in department.repartitions %}
-                    <li class="row subentity department {% if repartition.number < 1 %}notactive{% endif %}">
-                            <div class="col-sm-3 field subentity_title department_name">{{ department.name }}</div>
-                            <ul class="col-sm-2 field subentity_item department_head">
-                                {% set current = false %}
-                                {% for accreditation in department.accreditations %}
-                                    {% if current != accreditation.supervisor %}
-                                        <li>{{ accreditation.supervisor }}</li>
+                        {% set isSupervisor = false %}
+                        {% for repartition in department.repartitions %}
+                            <li class="row subentity department {% if repartition.number < 1 %}notactive{% endif %}">
+                                <div class="col-sm-3 field subentity_title department_name">{{ department.name }}</div>
+                                <ul class="col-sm-2 field subentity_item department_head">
+                                    {% set current = false %}
+                                    {% for accreditation in department.accreditations %}
+                                        {% if current != accreditation.supervisor %}
+                                            <li>{{ accreditation.supervisor }}</li>
+                                        {% endif %}
+                                        {% set current = accreditation.supervisor %}
+                                        {% if is_granted('ROLE_TEACHER') and accreditation.user.id == app.user.id %}{% set isSupervisor = true %}{% endif %}
+                                    {% endfor %}
+                                </ul>
+                                <ul class="col-sm-2 field subentity_item department_sector">
+                                    {% for accreditation in department.accreditations %}
+                                        <li><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: accreditation.sector.id, description: accreditation.sector.name}}) }}" title="Afficher les terrains de la catégorie {{ accreditation.sector }}">{{ accreditation.sector }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}
+                                    {% if repartition.cluster is not null %}
+                                        <div class="col-sm-1 field subentity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'r.cluster', value: repartition.cluster, description: repartition.cluster }}) }}" title="Afficher les terrains du cluster {{ repartition.cluster }}">Stage couplé</a></div>
+                                    {% else %}
+                                        <div class="col-sm-1"> </div>
                                     {% endif %}
-                                    {% set current = accreditation.supervisor %}
-                                {% endfor %}
-                            </ul>
-                            <ul class="col-sm-2 field subentity_item department_sector">
-                                {% for accreditation in department.accreditations %}
-                                    <li><a href="{{ path('GCore_FSIndex', {limit: {type: 's.id', value: accreditation.sector.id, description: accreditation.sector.name}}) }}" title="Afficher les terrains de la catégorie {{ accreditation.sector }}">{{ accreditation.sector }}</a></li>
-                                {% endfor %}
-                            </ul>
-                            {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}
-                                {% if repartition.cluster is not null %}
-                                    <div class="col-sm-1 field subentity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'r.cluster', value: repartition.cluster, description: repartition.cluster }}) }}" title="Afficher les terrains du cluster {{ repartition.cluster }}">Stage couplé</a></div>
-                                {% else %}
-                                    <div class="col-sm-1"> </div>
-                                {% endif %}
                                     {% if repartition.number > 1 %}
                                         <div class="col-sm-2 field subentity_item department_number">{{ repartition.number }} postes</div>
                                     {% elseif repartition.number == 1 %}
@@ -64,11 +66,13 @@
                                     {% else %}
                                         <div class="col-sm-2 field empty department_number">aucun poste</div>
                                     {% endif %}
-                            {% endif %}
-                                {% endfor %}
+                                {% endif %}
+                            {% endfor %}
                             <ul class="actions col-sm-2">
                                 <li class=""><a href="{{ path('GCore_FSShowDepartment', { 'id': department.id, 'limit': limit }) }}" title="Afficher les informations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Afficher" /></a></li>
-                                {% if kparam('eval_active') == true and is_granted('ROLE_STUDENT') %}<li class="stat"><a href="{{ path('GEval_DShow', { 'id': department.id, 'limit': limit }) }}" title="Afficher les évaluations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>{% endif %}
+                                {% if kparam('eval_active') == true and (is_granted('ROLE_STUDENT') or is_granted('ROLE_SUPERTEACHER') or (is_granted('ROLE_TEACHER') and isSupervisor)) %}
+                                    <li class="stat"><a href="{{ path('GEval_DShow', { 'id': department.id, 'limit': limit }) }}" title="Afficher les évaluations du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>
+                                {% endif %}
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <li class="list"><a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'd.id', 'value': department.id, 'description': department.name ~ ' à ' ~ department.hospital.name }}) }}" title="Afficher les stages associés au service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
                                     <li><a href="{{ path('GCore_PARepartitionsDepartment', {'department_id': department.id}) }}" title="Modifier la répartition du service '{{ department }}'"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Répartition" /></a></li>
