@@ -44,7 +44,7 @@ class EvaluationRepository extends EntityRepository
         $query->join('r.period', 'q')
             ->where('d.id = :id')
             ->setParameter('id', $id)
-            ->andWhere('not(c.moderate = true and e.moderated = false)')
+            ->andWhere('not(c.moderate = true and e.validated = false)')
             ->addOrderBy('c.rank', 'asc')
             ->addOrderBy('q.begin', 'asc')
         ;
@@ -202,7 +202,7 @@ class EvaluationRepository extends EntityRepository
   public function getAllToModerate()
   {
     $query = $this->getBaseQuery();
-    $query->where('e.moderated = false')
+    $query->where('e.validated = false')
           ->addOrderBy('e.created_at', 'asc');
 
     return $query->getQuery();

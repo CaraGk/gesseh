@@ -88,9 +88,9 @@ class EvaluationHandler
             continue;
 
         if(($this->moderate == true and $criteria->isModerate() == false) or $this->moderate == false)
-            $eval_criteria->setModerated(true);
+            $eval_criteria->setValidated(true);
         else
-            $eval_criteria->setModerated(false);
+            $eval_criteria->setValidated(false);
 
         $eval_criteria->setPlacement($this->placement);
         $eval_criteria->setEvalCriteria($criteria);

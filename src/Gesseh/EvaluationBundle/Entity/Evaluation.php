@@ -3,7 +3,7 @@
 /**
  * This file is part of GESSEH project
  *
- * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
+ * @moderator: Pierre-François ANGRAND <gesseh@medlibre.fr>
  * @copyright: Copyright 2013 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
@@ -59,11 +59,24 @@ class Evaluation
     private $created_at;
 
     /**
+     * @var boolean $validated
+     *
+     * @ORM\Column(name="validated", type="boolean", nullable=false)
+     */
+    private $validated = false;
+
+    /**
      * @var boolean $moderated
      *
-     * @ORM\Column(name="moderated", type="boolean", nullable=true)
+     * @ORM\Column(name="moderated", type="boolean", nullable=false)
      */
-    private $moderated;
+    private $moderated = false;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Gesseh\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+     */
+    private $moderator;
 
     public function __toString()
     {
@@ -161,6 +174,29 @@ class Evaluation
     }
 
     /**
+     * Set validated
+     *
+     * @param  boolean    $validated
+     * @return Evaluation
+     */
+    public function setValidated($validated)
+    {
+        $this->validated = $validated;
+
+        return $this;
+    }
+
+    /**
+     * Is validated
+     *
+     * @return boolean
+     */
+    public function isValidated()
+    {
+        return $this->validated;
+    }
+
+    /**
      * Set moderated
      *
      * @param  boolean    $moderated
@@ -181,5 +217,25 @@ class Evaluation
     public function isModerated()
     {
         return $this->moderated;
+    }
+
+    /**
+     * Set moderator
+     *
+     * @param \Gesseh\UserBundle\Entity\User $moderator
+     */
+    public function setModerator(\Gesseh\UserBundle\Entity\User $moderator = null)
+    {
+        $this->moderator = $moderator;
+    }
+
+    /**
+     * Get moderator
+     *
+     * @return \Gesseh\UserBundle\Entity\User
+     */
+    public function getModerator()
+    {
+        return $this->moderator;
     }
 }

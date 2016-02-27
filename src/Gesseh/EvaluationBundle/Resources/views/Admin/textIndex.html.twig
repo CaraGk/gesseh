@@ -12,7 +12,7 @@
             <li class="entity evaluation">
                 <ul class="actions">
                     <li><a href="{{ path('GEval_AModerationValid', {'id': evaluation.id}) }}" title="Valider l'évaluation"><img src="{{ asset('bundles/gessehcore/images/Valid.png') }}" alt="Valider" /></a></li>
-                    <li><a href="{{ path('GEval_ATextDelete', {'id': evaluation.id}) }}" title="Supprimer l'évaluation de l'item" class="confirm delete" confirm="Attention ! Vous allez supprimer une partie d'une évaluation et non l'évaluation complète. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
+                    <li><a href="{{ path('GEval_AModerationEdit', {'id': evaluation.id}) }}" title="Modérer l'évaluation de l'item" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
                 </ul>
                 <div class=""><strong>{{ evaluation.placement.repartition.department.name }} à {{ evaluation.placement.repartition.department.hospital.name }}</strong></div>
                 <div class=""><em>{{ evaluation.evalCriteria.name }}</em> du {{ evaluation.createdAt|date('d-m-Y') }} : </div>

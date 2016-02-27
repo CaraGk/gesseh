@@ -217,7 +217,7 @@ class AdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $paginator = $this->get('knp_paginator');
-    $evaluation_query = $em->getRepository('GessehEvaluationBundle:Evaluation')->getAllToModerate();
+    $evaluation_query = $em->getRepository('GessehEvaluationBundle:Evaluation')->getToModerate();
     $evaluations = $paginator->paginate($evaluation_query, $this->get('request')->query->get('page', 1), 20);
 
     return array(
@@ -225,27 +225,30 @@ class AdminController extends Controller
     );
   }
 
-  /**
-   * Valide une évaluation textuelle
-   *
-   * @Route("/moderation/{id}/valid", name="GEval_AModerationValid", requirements={"id" = "\d+"})
-   */
-  public function validModeration($id)
-  {
-    $em = $this->getDoctrine()->getManager();
-    $evaluation = $em->getRepository('GessehEvaluationBundle:Evaluation')->find($id);
+    /**
+     * Valide une évaluation textuelle
+     *
+     * @Route("/moderation/{id}/valid", name="GEval_AModerationValid", requirements={"id" = "\d+"})
+     */
+    public function validModeration($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $um = $this->container->get('fos_user.user_manager');
+        $user = $um->findUserByUsername($this->get('security.token_storage')->getToken()->getUsername());
+        $evaluation = $em->getRepository('GessehEvaluationBundle:Evaluation')->getToModerate($id);
 
-    if(!$evaluation)
-      throw $this->createNotFoundException('Impossible de trouver l\'évaluation');
+        if(!$evaluation)
+          throw $this->createNotFoundException('Impossible de trouver l\'évaluation');
 
-    $evaluation->setModerated(true);
-    $em->persist($evaluation);
-    $em->flush();
+        $evaluation->setValidated(true);
+        $evaluation->setModerator($user);
+        $em->persist($evaluation);
+        $em->flush();
 
-    $this->get('session')->getFlashBag()->add('notice', 'Évaluation validée.');
+        $this->get('session')->getFlashBag()->add('notice', 'Évaluation validée.');
 
-    return $this->redirect($this->generateUrl('GEval_ATextIndex'));
-  }
+        return $this->redirect($this->generateUrl('GEval_ATextIndex'));
+    }
 
   /**
    * Supprime une évaluation textuelle
@@ -269,20 +272,21 @@ class AdminController extends Controller
   }
 
   /**
-   * Modifie une évaluation textuelle
+   * Modère une évaluation
    *
-   * @Route("/moderation/{id}/edit", name="GEval_ATextEdit", requirements={"id" = "\d+"})
+   * @Route("/moderation/{id}/edit", name="GEval_AModerationEdit", requirements={"id" = "\d+"})
    * @Template()
    */
-  public function textEditAction($id)
+  public function moderationEditAction($id)
   {
     $em = $this->getDoctrine()->getManager();
-    $paginator = $this->get('knp_paginator');
-    $evaluation_query = $em->getRepository('GessehEvaluationBundle:Evaluation')->getAllText();
-    $evaluations = $paginator->paginate($evaluation_query, $this->get('request')->query->get('page', 1), 20);
+    $evaluation = $em->getRepository('GessehEvaluationBundle:Evaluation')->find($id);
+
+    if (!$evaluation)
+      throw $this->createNotFoundException('Unable to find evaluation entity.');
 
     return array(
-      'evaluations' => $evaluations,
+      'evaluation' => $evaluation,
     );
   }
     /**
