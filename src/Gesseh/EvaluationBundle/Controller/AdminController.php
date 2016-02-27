@@ -11,16 +11,19 @@
 
 namespace Gesseh\EvaluationBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Response;
-use Gesseh\EvaluationBundle\Entity\EvalForm;
-use Gesseh\EvaluationBundle\Form\EvalFormType;
-use Gesseh\EvaluationBundle\Form\EvalFormHandler;
-use Gesseh\EvaluationBundle\Entity\EvalSector;
-use Gesseh\EvaluationBundle\Form\EvalSectorType;
-use Gesseh\EvaluationBundle\Form\EvalSectorHandler;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
+    Symfony\Component\HttpFoundation\Response;
+use Gesseh\EvaluationBundle\Entity\EvalForm,
+    Gesseh\EvaluationBundle\Form\EvalFormType,
+    Gesseh\EvaluationBundle\Form\EvalFormHandler;
+use Gesseh\EvaluationBundle\Entity\EvalSector,
+    Gesseh\EvaluationBundle\Form\EvalSectorType,
+    Gesseh\EvaluationBundle\Form\EvalSectorHandler;
+use Gesseh\EvaluationBundle\Entity\Evaluation,
+    Gesseh\EvaluationBundle\Form\ModerationType,
+    Gesseh\EvaluationBundle\Form\ModerationHandler;
 
 /**
  * Admin controller.
@@ -271,24 +274,36 @@ class AdminController extends Controller
     return $this->redirect($this->generateUrl('GEval_ATextIndex'));
   }
 
-  /**
-   * Modère une évaluation
-   *
-   * @Route("/moderation/{id}/edit", name="GEval_AModerationEdit", requirements={"id" = "\d+"})
-   * @Template()
-   */
-  public function moderationEditAction($id)
-  {
-    $em = $this->getDoctrine()->getManager();
-    $evaluation = $em->getRepository('GessehEvaluationBundle:Evaluation')->find($id);
+    /**
+     * Modère une évaluation
+     *
+     * @Route("/moderation/{id}/edit", name="GEval_AModerationEdit", requirements={"id" = "\d+"})
+     * @Template()
+     */
+    public function moderationEditAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $um = $this->container->get('fos_user.user_manager');
+        $user = $um->findUserByUsername($this->get('security.token_storage')->getToken()->getUsername());
+        $evaluation = $em->getRepository('GessehEvaluationBundle:Evaluation')->getToModerate($id);
 
-    if (!$evaluation)
-      throw $this->createNotFoundException('Unable to find evaluation entity.');
+        if (!$evaluation)
+            throw $this->createNotFoundException('Unable to find evaluation entity.');
 
-    return array(
-      'evaluation' => $evaluation,
-    );
-  }
+        $form = $this->createForm(new ModerationType($evaluation));
+        $formHandler = new ModerationHandler($form, $this->get('request'), $em, $evaluation, $user);
+
+        if ( $formHandler->process() ) {
+            $this->get('session')->getFlashBag()->add('notice', 'Évaluation modérée.');
+
+            return $this->redirect($this->generateUrl('GEval_ATextIndex'));
+        }
+        return array(
+            'evaluation' => $evaluation,
+            'form'       => $form->createView(),
+        );
+    }
+
     /**
      * Exporte les évaluations en PDF
      *

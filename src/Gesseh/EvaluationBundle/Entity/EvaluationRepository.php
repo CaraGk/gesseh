@@ -199,14 +199,23 @@ class EvaluationRepository extends EntityRepository
       return null;
   }
 
-  public function getAllToModerate()
-  {
-    $query = $this->getBaseQuery();
-    $query->where('e.validated = false')
-          ->addOrderBy('e.created_at', 'asc');
+    public function getToModerate($eval_id = null)
+    {
+        $query = $this->getBaseQuery();
+        $query->where('e.validated = false')
+              ->andWhere('e.moderated = false')
+              ->addOrderBy('e.created_at', 'asc')
+              ;
 
-    return $query->getQuery();
-  }
+        if ($eval_id){
+            $query->andWhere('e.id = :eval_id')
+                  ->setParameter('eval_id', $eval_id)
+            ;
+            return $query->getQuery()->getOneOrNullResult();
+        } else {
+            return $query->getQuery();
+        }
+    }
 
     public function studentHasNonEvaluated($student, $current_period, $count_placements)
     {

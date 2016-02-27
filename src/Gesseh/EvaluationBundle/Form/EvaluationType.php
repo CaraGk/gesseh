@@ -98,7 +98,7 @@ class EvaluationType extends AbstractType
 
   public function getName()
   {
-    return 'gesseh_simulationbundle_evaluationtype';
+    return 'gesseh_evaluationbundle_evaluationtype';
   }
 
   public function getCriteriaSubjectiveChoiceOptions($options)
