@@ -57,6 +57,23 @@ class PlacementRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
+  public function getByUsernameAndDepartment($user, $id = null)
+  {
+    $query = $this->getBaseQuery();
+    $query->where('u.username = :user')
+          ->setParameter('user', $user)
+          ->andWhere('d.id = :id')
+          ->setParameter('id', $id)
+          ->addOrderBy('q.begin', 'desc')
+          ->addOrderBy('h.name', 'asc')
+          ->addOrderBy('d.name', 'asc')
+    ;
+
+    return $query->getQuery()
+                 ->getResult()
+    ;
+  }
+
   public function getAll($limit = null)
   {
     $query = $this->getBaseQuery();

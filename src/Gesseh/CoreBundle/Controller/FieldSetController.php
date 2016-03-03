@@ -70,7 +70,7 @@ class FieldSetController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $pm = $this->container->get('kdb_parameters.manager');
-    $user = $this->get('security.token_storage')->getToken()->getUsername();
+    $username = $this->get('security.token_storage')->getToken()->getUsername();
     $department = $em->getRepository('GessehCoreBundle:Department')->find($id);
     $limit = $this->get('request')->query->get('limit', null);
     $clusters = null;
@@ -85,17 +85,19 @@ class FieldSetController extends Controller
         }
     }
 
-    if (true == $pm->findParamByName('eval_active')->getValue()) {
-      $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $user);
-    } else {
-        $evaluated = array();
+    $evaluated = array();
+    $placements = $em->getRepository('GessehCoreBundle:Placement')->getByUsernameAndDepartment($username, $department->getId());
+    if (true == $pm->findParamByName('eval_active')->getValue() and null !== $placements) {
+        foreach ($placements as $placement) {
+            $evaluated[$placement->getId()] = $em->getRepository('GessehEvaluationBundle:Evaluation')->getByPlacement($placement->getId());
+        }
     }
 
     return array(
         'department' => $department,
         'evaluated'  => $evaluated,
         'limit'      => $limit,
-        'clusters'    => $clusters,
+        'clusters'   => $clusters,
     );
   }
 

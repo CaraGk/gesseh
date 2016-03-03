@@ -46,5 +46,14 @@
             {% endfor %}
         </ul>
     </div>
+    {% if evaluated is not null %}
+        {% for placement_id, evaluations in evaluated %}
+            {% if evaluations %}
+                <div class="content">Vous avez évalué ce terrain de stage.</div>
+            {% else  %}
+                <div classe="content"><a href="{{ path('GEval_DEval', {'id': placement_id}) }}" title="Évaluer le terrain de stage '{{ department }}'">Evaluer ce stage</a></div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     <div class="content">{{ department.description|raw }}</div>
 {% endblock %}
