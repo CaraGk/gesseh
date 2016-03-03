@@ -6,6 +6,13 @@
 
 {% block content %}
     <ul class="entities placements">
+        <li class="title row">
+            <div class="col-sm-2">Période de stage</div>
+            <div class="col-sm-3">Terrain de stage</div>
+            <div class="col-sm-3">Hôpital</div>
+            <div class="col-sm-2">Agréments</div>
+            <div class="col-sm-2">Actions</div>
+        </li>
         {% for placement in placements %}
             <li class="field entity placement row">
                 <div class="field entity_item period col-sm-2">{{ placement.repartition.period }} : </div>
