@@ -81,6 +81,7 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content div.subentity_title { font-weight: bold; }
 #content li.subentity div { margin: 0; }
 #content .department_sector { font-size: 90%; font-style: italic; }
+#content .department_sector ul { display: inline-block; padding: 0; }
 #content .department_sector a, #content .department_sector a:active, #content .department_sector a:focus, #content .department_sector a:hover { color: #B60016; }
 #content .department_cluster { font-size: 90%; }
 #content .department_cluster a, #content .department_cluster a:active, #content .department_cluster a:focus, #content .department_cluster a:hover { }

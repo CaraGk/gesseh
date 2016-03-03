@@ -5,38 +5,46 @@
 {% block titlecontent %}Mes stages{% endblock %}
 
 {% block content %}
-    <ul class="entities placements">
-        <li class="title row">
-            <div class="col-sm-2">Période de stage</div>
-            <div class="col-sm-3">Terrain de stage</div>
-            <div class="col-sm-3">Hôpital</div>
-            <div class="col-sm-2">Agréments</div>
-            <div class="col-sm-2">Actions</div>
-        </li>
+    <ul class="entities placements list-group">
         {% for placement in placements %}
-            <li class="field entity placement row">
-                <div class="field entity_item period col-sm-2">{{ placement.repartition.period }} : </div>
-                <div class="field entity_item fieldset col-sm-3">{{ placement.repartition.department.name }}</div>
-                <div class="field entity_item fieldset col-sm-3">{{ placement.repartition.department.hospital }}</div>
-                <ul class="field entity_item department_sector col-sm-2">
-                    {% for accreditation in placement.repartition.department.accreditations %}
-                        <li>{{ accreditation.sector.name }}</li>
-                    {% endfor %}
-                </ul>
-                <ul class="actions col-sm-2">
-                    <li><a href="{{ path('GUser_SListStudents', { 'id': placement.id })}}" title="Voir les autres étudiants"><img src="{{ asset('bundles/gessehcore/images/User.png') }}" alt="Co-internes"></a></li>
-                    {% if kparam('eval_active') == true %}
-                        {% if placement.id not in evaluated %}
-                            <li class="nonevaluated">
-                                <a href="{{ path('GEval_DEval', { 'id': placement.id }) }}" title="Évaluer le stage"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Évaluer"/></a>
-                            </li>
-                        {% else %}
-                            <li class="evaluated">
-                                <a href="{{ path('GCore_PIndex') }}"><img src="{{ asset('bundles/gessehcore/images/Checkmark.png') }}" alt="Évaluation" /></a>
-                            </li>
+            <li class="field entity placement list-group-item">
+                <span class="btn-group pull-right">
+                    <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ path('GUser_SListStudents', { 'id': placement.id })}}" title="Voir les autres étudiants">
+                                <span class="glyphicon glyphicon-user"></span>
+                                Co-internes
+                            </a>
+                        </li>
+                        {% if kparam('eval_active') == true %}
+                            {% if placement.id not in evaluated %}
+                                <li class="nonevaluated">
+                                    <a href="{{ path('GEval_DEval', { 'id': placement.id }) }}" title="Évaluer le stage">
+                                        <span class="glyphicon glyphicon-check"></span>
+                                        Évaluer
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="evaluated ">
+                                    <a href="{{ path('GCore_PIndex') }}">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                        Évalué
+                                    </a>
+                                </li>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                </ul>
+                    </ul>
+                </span>
+                <div class="fieldset">{{ placement.repartition.department.name }} à {{ placement.repartition.department.hospital }}</div>
+                <div class="period">Période : {{ placement.repartition.period }}</div>
+                <div class="department_sector">Agrément(s) :
+                    <ul class="">
+                        {% for accreditation in placement.repartition.department.accreditations %}
+                            <li class="label label-info">{{ accreditation.sector.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </li>
         {% else %}
             <li class="field noentity error">Aucun stage effectué</li>
