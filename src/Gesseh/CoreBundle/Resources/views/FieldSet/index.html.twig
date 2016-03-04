@@ -25,7 +25,6 @@
             <li class="entity hospital row">
                 <div class="field entity_title hospital_name"><a href="{{ path('GCore_FSIndex', {'limit': {'type': 'h.id', 'value': hospital.id, 'description': hospital.name}}) }}" title="Afficher les terrains de stage de l'hôpital '{{ hospital.name }}'">{{ hospital }}</a></div>
                 <ul class="actions">
-                    <li class=""><a href="{{ path('GCore_FSShowHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Afficher les informations de l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" /></a></li>
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="edit"><a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Modifier l'hôpital '{{ hospital.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
                         <li class="list"><a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'h.id', 'value': hospital.id, 'description': hospital.name }}) }}" title="Afficher les stages dans l'hôpital '{{ hospital.name }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>

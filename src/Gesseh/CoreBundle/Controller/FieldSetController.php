@@ -63,10 +63,10 @@ class FieldSetController extends Controller
   }
 
   /**
-   * @Route("/department/{id}/show", name="GCore_FSShowDepartment", requirements={"id" = "\d+"})
+   * @Route("/{id}/show", name="GCore_FSShowDepartment", requirements={"id" = "\d+"})
    * @Template()
    */
-  public function showDepartmentAction($id)
+  public function showAction($id)
   {
     $em = $this->getDoctrine()->getManager();
     $pm = $this->container->get('kdb_parameters.manager');
@@ -98,30 +98,6 @@ class FieldSetController extends Controller
         'evaluated'  => $evaluated,
         'limit'      => $limit,
         'clusters'   => $clusters,
-    );
-  }
-
-  /**
-   * Finds and displays a Hospital entity.
-   *
-   * @Route("/hospital/{id}/show", name="GCore_FSShowHospital")
-   * @Template()
-   */
-  public function showHospitalAction($id)
-  {
-    $em = $this->getDoctrine()->getManager();
-    $pm = $this->container->get('kdb_parameters.manager');
-    $user = $this->get('security.token_storage')->getToken()->getUsername();
-    $hospital = $em->getRepository('GessehCoreBundle:Hospital')->find($id);
-    $limit = $this->get('request')->query->get('limit', null);
-
-    if (!$hospital) {
-        throw $this->createNotFoundException('Unable to find Hospital entity.');
-    }
-
-    return array(
-        'hospital' => $hospital,
-        'limit'    => $limit,
     );
   }
 
