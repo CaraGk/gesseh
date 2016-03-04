@@ -5,47 +5,101 @@
 {% block titlecontent %}{{ department.name }} à {{ department.hospital.name }}{% endblock %}
 
 {% block actionscontent %}
-    <ul class="actions">
-        <li class=""><a href="{{ path('GCore_FSIndex', { 'limit': limit }) }}" title="Retour à la liste des terrains"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
-        <li class=""><a href="{{ path('GCore_FSShowHospital', { 'id': department.hospital.id, 'limit': limit }) }}" title="Afficher les informations concernant l'hôpital '{{ department.hospital }}'"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Infos hôpital"></a></li>
-        {% if kparam('eval_active') == true %}
-            <li class=""><a href="{{ path('GEval_DShow', { 'id': department.id, 'limit': limit }) }}" title="Afficher les évaluations pour ce service"><img src="{{ asset('bundles/gessehcore/images/Chart_Bar_Big.png') }}" alt="Évaluations" /></a></li>
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-            <li class=""><a href="{{ path('GCore_FSAEditDepartmentDescription', { 'id': department.id, 'limit': limit }) }}" title="Modifier la description du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-        {% endif %}
-    </ul>
+    <li class="btn btn-primary">
+        <a href="{{ path('GCore_FSIndex', { 'limit': limit }) }}" title="Retour à la liste des terrains">
+            {{ icon('globe') }} Terrains
+        </a>
+    </li>
+    <li class="btn btn-primary">
+        <a href="{{ path('GCore_FSShowHospital', { 'id': department.hospital.id, 'limit': limit }) }}" title="Afficher les informations concernant l'hôpital '{{ department.hospital }}'">
+            {{ icon('info-sign') }} Informations sur l'hôpital
+        </a>
+    </li>
+    {% if kparam('eval_active') == true %}
+        <li class="btn btn-primary">
+            <a href="{{ path('GEval_DShow', { 'id': department.id, 'limit': limit }) }}" title="Afficher les évaluations pour ce service">
+                {{ icon('stats') }} Evaluations
+            </a>
+        </li>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <li class="btn btn-primary">
+            <a href="{{ path('GCore_FSAEditDepartmentDescription', { 'id': department.id, 'limit': limit }) }}" title="Modifier la description du service '{{ department.name }}'">
+                {{ icon('pencil') }} Modifier
+            </a>
+        </li>
+    {% endif %}
+    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERTEACHER") %}
+        <li class="btn btn-primary">
+            <a href="{{ path('GCore_FSANewAccreditation', {'id': department.id, 'limit': limit }) }}" title="Ajouter un agrément">
+                {{ icon('plus') }} Ajouter agrément
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-    {% for cluster in clusters %}
-        <div>Stage couplé ({{ cluster['period'].begin|date('d-m-Y') }}) avec :
-            <ul>
-                {% for repartition in cluster['repartitions'] %}
-                    {% if repartition.department.id != department.id %}
-                        <li><a href="{{ path('GCore_FSShowDepartment', { 'id': repartition.department.id, 'limit': limit }) }}">{{ repartition.department }}</a></li>
-                    {% endif %}
+    <ul class="nav nav-pills">
+        <li class="active"><a href="#description" data-toggle="tab">Description</a></li>
+        <li><a href="#agrement" data-toggle="tab">Agréments</a></li>
+        {% if clusters is not null %}
+            <li><a href="#cluster" data-toggle="tab">Stage couplé</a></li>
+        {% endif %}
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="description">{{ department.description|raw }}</div>
+        <div class="tab-pane" id="agrement">
+            <ul class="list-group">
+                {% for accreditation in department.accreditations %}
+                    <li class="list-group-item">
+                        De {{ accreditation.begin|date('F Y') }} à {{ accreditation.end|date('F Y') }} : {{ accreditation.sector.name }} sous la responsabilité de {{ accreditation.supervisor }}
+                        {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERTEACHER") %}
+                            <span class="btn-group pull-right">
+                                <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ path('GCore_FSAEditAccreditation', { 'id': accreditation.id, 'limit': limit }) }}" title="Modifier l'agrément du service '{{ department.name }}'">
+                                            {{ icon('pencil') }} Modifier
+                                        </a>
+                                    </li>
+                                    {% if 'ROLE_SUPERTEACHER' in accreditation.user.roles %}
+                                        <li>
+                                            <a href="{{ path('GCore_FSADemote', {'id': accreditation.id, 'limit': limit}) }}" title="Démettre l'enseignant '{{ accreditation.supervisor }}'">
+                                                {{ icon('star') }} Démettre
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="{{ path('GCore_FSAPromote', {'id': accreditation.id, 'limit': limit}) }}" title="Promouvoir l'enseignant '{{ accreditation.supervisor }}'">
+                                                {{ icon('star-empty') }} Promouvoir
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </span>
+                        {% endif %}
+                    </li>
                 {% endfor %}
             </ul>
         </div>
-    {% endfor %}
-    <div class="content">Agréments {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERTEACHER") %}<span class=""><a href="{{ path('GCore_FSANewAccreditation', {'id': department.id, 'limit': limit }) }}" title="Ajouter un agrément"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></span>{% endif %} :
-        <ul>
-            {% for accreditation in department.accreditations %}
-                <li>
-                    De {{ accreditation.begin|date('F Y') }} à {{ accreditation.end|date('F Y') }} : {{ accreditation.sector.name }} sous la responsabilité de {{ accreditation.supervisor }}
-                    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERTEACHER") %}
-                        <span class=""><a href="{{ path('GCore_FSAEditAccreditation', { 'id': accreditation.id, 'limit': limit }) }}" title="Modifier l'agrément du service '{{ department.name }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></span>
-                        {% if 'ROLE_SUPERTEACHER' in accreditation.user.roles %}
-                            <span class=""><a href="{{ path('GCore_FSADemote', {'id': accreditation.id, 'limit': limit}) }}" title="Démettre l'enseignant '{{ accreditation.supervisor }}'"><img src="{{ asset('bundles/gessehcore/images/Fav.png') }}" alt="Démettre" /></a></li>
-                        {% else %}
-                            <span class=""><a href="{{ path('GCore_FSAPromote', {'id': accreditation.id, 'limit': limit}) }}" title="Promouvoir l'enseignant '{{ accreditation.supervisor }}'"><img src="{{ asset('bundles/gessehcore/images/Fav_Empty.png') }}" alt="Promouvoir" /></a></li>
-                        {% endif %}
-                    {% endif %}
-                </li>
+        <div class="tab-pane list-group" id="cluster">
+            {% for cluster in clusters %}
+                <div class="entities list-group-item">
+                    <div class="title">{{ cluster['period'].name }} :</div>
+                    <ul class="subentities">
+                        {% for repartition in cluster['repartitions'] %}
+                            {% if repartition.department.id != department.id %}
+                                <li class="subentity">
+                                    <a href="{{ path('GCore_FSShowDepartment', { 'id': repartition.department.id, 'limit': limit }) }}">{{ repartition.department }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endfor %}
-        </ul>
-    </div>
+        </div>
+
     {% if evaluated is not null %}
         {% for placement_id, evaluations in evaluated %}
             {% if evaluations %}
@@ -55,5 +109,4 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    <div class="content">{{ department.description|raw }}</div>
 {% endblock %}
