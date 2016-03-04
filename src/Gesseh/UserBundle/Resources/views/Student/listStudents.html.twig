@@ -1,13 +1,32 @@
 {% extends "GessehCoreBundle::layout.html.twig" %}
 
 {% block titlecontent %}
-    Co-internes de {{ placement.repartition.department }}
+    Co-internes chez {{ placement.repartition.department }}
+{% endblock %}
+
+{% block actionscontent %}
+    <li class="btn btn-primary">
+        <a href="{{ path('GCore_PIndex')}}" title="Retour à la liste des stages">
+            <span class="glyphicon glyphicon-th-list"></span>
+            Stages
+        </a>
+    </li>
 {% endblock %}
 
 {% block content %}
-    <ul>
+    <ul class="entities list-group">
         {% for student in students %}
-            <li><a href="mailto:{{ student.user.email }}">{{ student.surname }} {{ student.name}}</a> : {{ student.phone }}</li>
+            {% if student.user.id != app.user.id %}
+                <li class="entity list-group-item">
+                    <div class="title">{{ student.surname }} {{ student.name }}</div>
+                    <div class="">E-mail : <a href="mailto:{{ student.user.email }}">{{ student.user.email }}</a></div>
+                    {% if student.phone %}
+                        <div class="">Téléphone : <a href="tel:{{ student.phone }}">{{ student.phone }}</a></div>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% else %}
+            <li class="noentity list-group-item">Vous n'avez pas de co-interne de médecine générale pour ce semestre.</li>
         {% endfor %}
     </ul>
 {% endblock %}

@@ -9,28 +9,54 @@
 {% endblock %}
 
 {% block actionscontent %}
-<li><a href="{{ path('GRegister_UJoin')}}?{{ app.request.queryString }}">Adhérer</a></li>
+    <li class="btn btn-primary">
+        <a href="{{ path('GRegister_UJoin')}}?{{ app.request.queryString }}">
+            <span class="glyphicon glyphicon-euro"></span>
+            Adhérer
+        </a>
+    </li>
 {% endblock %}
 
 {% block content %}
-    <ol>
+    <ul class="entities list-group">
         {% for membership in memberships %}
-            <li>Adhésion jusqu'au {{ membership.expiredOn|date('d/m/Y') }} payée ({{ membership.payment }} €) par {{ membership.readableMethod|lower }}
-                {% if membership.payedOn is not null %}
-                    le {{ membership.payedOn|date('d/m/Y') }}.
-                {% else %}
-                    ; la transaction n'a pas été validée.
-                {% endif %}
-                <ul class="actions">
-                    <li><a href="{{ path('GRegister_UInfos', {'memberid': membership.id, 'userid': userid}) }}" title="Afficher les réponses aux questions complémentaires">Infos</a></li>
-                    {% if is_granted('ROLE_ADMIN') and membership.payedOn is null %}
-                        <li><a href="{{ path('GRegister_AValidate', {'id': membership.id, 'userid': userid}) }}" title="Valider la réception du paiement pour cette adhésion">Valider</a></li>
-                        <li><a href="{{ path('GRegister_ADelete', {'id': membership.id, 'userid': userid}) }}" title="Supprimer cette adhésion">Supprimer</a></li>
-                {% endif %}
-                </ul>
+            <li class="list-group-item">
+                <span class="btn-group pull-right">
+                    <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ path('GRegister_UInfos', {'memberid': membership.id, 'userid': userid}) }}" title="Afficher les réponses aux questions complémentaires">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                                Questions complémentaires
+                            </a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') and membership.payedOn is null %}
+                            <li>
+                                <a href="{{ path('GRegister_AValidate', {'id': membership.id, 'userid': userid}) }}" title="Valider la réception du paiement pour cette adhésion">
+                                    <span class="glyphicon glyphicon-ok-circle"></span>
+                                    Valider
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('GRegister_ADelete', {'id': membership.id, 'userid': userid}) }}" title="Supprimer cette adhésion">
+                                    <span class="glyphicon glyphicon-remove-circle"></span>
+                                    Supprimer
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </span>
+                <div>
+                    Adhésion jusqu'au {{ membership.expiredOn|date('d/m/Y') }} payée ({{ membership.payment }} €) par {{ membership.readableMethod|lower }}
+                    {% if membership.payedOn is not null %}
+                        le {{ membership.payedOn|date('d/m/Y') }}.
+                    {% else %}
+                        ; la transaction n'a pas été validée.
+                    {% endif %}
+                </div>
             </li>
         {% else %}
-            <li>Aucune adhésion enregistrée.</li>
+            <li class="list-group-item">Aucune adhésion enregistrée.</li>
         {% endfor %}
-    </ol>
+    </ul>
 {% endblock %}
