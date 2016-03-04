@@ -242,12 +242,19 @@ class StudentAdminController extends Controller
             'label'    => 'Fichier',
             'required' => true,
         ))
+        ->add('first_row', 'checkbox', array(
+            'label'    => 'Le fichier contient une ligne de titre de colonnes',
+            'required' => false,
+            'data'     => true,
+        ))
         ->add('title', 'choice', array(
             'label' => 'Titre',
-            'required' => true,
+            'required' => false,
             'expanded' => false,
             'multiple' => false,
             'choices'  => $choices,
+            'placeholder' => 'aucune',
+            'empty_data'  => null,
         ))
         ->add('surname', 'choice', array(
             'label'    => 'Nom',
@@ -271,18 +278,22 @@ class StudentAdminController extends Controller
             'choices'  => $choices,
         ))
         ->add('birthday', 'choice', array(
-            'label'    => 'E-mail',
-            'required' => true,
+            'label'    => 'Date de naissance',
+            'required' => false,
             'expanded' => false,
             'multiple' => false,
             'choices'  => $choices,
+            'placeholder' => 'aucune',
+            'empty_data'  => null,
         ))
         ->add('birthplace', 'choice', array(
-            'label'    => 'E-mail',
-            'required' => true,
+            'label'    => 'Lieu de naissance',
+            'required' => false,
             'expanded' => false,
             'multiple' => false,
             'choices'  => $choices,
+            'placeholder' => 'aucune',
+            'empty_data'  => null,
         ))
         ->add('phone', 'choice', array(
             'label'    => 'Téléphone',
@@ -334,77 +345,84 @@ class StudentAdminController extends Controller
 
         if(count($errorList) == 0) {
 
-        $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($form['file']->getData())->setActiveSheetIndex();
-        $students_count = 2;
-        $students_error = 0;
-        $newUsers = array();
+            $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($form['file']->getData())->setActiveSheetIndex();
+            if ($form['first_row']->getData() == true)
+                $first_row = 2;
+            else
+                $first_row = 1;
+            $students_count = $first_row;
+            $students_error = 0;
+            $newUsers = array();
 
-        while ($objPHPExcel->getCellByColumnAndRow($form['surname']->getData(), $students_count)->getValue()) {
-            $student = new Student();
-            $student->setTitle($objPHPExcel->getCellByColumnAndRow($form['title']->getData(), $students_count)->getValue());
-            $student->setSurname($objPHPExcel->getCellByColumnAndRow($form['surname']->getData(), $students_count)->getValue());
-            $student->setName($objPHPExcel->getCellByColumnAndRow($form['name']->getData(), $students_count)->getValue());
-            $student->setBirthday($objPHPExcel->getCellByColumnAndRow($form['birthday']->getData(), $students_count)->getValue());
-            $birthday = new \DateTime($objPHPExcel->getCellByColumnAndRow($form['birthday']->getData(), $students_count)->getValue());
-            $student->setBirthday($birthday);
-            $student->setBirthplace($objPHPExcel->getCellByColumnAndRow($form['birthplace']->getData(), $students_count)->getValue());
-            if ($form['phone']->getData() != null)
-                $student->setPhone($objPHPExcel->getCellByColumnAndRow($form['phone']->getData(), $students_count)->getValue());
-            if ($form['ranking']->getData() != null)
-                $student->setRanking($objPHPExcel->getCellByColumnAndRow($form['ranking']->getData(), $students_count)->getValue());
-            if ($form['graduate']->getData() != null)
-                $student->setGraduate($objPHPExcel->getCellByColumnAndRow($form['graduate']->getData(), $students_count)->getValue());
-            $student->setAnonymous(false);
-            $student->setGrade($form['grade']->getData());
-            $user = new User();
-            $um->createUser();
-            $user->setEmail($objPHPExcel->getCellByColumnAndRow($form['email']->getData(), $students_count)->getValue());
-            $user->setUsername($user->getEmail());
-            $user->setConfirmationToken(null);
-            $user->setEnabled(true);
-            $user->addRole('ROLE_STUDENT');
-            $user->setPlainPassword('tatatatata');
-            $student->setUser($user);
+            while ($objPHPExcel->getCellByColumnAndRow($form['surname']->getData(), $students_count)->getValue()) {
+                $student = new Student();
+                if ($form['title']->getData() != null)
+                   $student->setTitle($objPHPExcel->getCellByColumnAndRow($form['title']->getData(), $students_count)->getValue());
+                $student->setSurname($objPHPExcel->getCellByColumnAndRow($form['surname']->getData(), $students_count)->getValue());
+                $student->setName($objPHPExcel->getCellByColumnAndRow($form['name']->getData(), $students_count)->getValue());
+                if ($form['birthday']->getData() != null) {
+                    $birthday = new \DateTime($objPHPExcel->getCellByColumnAndRow($form['birthday']->getData(), $students_count)->getValue());
+                    $student->setBirthday($birthday);
+                }
+                if ($form['birthplace']->getData() != null)
+                    $student->setBirthplace($objPHPExcel->getCellByColumnAndRow($form['birthplace']->getData(), $students_count)->getValue());
+                if ($form['phone']->getData() != null)
+                    $student->setPhone($objPHPExcel->getCellByColumnAndRow($form['phone']->getData(), $students_count)->getValue());
+                if ($form['ranking']->getData() != null)
+                    $student->setRanking($objPHPExcel->getCellByColumnAndRow($form['ranking']->getData(), $students_count)->getValue());
+                if ($form['graduate']->getData() != null)
+                    $student->setGraduate($objPHPExcel->getCellByColumnAndRow($form['graduate']->getData(), $students_count)->getValue());
+                $student->setAnonymous(false);
+                $student->setGrade($form['grade']->getData());
+                $user = new User();
+                $um->createUser();
+                $user->setEmail($objPHPExcel->getCellByColumnAndRow($form['email']->getData(), $students_count)->getValue());
+                $user->setUsername($user->getEmail());
+                $user->setConfirmationToken(null);
+                $user->setEnabled(true);
+                $user->addRole('ROLE_STUDENT');
+                $user->setPlainPassword('tatatatata');
+                $student->setUser($user);
 
-            if (!(in_array(array("emailCanonical" => $user->getEmail()), $listUsers) || in_array($user->getEmail(), $newUsers))) {
-                $em->persist($student);
-                $um->updateUser($user);
-                $newUsers[] = $user->getEmail();
-            } else {
-                $this->get('session')->getFlashBag()->add('error', $student->getName() . ' ' . $student->getSurname() . ' (' . $student->getUser()->getEmail() . ') : l\'utilisateur existe déjà dans la base de données.');
-                $students_error++;
+                if (!(in_array(array("emailCanonical" => $user->getEmail()), $listUsers) || in_array($user->getEmail(), $newUsers))) {
+                    $em->persist($student);
+                    $um->updateUser($user);
+                    $newUsers[] = $user->getEmail();
+                } else {
+                    $this->get('session')->getFlashBag()->add('error', $student->getName() . ' ' . $student->getSurname() . ' (' . $student->getUser()->getEmail() . ') : l\'utilisateur existe déjà dans la base de données.');
+                    $students_error++;
+                }
+                $students_count++;
             }
-            $students_count++;
-        }
 
-        $em->flush();
+            $em->flush();
 
-        if ($students_count - 2 > 1) {
-            $message = $students_count - 2 . " lignes ont été traitées. ";
-        } elseif ($students_count - 2 == 1) {
-            $message = "Une ligne a été traitée. ";
-        } else {
-            $message = "Aucune ligne n'a été traitée.";
-        }
-        if ($students_error) {
-            if ($students_count - 2 - $students_error > 1) {
-                $message .= $students_count - 2 - $students_error . " étudiants ont été enregistrés dans la base de données. ";
-            } elseif ($students_count - 2 - $students_error == 1) {
-                $message .= "Un étudiant a été enregistré dans la base de données. ";
+            if ($students_count - $first_row > 1) {
+                $message = $students_count - $first_row . " lignes ont été traitées. ";
+            } elseif ($students_count - $first_row == 1) {
+                $message = "Une ligne a été traitée. ";
             } else {
-                $message .= "Aucun étudiant n'a été enregistré dans la base de données. ";
+                $message = "Aucune ligne n'a été traitée.";
             }
-            if ($students_error > 1) {
-                $message .= $students_error . " doublons n'ont pas été ajoutés.";
+            if ($students_error) {
+                if ($students_count - $first_row - $students_error > 1) {
+                    $message .= $students_count - $first_row - $students_error . " étudiants ont été enregistrés dans la base de données. ";
+                } elseif ($students_count - $first_row - $students_error == 1) {
+                    $message .= "Un étudiant a été enregistré dans la base de données. ";
+                } else {
+                    $message .= "Aucun étudiant n'a été enregistré dans la base de données. ";
+                }
+                if ($students_error > 1) {
+                    $message .= $students_error . " doublons n'ont pas été ajoutés.";
+                } else {
+                    $message .= "Un doublon n'a pas été ajouté.";
+                }
             } else {
-                $message .= "Un doublon n'a pas été ajouté.";
+                $message .= $students_count - $first_row . " étudiants ont été enregistrés dans la base de données. Il n'y a pas de doublons traités.";
             }
-        } else {
-            $message .= $students_count - 2 . " étudiants ont été enregistrés dans la base de données. Il n'y a pas de doublons traités.";
-        }
-        $this->get('session')->getFlashBag()->add('notice', $message);
+            $this->get('session')->getFlashBag()->add('notice', $message);
 
-        return $this->redirect($this->generateUrl('GUser_SAIndex'));
+            return $this->redirect($this->generateUrl('GUser_SAIndex'));
         } else {
             $error = $errorList[0]->getMessage();
         }

@@ -36,7 +36,7 @@ class Student
    *
    * @ORM\Column(name="title", type="string", length=5)
    */
-  private $title;
+  private $title = "M.";
 
   /**
    * @var string $surname
@@ -59,14 +59,14 @@ class Student
   /**
    * @var date $birthday
    *
-   * @ORM\Column(name="birthday", type="date")
+   * @ORM\Column(name="birthday", type="date", nullable=true)
    */
   private $birthday;
 
   /**
    * @var string $birthplace
    *
-   * @ORM\Column(name="birthplace", type="string")
+   * @ORM\Column(name="birthplace", type="string", nullable=true)
    */
   private $birthplace;
 
