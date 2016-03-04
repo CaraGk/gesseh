@@ -8,59 +8,99 @@
 {% endblock %}
 
 {% block actionscontent %}
-    <li class="field">
+    {% if is_granted('ROLE_ADMIN') %}
+        <li class="btn btn-primary">
+            <a href="{{ path('GUser_SAImport') }}" title="Importer une promotion d'internes">
+                {{ icon('folder-open') }} Importer
+            </a>
+        </li>
+        <li class="btn btn-primary">
+            <a href="{{ path('GUser_GAUpdateNext') }}" title="Passer tous les étudiants dans la promotion supérieure" class="confirm" confirm="Attention ! Cette opération va passer tous les internes dans la promotion suivante ! Êtes-vous sûrs de vouloir continuer ?">
+                {{ icon('step-forward') }} Changer de promo
+            </a>
+        </li>
+        <li class="btn btn-primary">
+            <a href="{{ path('GRegister_AIndex') }}">
+                {{ icon('euro') }} Adhérents
+            </a>
+        </li>
+    {% endif %}
+    <li class="btn">
       <form>
-          <label for="search"><img src="{{ asset('bundles/gessehcore/images/Search.png') }}" alt="Rechercher" /></label>
+          {{ icon('search') }}
           <input type="text" id="search" name="search" value="{{ search }}" />
       </form>
     </li>
-    {% if is_granted('ROLE_ADMIN') %}
-        <li class="field"><a href="{{ path('GUser_SAImport') }}" title="Importer une promotion d'internes"><button type="button">Importer une promo</button></a></li>
-        <li class="field"><a href="{{ path('GUser_GAUpdateNext') }}" title="Passer tous les étudiants dans la promotion supérieure" class="confirm" confirm="Attention ! Cette opération va passer tous les internes dans la promotion suivante ! Êtes-vous sûrs de vouloir continuer ?"><button type="button">Changer de promo</button></a></li>
-        <li class="field"><a href="{{ path('GRegister_AIndex') }}"><button type="button">Adhérents</button></a></li>
-    {% endif %}
 {% endblock %}
 
 {% block content %}
-    {% for student in students %}
-        <li class="entity student">
-            <div class="field">
-                <div class="contact">
-                    <div class="entity_title student_name">{{ student.surname }} {{ student.name }}</div>
-                    <div class="entity_item student_email"><a href="mailto:{{ student.user.email }}" title="Envoyer un email à {{ student.name }} {{ student.surname }}">{{ student.user.email }}</a></div>
-                    <div class="entity_item student_phone"><a href="tel:{{ student.phone }}" title="Téléphoner à {{ student.name }} {{ student.surname }}">{{ student.phone }}</a></div>
-                </div>
-                <div class="studies">
-                    <div class="entity_item student_grade">{{ student.grade }}</div>
-                    {% if kparam('simul_active') == true %}
-                        <div class="entity_item student_rank">Classement ECN : {{ student.ranking }} | Année ECN : {{ student.graduate }}</div>
-                    {% endif %}
-                </div>
-            </div>
-            <ul class="actions">
-                <li class="action"><a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 's.id', 'value': student.id, 'description': student.surname ~ ' ' ~ student.name}}) }}" title="Afficher les stages de l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
-                <li class="action"><a href="{{ path('GUser_SAEdit', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Modifier l'étudiant '{{ student }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-                <li class="action"><a href="{{ path('GUser_SADelete', {'id': student.id}) }}?{{ app.request.queryString }}" title="Supprimer l'étudiant '{{ student }}'" class="confirm delete" confirm="Attention, vous allez supprimer l'étudiant et toutes les informations s'y rapportant ! Voulez-vous continuer ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
-                {% if is_granted('ROLE_ADMIN') %}
-                    {% if 'ROLE_ADMIN' in student.user.roles %}
-                        <li class="action"><a href="{{ path('GUser_SADemote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Démettre l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Fav.png') }}" alt="Démettre" /></a></li>
-                    {% else %}
-                        <li class="action"><a href="{{ path('GUser_SAPromote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Promouvoir l'étudiant '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/Fav_Empty.png') }}" alt="Promouvoir" /></a></li>
-                    {% endif %}
-                    {% if kparam('reg_active') == true %}
-                        {% if members is not null and student.id in members %}
-                            <li class="action valid"><a href="{{ path('GRegister_UIndex', {'userid': student.user.id}) }}" title="Afficher les adhésions de '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Adhésions" /></a></li>
+    <ul class="entities list-group">
+        {% for student in students %}
+            <li class="entity student list-group-item">
+                <span class="btn-group pull-right">
+                    <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li class="action">
+                            <a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 's.id', 'value': student.id, 'description': student.surname ~ ' ' ~ student.name}}) }}" title="Afficher les stages de l'étudiant '{{ student }}'">
+                                {{ icon('list-alt') }} Stages
+                            </a>
+                        </li>
+                        <li class="action">
+                            <a href="{{ path('GUser_SAEdit', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Modifier l'étudiant '{{ student }}'" class="edit">
+                                {{ icon('pencil') }} Modifier
+                            </a>
+                        </li>
+                        <li class="action">
+                            <a href="{{ path('GUser_SADelete', {'id': student.id}) }}?{{ app.request.queryString }}" title="Supprimer l'étudiant '{{ student }}'" class="confirm delete" confirm="Attention, vous allez supprimer l'étudiant et toutes les informations s'y rapportant ! Voulez-vous continuer ?">
+                                {{ icon('trash') }} Supprimer
+                            </a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            {% if 'ROLE_ADMIN' in student.user.roles %}
+                                <li class="action">
+                                    <a href="{{ path('GUser_SADemote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Démettre l'étudiant '{{ student }}'">
+                                        {{ icon('star') }} Démettre
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="action">
+                                    <a href="{{ path('GUser_SAPromote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Promouvoir l'étudiant '{{ student }}'">
+                                        {{ icon('star-empty') }} Promouvoir
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if kparam('reg_active') == true %}
+                                <li class="action">
+                                    <a href="{{ path('GRegister_UIndex', {'userid': student.user.id}) }}" title="Afficher les adhésions de '{{ student }}'">
+                                            {{ icon('list') }} Adhésions
+                                        {% if members is not null and student.id in members %}
+                                            {{ icon('thumbs-up')}}
+                                        {% endif %}
+                                    </a>
+                                </li>
+                            {% endif %}
                         {% else %}
-                            <li class="action unvalid"><a href="{{ path('GRegister_UIndex', {'userid': student.user.id}) }}" title="Afficher les adhésions de '{{ student }}'"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Adhésions" /></a></li>
+                            <li class="action"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Adhésions" title="{{ student }} est adhérent." /></li>
                         {% endif %}
-                    {% endif %}
-                {% else %}
-                    <li class="action"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Adhésions" title="{{ student }} est adhérent." /></li>
-                {% endif %}
-            </ul>
-        </li>
-    {% endfor %}
-    <div class="pagination">{{ knp_pagination_render(students) }}</div>
+                    </ul>
+                </span>
+                <div class="field">
+                    <div class="contact">
+                        <div class="entity_title student_name">{{ student.surname }} {{ student.name }}</div>
+                        <div class="entity_item student_email"><a href="mailto:{{ student.user.email }}" title="Envoyer un email à {{ student.name }} {{ student.surname }}">{{ student.user.email }}</a></div>
+                        <div class="entity_item student_phone"><a href="tel:{{ student.phone }}" title="Téléphoner à {{ student.name }} {{ student.surname }}">{{ student.phone }}</a></div>
+                    </div>
+                    <div class="studies">
+                        <div class="entity_item student_grade">{{ student.grade }}</div>
+                        {% if kparam('simul_active') == true %}
+                            <div class="entity_item student_rank">Classement ECN : {{ student.ranking }} | Année ECN : {{ student.graduate }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="pagination text-center">{{ knp_pagination_render(students) }}</div>
 {% endblock %}
 
 {% block javascripts %}

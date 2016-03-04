@@ -92,7 +92,7 @@ knp_paginator:
     filter_field_name:   filterField
     filter_value_name:   filterValue
   template:
-    pagination: KnpPaginatorBundle:Pagination:sliding.html.twig       # sliding pagination controls template
+    pagination: MopaBootstrapBundle:Pagination:sliding.html.twig       # sliding pagination controls template
     filtration: KnpPaginatorBundle:Pagination:filtration.html.twig
     sortable:   KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
@@ -116,6 +116,7 @@ mopa_bootstrap:
     form: 
         show_legend: false
         show_child_legend: false
+        render_required_asterisk: true
         collection:
             widget_remove_btn:
                 icon: trash
