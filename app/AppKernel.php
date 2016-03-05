@@ -37,6 +37,7 @@ class AppKernel extends Kernel
             new JMS\Payment\PaypalBundle\JMSPaymentPaypalBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
+            new Craue\FormFlowBundle\CraueFormFlowBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
