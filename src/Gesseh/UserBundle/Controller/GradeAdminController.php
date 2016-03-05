@@ -112,6 +112,7 @@ class GradeAdminController extends Controller
     if ($rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getByGrade($id)) {
         foreach ($rules as $rule) {
             $em->remove($rule);
+            $this->get('session')->getFlashBag()->add('notice', 'Règle "' . $rule . '" supprimée.');
         }
     }
 
