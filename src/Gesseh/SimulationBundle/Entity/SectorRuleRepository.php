@@ -31,6 +31,19 @@ class SectorRuleRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
+  public function getByGrade($grade_id)
+  {
+      $query = $this->createQueryBuilder('r')
+                    ->join('r.grade', 'g')
+                    ->where('g.id = :grade_id')
+                    ->setParameter('grade_id', $grade_id)
+      ;
+
+      return $query->getQuery()
+                   ->getResult()
+      ;
+  }
+
   public function getForStudent($simstudent, $em)
   {
     $query = $this->createQueryBuilder('r')

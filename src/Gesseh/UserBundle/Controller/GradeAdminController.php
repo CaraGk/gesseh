@@ -109,6 +109,12 @@ class GradeAdminController extends Controller
     if( !$grade )
       throw $this->createNotFoundException('Unable to find Grade entity.');
 
+    if ($rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getByGrade($id)) {
+        foreach ($rules as $rule) {
+            $em->remove($rule);
+        }
+    }
+
     $em->remove($grade);
     $em->flush();
 
