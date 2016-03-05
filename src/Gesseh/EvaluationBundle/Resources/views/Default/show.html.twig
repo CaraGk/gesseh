@@ -36,7 +36,7 @@
                     <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
                         <div class="field rank">{{ rank }}.</div>
                         <div class="field name title title">{{ item['name'] }}</div>
-                        <div class="field total"> ({{ item['total'][0] }} évaluations)</div>
+                        <div class="field total"> ({{ item['total'][0] }} {% if item['total'][0] > 1 %}évaluations{% else %} évaluation{% endif %})</div>
                         <div class="field mean badge" title="Évaluations antérieures : {% for period,mean in item['mean'] %}{% if period > 0 %}{{ mean }} ({{ item['total'][period] }}) ; {% endif %}{% endfor %}">{{ item['mean'][0] }}</div>
                     </li>
                 {% elseif item['type'] == 3 %}
@@ -53,8 +53,8 @@
                     <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
                         <div class="field rank">{{ rank }}</div>
                         <div class="field name title">{{ item['name'] }}</div>
-                        <div class="field mean">{{ item['mean'][0] }}</div>
-                        <div class="field total"> ({{ item['total'][0] }} évaluations)</div>
+                        <div class="field total"> ({{ item['total'][0] }} {% if item['total'][0] > 1 %}évaluations{% else %} évaluation{% endif %})</div>
+                        <div class="field mean badge">{{ item['mean'][0] }}</div>
                     </li>
                 {% elseif item['type'] == 5 or item['type'] == 6 %}
                     <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
@@ -63,8 +63,8 @@
                         {% set max = 0 %}
                         {% for tag,count in item['count'][0] %}
                             {% if max < item['max'] %}
-                                <div class="field tag">{{ tag }}</div>
                                 <div class="field total">({{ item['count'][0][tag] }} avis)</div>
+                                <div class="field tag">{{ tag }}</div>
                             {% endif %}
                             {% set max = max + 1 %}
                         {% endfor %}
