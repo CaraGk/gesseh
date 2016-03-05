@@ -4,5 +4,6 @@
 
 {% block content %}
     <div class="error">{{ error }}</div>
+    <div>Suite à un bug connu mais non résolu, le fichier ne doit pas contenir en première colonne (A) un champ optionnel, sans quoi celui-ci ne sera pas enregistré dans la base de données.</div>
     {{ form(form) }}
 {% endblock %}
