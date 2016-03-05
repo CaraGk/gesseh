@@ -13,38 +13,36 @@ namespace Gesseh\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType,
+    Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * PlacementType
  */
 class PlacementType extends AbstractType
 {
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder->add('student', 'entity', array(
-              'class'         => 'GessehUserBundle:Student',
-              'query_builder' => function (\Gesseh\UserBundle\Entity\StudentRepository $er) {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('student', EntityType::class, array(
+            'class'         => 'GessehUserBundle:Student',
+            'query_builder' => function (\Gesseh\UserBundle\Entity\StudentRepository $er) {
                 return $er->createQueryBuilder('s')
-                  ->addOrderBy('s.surname', 'ASC')
-                  ->addOrderBy('s.name', 'ASC');
-              },
-            ))
-            ->add('repartition')
-    ;
-  }
+                          ->addOrderBy('s.surname', 'ASC')
+                          ->addOrderBy('s.name', 'ASC');
+            },
+        ))
+                ->add('repartition')
+                ->add('Enregistrer', SubmitType::class)
+        ;
+    }
 
-  public function getName()
-  {
-    return 'gesseh_corebundle_placementtype';
-  }
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Gesseh\CoreBundle\Entity\Placement',
+        ));
 
-  public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
-  {
-    $resolver->setDefaults(array(
-        'data_class' => 'Gesseh\CoreBundle\Entity\Placement',
-    ));
-
-    $resolver->setAllowedValues(array(
-    ));
-  }
+        $resolver->setAllowedValues(array(
+        ));
+    }
 }

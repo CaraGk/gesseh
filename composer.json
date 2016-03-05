@@ -8,18 +8,19 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.7.*",
+        "symfony/symfony": "2.8.*",
         "doctrine/orm": "2.4.*",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
-        "symfony/assetic-bundle": "~2.3",
+        "symfony/assetic-bundle": "~2",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
+        "symfony/polyfill-iconv": "~1.0",
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "knplabs/knp-menu-bundle": "~2",
+        "knplabs/knp-menu-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "stfalcon/tinymce-bundle": "dev-master",
         "doctrine/migrations": "dev-master",
@@ -31,8 +32,9 @@
         "jms/payment-paypal-bundle": "master-dev",
         "jms/di-extra-bundle": "dev-master",
         "jms/security-extra-bundle": "dev-master",
-        "mopa/bootstrap-bundle": "^3.0",
-        "twbs/bootstrap": "^3.3"
+        "mopa/bootstrap-bundle": "dev-master",
+        "twbs/bootstrap": "dev-master",
+        "craue/formflow-bundle": "~3.0@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

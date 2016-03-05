@@ -13,33 +13,29 @@ namespace Gesseh\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * PeriodType
  */
 class PeriodType extends AbstractType
 {
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-      $builder->add('name')
-              ->add('begin')
-              ->add('end')
-              ->add('Enregistrer', 'submit')
-    ;
-  }
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('name')
+                ->add('begin')
+                ->add('end')
+                ->add('Enregistrer', SubmitType::class)
+        ;
+    }
 
-  public function getName()
-  {
-    return 'gesseh_corebundle_periodtype';
-  }
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Gesseh\CoreBundle\Entity\Period',
+        ));
 
-  public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
-  {
-    $resolver->setDefaults(array(
-        'data_class' => 'Gesseh\CoreBundle\Entity\Period',
-    ));
-
-    $resolver->setAllowedValues(array(
-    ));
-  }
+        $resolver->setAllowedValues(array(
+        ));
+    }
 }

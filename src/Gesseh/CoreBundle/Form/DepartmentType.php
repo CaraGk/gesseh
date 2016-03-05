@@ -19,24 +19,19 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class DepartmentType extends AbstractType
 {
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder->add('name')
-    ;
-  }
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('name')
+        ;
+    }
 
-  public function getName()
-  {
-    return 'gesseh_corebundle_departmenttype';
-  }
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Gesseh\CoreBundle\Entity\Department',
+        ));
 
-  public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
-  {
-    $resolver->setDefaults(array(
-      'data_class' => 'Gesseh\CoreBundle\Entity\Department',
-    ));
-
-    $resolver->setAllowedValues(array(
-    ));
-  }
+        $resolver->setAllowedValues(array(
+        ));
+    }
 }

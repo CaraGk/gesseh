@@ -289,8 +289,8 @@ class PlacementAdminController extends Controller
         }
 
         return array(
-            'origin'     => $period,
-            'form' => $form->createView(),
+            'origin' => $period,
+            'form'   => $form->createView(),
         );
     }
 

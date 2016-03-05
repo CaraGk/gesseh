@@ -14,7 +14,11 @@ namespace Gesseh\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType,
     Symfony\Component\Form\FormBuilderInterface,
     Symfony\Component\OptionsResolver\OptionsResolver;
-use Gesseh\CoreBundle\Form\RepartitionType;
+use Gesseh\CoreBundle\Form\RepartitionType,
+    Symfony\Component\Form\Extension\Core\Type\SubmitType,
+    Symfony\Component\Form\Extension\Core\Type\IntegerType,
+    Symfony\Component\Form\Extension\Core\Type\TextType,
+    Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * Repartitions Type
@@ -36,7 +40,7 @@ class RepartitionsType extends AbstractType
             $id = $repartition->getId();
 
             if($this->type == 'period') {
-                $builder->add('department_' . $id, 'entity', array(
+                $builder->add('department_' . $id, EntityType::class, array(
                             'class'    => 'Gesseh\CoreBundle\Entity\Department',
                             'disabled' => true,
                             'data'     => $repartition->getDepartment(),
@@ -44,7 +48,7 @@ class RepartitionsType extends AbstractType
                         ))
                 ;
             } elseif($this->type == 'department') {
-                $builder->add('period_' . $id, 'entity', array(
+                $builder->add('period_' . $id, EntityType::class, array(
                             'class'    => 'Gesseh\CoreBundle\Entity\Period',
                             'disabled' => true,
                             'data'     => $repartition->getPeriod(),
@@ -53,24 +57,19 @@ class RepartitionsType extends AbstractType
                 ;
             }
 
-            $builder->add('number_' . $id, 'integer', array(
+            $builder->add('number_' . $id, IntegerType::class, array(
                         'required' => true,
                         'data'     => $repartition->getNumber(),
                         'label'    => 'Postes ouverts',
                     ))
-                    ->add('cluster_' . $id, 'text', array(
+                    ->add('cluster_' . $id, TextType::class, array(
                         'required' => false,
                         'data'     => $repartition->getCluster(),
                         'label'    => 'Stage couplé',
                     ))
             ;
         }
-        $builder->add('Enregistrer', 'submit');
-    }
-
-    public function getName()
-    {
-        return 'gesseh_corebundle_repartitionstype';
+        $builder->add('Enregistrer', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

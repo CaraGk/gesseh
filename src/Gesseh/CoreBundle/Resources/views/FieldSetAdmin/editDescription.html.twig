@@ -6,14 +6,6 @@
 
 {% block content %}
   <div class="description">{{ entity.description|raw }}</div>
-  {{ form_start(edit_form) }}
-    <div class="error">{{ form_errors(edit_form) }}</div>
-    <fieldset>
-      {{ form_row(edit_form.description) }}
-      {{ form_rest(edit_form) }}
-    </fieldset>
-    <div><button type="submit" title="Enregistrer les modifications de '{{ entity.name }}'">Enregistrer</button></div>
-  {{ form_end(edit_form) }}
-
+  {{ form(edit_form) }}
   {{ tinymce_init() }}
 {% endblock %}

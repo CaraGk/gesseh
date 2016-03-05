@@ -13,7 +13,8 @@ namespace Gesseh\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType,
     Symfony\Component\Form\FormBuilderInterface;
-use Gesseh\UserBundle\Form\UserType;
+use Gesseh\UserBundle\Form\UserType,
+    Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * Accreditation Type
@@ -30,13 +31,8 @@ class AccreditationType extends AbstractType
                     'label' => ' ',
                 ))
                 ->add('comment')
-                ->add('Enregister', 'submit')
+                ->add('Enregister', SubmitType::class)
         ;
-    }
-
-    public function getName()
-    {
-        return 'gesseh_corebundle_accreditationtype';
     }
 
     public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
