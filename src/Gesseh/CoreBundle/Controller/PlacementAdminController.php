@@ -274,22 +274,48 @@ class PlacementAdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $period = $em->getRepository('GessehCoreBundle:Period')->find($period_id);
+        $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
+        $hospital_id = $this->getRequest()->query->get('hospital_id', null);
 
         if(!$period)
             throw $this->createNotFoundException('Unable to find period entity.');
 
-        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($period_id);
+        $current_hospital = null;
+        $next_hospital = null;
+        $count = 0;
+        foreach ($hospitals as $hospital) {
+            if ($current_hospital !== null) {
+                $next_hospital = $hospital;
+                break;
+            }
+            if ($hospital_id == $hospital->getId() or $hospital_id == null) {
+                $current_hospital = $hospital;
+            }
+            $count++;
+        }
+        $total = count($hospitals);
+        print_r($current_hospital->getName()); echo '|';
+        print_r($next_hospital->getName()); echo '|';
+        print_r($count); echo '|';
+        print_r($total);
+        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($period_id, $current_hospital->getId());
 
         $form = $this->createForm(new RepartitionsType($repartitions, 'period'), $repartitions);
         $form_handler = new RepartitionsHandler($form, $this->get('request'), $em, $repartitions);
-        if($form_handler->process()) {
-            $this->get('session')->getFlashBag()->add('notice', 'Répartition pour la période "' . $period . '" enregistrée.');
+        if ($form_handler->process()) {
+            $this->get('session')->getFlashBag()->add('notice', 'Répartition pour la période "' . $period . '" enregistrée (étape ' . $count . '/' . $total . ').');
 
-            return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
+            if ($next_hospital == null) {
+                return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
+            } else {
+                return $this->redirect($this->generateUrl('GCore_PARepartitionsPeriod', array('period_id' => $period_id, 'hospital_id' => $next_hospital->getId())));
+            }
         }
 
         return array(
             'origin' => $period,
+            'count'  => $count,
+            'total'  => $total,
             'form'   => $form->createView(),
         );
     }

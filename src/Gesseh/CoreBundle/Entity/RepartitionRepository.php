@@ -53,11 +53,18 @@ class RepartitionRepository extends EntityRepository
         ;
     }
 
-    public function getByPeriod($period_id)
+    public function getByPeriod($period_id, $hospital_id = null)
     {
-        return $this->getByPeriodQuery($period_id)
-                    ->getQuery()
-                    ->getResult()
+        $query = $this->getByPeriodQuery($period_id);
+
+        if ($hospital_id != null) {
+            $query->andWhere('h.id = :hospital_id')
+                  ->setParameter('hospital_id', $hospital_id)
+            ;
+        }
+
+        return $query->getQuery()
+                     ->getResult()
         ;
     }
 
