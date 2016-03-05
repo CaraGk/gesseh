@@ -4,64 +4,74 @@
 {% block titlecontent %}{{ department.name }} à {{ department.hospital.name }} : évaluations{% endblock %}
 
 {% block actionscontent %}
-    <li><a href="{{ path('GCore_FSIndex') }}" title="Retour à la liste des terrains"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
-    <li><a href="{{ path('GCore_FSShowDepartment', {id: department.id}) }}" title="Afficher les informations concernant le service"><img src="{{ asset('bundles/gessehcore/images/Info.png') }}" alt="Afficher" /></a></li>
+    <ul class="nav nav-pills">
+        <li><a href="{{ path('GCore_FSShowDepartment', {'id': department.id}) }}#description">Description</a></li>
+        <li><a href="{{ path('GCore_FSShowDepartment', {'id': department.id}) }}#hopital">Structure de soins</a></li>
+        <li><a href="{{ path('GCore_FSShowDepartment', {'id': department.id}) }}#agrement">Agréments</a></li>
+        <li class="active">
+            <a href="#evaluation" title="Afficher les évaluations pour ce service">
+                {{ icon('stats') }} Evaluations
+            </a>
+        </li>
+    </ul>
 {% endblock %}
 
 {% block content %}
-    <ul class="evaluation">
-    {% set rank = 0 %}
-    {% for item in eval %}
-        {% set rank = rank + 1 %}
-        {% if item['type'] == 2 %}
-            <li class="criteria {{ cycle(['odd', 'even'], loop.index0) }}">
-                <div class="field rank">{{ rank }}.</div>
-                <div class="field name">{{ item['name'] }}</div>
-                <ul class="comments">
-                    {% for comment in item['text'] %}
-                        <li class="comment {{ cycle(['subodd', 'subeven'], loop.index0) }}">{{ comment }}</li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% elseif item['type'] == 1 %}
-            <li class="criteria {{ cycle(['odd', 'even'], loop.index0) }}">
-                <div class="field rank">{{ rank }}.</div>
-                <div class="field name">{{ item['name'] }} : </div>
-                <div class="field mean" title="Évaluations antérieures : {% for period,mean in item['mean'] %}{% if period > 0 %}{{ mean }} ({{ item['total'][period] }}) ; {% endif %}{% endfor %}">{{ item['mean'][0] }}</div>
-                <div class="field total"> ({{ item['total'][0] }} évaluations)</div>
-            </li>
-        {% elseif item['type'] == 3 %}
-            <li class="criteria {{ cycle(['odd', 'even'], loop.index0) }}">
-                <div class="field rank">{{ rank }}.</div>
-                <div class="field name">{{ item['name'] }} :</div>
-                <ul class="fields tags">
-                    {% for tag,size in item['size'][0] %}
-                        <li class="field tag" style="font-size:{{ size }}em;">{{ tag }}</li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% elseif item['type'] == 4 %}
-            <li class="criteria {{ cycle(['odd', 'even'], loop.index0) }}">
-                <div class="field rank">{{ rank }}</div>
-                <div class="field name">{{ item['name'] }} :</div>
-                <div class="field mean">{{ item['mean'][0] }}</div>
-                <div class="field total"> ({{ item['total'][0] }} évaluations)</div>
-            </li>
-        {% elseif item['type'] == 5 or item['type'] == 6 %}
-            <li class="criteria {{ cycle(['odd', 'even'], loop.index0) }}">
-                <div class="field rank">{{ rank }}</div>
-                <div class="field name">{{ item['name'] }}</div>
-                {% set max = 0 %}
-                {% for tag,count in item['count'][0] %}
-                    {% if max < item['max'] %}
-                        <div class="field tag">{{ tag }}</div>
-                        <div class="field total">({{ item['count'][0][tag] }} avis)</div>
-                    {% endif %}
-                    {% set max = max + 1 %}
-                {% endfor %}
-        {% endif %}
-    {% else %}
-        <div class="criteria">Aucune évaluation pour le terrain de stage.</div>
-    {% endfor %}
-    </ul>
+    <div class="tab-content">
+        <ul class="evaluation tab-pane active list-group" id="evaluation">
+            {% set rank = 0 %}
+            {% for item in eval %}
+                {% set rank = rank + 1 %}
+                {% if item['type'] == 2 %}
+                    <li class="list-group-item criteria {{ cycle(['odd', 'even'], loop.index0) }}">
+                        <div class="field rank">{{ rank }}.</div>
+                        <div class="field name title">{{ item['name'] }}</div>
+                        <ul class="comments">
+                            {% for comment in item['text'] %}
+                                <li class="comment {{ cycle(['subodd', 'subeven'], loop.index0) }}">{{ comment }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% elseif item['type'] == 1 %}
+                    <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
+                        <div class="field rank">{{ rank }}.</div>
+                        <div class="field name title title">{{ item['name'] }}</div>
+                        <div class="field total"> ({{ item['total'][0] }} évaluations)</div>
+                        <div class="field mean badge" title="Évaluations antérieures : {% for period,mean in item['mean'] %}{% if period > 0 %}{{ mean }} ({{ item['total'][period] }}) ; {% endif %}{% endfor %}">{{ item['mean'][0] }}</div>
+                    </li>
+                {% elseif item['type'] == 3 %}
+                    <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
+                        <div class="field rank">{{ rank }}.</div>
+                        <div class="field name title">{{ item['name'] }}</div>
+                        <ul class="fields tags">
+                            {% for tag,size in item['size'][0] %}
+                                <li class="field tag" style="font-size:{{ size }}em;">{{ tag }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% elseif item['type'] == 4 %}
+                    <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
+                        <div class="field rank">{{ rank }}</div>
+                        <div class="field name title">{{ item['name'] }}</div>
+                        <div class="field mean">{{ item['mean'][0] }}</div>
+                        <div class="field total"> ({{ item['total'][0] }} évaluations)</div>
+                    </li>
+                {% elseif item['type'] == 5 or item['type'] == 6 %}
+                    <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
+                        <div class="field rank">{{ rank }}</div>
+                        <div class="field name title">{{ item['name'] }}</div>
+                        {% set max = 0 %}
+                        {% for tag,count in item['count'][0] %}
+                            {% if max < item['max'] %}
+                                <div class="field tag">{{ tag }}</div>
+                                <div class="field total">({{ item['count'][0][tag] }} avis)</div>
+                            {% endif %}
+                            {% set max = max + 1 %}
+                        {% endfor %}
+                {% endif %}
+            {% else %}
+                <div class="list-group-item criteria">Aucune évaluation pour le terrain de stage.</div>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
