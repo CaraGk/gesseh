@@ -294,10 +294,7 @@ class PlacementAdminController extends Controller
             $count++;
         }
         $total = count($hospitals);
-        print_r($current_hospital->getName()); echo '|';
-        print_r($next_hospital->getName()); echo '|';
-        print_r($count); echo '|';
-        print_r($total);
+
         $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($period_id, $current_hospital->getId());
 
         $form = $this->createForm(new RepartitionsType($repartitions, 'period'), $repartitions);
