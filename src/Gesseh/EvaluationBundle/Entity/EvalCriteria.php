@@ -89,6 +89,13 @@ class EvalCriteria
      */
     private $private;
 
+    /**
+     * @var string $category
+     *
+     * @ORM\Column(name="category", type="string", length=255, nullable=true)
+     */
+    private $category;
+
     public function __toString()
     {
       return $this->name;
@@ -298,5 +305,28 @@ class EvalCriteria
     public function isPrivate()
     {
         return $this->private;
+    }
+
+    /**
+     * Set category
+     *
+     * @param string $category
+     * @return EvalCriteria
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return string
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }
