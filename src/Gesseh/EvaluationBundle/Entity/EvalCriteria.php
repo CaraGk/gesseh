@@ -163,6 +163,8 @@ class EvalCriteria
             return "Choix unique non pondéré";
         } elseif ($this->type == 6) {
             return "Horaire";
+        } elseif ($this->type == 7) {
+            return "Echelle Visuelle Analogique";
         } else {
             return "Type inconnu";
         }

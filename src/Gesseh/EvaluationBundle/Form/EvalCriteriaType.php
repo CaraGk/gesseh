@@ -27,6 +27,7 @@ class EvalCriteriaType extends AbstractType
               'choices' => array(
                 '1' => 'Choix unique pondéré',
                 '5' => 'Choix unique non pondéré',
+                '7' => 'Échelle visuelle analogique',
                 '3' => 'Choix multiple',
                 '4' => 'Valeur numérique',
                 '6' => 'Horaire',
