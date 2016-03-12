@@ -43,13 +43,9 @@ class FieldSetController extends Controller
         $arg['limit']['description'] = $user->getUsername();
     }
 
-    if($pm->findParamByName('simul_active')->getValue()) {
-        $period = $em->getRepository('GessehCoreBundle:Period')->getLast();
-        if($period) {
-            $arg['period'] = $period->getId();
-        } else {
-            $arg['period'] = null;
-        }
+    $period = $em->getRepository('GessehCoreBundle:Period')->getLast();
+    if($period) {
+        $arg['period'] = $period->getId();
     } else {
         $arg['period'] = null;
     }

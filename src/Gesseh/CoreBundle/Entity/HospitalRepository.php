@@ -30,8 +30,6 @@ class HospitalRepository extends EntityRepository
                     ->addSelect('d')
                     ->addSelect('a')
                     ->addSelect('s')
-                    ->where('a.end > :now')
-                    ->setParameter('now', new \DateTime('now'))
         ;
     }
 
@@ -42,6 +40,9 @@ class HospitalRepository extends EntityRepository
         foreach ($orderBy as $col => $order) {
             $query->addOrderBy($col . '.name', $order);
         }
+        $query->andWhere('a.end > :now')
+              ->setParameter('now', new \DateTime('now'))
+        ;
 
         return $query->getQuery()
                      ->getResult()
@@ -70,6 +71,12 @@ class HospitalRepository extends EntityRepository
                   ->addSelect('u')
                   ->andWhere($arg['limit']['type'] . ' = :value')
                   ->setParameter('value', $arg['limit']['value'])
+            ;
+        }
+
+        if (!isset($arg['admin'])) {
+            $query->andWhere('a.end > :now')
+                  ->setParameter('now', new \DateTime('now'))
             ;
         }
 
