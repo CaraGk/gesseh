@@ -94,11 +94,10 @@ class EvaluationType extends AbstractType
                     $legend = explode('|', $criteria->getMore());
                     $label .= ' (' . $legend[0] . ' -> ' . $legend[1] . ')';
                     $builder->add('criteria_' . $criteria->getId(), 'range', array(
-                        'min'        => 0,
-                        'max'        => 100,
                         'required'   => $criteria->isRequired(),
                         'label'      => $label,
                         'label_attr' => array('class' => $class),
+                        'attr'       => array('min' => 0, 'max' => 100,),
                     ));
                 }
             }
