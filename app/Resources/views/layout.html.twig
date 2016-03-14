@@ -44,20 +44,24 @@
 
 {% block page_header %}
 <header id="header" class="row">
-    <div class="col-sm-2 hidden-xs">
-        {% block logo %}<a href="{{ path('homepage') }}"><img src="{{ asset('bundles/gessehcore/images/gesseh_logo.png') }}" alt="logo" /></a>{% endblock logo %}
-    </div>
-    <h1 class="col-sm-8 text-center">{% block headline %}{{ kparam('title') }}{% endblock headline %}</h1>
-    <ul class="col-sm-2">
+    {% if kparam('header_show') == 'both' or kparam('header_show') == 'logo' %}
+        <span class="hidden-xs">
+            {% block logo %}<a href="{{ path('homepage') }}"><img src="{{ asset('bundles/gessehcore/images/entete.png') }}" alt="logo" /></a>{% endblock logo %}
+        </span>
+    {% endif %}
+    {% if kparam('header_show') == 'both' or kparam('header_show') == 'title' %}
+        <h1>{% block headline %}{{ kparam('title') }}{% endblock headline %}</h1>
+    {% endif %}
+    <ul class="pull-right">
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <li><a href="{{ path('GUser_SEdit') }}" title="Modifier mes informations personnelles">{{ app.user.username }}</a></li>
-        <li><a href="{{ path('fos_user_security_logout') }}" title="Se déconnecter">se déconnecter</a></li>
+            <li><a href="{{ path('GUser_SEdit') }}" title="Modifier mes informations personnelles">{{ app.user.username }}</a></li>
+            <li><a href="{{ path('fos_user_security_logout') }}" title="Se déconnecter">se déconnecter</a></li>
         {% else %}
-        {% if kparam('reg_active') and kparam('reg_auto') %}
-        <li><a href="{{ path('GRegister_URegister') }}" title="S'inscrire et adhérer">S'inscrire</a></li>
-        {% endif %}
-        <li><a href="{{ path('fos_user_security_login') }}" title="Se connecter">Se connecter</a></li>
-        <li><a href="{{ path('fos_user_resetting_request') }}" title="Réinitialiser le mot de passe">Mot de passe oublié</a></li>
+            {% if kparam('reg_active') and kparam('reg_auto') %}
+                <li><a href="{{ path('GRegister_URegister') }}" title="S'inscrire et adhérer">S'inscrire</a></li>
+            {% endif %}
+            <li><a href="{{ path('fos_user_security_login') }}" title="Se connecter">Se connecter</a></li>
+            <li><a href="{{ path('fos_user_resetting_request') }}" title="Réinitialiser le mot de passe">Mot de passe oublié</a></li>
         {% endif %}
     </ul>
 </header>

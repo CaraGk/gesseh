@@ -28,12 +28,12 @@ input:invalid, textarea:invalid, select:invalid  { background-color: #faa; outli
 .flashnotice { background-color: #99ff99; color: black; }
 div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-style: italic; }
 
-#header { height: 80px; background-color: #77AAFF; margin: 0; padding: 0; border: 0; }
-#header img, h1, nav { vertical-align: top; margin: 0; }
-#header h1 { padding: 5px; padding-top: 15px; font-size: 2.8em; color: #EEEEEE; }
+#header { background-color: #77AAFF; margin: 0; padding: 0; border: 0; }
+#header img, h1 { vertical-align: middle; margin: 0; }
+#header h1 { padding: 10px 10px 10px 30px; font-size: 2.8em; color: #EEEEEE; display: inline-block; }
 #header a { text-decoration: none; color: #252525; }
-#header img { padding: 5px; padding-top: 10px; }
-#header ul { text-align: right; font-weight: bold; font-size: 90%; padding-top: 2px; }
+#header img { padding: 10px; }
+#header ul { text-align: right; font-weight: bold; font-size: 90%; padding: 5px; }
 #header li { list-style: none; }
 #header li a { color: #252525; }
 #header li a:hover { color: #EEEEEE; }
