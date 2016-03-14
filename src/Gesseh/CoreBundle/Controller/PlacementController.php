@@ -23,26 +23,26 @@ use Gesseh\CoreBundle\Entity\Placement;
  */
 class PlacementController extends Controller
 {
-  /**
-   * @Route("/", name="GCore_PIndex")
-   * @Template()
-   */
-  public function indexAction()
-  {
-    $user = $this->get('security.token_storage')->getToken()->getUsername();
-    $em = $this->getDoctrine()->getManager();
-    $placements = $em->getRepository('GessehCoreBundle:Placement')->getByUsername($user);
-    $pm = $this->container->get('kdb_parameters.manager');
+    /**
+     * @Route("/", name="GCore_PIndex")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUsername();
+        $em = $this->getDoctrine()->getManager();
+        $placements = $em->getRepository('GessehCoreBundle:Placement')->getByUsername($user);
+        $pm = $this->container->get('kdb_parameters.manager');
 
-    if (true == $pm->findParamByName('eval_active')->getValue()) {
-      $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $user);
-    } else {
-        $evaluated = array();
+        if (true == $pm->findParamByName('eval_active')->getValue()) {
+            $evaluated = $em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $user);
+        } else {
+            $evaluated = array();
+        }
+
+        return array(
+            'placements' => $placements,
+            'evaluated'  => $evaluated,
+        );
     }
-
-    return array(
-      'placements' => $placements,
-      'evaluated'  => $evaluated,
-    );
-  }
 }

@@ -42,7 +42,9 @@ class PlacementRepository extends EntityRepository
   {
     $query = $this->getBaseQuery();
     $query->where('u.username = :user')
-            ->setParameter('user', $user)
+          ->setParameter('user', $user)
+          ->andWhere('a.begin <= q.begin')
+          ->andWhere('a.end >= q.end')
           ->addOrderBy('q.begin', 'desc')
           ->addOrderBy('h.name', 'asc')
           ->addOrderBy('d.name', 'asc');
