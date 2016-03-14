@@ -19,6 +19,7 @@ class Version20160314085117 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('INSERT INTO parameter (name, value, active, activates_at, label, category, type, more) VALUES (\'header_show\', \'both\', 1, now(), \'Afficher le logo ou le titre en entête ?\', \'General\', 3, \'a:4:{s:4:"none";s:5:"Aucun";s:4:"logo";s:4:"Logo";s:5:"title";s:5:"Titre";s:4:"both";s:8:"Les deux";}\')');
+        $this->addSql('INSERT INTO parameter (name, value, active, activates_at, label, category, type, more) VALUES (\'header_color\', \'#77AAFF\', 1, now(), \'Couleur de fond en entête ?\', \'General\', 1, null)');
     }
 
     /**
@@ -30,5 +31,6 @@ class Version20160314085117 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql("DELETE FROM parameter WHERE name = 'header_show'");
+        $this->addSql("DELETE FROM parameter WHERE name = 'header_color'");
     }
 }

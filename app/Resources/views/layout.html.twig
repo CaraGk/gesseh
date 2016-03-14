@@ -43,7 +43,7 @@
 {% endblock navbar %}
 
 {% block page_header %}
-<header id="header" class="row">
+<header id="header" class="row" style="background-color: {{ kparam('header_color') }};">
     {% if kparam('header_show') == 'both' or kparam('header_show') == 'logo' %}
         <span class="hidden-xs">
             {% block logo %}<a href="{{ path('homepage') }}"><img src="{{ asset('bundles/gessehcore/images/entete.png') }}" alt="logo" /></a>{% endblock logo %}
