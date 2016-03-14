@@ -66,7 +66,7 @@
                                         {{ department.name }}
                                     </a>
                                 </div>
-                                <ul class="col-sm-2 field subentity_item department_head">
+                                <ul class="col-sm-3 field subentity_item department_head">
                                     {% set current = false %}
                                     {% for accreditation in department.accreditations %}
                                         {% if current != accreditation.supervisor %}
@@ -83,9 +83,9 @@
                                 </ul>
                                 {% if kparam('simul_active') == true and is_granted('ROLE_STUDENT') %}
                                     {% if repartition.cluster is not null %}
-                                        <div class="col-sm-1 field subentity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'r.cluster', value: repartition.cluster, description: repartition.cluster }}) }}" title="Afficher les terrains du cluster {{ repartition.cluster }}">Stage couplé</a></div>
+                                        <div class="col-sm-2 field subentity_item department_cluster"><a href="{{ path('GCore_FSIndex', {limit: {type: 'r.cluster', value: repartition.cluster, description: repartition.cluster }}) }}" title="Afficher les terrains du cluster {{ repartition.cluster }}">Stage couplé</a></div>
                                     {% else %}
-                                        <div class="col-sm-1"> </div>
+                                        <div class="col-sm-2"> </div>
                                     {% endif %}
                                     {% if repartition.number > 1 %}
                                         <div class="col-sm-2 field subentity_item department_number">{{ repartition.number }} postes</div>
