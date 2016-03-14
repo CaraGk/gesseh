@@ -291,7 +291,7 @@ class SimulationController extends Controller
       $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getAvailable($last_period);
       $left = array();
 
-      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentLeftForRank($simstudent->getId(), $last_period);
+      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentLeftForRank($simstudent->getRank(), $last_period);
       foreach($sims as $sim) {
         $extra = $sim->getExtra();
         foreach($sim->getDepartment()->getRepartitions() as $repartition) {

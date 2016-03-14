@@ -23,7 +23,7 @@ class SimulationRepository extends EntityRepository
     $query = $this->createQueryBuilder('t')
                   ->join('t.student', 's')
                   ->addSelect('s')
-                  ->orderBy('t.id', 'asc');
+                  ->orderBy('t.rank', 'asc');
 
     return $query->getQuery();
   }
@@ -63,6 +63,7 @@ class SimulationRepository extends EntityRepository
     foreach ($students as $student) {
       $simulation = new Simulation();
       $simulation->setId($count);
+      $simulation->setRank($count);
       $simulation->setStudent($student);
       $simulation->setActive(true);
       $simulation->setDepartment(null);
@@ -80,7 +81,7 @@ class SimulationRepository extends EntityRepository
     $query = $this->createQueryBuilder('t')
                   ->join('t.wishes', 'w')
                   ->join('w.department', 'd')
-                  ->addOrderBy('t.id', 'asc');
+                  ->addOrderBy('t.rank', 'asc');
 
     $sims = $query->getQuery()->getResult();
 
@@ -125,7 +126,7 @@ class SimulationRepository extends EntityRepository
                   ->where('t.department IS NULL');
 
     if ($simstudent !== null) {
-      $query->andWhere('t.id < :id')
+      $query->andWhere('t.rank < :rank')
               ->setParameter('id', $simstudent->getId());
     }
 
@@ -139,7 +140,7 @@ class SimulationRepository extends EntityRepository
                   ->where('t.active = false');
 
     if ($simstudent !== null) {
-      $query->andWhere('t.id < :id')
+      $query->andWhere('t.rank < :rank')
               ->setParameter('id', $simstudent->getId());
     }
 
@@ -151,8 +152,8 @@ class SimulationRepository extends EntityRepository
     $query = $this->createQueryBuilder('t')
                   ->join('t.student', 's')
                   ->select('COUNT(t.id)')
-                  ->where('t.id > :simstudent_id')
-                    ->setParameter('simstudent_id', $simstudent->getId())
+                  ->where('t.rank > :simstudent_rank')
+                    ->setParameter('simstudent_rank', $simstudent->getRank())
                   ->andWhere('s.grade = :grade_id')
                     ->setParameter('grade_id', $simstudent->getStudent()->getGrade()->getId());
 
@@ -164,8 +165,8 @@ class SimulationRepository extends EntityRepository
     $query = $this->createQueryBuilder('t')
                   ->join('t.student', 's')
                   ->select('COUNT(t.id)')
-                  ->where('t.id > :simstudent_id')
-                    ->setParameter('simstudent_id', $simstudent->getId())
+                  ->where('t.rank > :simstudent_rank')
+                    ->setParameter('simstudent_rank', $simstudent->getRank())
                   ->andWhere('t.active = true');
 
     if (isset($not_grades_rule)) {
@@ -180,8 +181,8 @@ class SimulationRepository extends EntityRepository
   public function getDepartmentExtraForStudent($simstudent, $department)
   {
     $query = $this->createQueryBuilder('t')
-                  ->where('t.id < :simstudent_id')
-                    ->setParameter('simstudent_id', $simstudent->getId())
+                  ->where('t.rank < :simstudent_rank')
+                    ->setParameter('simstudent_rank', $simstudent->getRank())
                   ->andWhere('t.department = :department_id')
                     ->setParameter('department_id', $department->getId())
                   ->orderBy('t.extra', 'asc')
@@ -222,11 +223,11 @@ class SimulationRepository extends EntityRepository
   public function getNumberLeft($department_id, $rank)
   {
     $query = $this->createQueryBuilder('t')
-                  ->where('t.id < :rank')
+                  ->where('t.rank < :rank')
                     ->setParameter('rank', $rank)
                   ->andWhere('t.department = :department_id')
                     ->setParameter('department_id', $department_id)
-                  ->orderBy('t.id', 'desc')
+                  ->orderBy('t.rank', 'desc')
                   ->setMaxResults(1);
 
     return $query->getQuery()->getOneOrNullResult();
@@ -238,12 +239,12 @@ class SimulationRepository extends EntityRepository
                     ->join('t.department', 'd')
                     ->join('d.repartitions', 'r')
                     ->join('r.period', 'p')
-                    ->where('t.id < :rank')
+                    ->where('t.rank < :rank')
                     ->setParameter('rank', $rank)
                     ->andWhere('p.id = :period_id')
                     ->setParameter('period_id', $period_id)
                     ->groupBy('t.department')
-                    ->orderBy('t.id', 'desc')
+                    ->orderBy('t.rank', 'desc')
     ;
 
     return $query->getQuery()

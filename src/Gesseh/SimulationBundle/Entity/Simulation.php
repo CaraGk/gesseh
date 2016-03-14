@@ -33,6 +33,13 @@ class Simulation
     private $id;
 
     /**
+     * @var int $rank
+     *
+     * @ORM\Column(name="rank", type="integer")
+     */
+    private $rank;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Gesseh\UserBundle\Entity\Student")
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id", nullable=false)
      * @Assert\NotBlank()
@@ -91,6 +98,28 @@ class Simulation
       $this->id = $id;
     }
 
+    /**
+     * Get rank
+     *
+     * @return integer
+     */
+    public function getRank()
+    {
+        return $this->rank;
+    }
+
+    /**
+     * Set rank
+     *
+     * @param integer $rank
+     * @return Simulation
+     */
+    public function setRank($rank)
+    {
+        $this->rank = $rank;
+
+        return $this;
+    }
     /**
      * Set student
      *

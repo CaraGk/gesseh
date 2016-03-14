@@ -42,7 +42,6 @@ class SimulationAdminController extends Controller
       $em = $this->getDoctrine()->getManager();
       $paginator = $this->get('knp_paginator');
       $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
-//      $simulations = $paginator->paginate($simulations_query, $this->get('request')->query->get('page', 1), 50);
       $simul_missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing();
       $simul_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
 
@@ -53,6 +52,68 @@ class SimulationAdminController extends Controller
       );
     }
 
+    /**
+     * Set Simstudent's rank up
+     *
+     * @Route("/{id}/up", name="GSimul_SAUp", requirements={"id" = "\d+"})
+     */
+    public function setRankUpAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $simulation = $em->getRepository('GessehSimulationBundle:Simulation')->find($id);
+        $rank = $simulation->getRank();
+
+        if ($rank > 1) {
+            $simulation_before = $em->getRepository('GessehSimulationBundle:Simulation')->findOneByRank($rank - 1);
+
+            $simulation_before->setRank($rank);
+            $simulation->setRank($rank - 1);
+
+            $em->persist($simulation);
+            $em->persist($simulation_before);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('notice', 'Étudiant ' . $simulation->getStudent() . ' déplacé au rang ' . $simulation->getRank() . '.');
+            $this->get('session')->getFlashBag()->add('notice', 'Étudiant ' . $simulation_before->getStudent() . ' déplacé au rang ' . $simulation_before->getRank() . '.');
+        } else {
+            $this->get('session')->getFlashBag()->add('error', 'Étudiant ' . $simulation->getStudent() . ' est déjà le premier de la liste !');
+        }
+
+        return $this->redirect($this->generateUrl('GSimul_SAList'));
+    }
+
+    /**
+     * Set Simstudent's rank down
+     *
+     * @Route("/{id}/down", name="GSimul_SADown", requirements={"id" = "\d+"})
+     */
+    public function setRankDownAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $simulation = $em->getRepository('GessehSimulationBundle:Simulation')->find($id);
+        $rank = $simulation->getRank();
+        $simulation_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
+
+        if ($rank < $simulation_total) {
+            $simulation_after = $em->getRepository('GessehSimulationBundle:Simulation')->findOneByRank($rank + 1);
+
+            $simulation_after->setRank($rank);
+            $simulation->setRank($rank + 1);
+
+            $em->persist($simulation);
+            $em->persist($simulation_after);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('notice', 'Étudiant ' . $simulation->getStudent() . ' déplacé au rang ' . $simulation->getRank() . '.');
+            $this->get('session')->getFlashBag()->add('notice', 'Étudiant ' . $simulation_after->getStudent() . ' déplacé au rang ' . $simulation_after->getRank() . '.');
+        } else {
+            $this->get('session')->getFlashBag()->add('error', 'Étudiant ' . $simulation->getStudent() . ' est déjà le dernier de la liste !');
+        }
+
+        return $this->redirect($this->generateUrl('GSimul_SAList'));
+    }
     /**
      * @Route("/period/simul/{id}", name="GSimul_SAPeriod", requirements={"id" = "\d+"})
      * @Template()

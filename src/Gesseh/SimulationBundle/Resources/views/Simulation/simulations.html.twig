@@ -1,7 +1,7 @@
 <ul class="entities wishes">
     {% for simulation in simulations %}
         <li class="entity wish">
-            <div class="entity_item rank">{{ simulation.id }}.</div>
+            <div class="entity_item rank">{{ simulation.rank }}.</div>
             <div class="entity_item student">{{ simulation.student }} : </div>
             {% if simulation.department is not null %}
                 <div class="entity_item valid">
@@ -23,7 +23,21 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="entity_item field">({{ simulation.countWishes }} vœu{% if simulation.countWishes > 1 %}x{% endif %})</div>
                 <ul class="actions">
-                    <li><a href="{{ path('GSimul_SIndex', {'simid': simulation.id}) }}" title="Afficher les vœux de l'étudiant {{ simulation.student }}"><img src="{{ asset('bundles/gessehcore/images/Target.png') }}" alt="Vœux" /></a></li>
+                    <li>
+                        <a href="{{ path('GSimul_SIndex', {'simid': simulation.id}) }}" title="Afficher les vœux de l'étudiant {{ simulation.student }}">
+                            {{ icon('screenshot') }} Vœux
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('GSimul_SAUp', {'id': simulation.id}) }}" title="Monter le rang de l'étudiant {{ simulation.student }}">
+                            {{ icon('circle-arrow-up') }} Monter
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('GSimul_SADown', {'id': simulation.id}) }}" title="Descendre le rang de l'étudiant {{ simulation.student }}">
+                            {{ icon('circle-arrow-down') }} Descendre
+                        </a>
+                    </li>
                 </ul>
             {% endif %}
         </li>
