@@ -36,8 +36,20 @@ class FieldSetController extends Controller
     $um = $this->container->get('fos_user.user_manager');
     $user = $um->findUserByUsername($this->get('security.token_storage')->getToken()->getUsername());
 
+    $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
+    if ($sector_default = $em->getRepository('GessehCoreBundle:Sector')->findOneBy(array('is_default' => true,)))
+    {
+        $limit_default = array(
+            'type'        => 's.id',
+            'value'       => $sector_default->getId(),
+            'description' => $sector_default,
+        );
+    } else {
+        $limit_default = null;
+    }
+
     /* Filtre sur le username pour l'entrée du menu Teacher */
-    $arg['limit'] = $this->get('request')->query->get('limit', null);
+    $arg['limit'] = $this->get('request')->query->get('limit', $limit_default);
     if ($arg['limit']['type'] == 'u.id' and $arg['limit']['value'] == '') {
         $arg['limit']['value'] = $user->getId();
         $arg['limit']['description'] = $user->getUsername();
@@ -54,6 +66,7 @@ class FieldSetController extends Controller
 
     return array(
         'hospitals' => $hospitals,
+        'sectors'   => $sectors,
         'limit'     => $arg['limit'],
     );
   }

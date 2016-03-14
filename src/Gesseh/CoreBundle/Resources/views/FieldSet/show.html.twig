@@ -9,16 +9,49 @@
 
 {% block content %}
     <ul class="nav nav-pills">
-        <li class="active"><a href="#description" data-toggle="tab">Description</a></li>
-        <li><a href="#hopital" data-toggle="tab">Structure de soins</a></li>
-        <li><a href="#agrement" data-toggle="tab">Agréments</a></li>
+        <li class="active">
+            <a href="#description" data-toggle="tab">
+                {{ icon('info-sign') }} Description
+            </a>
+        </li>
+        <li>
+            <a href="#hopital" data-toggle="tab">
+                {{ icon('home') }} Structure de soins
+            </a>
+        </li>
+        <li>
+            <a href="#agrement" data-toggle="tab">
+                {{ icon('certificate') }} Agréments
+            </a>
+        </li>
         {% if clusters is not null %}
-            <li><a href="#cluster" data-toggle="tab">Stage couplé</a></li>
+            <li>
+                <a href="#cluster" data-toggle="tab">
+                    {{ icon('link') }} Stage couplé
+                </a>
+            </li>
         {% endif %}
-        {% if kparam('eval_active') == true %}
+        {% if kparam('eval_active') == true and (is_granted('ROLE_STUDENT') or is_granted('ROLE_SUPERTEACHER') or (is_granted('ROLE_TEACHER') and isSupervisor)) %}
             <li>
                 <a href="{{ path('GEval_DShow', { 'id': department.id, 'limit': limit }) }}" title="Afficher les évaluations pour ce service">
                     {{ icon('stats') }} Evaluations
+                </a>
+            </li>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'd.id', 'value': department.id, 'description': department.name ~ ' à ' ~ department.hospital.name }}) }}" title="Afficher les stages associés au service '{{ department.name }}'">
+                    {{ icon('list-alt') }} Stages
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('GCore_PARepartitionsDepartment', {'department_id': department.id}) }}" title="Modifier la répartition du service '{{ department }}'">
+                    {{ icon('briefcase') }} Postes
+                </a>
+            </li>
+            <li class="delete">
+                <a href="{{ path('GCore_FSADeleteDepartment', { 'id': department.id, 'limit': limit }) }}" title="Supprimer le service '{{ department.name }}'" class="confirm delete" confirm="Attention ! Supprimer ce terrain de stage suprimera également toutes les données qui s'y rapportent (stages, évaluations, etc). Confirmez-vous la suppression ?">
+                    {{ icon('trash') }} Supprimer
                 </a>
             </li>
         {% endif %}

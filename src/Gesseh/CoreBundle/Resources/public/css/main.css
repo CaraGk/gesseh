@@ -85,7 +85,7 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content .department_sector a, #content .department_sector a:active, #content .department_sector a:focus, #content .department_sector a:hover { color: #B60016; }
 #content .department_cluster { font-size: 90%; }
 #content .department_cluster a, #content .department_cluster a:active, #content .department_cluster a:focus, #content .department_cluster a:hover { }
-#content li.notactive, #content li.notactive .department_sector a { color: #CCCCCC; }
+#content li.notactive, #content li.notactive .department_sector a, #content li.notactive .department_name a { color: #CCCCCC; }
 #content div.rank { padding: 1px; margin-right: 10px; }
 #content div.total { font-style: italic; font-size: 80%; }
 #content ul.comments { padding: 0; margin: 0; }

@@ -40,6 +40,13 @@ class Sector
   private $name;
 
     /**
+     * @var boolean $is_default
+     *
+     * @ORM\Column(name="default", type="boolean")
+     */
+    private $is_default = false;
+
+    /**
      * @ORM\OneToMany(targetEntity="Accreditation", mappedBy="sector", cascade={"remove", "persist"})
      */
     private $accreditations;
@@ -82,6 +89,29 @@ class Sector
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set is_default
+     *
+     * @param boolean $is_default
+     * @return Sector
+     */
+    public function setDefault($is_default)
+    {
+        $this->is_default = $is_default;
+
+        return $this;
+    }
+
+    /**
+     * Get is_default
+     *
+     * @return boolean
+     */
+    public function isDefault()
+    {
+        return $this->is_default;
     }
 
     /**
