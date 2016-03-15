@@ -42,7 +42,7 @@ class Sector
     /**
      * @var boolean $is_default
      *
-     * @ORM\Column(name="default", type="boolean")
+     * @ORM\Column(name="is_default", type="boolean")
      */
     private $is_default = false;
 
