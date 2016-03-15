@@ -14,6 +14,8 @@ namespace Gesseh\SimulationBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Gesseh\SimulationBundle\Entity\Wish;
 use Gesseh\SimulationBundle\Form\WishType;
 use Gesseh\SimulationBundle\Form\WishHandler;
@@ -39,17 +41,17 @@ class SimulationAdminController extends Controller
      */
     public function listAction()
     {
-      $em = $this->getDoctrine()->getManager();
-      $paginator = $this->get('knp_paginator');
-      $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
-      $simul_missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing();
-      $simul_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+        $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
+        $simul_missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing();
+        $simul_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
 
-      return array(
-          'simulations'   => $simulations_query->getResult(),
-          'simul_missing' => $simul_missing,
-          'simul_total'   => $simul_total,
-      );
+        return array(
+            'simulations'   => $simulations_query->getResult(),
+            'simul_missing' => $simul_missing,
+            'simul_total'   => $simul_total,
+        );
     }
 
     /**
@@ -114,6 +116,66 @@ class SimulationAdminController extends Controller
 
         return $this->redirect($this->generateUrl('GSimul_SAList'));
     }
+
+    /**
+     * @Route("/live/repartition", name="GSimul_SALiveRepart")
+     * @Template()
+     */
+    public function liveRepartAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+        $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
+        $simul_missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing();
+        $simul_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
+        $simulations = $paginator->paginate( $simulations_query, $this->get('request')->query->get('page', 1), 20);
+
+        foreach ($simulations as $simulation) {
+            $forms[$simulation->getId()] = $this->createFormBuilder($simulation)->add('department', 'entity', array(
+                    'class' => 'GessehCoreBundle:Department',
+                    'required' => false,
+                ))
+                                              ->add('is_excess', 'checkbox', array(
+                                                  'required' => false,
+                                                  'value' => false,
+                                                  'label' => 'Surnombre',
+                                              ))
+                                              ->add('active', 'checkbox', array(
+                                                  'required' => false,
+                                                  'value'    => false,
+                                                  'label'    => 'Actif',
+                                              ))
+                                              ->add('Valider', 'button')
+                                              ->getForm()
+                                              ->createView();
+        }
+
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $simul = $form->getData();
+                $simul->setValidated(true);
+                $em->persist($simul);
+                $em->flush();
+
+                $response['success'] = true;
+            } else {
+                $response['success'] = false;
+                $response['cause'] = 'Formulaire invalide';
+            }
+
+            return new JsonResponse($response);
+        }
+
+        return array(
+            'simulations'   => $simulations,
+            'simul_missing' => $simul_missing,
+            'simul_total'   => $simul_total,
+            'forms'         => $forms,
+        );
+    }
+
     /**
      * @Route("/period/simul/{id}", name="GSimul_SAPeriod", requirements={"id" = "\d+"})
      * @Template()

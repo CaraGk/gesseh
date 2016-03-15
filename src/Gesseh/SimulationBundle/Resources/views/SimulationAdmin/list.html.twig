@@ -48,6 +48,13 @@
             $('.invalid').parent('li').addClass('invalid');
             $('.grey').parent('li').addClass('grey');
             $('.warning').parent('li').addClass('warning');
+
+            function find(name){
+                return $.grep(purposeObjects, function(item){
+                    return item.name == name;
+                });
+            };
+
         });
     </script>
 {% endblock %}

@@ -68,6 +68,19 @@ class Simulation
     private $active;
 
     /**
+     * var $is_excess
+     * @ORM\Column(name="excess", type="boolean", nullable=true)
+     */
+    private $is_excess;
+
+    /**
+     * var $is_validated;
+     *
+     * @ORM\Column(name="validated", type="boolean", nullable=true)
+     */
+    private $is_validated;
+
+    /**
      * @ORM\OneToMany(targetEntity="Gesseh\SimulationBundle\Entity\Wish", mappedBy="simstudent", cascade={"remove"})
      * @ORM\OrderBy({"rank" = "asc"})
      */
@@ -198,6 +211,52 @@ class Simulation
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set is_excess
+     *
+     * @param boolean $is_excess
+     * @return Simulation
+     */
+    public function setExcess($is_excess)
+    {
+        $this->is_excess = $is_excess;
+
+        return $this;
+    }
+
+    /**
+     * Is excess?
+     *
+     * @return boolean
+     */
+    public function isExcess()
+    {
+        return $this->is_excess;
+    }
+
+    /**
+     * Set is_validated
+     *
+     * @param boolean $is_validated
+     * @return Simulation
+     */
+    public function setValidated($is_validated)
+    {
+        $this->is_validated = $is_validated;
+
+        return $this;
+    }
+
+    /**
+     * Is validated?
+     *
+     * @return boolean
+     */
+    public function isValidated()
+    {
+        return $this->is_validated;
     }
 
     /**
