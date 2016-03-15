@@ -60,6 +60,7 @@
                     {% for department in hospital.departments %}
                         {% set isSupervisor = false %}
                         {% for repartition in department.repartitions %}
+                            {% if is_granted('ROLE_ADMIN') or repartition.number > 0 %}
                             <li class="row subentity department {% if repartition.number < 1 %}notactive{% endif %}">
                                 <div class="col-sm-3 field subentity_title department_name">
                                     <a href="{{ path('GCore_FSShowDepartment', { 'id': department.id, 'limit': limit }) }}" title="Afficher les informations du service '{{ department.name }}'">
@@ -95,8 +96,9 @@
                                         <div class="col-sm-2 field empty department_number">aucun poste</div>
                                     {% endif %}
                                 {% endif %}
-                            {% endfor %}
-                        </li>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
                     {% else %}
                         <li class="noentity department">Aucun service enregistré.</li>
                     {% endfor %}
