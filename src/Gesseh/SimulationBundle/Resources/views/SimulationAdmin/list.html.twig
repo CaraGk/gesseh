@@ -21,6 +21,11 @@
                 {{ icon('trash') }} Supprimer
             </a>
         </li>
+        <li class="btn btn-primary">
+            <a href="{{ path('GSimul_SALiveRepart') }}" title="Passer en mode de répartition en présentiel">
+                {{ icon('time') }} Répartir
+            </a>
+        </li>
     {% else %}
         <li class="btn btn-primary">
             <a href="{{ path('GSimul_SADefine') }}" title="Cliquez pour générer la table de simulation">
