@@ -344,4 +344,37 @@ class PlacementAdminController extends Controller
             'form' => $form->createView(),
         );
     }
+
+    /**
+     * Maintenance for repartitions
+     *
+     * @Route("/maintenance/repartition", name="GCore_PAMaintenanceRepartition")
+     */
+    public function maintenanceRepartitionAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
+        $department = $em->getRepository('GessehCoreBundle:Department')->getNext($this->get('request')->query->get('department', 0));
+        if (!$department) {
+            $this->get('session')->getFlashBag()->add('notice', 'Maintenance terminée !');
+            return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
+        }
+        $count = 0;
+        foreach ($periods as $period) {
+            if (!$em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndDepartment($period->getId(), $department->getId())) {
+                $repartition = new Repartition();
+                $repartition->setDepartment($department);
+                $repartition->setPeriod($period);
+                $repartition->setNumber(0);
+                $em->persist($repartition);
+                $count++;
+            }
+        }
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('notice', 'Maintenance en cours : Terrain : ' . $department . ' = ' . $count . ' répartition(s) ajoutée(s)');
+        return $this->redirect($this->generateUrl('GCore_PAMaintenanceRepartition', array('department' => $department->getId())));
+
+
+    }
 }

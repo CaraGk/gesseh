@@ -56,6 +56,24 @@ class DepartmentRepository extends EntityRepository
                  ->getSingleResult();
   }
 
+  /**
+   * Get next department for maintenance purpose
+   *
+   * @return Department
+   */
+    public function getNext($id = 0)
+    {
+        $query = $this->getBaseQuery();
+        $query->where('d.id > :id')
+              ->setParameter('id', $id)
+              ->setMaxResults(1)
+        ;
+
+        return $query->getQuery()
+                     ->getOneOrNullResult()
+        ;
+    }
+
   public function getByStudent($student_id)
   {
     $query = $this->getBaseQuery();

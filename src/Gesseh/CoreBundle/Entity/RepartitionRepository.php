@@ -104,4 +104,16 @@ class RepartitionRepository extends EntityRepository
                      ->getResult()
         ;
     }
+
+    public function getByPeriodAndDepartment($period_id, $department_id)
+    {
+        $query = $this->getByPeriodQuery($period_id);
+        $query->andWhere('d.id = :department_id')
+              ->setParameter('department_id', $department_id)
+        ;
+
+        return $query->getQuery()
+                     ->getOneOrNullResult()
+        ;
+    }
 }
