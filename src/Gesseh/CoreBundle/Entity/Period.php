@@ -33,7 +33,7 @@ class Period
     /**
      * @var text $name
      *
-     * @ORM\Column(name="name", type="string", length=30)
+     * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;
 
