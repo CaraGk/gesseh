@@ -127,7 +127,7 @@ class SimulationRepository extends EntityRepository
 
     if ($simstudent !== null) {
       $query->andWhere('t.rank < :rank')
-              ->setParameter('id', $simstudent->getId());
+              ->setParameter('rank', $simstudent->getRank());
     }
 
     return $query->getQuery()->getSingleScalarResult();
@@ -141,7 +141,7 @@ class SimulationRepository extends EntityRepository
 
     if ($simstudent !== null) {
       $query->andWhere('t.rank < :rank')
-              ->setParameter('id', $simstudent->getId());
+              ->setParameter('rank', $simstudent->getRank());
     }
 
     return $query->getQuery()->getSingleScalarResult();
