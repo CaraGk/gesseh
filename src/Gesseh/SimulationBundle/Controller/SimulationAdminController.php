@@ -27,6 +27,7 @@ use Gesseh\SimulationBundle\Form\SimulPeriodHandler;
 use Gesseh\SimulationBundle\Entity\SectorRule;
 use Gesseh\SimulationBundle\Form\SectorRuleType;
 use Gesseh\SimulationBundle\Form\SectorRuleHandler;
+use Gesseh\SimulationBundle\Form\SimulationType;
 
 /**
  * Simulation admin controller
@@ -131,41 +132,7 @@ class SimulationAdminController extends Controller
         $simulations = $paginator->paginate( $simulations_query, $this->get('request')->query->get('page', 1), 20);
 
         foreach ($simulations as $simulation) {
-            $forms[$simulation->getId()] = $this->createFormBuilder($simulation)->add('department', 'entity', array(
-                    'class' => 'GessehCoreBundle:Department',
-                    'required' => false,
-                ))
-                                              ->add('is_excess', 'checkbox', array(
-                                                  'required' => false,
-                                                  'value' => false,
-                                                  'label' => 'Surnombre',
-                                              ))
-                                              ->add('active', 'checkbox', array(
-                                                  'required' => false,
-                                                  'value'    => false,
-                                                  'label'    => 'Actif',
-                                              ))
-                                              ->add('Valider', 'button')
-                                              ->getForm()
-                                              ->createView();
-        }
-
-        if ($request->isMethod('POST')) {
-            $form->bind($request);
-
-            if ($form->isValid()) {
-                $simul = $form->getData();
-                $simul->setValidated(true);
-                $em->persist($simul);
-                $em->flush();
-
-                $response['success'] = true;
-            } else {
-                $response['success'] = false;
-                $response['cause'] = 'Formulaire invalide';
-            }
-
-            return new JsonResponse($response);
+            $forms[$simulation->getId()] = $this->createForm(new SimulationType(), $simulation)->createView();
         }
 
         return array(
@@ -174,6 +141,51 @@ class SimulationAdminController extends Controller
             'simul_total'   => $simul_total,
             'forms'         => $forms,
         );
+    }
+
+    /**
+     * @Route("/live/simulation", name="GSimul_SALiveSimul")
+     */
+    public function liveSimulAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->isXmlHttpRequest()) {
+            $id = $request->get('id');
+            $simulation = $em->getRepository('GessehSimulationBundle:Simulation')->find($id);
+            if (!$simulation) {
+                $response = new JsonResponse(array('message' => 'Error: Unknown entity.'), 412);
+            }
+            $form = $this->createForm(new SimulationType(), $simulation);
+
+            if ($request->isMethod('POST')) {
+                $form->bind($request);
+
+                if ($form->isValid()) {
+                    $simul = $form->getData();
+                    $simul->setValidated(true);
+                    $em->persist($simul);
+                    $em->flush();
+
+                    $response = new JsonResponse(array(
+                        'message'    => 'Success !',
+                        'entity' => $simulation,
+                    ), 200);
+                } else {
+                    $response = new JsonResponse(array(
+                        'message'    => 'Errors in the form !',
+                    ), 412);
+                }
+            }
+
+            $response = new JsonResponse(array(
+                'message' => 'Use the form !',
+                'form'    => $this->renderView('GessehSimulationBundle:SimulationAdmin:form.html.twig', array(
+                    'entity' => $simulation,
+                    'form' => $form->createView(),
+            ))), 400);
+        }
+        return $response;
     }
 
     /**

@@ -54,6 +54,7 @@
                         </div>
                     {% else %}
                         <div class="entity_item pull-right ui-widget combobox" id="form_{{ simulation.id }}">
+                            <button class="addform" simid="{{ simulation.id }}">Formulaire</button>
                             {{ form_start(forms[simulation.id]) }}
                             <span>{{ form_widget(forms[simulation.id].department) }}</span>
                             <span>{{ form_widget(forms[simulation.id].is_excess) }}</span>
@@ -71,7 +72,8 @@
 
 {% block javascripts %}
     {{ parent() }}
-      <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="{{ asset('bundles/gessehsimulation/js/combobox.js') }}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
             $('.valid').parent('li').addClass('valid');
@@ -79,142 +81,42 @@
             $('.grey').parent('li').addClass('grey');
             $('.warning').parent('li').addClass('warning');
             $('.checkbox').addClass('inline');
-        });
-    </script>
-    <script>
-    </script>
-    <script>
-    (function( $ ) {
-        $.widget( "custom.combobox", {
-            _create: function() {
-                this.wrapper = $( "<span>" )
-                    .addClass( "custom-combobox" )
-                    .insertAfter( this.element );
-
-                this.element.hide();
-                this._createAutocomplete();
-                this._createShowAllButton();
-            },
-
-            _createAutocomplete: function() {
-                var selected = this.element.children( ":selected" ),
-                value = selected.val() ? selected.text() : "";
-
-                this.input = $( "<input>" )
-                    .appendTo( this.wrapper )
-                    .val( value )
-                    .attr( "title", "" )
-                    .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
-                    .autocomplete({
-                        delay: 0,
-                        minLength: 0,
-                        source: $.proxy( this, "_source" )
-                    })
-                .tooltip({
-                    tooltipClass: "ui-state-highlight"
-                });
-
-                this._on( this.input, {
-                    autocompleteselect: function( event, ui ) {
-                        ui.item.option.selected = true;
-                        this._trigger( "select", event, {
-                            item: ui.item.option
-                        });
-                    },
-
-                    autocompletechange: "_removeIfInvalid"
-                });
-            },
-
-            _createShowAllButton: function() {
-                var input = this.input,
-                wasOpen = false;
-
-                $( "<a>" )
-                    .attr( "tabIndex", -1 )
-                    .attr( "title", "Show All Items" )
-                    .tooltip()
-                    .appendTo( this.wrapper )
-                    .button({
-                        icons: {
-                            primary: "ui-icon-triangle-1-s"
+            $(".combobox select").combobox();
+            $('.addform').addClass('inline');
+            $('.combobox input').addClass('inline');
+            $('.combobox button').addClass('inline');
+            $('button.addform').click(function(){
+                console.log('clic !');
+                var $simid = $(this).attr('simid');
+                console.log('simid:' . simid);
+                $.ajax({
+                    url: "{{ path('GSimul_SALiveSimul') }}",
+                    method: "get",
+                    data: {id: $simid},
+                    statusCode: {
+                        200: function(response) {
+                            console.log('ok !');
+                            console.log(response);
+                            $(this).parent().html(response.form);
                         },
-                        text: false
-                    })
-                .removeClass( "ui-corner-all" )
-                    .addClass( "custom-combobox-toggle ui-corner-right" )
-                    .mousedown(function() {
-                        wasOpen = input.autocomplete( "widget" ).is( ":visible" );
-                    })
-                .click(function() {
-                    input.focus();
-
-                    // Close if already visible
-                    if ( wasOpen ) {
-                        return;
-                    }
-
-                    // Pass empty string as value to search for, displaying all results
-                    input.autocomplete( "search", "" );
-                });
-            },
-
-            _source: function( request, response ) {
-                var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-                response( this.element.children( "option" ).map(function() {
-                    var text = $( this ).text();
-                    if ( this.value && ( !request.term || matcher.test(text) ) )
-                        return {
-                            label: text,
-                            value: text,
-                            option: this
-                        };
-                }) );
-            },
-
-            _removeIfInvalid: function( event, ui ) {
-
-                // Selected an item, nothing to do
-                if ( ui.item ) {
-                    return;
-                }
-
-                // Search for a match (case-insensitive)
-                var value = this.input.val(),
-                valueLowerCase = value.toLowerCase(),
-                    valid = false;
-                this.element.children( "option" ).each(function() {
-                    if ( $( this ).text().toLowerCase() === valueLowerCase ) {
-                        this.selected = valid = true;
-                        return false;
+                        412: function(response) {
+                            alert(response.message);
+                        },
                     }
                 });
+            });
 
-                // Found a match, nothing to do
-                if ( valid ) {
-                    return;
-                }
-
-                // Remove invalid value
-                this.input                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .val( "" )
-                    .attr( "title", value + " didn't match any item" )
-                    .tooltip( "open" );
-                this.element.val( "" );
-                this._delay(function() {
-                    this.input.tooltip( "close" ).attr( "title", "" );
-                }, 2500 );
-                this.input.autocomplete( "instance" ).term = "";
-            },
-
-            _destroy: function() {
-                this.wrapper.remove();
-                this.element.show();
-            }
+            $('body').on('submit', '.ajaxForm', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    data: $(this).serialize()
+                })
+                .done(function(data) {
+                    alert(data.message);
+                });
+            })
         });
-    })( jQuery );
-
-$(function() {
-    $( ".combobox select" ).combobox();
-});
     </script>
 {% endblock %}

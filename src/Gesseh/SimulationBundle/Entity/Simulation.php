@@ -219,7 +219,7 @@ class Simulation
      * @param boolean $is_excess
      * @return Simulation
      */
-    public function setExcess($is_excess)
+    public function setIsExcess($is_excess)
     {
         $this->is_excess = $is_excess;
 
@@ -242,7 +242,7 @@ class Simulation
      * @param boolean $is_validated
      * @return Simulation
      */
-    public function setValidated($is_validated)
+    public function setIsValidated($is_validated)
     {
         $this->is_validated = $is_validated;
 
