@@ -1,13 +1,38 @@
-<li class="entity period">
-    <div class="field period_begin">Du {{ period.begin|date('d-m-Y') }}</div>
-    <div class="field period_end">au {{ period.end|date('d-m-Y') }}</div>
-    <ul class="actions">
-        <li><a href="{{ path('GCore_PAPeriodEdit', {'id': period.id}) }}" title="Modifier la session '{{ period }}'"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-        <li><a href="{{ path('GCore_PAPeriodDelete', {'id': period.id}) }}" title="Supprimer la session '{{ period }}'" class="confirm" confirm="Attention ! Cette opération va supprimer le stage et les éventuels éléments liés. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
-        <li><a href="{{ path('GCore_PAPeriodIndex', {'limit': {'type': 'q.id', 'value': period.id}}) }}" title="Afficher les stages de la session '{{ period }}'"><img src="{{ asset('bundles/gessehcore/images/Blocknotes.png') }}" alt="Stages" /></a></li>
-        <li><a href="{{ path('GCore_PARepartitionsPeriod', {'period_id': period.id}) }}" title="Modifier la répartition de la période '{{ period }}'"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Répartition" /></a></li>
-        {% if kparam('simul_active') == true %}
-            <li><a href="{{ path('GSimul_SAPeriod', {'id': period.id}) }}" title="Gérer la période de simulation associée"><img src="{{ asset('bundles/gessehcore/images/Target.png') }}" alt="Simulations" /></a></li>
-        {% endif %}
-    </ul>
+<li class="entity period list-group-item row">
+    <span class="btn-group pull-right">
+        <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class='caret'></span></button>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="{{ path('GCore_PAPeriodEdit', {'id': period.id}) }}" title="Modifier la session '{{ period }}'">
+                    {{ icon('pencil') }} Modifier
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('GCore_PAPeriodDelete', {'id': period.id}) }}" title="Supprimer la session '{{ period }}'" class="confirm" confirm="Attention ! Cette opération va supprimer le stage et les éventuels éléments liés. Confirmez-vous la suppression ?">
+                    {{ icon('trash') }} Supprimer
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('GCore_PAPeriodIndex', {'limit': {'type': 'q.id', 'value': period.id}}) }}" title="Afficher les stages de la session '{{ period }}'">
+                    {{ icon('list-alt') }} Stages
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('GCore_PARepartitionsPeriod', {'period_id': period.id}) }}" title="Modifier la répartition de la période '{{ period }}'">
+                    {{ icon('briefcase') }} Postes
+                </a>
+            </li>
+            {% if kparam('simul_active') == true %}
+                <li>
+                    <a href="{{ path('GSimul_SAPeriod', {'id': period.id}) }}" title="Gérer la période de simulation associée">
+                        {{ icon('screenshot') }} Simulations
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+   </span>
+
+    <div class="field title col-sm-3">{{ period.name }} :</div>
+    <div class="field period_begin col-sm-2">du {{ period.begin|date('d-m-Y') }}</div>
+    <div class="field period_end col-sm-2">au {{ period.end|date('d-m-Y') }}</div>
 </li>

@@ -15,11 +15,11 @@
     <ul class="actions">
         <li><a href="{{ path('GCore_PAPeriodNew') }}#period_new" title="Ajouter une nouvelle session de stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter"></a></li>
     </ul>
-    <ul class="entities periods">
+    <ul class="entities periods list-group">
         {% for period in periods %}
             {% include period_id == period.id ? 'GessehCoreBundle:PlacementAdmin:periodEdit.html.twig' : 'GessehCoreBundle:PlacementAdmin:periodIndex.html.twig' %}
         {% else %}
-            <li class="noentity period">Aucune session à afficher</li>
+            <li class="noentity period list-group-item">Aucune session à afficher</li>
         {% endfor %}
         {% if period_form is not empty and period_id is empty %}
             {% include 'GessehCoreBundle:PlacementAdmin:periodEdit.html.twig' %}
