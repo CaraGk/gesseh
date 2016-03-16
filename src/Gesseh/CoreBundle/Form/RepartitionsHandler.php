@@ -48,18 +48,10 @@ class RepartitionsHandler
         return false;
     }
 
-    public function onSuccess($form)
+    public function onSuccess($data)
     {
-        foreach($this->repartitions as $repartition) {
-            if($repartition->getNumber() != $form['number_' . $repartition->getId()]) {
-                $repartition->setNumber($form['number_' . $repartition->getId()]);
-                $this->em->persist($repartition);
-            }
-            if($repartition->getCluster() != $form['cluster_' . $repartition->getId()]) {
-                $repartition->setCluster($form['cluster_' . $repartition->getId()]);
-                $this->em->persist($repartition);
-            }
-
+        foreach($data['Repartitions'] as $repartition) {
+            $this->em->persist($repartition);
         }
         $this->em->flush();
     }

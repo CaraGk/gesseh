@@ -55,15 +55,15 @@ class PlacementAdminController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
+    $last_period = $em->getRepository('GessehCoreBundle:Period')->getLast();
 
     $period = new Period();
     $form = $this->createForm(new PeriodType(), $period);
     $formHandler = new PeriodHandler($form, $this->get('request'), $em);
 
     if ( $formHandler->process() ) {
-        $last_period = $em->getRepository('GessehCoreBundle:Period')->getLast();
-        $current_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($last_period);
-        foreach($current_repartitions as $repartition) {
+        $last_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($last_period);
+        foreach($last_repartitions as $repartition) {
             $new_repartition = new Repartition();
             $new_repartition->setPeriod($period);
             $new_repartition->setDepartment($repartition->getDepartment());
@@ -273,46 +273,37 @@ class PlacementAdminController extends Controller
     public function repartitionsForPeriodEditAction($period_id)
     {
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
         $period = $em->getRepository('GessehCoreBundle:Period')->find($period_id);
-        $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->findAll();
-        $hospital_id = $this->getRequest()->query->get('hospital_id', null);
 
         if(!$period)
             throw $this->createNotFoundException('Unable to find period entity.');
 
-        $current_hospital = null;
-        $next_hospital = null;
-        $count = 0;
-        foreach ($hospitals as $hospital) {
-            if ($current_hospital !== null) {
-                $next_hospital = $hospital;
-                break;
-            }
-            if ($hospital_id == $hospital->getId() or $hospital_id == null) {
-                $current_hospital = $hospital;
-            }
-            $count++;
-        }
-        $total = count($hospitals);
+        $hospital_id = $this->getRequest()->query->get('hospital_id', 0);
+        $hospital_count = $this->getRequest()->query->get('hospital_count', 0);
+        $next_hospital = $em->getRepository('GessehCoreBundle:Hospital')->getNext($hospital_id);
+        $hospital_total = $em->getRepository('GessehCoreBundle:Hospital')->countAll();
 
-        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($period_id, $current_hospital->getId());
+        if (!$next_hospital)
+            return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
+
+        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($period_id, $next_hospital->getId());
 
         $form = $this->createForm(new RepartitionsType($repartitions, 'period'), $repartitions);
         $form_handler = new RepartitionsHandler($form, $this->get('request'), $em, $repartitions);
         if ($form_handler->process()) {
-            $this->get('session')->getFlashBag()->add('notice', 'Répartition pour la période "' . $period . '" enregistrée (étape ' . $count . '/' . $total . ').');
+            $hospital_count;
+            $this->get('session')->getFlashBag()->add('notice', 'Répartition pour la période "' . $period . '" enregistrée (' . $hospital_count . '/' . $hospital_total . ').');
 
-            if ($next_hospital == null) {
-                return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
-            } else {
-                return $this->redirect($this->generateUrl('GCore_PARepartitionsPeriod', array('period_id' => $period_id, 'hospital_id' => $next_hospital->getId())));
-            }
+            return $this->redirect($this->generateUrl('GCore_PARepartitionsPeriod', array(
+                'period_id'      => $period_id,
+                'hospital_id'    => $next_hospital->getId(),
+                'hospital_count' => $hospital_count,
+            )));
         }
 
         return array(
-            'origin' => $period,
-            'count'  => $count,
-            'total'  => $total,
+            'origin' => $period->getName() . ' : ' . $next_hospital->getName(),
             'form'   => $form->createView(),
         );
     }

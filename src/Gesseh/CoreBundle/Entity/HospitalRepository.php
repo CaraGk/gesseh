@@ -84,4 +84,25 @@ class HospitalRepository extends EntityRepository
                      ->getResult()
         ;
     }
+
+    public function getNext($id)
+    {
+        $query = $this->createQueryBuilder('h');
+        $query->where('h.id > :id')
+              ->setParameter('id', $id)
+              ->setMaxResults(1)
+        ;
+        return $query->getQuery()
+                     ->getOneOrNullResult()
+        ;
+    }
+
+    public function countAll()
+    {
+        return $this->createQueryBuilder('h')
+                    ->select('COUNT(h.id)')
+                    ->getQuery()
+                    ->getSingleScalarResult()
+        ;
+    }
 }

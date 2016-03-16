@@ -16,9 +16,7 @@ use Symfony\Component\Form\AbstractType,
     Symfony\Component\OptionsResolver\OptionsResolver;
 use Gesseh\CoreBundle\Form\RepartitionType,
     Symfony\Component\Form\Extension\Core\Type\SubmitType,
-    Symfony\Component\Form\Extension\Core\Type\IntegerType,
-    Symfony\Component\Form\Extension\Core\Type\TextType,
-    Symfony\Bridge\Doctrine\Form\Type\EntityType;
+    Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 /**
  * Repartitions Type
@@ -28,7 +26,7 @@ class RepartitionsType extends AbstractType
     private $repartitions;
     private $type;
 
-    public function __construct(array $repartitions, $type = 'period')
+    public function __construct($repartitions, $type = 'period')
     {
         $this->repartitions = $repartitions;
         $this->type         = $type;
@@ -36,40 +34,11 @@ class RepartitionsType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        foreach($this->repartitions as $repartition) {
-            $id = $repartition->getId();
-
-            if($this->type == 'period') {
-                $builder->add('department_' . $id, EntityType::class, array(
-                            'class'    => 'Gesseh\CoreBundle\Entity\Department',
-                            'disabled' => true,
-                            'data'     => $repartition->getDepartment(),
-                            'label'    => 'Service',
-                        ))
-                ;
-            } elseif($this->type == 'department') {
-                $builder->add('period_' . $id, EntityType::class, array(
-                            'class'    => 'Gesseh\CoreBundle\Entity\Period',
-                            'disabled' => true,
-                            'data'     => $repartition->getPeriod(),
-                            'label'    => 'Période de stage',
-                        ))
-                ;
-            }
-
-            $builder->add('number_' . $id, IntegerType::class, array(
-                        'required' => true,
-                        'data'     => $repartition->getNumber(),
-                        'label'    => 'Postes ouverts',
-                    ))
-                    ->add('cluster_' . $id, TextType::class, array(
-                        'required' => false,
-                        'data'     => $repartition->getCluster(),
-                        'label'    => 'Stage couplé',
-                    ))
-            ;
-        }
-        $builder->add('Enregistrer', SubmitType::class);
+        $builder->add('Repartitions', 'collection', array(
+            'type' => new RepartitionType($this->type),
+            'data' => $this->repartitions,
+        ));
+        $builder->add('Enregistrer et passer aux suivants', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
