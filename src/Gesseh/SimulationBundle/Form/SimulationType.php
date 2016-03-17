@@ -21,7 +21,9 @@ class SimulationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('department', null, array(
+        $builder->add('department', 'entity', array(
+                    'class'    => 'GessehCoreBundle:Department',
+                    'query_builder' => function (\Gesseh\CoreBundle\Entity\DepartmentRepository $er) { return $er->getAvailable() }
                     'required' => false,
                     'attr'     => array('class' => 'inline'),
                 ))

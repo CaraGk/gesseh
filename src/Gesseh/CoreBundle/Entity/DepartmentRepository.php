@@ -118,10 +118,16 @@ class DepartmentRepository extends EntityRepository
     public function getAvailable()
     {
         $query = $this->getBaseQueryWithRepartitions();
-        $query->where('r.number > 0');
+        $query->where('r.number > 0')
+              ->andWhere('a.end > :now')
+              ->setParameter('now', new \DateTime('now'))
+              ->addOrderBy('h.name', 'asc')
+              ->addOrderBy('d.name', 'asc')
+        ;
 
         return $query->getQuery()
-            ->getResult();
+                     ->getResult()
+        ;
     }
 
   public function getAdaptedUserList($rules)

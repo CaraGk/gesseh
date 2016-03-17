@@ -71,7 +71,7 @@ class Department
 
     public function __toString()
     {
-      return $this->name . " à " . $this->getHospital();
+        return $this->getHospital()->getName() . ' : ' . $this->name;
     }
 
     /**
