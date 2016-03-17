@@ -115,7 +115,7 @@ class DepartmentRepository extends EntityRepository
                  ->getResult();
   }
 
-    public function getAvailable()
+    public function getAvailableQuery()
     {
         $query = $this->getBaseQueryWithRepartitions();
         $query->where('r.number > 0')
@@ -124,6 +124,12 @@ class DepartmentRepository extends EntityRepository
               ->addOrderBy('h.name', 'asc')
               ->addOrderBy('d.name', 'asc')
         ;
+        return $query;
+    }
+
+    public function getAvailable()
+    {
+        $query = $this->getAvailableQuery();
 
         return $query->getQuery()
                      ->getResult()

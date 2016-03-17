@@ -23,7 +23,7 @@ class SimulationType extends AbstractType
     {
         $builder->add('department', 'entity', array(
                     'class'    => 'GessehCoreBundle:Department',
-                    'query_builder' => function (\Gesseh\CoreBundle\Entity\DepartmentRepository $er) { return $er->getAvailable() }
+                    'query_builder' => function (\Gesseh\CoreBundle\Entity\DepartmentRepository $er) { return $er->getAvailableQuery(); },
                     'required' => false,
                     'attr'     => array('class' => 'inline'),
                 ))
