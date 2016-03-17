@@ -23,17 +23,20 @@ class SimulationType extends AbstractType
     {
         $builder->add('department', null, array(
                     'required' => false,
+                    'attr'     => array('class' => 'inline'),
                 ))
                 ->add('is_excess', null, array(
                     'required' => false,
-                    'label' => 'Surnombre',
+                    'label'    => 'Surnombre',
+                    'attr'     => array('class' => 'inline'),
                 ))
                 ->add('active', null, array(
                     'required' => false,
                     'label'    => 'Actif',
+                    'attr'     => array('class' => 'inline'),
                 ))
                 ->add('Valider', 'submit', array(
-                    'attr' => array('class' => '.submit')
+                    'attr' => array('class' => 'inline'),
                 ))
         ;
     }

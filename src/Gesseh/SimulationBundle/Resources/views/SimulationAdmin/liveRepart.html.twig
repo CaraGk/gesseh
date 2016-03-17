@@ -5,29 +5,6 @@
 {% block titlecontent %}Résultats de la simulation{% endblock %}
 
 {% block actionscontent %}
-    {% if simulations is not empty %}
-        <li class="btn btn-primary">
-            <a href="{{ path('GSimul_SSim') }}" title="Lancer l'algorithme de simulation">
-                {{ icon('refresh') }} Actualiser les simulations
-            </a>
-        </li>
-        <li class="btn btn-primary">
-            <a href="{{ path('GSimul_SASave') }}" title="Valider les simulation et les enregistrer dans les stages." class="confirm" confirm="Attention ! Valider les données va enregistrer les stages correspondants et supprimer la simulation actuelle. Souhaitez-vous continuer ?">
-                {{ icon('ok-circle') }} Valider
-            </a>
-        </li>
-        <li class="btn btn-primary">
-            <a href="{{ path('GSimul_SAPurge') }}" title="Supprimer la table de simulation" class="confirm" confirm="Attention ! Cette opération va supprimer toutes les données concernant la simulation en cours. Souhaitez-vous continuer ?">
-                {{ icon('trash') }} Supprimer
-            </a>
-        </li>
-    {% else %}
-        <li class="btn btn-primary">
-            <a href="{{ path('GSimul_SADefine') }}" title="Cliquez pour générer la table de simulation">
-                {{ icon('off') }} Générer la table
-            </a>
-        </li>
-    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -92,6 +69,10 @@
                         200: function(response) {
                             obj.html(response.form);
                             $('.combobox select').combobox();
+                            $('.combobox input').addClass('inline');
+                            $('.combobox .checkbox').addClass('inline');
+                            $('.combobox button').addClass('inline');
+                            $('.combobox select').addClass('inline');
                             obj.on('submit', 'form', (function (e) {
                                 e.preventDefault();
                                 var obj = $(this);
