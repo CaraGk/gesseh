@@ -43,11 +43,28 @@ class RepartitionRepository extends EntityRepository
         ;
     }
 
-    public function getAvailable($period_id)
+    public function getAvailableQuery($period_id)
     {
         $query = $this->getByPeriodQuery($period_id);
         $query->andWhere('r.number > 0');
+        return $query;
+    }
 
+    public function getAvailable($period_id)
+    {
+        $query = $this->getAvailableQuery($period_id);
+
+        return $query->getQuery()
+                     ->getResult()
+        ;
+    }
+
+    public function getAvailableForSector($period_id, $sector_id)
+    {
+        $query = $this->getAvailableQuery($period_id);
+        $query->andWhere('s.id = :sector_id')
+              ->setParameter('sector_id', $sector_id)
+        ;
         return $query->getQuery()
                      ->getResult()
         ;

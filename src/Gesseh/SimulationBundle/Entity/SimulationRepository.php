@@ -233,22 +233,43 @@ class SimulationRepository extends EntityRepository
     return $query->getQuery()->getOneOrNullResult();
   }
 
-  public function getDepartmentLeftForRank($rank, $period_id)
-  {
-      $query = $this->createQueryBuilder('t')
-                    ->join('t.department', 'd')
-                    ->join('d.repartitions', 'r')
-                    ->join('r.period', 'p')
-                    ->where('t.rank < :rank')
-                    ->setParameter('rank', $rank)
-                    ->andWhere('p.id = :period_id')
-                    ->setParameter('period_id', $period_id)
-                    ->groupBy('t.department')
-                    ->orderBy('t.rank', 'desc')
-    ;
+    public function getDepartmentLeftQuery($period_id)
+    {
+        $query = $this->createQueryBuilder('t')
+                      ->join('t.department', 'd')
+                      ->join('d.repartitions', 'r')
+                      ->join('r.period', 'p')
+                      ->andWhere('p.id = :period_id')
+                      ->setParameter('period_id', $period_id)
+                      ->groupBy('t.department')
+                      ->orderBy('t.rank', 'desc')
+        ;
+        return $query;
+    }
 
-    return $query->getQuery()
-                 ->getResult()
-    ;
-  }
+    public function getDepartmentLeftForRank($rank, $period_id)
+    {
+        $query = $this->getDepartmentLeftQuery($period_id);
+        $query->andWhere('t.rank < :rank')
+              ->setParameter('rank', $rank)
+        ;
+
+        return $query->getQuery()
+                     ->getResult()
+        ;
+    }
+
+    public function getDepartmentLeftForSector($sector_id, $period_id)
+    {
+        $query = $this->getDepartmentLeftQuery($period_id);
+        $query->join('d.accreditations', 'a')
+              ->join('a.sector', 'u')
+              ->andWhere('u.id = :sector_id')
+              ->setParameter('sector_id', $sector_id)
+              ->andWhere('t.is_validated = true')
+        ;
+        return $query->getQuery()
+                     ->getResult()
+        ;
+    }
 }

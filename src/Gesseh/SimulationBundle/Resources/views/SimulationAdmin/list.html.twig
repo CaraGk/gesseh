@@ -26,6 +26,11 @@
                 {{ icon('time') }} Répartir
             </a>
         </li>
+        <li class="btn btn-primary">
+            <a href="{{ path('GSimul_SALiveLeft') }}" title="Afficher les postes restants en présentiel">
+                {{ icon('eye-open') }} Postes restants
+            </a>
+        </li>
     {% else %}
         <li class="btn btn-primary">
             <a href="{{ path('GSimul_SADefine') }}" title="Cliquez pour générer la table de simulation">

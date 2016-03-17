@@ -27,4 +27,17 @@ class SectorRepository extends EntityRepository
 
     return $query;
   }
+
+  public function getNext($sector_id = 0)
+  {
+      $query = $this->createQueryBuilder('s')
+                    ->where('s.id > :sector_id')
+                    ->setParameter('sector_id', $sector_id)
+                    ->setMaxResults(1)
+      ;
+
+      return $query->getQuery()
+                   ->getOneOrNullResult()
+      ;
+  }
 }

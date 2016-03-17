@@ -194,6 +194,47 @@ class SimulationAdminController extends Controller
     }
 
     /**
+     * Affiche la liste des poste restants lors de la répartition
+     *
+     * @Route("/live/left", name="GSimul_SALiveLeft")
+     * @Template()
+     */
+    public function liveLeftAction(Request $request)
+    {
+      $em = $this->getDoctrine()->getManager();
+
+      $last_period = $em->getRepository('GessehCoreBundle:Period')->getLast();
+      $sector = $em->getRepository('GessehCoreBundle:Sector')->getNext($request->get('sector', 0));
+      if (!$sector)
+          $sector = $em->getRepository('GessehCoreBundle:Sector')->getNext();
+      $left = array();
+
+      $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
+      $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getAvailableForSector($last_period, $sector->getId());
+      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentLeftForSector($sector->getId(), $last_period);
+
+      foreach($sims as $sim) {
+        $extra = $sim->getExtra();
+        foreach($sim->getDepartment()->getRepartitions() as $repartition) {
+          if($cluster_name = $repartition->getCluster()) {
+            foreach($em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($last_period, $cluster_name) as $other_repartition) {
+              $left[$other_repartition->getDepartment()->getId()] = $extra;
+            }
+          }
+        }
+        $left[$repartition->getDepartment()->getId()] = $extra;
+      }
+
+      return array(
+        'repartitions' => $repartitions,
+        'left'         => $left,
+        'cur_sector'   => $sector,
+        'sectors'      => $sectors,
+      );
+    }
+
+
+    /**
      * @Route("/period/simul/{id}", name="GSimul_SAPeriod", requirements={"id" = "\d+"})
      * @Template()
      */

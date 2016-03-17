@@ -1,0 +1,70 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Postes restants{% endblock %}
+
+{% block page_header %}{% endblock page_header %}
+{% block nav %}{% endblock nav %}
+
+{% block titlecontent %}
+    Postes restants lors de la répartition
+{% endblock %}
+
+{% block actionscontent %}
+    {% for sector in sectors %}
+        <li class="btn btn-primary">
+            <a href="{{ path('GSimul_SALiveLeft', {'sector': sector.id}) }}" title="Afficher la répartition pour la catégorie ' {{ sector.name }}'">
+                {{ icon('filter') }} {{ sector.name }}
+            </a>
+        </li>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    {% set hospital = 0 %}
+    <ul class="entities wishes list-group">
+        {% for repartition in repartitions %}
+            {% if hospital != repartition.department.hospital.id %}
+                {% if hospital != 0 %}
+                    </ul></li>
+                {% endif %}
+                {% set hospital = repartition.department.hospital.id %}
+                <li class="list-group-item">
+                    <div class="entity_title hospital_name">{{ repartition.department.hospital.name }}</div>
+                    <ul>
+            {% endif %}
+            <li class="entity wish
+                {% if repartition.number == 0 %}
+                    grey
+                {% elseif repartition.department.id in left|keys and left[repartition.department.id] == 0 %}
+                    invalid
+                {% else %}
+                    valid
+                {% endif %}
+            ">
+                <div class="entity_item fieldset">{{ repartition.department.name }}</div>
+                {% for accreditation in repartition.department.accreditations %}
+                    <span class="entity_item sector label label-info">{{ accreditation.sector.name }}</span>
+                {% endfor %}
+                <span class="entity_item number badge pull-right">
+                    {% if repartition.department.id in left|keys %}
+                        {{ left[repartition.department.id] }}
+                    {% else %}
+                        {{ repartition.number }}
+                    {% endif %}
+                    / {{ repartition.number }}
+                </span>
+            </li>
+        {% else %}
+            <li class="noentity error">Aucun service retrouvé dans la base de données. Contactez un administrateur.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+        });
+    </script>
+{% endblock %}
+
