@@ -32,7 +32,9 @@ class SimulationType extends AbstractType
                     'required' => false,
                     'label'    => 'Actif',
                 ))
-                ->add('Valider', 'button')
+                ->add('Valider', 'submit', array(
+                    'attr' => array('class' => '.submit')
+                ))
         ;
     }
 

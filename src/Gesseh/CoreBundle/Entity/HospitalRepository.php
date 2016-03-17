@@ -53,7 +53,7 @@ class HospitalRepository extends EntityRepository
     {
         $query = $this->getHospitalQuery();
 
-        if($arg['period']) {
+        if(null != $arg['period']) {
             $query->join('d.repartitions', 'r')
                   ->join('r.period', 'p')
                   ->addSelect('r')

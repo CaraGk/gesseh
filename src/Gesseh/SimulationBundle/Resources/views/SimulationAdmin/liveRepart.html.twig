@@ -43,9 +43,9 @@
                     <div class="entity_item student" style="vertical-align: middle;">{{ simulation.student }} : </div>
                     {% if simulation.isValidated %}
                         <div class="entity_item validated">
-                            {% if department %}
-                                <span>{{ department }}</span>
-                                {% if isExcess %}
+                            {% if simulation.department %}
+                                <span>{{ simulation.department }}</span>
+                                {% if simulation.isExcess %}
                                     <span>en surnombre</span>
                                 {% endif %}
                             {% else %}
@@ -53,20 +53,16 @@
                             {% endif %}
                         </div>
                     {% else %}
-                        <div class="entity_item pull-right ui-widget combobox" id="form_{{ simulation.id }}">
-                            <button class="addform" simid="{{ simulation.id }}">Formulaire</button>
-                            {{ form_start(forms[simulation.id]) }}
-                            <span>{{ form_widget(forms[simulation.id].department) }}</span>
-                            <span>{{ form_widget(forms[simulation.id].is_excess) }}</span>
-                            <span>{{ form_widget(forms[simulation.id].active) }}</span>
-                            <span>{{ form_widget(forms[simulation.id].Valider) }}</span>
-                            <span>{{ form_rest(forms[simulation.id]) }}</span>
-                            {{ form_end(forms[simulation.id]) }}
+                        <div class="entity_item pull-right ui-widget combobox" simid="{{ simulation.id }}">
+                            <button>button</button>
                         </div>
                     {% endif %}
                 </li>
             {% endfor %}
         </ul>
+        <div class="navigation text-center">
+            {{ knp_pagination_render(simulations) }}
+        </div>
     {% endif %}
 {% endblock %}
 
@@ -82,22 +78,47 @@
             $('.warning').parent('li').addClass('warning');
             $('.checkbox').addClass('inline');
             $(".combobox select").combobox();
-            $('.addform').addClass('inline');
-            $('.combobox input').addClass('inline');
-            $('.combobox button').addClass('inline');
-            $('button.addform').click(function(){
-                console.log('clic !');
-                var $simid = $(this).attr('simid');
-                console.log('simid:' . simid);
+        });
+
+        $(document).ready(function() {
+            $.each($('.combobox'), function(i, val){
+                var obj = $(this);
+                var simid = obj.attr('simid');
                 $.ajax({
                     url: "{{ path('GSimul_SALiveSimul') }}",
-                    method: "get",
-                    data: {id: $simid},
+                    method: "GET",
+                    data: {id: simid},
                     statusCode: {
                         200: function(response) {
-                            console.log('ok !');
-                            console.log(response);
-                            $(this).parent().html(response.form);
+                            obj.html(response.form);
+                            $('.combobox select').combobox();
+                            obj.on('submit', 'form', (function (e) {
+                                e.preventDefault();
+                                var obj = $(this);
+                                var simid = obj.parent().attr('simid');
+                                var values = {id: simid};
+                                  $.each( obj.serializeArray(), function(i, field) {
+                                          values[field.name] = field.value;
+                                  })
+                                $.ajax({
+                                    type: 'POST',
+                                    method: 'POST',
+                                    url: "{{ path('GSimul_SALiveSimul') }}",
+                                    data: values,
+                                    success: function(response) {
+                                        var entity_html = "";
+                                        if (response.entity.isActive) {
+                                            entity_html += response.entity.department;
+                                            if (response.entity.isExcess) {
+                                                entity_html += ' (en surnombre)';
+                                            }
+                                        } else {
+                                            entity_html += 'En disponibilité';
+                                        }
+                                        obj.parent().html(entity_html);
+                                    },
+                                });
+                            }));
                         },
                         412: function(response) {
                             alert(response.message);
@@ -105,18 +126,6 @@
                     }
                 });
             });
-
-            $('body').on('submit', '.ajaxForm', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    type: $(this).attr('method'),
-                    url: $(this).attr('action'),
-                    data: $(this).serialize()
-                })
-                .done(function(data) {
-                    alert(data.message);
-                });
-            })
         });
     </script>
 {% endblock %}

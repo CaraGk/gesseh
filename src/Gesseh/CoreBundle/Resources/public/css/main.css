@@ -115,6 +115,7 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #content .ui-menu { background-color: #AAAAAA; border: 1px dotted black; }
 #content .ui-menu li { list-style: none; }
 #content .custom-combobox { padding-right: 30px; }
+#content .combobox input, #content .combobox select, #content .combobox .checkbox, #content .combobox button { display: inline-block; }
 
 #submenu li a, #submenu li a:hover { text-decoration: none; }
 #submenu li.btn-primary a, #submenu li.btn-primary a:hover { color: #fff; }

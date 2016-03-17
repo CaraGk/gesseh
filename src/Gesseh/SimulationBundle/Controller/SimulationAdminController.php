@@ -131,15 +131,10 @@ class SimulationAdminController extends Controller
         $simul_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
         $simulations = $paginator->paginate( $simulations_query, $this->get('request')->query->get('page', 1), 20);
 
-        foreach ($simulations as $simulation) {
-            $forms[$simulation->getId()] = $this->createForm(new SimulationType(), $simulation)->createView();
-        }
-
         return array(
             'simulations'   => $simulations,
             'simul_missing' => $simul_missing,
             'simul_total'   => $simul_total,
-            'forms'         => $forms,
         );
     }
 
@@ -151,6 +146,7 @@ class SimulationAdminController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($request->isXmlHttpRequest()) {
+            $response = null;
             $id = $request->get('id');
             $simulation = $em->getRepository('GessehSimulationBundle:Simulation')->find($id);
             if (!$simulation) {
@@ -163,13 +159,19 @@ class SimulationAdminController extends Controller
 
                 if ($form->isValid()) {
                     $simul = $form->getData();
-                    $simul->setValidated(true);
+                    $simul->setIsValidated(true);
                     $em->persist($simul);
                     $em->flush();
 
                     $response = new JsonResponse(array(
-                        'message'    => 'Success !',
-                        'entity' => $simulation,
+                        'message'=> 'Success !',
+                        'entity' => array(
+                            'department'  => $simulation->getDepartment()->getHospital()->getName() . ' : ' . $simulation->getDepartment()->getName(),
+                            'isExcess'    => $simulation->isExcess(),
+                            'isValidated' => $simulation->isValidated(),
+                            'isActive'    => $simulation->getActive(),
+                        ),
+
                     ), 200);
                 } else {
                     $response = new JsonResponse(array(
@@ -178,12 +180,15 @@ class SimulationAdminController extends Controller
                 }
             }
 
-            $response = new JsonResponse(array(
-                'message' => 'Use the form !',
-                'form'    => $this->renderView('GessehSimulationBundle:SimulationAdmin:form.html.twig', array(
-                    'entity' => $simulation,
-                    'form' => $form->createView(),
-            ))), 400);
+            if (!$response) {
+                $response = new JsonResponse(array(
+                    'message' => 'Use the form !',
+                    'form'    => $this->renderView('GessehSimulationBundle:SimulationAdmin:form.html.twig', array(
+                        'entity' => $simulation,
+                        'form'   => $form->createView(),
+                    ))), 200)
+                ;
+            }
         }
         return $response;
     }

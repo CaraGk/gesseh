@@ -61,6 +61,7 @@ class FieldSetController extends Controller
     } else {
         $arg['period'] = null;
     }
+    $arg['period'] = null;
 
     $hospitals = $em->getRepository('GessehCoreBundle:Hospital')->getAll($arg);
 
