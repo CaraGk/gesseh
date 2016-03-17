@@ -160,13 +160,13 @@ class StudentRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('s')
             ->where('(s.surname LIKE :surname1 OR s.surname LIKE :surname2 OR s.surname LIKE :surname3 OR s.surname LIKE :surname4)')
-            ->setParameter('surname1', $name['last'])
-            ->setParameter('surname2', $name['alt'])
-            ->setParameter('surname3', $this->stripAccents($name['last']))
-            ->setParameter('surname4', $this->stripAccents($name['alt']))
+            ->setParameter('surname1', '%'.$name['last'].'%')
+            ->setParameter('surname2', '%'.$name['alt'].'%')
+            ->setParameter('surname3', '%'.$this->stripAccents($name['last']).'%')
+            ->setParameter('surname4', '%'.$this->stripAccents($name['alt']).'%')
             ->andWhere('(s.name LIKE :name1 OR s.name LIKE :name2)')
-            ->setParameter('name1', $name['first'])
-            ->setParameter('name2', $this->stripAccents($name['first']))
+            ->setParameter('name1', '%'.$name['first'].'%')
+            ->setParameter('name2', '%'.$this->stripAccents($name['first']).'%')
         ;
 
         return $query->getQuery()
