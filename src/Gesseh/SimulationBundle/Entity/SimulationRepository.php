@@ -272,4 +272,15 @@ class SimulationRepository extends EntityRepository
                      ->getResult()
         ;
     }
+
+    public function getLast()
+    {
+        $query = $this->createQueryBuilder('s')
+            ->orderBy('s.rank', 'desc')
+            ->setMaxResults(1)
+        ;
+        return $query->getQuery()
+                     ->getOneOrNullResult()
+        ;
+    }
 }

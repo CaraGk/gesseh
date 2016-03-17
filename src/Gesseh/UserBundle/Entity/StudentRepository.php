@@ -155,4 +155,32 @@ class StudentRepository extends EntityRepository
                      ->getResult()
         ;
     }
+
+    public function searchExact(array $name)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->where('(s.surname LIKE :surname1 OR s.surname LIKE :surname2 OR s.surname LIKE :surname3 OR s.surname LIKE :surname4)')
+            ->setParameter('surname1', $name['last'])
+            ->setParameter('surname2', $name['alt'])
+            ->setParameter('surname3', $this->stripAccents($name['last']))
+            ->setParameter('surname4', $this->stripAccents($name['alt']))
+            ->andWhere('(s.name LIKE :name1 OR s.name LIKE :name2)')
+            ->setParameter('name1', $name['first'])
+            ->setParameter('name2', $this->stripAccents($name['first']))
+        ;
+
+        return $query->getQuery()
+                     ->getResult()
+        ;
+    }
+
+    private function stripAccents($str, $charset='utf-8')
+    {
+        $str = htmlentities($str, ENT_NOQUOTES, $charset);
+        $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
+        $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
+        $str = str_replace('-', ' ', $str);
+        return $str;
+    }
 }

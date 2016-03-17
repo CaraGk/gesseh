@@ -28,6 +28,7 @@ use Gesseh\SimulationBundle\Entity\SectorRule;
 use Gesseh\SimulationBundle\Form\SectorRuleType;
 use Gesseh\SimulationBundle\Form\SectorRuleHandler;
 use Gesseh\SimulationBundle\Form\SimulationType;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * Simulation admin controller
@@ -302,12 +303,91 @@ class SimulationAdminController extends Controller
     }
 
     /**
+     * @Route("/define/import", name="GSimul_SAImport")
+     * @Template("GessehUserBundle:StudentAdmin:import.html.twig")
+     */
+    public function importAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $error = 0;
+        $form = $this->createFormBuilder()
+            ->add('file', 'file', array(
+                'label'    => 'Fichier',
+                'required' => true,
+            ))
+            ->add('Envoyer', 'submit')
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $fileConstraint = new File();
+            $fileConstraint->mimeTypesMessage = "Invalid mime type : ODS or XLS required.";
+            $fileConstraint->mimeTypes = array(
+                'application/vnd.oasis.opendocument.spreadsheet',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/octet-stream',
+            );
+            $errorList = $this->get('validator')->validateValue($form['file']->getData(), $fileConstraint);
+
+            if(count($errorList) == 0) {
+                $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($form['file']->getData())->setActiveSheetIndex();
+
+                if ($student_rank = $em->getRepository('GessehSimulationBundle:Simulation')->getLast())
+                    $count = (int) $student_rank->getRank() + 1;
+                else
+                    $count = 2;
+                $student_count = 0;
+                $error = 0;
+
+                while ($rank = $objPHPExcel->getCellByColumnAndRow(0, $count)) {
+                    $name['last'] = strtolower($objPHPExcel->getCellByColumnAndRow(1, $count));
+                    $name['alt'] = strtolower($objPHPExcel->getCellByColumnAndRow(2, $count));
+                    $name['first'] = strtolower($objPHPExcel->getCellByColumnAndRow(3, $count));
+
+                    if ($students = $em->getRepository('GessehUserBundle:Student')->searchExact($name))
+                    {
+                        if (count($students) < 2) {
+                            $simulation = new Simulation();
+                            $simulation->setId($rank);
+                            $simulation->setStudent($students[0]);
+                            $simulation->setRank($rank);
+                            $simulation->setActive(true);
+                            $em->persist($simulation);
+                            $student_count++;
+                        } else {
+                            $error++;
+                        }
+                    } else {
+                        $error++;
+                    }
+                    if (in_array($count, array(200, 400, 600, 800))) {
+                        $em->flush();
+                        $this->get('session')->getFlashBag()->add('notice', $student_count . ' étudiants enregistrés dans la table de simulation.');
+                        $this->get('session')->getFlashBag()->add('error', $error . ' étudiants ont posé problème.');
+                        $this->redirect('GSimul_SAImport');
+                    }
+                    $count++;
+                }
+
+                $this->get('session')->getFlashBag()->add('notice', $student_count . ' étudiants enregistrés dans la table de simulation.');
+                $this->get('session')->getFlashBag()->add('error', $error . ' étudiants ont posé problème.');
+                $this->redirect('GSimul_SAList');
+            }
+        }
+
+        return array(
+            'form'  => $form->createView(),
+            'error' => $error,
+        );
+    }
+
+    /**
      * @Route("/purge", name="GSimul_SAPurge")
      */
     public function purgeAction()
     {
       $em = $this->getDoctrine()->getManager();
-//      $em->getRepository('GessehSimulationBundle:Simulation')->deleteAll();
       $sims = $em->getRepository('GessehSimulationBundle:Simulation')->findAll();
 
       foreach ($sims as $sim) {
