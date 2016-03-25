@@ -49,7 +49,7 @@ class FieldSetController extends Controller
     }
 
     /* Affiche les terrains de stage sans accreditation si admin */
-    if ($user->hasRole('ROLE_ADMIN')) {
+    if ($user and $user->hasRole('ROLE_ADMIN')) {
         $arg['admin'] = true;
     }
 
