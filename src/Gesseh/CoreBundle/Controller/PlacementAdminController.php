@@ -318,9 +318,14 @@ class PlacementAdminController extends Controller
         $department = $em->getRepository('GessehCoreBundle:Department')->find($department_id);
 
         if(!$department)
-            throw $this->createNotFoundException('Unable to find period entity.');
+            throw $this->createNotFoundException('Unable to find department entity.');
 
         $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByDepartment($department_id);
+        if (!$repartitions) {
+            return $this->redirect($this->generateUrl('GCore_PARepartitionsDepartmentMaintenance', array(
+                'department_id' => $department->getId(),
+            )));
+        }
 
         $form = $this->createForm(new RepartitionsType($repartitions, 'department'), $repartitions);
         $form_handler = new RepartitionsHandler($form, $this->get('request'), $em, $repartitions);
@@ -365,7 +370,38 @@ class PlacementAdminController extends Controller
 
         $this->get('session')->getFlashBag()->add('notice', 'Maintenance en cours : Terrain : ' . $department . ' = ' . $count . ' répartition(s) ajoutée(s)');
         return $this->redirect($this->generateUrl('GCore_PAMaintenanceRepartition', array('department' => $department->getId())));
+    }
 
+    /**
+     * Maintenance for department's repartitions
+     *
+     * @Route("/department/{department_id}/repartitions/maintenance", name="GCore_PARepartitionsDepartmentMaintenance")
+     */
+    public function repartitionsForDepartmentMaintenanceAction($department_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $periods = $em->getRepository('GessehCoreBundle:Period')->findAll();
+        $department = $em->getRepository('GessehCoreBundle:Department')->find($department_id);
 
+        if(!$department)
+            throw $this->createNotFoundException('Unable to find department entity.');
+
+        $count = 0;
+        foreach ($periods as $period) {
+            if (!$em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndDepartment($period->getId(), $department_id)) {
+                $repartition = new Repartition();
+                $repartition->setDepartment($department);
+                $repartition->setPeriod($period);
+                $repartition->setNumber(0);
+                $em->persist($repartition);
+                $count++;
+            }
+        }
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('notice', 'Maintenance : ' . $department . ' -> ' . $count . ' répartition(s) ajoutée(s)');
+        return $this->redirect($this->generateUrl('GCore_PARepartitionsDepartment', array(
+            'department_id' => $department->getId(),
+        )));
     }
 }

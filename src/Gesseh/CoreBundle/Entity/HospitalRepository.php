@@ -25,8 +25,8 @@ class HospitalRepository extends EntityRepository
     {
         return $this->createQueryBuilder('h')
                     ->join('h.departments', 'd')
-                    ->join('d.accreditations', 'a')
-                    ->join('a.sector', 's')
+                    ->leftJoin('d.accreditations', 'a')
+                    ->leftJoin('a.sector', 's')
                     ->addSelect('d')
                     ->addSelect('a')
                     ->addSelect('s')
@@ -54,8 +54,8 @@ class HospitalRepository extends EntityRepository
         $query = $this->getHospitalQuery();
 
         if(null != $arg['period']) {
-            $query->join('d.repartitions', 'r')
-                  ->join('r.period', 'p')
+            $query->leftJoin('d.repartitions', 'r')
+                  ->leftJoin('r.period', 'p')
                   ->addSelect('r')
                   ->andWhere('p.id = :id')
                   ->setParameter('id', $arg['period'])
@@ -67,7 +67,7 @@ class HospitalRepository extends EntityRepository
         ;
 
         if (null != $arg['limit'] and (preg_match('/^[s,h,d,u]\.id$/', $arg['limit']['type']) or $arg['limit']['type'] == "r.cluster")) {
-            $query->join('a.user', 'u')
+            $query->leftJoin('a.user', 'u')
                   ->addSelect('u')
                   ->andWhere($arg['limit']['type'] . ' = :value')
                   ->setParameter('value', $arg['limit']['value'])

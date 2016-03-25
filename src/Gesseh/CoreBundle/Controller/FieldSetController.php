@@ -48,6 +48,11 @@ class FieldSetController extends Controller
         $limit_default = null;
     }
 
+    /* Affiche les terrains de stage sans accreditation si admin */
+    if ($user->hasRole('ROLE_ADMIN')) {
+        $arg['admin'] = true;
+    }
+
     /* Filtre sur le username pour l'entrée du menu Teacher */
     $arg['limit'] = $this->get('request')->query->get('limit', $limit_default);
     if ($arg['limit']['type'] == 'u.id' and $arg['limit']['value'] == '') {

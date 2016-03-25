@@ -38,7 +38,7 @@ class RepartitionsType extends AbstractType
             'type' => new RepartitionType($this->type),
             'data' => $this->repartitions,
         ));
-        $builder->add('Enregistrer et passer aux suivants', SubmitType::class);
+        $builder->add('Enregistrer', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
