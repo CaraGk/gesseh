@@ -331,7 +331,7 @@ class SimulationController extends Controller
       if (!$em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
         throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
 
-      $simulations = $em->getRepository('GessehSimulationBundle:Simulation')->findAll();
+      $simulations = $em->getRepository('GessehSimulationBundle:Simulation')->getAll()->getResult();
 
       return array(
         'simulations' => $simulations,
