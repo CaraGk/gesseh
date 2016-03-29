@@ -55,7 +55,8 @@
         <div class="">Vous ne participez pas à la simulation.</div>
     {% else %}
         {% if simstudent.department is not null %}
-        <div class="">Votre vœu retenu est : <strong>{{ simstudent.department }}</strong>. Au moment de votre choix, il reste <span class="badge">{{ simstudent.extra }}</span> place{% if simstudent.extra > 1 %}s{% endif %} pour ce poste.</div>
+        <div class="">Votre vœu retenu est : <span class="label label-success">{{ simstudent.department }}</span></div>
+        <div class="">Au moment de votre choix, il reste <span class="badge">{{ simstudent.extra }}</span> place{% if simstudent.extra > 1 %}s{% endif %} pour ce poste.</div>
         <div class="">Devant vous, <span class="badge">{{ missing }}</span> personne{% if missing > 0 %}s n'ont{% else %} n'a{% endif %} pas de vœu validé par la simulation à ce jour.</div>
         {% else %}
             <div class="">Vous n'avez pas encore de vœu valide. Ajoutez des vœux ci-dessous et actualisez la simulation ensuite.</div>
@@ -90,10 +91,12 @@
                         </ul>
                         <div class="field entity_item rank">{{ wish.rank }}</div>
                         <div class="field entity_title fieldset">
-                            <a href="{{ path('GSimul_SListDept', {'id': wish.department.id}) }}" title="Afficher les simulations pour ce poste">{{ wish.department }}</a>
+                            <a href="{{ path('GSimul_SListDept', {'id': wish.department.id}) }}" title="Afficher les simulations pour ce poste">
+                                {{ wish.department }}
+                            </a>
                         </div>
                         {% if repartition.cluster is not null %}
-                            <div class="field entity_item cluster"><img src="{{ asset('bundles/gessehcore/images/Warning.png') }}" alt="Cluster" title="Ce terrain de stage fait partie d'un cluster" /></div>
+                            <div class="field entity_item cluster label label-warning">Stage couplé</div>
                         {% endif %}
                         {% for accreditation in wish.department.accreditations %}
                             <span class="field entity_item sector label label-info">{{ accreditation.sector.name }}</span>
