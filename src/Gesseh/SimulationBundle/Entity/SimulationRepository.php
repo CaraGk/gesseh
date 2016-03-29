@@ -242,7 +242,7 @@ class SimulationRepository extends EntityRepository
                       ->join('r.period', 'p')
                       ->addSelect('d')
                       ->addSelect('r')
-                      ->addSelect('MAX(t.extra) AS postes')
+                      ->addSelect('MIN(t.extra) AS postes')
                       ->andWhere('p.id = :period_id')
                       ->setParameter('period_id', $period_id)
                       ->groupBy('t.department')
