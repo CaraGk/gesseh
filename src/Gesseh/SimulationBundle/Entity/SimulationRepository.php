@@ -240,9 +240,11 @@ class SimulationRepository extends EntityRepository
                       ->join('t.department', 'd')
                       ->join('d.repartitions', 'r')
                       ->join('r.period', 'p')
+                      ->addSelect('d')
+                      ->addSelect('r')
                       ->andWhere('p.id = :period_id')
                       ->setParameter('period_id', $period_id)
-                      ->select('MAX(t.extra) AS postes')
+                      ->addSelect('MAX(t.extra) AS postes')
                       ->groupBy('t.department')
                       ->orderBy('t.rank', 'desc')
         ;
