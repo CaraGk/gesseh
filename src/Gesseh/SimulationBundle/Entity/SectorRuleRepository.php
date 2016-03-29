@@ -55,6 +55,7 @@ class SectorRuleRepository extends EntityRepository
 
     $results = $query->getQuery()->getResult();
     $rules['sector']['NOT'] = $rules['department']['NOT'] = $rules['department']['IN'] = array();
+    $period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
 
     foreach ($results as $result) {
       if ($result->getRelation() == "NOT") {  /* sector forbidden for the student's prom' */
@@ -94,7 +95,6 @@ class SectorRuleRepository extends EntityRepository
     }
 
     $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getStudentWishList($simstudent->getId()); /* student's wish list */
-    $period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
 
     foreach ($wishes as $wish) {
         array_push($rules['department']['NOT'], $wish->getDepartment()->getId()); /* don't choose again a department you've already chosen */
