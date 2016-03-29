@@ -49,7 +49,7 @@ class Placement
 
     public function __toString()
     {
-      return $this->department->getName() . " à " . $this->departement->getHospital()->getName();
+      return $this->repartition->getDepartment()->getName() . " à " . $this->repartition->getDepartement()->getHospital()->getName();
     }
 
     /**

@@ -80,9 +80,11 @@ class DepartmentRepository extends EntityRepository
     $query->join('r.placements', 'p')
           ->join('p.student', 't')
           ->where('t.id = :student_id')
-            ->setParameter('student_id', $student_id);
+          ->setParameter('student_id', $student_id);
 
-    return $query->getQuery()->getResult();
+    return $query->getQuery()
+                 ->getResult()
+    ;
   }
 
   public function getBySectorForPeriod($sector_id, $period_id)
@@ -136,23 +138,17 @@ class DepartmentRepository extends EntityRepository
         ;
     }
 
-  public function getAdaptedUserList($rules)
-  {
-    $query = $this->getBaseQueryWithRepartitions();
-    $query->addOrderBy('h.name', 'asc')
-          ->addOrderBy('d.name', 'asc')
-          ->where('r.number > 0')
-          ->andWhere('a.end > :now')
-          ->setParameter('now', new \DateTime('now'))
-    ;
+    public function getAdaptedUserList($rules)
+    {
+        $query = $this->getAvailableQuery();
 
-    if ($rules['department']['NOT'])
-      $query->andWhere('d.id NOT IN (' . implode(',', $rules['department']['NOT']) . ')');
-    if ($rules['sector']['NOT'])
-      $query->andWhere('a.sector NOT IN (' . implode(',', $rules['sector']['NOT']) . ')');
-    if ($rules['department']['IN'])
-      $query->andWhere('d.id IN (' . implode(',', $rules['department']['IN']) . ')');
+        if ($rules['department']['NOT'])
+            $query->andWhere('d.id NOT IN (' . implode(',', $rules['department']['NOT']) . ')');
+        if ($rules['sector']['NOT'])
+            $query->andWhere('a.sector NOT IN (' . implode(',', $rules['sector']['NOT']) . ')');
+        if ($rules['department']['IN'])
+            $query->andWhere('d.id IN (' . implode(',', $rules['department']['IN']) . ')');
 
-    return $query;
-  }
+        return $query;
+    }
 }
