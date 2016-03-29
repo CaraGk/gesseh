@@ -55,7 +55,6 @@ class SectorRuleRepository extends EntityRepository
 
     $results = $query->getQuery()->getResult();
     $rules['sector']['NOT'] = $rules['department']['NOT'] = $rules['department']['IN'] = array();
-    $period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
 
     foreach ($results as $result) {
       if ($result->getRelation() == "NOT") {  /* sector forbidden for the student's prom' */
@@ -63,7 +62,6 @@ class SectorRuleRepository extends EntityRepository
       } elseif ($result->getRelation() == "FULL") {  /* sector must be complete after the student's prom' */
         $sector_id = $result->getSector()->getId();
 
-        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndSector($period->getId(), $sector_id);  /* repartitions and departments from sector */
         $departments = $em->getRepository('GessehCoreBundle:Department')->getBySector($sector_id);  /* departments from sector */
         $placements = $em->getRepository('GessehCoreBundle:Department')->getByStudent($simstudent->getStudent()->getId()); /* student's placements */
 
@@ -95,6 +93,7 @@ class SectorRuleRepository extends EntityRepository
     }
 
     $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getStudentWishList($simstudent->getId()); /* student's wish list */
+    $period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
 
     foreach ($wishes as $wish) {
         array_push($rules['department']['NOT'], $wish->getDepartment()->getId()); /* don't choose again a department you've already chosen */
