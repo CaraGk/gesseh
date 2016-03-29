@@ -12,21 +12,54 @@
 
 {% block actionscontent %}
     {% if simname is not null %}
-        <li class=""><a class="button" href="{{ path('GSimul_SAList') }}" title="Retour à la simulation"><img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour"></a></li>
+        <li class="btn btn-primary">
+            <a class="" href="{{ path('GSimul_SAList') }}" title="Retour à la simulation">
+                <img src="{{ asset('bundles/gessehcore/images/Button_Back.png') }}" alt="Retour">
+                {{ icon('hand-left') }} Retour
+            </a>
+        </li>
     {% else %}
-        <li class=""><a class="button" href="{{ path('GSimul_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels"><button type="button">Actualiser la simulation</button></a></li>
-        <li class=""><a class="button" href="{{ path('GSimul_SList', {simid: simid}) }}" title="Affiche le résultat de la simulation"><button type="button">Résultat de la simulation</button></a></li>
+        {% if not simstudent.active %}
+            <li class="btn btn-primary">
+                <a href="{{ path('GSimul_SGetin', {simid: simid}) }}" title="Participer à nouveau à la simulation et faire vos vœux.">
+                        {{ icon('screenshot') }} Participer
+                </a>
+            </li>
+        {% else %}
+            <li class="btn btn-primary">
+                <a href="{{ path('GSimul_SGetout', {simid: simid}) }}" title="Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, master, inter-CHU, etc).">
+                    {{ icon('remove-circle') }} Ne pas participer
+                </a>
+            </li>
+            <li class="btn btn-primary">
+                <a class="button" href="{{ path('GSimul_SSim') }}" title="Mettre à jour la simulation avec mes vœux actuels">
+                    {{ icon('refresh') }} Actualiser
+                </a>
+            </li>
+            <li class="btn btn-primary">
+                <a class="button" href="{{ path('GSimul_SList', {simid: simid}) }}" title="Affiche le résultat de la simulation">
+                    {{ icon('eye-open') }} Résultats
+                </a>
+            </li>
+        {% endif %}
     {% endif %}
-    <li class=""><a class="button" href="{{ path('GSimul_SLeft', {simid: simid}) }}" title="Affiche les postes restants au moment de mon choix"><button type="button">Mes postes restants</button></a></li>
+    <li class="btn btn-primary">
+        <a class="button" href="{{ path('GSimul_SLeft', {simid: simid}) }}" title="Affiche les postes restants au moment de mon choix">
+            {{ icon('briefcase') }} Mes postes restants
+        </a>
+    </li>
 {% endblock %}
 
 {% block content %}
     {% if not simstudent.active %}
-        <div class="">Vous ne participez pas à la simulation. Pour participer à nouveau à la simulation et faire vos vœux, <a href="{{ path('GSimul_SGetin', {simid: simid}) }}">cliquez ici</a>.</div>
+        <div class="">Vous ne participez pas à la simulation.</div>
     {% else %}
-        <div class="">Si vous ne participez pas à la simulation pour quelque raison que ce soit (grossesse, master, inter-CHU, etc.), <a href="{{ path('GSimul_SGetout', {simid: simid}) }}">cliquez ici</a></div>
-        <div class="">Votre vœu retenu est : <strong>{{ simstudent.department }}</strong>. Au moment de votre choix, il reste {{ simstudent.extra }} place{% if simstudent.extra > 1 %}s{% endif %} pour ce poste.</div>
-        <div class="">Devant vous, {{ missing }} personne{% if missing > 0 %}s n'ont{% else %} n'a{% endif %} pas de vœu validé par la simulation à ce jour.</div>
+        {% if simstudent.department is not null %}
+        <div class="">Votre vœu retenu est : <strong>{{ simstudent.department }}</strong>. Au moment de votre choix, il reste <span class="badge">{{ simstudent.extra }}</span> place{% if simstudent.extra > 1 %}s{% endif %} pour ce poste.</div>
+        <div class="">Devant vous, <span class="badge">{{ missing }}</span> personne{% if missing > 0 %}s n'ont{% else %} n'a{% endif %} pas de vœu validé par la simulation à ce jour.</div>
+        {% else %}
+            <div class="">Vous n'avez pas encore de vœu valide. Ajoutez des vœux ci-dessous et actualisez la simulation ensuite.</div>
+        {% endif %}
 
         <ul class="entities wishes">
             {% for wish in wishes %}
@@ -38,6 +71,23 @@
                     {% endif %}
                 ">
                     {% for repartition in wish.department.repartitions %}
+                        <ul class="actions pull-right">
+                            <li class="">
+                                <a href="{{ path('GSimul_SUp', {wish_id: wish.id, simid: simid}) }}" title="Monter le vœu d'une place">
+                                    {{ icon('arrow-up') }} Monter
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="{{ path('GSimul_SDown', {wish_id: wish.id, simid: simid}) }}" title="Descendre le vœu d'une place">
+                                    {{ icon('arrow-down') }} Descendre
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="{{ path('GSimul_SDelete', {wish_id: wish.id, simid: simid}) }}" title="Supprimer le vœu">
+                                    {{ icon('trash') }} Supprimer
+                                </a>
+                            </li>
+                        </ul>
                         <div class="field entity_item rank">{{ wish.rank }}</div>
                         <div class="field entity_title fieldset">
                             <a href="{{ path('GSimul_SListDept', {'id': wish.department.id}) }}" title="Afficher les simulations pour ce poste">{{ wish.department }}</a>
@@ -50,16 +100,20 @@
                         {% endfor %}
                         <span class="field entity_item number badge">{{ repartition.number }}</span>
                     {% endfor %}
-                    <ul class="actions">
-                        <li class=""><a href="{{ path('GSimul_SUp', {wish_id: wish.id, simid: simid}) }}" title="Monter le vœu d'une place"><img src="{{ asset('bundles/gessehcore/images/Button_Up.png') }}" alt="Monter" /></a></li>
-                        <li class=""><a href="{{ path('GSimul_SDown', {wish_id: wish.id, simid: simid}) }}" title="Descendre le vœu d'une place"><img src="{{ asset('bundles/gessehcore/images/Button_Down.png') }}" alt="Descendre" /></a></li>
-                        <li class=""><a href="{{ path('GSimul_SDelete', {wish_id: wish.id, simid: simid}) }}" title="Supprimer le vœu"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
-                    </ul>
                 {% else %}
                     <li class="noentity error">Aucun vœu enregistré.</li>
                 {% endfor %}
             </ul>
-            <div>{{ form(wish_form) }}</div>
+            <div>
+                {{ form_start(wish_form) }}
+                {{ form_errors(wish_form) }}
+                <div class="inline">
+                    {{ form_errors(wish_form.department) }}
+                    {{ form_widget(wish_form.department) }}
+                </div>
+                <div class="inline">{{ form_widget(wish_form.Ajouter) }}</div>
+                {{ form_end(wish_form) }}
+            </div>
     {% endif %}
 {% endblock %}
 
