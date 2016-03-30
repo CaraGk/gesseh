@@ -22,18 +22,18 @@
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="entity_item field label label-info col-sm-1">{{ simulation.countWishes }} vœu{% if simulation.countWishes > 1 %}x{% endif %}</div>
-                <ul class="actions pull-right">
-                    <li>
+                <ul class="pull-right">
+                    <li class="inline">
                         <a href="{{ path('GSimul_SIndex', {'simid': simulation.id}) }}" title="Afficher les vœux de l'étudiant {{ simulation.student }}">
                             {{ icon('screenshot') }} Vœux
                         </a>
                     </li>
-                    <li>
+                    <li class="inline">
                         <a href="{{ path('GSimul_SAUp', {'id': simulation.id}) }}" title="Monter le rang de l'étudiant {{ simulation.student }}">
                             {{ icon('circle-arrow-up') }} Monter
                         </a>
                     </li>
-                    <li>
+                    <li class="inline">
                         <a href="{{ path('GSimul_SADown', {'id': simulation.id}) }}" title="Descendre le rang de l'étudiant {{ simulation.student }}">
                             {{ icon('circle-arrow-down') }} Descendre
                         </a>
