@@ -1,28 +1,28 @@
-<ul class="entities wishes">
+<ul class="entities wishes list-group">
     {% for simulation in simulations %}
-        <li class="entity wish">
-            <div class="entity_item rank">{{ simulation.rank }}.</div>
-            <div class="entity_item student">{{ simulation.student }} : </div>
+        <li class="entity wish list-group-item row">
+            <div class="entity_item rank col-sm-1">{{ simulation.rank }}.</div>
+            <div class="entity_item student col-sm-3">{{ simulation.student }} : </div>
             {% if simulation.department is not null %}
-                <div class="entity_item valid">
+                <div class="entity_item label label-success col-sm-4">
                     <a href="{{ path('GSimul_SListDept', {'id': simulation.department.id}) }}" title="Afficher les simulations pour ce poste">{{ simulation.department }}</a>
                 </div>
             {% elseif not simulation.active %}
-                <div class="entity_item grey">
+                <div class="entity_item label label-default col-sm-4">
                     Ne participe pas à la simulation
                 </div>
             {% elseif simulation.countWishes > 0 and is_granted('ROLE_ADMIN') %}
-                <div class="entity_item warning">
+                <div class="entity_item label label-warning col-sm-4">
                     Aucun choix valide
                 </div>
             {% else %}
-                <div class="entity_item invalid">
+                <div class="entity_item label label-danger col-sm-4">
                     Aucun choix valide
                 </div>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                <div class="entity_item field">({{ simulation.countWishes }} vœu{% if simulation.countWishes > 1 %}x{% endif %})</div>
-                <ul class="actions">
+                <div class="entity_item field label label-info col-sm-1">{{ simulation.countWishes }} vœu{% if simulation.countWishes > 1 %}x{% endif %}</div>
+                <ul class="actions pull-right">
                     <li>
                         <a href="{{ path('GSimul_SIndex', {'simid': simulation.id}) }}" title="Afficher les vœux de l'étudiant {{ simulation.student }}">
                             {{ icon('screenshot') }} Vœux

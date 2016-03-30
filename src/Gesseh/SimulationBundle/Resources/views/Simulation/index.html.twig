@@ -55,15 +55,15 @@
     {% else %}
         {% if simstudent.department is not null %}
         <div class="">Votre vœu retenu est : <span class="label label-success">{{ simstudent.department }}</span></div>
-        <div class="">Au moment de votre choix, il reste <span class="badge">{{ simstudent.extra }}</span> place{% if simstudent.extra > 1 %}s{% endif %} pour ce poste.</div>
-        <div class="">Devant vous, <span class="badge">{{ missing }}</span> personne{% if missing > 0 %}s n'ont{% else %} n'a{% endif %} pas de vœu validé par la simulation à ce jour.</div>
+        <div class="">Au moment de votre choix, il reste <span class="label label-default">{{ simstudent.extra }} place{% if simstudent.extra > 1 %}s{% endif %}</span> pour ce poste.</div>
+        <div class="">Devant vous, <span class="label label-warning">{{ missing }} personne{% if missing > 0 %}s</span> n'ont{% else %}</span> n'a{% endif %} pas de vœu validé par la simulation à ce jour.</div>
         {% else %}
             <div class="">Vous n'avez pas encore de vœu valide. Ajoutez des vœux ci-dessous et actualisez la simulation ensuite.</div>
         {% endif %}
 
-        <ul class="entities wishes">
+        <ul class="entities wishes list-group">
             {% for wish in wishes %}
-                <li class="entity wish
+                <li class="entity wish list-group-item row
                     {% if simstudent.department and wish.department.id == simstudent.department.id %}
                         valid
                     {% else %}
@@ -88,22 +88,24 @@
                                 </a>
                             </li>
                         </ul>
-                        <div class="field entity_item rank">{{ wish.rank }}</div>
-                        <div class="field entity_title fieldset">
+                        <div class="inline entity_item rank">{{ wish.rank }}.</div>
+                        <div class="inline title">
                             <a href="{{ path('GSimul_SListDept', {'id': wish.department.id}) }}" title="Afficher les simulations pour ce poste">
                                 {{ wish.department }}
                             </a>
                         </div>
-                        {% if repartition.cluster is not null %}
-                            <div class="field entity_item cluster label label-warning">Stage couplé</div>
-                        {% endif %}
-                        {% for accreditation in wish.department.accreditations %}
-                            <span class="field entity_item sector label label-info">{{ accreditation.sector.name }}</span>
-                        {% endfor %}
-                        <span class="field entity_item number badge">{{ repartition.number }}</span>
+                        <div class="inline">
+                            {% if repartition.cluster is not null %}
+                                <span class="entity_item cluster label label-warning">Stage couplé</span>
+                            {% endif %}
+                            {% for accreditation in wish.department.accreditations %}
+                                <span class="entity_item sector label label-info">{{ accreditation.sector.name }}</span>
+                            {% endfor %}
+                            <span class="entity_item number badge">{{ repartition.number }}</span>
+                        </div>
                     {% endfor %}
                 {% else %}
-                    <li class="noentity error">Aucun vœu enregistré.</li>
+                    <li class="noentity error list-group-item">Aucun vœu enregistré.</li>
                 {% endfor %}
             </ul>
             <div>
