@@ -89,6 +89,8 @@ class EvaluationType extends AbstractType
                         'required'     => $criteria->isRequired(),
                         'label'        => $label,
                         'label_attr'   => array('class' => $class),
+                        'horizontal_input_wrapper_class' => 'col-lg-4',
+                        'timepicker'   => true,
                     ));
                 } elseif ($criteria->getType() == 7) {
                     $legend = explode('|', $criteria->getMore());
