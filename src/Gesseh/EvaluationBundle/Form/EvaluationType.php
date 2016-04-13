@@ -31,12 +31,19 @@ class EvaluationType extends AbstractType
         foreach ($this->eval_forms as $eval_form)
         {
             foreach ($eval_form->getCriterias() as $criteria) {
+                    $label = $criteria->getName();
                 if ($criteria->isPrivate() == true) {
-                    $label = $criteria->getName() . " (réservée aux étudiants seuls)";
-                    $class = 'private';
+                    $tooltip = array(
+                        'title' => 'Consultation restreinte aux étudiants',
+                        'text'  => 'accès restreint',
+                        'icon'  => 'eye-close',
+                    );
                 } else {
-                    $label = $criteria->getName() . " (peut-être transmise aux enseignants)";
-                    $class = 'public';
+                    $tooltip = array(
+                        'title' => 'Consultation ouverte aux enseignants après pondération sur plusieurs évaluations pour garantir l\'anonymat',
+                        'text'  => 'visible',
+                        'icon'  => 'eye-open',
+                    );
                 }
 
                 if ($criteria->getType() == 1) {
@@ -46,7 +53,7 @@ class EvaluationType extends AbstractType
                         'multiple'   => false,
                         'expanded'   => true,
                         'label'      => $label,
-                        'label_attr' => array('class' => $class),
+                        'help_label_tooltip' => $tooltip,
                     ));
                 } elseif ($criteria->getType() == 2) {
                     $builder->add('criteria_' . $criteria->getId(), 'textarea', array(
@@ -54,7 +61,7 @@ class EvaluationType extends AbstractType
                         'trim'       => true,
                         'max_length' => 250,
                         'label'      => $label,
-                        'label_attr' => array('class' => $class),
+                        'help_label_tooltip' => $tooltip,
                     ));
                 } elseif ($criteria->getType() == 3) {
                     $builder->add('criteria_' . $criteria->getId(), 'choice', array(
@@ -63,14 +70,15 @@ class EvaluationType extends AbstractType
                         'multiple'   => true,
                         'expanded'   => true,
                         'label'      => $label,
-                        'label_attr' => array('class' => $class),
+                        'help_label_tooltip' => $tooltip,
                     ));
                 } elseif ($criteria->getType() == 4) {
                     $builder->add('criteria_' . $criteria->getId(), 'integer', array(
                         'precision'  => $criteria->getMore(),
                         'required'   => $criteria->isRequired(),
                         'label'      => $label,
-                        'label_attr' => array('class' => $class),
+                        'horizontal_input_wrapper_class' => 'col-lg-4',
+                        'help_label_tooltip' => $tooltip,
                     ));
                 } elseif ($criteria->getType() == 5) {
                     $builder->add('criteria_' . $criteria->getId(), 'choice', array(
@@ -79,7 +87,7 @@ class EvaluationType extends AbstractType
                         'multiple'   => false,
                         'expanded'   => true,
                         'label'      => $label,
-                        'label_attr' => array('class' => $class),
+                        'help_label_tooltip' => $tooltip,
                     ));
                 } elseif ($criteria->getType() == 6) {
                     $builder->add('criteria_' . $criteria->getId(), 'time', array(
@@ -88,18 +96,20 @@ class EvaluationType extends AbstractType
                         'with_seconds' => false,
                         'required'     => $criteria->isRequired(),
                         'label'        => $label,
-                        'label_attr'   => array('class' => $class),
+                        'help_label_tooltip' => $tooltip,
                         'horizontal_input_wrapper_class' => 'col-lg-4',
                         'timepicker'   => true,
                     ));
                 } elseif ($criteria->getType() == 7) {
-                    $legend = explode('|', $criteria->getMore());
-                    $label .= ' (' . $legend[0] . ' -> ' . $legend[1] . ')';
+                    $options = explode('|', $criteria->getMore());
+                    $legend = '<span class="col-sm-6">' . $options[1] . '</span><span class="col-sm-6 right">' . $options[2] . '</span>';
                     $builder->add('criteria_' . $criteria->getId(), 'range', array(
                         'required'   => $criteria->isRequired(),
                         'label'      => $label,
-                        'label_attr' => array('class' => $class),
+                        'help_block' => $legend,
+                        'help_label_tooltip' => $tooltip,
                         'attr'       => array('min' => 0, 'max' => 100,),
+                        'data'       => $options[0],
                     ));
                 }
             }
