@@ -1,4 +1,5 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
+{% from 'MopaBootstrapBundle::macros.html.twig' import label, badge %}
 
 {% block title %}{{ parent() }} - {{ department.name }} à {{ department.hospital.name }} : évaluations{% endblock %}
 {% block titlecontent %}{{ department.name }} à {{ department.hospital.name }} : évaluations{% endblock %}
@@ -22,53 +23,45 @@
             {% set rank = 0 %}
             {% for item in eval %}
                 {% set rank = rank + 1 %}
-                {% if item['type'] == 2 %}
-                    <li class="list-group-item criteria {{ cycle(['odd', 'even'], loop.index0) }}">
-                        <div class="field rank">{{ rank }}.</div>
-                        <div class="field name title">{{ item['name'] }}</div>
-                        <ul class="comments">
+
+                <li class="list-group-item criteria {{ cycle(['odd', 'even'], loop.index0) }} row">
+                    <div class="col-sm-1">{{ rank }}</div>
+                    {% if item['type'] == 2 %}
+                        <div class="title col-sm-5">{{ item['name'] }}</div>
+                        <ul class="comments col-sm-12">
                             {% for comment in item['text'] %}
                                 <li class="comment {{ cycle(['subodd', 'subeven'], loop.index0) }}">{{ comment }}</li>
                             {% endfor %}
                         </ul>
-                    </li>
-                {% elseif item['type'] == 1 %}
-                    <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
-                        <div class="field rank">{{ rank }}.</div>
-                        <div class="field name title title">{{ item['name'] }}</div>
-                        <div class="field total"> ({{ item['total'][0] }} {% if item['total'][0] > 1 %}évaluations{% else %} évaluation{% endif %})</div>
-                        <div class="field mean badge" title="Évaluations antérieures : {% for period,mean in item['mean'] %}{% if period > 0 %}{{ mean }} ({{ item['total'][period] }}) ; {% endif %}{% endfor %}">{{ item['mean'][0] }}</div>
-                    </li>
-                {% elseif item['type'] == 3 %}
-                    <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
-                        <div class="field rank">{{ rank }}.</div>
-                        <div class="field name title">{{ item['name'] }}</div>
-                        <ul class="fields tags">
+                    {% elseif item['type'] == 1 or item['type'] == 7 %}
+                        <div class="title title col-sm-5">{{ item['name'] }}</div>
+                        <div class="mean col-sm-5" title="Évaluations antérieures : {% for period,mean in item['mean'] %}{% if period > 0 %}{{ mean }} ({{ item['total'][period] }}) ; {% endif %}{% endfor %}"><progress class="bar" value="{{ item['mean'][0] }}" max="100">{{ item['mean'][0] }}</progress></div>
+                        <div class="total col-sm-1" title="{{ item['total'][0] }} {% if item['total'][0] > 1 %}évaluations{% else %} évaluation{% endif %}">{{ badge(item['total'][0]) }}</div>
+                    {% elseif item['type'] == 3 %}
+                        <div class="title col-sm-5">{{ item['name'] }}</div>
+                        <ul class="fields tags col-sm-5">
                             {% for tag,size in item['size'][0] %}
-                                <li class="field tag" style="font-size:{{ size }}em;">{{ tag }}</li>
+                                <li class="tag label label-info" style="font-size:{{ size }}em;">{{ tag }}</li>
                             {% endfor %}
                         </ul>
-                    </li>
-                {% elseif item['type'] == 4 %}
-                    <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
-                        <div class="field rank">{{ rank }}</div>
-                        <div class="field name title">{{ item['name'] }}</div>
-                        <div class="field total"> ({{ item['total'][0] }} {% if item['total'][0] > 1 %}évaluations{% else %} évaluation{% endif %})</div>
-                        <div class="field mean badge">{{ item['mean'][0] }}</div>
-                    </li>
-                {% elseif item['type'] == 5 or item['type'] == 6 %}
-                    <li class="list-group-item criteria{{ cycle(['odd', 'even'], loop.index0) }}">
-                        <div class="field rank">{{ rank }}</div>
-                        <div class="field name title">{{ item['name'] }}</div>
+                    {% elseif item['type'] == 4 %}
+                        <div class="title col-sm-5">{{ item['name'] }}</div>
+                        <div class="mean col-sm-5">{{ label(item['mean'][0], 'info') }}</div>
+                        <div class="total col-sm-1" title="{{ item['total'][0] }} {% if item['total'][0] > 1 %}évaluations{% else %} évaluation{% endif %}">{{ badge(item['total'][0]) }}</div>
+                    {% elseif item['type'] == 5 or item['type'] == 6 %}
+                        <div class="title col-sm-5">{{ item['name'] }}</div>
                         {% set max = 0 %}
                         {% for tag,count in item['count'][0] %}
                             {% if max < item['max'] %}
-                                <div class="field total">({{ item['count'][0][tag] }} avis)</div>
-                                <div class="field tag">{{ tag }}</div>
+                                <div class="tag col-sm-5">{{ label(tag, 'info') }}</div>
+                                <div class="count col-sm-1" title="{{ item['count'][0][tag] }} {% if item['count'][0][tag] > 1 %}évaluations{% else %} évaluation{% endif %}">{{ badge(item['count'][0][tag]) }}</div>
                             {% endif %}
                             {% set max = max + 1 %}
                         {% endfor %}
-                {% endif %}
+                    {% else %}
+                        <div class="col-sm-5">{{ item['type'] }}</div>
+                    {% endif %}
+                </li>
             {% else %}
                 <div class="list-group-item criteria">Aucune évaluation pour le terrain de stage.</div>
             {% endfor %}
