@@ -1,15 +1,25 @@
 {% extends 'GessehCoreBundle::layout.html.twig' %}
+{% from 'MopaBootstrapBundle::macros.html.twig' import label, badge %}
 
 {% block titlecontent %}Formulaires d'évaluations <span><a href="{{ path('GEval_ANew') }}#eval_new" title="Ajouter un nouveau formulaire d'évaluation" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>{% endblock %}
 
+{% block actionscontent %}
+    <li class="btn btn-primary">
+        <a href="{{ path('GEval_APdfExport') }}" title="Exporter les évaluations en fichier PDF">
+            Exporter
+        </a>
+    </li>
+    <li class="btn btn-primary">
+        <a href="{{ path('GEval_ASendMails') }}" title="Envoyer un mail de rappel aux étudiants n'ayant pas évalué tous leurs stages">
+            Mail de rappel
+        </a>
+    </li>
+{% endblock %}
+
 {% block content %}
-    <ul class="actions">
-        <li class=""><a href="{{ path('GEval_APdfExport') }}" title="Exporter les évaluations en fichier PDF">Exporter</a></li>
-        <li class=""><a href="{{ path('GEval_ASendMails') }}" title="Envoyer un mail de rappel aux étudiants n'ayant pas évalué tous leurs stages">Mail de rappel</a></li>
-    </ul>
-    <ul class="entities evalforms">
+    <ul class="entities evalforms list-group">
         {% for eval_form in eval_forms %}
-            <li class="entity evalform">
+            <li class="entity evalform list-group-item">
                 <div class="field entity_title evalform_name">{{ eval_form.name }}</div>
                 <ul class="actions">
                     <li class=""><a href="{{ path('GEval_AEdit', { 'id': eval_form.id }) }}" title="Modifier le formulaire d'évaluation '{{ eval_form.name }}'" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
@@ -25,7 +35,7 @@
                     <ul class="fields evalform_sectors">
                         {% for sector in sectors[eval_form.id] %}
                             <li class="field evalform_sector">
-                                <a href="{{ path('GCore_FSIndex', { 'limit': { 'type': 's.id', 'value': sector.sector.id }}) }}" title="Afficher les terrains de la catégorie {{ sector.sector.name }}">{{ sector.sector.name }}</a>
+                                <a class="label label-info" href="{{ path('GCore_FSIndex', { 'limit': { 'type': 's.id', 'value': sector.sector.id }}) }}" title="Afficher les terrains de la catégorie {{ sector.sector.name }}">{{ sector.sector.name }}</a>
                                 <a href="{{ path('GEval_ASectorDelete', { 'id': sector.id }) }}" title="Supprimer l'association avec la catégorie de terrain de stage '{{ sector.sector.name }}'" class="confirm delete" confirm="Attention ! Vous êtes sur le point de supprimer l'association entre la catégorie et le formulaire d'évaluation. Ceci peut entraîner des erreurs dans les évaluations associées. Souhaitez-vous continuer malgré tout ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a>
                             </li>
                         {% else %}
@@ -37,12 +47,12 @@
                 </div>
                 <ul class="subentities criterias">
                     {% for criteria in eval_form.criterias %}
-                        <li class="subentity criteria_entity">
-                            <div class="field subentity_item criteria_rank">{{ criteria.rank }}</div>
-                            <div class="field subentity_title criteria_name">{{ criteria.name }}</div>
-                            <div class="field subentity_item criteria_type">{{ criteria.readableType }}</div>
-                            <div class="field subentity_item criteria_more">{{ criteria.more }}</div>
-                            <ul class="actions">
+                        <li class="subentity criteria_entity row">
+                            <div class="field subentity_item criteria_rank col-sm-1">{{ criteria.rank }}</div>
+                            <div class="field subentity_title criteria_name col-sm-4">{{ criteria.name }}</div>
+                            <div class="field subentity_item criteria_type col-sm-2 label label-default center">{{ criteria.readableType }}</div>
+                            <div class="field subentity_item criteria_more col-sm-2">{{ criteria.more }}</div>
+                            <ul class="actions col-sm-2">
                                 <li class=""><a href="{{ path('GEval_ADeleteCriteria', { 'id': criteria.id }) }}" title="Supprimer le critère d'évaluation '{{ criteria.name }}'" class="confirm delete" confirm="Attention ! Cette opération supprimera également toutes les évaluations liées à ce critère d'évaluation. Confirmez-vous la suppression ?"><img src="{{ asset('bundles/gessehcore/images/Trash_Delete.png') }}" alt="Supprimer" /></a></li>
                             </ul>
                         </li>
