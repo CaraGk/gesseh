@@ -44,9 +44,9 @@ Il est conseillé, hors développeurs, d'utiliser une archive stable mais si vou
     git clone http://github.com/CaraGk/gesseh.git gesseh
     cd gesseh
 
-Copiez le fichier *parameters.ini.dist* sur *parameters.ini* et adaptez-le à vos besoins (connexion MySQL, etc).
+Copiez le fichier *parameters.yml.dist* sur *parameters.yml* et adaptez-le à vos besoins (connexion MySQL, etc).
 
-    cp app/config/parameters.ini.dist app/config/parameters.ini
+    cp app/config/parameters.yml.dist app/config/parameters.yml
     ./composer.phar install
 
 Installez la base de données :
