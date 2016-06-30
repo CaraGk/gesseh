@@ -6,14 +6,43 @@
 
 {% block actionscontent %}
     <ul class="nav nav-pills">
-        <li><a href="{{ path('GCore_FSShowDepartment', {'id': department.id}) }}#description">Description</a></li>
-        <li><a href="{{ path('GCore_FSShowDepartment', {'id': department.id}) }}#hopital">Structure de soins</a></li>
-        <li><a href="{{ path('GCore_FSShowDepartment', {'id': department.id}) }}#agrement">Agréments</a></li>
+        <li>
+            <a href="{{ path('GCore_FSShowDepartment', {'id': department.id}) }}#description">
+                {{ icon('info-sign') }} Description
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('GCore_FSShowDepartment', {'id': department.id}) }}#hopital">
+                {{ icon('home') }} Structure de soins
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('GCore_FSShowDepartment', {'id': department.id}) }}#agrement">
+                {{ icon('certificate') }} Agréments
+            </a>
+        </li>
         <li class="active">
             <a href="#evaluation" title="Afficher les évaluations pour ce service">
                 {{ icon('stats') }} Evaluations
             </a>
         </li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'd.id', 'value': department.id, 'description': department.name ~ ' à ' ~ department.hospital.name }}) }}" title="Afficher les stages associés au service '{{ department.name }}'">
+                    {{ icon('list-alt') }} Stages
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('GCore_PARepartitionsDepartment', {'department_id': department.id}) }}" title="Modifier la répartition du service '{{ department }}'">
+                    {{ icon('briefcase') }} Postes
+                </a>
+            </li>
+            <li class="delete">
+                <a href="{{ path('GCore_FSADeleteDepartment', { 'id': department.id }) }}" title="Supprimer le service '{{ department.name }}'" class="confirm delete" confirm="Attention ! Supprimer ce terrain de stage suprimera également toutes les données qui s'y rapportent (stages, évaluations, etc). Confirmez-vous la suppression ?">
+                    {{ icon('trash') }} Supprimer
+                </a>
+            </li>
+        {% endif %}
     </ul>
 {% endblock %}
 
