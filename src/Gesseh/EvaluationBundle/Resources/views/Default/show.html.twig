@@ -68,9 +68,9 @@
                         <div class="total col-sm-1" title="{{ item['total'][0] }} {% if item['total'][0] > 1 %}évaluations{% else %} évaluation{% endif %}">{{ badge(item['total'][0]) }}</div>
                     {% elseif item['type'] == 3 %}
                         <div class="title col-sm-5">{{ item['name'] }}</div>
-                        <ul class="fields tags col-sm-5">
+                        <ul class="tags col-sm-5">
                             {% for tag,size in item['size'][0] %}
-                                <li class="tag label label-info" style="font-size:{{ size }}em;">{{ tag }}</li>
+                                <li class="tag">{{ label(tag, 'info') }}</li>
                             {% endfor %}
                         </ul>
                     {% elseif item['type'] == 4 %}
