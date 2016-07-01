@@ -81,22 +81,20 @@ class EvaluationHandler
 
     private function setEvalItem($criteria, $value)
     {
-        $eval_criteria = new Evaluation();
+        if ($criteria->isRequired() == true or $value != null) {
+            $eval_criteria = new Evaluation();
 
+            if(($this->moderate == true and $criteria->isModerate() == false) or $this->moderate == false)
+                $eval_criteria->setValidated(true);
+            else
+                $eval_criteria->setValidated(false);
 
-        if ($criteria->isRequired() == false and $value == null)
-            continue;
+            $eval_criteria->setPlacement($this->placement);
+            $eval_criteria->setEvalCriteria($criteria);
+            $eval_criteria->setCreatedAt(new \DateTime('now'));
+            $eval_criteria->setValue($value);
 
-        if(($this->moderate == true and $criteria->isModerate() == false) or $this->moderate == false)
-            $eval_criteria->setValidated(true);
-        else
-            $eval_criteria->setValidated(false);
-
-        $eval_criteria->setPlacement($this->placement);
-        $eval_criteria->setEvalCriteria($criteria);
-        $eval_criteria->setCreatedAt(new \DateTime('now'));
-        $eval_criteria->setValue($value);
-
-        $this->em->persist($eval_criteria);
+            $this->em->persist($eval_criteria);
+        }
     }
 }
