@@ -49,3 +49,7 @@ fos_user_profile:
 fos_user_register:
   resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
   prefix: /register
+
+payum_capture:
+    resource: "@PayumBundle/Resources/config/routing/capture.xml"
+    prefix: /register/pay

@@ -131,3 +131,20 @@ mopa_bootstrap:
             author_name: "Pierre-François Angrand"
             nofollow: false
             noindex: false
+
+payum:
+    storages:
+        Gesseh\RegisterBundle\Entity\Payment: { doctrine: orm }
+    security:
+        token_storage:
+            Gesseh\RegisterBundle\Entity\PaymentToken: { doctrine: orm }
+    gateways:
+        offline:
+            factory: offline
+        paypal:
+            factory:   paypal_express_checkout
+            username:  %payment_paypal_user%
+            password:  %payment_paypal_pswd%
+            signature: %payment_paypal_sign%
+            sandbox: true
+
