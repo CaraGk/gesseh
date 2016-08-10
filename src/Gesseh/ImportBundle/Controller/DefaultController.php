@@ -50,6 +50,10 @@ class DefaultController extends Controller
             $student = $this->em->getRepository('GessehUserBundle:Student')->findOneBy(array('surname' => $lastname, 'name' => $firstname));
 
             if ($student)
+
+                /* Il faudrait vérifier que l'étudiant est unique et si non
+                 * choisir celui avec des Placements */
+
                 $worksheet->getCellByColumnAndRow(0, $row)->setValue($student->getId());
             else
                 $worksheet->getCellByColumnAndRow(0, $row)->setValue();
@@ -97,7 +101,14 @@ class DefaultController extends Controller
 
             if ($placements) {
                 if (count($placements) > 1) {
-                     $worksheet->getCellByColumnAndRow(10, $row)->setValue('__multi__');
+
+                    /* il faudrait choisir comment les répartir sachant que,
+                     * majoritairement, l'évaluation est unique (choisir le
+                     * premier placement ?) mais qu'il y a quand même 1
+                     * occurence de 2 évaluations différentes (vérifier les
+                     * id_stage dans le fichier original) */
+
+                    $worksheet->getCellByColumnAndRow(10, $row)->setValue('__multi__');
                 } else {
                      $worksheet->getCellByColumnAndRow(10, $row)->setValue($placements[0]->getId());
                 }
