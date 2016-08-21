@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\DiExtraBundle\Annotation as DI;
+use JMS\SecurityExtraBundle\Annotation as Security;
 use Symfony\Component\Finder\Finder;
 use Gesseh\UserBundle\Entity\Student;
 use Gesseh\UserBundle\Entity\User;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
  * site de l'AIMGL.
  *
  * @Route("/admin/import")
+ * @Security\PreAuthorize("hasRole('ROLE_ADMIN')")
  */
 
 class DefaultController extends Controller
