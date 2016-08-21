@@ -15,7 +15,11 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 /**
  * Import controller
  *
- * @Route("/import")
+ * Ce bundle est un exemple de possibilités d'import d'évaluations depuis un
+ * tableur, conçu initialement pour la migration des données d'EvalTonStage, le
+ * site de l'AIMGL.
+ *
+ * @Route("/admin/import")
  */
 
 class DefaultController extends Controller
