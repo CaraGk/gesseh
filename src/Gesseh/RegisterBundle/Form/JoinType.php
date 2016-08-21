@@ -23,14 +23,15 @@ class JoinType extends AbstractType {
         $builder
             ->add('method', 'choice', array(
                 'choices' => array(
-                    '1' => 'Chèque',
+                    'offline' => 'Chèque',
+                    'paypal'  => 'Paypal',
                 ),
                 'required' => true,
                 'multiple' => false,
                 'expanded' => true,
                 'label'    => 'Moyen de paiement'
             ))
-            ->add('Enregistrer', 'submit')
+            ->add('Payer', 'submit')
         ;
     }
 

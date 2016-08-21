@@ -153,13 +153,15 @@ class UserController extends Controller
         $form = $this->createForm(new JoinType());
         $form_handler = new JoinHandler($form, $this->get('request'), $em, $pm->findParamByName('reg_payment')->getValue(), $student, $pm->findParamByName('reg_date')->getValue(), $pm->findParamByName('reg_periodicity')->getValue());
 
-        if($form_handler->process()) {
+        if($membership = $form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Adhésion enregistrée pour ' . $student . '.');
 
             if ($userid and $user->hasRole('ROLE_ADMIN'))
-                return $this->redirect($this->generateUrl('GRegister_AIndex'));
+//                return $this->redirect($this->generateUrl('GRegister_AIndex'));
+                return $this->redirect($this->generateUrl('GRegister_PPrepare', array('gateway' => $membership->getMethod(), 'memberid' => $membership->getId())));
             else
-                return $this->redirect($this->generateUrl('GRegister_UQuestion'));
+//                return $this->redirect($this->generateUrl('GRegister_UQuestion'));
+                return $this->redirect($this->generateUrl('GRegister_PPrepare', array('gateway' => $membership->getMethod(), 'memberid' => $membership->getId())));
         }
 
         return array(

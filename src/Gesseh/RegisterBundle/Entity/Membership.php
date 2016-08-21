@@ -164,8 +164,12 @@ class Membership
      */
     public function getReadableMethod()
     {
-        if($this->method == 1)
+        if ($this->method == 1 or $this->method == 'offline')
             return 'Chèque';
+        elseif ($this->method == 2 or $this->method == 'paypal')
+            return 'Paypal';
+        elseif ($this->method == 3 or $this->method == 'sips')
+            return 'Carte bancaire';
     }
 
     /**

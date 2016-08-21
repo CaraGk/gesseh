@@ -52,4 +52,8 @@ fos_user_register:
 
 payum_capture:
     resource: "@PayumBundle/Resources/config/routing/capture.xml"
-    prefix: /register/pay
+    prefix: /user
+
+payum_notify:
+    resource: "@PayumBundle/Resources/config/routing/notify.xml"
+    prefix: /user
