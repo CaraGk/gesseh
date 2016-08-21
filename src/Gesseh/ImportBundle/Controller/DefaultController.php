@@ -173,27 +173,30 @@ class DefaultController extends Controller
             50 => array(1 => 402, 3 => 349, 4 => 296, 5 => 186, 6 => 242, 'max' => 10), // comp:éthique
             51 => array(1 => 403, 3 => 350, 4 => 297, 5 => 187, 6 => 243, 'max' => 10), // comp:gestion
             52 => array(1 => 404, 3 => 351, 4 => 298, 5 => 188, 6 => 244, 'max' => 10), // comp:formation
-            53 => array(1 => 405, 3 => 352, 4 => 299, 5 => 189, 6 => 245, 'max' => 16), // charge de travail
-            54 => array(1 => 406, 3 => 353, 4 => 300, 5 => 190, 6 => 246, 'result' =>  array(0 => 3, 1 => 3, 2 => 3, 3 => 3, 4 => 3, 5 => 2, 6 => 0, 7 => 2, 8 => 0, 9 => 2, 10 => 1, 11 => 1, 12 => 1, 13 => 1, 14 => 1, 15 => 1, 16 => 1)), // secrétariat
-            55 => array(1 => 407, 3 => 354, 4 => 301, 5 => 191, 6 => 247, 'max' => 10), // ambiance:interne
-            56 => array(1 => 408, 3 => 355, 4 => 302, 5 => 192, 6 => 248, 'max' => 10), // ambiance:médecins
-            57 => array(1 => 409, 3 => 356, 4 => 303, 5 => 193, 6 => 249, 'max' => 10), // ambiance:paramed
-            61 => array(1 => 419, 3 => 366, 4 => 313, 5 => 203, 6 => 259), //commentaires libres
-            62 => array(1 => 367, 3 => null, 4 => 261, 5 => 151, 6 => null), //lits
-            63 => array(1 => 368, 3 => null, 4 => 262, 5 => 152, 6 => null), //visites
-            78 => array(1 => null, 3 => null, 4 => 261, 5 => null, 6 => null), //lits péd
-            79 => array(1 => null, 3 => null, 4 => 262, 5 => null, 6 => null), //visites ped
-            80 => array(1 => null, 3 => null, 4 => null, 5 => null, 6 => 204), //fréquentation urg
-            86 => array(1 => null, 3 => null, 4 => null, 5 => null, 6 => 207), //senior présents urg
-            87 => array(1 => null, 3 => null, 4 => null, 5 => null, 6 => 208), //internes nécessaires urg
+            56 => array(1 => 405, 3 => 352, 4 => 299, 5 => 189, 6 => 245, 'max' => 16), // charge de travail
+            57 => array(1 => 406, 3 => 353, 4 => 300, 5 => 190, 6 => 246, 'result' =>  array(0 => 3, 1 => 3, 2 => 3, 3 => 3, 4 => 3, 5 => 2, 6 => 0, 7 => 2, 8 => 0, 9 => 2, 10 => 1, 11 => 1, 12 => 1, 13 => 1, 14 => 1, 15 => 1, 16 => 1)), // secrétariat
+            58 => array(1 => 407, 3 => 354, 4 => 301, 5 => 191, 6 => 247, 'max' => 10), // ambiance:interne
+            59 => array(1 => 408, 3 => 355, 4 => 302, 5 => 192, 6 => 248, 'max' => 10), // ambiance:médecins
+            60 => array(1 => 409, 3 => 356, 4 => 303, 5 => 193, 6 => 249, 'max' => 10), // ambiance:paramed
+            64 => array(1 => 419, 3 => 366, 4 => 313, 5 => 203, 6 => 259), //commentaires libres
+            65 => array(1 => 367, 3 => null, 4 => 261, 5 => 151, 6 => null), //lits
+            66 => array(1 => 368, 3 => null, 4 => 262, 5 => 152, 6 => null), //visites
+            81 => array(1 => null, 3 => null, 4 => 261, 5 => null, 6 => null), //lits péd
+            82 => array(1 => null, 3 => null, 4 => 262, 5 => null, 6 => null), //visites ped
+            83 => array(1 => null, 3 => null, 4 => null, 5 => null, 6 => 204), //fréquentation urg
+            89 => array(1 => null, 3 => null, 4 => null, 5 => null, 6 => 207), //senior présents urg
+            90 => array(1 => null, 3 => null, 4 => null, 5 => null, 6 => 208), //internes nécessaires urg
         );
         $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_data_1.xls');
         $worksheet = $object->setActiveSheetIndex();
         $error['row'] = '';
-        $error['count'] = 0;
+        $error['multiple'] = 0;
+        $error['none'] = 0;
         $error['eval'] = 0;
         $error['empty'] = 0;
         $valid['eval'] = 0;
+        $error['form'] = 0;
+        $error['form_row'] = '';
 
         for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
             if ($placement_id = $worksheet->getCellByColumnAndRow(10, $row)->getValue()) {
@@ -202,21 +205,20 @@ class DefaultController extends Controller
                     $c = array();
                     $eval_forms = $this->em->getRepository('GessehEvaluationBundle:EvalForm')->getByPlacement($placement_id);
                     if (count($eval_forms) > 1) {
-                        $error['count']++;
-                        $error['row'] .= $row . ' (';
+                        $error['multiple']++;
+                        $error['row'] .= $row . ' [';
                         foreach ($eval_forms as $form) {
-                            $error['row'] .= $form->getId() . ' ';
+                            $error['row'] .= $form->getId() . ',';
+                            if($form->getId() != 2)
+                                $eval_form = $form;
                         }
-                        $error['row'] .= ') - ';
-                    }
-                    if (!$eval_forms) {
-                    } else {
-                    if ($eval_forms[0]->getId() == 2 and count($eval_forms) > 1) {
-                        $eval_form = $eval_forms[1];
-                    } elseif (!isset($eval_forms[1])) {
+                        $error['row'] .= '] - ';
+                    } elseif (!$eval_forms or $eval_forms[0]->getId() == 2) {
+                        $error['none']++;
+                        $error['row'] .= $row . ' (' . $placement->getRepartition()->getDepartment()->getName() . ' à ' . $placement->getRepartition()->getDepartment()->getHospital()->getName() . ') - ';
                         continue;
                     } else {
-                        $eval_form = $eval_forms[count($eval_forms) - 1];
+                         $eval_form = $eval_forms[0];
                     }
                     $eval_form_id = $eval_form->getId();
                     foreach($eval_form->getCriterias() as $criteria) {
@@ -228,42 +230,63 @@ class DefaultController extends Controller
                     $date = new \DateTime();
                     $date->setTimestamp($unixDate);
 
-                    for ($i = 15 ; $i <= 87 ; ++$i) {
+                    for ($i = 15 ; $i <= 90 ; ++$i) {
+                        $excelValue = $worksheet->getCellByColumnAndRow($i, $row)->getValue();
+                        if ($excelValue == '-1') {
+                            $error['empty']++;
+                            continue;
+                        }
+
                         $eval = new Evaluation();
                         $eval->setPlacement($placement);
                         $eval->setCreatedAt($date);
-                        $eval->setValidated(true);
+                        if ($i == 21 or $i == 64) {
+                             $eval->setValidated(false);
+                        } else {
+                            $eval->setValidated(true);
+                        }
                         $eval->setModerated(false);
+
                         if ($i == 15 or $i == 17) {
-                            $time = $worksheet->getCellByColumnAndRow($i, $row)->getValue() . ':' . $worksheet->getCellByColumnAndRow($i+1, $row)->getValue() . ':00';
+                            $time = $excelValue . ':' . $worksheet->getCellByColumnAndRow($i+1, $row)->getValue() . ':00';
                             $eval->setEvalCriteria($c[$q[15][$eval_form_id]]);
-                                 $eval->setValue($time);
+                            $eval->setValue($time);
+                            $this->em->persist($eval);
                         } elseif (isset($q[$i]) and isset($c[$q[$i][$eval_form_id]])) {
                             $eval->setEvalCriteria($c[$q[$i][$eval_form_id]]);
+
                             if (isset($q[$i][$eval_form_id]['result'])) {
-                                $eval->setValue($q[$i][$eval_form_id]['result'][$worksheet->getCellByColumnAndRow($i, $row)->getValue()]);
+                                $value = $q[$i][$eval_form_id]['result'][$excelValue];
+                                $eval->setValue($value);
                             } elseif (isset($q[$i][$eval_form_id]['max'])) {
-                                $value = round($worksheet->getCellByColumnAndRow($i, $row)->getValue() * 100 / $q[$i][$eval_form_id]['max']);
+                                $value = round($excelValue * 100 / $q[$i][$eval_form_id]['max']);
                                 $eval->setValue($value);
                             } else {
-                                $eval->setValue($worksheet->getCellByColumnAndRow($i, $row)->getValue());
+                                $eval->setValue($excelValue);
                             }
+                            $this->em->persist($eval);
                         } else {
-                            $error['empty']++;
+                            if (!in_array($i, array(16, 18, 36, 53, 54, 55, 56, 61, 62, 63)) and $i < 65) {
+                                $error['form']++;
+                                $error['form_row'] .= $row . ': ' . $i . '/' . $eval_form_id . ' - ';
+                            }
                         }
-                        if ($eval->getValue())
+
+                        if (null !== $eval->getValue()) {
                             $valid['eval']++;
-                        else
-                            $error['eval']++;
+                        } elseif (!in_array($i, array(16, 18, 36, 53, 54, 55, 56, 61, 62, 63)) and $i < 65) {
+                            $error['empty']++;
+                            $error['form_row'] .= $row . ': ' . $i . '/' . $eval_form_id . ' (' . $eval->getEvalCriteria() . ' = ' . $excelValue . ') - ';
+                        }
                     }
 
-                    }
                 }
             }
         }
 
-        $this->get('session')->getFlashBag()->add('error', 'Erreurs (' . $error['count'] . ') : ' . $error['row']);
-        $this->get('session')->getFlashBag()->add('notice', 'Evaluations : ' . $valid['eval']);
+        $this->get('session')->getFlashBag()->add('error', 'Erreurs (multiples = ' . $error['multiple'] . ', nuls = ' . $error['none'] . ') : ' . $error['row']);
+        $this->get('session')->getFlashBag()->add('error', 'Questions non trouvées (' . $error['form'] . ') : ' . $error['form_row']);
+        $this->get('session')->getFlashBag()->add('notice', 'Evaluations : ' . $valid['eval'] . ' / ' . $valid['eval'] / ($row - 2 + 1 - $error['none']));
         $this->get('session')->getFlashBag()->add('warning', 'Evaluations : ' . $error['eval'] . ' ; Questions vides : ' . $error['empty']);
         return $this->redirect($this->generateUrl('homepage'));
     }
