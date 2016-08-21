@@ -18,18 +18,23 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PaymentController extends Controller
 {
-    public function prepareAction()
+    public function prepareAction($gateway)
     {
-        $gateway = 'offline';
         $storage = $this->get('payum')->getStorage('Gesseh\RegisterBundle\Entity\Payment');
 
         $payment = $storage->create();
-        $payment->setNumber(uniqid());
-        $payment->setCurrencyCode('EUR');
-        $payment->setTotalAmount(60);
-        $payment->setDescription('Adhésion');
-        $payment->setClientId();
-        $payment->setClientEmail();
+
+        if ($gateway == 'offline') {
+            $payment->setNumber(uniqid());
+            $payment->setCurrencyCode('EUR');
+            $payment->setTotalAmount(60);
+            $payment->setDescription('Adhésion');
+            $payment->setClientId();
+            $payment->setClientEmail();
+        } elseif ($gateway == 'paypal') {
+            $payment['PAYMENTREQUEST_0_CURRENCYCODE'] = 'EUR';
+            $payment['PAYMENTREQUEST_0_AMT'] = 1.23;
+        }
 
         $storage->update($payment);
 
