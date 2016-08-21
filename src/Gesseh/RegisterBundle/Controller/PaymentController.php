@@ -45,7 +45,7 @@ class PaymentController extends Controller
 
         $payment->setNumber(uniqid());
         $payment->setCurrencyCode('EUR');
-        $payment->setTotalAmount(60.00);
+        $payment->setTotalAmount($pm->findParamByName('reg_payment')->getValue() * 100);
         $payment->setDescription('Adhésion');
         $payment->setClientId($memberid);
         $payment->setClientEmail($user->getEmail());
@@ -68,6 +68,7 @@ class PaymentController extends Controller
      */
     public function doneAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
         $gateway = $this->get('payum')->getGateway($token->getGatewayName());
         $gateway->execute($status = new GetHumanStatus($token));
@@ -75,8 +76,14 @@ class PaymentController extends Controller
 
         if ($status->isCaptured()) {
             if ($gateway == 'offline') {
-                 $this->addFlash('warning', 'Choix enregistré. L\'adhésion sera validée un fois le chèque reçu.')
+                 $this->addFlash('warning', 'Choix enregistré. L\'adhésion sera validée un fois le chèque reçu.');
             } else {
+                $membership = $em->getRepository('GessehRegisterBundle:Membership')->find($payment->getClientId());
+                $membership->setPayedOn(new \DateTime('now'));
+
+                $em->persist($membership);
+                $em->flush();
+
                 $this->addFlash('notice', 'Le paiement a réussi. L\'adhésion est validée.');
             }
         } else {
