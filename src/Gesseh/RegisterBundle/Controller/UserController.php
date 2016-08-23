@@ -156,12 +156,7 @@ class UserController extends Controller
         if($membership = $form_handler->process()) {
             $this->get('session')->getFlashBag()->add('notice', 'Adhésion enregistrée pour ' . $student . '.');
 
-            if ($userid and $user->hasRole('ROLE_ADMIN'))
-//                return $this->redirect($this->generateUrl('GRegister_AIndex'));
-                return $this->redirect($this->generateUrl('GRegister_PPrepare', array('gateway' => $membership->getMethod(), 'memberid' => $membership->getId())));
-            else
-//                return $this->redirect($this->generateUrl('GRegister_UQuestion'));
-                return $this->redirect($this->generateUrl('GRegister_PPrepare', array('gateway' => $membership->getMethod(), 'memberid' => $membership->getId())));
+            return $this->redirect($this->generateUrl('GRegister_PPrepare', array('gateway' => $membership->getMethod(), 'memberid' => $membership->getId())));
         }
 
         return array(

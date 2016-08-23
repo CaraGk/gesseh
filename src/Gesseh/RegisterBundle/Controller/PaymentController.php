@@ -46,7 +46,7 @@ class PaymentController extends Controller
         $payment->setNumber(uniqid());
         $payment->setCurrencyCode('EUR');
         $payment->setTotalAmount($pm->findParamByName('reg_payment')->getValue() * 100);
-        $payment->setDescription('Adhésion');
+        $payment->setDescription('Adhésion de ' . $user->getEmail() . ' via ' . $gateway);
         $payment->setClientId($memberid);
         $payment->setClientEmail($user->getEmail());
 
@@ -80,6 +80,7 @@ class PaymentController extends Controller
             } else {
                 $membership = $em->getRepository('GessehRegisterBundle:Membership')->find($payment->getClientId());
                 $membership->setPayedOn(new \DateTime('now'));
+                $membership->setPayment($payment);
 
                 $em->persist($membership);
                 $em->flush();

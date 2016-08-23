@@ -13,7 +13,6 @@ namespace Gesseh\RegisterBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 /**
  * Membership
@@ -41,9 +40,9 @@ class Membership
     /**
      * @var integer
      *
-     * @ORM\Column(name="payment", type="decimal", precision=2)
+     * @ORM\Column(name="amount", type="decimal", precision=2)
      */
-    private $payment;
+    private $amount;
 
     /**
      * @var string
@@ -67,10 +66,10 @@ class Membership
     private $expiredOn;
 
     /**
-     * @ORM\OneToOne(targetEntity="\JMS\Payment\CoreBundle\Entity\PaymentInstruction")
-     * @ORM\JoinColumn(name="payment_instruction_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Payment")
+     * @ORM\JoinColumn(name="payment_id")
      */
-    private $paymentInstruction;
+    private $payment;
 
     /**
      * @ORM\OneToMany(targetEntity="MemberInfo", mappedBy="membership", cascade={"remove", "persist"}, orphanRemoval=true)
@@ -112,26 +111,26 @@ class Membership
     }
 
     /**
-     * Set payment
+     * Set amount
      *
-     * @param integer $payment
+     * @param integer $amount
      * @return Membership
      */
-    public function setPayment($payment)
+    public function setAmount($amount)
     {
-        $this->payment = $payment;
+        $this->amount = $amount;
 
         return $this;
     }
 
     /**
-     * Get payment
+     * Get amount
      *
      * @return integer
      */
-    public function getPayment()
+    public function getAmount()
     {
-        return $this->payment;
+        return $this->amount;
     }
 
     /**
@@ -218,14 +217,14 @@ class Membership
         return $this->expiredOn;
     }
 
-    public function getPaymentInstruction()
+    public function getPayment()
     {
-        return $this->paymentInstruction;
+        return $this->payment;
     }
 
-    public function setPaymentInstruction(PaymentInstruction $instruction)
+    public function setPayment(Payment $payment)
     {
-        $this->paymentInstruction = $instruction;
+        $this->payment = $payment;
     }
     /**
      * Constructor
