@@ -14,8 +14,9 @@ namespace Gesseh\RegisterBundle\Form;
 use Symfony\Component\Form\Form,
     Symfony\Component\HttpFoundation\Request,
     Doctrine\ORM\EntityManager,
-    Gesseh\RegisterBundle\Entity\Membership,
     FOS\UserBundle\Doctrine\UserManager;
+use Gesseh\RegisterBundle\Entity\Membership,
+    Gesseh\UserBundle\Entity\Student;
 
 /**
  * RegisterType Handler
@@ -51,25 +52,14 @@ class RegisterHandler
         return false;
     }
 
-    public function onSuccess(Membership $membership)
+    public function onSuccess(Student $student)
     {
-        $expire = new \DateTime($this->date);
-        $now = new \DateTime('now');
-        while ($expire <= $now) {
-            $expire->modify($this->periodicity);
-        }
-
-        $membership->setPayment($this->payment);
-        $membership->setExpiredOn($expire);
-
-        $student = $membership->getStudent();
         $student->setAnonymous(false);
 
         $user = $student->getUser();
         $user->addRole('ROLE_STUDENT');
         $user->setConfirmationToken($this->token);
 
-        $this->em->persist($membership);
         $this->em->persist($student);
         $this->um->createUser();
         $this->um->updateUser($user);
