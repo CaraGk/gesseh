@@ -104,14 +104,6 @@ stfalcon_tinymce:
   language:       %locale%
   theme: ~
 
-# Payment configuration
-jms_payment_core: 
-    secret: %payment_secret%
-jms_payment_paypal:
-    username: %payment_paypal_user%
-    password: %payment_paypal_pswd%
-    signature: %payment_paypal_sign%
-
 mopa_bootstrap:
     form: 
         show_legend: false
