@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "939ca77c8ecf0f2fa50c25469baa1b33",
-    "content-hash": "1f9df6a8a896085c41a5ca02dd04c9fe",
+    "hash": "fe8afef89cebf42d4f8750f0593f667f",
+    "content-hash": "1b7778e8d319366a45085af705ad3e6a",
     "packages": [
         {
             "name": "caragk/kdb-parameters-bundle",
@@ -1716,6 +1716,129 @@
             ],
             "description": "A library for easily creating recursive-descent parsers.",
             "time": "2012-11-18 18:08:43"
+        },
+        {
+            "name": "jms/payment-core-bundle",
+            "version": "dev-master",
+            "target-dir": "JMS/Payment/CoreBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/JMSPaymentCoreBundle.git",
+                "reference": "18d9ca198740a041072a298757ec2cb45dd52e12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/JMSPaymentCoreBundle/zipball/18d9ca198740a041072a298757ec2cb45dd52e12",
+                "reference": "18d9ca198740a041072a298757ec2cb45dd52e12",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.3",
+                "doctrine/dbal": "~2.3",
+                "doctrine/orm": "~2.3",
+                "ext-mcrypt": "*",
+                "php": ">=5.3.2",
+                "symfony/browser-kit": "~2.0",
+                "symfony/config": "~2.0",
+                "symfony/dependency-injection": "~2.0",
+                "symfony/event-dispatcher": "~2.0",
+                "symfony/form": "~2.0",
+                "symfony/http-foundation": "~2.0",
+                "symfony/http-kernel": "~2.0",
+                "symfony/options-resolver": "~2.0",
+                "symfony/validator": "~2.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "~1.6",
+                "jms/aop-bundle": "~1.2",
+                "jms/di-extra-bundle": "~1.7",
+                "jms/payment-paypal-bundle": "~1.0",
+                "phpunit/phpunit": "~4.8|~5.4",
+                "sensio/framework-extra-bundle": "~3.0",
+                "symfony/dom-crawler": "~2.0",
+                "symfony/framework-bundle": "~2.0",
+                "symfony/routing": "~2.0",
+                "symfony/twig-bridge": "~2.0",
+                "symfony/twig-bundle": "~2.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "JMS\\Payment\\CoreBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/schmittjoh/JMSPaymentCoreBundle/contributors"
+                }
+            ],
+            "description": "This bundle is providing the foundation for various payment plugins.",
+            "homepage": "http://jmsyst.com/bundles/JMSPaymentCoreBundle",
+            "keywords": [
+                "payment"
+            ],
+            "time": "2016-08-21 16:40:51"
+        },
+        {
+            "name": "jms/payment-paypal-bundle",
+            "version": "dev-master",
+            "target-dir": "JMS/Payment/PaypalBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/JMSPaymentPaypalBundle.git",
+                "reference": "ed66e955d661693ef1d99f7cf63b496a2c4dbf4b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/JMSPaymentPaypalBundle/zipball/ed66e955d661693ef1d99f7cf63b496a2c4dbf4b",
+                "reference": "ed66e955d661693ef1d99f7cf63b496a2c4dbf4b",
+                "shasum": ""
+            },
+            "require": {
+                "jms/payment-core-bundle": "~1.0",
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": "~2.0"
+            },
+            "require-dev": {
+                "symfony/browser-kit": "*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "JMS\\Payment\\PaypalBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Payment Bundle providing access to the PayPal API",
+            "homepage": "http://jmsyst.com/bundles/JMSPaymentPaypalBundle",
+            "keywords": [
+                "payment",
+                "paypal"
+            ],
+            "time": "2014-07-23 10:36:21"
         },
         {
             "name": "jms/security-extra-bundle",
@@ -5095,6 +5218,8 @@
         "whiteoctober/tcpdf-bundle": 20,
         "jms/di-extra-bundle": 20,
         "jms/security-extra-bundle": 20,
+        "jms/payment-core-bundle": 20,
+        "jms/payment-paypal-bundle": 20,
         "mopa/bootstrap-bundle": 20,
         "twbs/bootstrap": 20,
         "craue/formflow-bundle": 20
