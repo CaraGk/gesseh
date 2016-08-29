@@ -12,9 +12,10 @@
 namespace Gesseh\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType,
-    Symfony\Component\Form\FormBuilderInterface;
-use Gesseh\UserBundle\Form\UserType,
+    Symfony\Component\Form\FormBuilderInterface,
+    Symfony\Bridge\Doctrine\Form\Type\EntityType,
     Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Gesseh\UserBundle\Form\UserType;
 
 /**
  * Accreditation Type
@@ -25,7 +26,11 @@ class AccreditationType extends AbstractType
     {
         $builder->add('begin')
                 ->add('end')
-                ->add('sector')
+                ->add('sector', EntityType::class, array(
+                    'required' => true,
+                    'label'    => 'Agrément',
+                    'class'    => 'Gesseh\CoreBundle\Entity\Sector',
+                ))
                 ->add('supervisor')
                 ->add('user', new UserType('Gesseh\UserBundle\Entity\User'), array(
                     'label' => ' ',
