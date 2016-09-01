@@ -22,7 +22,7 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "knplabs/knp-menu-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
-        "stfalcon/tinymce-bundle": "dev-master",
+        "stfalcon/tinymce-bundle": "1.0",
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "caragk/kdb-parameters-bundle": "dev-master",
