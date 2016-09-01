@@ -43,9 +43,9 @@ class DefaultController extends Controller
      */
     public function prepareStudentAndFieldsetForHospitalAction()
     {
-        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/evals.xls');
+        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_hospital.xls');
         $error['row'] = 0;
-        $worksheet = $object->setActiveSheetIndex(1);
+        $worksheet = $object->setActiveSheetIndex(0);
         $rows = $worksheet->getHighestRow();
         $row = 2;
 
@@ -76,7 +76,7 @@ class DefaultController extends Controller
             }
 
             $hospital_title = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
-            $department_title = strtolower($worksheet->getCellByColumnAndRow(9, $row)->getValue());
+            $department_title = strtolower(iconv("ISO-8859-1//TRANSLIT","UTF-8",$worksheet->getCellByColumnAndRow(9, $row)->getValue()));
 
             $department = $this->em->getRepository('GessehCoreBundle:Department')->getByNameAndHospital($department_title, $hospital_title);
             if ($department) {
@@ -90,7 +90,7 @@ class DefaultController extends Controller
         $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $dispositionHeader = $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            'eval_data.xls'
+            'eval_hospital.xls'
         );
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         $response->headers->set('Pragma', 'public');
@@ -105,7 +105,7 @@ class DefaultController extends Controller
      */
     public function prepareStudentAndFieldsetForAmbuAction()
     {
-        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_data.xls');
+        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_ambu.xls');
         $error['row'] = 0;
         $worksheet = $object->setActiveSheetIndex(0);
         $rows = $worksheet->getHighestRow();
@@ -138,7 +138,7 @@ class DefaultController extends Controller
             }
 
             $hospital_title = "Stage Ambulatoire";
-            $department_title = strtolower($worksheet->getCellByColumnAndRow(8, $row)->getValue() . ' ' . $worksheet->getCellByColumnAndRow(9, $row)->getValue() . ' ' . $worksheet->getCellByColumnAndRow(10, $row)->getValue());
+            $department_title = strtolower(iconv("ISO-8859-1//TRANSLIT","UTF-8",$worksheet->getCellByColumnAndRow(9, $row)->getValue()));
 
             $department = $this->em->getRepository('GessehCoreBundle:Department')->getByNameAndHospital($department_title, $hospital_title);
             if ($department) {
@@ -152,7 +152,7 @@ class DefaultController extends Controller
         $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $dispositionHeader = $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            'eval_data_1.xls'
+            'eval_ambu.xls'
         );
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         $response->headers->set('Pragma', 'public');
@@ -167,9 +167,9 @@ class DefaultController extends Controller
      */
     public function preparePlacementForHospitalAction()
     {
-        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_data_1.xls');
+        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_hospital.xls');
         $error['row'] = 0;
-        $worksheet = $object->setActiveSheetIndex(1);
+        $worksheet = $object->setActiveSheetIndex(0);
         $rows = $worksheet->getHighestRow();
         $row = 2;
 
@@ -197,7 +197,7 @@ class DefaultController extends Controller
             }
         }
 
-        $worksheet = $object->setActiveSheetIndex(2);
+        $worksheet = $object->setActiveSheetIndex(1);
         for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
             if ($worksheet->getCellByColumnAndRow(1, $row)->getValue() == 'sh') {
                 if (isset($modId[$worksheet->getCellByColumnAndRow(1, $row)->getValue()])) {
@@ -212,7 +212,7 @@ class DefaultController extends Controller
         $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $dispositionHeader = $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            'eval_data_2.xls'
+            'eval_hospital.xls'
         );
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         $response->headers->set('Pragma', 'public');
@@ -227,7 +227,7 @@ class DefaultController extends Controller
      */
     public function preparePlacementForAmbuAction()
     {
-        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_data_2.xls');
+        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_ambu.xls');
         $error['row'] = 0;
         $worksheet = $object->setActiveSheetIndex(0);
         $rows = $worksheet->getHighestRow();
@@ -338,7 +338,7 @@ class DefaultController extends Controller
 //            90 => array(1 => null, 3 => null, 4 => null, 5 => null, 6 => 208), //internes nécessaires urg
         );
         $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_data_1.xls');
-        $worksheet = $object->setActiveSheetIndex(1);
+        $worksheet = $object->setActiveSheetIndex(0);
         $error['row'] = '';
         $error['multiple'] = 0;
         $error['none'] = 0;
