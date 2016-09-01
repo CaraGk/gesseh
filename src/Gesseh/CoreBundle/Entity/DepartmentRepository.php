@@ -158,8 +158,9 @@ class DepartmentRepository extends EntityRepository
             ->join('d.hospital', 'h')
             ->where('LOWER(d.name) LIKE LOWER(:department_name)')
             ->andWhere('h.name = :hospital_name')
-            ->setParameter('department_name', $department_name)
+            ->setParameter('department_name', '%' . $department_name . '%')
             ->setParameter('hospital_name', $hospital_name)
+            ->setMaxResults(1)
         ;
 
         return $query->getQuery()

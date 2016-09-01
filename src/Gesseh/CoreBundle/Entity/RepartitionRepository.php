@@ -133,4 +133,20 @@ class RepartitionRepository extends EntityRepository
                      ->getOneOrNullResult()
         ;
     }
+
+    public function getFirstBeforeDateByDepartment($department_id, \DateTime $date)
+    {
+        $query = $this->getBaseQuery();
+        $query->where('d.id = :department_id')
+            ->setParameter('department_id', $department_id)
+            ->andWhere('p.end < :date')
+            ->setParameter('date', $date->format('Y-m-d'))
+            ->orderBy('p.end', 'desc')
+            ->setMaxResults(1)
+        ;
+
+        return $query->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

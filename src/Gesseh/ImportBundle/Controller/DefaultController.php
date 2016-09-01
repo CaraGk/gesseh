@@ -10,6 +10,7 @@ use JMS\SecurityExtraBundle\Annotation as Security;
 use Symfony\Component\Finder\Finder;
 use Gesseh\UserBundle\Entity\Student;
 use Gesseh\UserBundle\Entity\User;
+use Gesseh\CoreBundle\Entity\Placement;
 use Gesseh\EvaluationBundle\Entity\Evaluation;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -43,13 +44,10 @@ class DefaultController extends Controller
      */
     public function prepareStudentAndFieldsetForHospitalAction()
     {
-        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_hospital.xls');
+        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_hospital.xlsx');
         $error['row'] = 0;
         $worksheet = $object->setActiveSheetIndex(0);
-        $rows = $worksheet->getHighestRow();
-        $row = 2;
-
-        for ($worksheet->getCellByColumnAndRow(0, $row)->getValue() ; $row <= $rows ; ++$row) {
+        for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
             $lastname = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
             $secondname = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
             $firstname = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
@@ -76,7 +74,8 @@ class DefaultController extends Controller
             }
 
             $hospital_title = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
-            $department_title = strtolower(iconv("ISO-8859-1//TRANSLIT","UTF-8",$worksheet->getCellByColumnAndRow(9, $row)->getValue()));
+//            $department_title = strtolower(iconv("ISO-8859-1//TRANSLIT","UTF-8",$worksheet->getCellByColumnAndRow(9, $row)->getValue()));
+            $department_title = strtolower($worksheet->getCellByColumnAndRow(9, $row)->getValue());
 
             $department = $this->em->getRepository('GessehCoreBundle:Department')->getByNameAndHospital($department_title, $hospital_title);
             if ($department) {
@@ -85,7 +84,6 @@ class DefaultController extends Controller
                 $worksheet->getCellByColumnAndRow(8, $row)->setValue();
             }
         }
-
         $writer = $this->get('phpexcel')->createWriter($object, 'Excel5');
         $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $dispositionHeader = $response->headers->makeDisposition(
@@ -105,7 +103,7 @@ class DefaultController extends Controller
      */
     public function prepareStudentAndFieldsetForAmbuAction()
     {
-        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_ambu.xls');
+        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_ambu.ods');
         $error['row'] = 0;
         $worksheet = $object->setActiveSheetIndex(0);
         $rows = $worksheet->getHighestRow();
@@ -138,8 +136,11 @@ class DefaultController extends Controller
             }
 
             $hospital_title = "Stage Ambulatoire";
-            $department_title = strtolower(iconv("ISO-8859-1//TRANSLIT","UTF-8",$worksheet->getCellByColumnAndRow(9, $row)->getValue()));
-
+            $department_title = strtolower(trim($worksheet->getCellByColumnAndRow(8, $row)->getValue()) . ' ' . trim($worksheet->getCellByColumnAndRow(9, $row)->getValue()) . ' ' . substr($worksheet->getCellByColumnAndRow(10, $row)->getValue(), 0, 1));
+/*            $encoding = mb_detect_encoding($department_title, 'auto');
+            if ($encoding != "UTF-8")
+                $department_title = iconv($encoding, "UTF-8", $department_title);
+ */
             $department = $this->em->getRepository('GessehCoreBundle:Department')->getByNameAndHospital($department_title, $hospital_title);
             if ($department) {
                 $worksheet->getCellByColumnAndRow(7, $row)->setValue($department->getId());
@@ -170,10 +171,9 @@ class DefaultController extends Controller
         $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_hospital.xls');
         $error['row'] = 0;
         $worksheet = $object->setActiveSheetIndex(0);
-        $rows = $worksheet->getHighestRow();
-        $row = 2;
+        $modId = array();
 
-        for ($worksheet->getCellByColumnAndRow(0, $row)->getValue() ; $row <= $rows ; ++$row) {
+        for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
             $student_id = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
             $department_id = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
             $placements = $this->em->getRepository('GessehCoreBundle:Placement')->getByStudentAndDepartment($student_id, $department_id);
@@ -191,17 +191,31 @@ class DefaultController extends Controller
                 } else {
                      $worksheet->getCellByColumnAndRow(10, $row)->setValue($placements[0]->getId());
                 }
-                $modId[$worksheet->getCellByColumnAndRow(67, $row)->getValue()] = $placement[0]->getId();
+                $modId[$worksheet->getCellByColumnAndRow(67, $row)->getValue()] = $placements[0]->getId();
+            } elseif($student_id and $department_id) {
+                $plct = new Placement();
+                $student = $this->em->getRepository('GessehUserBundle:Student')->find($student_id);
+                $excelDate = $worksheet->getCellByColumnAndRow(14, $row)->getValue();
+                $unixDate = ($excelDate - 25569) * 86400;
+                $date = new \DateTime();
+                $date->setTimestamp($unixDate);
+                $repartition = $this->em->getRepository('GessehCoreBundle:Repartition')->getFirstBeforeDateByDepartment($department_id, $date);
+                $plct->setStudent($student);
+                $plct->setRepartition($repartition);
+                $this->em->persist($plct);
+
+                $worksheet->getCellByColumnAndRow(10, $row)->setValue();
             } else {
-                 $worksheet->getCellByColumnAndRow(10, $row)->setValue();
+                $worksheet->getCellByColumnAndRow(10, $row)->setValue();
             }
         }
+        $this->em->flush();
 
         $worksheet = $object->setActiveSheetIndex(1);
         for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
-            if ($worksheet->getCellByColumnAndRow(1, $row)->getValue() == 'sh') {
+            if ($worksheet->getCellByColumnAndRow(2, $row)->getValue() == 'sh') {
                 if (isset($modId[$worksheet->getCellByColumnAndRow(1, $row)->getValue()])) {
-                    $worksheet->getCellByColumnAndRow(0, $row)->setValue($modId[$worksheet->getCellByColumnAndRow(1, $row)->getValue()]);
+                    $worksheet->getCellByColumnAndRow(7, $row)->setValue($modId[$worksheet->getCellByColumnAndRow(1, $row)->getValue()]);
                 } else {
                     $worksheet->getCellByColumnAndRow(0, $row)->setValue();
                 }
@@ -227,15 +241,14 @@ class DefaultController extends Controller
      */
     public function preparePlacementForAmbuAction()
     {
-        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_ambu.xls');
+        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_ambu.xlsx');
         $error['row'] = 0;
         $worksheet = $object->setActiveSheetIndex(0);
-        $rows = $worksheet->getHighestRow();
-        $row = 2;
+        $modId = array();
 
-        for ($worksheet->getCellByColumnAndRow(0, $row)->getValue() ; $row <= $rows ; ++$row) {
-            $student_id = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
-            $department_id = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
+        for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
+            $student_id = (int) $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+            $department_id = (int) $worksheet->getCellByColumnAndRow(7, $row)->getValue();
             $placements = $this->em->getRepository('GessehCoreBundle:Placement')->getByStudentAndDepartment($student_id, $department_id);
 
             if ($placements) {
@@ -247,23 +260,37 @@ class DefaultController extends Controller
                      * occurence de 2 évaluations différentes (vérifier les
                      * id_stage dans le fichier original) */
 
-                    $worksheet->getCellByColumnAndRow(10, $row)->setValue($placements[0]->getId());
+                    $worksheet->getCellByColumnAndRow(11, $row)->setValue($placements[0]->getId());
                 } else {
-                     $worksheet->getCellByColumnAndRow(10, $row)->setValue($placements[0]->getId());
+                     $worksheet->getCellByColumnAndRow(11, $row)->setValue($placements[0]->getId());
                 }
-                $modId[$worksheet->getCellByColumnAndRow(6, $row)->getValue()] = $placement[0]->getId();
+                $modId[$worksheet->getCellByColumnAndRow(6, $row)->getValue()] = $placements[0]->getId();
+            } elseif($student_id and $department_id) {
+                $plct = new Placement();
+                $student = $this->em->getRepository('GessehUserBundle:Student')->find($student_id);
+                $excelDate = $worksheet->getCellByColumnAndRow(12, $row)->getValue();
+                $unixDate = ($excelDate - 25569) * 86400;
+                $date = new \DateTime();
+                $date->setTimestamp($unixDate);
+                $repartition = $this->em->getRepository('GessehCoreBundle:Repartition')->getFirstBeforeDateByDepartment($department_id, $date);
+                $plct->setStudent($student);
+                $plct->setRepartition($repartition);
+                $this->em->persist($plct);
+
+                $worksheet->getCellByColumnAndRow(11, $row)->setValue();
             } else {
-                 $worksheet->getCellByColumnAndRow(10, $row)->setValue();
+                 $worksheet->getCellByColumnAndRow(11, $row)->setValue();
             }
         }
+        $this->em->flush();
 
-        $worksheet = $object->setActiveSheetIndex(2);
+        $worksheet = $object->setActiveSheetIndex(1);
         for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
-            if ($worksheet->getCellByColumnAndRow(1, $row)->getValue() == 'sa') {
+            if ($worksheet->getCellByColumnAndRow(2, $row)->getValue() == 'sa') {
                 if (isset($modId[$worksheet->getCellByColumnAndRow(1, $row)->getValue()])) {
-                    $worksheet->getCellByColumnAndRow(0, $row)->setValue($modId[$worksheet->getCellByColumnAndRow(1, $row)->getValue()]);
+                    $worksheet->getCellByColumnAndRow(7, $row)->setValue($modId[$worksheet->getCellByColumnAndRow(1, $row)->getValue()]);
                 } else {
-                    $worksheet->getCellByColumnAndRow(0, $row)->setValue();
+                    $worksheet->getCellByColumnAndRow(7, $row)->setValue();
                 }
             }
         }
@@ -272,7 +299,7 @@ class DefaultController extends Controller
         $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $dispositionHeader = $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            'eval_data_3.xls'
+            'eval_ambu.xls'
         );
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         $response->headers->set('Pragma', 'public');
@@ -337,7 +364,7 @@ class DefaultController extends Controller
 //            89 => array(1 => null, 3 => null, 4 => null, 5 => null, 6 => 207), //senior présents urg
 //            90 => array(1 => null, 3 => null, 4 => null, 5 => null, 6 => 208), //internes nécessaires urg
         );
-        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_data_1.xls');
+        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_hospital.xlsx');
         $worksheet = $object->setActiveSheetIndex(0);
         $error['row'] = '';
         $error['multiple'] = 0;
@@ -376,9 +403,13 @@ class DefaultController extends Controller
                     }
 
                     $excelDate = $worksheet->getCellByColumnAndRow(14, $row)->getValue();
-                    $unixDate = ($excelDate - 25569) * 86400;
-                    $date = new \DateTime();
-                    $date->setTimestamp($unixDate);
+                    if (!is_string($excelDate)) {
+                        $unixDate = ($excelDate - 25569) * 86400;
+                        $date = new \DateTime();
+                        $date->setTimestamp($unixDate);
+                    } else {
+                        $date = new \DateTime($excelDate);
+                    }
 
                     for ($i = 15 ; $i <= 90 ; ++$i) {
                         $excelValue = $worksheet->getCellByColumnAndRow($i, $row)->getValue();
