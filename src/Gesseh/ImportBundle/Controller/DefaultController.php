@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
  * site de l'AIMGL.
  *
  * @Route("/admin/import")
- * @Security\PreAuthorize("hasRole('ROLE_ADMIN')")
+ * @Security\Secure(roles="ROLE_ADMIN")
  */
 
 class DefaultController extends Controller

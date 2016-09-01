@@ -131,3 +131,8 @@ mopa_bootstrap:
             author_name: "Pierre-François Angrand"
             nofollow: false
             noindex: false
+
+jms_security_extra:
+    secure_all_services: true
+    enable_iddqd_attribute: false
+    expressions: true
