@@ -7,7 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\SecurityExtraBundle\Annotation as Security;
-use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\Finder,
+    Symfony\Component\HttpFoundation\Request;
 use Gesseh\UserBundle\Entity\Student;
 use Gesseh\UserBundle\Entity\User;
 use Gesseh\CoreBundle\Entity\Placement;
@@ -310,9 +311,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/hospital")
+     * @Route("/hospital", name="GImport_DImportHospital")
      */
-    public function importHospitalAction()
+    public function importHospitalAction(Request $request)
     {
         $q = array(
             15 => array(1 => 369, 3 => 316, 4 => 263, 5 => 153, 6 => 209), //Début de stage
@@ -320,24 +321,24 @@ class DefaultController extends Controller
             19 => array(1 => 371, 3 => 316, 4 => 265, 5 => 155, 6 => 211), //Demi journées
             20 => array(1 => 372, 3 => 319, 4 => 266, 5 => 156, 6 => 212), //Samedis
             21 => array(1 => 418, 3 => 365, 4 => 312, 5 => 202, 6 => 258), //Commentaire 1
-            22 => array(1 => 373, 3 => 320, 4 => 267, 5 => 157, 6 => 213, 'result' => array(0 => 0, 1 => 1, 3 => 2, 5 => 3)), //présentation équipe
-            23 => array(1 => 374, 3 => 321, 4 => 268, 5 => 158, 6 => 214, 'result' => array(0 => 0, 1 => 1, 3 => 2, 5 => 3)), //organisation
-            24 => array(1 => 375, 3 => 322, 4 => 269, 5 => 159, 6 => 215, 'result' => array(0 => 0, 1 => 1, 3 => 2, 5 => 3)), //objectifs
-            25 => array(1 => 376, 3 => 323, 4 => 270, 5 => 160, 6 => 216, 'result' => array(0 => 1, 5 => 0)), //lieu de travail
-            26 => array(1 => 378, 3 => 325, 4 => 272, 5 => 162, 6 => 218, 'result' => array(0 => 1, 4 => 0)), //internet
-            27 => array(1 => 379, 3 => 326, 4 => 273, 5 => 163, 6 => 219, 'result' => array(0 => 0, 1 => 1, 2 => 2, 3 => 3)), //qualité d es locaux
-            28 => array(1 => 380, 3 => 327, 4 => 274, 5 => 164, 6 => 220, 'result' => array(0 => 0, 1 => 1, 2 => 2, 3 => 3)), //ressources docs
-            29 => array(1 => 381, 3 => 328, 4 => 275, 5 => 165, 6 => 221, 'result' => array(0 => 0, 5 => 1, 10 => 2)), //prise de responsabilité
-            30 => array(1 => 382, 3 => 329, 4 => 276, 5 => 166, 6 => 222, 'result' => array(0 => 0, 5 => 1)), //cours
+            22 => array(1 => 373, 3 => 320, 4 => 267, 5 => 157, 6 => 213, 'result' => array(0 => 1, 1 => 2, 3 => 3, 5 => 4)), //présentation équipe
+            23 => array(1 => 374, 3 => 321, 4 => 268, 5 => 158, 6 => 214, 'result' => array(0 => 1, 1 => 2, 3 => 3, 5 => 4)), //organisation
+            24 => array(1 => 375, 3 => 322, 4 => 269, 5 => 159, 6 => 215, 'result' => array(0 => 1, 1 => 2, 3 => 3, 5 => 4)), //objectifs
+            25 => array(1 => 376, 3 => 323, 4 => 270, 5 => 160, 6 => 216, 'result' => array(0 => 2, 5 => 1)), //lieu de travail
+            26 => array(1 => 378, 3 => 325, 4 => 272, 5 => 162, 6 => 218, 'result' => array(0 => 2, 4 => 1)), //internet
+            27 => array(1 => 379, 3 => 326, 4 => 273, 5 => 163, 6 => 219, 'result' => array(0 => 1, 1 => 2, 2 => 3, 3 => 4)), //qualité d es locaux
+            28 => array(1 => 380, 3 => 327, 4 => 274, 5 => 164, 6 => 220, 'result' => array(0 => 1, 1 => 2, 2 => 3, 3 => 4)), //ressources docs
+            29 => array(1 => 381, 3 => 328, 4 => 275, 5 => 165, 6 => 221, 'result' => array(0 => 1, 5 => 2, 10 => 3)), //prise de responsabilité
+            30 => array(1 => 382, 3 => 329, 4 => 276, 5 => 166, 6 => 222, 'result' => array(0 => 1, 5 => 2)), //cours
             31 => array(1 => 383, 3 => 330, 4 => 277, 5 => 167, 6 => 223), //combien
-            32 => array(1 => 384, 3 => 331, 4 => 278, 5 => 168, 6 => 224, 'result' => array(0 => 1, 5 => 0)), //staff
-            33 => array(1 => 385, 3 => 332, 4 => 279, 5 => 169, 6 => 225, 'result' => array(0 => 0, 3 => 1)), //portfolio
-            34 => array(1 => 386, 3 => 333, 4 => 280, 5 => 170, 6 => 226, 'result' => array(0 => 0, 3 => 1, 5 => 2, 8 => 3)), //seniors
+            32 => array(1 => 384, 3 => 331, 4 => 278, 5 => 168, 6 => 224, 'result' => array(0 => 2, 5 => 1)), //staff
+            33 => array(1 => 385, 3 => 332, 4 => 279, 5 => 169, 6 => 225, 'result' => array(0 => 1, 3 => 2)), //portfolio
+            34 => array(1 => 386, 3 => 333, 4 => 280, 5 => 170, 6 => 226, 'result' => array(0 => 1, 3 => 2, 5 => 3, 8 => 4)), //seniors
             35 => array(1 => 387, 3 => 334, 4 => 281, 5 => 171, 6 => 227, 'max' => 5), //encadrement
-            37 => array(1 => 389, 3 => 336, 4 => 283, 5 => 173, 6 => 229, 'result' => array(0 => 2, 3 => 1, 5 => 0)), // pubilcations
-            38 => array(1 => 390, 3 => 337, 4 => 284, 5 => 174, 6 => 230, 'result' => array(3 => 0, 4 => 1, 6 => 2)), //thèse
+            37 => array(1 => 389, 3 => 336, 4 => 283, 5 => 173, 6 => 229, 'result' => array(0 => 3, 3 => 2, 5 => 1)), // pubilcations
+            38 => array(1 => 390, 3 => 337, 4 => 284, 5 => 174, 6 => 230, 'result' => array(3 => 1, 4 => 2, 6 => 3)), //thèse
             39 => array(1 => 391, 3 => 338, 4 => 285, 5 => 175, 6 => 231, 'max' => 15), //formateur
-            40 => array(1 => 392, 3 => 339, 4 => 286, 5 => 176, 6 => 232, 'result' => array(0 => 1, 15 => 1)), //recommandation
+            40 => array(1 => 392, 3 => 339, 4 => 286, 5 => 176, 6 => 232, 'result' => array(0 => 2, 15 => 1, 10 => 1)), //recommandation
             41 => array(1 => 393, 3 => 340, 4 => 287, 5 => 177, 6 => 233, 'max' => 15), //medecine générale
             42 => array(1 => 394, 3 => 341, 4 => 288, 5 => 178, 6 => 234, 'max' => 10), // comp:décisions
             43 => array(1 => 395, 3 => 342, 4 => 289, 5 => 179, 6 => 235, 'max' => 10), // comp:incertitude
@@ -351,7 +352,7 @@ class DefaultController extends Controller
             51 => array(1 => 403, 3 => 350, 4 => 297, 5 => 187, 6 => 243, 'max' => 10), // comp:gestion
             52 => array(1 => 404, 3 => 351, 4 => 298, 5 => 188, 6 => 244, 'max' => 10), // comp:formation
             56 => array(1 => 405, 3 => 352, 4 => 299, 5 => 189, 6 => 245, 'max' => 16), // charge de travail
-            57 => array(1 => 406, 3 => 353, 4 => 300, 5 => 190, 6 => 246, 'result' =>  array(0 => 3, 1 => 3, 2 => 3, 3 => 3, 4 => 3, 5 => 2, 6 => 0, 7 => 2, 8 => 0, 9 => 2, 10 => 1, 11 => 1, 12 => 1, 13 => 1, 14 => 1, 15 => 1, 16 => 1)), // secrétariat
+            57 => array(1 => 406, 3 => 353, 4 => 300, 5 => 190, 6 => 246, 'result' =>  array(0 => 4, 1 => 4, 2 => 4, 3 => 4, 4 => 4, 5 => 3, 6 => 1, 7 => 3, 8 => 1, 9 => 3, 10 => 2, 11 => 2, 12 => 2, 13 => 2, 14 => 2, 15 => 2, 16 => 1)), // secrétariat
             58 => array(1 => 407, 3 => 354, 4 => 301, 5 => 191, 6 => 247, 'max' => 10), // ambiance:interne
             59 => array(1 => 408, 3 => 355, 4 => 302, 5 => 192, 6 => 248, 'max' => 10), // ambiance:médecins
             60 => array(1 => 409, 3 => 356, 4 => 303, 5 => 193, 6 => 249, 'max' => 10), // ambiance:paramed
@@ -374,8 +375,13 @@ class DefaultController extends Controller
         $valid['eval'] = 0;
         $error['form'] = 0;
         $error['form_row'] = '';
+        $max_row = $worksheet->getHighestRow();
+        $row = (int) $request->get('row', 2);
+        $rows = $row + 100;
+        if ($rows > $max_row)
+            $rows = $max_row;
 
-        for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
+        for ( ; $row <= $rows ; ++$row) {
             if ($placement_id = $worksheet->getCellByColumnAndRow(10, $row)->getValue()) {
                 $placement = $this->em->getRepository('GessehCoreBundle:Placement')->find($placement_id);
                 $evaluations = $this->em->getRepository('GessehEvaluationBundle:Evaluation')->getByPlacement($placement);
@@ -420,7 +426,7 @@ class DefaultController extends Controller
 
                     for ($i = 15 ; $i <= 90 ; ++$i) {
                         $excelValue = $worksheet->getCellByColumnAndRow($i, $row)->getValue();
-                        if ($excelValue == '-1') {
+                        if ($excelValue < 0) {
                             $error['empty']++;
                             continue;
                         }
@@ -448,11 +454,13 @@ class DefaultController extends Controller
                         } elseif (isset($q[$i]) and isset($c[$q[$i][$eval_form_id]])) {
                             $eval->setEvalCriteria($c[$q[$i][$eval_form_id]]);
 
-                            if (isset($q[$i][$eval_form_id]['result'])) {
-                                $value = $q[$i][$eval_form_id]['result'][$excelValue];
+                            if (isset($q[$i]['result'])) {
+                                $more = $eval->getEvalCriteria()->getMore();
+                                $options = explode('|', $more);
+                                $value = $options[$q[$i]['result'][$excelValue]];
                                 $eval->setValue($value);
-                            } elseif (isset($q[$i][$eval_form_id]['max'])) {
-                                $value = round($excelValue * 100 / $q[$i][$eval_form_id]['max']);
+                            } elseif (isset($q[$i]['max'])) {
+                                $value = round($excelValue * 100 / $q[$i]['max']);
                                 $eval->setValue($value);
                             } else {
                                 $eval->setValue($excelValue);
@@ -475,7 +483,10 @@ class DefaultController extends Controller
         $this->get('session')->getFlashBag()->add('error', 'Questions non trouvées (' . $error['form'] . ') : ' . $error['form_row']);
         $this->get('session')->getFlashBag()->add('warning', 'Evaluations : ' . $error['eval'] . ' ; Questions vides : ' . $error['empty']);
         $this->get('session')->getFlashBag()->add('notice', 'Evaluations : ' . $valid['eval'] . ' / ' . round($valid['eval'] / ($row - 2 + 1 - $error['none'])) . ' item par stage en moyenne');
-        return $this->redirect($this->generateUrl('homepage'));
+        if ($rows < $max_row)
+            return $this->redirect($this->generateUrl('GImport_DImportHospital', array('row' => $rows)));
+        else
+            return $this->redirect($this->generateUrl('homepage'));
     }
 
     /**
