@@ -168,14 +168,14 @@ class DefaultController extends Controller
      */
     public function preparePlacementForHospitalAction()
     {
-        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_hospital.xls');
+        $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_hospital.xlsx');
         $error['row'] = 0;
         $worksheet = $object->setActiveSheetIndex(0);
         $modId = array();
 
         for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
-            $student_id = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
-            $department_id = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
+            $student_id = (int) $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+            $department_id = (int) $worksheet->getCellByColumnAndRow(8, $row)->getValue();
             $placements = $this->em->getRepository('GessehCoreBundle:Placement')->getByStudentAndDepartment($student_id, $department_id);
 
             if ($placements) {
@@ -217,7 +217,7 @@ class DefaultController extends Controller
                 if (isset($modId[$worksheet->getCellByColumnAndRow(1, $row)->getValue()])) {
                     $worksheet->getCellByColumnAndRow(7, $row)->setValue($modId[$worksheet->getCellByColumnAndRow(1, $row)->getValue()]);
                 } else {
-                    $worksheet->getCellByColumnAndRow(0, $row)->setValue();
+                    $worksheet->getCellByColumnAndRow(7, $row)->setValue();
                 }
             }
         }
@@ -377,22 +377,29 @@ class DefaultController extends Controller
 
         for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
             if ($placement_id = $worksheet->getCellByColumnAndRow(10, $row)->getValue()) {
-                $placement = $this->em->getRepository('GessehCoreBundle:Placement')->find($worksheet->getCellByColumnAndRow(10, $row)->getValue());
-                if ($placement) {
+                $placement = $this->em->getRepository('GessehCoreBundle:Placement')->find($placement_id);
+                $evaluations = $this->em->getRepository('GessehEvaluationBundle:Evaluation')->getByPlacement($placement);
+                if ($placement and !$evaluations) {
                     $c = array();
                     $eval_forms = $this->em->getRepository('GessehEvaluationBundle:EvalForm')->getByPlacement($placement_id);
                     if (count($eval_forms) > 1) {
-                        $error['multiple']++;
-                        $error['row'] .= $row . ' [';
+                        $chu = false;
+                        $tmp = $row . ' [';
                         foreach ($eval_forms as $form) {
-                            $error['row'] .= $form->getId() . ',';
+                            $tmp .= $form->getId() . ',';
                             if($form->getId() != 2)
                                 $eval_form = $form;
+                            else
+                                $chu = true;
                         }
-                        $error['row'] .= '] - ';
+                        $tmp .= '] - ';
+                        if (!$chu or ($chu and !$eval_form)) {
+                            $error['row'] .= $tmp;
+                            $error['multiple']++;
+                        }
                     } elseif (!$eval_forms or $eval_forms[0]->getId() == 2) {
                         $error['none']++;
-                        $error['row'] .= $row . ' (' . $placement->getRepartition()->getDepartment()->getName() . ' à ' . $placement->getRepartition()->getDepartment()->getHospital()->getName() . ') - ';
+                        $error['row'] .= $row . ' (' . $placement->getRepartition()->getDepartment()->getName() . ' à ' . $placement->getRepartition()->getDepartment()->getHospital()->getName() . ' | ' . $placement->getId() . ') - ';
                         continue;
                     } else {
                          $eval_form = $eval_forms[0];
@@ -415,6 +422,11 @@ class DefaultController extends Controller
                         $excelValue = $worksheet->getCellByColumnAndRow($i, $row)->getValue();
                         if ($excelValue == '-1') {
                             $error['empty']++;
+                            continue;
+                        }
+                        if (null === $excelValue and !in_array($i, array(16, 18, 36, 53, 54, 55, 56, 61, 62, 63)) and $i < 65) {
+                            $error['empty']++;
+                            $error['form_row'] .= $row . ': ' . $i . '/' . $eval_form_id . ' (' . $eval->getEvalCriteria() . ') - ';
                             continue;
                         }
 
@@ -446,29 +458,23 @@ class DefaultController extends Controller
                                 $eval->setValue($excelValue);
                             }
                             $this->em->persist($eval);
+                            $valid['eval']++;
                         } else {
                             if (!in_array($i, array(16, 18, 36, 53, 54, 55, 56, 61, 62, 63)) and $i < 65) {
                                 $error['form']++;
                                 $error['form_row'] .= $row . ': ' . $i . '/' . $eval_form_id . ' - ';
                             }
                         }
-
-                        if (null !== $eval->getValue()) {
-                            $valid['eval']++;
-                        } elseif (!in_array($i, array(16, 18, 36, 53, 54, 55, 56, 61, 62, 63)) and $i < 65) {
-                            $error['empty']++;
-                            $error['form_row'] .= $row . ': ' . $i . '/' . $eval_form_id . ' (' . $eval->getEvalCriteria() . ' = ' . $excelValue . ') - ';
-                        }
                     }
-
                 }
             }
         }
+        $this->em->flush();
 
         $this->get('session')->getFlashBag()->add('error', 'Erreurs (multiples = ' . $error['multiple'] . ', nuls = ' . $error['none'] . ') : ' . $error['row']);
         $this->get('session')->getFlashBag()->add('error', 'Questions non trouvées (' . $error['form'] . ') : ' . $error['form_row']);
-        $this->get('session')->getFlashBag()->add('notice', 'Evaluations : ' . $valid['eval'] . ' / ' . $valid['eval'] / ($row - 2 + 1 - $error['none']));
         $this->get('session')->getFlashBag()->add('warning', 'Evaluations : ' . $error['eval'] . ' ; Questions vides : ' . $error['empty']);
+        $this->get('session')->getFlashBag()->add('notice', 'Evaluations : ' . $valid['eval'] . ' / ' . round($valid['eval'] / ($row - 2 + 1 - $error['none'])) . ' item par stage en moyenne');
         return $this->redirect($this->generateUrl('homepage'));
     }
 
