@@ -671,9 +671,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/moderation/hospital")
+     * @Route("/moderation/hospital", name="GImport_DModerationHospital")
      */
-    public function moderationHosptialAction()
+    public function moderationHosptialAction(Request $request)
     {
         $object = $this->get('phpexcel')->createPHPExcelObject(__DIR__.'/../Resources/data/eval_hospital.xlsx');
         $worksheet = $object->setActiveSheetIndex(1);
@@ -685,8 +685,13 @@ class DefaultController extends Controller
             1 => array(1 => 418, 3 => 365, 4 => 312, 5 => 202, 6 => 258), //Commentaire 1
             2 => array(1 => 419, 3 => 366, 4 => 313, 5 => 203, 6 => 259), //commentaires libres
         );
+        $max_row = $worksheet->getHighestRow();
+        $row = (int) $request->get('row', 2);
+        $rows = $row + 500;
+        if ($rows > $max_row)
+            $rows = $max_row;
 
-        for ($row = 2, $rows = $worksheet->getHighestRow() ; $row <= $rows ; ++$row) {
+        for ( ; $row <= $rows ; ++$row) {
             if ($placement_id = $worksheet->getCellByColumnAndRow(7, $row)->getValue()) {
                 if ($value = $worksheet->getCellByColumnAndRow(4, $row)->getValue()) {
                     $username = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
@@ -750,7 +755,10 @@ class DefaultController extends Controller
 
         $this->get('session')->getFlashBag()->add('error', 'Doublons : ' . $error['doublons'] . ' Détails : ' . $error['row'] . ' Modérations vides : ' . $error['empty']);
         $this->get('session')->getFlashBag()->add('notice', 'Modérations : ' . $valid['mod']);
-        return $this->redirect($this->generateUrl('homepage'));
+        if ($rows < $max_row)
+            return $this->redirect($this->generateUrl('GImport_DModerationHospital', array('row' => $rows)));
+        else
+            return $this->redirect($this->generateUrl('homepage'));
 
     }
 }
