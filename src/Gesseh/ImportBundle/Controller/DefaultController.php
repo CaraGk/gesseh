@@ -496,11 +496,11 @@ class DefaultController extends Controller
     public function importAmbuAction(Request $request)
     {
         $q = array(
-            15 => array(1 => 369, 3 => 316, 4 => 263, 5 => 153, 6 => 209), //Début de stage
-            17 => array(1 => 370, 3 => 317, 4 => 264, 5 => 154, 6 => 210), //Fin de stage
+            13 => array(1 => 369, 3 => 316, 4 => 263, 5 => 153, 6 => 209), //Début de stage
+            15 => array(1 => 370, 3 => 317, 4 => 264, 5 => 154, 6 => 210), //Fin de stage
             19 => array(1 => 371, 3 => 316, 4 => 265, 5 => 155, 6 => 211), //Demi journées
             20 => array(1 => 372, 3 => 319, 4 => 266, 5 => 156, 6 => 212), //Samedis
-            21 => array(1 => 418, 3 => 365, 4 => 312, 5 => 202, 6 => 258), //Commentaire 1
+            46 => array(1 => 418, 3 => 365, 4 => 312, 5 => 202, 6 => 258), //Commentaire 1
             22 => array(1 => 373, 3 => 320, 4 => 267, 5 => 157, 6 => 213, 'result' => array(0 => 1, 1 => 2, 3 => 3, 5 => 4)), //présentation équipe
             23 => array(1 => 374, 3 => 321, 4 => 268, 5 => 158, 6 => 214, 'result' => array(0 => 1, 1 => 2, 3 => 3, 5 => 4)), //organisation
             24 => array(1 => 375, 3 => 322, 4 => 269, 5 => 159, 6 => 215, 'result' => array(0 => 1, 1 => 2, 3 => 3, 5 => 4)), //objectifs
@@ -628,9 +628,10 @@ class DefaultController extends Controller
 
                         if ($i == 15 or $i == 17) {
                             $time = $excelValue . ':' . $worksheet->getCellByColumnAndRow($i+1, $row)->getValue() . ':00';
-                            $eval->setEvalCriteria($c[$q[15][$eval_form_id]]);
+                            $eval->setEvalCriteria($c[$q[$i][$eval_form_id]]);
                             $eval->setValue($time);
                             $this->em->persist($eval);
+                            $i++;
                         } elseif (isset($q[$i]) and isset($c[$q[$i][$eval_form_id]])) {
                             $eval->setEvalCriteria($c[$q[$i][$eval_form_id]]);
 

@@ -46,7 +46,7 @@ class Evaluation
     /**
      * @var string $value
      *
-     * @ORM\Column(name="value", type="string", length=255)
+     * @ORM\Column(name="value", type="text", length=65535)
      * @Assert\Range(max = 250)
      */
     private $value;
