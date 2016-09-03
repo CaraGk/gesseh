@@ -1,3 +1,8 @@
+gesseh_import:
+    resource: "@GessehImportBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 gesseh_register:
     resource: "@GessehRegisterBundle/Controller/"
     type:     annotation

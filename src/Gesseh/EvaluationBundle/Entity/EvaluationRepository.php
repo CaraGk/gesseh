@@ -71,6 +71,12 @@ class EvaluationRepository extends EntityRepository
     public function getByDepartment($id, $limit = null)
     {
         $query = $this->getByDepartmentQuery($id, $limit);
+        $query->addSelect('q')
+            ->addSelect('p')
+            ->addSelect('r')
+            ->addSelect('d')
+            ->addSelect('c')
+        ;
         $results = $query->getQuery()
                          ->getResult()
         ;
@@ -162,9 +168,8 @@ class EvaluationRepository extends EntityRepository
     public function countByDepartment($id, $limit = null)
     {
         $query = $this->getByDepartmentQuery($id, $limit);
-        $query->select('COUNT(DISTINCT p.id)')
-              ->groupBy('p.id')
-        ;
+        $query->select('COUNT(DISTINCT p.id)');
+
         return $query->getQuery()
                      ->getSingleScalarResult()
         ;

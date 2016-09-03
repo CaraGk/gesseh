@@ -39,6 +39,7 @@ class AppKernel extends Kernel
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             new Craue\FormFlowBundle\CraueFormFlowBundle(),
             new Payum\Bundle\PayumBundle\PayumBundle(),
+            new Gesseh\ImportBundle\GessehImportBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -151,4 +151,19 @@ class DepartmentRepository extends EntityRepository
 
         return $query;
     }
+
+    public function getByNameAndHospital($department_name, $hospital_name)
+    {
+        $query = $this->createQueryBuilder('d')
+            ->join('d.hospital', 'h')
+            ->where('LOWER(d.name) LIKE LOWER(:department_name)')
+            ->andWhere('h.name = :hospital_name')
+            ->setParameter('department_name', '%' . $department_name . '%')
+            ->setParameter('hospital_name', $hospital_name)
+            ->setMaxResults(1)
+        ;
+
+        return $query->getQuery()
+            ->getOneOrNullResult();
+    }
 }

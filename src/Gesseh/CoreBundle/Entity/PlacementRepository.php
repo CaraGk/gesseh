@@ -113,4 +113,22 @@ class PlacementRepository extends EntityRepository
                    ->getSingleScalarResult()
       ;
   }
+
+    public function getByStudentAndDepartment($student_id, $department_id)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->join('p.student', 's')
+            ->join('p.repartition', 'r')
+            ->join('r.period', 'q')
+            ->join('r.department', 'd')
+            ->where('s.id = :student_id')
+            ->andWhere('d.id = :department_id')
+            ->setParameter('student_id', $student_id)
+            ->setParameter('department_id', $department_id)
+        ;
+
+        return $query->getQuery()
+            ->getResult();
+    }
+
 }
