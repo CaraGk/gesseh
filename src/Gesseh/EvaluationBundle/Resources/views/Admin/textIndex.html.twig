@@ -7,22 +7,39 @@
 {% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
 
 {% block content %}
-    <ul class="entities evaluations">
+    <ul class="entities evaluations list-group">
         {% for evaluation in evaluations %}
-            <li class="entity evaluation">
-                <ul class="actions">
-                    <li><a href="{{ path('GEval_AModerationValid', {'id': evaluation.id}) }}" title="Valider l'évaluation"><img src="{{ asset('bundles/gessehcore/images/Valid.png') }}" alt="Valider" /></a></li>
-                    <li><a href="{{ path('GEval_AModerationEdit', {'id': evaluation.id}) }}" title="Modérer l'évaluation de l'item" class="edit"><img src="{{ asset('bundles/gessehcore/images/Pencil_2.png') }}" alt="Modifier" /></a></li>
-                </ul>
+            <li class="entity evaluation list-group-item">
+                <span class="btn-group pull-right">
+                    <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li class="action">
+                            <a href="{{ path('GEval_AModerationValid', {'id': evaluation.id}) }}" title="Valider l'évaluation">
+                                {{ icon('ok-circle') }} Valider
+                            </a>
+                        </li>
+                        <li class="action">
+                            <a href="{{ path('GEval_AModerationEdit', {'id': evaluation.id}) }}" title="Modérer l'évaluation de l'item" class="edit">
+                                {{ icon('pencil') }} Modifier
+                            </a>
+                        </li>
+                        <li class="actions">
+                            <a href="{{ path('GEval_AModerationInvalid', {'id': evaluation.id}) }}" title="Invalider l'évaluation" class="delete">
+                                {{ icon('remove-circle') }} Supprimer
+                            </a>
+                        </li>
+                    </ul>
+                </span>
+
                 <div class=""><strong>{{ evaluation.placement.repartition.department.name }} à {{ evaluation.placement.repartition.department.hospital.name }}</strong></div>
                 <div class=""><em>{{ evaluation.evalCriteria.name }}</em> du {{ evaluation.createdAt|date('d-m-Y') }} : </div>
                 <div class="value">{{ evaluation.value }}</div>
             </li>
         {% else %}
-            <li class="noentity evaluation">Aucun commentaire à afficher.</li>
+            <li class="noentity evaluation list-group-item">Aucun commentaire à afficher.</li>
         {% endfor %}
     </ul>
-    <div class="pagination">{{ knp_pagination_render(evaluations) }}</div>
+    <div class="pagination text-center">{{ knp_pagination_render(evaluations) }}</div>
 {% endblock %}
 
 {% block javascripts %}

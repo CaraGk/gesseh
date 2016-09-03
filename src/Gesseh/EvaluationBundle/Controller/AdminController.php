@@ -253,26 +253,31 @@ class AdminController extends Controller
         return $this->redirect($this->generateUrl('GEval_ATextIndex'));
     }
 
-  /**
-   * Supprime une évaluation textuelle
-   *
-   * @Route("/moderation/{id}/delete", name="GEval_ATextDelete", requirements={"id" = "\d+"})
-   */
-  public function textDeleteAction($id)
-  {
-    $em = $this->getDoctrine()->getManager();
-    $evaluation = $em->getRepository('GessehEvaluationBundle:Evaluation')->find($id);
+    /**
+     * Invalide une évaluation
+     *
+     * @Route("/moderation/{id}/delete", name="GEval_AModerationInvalid", requirements={"id" = "\d+"})
+     */
+    public function textDeleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $um = $this->container->get('fos_user.user_manager');
+        $user = $um->findUserByUsername($this->get('security.token_storage')->getToken()->getUsername());
+        $evaluation = $em->getRepository('GessehEvaluationBundle:Evaluation')->getToModerate($id);
 
-    if (!$evaluation)
-      throw $this->createNotFoundException('Unable to find evaluation entity.');
+        if(!$evaluation)
+          throw $this->createNotFoundException('Impossible de trouver l\'évaluation');
 
-    $em->remove($evaluation);
-    $em->flush();
+        $evaluation->setValidated(false);
+        $evaluation->setModerated(true);
+        $evaluation->setModerator($user);
+        $em->persist($evaluation);
+        $em->flush();
 
-    $this->get('session')->getFlashBag()->add('notice', 'Évaluation textuelle supprimée.');
+        $this->get('session')->getFlashBag()->add('notice', 'Évaluation supprimée.');
 
-    return $this->redirect($this->generateUrl('GEval_ATextIndex'));
-  }
+        return $this->redirect($this->generateUrl('GEval_ATextIndex'));
+    }
 
     /**
      * Modère une évaluation
