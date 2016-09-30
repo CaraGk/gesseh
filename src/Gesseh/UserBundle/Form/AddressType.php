@@ -78,6 +78,7 @@ class AddressType extends AbstractType
             ))
             ->add('country', 'country', array(
                 'label' => 'Pays',
+                'preferred_choices' => array('FR'),
             ))
         ;
     }
