@@ -31,4 +31,34 @@ class Gateway extends BaseGatewayConfig
      * @var integer $id
      */
      private $id;
+
+    public function __toString()
+    {
+        return $this->gatewayName;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get Description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        if ($this->factoryName == "offline")
+            return "Chèques, virement ou espèces";
+        elseif ($this->factoryName == "paypal_express_checkout")
+            return "Paypal";
+        else
+            return false;
+    }
 }

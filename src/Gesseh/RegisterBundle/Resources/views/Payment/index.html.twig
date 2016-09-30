@@ -1,0 +1,59 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Moyens de paiement
+{% endblock %}
+
+{% block titlecontent %}
+    Moyens de paiement
+{% endblock %}
+
+{% block actionscontent %}
+    <li class="btn btn-primary">
+        <a href="{{ path('GRegister_PNew') }}" title="Ajouter un nouveau moyen de paiement">
+            {{ icon('plus') }} Ajouter
+        </a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <ul class="entities gateways list-group">
+        {% for gateway in gateways %}
+            <li class="entity gateway list-group-item">
+                <span class="btn-group pull-right">
+                    <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li class="action">
+                            <a href="{{ path('GRegister_PEdit', {'id': gateway.id}) }}" title="Modifier le moyen de paiement '{{ gateway.gatewayName }}'" class="edit">
+                                {{ icon('pencil') }} Modifier
+                            </a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="action">
+                                <a href="{{ path('GRegister_PDelete', {'id': gateway.id}) }}" title="Supprimer le moyen de paiement '{{ gateway.gatewayName }}'" class="confirm delete" confirm="Attention, vous allez supprimer la gateway et toutes les informations s'y rapportant ! Voulez-vous continuer ?">
+                                    {{ icon('trash') }} Supprimer
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </span>
+
+                {{ gateway.Description }} ({{ gateway.factoryName }})
+            </li>
+        {% else %}
+            <li class="noentity gateway">
+                Aucun moyen de paiement enregistré enregistrée.
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('GRegister_PNew') }}" title="Ajouter un moyen de paiement">Ajouter un moyen de paiement</a>.
+                {% else %}
+                    Contactez un administrateur.
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+{% endblock %}

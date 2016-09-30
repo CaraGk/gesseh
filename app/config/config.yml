@@ -138,15 +138,10 @@ payum:
     security:
         token_storage:
             Gesseh\RegisterBundle\Entity\PaymentToken: { doctrine: orm }
-    gateways:
-        offline:
-            factory: offline
-        paypal:
-            factory:   paypal_express_checkout
-            username:  %payment_paypal_user%
-            password:  %payment_paypal_pswd%
-            signature: %payment_paypal_sign%
-            sandbox: true
+    dynamic_gateways:
+        sonata_admin: false
+        config_storage:
+            Gesseh\RegisterBundle\Entity\Gateway: { doctrine: orm }
 
 jms_security_extra:
     secure_all_services: true

@@ -1,0 +1,14 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - {% if gateway is not null %}{{ gateway.gatewayName }} - Modification {% else %} Moyen de paiement - Ajout {% endif %}
+{% endblock %}
+
+{% block titlecontent %}
+    {% if gateway is not null %}{{ gateway.gatewayName }} - Modification {% else %} Moyen de paiement - Ajout {% endif %}
+{% endblock %}
+
+{% block content %}
+    {{ form(form) }}
+{% endblock %}
+

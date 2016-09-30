@@ -2,6 +2,16 @@
 
 {% block titlecontent %}Paramètres{% endblock %}
 
+{% block actionscontent %}
+    {% if kparam('reg_active') == true %}
+        <li class="btn btn-primary">
+            <a href="{{ path('GRegister_PIndex') }}" title="Afficher les moyens de paiement">
+                {{ icon('piggy-bank') }} Moyens de paiement
+            </a>
+        </li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
   {{ form(parameter_form) }}
 {% endblock %}

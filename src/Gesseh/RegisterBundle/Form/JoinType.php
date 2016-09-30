@@ -12,7 +12,9 @@
 namespace Gesseh\RegisterBundle\Form;
 
 use Symfony\Component\Form\AbstractType,
-    Symfony\Component\Form\FormBuilderInterface;
+    Symfony\Component\Form\FormBuilderInterface,
+    Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * JoinType
@@ -21,17 +23,15 @@ class JoinType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('method', 'choice', array(
-                'choices' => array(
-                    'offline' => 'Chèque',
-                    'paypal'  => 'Paypal',
-                ),
+            ->add('method', EntityType::class, array(
+                'class' => 'Gesseh\RegisterBundle\Entity\Gateway',
+                'choice_label' => 'description',
                 'required' => true,
                 'multiple' => false,
                 'expanded' => true,
                 'label'    => 'Moyen de paiement'
             ))
-            ->add('Payer', 'submit')
+            ->add('Payer', SubmitType::class)
         ;
     }
 
@@ -44,9 +44,6 @@ class JoinType extends AbstractType {
     {
         $resolver->setDefaults(array(
             'data_class' => 'Gesseh\RegisterBundle\Entity\Membership',
-        ));
-
-        $resolver->setAllowedValues(array(
         ));
     }
 }

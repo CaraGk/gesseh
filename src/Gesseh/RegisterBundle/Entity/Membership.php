@@ -45,9 +45,8 @@ class Membership
     private $amount;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="method", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Gateway", cascade={"persist"})
+     * @ORM\JoinColumn(name="method_id", referencedColumnName="id")
      */
     private $method;
 

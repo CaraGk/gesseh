@@ -12,10 +12,15 @@
 namespace Gesseh\RegisterBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Payum\Core\Request\GetHumanStatus;
 use Symfony\Component\HttpFoundation\Request;
-use JMS\DiExtraBundle\Annotation as DI;
+use JMS\DiExtraBundle\Annotation as DI,
+    JMS\SecurityExtraBundle\Annotation as Security;
+use Gesseh\RegisterBundle\Entity\Gateway,
+    Gesseh\RegisterBundle\Form\GatewayType,
+    Gesseh\RegisterBundle\Form\GatewayHandler;
 
 class PaymentController extends Controller
 {
@@ -43,11 +48,6 @@ class PaymentController extends Controller
 
         if (!$membership or $membership->getStudent()->getUser() !== $user)
             throw $this->createNotFoundException('Impossible d\'effectuer la transaction. Contactez un administrateur.');
-
-        if ($gateway == 1)
-            $gateway = 'offline';
-        elseif ($gateway == 2)
-            $gateway = 'paypal';
 
         $storage = $this->get('payum')->getStorage('Gesseh\RegisterBundle\Entity\Payment');
 
@@ -84,14 +84,23 @@ class PaymentController extends Controller
         $payment = $status->getFirstModel();
 
         if ($status->isCaptured()) {
-            if ($gateway == 'offline') {
+            $method = $this->em->getRepository('GessehRegisterBundle:Gateway')->findOneBy(array('gatewayName' => $token->getGatewayName()));
+            $membership = $this->em->getRepository('GessehRegisterBundle:Membership')->find($payment->getClientId());
+
+            if ($method->getFactoryName() == 'offline') {
+                $config = $method->getConfig();
+                $address = $config['address']['number'] . ' ' . $config['address']['type'] . ' ' . $config['address']['street'];
+                if ($config['address']['complement'])
+                    $address .= ', ' . $config['address']['complement'];
+                $address .= ', ' . $config['address']['code'] . ', ' . $config['address']['city'] . ', ' . $config['address']['country'];
+
                 $this->addFlash('warning', 'Demande d\'adhésion enregistrée. L\'adhésion ne pourra être validée qu\'une fois le paiement reçu.');
-                $this->addFlash('notice', 'Pour un paiement par chèque : le chèque de ' . $membership->getAmount() . ' euros est à libeller à l\'ordre de ' . $this->pm->findParamByName('reg_order')->getValue() . ' et à retourner à l\'adresse ' . $structure()->getPrintableAddress() . '.');
+                $this->addFlash('notice', 'Pour un paiement par chèque : le chèque de ' . $membership->getAmount() . ' euros est à libeller à l\'ordre de ' . $config['payableTo'] . ' et à retourner à l\'adresse ' . $address . '.');
                 $this->addFlash('notice', 'Pour un paiement par virement : veuillez contacter la structure pour effectuer le virement.');
-            } else {
-                $membership = $this->em->getRepository('GessehRegisterBundle:Membership')->find($payment->getClientId());
+            } elseif ($method->getFactoryName() == 'paypal_express_checkout') {
                 $membership->setPayedOn(new \DateTime('now'));
                 $membership->setPayment($payment);
+                $membership->setMethod($method);
 
                 $this->em->persist($membership);
                 $this->em->flush();
@@ -102,5 +111,86 @@ class PaymentController extends Controller
              $this->addFlash('error', 'Le paiement a échoué.');
         }
         return $this->redirect($this->generateUrl('GRegister_UIndex'));
+    }
+
+    /**
+     * Show gateways
+     *
+     * @Route("/admin/gateway/index", name="GRegister_PIndex")
+     * @Template()
+     * @Security\Secure(roles="ROLE_ADMIN")
+     */
+    public function indexAction()
+    {
+        $gateways = $this->em->getRepository('GessehRegisterBundle:Gateway')->findAll();
+
+        if (!$gateways)
+            throw $this->createNotFoundException('Impossible de trouver une Gateway');
+
+        return array(
+            'gateways' => $gateways,
+        );
+    }
+
+    /**
+     * Add a new gateway
+     *
+     * @Route("/admin/gateway/new", name="GRegister_PNew")
+     * @Template("GessehRegisterBundle:Payment:edit.html.twig")
+     * @Security\Secure(roles="ROLE_ADMIN")
+     */
+    public function newAction(Request $request)
+    {
+        $gateway = new Gateway();
+        $form = $this->createForm(GatewayType::class, $gateway);
+        $formHandler = new GatewayHandler($form, $request, $this->em);
+
+        if ($formHandler->process()) {
+            $this->session->getFlashBag()->add('notice', 'Moyen de paiement "' . $gateway . '" enregistré.');
+            return $this->redirect($this->generateUrl('GRegister_PIndex'));
+        }
+
+        return array(
+            'form'    => $form->createview(),
+            'gateway' => null,
+        );
+    }
+
+    /**
+     * Edit a gateway
+     *
+     * @Route("/admin/gateway/{id}/edit", name="GRegister_PEdit", requirements={"id" = "\d+"})
+     * @Template("GessehRegisterBundle:Payment:edit.html.twig")
+     * @Security\Secure(roles="ROLE_ADMIN")
+     */
+    public function editAction(Gateway $gateway, Request $request)
+    {
+        $form = $this->createForm(GatewayType::class, $gateway);
+        $formHandler = new GatewayHandler($form, $request, $this->em);
+
+        if ($formHandler->process()) {
+            $this->session->getFlashBag()->add('notice', 'Moyen de paiement "' . $gateway . '" modifié.');
+            return $this->redirect($this->generateUrl('GRegister_PIndex'));
+        }
+
+        return array(
+            'form'    => $form->createview(),
+            'gateway' => $gateway,
+        );
+    }
+
+    /**
+     * Delete a gateway
+     *
+     * @Route("/admin/gateway/{id}/delete", name="GRegister_PDelete", requirements={"id" = "\d+"})
+     * @Security\Secure(roles="ROLE_ADMIN")
+     */
+    public function deleteAction(Gateway $gateway)
+    {
+        $this->em->remove($gateway);
+        $this->em->flush();
+
+        $this->get('session')->getFlashBag()->add('notice', 'Moyen de paiement "' . $gateway . '" supprimé.');
+        return $this->redirect($this->generateUrl('GRegister_PIndex'));
     }
 }
