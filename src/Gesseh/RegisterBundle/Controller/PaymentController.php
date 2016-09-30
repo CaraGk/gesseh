@@ -15,9 +15,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Payum\Core\Request\GetHumanStatus;
 use Symfony\Component\HttpFoundation\Request;
+use JMS\DiExtraBundle\Annotation as DI;
 
 class PaymentController extends Controller
 {
+    /** @DI\Inject */
+    private $session;
+
+    /** @DI\Inject("doctrine.orm.entity_manager") */
+    private $em;
+
+    /** @DI\Inject("fos_user.user_manager") */
+    private $um;
+
+    /** @DI\Inject("kdb_parameters.manager") */
+    private $pm;
+
     /**
      * Prepare action
      *
@@ -25,11 +38,8 @@ class PaymentController extends Controller
      */
     public function prepareAction($gateway, $memberid)
     {
-        $em = $this->getDoctrine()->getManager();
-        $pm = $this->container->get('kdb_parameters.manager');
-        $um = $this->container->get('fos_user.user_manager');
-        $user = $um->findUserByUsername($this->get('security.token_storage')->getToken()->getUsername());
-        $membership = $em->getRepository('GessehRegisterBundle:Membership')->find($memberid);
+        $user = $this->um->findUserByUsername($this->get('security.token_storage')->getToken()->getUsername());
+        $membership = $this->em->getRepository('GessehRegisterBundle:Membership')->find($memberid);
 
         if (!$membership or $membership->getStudent()->getUser() !== $user)
             throw $this->createNotFoundException('Impossible d\'effectuer la transaction. Contactez un administrateur.');
@@ -45,7 +55,7 @@ class PaymentController extends Controller
 
         $payment->setNumber(uniqid());
         $payment->setCurrencyCode('EUR');
-        $payment->setTotalAmount($pm->findParamByName('reg_payment')->getValue() * 100);
+        $payment->setTotalAmount($this->pm->findParamByName('reg_payment')->getValue() * 100);
         $payment->setDescription('Adhésion de ' . $user->getEmail() . ' via ' . $gateway);
         $payment->setClientId($memberid);
         $payment->setClientEmail($user->getEmail());
@@ -68,7 +78,6 @@ class PaymentController extends Controller
      */
     public function doneAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
         $gateway = $this->get('payum')->getGateway($token->getGatewayName());
         $gateway->execute($status = new GetHumanStatus($token));
@@ -76,16 +85,18 @@ class PaymentController extends Controller
 
         if ($status->isCaptured()) {
             if ($gateway == 'offline') {
-                 $this->addFlash('warning', 'Choix enregistré. L\'adhésion sera validée un fois le chèque reçu.');
+                $this->addFlash('warning', 'Demande d\'adhésion enregistrée. L\'adhésion ne pourra être validée qu\'une fois le paiement reçu.');
+                $this->addFlash('notice', 'Pour un paiement par chèque : le chèque de ' . $membership->getAmount() . ' euros est à libeller à l\'ordre de ' . $this->pm->findParamByName('reg_order')->getValue() . ' et à retourner à l\'adresse ' . $structure()->getPrintableAddress() . '.');
+                $this->addFlash('notice', 'Pour un paiement par virement : veuillez contacter la structure pour effectuer le virement.');
             } else {
-                $membership = $em->getRepository('GessehRegisterBundle:Membership')->find($payment->getClientId());
+                $membership = $this->em->getRepository('GessehRegisterBundle:Membership')->find($payment->getClientId());
                 $membership->setPayedOn(new \DateTime('now'));
                 $membership->setPayment($payment);
 
-                $em->persist($membership);
-                $em->flush();
+                $this->em->persist($membership);
+                $this->em->flush();
 
-                $this->addFlash('notice', 'Le paiement a réussi. L\'adhésion est validée.');
+                $this->addFlash('notice', 'Le paiement de ' . $membership->getAmount() . ' euros par Paypal Express a réussi. L\'adhésion est validée.');
             }
         } else {
              $this->addFlash('error', 'Le paiement a échoué.');
