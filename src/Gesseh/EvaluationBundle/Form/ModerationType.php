@@ -44,7 +44,6 @@ class ModerationType extends AbstractType
             $builder->add('value', 'textarea', array(
                 'required'   => $criteria->isRequired(),
                 'trim'       => true,
-                'max_length' => 250,
                 'label'      => $criteria->getName(),
                 'data'       => $this->evaluation->getValue(),
             ));

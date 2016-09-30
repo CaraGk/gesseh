@@ -59,7 +59,6 @@ class EvaluationType extends AbstractType
                     $builder->add('criteria_' . $criteria->getId(), 'textarea', array(
                         'required'   => $criteria->isRequired(),
                         'trim'       => true,
-                        'max_length' => 250,
                         'label'      => $label,
                         'help_label_tooltip' => $tooltip,
                     ));
