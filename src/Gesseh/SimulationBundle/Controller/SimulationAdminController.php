@@ -417,7 +417,7 @@ class SimulationAdminController extends Controller
         $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getAllValid();
         $simulPeriod = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getLastActive();
         if (!simulPeriod) {
-            $this->get('session')->getFlashBag()->add('error', 'Il n\'y a aucune simulation antérieure retrouvée.');
+            $this->get('session')->getFlashBag()->add('error', 'Il n'y a aucune simulation antérieure retrouvée.');
 
             return $this->redirect($this->generateUrl('GSimul_SAList'));
         } else {
