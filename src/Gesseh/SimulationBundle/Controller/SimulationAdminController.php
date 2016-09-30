@@ -406,45 +406,52 @@ class SimulationAdminController extends Controller
      */
     public function saveAction()
     {
-      $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-      if ($em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
-        $this->get('session')->getFlashBag()->add('error', 'La simulation est toujours active ! Vous ne pourrez la valider qu\'une fois qu\'elle sera inactive. Aucune donnée n\'a été copiée.');
+        if ($em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
+            $this->get('session')->getFlashBag()->add('error', 'La simulation est toujours active ! Vous ne pourrez la valider qu\'une fois qu\'elle sera inactive. Aucune donnée n\'a été copiée.');
 
-        return $this->redirect($this->generateUrl('GSimul_SAList'));
-      }
-
-      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getAllValid();
-      $period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
-
-      foreach ($sims as $sim) {
-        if ($current_repartition = $sim->getDepartment()->findRepartition($period)) {
-            if($cluster_name = $repartition->getCluster()) {
-                $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
-
-                foreach ($other_repartitions as $repartition) {
-                    $placement = new Placement();
-                    $placement->setStudent($sim->getStudent());
-                    $placement->setDepartment($repartition->getDepartment());
-                    $placement->setRepartition($repartition);
-                    $placement->setPeriod($period);
-                    $em->persist($placement);
-                }
-            }
-        } else {
-            $placement = new Placement();
-            $placement->setStudent($sim->getStudent());
-            $placement->setDepartment($sim->getDepartment());
-            $placement->setPeriod($period);
-            $em->persist($placement);
+            return $this->redirect($this->generateUrl('GSimul_SAList'));
         }
-      }
 
-      $em->flush();
+        $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getAllValid();
+        $simulPeriod = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getLastActive();
+        if (!simulPeriod) {
+            $this->get('session')->getFlashBag()->add('error', 'Il n'y a aucune simulation antérieure retrouvée.');
 
-      $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été copiées dans les stages.');
+            return $this->redirect($this->generateUrl('GSimul_SAList'));
+        } else {
+            $period = $simulPeriod->getPeriod();
+        }
 
-      return $this->redirect($this->generateUrl('GSimul_SAPurge'));
+        foreach ($sims as $sim) {
+            if ($current_repartition = $sim->getDepartment()->findRepartition($period)) {
+                if($cluster_name = $repartition->getCluster()) {
+                    $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
+
+                    foreach ($other_repartitions as $repartition) {
+                        $placement = new Placement();
+                        $placement->setStudent($sim->getStudent());
+                        $placement->setDepartment($repartition->getDepartment());
+                        $placement->setRepartition($repartition);
+                        $placement->setPeriod($period);
+                        $em->persist($placement);
+                    }
+                }
+            } else {
+                $placement = new Placement();
+                $placement->setStudent($sim->getStudent());
+                $placement->setDepartment($sim->getDepartment());
+                $placement->setPeriod($period);
+                $em->persist($placement);
+            }
+        }
+
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été copiées dans les stages.');
+
+        return $this->redirect($this->generateUrl('GSimul_SAPurge'));
     }
 
     /**
