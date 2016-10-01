@@ -86,6 +86,7 @@ class PaymentController extends Controller
         if ($status->isCaptured()) {
             $method = $this->em->getRepository('GessehRegisterBundle:Gateway')->findOneBy(array('gatewayName' => $token->getGatewayName()));
             $membership = $this->em->getRepository('GessehRegisterBundle:Membership')->find($payment->getClientId());
+            $details = $payment->getDetails();
 
             if ($method->getFactoryName() == 'offline') {
                 $config = $method->getConfig();
@@ -98,7 +99,9 @@ class PaymentController extends Controller
                 $this->addFlash('notice', 'Pour un paiement par chèque : le chèque de ' . $membership->getAmount() . ' euros est à libeller à l\'ordre de ' . $config['payableTo'] . ' et à retourner à l\'adresse ' . $address . '.');
                 $this->addFlash('notice', 'Pour un paiement par virement : veuillez contacter la structure pour effectuer le virement.');
             } elseif ($method->getFactoryName() == 'paypal_express_checkout') {
-                $membership->setPayedOn(new \DateTime('now'));
+                if ($details['ACK'] == 'Success') {
+                    $membership->setPayedOn(new \DateTime('now'));
+                }
                 $membership->setPayment($payment);
                 $membership->setMethod($method);
 
