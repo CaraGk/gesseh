@@ -15,7 +15,8 @@ use Symfony\Component\Form\AbstractType,
     Symfony\Component\Form\FormBuilderInterface,
     Symfony\Component\Form\Extension\Core\Type\TextType,
     Symfony\Component\Form\Extension\Core\Type\ChoiceType,
-    Symfony\Component\Form\Extension\Core\Type\SubmitType;
+    Symfony\Component\Form\Extension\Core\Type\SubmitType,
+    Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Gesseh\UserBundle\Form\AddressType;
 
 /**
@@ -33,6 +34,9 @@ class GatewayConfigType extends AbstractType
         ))
         ->add('signature', TextType::class, array(
             'required' => false,
+        ))
+        ->add('sandbox', HiddenType::class, array(
+            'data' => false,
         ))
         ->add('payableTo', TextType::class, array(
             'label' => 'Ordre (chèque)',
