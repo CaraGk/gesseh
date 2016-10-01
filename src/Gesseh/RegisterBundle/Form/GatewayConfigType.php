@@ -36,7 +36,7 @@ class GatewayConfigType extends AbstractType
             'required' => false,
         ))
         ->add('sandbox', HiddenType::class, array(
-            'data' => false,
+            'data' => '0',
         ))
         ->add('payableTo', TextType::class, array(
             'label' => 'Ordre (chèque)',
