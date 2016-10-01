@@ -14,9 +14,8 @@ namespace Gesseh\RegisterBundle\Form;
 use Symfony\Component\Form\AbstractType,
     Symfony\Component\Form\FormBuilderInterface,
     Symfony\Component\Form\Extension\Core\Type\TextType,
-    Symfony\Component\Form\Extension\Core\Type\ChoiceType,
-    Symfony\Component\Form\Extension\Core\Type\SubmitType,
-    Symfony\Component\Form\Extension\Core\Type\HiddenType;
+    Symfony\Component\Form\Extension\Core\Type\CheckboxType,
+    Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Gesseh\UserBundle\Form\AddressType;
 
 /**
@@ -35,8 +34,10 @@ class GatewayConfigType extends AbstractType
         ->add('signature', TextType::class, array(
             'required' => false,
         ))
-        ->add('sandbox', HiddenType::class, array(
-            'data' => '0',
+        ->add('sandbox', CheckboxType::class, array(
+            'required' => false,
+            'label'    => 'Identifiants de test pour Paypal (à décocher pour permettre les transactions)',
+            'value'    => false,
         ))
         ->add('payableTo', TextType::class, array(
             'label' => 'Ordre (chèque)',

@@ -28,7 +28,7 @@ class GatewayType extends AbstractType
                 'label'   => 'Type',
                 'choices' => array(
                     'Chèques, virement ou espèces' => 'offline',
-                    'Paypal'             => 'paypal_express_checkout',
+                    'Paypal'                       => 'paypal_express_checkout',
                 ),
                 'multiple' => false,
                 'expanded' => false,
