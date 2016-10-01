@@ -101,17 +101,20 @@ class PaymentController extends Controller
             } elseif ($method->getFactoryName() == 'paypal_express_checkout') {
                 if ($details['ACK'] == 'Success') {
                     $membership->setPayedOn(new \DateTime('now'));
+                    $this->addFlash('notice', 'Le paiement de ' . $membership->getAmount() . ' euros par Paypal Express a réussi. L\'adhésion est validée.');
+                } elseif ($details['ACK'] == 'Pending') {
+                    $this->addFlash('notice', 'Le paiement de ' . $membership->getAmount() . ' euros par Paypal Express est en attente d\'une confirmation de Paypal. L\'adhésion sera validée dès la confirmation reçue.');
+                } else {
+                    $this->addFlash('error', 'Le paiement de ' . $membership->getAmount() . ' euros par Paypal Express a échoué. Veuillez contacter l\'administrateur du site.');
                 }
                 $membership->setPayment($payment);
                 $membership->setMethod($method);
 
                 $this->em->persist($membership);
                 $this->em->flush();
-
-                $this->addFlash('notice', 'Le paiement de ' . $membership->getAmount() . ' euros par Paypal Express a réussi. L\'adhésion est validée.');
             }
         } else {
-             $this->addFlash('error', 'Le paiement a échoué.');
+             $this->addFlash('error', 'Le paiement a échoué ou a été annulé. En cas de problème, veuillez contacter l\'administrateur du site.');
         }
         return $this->redirect($this->generateUrl('GRegister_UIndex'));
     }
