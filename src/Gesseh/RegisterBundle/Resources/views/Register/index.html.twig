@@ -30,19 +30,21 @@
                                 Questions complémentaires
                             </a>
                         </li>
-                        {% if is_granted('ROLE_ADMIN') and membership.payedOn is null %}
-                            <li>
-                                <a href="{{ path('GRegister_AValidate', {'id': membership.id, 'userid': userid}) }}" title="Valider la réception du paiement pour cette adhésion">
-                                    <span class="glyphicon glyphicon-ok-circle"></span>
-                                    Valider
-                                </a>
-                            </li>
+                        {% if membership.payedOn is null %}
                             <li>
                                 <a href="{{ path('GRegister_ADelete', {'id': membership.id, 'userid': userid}) }}" title="Supprimer cette adhésion">
                                     <span class="glyphicon glyphicon-remove-circle"></span>
                                     Supprimer
                                 </a>
                             </li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li>
+                                    <a href="{{ path('GRegister_AValidate', {'id': membership.id, 'userid': userid}) }}" title="Valider la réception du paiement pour cette adhésion">
+                                        <span class="glyphicon glyphicon-ok-circle"></span>
+                                        Valider
+                                    </a>
+                                </li>
+                            {% endif %}
                         {% endif %}
                     </ul>
                 </span>

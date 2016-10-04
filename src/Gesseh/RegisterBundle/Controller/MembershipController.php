@@ -70,7 +70,7 @@ class MembershipController extends Controller
     /**
      * Delete membership
      *
-     * @Route("/admin/membership/{id}/delete", name="GRegister_ADelete", requirements={"id" = "\d+"})
+     * @Route("/user/membership/{id}/delete", name="GRegister_ADelete", requirements={"id" = "\d+"})
      * @Security\Secure(roles="ROLE_STUDENT, ROLE_ADMIN")
      */
     public function deleteAction(Membership $membership, Request $request)
