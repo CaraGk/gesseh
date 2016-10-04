@@ -23,18 +23,15 @@ use Gesseh\RegisterBundle\Entity\Membership,
  */
 class RegisterHandler
 {
-    private $form, $request, $em, $um, $payment, $token;
+    private $form, $request, $em, $um, $token;
 
-    public function __construct(Form $form, Request $request, EntityManager $em, UserManager $um, $payment, $token, $reg_date = "2015-09-01", $reg_periodicity = "+ 1 year")
+    public function __construct(Form $form, Request $request, EntityManager $em, UserManager $um, $token)
     {
       $this->form    = $form;
       $this->request = $request;
       $this->em      = $em;
       $this->um      = $um;
-      $this->payment = $payment;
       $this->token   = $token;
-      $this->date    = $reg_date;
-      $this->periodicity = $reg_periodicity;
     }
 
     public function process()

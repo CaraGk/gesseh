@@ -12,41 +12,54 @@
 namespace Gesseh\RegisterBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\DiExtraBundle\Annotation as DI,
+    JMS\SecurityExtraBundle\Annotation as Security;
 use Gesseh\RegisterBundle\Entity\Membership;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Gesseh\RegisterBundle\Form\FilterType,
     Gesseh\RegisterBundle\Form\FilterHandler;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
- * RegisterBundle AdminController
+ * RegisterBundle MembershipController
  *
- * @Route("/admin/membership")
+ * @Route("/")
  */
-class AdminController extends Controller
+class MembershipController extends Controller
 {
+    /** @DI\Inject */
+    private $session;
+
+    /** @DI\Inject("doctrine.orm.entity_manager") */
+    private $em;
+
+    /** @DI\Inject("fos_user.user_manager") */
+    private $um;
+
+    /** @DI\Inject("kdb_parameters.manager") */
+    private $pm;
+
     /**
      * Validate payment
      *
-     * @Route("/{id}/validate", name="GRegister_AValidate", requirements={"id" = "\d+"})
+     * @Route("/admin/membership/{id}/validate", name="GRegister_AValidate", requirements={"id" = "\d+"})
+     * @Security\Secure(roles="ROLE_ADMIN")
      */
-    public function validateAction($id)
+    public function validateAction(Membership $membership, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $userid = $this->get('request')->query->get('userid', null);
-        $view = $this->get('request')->query->get('view', null);
-        $membership = $em->getRepository('GessehRegisterBundle:Membership')->find($id);
+        $userid = $request->query->get('userid', null);
+        $view = $request->query->get('view', null);
 
         if (!$membership or $membership->getPayedOn() != null)
             throw $this->createNotFoundException('Unable to find Membership entity');
 
         $membership->setPayedOn(new \DateTime('now'));
-        $em->persist($membership);
-        $em->flush();
+        $this->em->persist($membership);
+        $this->em->flush();
 
-        $this->get('session')->getFlashBag()->add('notice', 'Paiement validé !');
+        $this->session->getFlashBag()->add('notice', 'Paiement validé !');
 
         if ($view == 'index')
             return $this->redirect($this->generateUrl('GRegister_AIndex'));
@@ -57,22 +70,21 @@ class AdminController extends Controller
     /**
      * Delete membership
      *
-     * @Route("/{id}/delete", name="GRegister_ADelete", requirements={"id" = "\d+"})
+     * @Route("/admin/membership/{id}/delete", name="GRegister_ADelete", requirements={"id" = "\d+"})
+     * @Security\Secure(roles="ROLE_STUDENT, ROLE_ADMIN")
      */
-    public function deleteAction($id)
+    public function deleteAction(Membership $membership, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $userid = $this->get('request')->query->get('userid', null);
-        $view = $this->get('request')->query->get('view', null);
-        $membership = $em->getRepository('GessehRegisterBundle:Membership')->find($id);
+        $userid = $request->query->get('userid', null);
+        $view = $request->query->get('view', null);
 
         if (!$membership or $membership->getPayedOn() != null)
             throw $this->createNotFoundException('Unable to find Membership entity');
 
-        $em->remove($membership);
-        $em->flush();
+        $this->em->remove($membership);
+        $this->em->flush();
 
-        $this->get('session')->getFlashBag()->add('notice', 'Adhésion supprimée !');
+        $this->session->getFlashBag()->add('notice', 'Adhésion supprimée !');
 
         if ($view == 'index')
             return $this->redirect($this->generateUrl('GRegister_AIndex'));
@@ -83,19 +95,19 @@ class AdminController extends Controller
     /**
      * List active memberships
      *
-     * @Route("/", name="GRegister_AIndex")
+     * @Route("/admin/membership", name="GRegister_AIndex")
      * @Template()
+     * @Security\Secure(roles="ROLE_ADMIN")
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $limit = $request->query->get('limit', null);
-        $questions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
-        $membership_filters = $request->getSession()->get('gregister_membership_filter', array(
+        $questions = $this->em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
+        $membership_filters = $this->session->get('gregister_membership_filter', array(
             'valid'     => null,
             'questions' => null,
         ));
-        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll($membership_filters);
+        $memberships = $this->em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll($membership_filters);
 
         return array(
             'memberships' => $memberships,
@@ -107,15 +119,15 @@ class AdminController extends Controller
     /**
      * Export active memberships
      *
-     * @Route("/export", name="GRegister_AExport")
+     * @Route("/admin/membership/export", name="GRegister_AExport")
+     * @Security\Secure(roles="ROLE_ADMIN")
      */
     public function exportAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $memberships = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAllComplete();
-        $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
-        $memberquestions = $em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
-        $memberinfos = $em->getRepository('GessehRegisterBundle:MemberInfo')->getCurrentInArray();
+        $memberships = $this->em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAllComplete();
+        $sectors = $this->em->getRepository('GessehCoreBundle:Sector')->findAll();
+        $memberquestions = $this->em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
+        $memberinfos = $this->em->getRepository('GessehRegisterBundle:MemberInfo')->getCurrentInArray();
 
         $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
         $phpExcelObject->getProperties()->setCreator("GESSEH")
@@ -219,12 +231,12 @@ class AdminController extends Controller
     /**
      * Add Filter action
      *
-     * @Route("/filter/add/{type}/{id}/{value}", name="GRegister_AAddFilter")
+     * @Route("/admin/membership/filter/add/{type}/{id}/{value}", name="GRegister_AAddFilter")
+     * @Security\Secure(roles="ROLE_ADMIN")
      */
     public function addFilterAction($type, $id, $value)
     {
-        $session = $this->get('session');
-        $membership_filters = $session->get('gregister_membership_filter', array(
+        $membership_filters = $this->session->get('gregister_membership_filter', array(
             'valid'     => null,
             'questions' => null,
         ));
@@ -235,7 +247,7 @@ class AdminController extends Controller
             $membership_filters[$type][$id] = $value;
         }
 
-        $session->set('gregister_membership_filter', $membership_filters);
+        $this->session->set('gregister_membership_filter', $membership_filters);
 
         return $this->redirect($this->generateUrl('GRegister_AIndex'));
     }
@@ -243,12 +255,12 @@ class AdminController extends Controller
     /**
      * Remove Filter action
      *
-     * @Route("/filter/remove/{type}/{id}", name="GRegister_ARemoveFilter")
+     * @Route("/admin/membershipfilter/remove/{type}/{id}", name="GRegister_ARemoveFilter")
+     * @Security\Secure(roles="ROLE_ADMIN")
      */
     public function removeFilterAction($type, $id)
     {
-        $session = $this->get('session');
-        $membership_filters = $session->get('gregister_membership_filter', array(
+        $membership_filters = $this->session->get('gregister_membership_filter', array(
             'valid'     => null,
             'questions' => null,
         ));
@@ -261,7 +273,7 @@ class AdminController extends Controller
             }
         }
 
-        $session->set('gregister_membership_filter', $membership_filters);
+        $this->session->set('gregister_membership_filter', $membership_filters);
 
         return $this->redirect($this->generateUrl('GRegister_AIndex'));
     }

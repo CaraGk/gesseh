@@ -21,17 +21,15 @@ use Symfony\Component\Form\Form,
  */
 class JoinHandler
 {
-    private $form, $request, $em, $um, $payment, $token;
+    private $form, $request, $em, $um, $token, $params;
 
-    public function __construct(Form $form, Request $request, EntityManager $em, $payment, $student, $reg_date = "2015-09-01", $reg_periodicity = "+ 1 year")
+    public function __construct(Form $form, Request $request, EntityManager $em, $student, $params)
     {
       $this->form    = $form;
       $this->request = $request;
       $this->em      = $em;
-      $this->payment = $payment;
       $this->student = $student;
-      $this->date    = $reg_date;
-      $this->periodicity = $reg_periodicity;
+      $this->params  = $params;
     }
 
     public function process()
@@ -51,13 +49,13 @@ class JoinHandler
 
     public function onSuccess(Membership $membership)
     {
-        $expire = new \DateTime($this->date);
+        $expire = new \DateTime($this->params['date']);
         $now = new \DateTime('now');
         while ($expire <= $now) {
-            $expire->modify($this->periodicity);
+            $expire->modify($this->params['periodicity']);
         }
 
-        $membership->setAmount($this->payment);
+        $membership->setAmount($this->params['payment']);
         $membership->setExpiredOn($expire);
         $membership->setStudent($this->student);
 
