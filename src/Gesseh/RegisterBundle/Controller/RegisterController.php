@@ -17,7 +17,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\DiExtraBundle\Annotation as DI,
     JMS\SecurityExtraBundle\Annotation as Security;
-use Gesseh\RegisterBundle\Entity\MemberQuestion,
+use Gesseh\RegisterBundle\Entity\Membership,
+    Gesseh\RegisterBundle\Entity\MemberQuestion,
     Gesseh\RegisterBundle\Form\RegisterType,
     Gesseh\RegisterBundle\Form\RegisterHandler,
     Gesseh\RegisterBundle\Form\JoinType,
@@ -193,7 +194,7 @@ class RegisterController extends Controller
         $student = $this->em->getRepository('GessehUserBundle:Student')->getByUsername($username);
 
         $questions = $this->em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
-        $membership = $this->em->getRepository('Gesseh\RegisterBundle\Entity\Membership')->getCurrentForStudent($student);
+        $membership = $this->em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student);
 
         $form = $this->createForm(new QuestionType($questions));
         $form_handler = new QuestionHandler($form, $request, $this->em, $membership, $questions);
