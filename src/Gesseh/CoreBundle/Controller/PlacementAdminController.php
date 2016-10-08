@@ -270,14 +270,10 @@ class PlacementAdminController extends Controller
      * @Route("/period/{period_id}/repartitions", name="GCore_PARepartitionsPeriod", requirements={"period_id" = "\d+"})
      * @Template("GessehCoreBundle:PlacementAdmin:repartitionsEdit.html.twig")
      */
-    public function repartitionsForPeriodEditAction($period_id)
+    public function repartitionsForPeriodEditAction(Period $period)
     {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $period = $em->getRepository('GessehCoreBundle:Period')->find($period_id);
-
-        if(!$period)
-            throw $this->createNotFoundException('Unable to find period entity.');
 
         $hospital_id = $this->getRequest()->query->get('hospital_id', 0);
         $hospital_count = $this->getRequest()->query->get('hospital_count', 0);
@@ -287,7 +283,7 @@ class PlacementAdminController extends Controller
         if (!$next_hospital)
             return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
 
-        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($period_id, $next_hospital->getId());
+        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($period, $next_hospital->getId());
 
         $form = $this->createForm(new RepartitionsType($repartitions, 'period'), $repartitions);
         $form_handler = new RepartitionsHandler($form, $this->get('request'), $em, $repartitions);
@@ -357,7 +353,7 @@ class PlacementAdminController extends Controller
         }
         $count = 0;
         foreach ($periods as $period) {
-            if (!$em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndDepartment($period->getId(), $department->getId())) {
+            if (!$em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndDepartment($period, $department->getId())) {
                 $repartition = new Repartition();
                 $repartition->setDepartment($department);
                 $repartition->setPeriod($period);
@@ -388,7 +384,7 @@ class PlacementAdminController extends Controller
 
         $count = 0;
         foreach ($periods as $period) {
-            if (!$em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndDepartment($period->getId(), $department_id)) {
+            if (!$em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndDepartment($period, $department_id)) {
                 $repartition = new Repartition();
                 $repartition->setDepartment($department);
                 $repartition->setPeriod($period);

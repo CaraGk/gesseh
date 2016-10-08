@@ -33,35 +33,39 @@ class RepartitionRepository extends EntityRepository
         ;
     }
 
-    public function getByPeriodQuery($period_id)
+    public function getByPeriodQuery($period)
     {
         $query = $this->getBaseQuery();
-        return $query->where('p.id = :period_id')
-                     ->setParameter('period_id', $period_id)
-                     ->addOrderBy('h.name', 'asc')
-                     ->addOrderBy('d.name', 'asc')
+        return $query->where('p.id = :period')
+            ->andWhere('a.begin < :period_begin')
+            ->andWhere('a.end > :period_end')
+            ->setParameter('period', $period->getId())
+            ->setParameter('period_begin', $period->getBegin())
+            ->setParameter('period_end', $period->getEnd())
+            ->addOrderBy('h.name', 'asc')
+            ->addOrderBy('d.name', 'asc')
         ;
     }
 
-    public function getAvailableQuery($period_id)
+    public function getAvailableQuery($period)
     {
-        $query = $this->getByPeriodQuery($period_id);
+        $query = $this->getByPeriodQuery($period);
         $query->andWhere('r.number > 0');
         return $query;
     }
 
-    public function getAvailable($period_id)
+    public function getAvailable($period)
     {
-        $query = $this->getAvailableQuery($period_id);
+        $query = $this->getAvailableQuery($period);
 
         return $query->getQuery()
                      ->getResult()
         ;
     }
 
-    public function getAvailableForSector($period_id, $sector_id)
+    public function getAvailableForSector($period, $sector_id)
     {
-        $query = $this->getAvailableQuery($period_id);
+        $query = $this->getAvailableQuery($period);
         $query->andWhere('s.id = :sector_id')
               ->setParameter('sector_id', $sector_id)
         ;
@@ -70,9 +74,9 @@ class RepartitionRepository extends EntityRepository
         ;
     }
 
-    public function getByPeriod($period_id, $hospital_id = null)
+    public function getByPeriod($period, $hospital_id = null)
     {
-        $query = $this->getByPeriodQuery($period_id);
+        $query = $this->getByPeriodQuery($period);
 
         if ($hospital_id != null) {
             $query->andWhere('h.id = :hospital_id')
@@ -96,9 +100,9 @@ class RepartitionRepository extends EntityRepository
         ;
     }
 
-    public function getByPeriodAndDepartmentSector($period_id, $sector_id)
+    public function getByPeriodAndDepartmentSector($period, $sector_id)
     {
-        $query = $this->getByPeriodQuery($period_id);
+        $query = $this->getByPeriodQuery($period);
         $query->andWhere('a.end > :now')
               ->setParameter('now', new \DateTime('now'))
               ->andWhere('s.id = :sector_id')
@@ -110,9 +114,9 @@ class RepartitionRepository extends EntityRepository
         ;
     }
 
-    public function getByPeriodAndCluster($period_id, $cluster)
+    public function getByPeriodAndCluster($period, $cluster)
     {
-        $query = $this->getByPeriodQuery($period_id);
+        $query = $this->getByPeriodQuery($period);
         $query->andWhere('r.cluster = :cluster')
               ->setParameter('cluster', $cluster)
         ;
@@ -122,9 +126,9 @@ class RepartitionRepository extends EntityRepository
         ;
     }
 
-    public function getByPeriodAndDepartment($period_id, $department_id)
+    public function getByPeriodAndDepartment($period, $department_id)
     {
-        $query = $this->getByPeriodQuery($period_id);
+        $query = $this->getByPeriodQuery($period);
         $query->andWhere('d.id = :department_id')
               ->setParameter('department_id', $department_id)
         ;

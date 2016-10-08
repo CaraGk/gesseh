@@ -99,7 +99,7 @@ class SectorRuleRepository extends EntityRepository
         array_push($rules['department']['NOT'], $wish->getDepartment()->getId()); /* don't choose again a department you've already chosen */
         if($current_repartition = $wish->getDepartment()->findRepartition($period)) {
             if($cluster_name = $current_repartition->getCluster()) { /* don't choose a department linked to a department you've already chosen */
-                $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
+                $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period, $cluster_name);
                 foreach ($other_repartitions as $other_repartition) {
                     array_push($rules['department']['NOT'], $other_repartition->getDepartment()->getId());
                 }

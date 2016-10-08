@@ -51,7 +51,7 @@ class PlacementHandler
   {
     $period = $placement->getRepartition()->getPeriod();
     if($cluster_name = $placement->getRepartition()->getCluster()) {
-        $other_repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
+        $other_repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period, $cluster_name);
         foreach ($other_repartitions as $repartition) {
             $placement_cluster = new Placement();
             $placement_cluster->setStudent($placement->getStudent());

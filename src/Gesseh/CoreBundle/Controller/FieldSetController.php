@@ -94,7 +94,7 @@ class FieldSetController extends Controller
             $period = $repartition->getPeriod();
             $clusters[] = array(
                 'period'       => $period,
-                'repartitions' => $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name),
+                'repartitions' => $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period, $cluster_name),
             );
         }
     }

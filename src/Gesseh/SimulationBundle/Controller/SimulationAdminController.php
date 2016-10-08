@@ -428,7 +428,7 @@ class SimulationAdminController extends Controller
         foreach ($sims as $sim) {
             if ($current_repartition = $sim->getDepartment()->findRepartition($period)) {
                 if($cluster_name = $current_repartition->getCluster()) {
-                    $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
+                    $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period, $cluster_name);
 
                     foreach ($other_repartitions as $repartition) {
                         $placement = new Placement();

@@ -255,7 +255,7 @@ class SimulationController extends Controller
             throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
 
         $last_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getLast()->getPeriod();
-        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($last_period->getId());
+        $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($last_period);
 
         foreach ($repartitions as $repartition) {
             $department_table[$repartition->getDepartment()->getId()] = $repartition->getNumber();
