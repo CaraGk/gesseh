@@ -242,7 +242,6 @@ class SimulationRepository extends EntityRepository
                       ->join('r.period', 'p')
                       ->addSelect('d')
                       ->addSelect('r')
-                      ->addSelect('MIN(t.extra) AS postes')
                       ->andWhere('p.id = :period_id')
                       ->setParameter('period_id', $period_id)
                       ->groupBy('t.department')
@@ -256,6 +255,7 @@ class SimulationRepository extends EntityRepository
         $query = $this->getDepartmentLeftQuery($period_id);
         $query->andWhere('t.rank < :rank')
               ->setParameter('rank', $rank)
+              ->addSelect('MIN(t.extra) AS postes')
         ;
 
         return $query->getQuery()
