@@ -416,7 +416,7 @@ class SimulationAdminController extends Controller
 
         $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getAllValid();
         $simulPeriod = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getLastActive();
-        if (!simulPeriod) {
+        if (!$simulPeriod) {
             $this->get('session')->getFlashBag()->add('error', 'Il n\'y a aucune simulation antérieure retrouvée.');
 
             return $this->redirect($this->generateUrl('GSimul_SAList'));
@@ -424,32 +424,34 @@ class SimulationAdminController extends Controller
             $period = $simulPeriod->getPeriod();
         }
 
+        $error = array('total' => 0, 'details' => '');
         foreach ($sims as $sim) {
             if ($current_repartition = $sim->getDepartment()->findRepartition($period)) {
-                if($cluster_name = $repartition->getCluster()) {
+                if($cluster_name = $current_repartition->getCluster()) {
                     $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period->getId(), $cluster_name);
 
                     foreach ($other_repartitions as $repartition) {
                         $placement = new Placement();
                         $placement->setStudent($sim->getStudent());
-                        $placement->setDepartment($repartition->getDepartment());
                         $placement->setRepartition($repartition);
-                        $placement->setPeriod($period);
                         $em->persist($placement);
                     }
                 }
-            } else {
                 $placement = new Placement();
                 $placement->setStudent($sim->getStudent());
-                $placement->setDepartment($sim->getDepartment());
-                $placement->setPeriod($period);
+                $placement->setRepartition($current_repartition);
                 $em->persist($placement);
+            } else {
+                $error['total']++;
+                $error['details'] .= ' [' . $sim->getStudent() . '|' . $sim->getDepartment() . ':' . $sim->getExtra() . '] ';
             }
         }
 
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été copiées dans les stages.');
+        if ($error['total'])
+            $this->get('session')->getFlashBag()->add('warning', 'Il y a eu ' . $error['total'] . ' erreurs d\'enregistrement.' . $error['details']);
 
         return $this->redirect($this->generateUrl('GSimul_SAPurge'));
     }
