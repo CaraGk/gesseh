@@ -205,7 +205,7 @@ class SimulationAdminController extends Controller
       $em = $this->getDoctrine()->getManager();
 
       $last_period = $em->getRepository('GessehCoreBundle:Period')->getLast();
-      $sector = $em->getRepository('GessehCoreBundle:Sector')->getNext($request->get('sector', 0));
+      $sector = $em->getRepository('GessehCoreBundle:Sector')->find($request->get('sector', 0));
       if (!$sector)
           $sector = $em->getRepository('GessehCoreBundle:Sector')->getNext();
       $left = array();
