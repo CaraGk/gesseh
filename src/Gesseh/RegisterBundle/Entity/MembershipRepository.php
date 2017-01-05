@@ -112,7 +112,6 @@ class MembershipRepository extends EntityRepository
             ->join('s.grade', 'g')
             ->addSelect('g')
             ->where('a.end > :now')
-            ->where('now', new \DateTime('now'))
             ->andWhere('m.expiredOn > :now')
             ->setParameter('now', new \DateTime('now'))
             ->andWhere('m.payedOn is not NULL')
