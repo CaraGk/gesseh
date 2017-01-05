@@ -198,7 +198,7 @@ class MembershipController extends Controller
                 ->setCellValue('N'.$i, $address['country'])
                 ->setCellValue('P'.$i, $membership->getStudent()->getRanking())
                 ->setCellValue('Q'.$i, $membership->getStudent()->getGraduate())
-                ->setCellValue($columns['Mode de paiement'].$i, $membership->getReadableMethod())
+                ->setCellValue($columns['Mode de paiement'].$i, $membership->getMethod()->getDescription())
                 ->setCellValue($columns['Date d\'adhésion'].$i, $membership->getPayedOn())
             ;
             $count = 0;
