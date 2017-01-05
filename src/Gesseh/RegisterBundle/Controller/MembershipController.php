@@ -206,7 +206,7 @@ class MembershipController extends Controller
                 if ($placement->getRepartition()->getPeriod()->getEnd() < new \DateTime('now')) {
                     $count++;
                     $phpExcelObject->setActiveSheetIndex(0)
-                        ->setCellValue($columns[$placement->getRepartiton()->getDepartment()->getSector()->getName()].$i, 'oui');
+                        ->setCellValue($columns[$placement->getRepartition()->getDepartment()->getSector()->getName()].$i, 'oui');
                 }
             }
             $phpExcelObject->setActiveSheetIndex(0)
