@@ -124,7 +124,7 @@ class MembershipController extends Controller
      */
     public function exportAction()
     {
-        $memberships = $this->em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAllComplete();
+        $memberships = $this->em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll();
         $sectors = $this->em->getRepository('GessehCoreBundle:Sector')->findAll();
         $memberquestions = $this->em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
         $memberinfos = $this->em->getRepository('GessehRegisterBundle:MemberInfo')->getCurrentInArray();
@@ -205,8 +205,11 @@ class MembershipController extends Controller
             foreach ($membership->getStudent()->getPlacements() as $placement) {
                 if ($placement->getRepartition()->getPeriod()->getEnd() < new \DateTime('now')) {
                     $count++;
-                    $phpExcelObject->setActiveSheetIndex(0)
-                        ->setCellValue($columns[$placement->getRepartition()->getDepartment()->getSector()->getName()].$i, 'oui');
+                    foreach ($placement->getRepartition()->getDepartment()->getAccreditations() as $accreditation) {
+                        $phpExcelObject->setActiveSheetIndex(0)
+                            ->setCellValue($columns[$accreditation->getSector()->getName()].$i, 'oui')
+                        ;
+                    }
                 }
             }
             $phpExcelObject->setActiveSheetIndex(0)
@@ -215,6 +218,7 @@ class MembershipController extends Controller
                 $phpExcelObject->setActiveSheetIndex(0)
                     ->setCellValue($columns[$question].$i, $info);
             }
+            $i++;
         }
 
         $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');

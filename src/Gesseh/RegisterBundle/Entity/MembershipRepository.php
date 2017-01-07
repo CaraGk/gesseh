@@ -62,7 +62,9 @@ class MembershipRepository extends EntityRepository
             ->addSelect('u')
             ->where('m.expiredOn > :now')
             ->setParameter('now', new \DateTime('now'))
-            ->orderBy('s.name', 'asc');
+            ->addOrderBy('s.surname', 'asc')
+            ->addOrderBy('s.name', 'asc')
+        ;
 
         if ($filter) {
             if ($filter['valid'])
