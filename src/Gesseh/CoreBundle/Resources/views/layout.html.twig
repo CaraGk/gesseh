@@ -1,32 +1,9 @@
 {% extends '::layout.html.twig' %}
 
-{% block title %}{{ parent() }}{% endblock %}
-
 {% block nav %}
-    <div class="header">Général</div>
-    {{ mopa_bootstrap_menu('anon') }}
-    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-        {% if is_granted('ROLE_STUDENT') %}
-            <div class="header">Étudiant</div>
-            {{ mopa_bootstrap_menu('student') }}
-        {% elseif is_granted('ROLE_TEACHER') %}
-            <div class="header">Enseignant</div>
-            {{ mopa_bootstrap_menu('teacher') }}
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class="header">Administation</div>
-            {{ mopa_bootstrap_menu('admin') }}
-        {% elseif is_granted('ROLE_SUPERTEACHER') %}
-            <div class="header">Administration</div>
-            {{ mopa_bootstrap_menu('superteacher') }}
-        {% endif %}
-    {% endif %}
+    <div class="pull-right">
+        {{ mopa_bootstrap_menu('main') }}
+    </div>
 {% endblock %}
-
-{% block titlecontent %}{% endblock %}
-
-{% block actionscontent %}{% endblock %}
-
-{% block content %}{% endblock %}
 
 {% block javascripts %}{{ parent() }}{% endblock %}

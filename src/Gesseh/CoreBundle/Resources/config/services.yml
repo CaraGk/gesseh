@@ -2,13 +2,20 @@
 services:
   gesseh_core.menu_builder:
     class: Gesseh\CoreBundle\Menu\MenuBuilder
-    arguments: [@knp_menu.factory]
+    arguments: ["@knp_menu.factory"]
+
+  gesseh_core.menu.main:
+    class: Knp\Menu\MenuItem
+    factory: ["@gesseh_core.menu_builder", createMainMenu]
+    arguments: ["@request_stack", "@security.authorization_checker", "@kdb_parameters.manager"]
+    tags:
+      - { name: knp_menu.menu, alias: main }
 
   gesseh_core.menu.anon:
     class: Knp\Menu\MenuItem
     factory_service: gesseh_core.menu_builder
     factory_method: createAnonMenu
-    arguments: [@request]
+    arguments: ["@request"]
     scope: request
     tags:
       - { name: knp_menu.menu, alias: anon }
@@ -17,7 +24,7 @@ services:
     class: Knp\Menu\MenuItem
     factory_service: gesseh_core.menu_builder
     factory_method: createStudentMenu
-    arguments: [@request]
+    arguments: ["@request"]
     scope: request
     tags:
       - { name: knp_menu.menu, alias: student }
@@ -26,7 +33,7 @@ services:
     class: Knp\Menu\MenuItem
     factory_service: gesseh_core.menu_builder
     factory_method: createAdminMenu
-    arguments: [@request]
+    arguments: ["@request"]
     scope: request
     tags:
       - { name: knp_menu.menu, alias: admin }
@@ -35,7 +42,7 @@ services:
     class: Knp\Menu\MenuItem
     factory_service: gesseh_core.menu_builder
     factory_method: createTeacherMenu
-    arguments: [@request]
+    arguments: ["@request"]
     scope: request
     tags:
       - { name: knp_menu.menu, alias: teacher }
@@ -44,7 +51,7 @@ services:
     class: Knp\Menu\MenuItem
     factory_service: gesseh_core.menu_builder
     factory_method: createSuperteacherMenu
-    arguments: [@request]
+    arguments: ["@request"]
     scope: request
     tags:
       - { name: knp_menu.menu, alias: superteacher }
