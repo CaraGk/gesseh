@@ -39,7 +39,6 @@ class StudentUserType extends AbstractType
             ->add('birthday', 'birthday', array(
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
                 'horizontal_input_wrapper_class' => 'col-lg-4',
                 'datepicker'   => true,
             ))

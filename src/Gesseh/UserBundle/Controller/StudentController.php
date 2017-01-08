@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013-2016 Pierre-François Angrand
+ * @copyright: Copyright 2013-2017 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -14,6 +14,7 @@ namespace Gesseh\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Gesseh\UserBundle\Entity\Student;
 use Gesseh\UserBundle\Form\StudentUserType;
 use Gesseh\UserBundle\Form\StudentHandler;
@@ -31,11 +32,12 @@ class StudentController extends Controller
      * @Route("/user/edit", name="GUser_SEdit")
      * @Template()
      */
-    public function editAction()
+    public function editAction(Request $request)
     {
       $em = $this->getDoctrine()->getManager();
       $user = $this->get('security.token_storage')->getToken()->getUsername();
       $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
+      $redirect = $request->query->get('redirect', 'GUser_SEdit');
 
       if( !$student )
         throw $this->createNotFoundException('Unable to find Student entity.');
@@ -46,7 +48,7 @@ class StudentController extends Controller
       if ( $formHandler->process() ) {
         $this->get('session')->getFlashBag()->add('notice', 'Votre compte a bien été modifié.');
 
-        return $this->redirect($this->generateUrl('GUser_SEdit'));
+        return $this->redirect($this->generateUrl($redirect));
       }
 
       return array(

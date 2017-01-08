@@ -10,7 +10,7 @@
 
 {% block actionscontent %}
     <li class="btn btn-primary">
-        <a href="{{ path('GRegister_UJoin')}}?{{ app.request.queryString }}">
+        <a href="{{ path('GUser_SEdit', {'redirect': 'GRegister_UJoin'})}}&&{{ app.request.queryString }}">
             <span class="glyphicon glyphicon-euro"></span>
             Adhérer
         </a>
