@@ -7,8 +7,15 @@
 {% block actionscontent %}
     {% if kparam('reg_active') %}
         <li class="btn btn-primary">
-            <a href="{{ path('GUser_SEdit', {'redirect': 'GRegister_UJoin'})}}&&{{ app.request.queryString }}">
+            <a href="{{ path('GUser_SEdit', {'redirect': 'GRegister_UJoin'})}}&&{{ app.request.queryString }}" title="(Ré-)adhérer à la structure">
                 {{ icon('euro') }} Adhérer
+            </a>
+        </li>
+    {% endif %}
+    {% if kparam('simul_active') %}
+        <li class="btn btn-primary">
+            <a href="{{ path('GSimul_SIndex')}}&&{{ app.request.queryString }}" title="Afficher mes simulations de choix de poste">
+                {{ icon('record') }} Simulations
             </a>
         </li>
     {% endif %}

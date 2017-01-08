@@ -50,6 +50,9 @@ class StudentController extends Controller
         $student = $this->testAdminTakeOver($user, $userid);
         $placements = $this->em->getRepository('GessehCoreBundle:Placement')->getByStudent($student->getId());
 
+        if (!$student->getAddress())
+            $this->redirect($this->generateUrl('GUser_SEdit'));
+
         if (true == $this->pm->findParamByName('eval_active')->getValue()) {
             $evaluated = $this->em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $student->getUser()->getUsername());
         } else {
