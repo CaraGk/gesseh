@@ -12,14 +12,16 @@
 namespace Gesseh\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Gesseh\UserBundle\Entity\Student;
-use Gesseh\UserBundle\Form\StudentUserType;
-use Gesseh\UserBundle\Form\StudentHandler;
-use Gesseh\UserBundle\Form\UserAdminType,
+use Gesseh\UserBundle\Entity\Student,
+    Gesseh\UserBundle\Form\StudentUserType,
+    Gesseh\UserBundle\Form\StudentHandler,
+    Gesseh\UserBundle\Form\UserAdminType,
     Gesseh\UserBundle\Form\UserHandler;
+use JMS\DiExtraBundle\Annotation as DI,
+    JMS\SecurityExtraBundle\Annotation as Security;
 
 /**
  * Student controller.
@@ -28,6 +30,54 @@ use Gesseh\UserBundle\Form\UserAdminType,
  */
 class StudentController extends Controller
 {
+    /** @DI\Inject */
+    private $session;
+
+    /** @DI\Inject("doctrine.orm.entity_manager") */
+    private $em;
+
+    /** @DI\Inject("kdb_parameters.manager") */
+    private $pm;
+
+    /**
+     * @Route("/user/", name="GUser_SShow")
+     * @Template()
+     */
+    public function showAction(Request $request)
+    {
+        $user = $this->getUser();
+        $userid = $request->query->get('userid');
+        $student = $this->testAdminTakeOver($user, $userid);
+        $placements = $this->em->getRepository('GessehCoreBundle:Placement')->getByStudent($student->getId());
+
+        if (true == $this->pm->findParamByName('eval_active')->getValue()) {
+            $evaluated = $this->em->getRepository('GessehEvaluationBundle:Evaluation')->getEvaluatedList('array', $student->getUser()->getUsername());
+        } else {
+            $evaluated = array();
+        }
+
+        if (true == $this->pm->findParamByName('reg_active')->getValue()) {
+            if ($userid == null && $current_membership = $this->em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudent($student)) {
+                $count_infos = $this->em->getRepository('GessehRegisterBundle:MemberInfo')->countByMembership($student, $current_membership);
+                $count_questions = $this->em->getRepository('GessehRegisterBundle:MemberQuestion')->countAll();
+                if ($count_infos < $count_questions) {
+                    return $this->redirect($this->generateUrl('GRegister_UQuestion'));
+                }
+            }
+            $memberships = $this->em->getRepository('GessehRegisterBundle:Membership')->findBy(array('student' => $student));
+        } else {
+            $memberships = array();
+        }
+
+        return array(
+            'student'     => $student,
+            'userid'      => $userid,
+            'placements'  => $placements,
+            'evaluated'   => $evaluated,
+            'memberships' => $memberships,
+        );
+    }
+
     /**
      * @Route("/user/edit", name="GUser_SEdit")
      * @Template()
@@ -107,5 +157,27 @@ class StudentController extends Controller
           'students'  => $students,
           'placement' => $placement,
       );
+    }
+    /**
+     * Test for admin take over function
+     *
+     * @return
+     */
+    private function testAdminTakeOver($user, $user_id = null)
+    {
+        if ($user->hasRole('ROLE_ADMIN') and $user_id != null) {
+            $user = $this->um->findUserBy(array(
+                'id' => $user_id,
+            ));
+        }
+
+        $student = $this->em->getRepository('GessehUserBundle:Student')->getByUsername($user->getUsername());
+
+        if (!$student) {
+            $this->session->getFlashBag()->add('error', 'Étudiant inconnu.');
+            return $this->redirect($this->generateUrl('GRegister_UIndex'));
+        } else {
+            return $student;
+        }
     }
 }

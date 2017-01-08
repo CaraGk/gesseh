@@ -1,0 +1,58 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Stages{% endblock %}
+
+{% block titlecontent %}Mes stages{% endblock %}
+
+{% block content %}
+    <ul class="entities placements list-group">
+        {% for placement in placements %}
+            <li class="field entity placement list-group-item">
+                <span class="btn-group pull-right">
+                    <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ path('GUser_SListStudents', { 'id': placement.id })}}" title="Voir les autres étudiants">
+                                <span class="glyphicon glyphicon-user"></span>
+                                Co-internes
+                            </a>
+                        </li>
+                        {% if kparam('eval_active') == true %}
+                            {% if placement.id not in evaluated %}
+                                <li class="nonevaluated">
+                                    <a href="{{ path('GEval_DEval', { 'id': placement.id }) }}" title="Évaluer le stage">
+                                        <span class="glyphicon glyphicon-check"></span>
+                                        Évaluer
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="evaluated ">
+                                    <a href="{{ path('GCore_PIndex') }}">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                        Évalué
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </span>
+                <div class="fieldset">{{ placement.repartition.department.name }} à {{ placement.repartition.department.hospital }}</div>
+                <div class="period">Période : {{ placement.repartition.period }}</div>
+                <div class="department_sector">Agrément(s) :
+                    <ul class="">
+                        {% for accreditation in placement.repartition.department.accreditations %}
+                            <li class="label label-info">{{ accreditation.sector.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+        {% else %}
+            <li class="field noentity error">Aucun stage effectué</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehevaluation/js/clickEval.js') }}" type="text/javascript"></script>
+{% endblock %}

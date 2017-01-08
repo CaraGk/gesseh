@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013-2016 Pierre-François Angrand
+ * @copyright: Copyright 2013-2017 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -58,6 +58,23 @@ class PlacementRepository extends EntityRepository
 
     return $query->getQuery()->getResult();
   }
+
+    public function getByStudent($student_id)
+    {
+        $query = $this->getBaseQuery();
+        $query->where('s.id = :student_id')
+            ->setParameter('student_id', $student_id)
+            ->andWhere('a.begin <= q.begin')
+            ->andWhere('a.end >= q.end')
+            ->addOrderBy('q.begin', 'desc')
+            ->addOrderBy('h.name', 'asc')
+            ->addOrderBy('d.name', 'asc')
+        ;
+
+        return $query->getQuery()
+            ->getResult()
+        ;
+    }
 
   public function getByUsernameAndDepartment($user, $id = null)
   {
