@@ -1,9 +1,7 @@
 {% extends '::layout.html.twig' %}
 
 {% block nav %}
-    <div class="pull-right">
-        {{ mopa_bootstrap_menu('main') }}
-    </div>
+    {{ mopa_bootstrap_menu('main') }}
 {% endblock %}
 
 {% block javascripts %}{{ parent() }}{% endblock %}

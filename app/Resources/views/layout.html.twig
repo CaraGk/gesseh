@@ -54,8 +54,15 @@
     <h2 class="">{% block titlecontent %}{% endblock titlecontent %}</h2>
 </header>
 
-<nav id="menu" class="navbar-nav">
-    {% block nav %}{% endblock nav %}
+<nav id="menu" class="navbar">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+            {{ icon('menu-hamburger') }}
+        </button>
+    </div>
+    <div class="collapse navbar-collapse pull-right" id="navbar">
+        {% block nav %}{% endblock nav %}
+    </div>
 </nav>
 {% endblock page_header %}
 

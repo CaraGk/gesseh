@@ -45,6 +45,7 @@ div.flasherror, div.flashnotice { padding: 2px 10px 2px 10px; width: auto; font-
 #menu li a, #menu li span { color: #BBBBBB; }
 #menu li a:hover, #menu li a:active, #menu li a:focus { background-color: #303030; color: #FDEF55; }
 #menu .active { background-color: #252525; }
+#menu button { background-color: #BBBBBB; color: #252525; }
 
 #search{ width: auto; height: 25px; margin: 0; padding: 0px; font-size: 110%; }
 #search select{ border: 1px; width: 50%; }
