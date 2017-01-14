@@ -215,9 +215,11 @@ class MembershipController extends Controller
             }
             $phpExcelObject->setActiveSheetIndex(0)
                 ->setCellValue('R'.$i, $count);
-            foreach ($memberinfos[$membership->getId()] as $question => $info) {
-                $phpExcelObject->setActiveSheetIndex(0)
-                    ->setCellValue($columns[$question].$i, $info);
+            if (isset($memberinfos[$membership->getId()])) {
+                foreach ($memberinfos[$membership->getId()] as $question => $info) {
+                    $phpExcelObject->setActiveSheetIndex(0)
+                        ->setCellValue($columns[$question].$i, $info);
+                }
             }
             $i++;
         }
