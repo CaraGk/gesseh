@@ -113,6 +113,7 @@ class MembershipController extends Controller
             'memberships' => $memberships,
             'filters'     => $membership_filters,
             'questions'   => $questions,
+            'count'       => count($memberships),
         );
     }
 

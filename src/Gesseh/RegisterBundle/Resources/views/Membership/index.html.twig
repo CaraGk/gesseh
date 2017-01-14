@@ -2,16 +2,20 @@
 
 {% block title %}{{ parent() }} - Adhérents{% endblock %}
 
-{% block titlecontent %}Adhérents actuels{% endblock %}
+{% block titlecontent %}Adhérents actuels ({{ count }}){% endblock %}
 
 {% block actionscontent %}
-    <li class="field"><a href="{{ path('GRegister_AExport') }}"><button type="button">Exporter (xls)</button></a></li>
+    <li class="btn btn-primary">
+        <a href="{{ path('GRegister_AExport') }}">
+            {{ icon('export') }} Exporter (xls)
+        </a>
+    </li>
 {% endblock %}
 
 {% block content %}
-    <ul class="filters">
-        <li>
-            <div class="title">Validation</div>
+    <ul class="list-group col-sm-3">
+        <li class="list-group-item">
+            <div class="title list-group-item-heading">Validation</div>
             {% if filters['valid'] is not null %}
                 <div class="item set"><a href="{{ path('GRegister_ARemoveFilter', {'type': 'valid', 'id': 0}) }}" title="Supprimer le filtre par adhésion">{{ filters['valid'] }}</a></div>
             {% else %}
@@ -20,8 +24,8 @@
             {% endif %}
         </li>
         {% for question in questions %}
-            <li>
-                <div class="title">{{ question.name }}</div>
+            <li class="list-group-item">
+                <div class="title list-group-item-heading">{{ question.name }}</div>
                 {% if filters['questions'][question.id] is defined %}
                     <div class="item"><a href="{{ path('GRegister_ARemoveFilter', {'type': 'questions', 'id': question.id}) }}" title="Suprimer le filtre {{ question.name }} : {{ filters['questions'][question.id] }}">{{ filters['questions'][question.id] }}</a></div>
                 {% else %}
@@ -32,19 +36,39 @@
             </li>
         {% endfor %}
     </ul>
-    <ul>
+    <ul class="col-sm-9 list-group">
     {% for membership in memberships %}
-        <li class="entity student">
-            <div class="field">{{ membership.student }}</div>
-            {% if membership.payedOn is not null %}
-                <div class="field">Paiement par {% if membership.method is not null %}{{ membership.method.description|lower }}{% else %}un moyen inconnu{% endif %} effectué ({{ membership.payedOn|date('d/m/Y') }})</div>
-            {% else %}
-                <div class="field">
-                    <a href="{{ path('GRegister_AValidate', {'id': membership.id, 'userid': membership.student.user.id, view: 'index'}) }}" title="Valider la réception du paiement pour cette adhésion">Valider</a>
-                    <a href="{{ path('GRegister_ADelete', {'id': membership.id, 'userid': membership.student.user.id, 'view': 'index'}) }}" title="Supprimer cette adhésion">Supprimer</a>
-                </div>
-            {% endif %}
-            <div class="field"><a href="{{ path('GRegister_UIndex', {'userid': membership.student.user.id}) }}" title="Afficher le détail des adhésions de l'étudiant">Détail</a></div>
+        <li class="entity student list-group-item row">
+            <span class="btn-group pull-right">
+                <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li class="action">
+                        <a href="{{ path('GRegister_UIndex', {'userid': membership.student.user.id}) }}" title="Afficher le détail des adhésions de l'étudiant">
+                            {{ icon('user') }} Informations
+                        </a>
+                    </li>
+                    {% if membership.payedOn is null %}
+                        <li class="action">
+                            <a href="{{ path('GRegister_AValidate', {'id': membership.id, 'userid': membership.student.user.id, view: 'index'}) }}" title="Valider la réception du paiement pour cette adhésion">
+                                {{ icon('ok') }} Valider
+                            </a>
+                        </li>
+                        <li class="action">
+                            <a href="{{ path('GRegister_ADelete', {'id': membership.id, 'userid': membership.student.user.id, 'view': 'index'}) }}" title="Supprimer cette adhésion">
+                                {{ icon('remove') }} Supprimer
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </span>
+
+            <div class="col-sm-3">{{ membership.student }}</div>
+            <div class="col-sm-8">
+                {% if membership.payedOn is not null %}
+                    Paiement par {% if membership.method is not null %}{{ membership.method.description|lower }}{% else %}un moyen inconnu{% endif %} effectué ({{ membership.payedOn|date('d/m/Y') }})
+                {% else %}
+                {% endif %}
+            </div>
         </li>
     {% else %}
         <li>Aucune adhésion enregistrée.</li>
