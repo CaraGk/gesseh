@@ -43,7 +43,7 @@
                 <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li class="action">
-                        <a href="{{ path('GRegister_UIndex', {'userid': membership.student.user.id}) }}" title="Afficher le détail des adhésions de l'étudiant">
+                        <a href="{{ path('GUser_SShow', {'userid': membership.student.user.id}) }}" title="Afficher le détail des adhésions de l'étudiant">
                             {{ icon('user') }} Informations
                         </a>
                     </li>

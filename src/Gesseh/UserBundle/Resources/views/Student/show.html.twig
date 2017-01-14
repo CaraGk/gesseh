@@ -2,7 +2,13 @@
 
 {% block title %}{{ parent() }} - Profil{% endblock %}
 
-{% block titlecontent %}Mon profil{% endblock %}
+{% block titlecontent %}
+    {% if userid is not null %}
+        Profil de {{ student }}
+    {% else %}
+        Mon profil
+    {% endif %}
+{% endblock %}
 
 {% block actionscontent %}
     {% if kparam('reg_active') %}
@@ -24,12 +30,16 @@
 {% block content %}
     <div class="panel panel-primary">
         <div class="panel-heading">
-            Mes informations
+            {% if userid is not null %}
+                Informations de {{ student }}
+            {% else %}
+                Mes informations
+            {% endif %}
         </div>
         <ul class="panel-body list-group">
             <li class="list-group-item row">
                 <span class="btn btn-primary pull-right">
-                    <a href="{{ path('GUser_SEdit') }}" title="Modifier">
+                    <a href="{{ path('GUser_SEdit') }}?{{ app.request.queryString }}" title="Modifier">
                         {{ icon('edit') }} Modifier
                     </a>
                 </span>
@@ -39,8 +49,8 @@
             </li>
             <li class="list-group-item row">
                 <span class="btn btn-primary pull-right">
-                    <a href="{{ path('fos_user_change_password') }}" title="Modifier le mot de passe">
-                        {{ icon('edit') }} Modifier
+                    <a href="{{ path('fos_user_change_password') }}?{{ app.request.queryString }}" title="Modifier le mot de passe">
+                        {{ icon('edit') }} Mot de passe
                     </a>
                 </span>
                 <div class="title">Contact :</div>
@@ -53,7 +63,11 @@
 
     <div class="panel panel-primary">
         <div class="panel-heading">
-            Mes stages
+            {% if userid is not null %}
+                Stages de {{ student }}
+            {% else %}
+                Mes stages
+            {% endif %}
         </div>
         <ul class="panel-body entities placements list-group">
             {% for placement in placements %}
@@ -102,7 +116,11 @@
     {% if kparam('reg_active') %}
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Mes adhésions
+                {% if userid is not null %}
+                    Adhésions de {{ student }}
+                {% else %}
+                    Mes adhésions
+                {% endif %}
             </div>
             <ul class="panel-body entities list-group">
                 {% for membership in memberships %}

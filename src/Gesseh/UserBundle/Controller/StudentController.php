@@ -39,6 +39,9 @@ class StudentController extends Controller
     /** @DI\Inject("kdb_parameters.manager") */
     private $pm;
 
+    /** @DI\Inject("fos_user.user_manager") */
+    private $um;
+
     /**
      * @Route("/user/", name="GUser_SShow")
      * @Template()
@@ -87,26 +90,27 @@ class StudentController extends Controller
      */
     public function editAction(Request $request)
     {
-      $em = $this->getDoctrine()->getManager();
-      $user = $this->get('security.token_storage')->getToken()->getUsername();
-      $student = $em->getRepository('GessehUserBundle:Student')->getByUsername($user);
-      $redirect = $request->query->get('redirect', 'GUser_SEdit');
+        $user = $this->getUser();
+        $userid = $request->query->get('userid');
+        $student = $this->testAdminTakeOver($user, $userid);
+        $redirect = $request->query->get('redirect', 'GUser_SEdit');
 
-      if( !$student )
-        throw $this->createNotFoundException('Unable to find Student entity.');
+        if( !$student )
+            throw $this->createNotFoundException('Unable to find Student entity.');
 
-      $form = $this->createForm(new StudentUserType(), $student);
-      $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
+        $form = $this->createForm(new StudentUserType(), $student);
+        $formHandler = new StudentHandler($form, $request, $this->em, $this->um);
 
-      if ( $formHandler->process() ) {
-        $this->get('session')->getFlashBag()->add('notice', 'Votre compte a bien été modifié.');
+        if ( $formHandler->process() ) {
+            $this->get('session')->getFlashBag()->add('notice', 'Votre compte a bien été modifié.');
 
-        return $this->redirect($this->generateUrl($redirect));
-      }
+            return $this->redirect($this->generateUrl($redirect));
+        }
 
-      return array(
-        'form' => $form->createView(),
-      );
+        return array(
+            'form' => $form->createView(),
+            'userid' => $userid?$userid:null,
+        );
     }
 
     /**
