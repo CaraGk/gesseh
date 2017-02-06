@@ -15,8 +15,6 @@
     <span class=""><a href="{{ path('GCore_PAPlacementNew') }}?{{ app.request.queryString }}" title="Ajouter un nouveau stage" class="add"><img src="{{ asset('bundles/gessehcore/images/Add.png') }}" alt="Ajouter" /></a></span>
 {% endblock %}
 
-{% block stylesheets %}{{ parent() }}<link href="{{ asset('bundles/gessehcore/css/admin.css') }}" type="text/css" rel="stylesheet" />{% endblock %}
-
 {% block content %}
     {% if placement_form is not empty %}
         {% form_theme placement_form 'GessehCoreBundle:Form:fields.html.twig' %}
@@ -24,16 +22,16 @@
         {{ form_start(placement_form) }}
     {% endif %}
     {% if placement_form is not empty and placement_id is empty %}
-        <ul class="entities placements">{% include 'GessehCoreBundle:PlacementAdmin:placementEdit.html.twig' %}</ul>
+        <ul class="entities placements list-group">{% include 'GessehCoreBundle:PlacementAdmin:placementEdit.html.twig' %}</ul>
     {% endif %}
-    <ul class="entities placements">
+    <ul class="entities placements list-group">
         {% for placement in placements %}
             {% include placement_id == placement.id ? 'GessehCoreBundle:PlacementAdmin:placementEdit.html.twig' : 'GessehCoreBundle:PlacementAdmin:placementIndex.html.twig' %}
         {% else %}
-            <li class="noentity placement">Aucun stage à afficher</li>
+            <li class="noentity placement list-group-item">Aucun stage à afficher</li>
         {% endfor %}
     </ul>
-    <div class="pagination">{{ knp_pagination_render(placements) }}</div>
+    <div class="pagination centered">{{ knp_pagination_render(placements) }}</div>
     {% if placement_form is not empty %}{{ form_end(placement_form) }}{% endif %}
 {% endblock %}
 
