@@ -73,10 +73,11 @@ class MembershipRepository extends EntityRepository
                 $query->andWhere('m.payedOn is NULL');
 
             if ($filter['questions'] != null) {
+                $query->join('m.infos', 'i')
+                    ->join('i.question', 'q')
+                ;
                 foreach ($filter['questions'] as $question_id => $value) {
-                    $query->join('m.infos', 'i')
-                        ->join('i.question', 'q')
-                        ->andWhere('q.id = :question_id')
+                    $query->andWhere('q.id = :question_id')
                         ->setParameter('question_id', $question_id)
                         ->andWhere('i.value = :info_value')
                         ->setParameter('info_value', $value)
