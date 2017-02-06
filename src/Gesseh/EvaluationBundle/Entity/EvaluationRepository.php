@@ -179,7 +179,6 @@ class EvaluationRepository extends EntityRepository
   {
     $query = $this->createQueryBuilder('e')
                   ->join('e.placement', 'p')
-                  ->groupBy('e.placement')
                   ->addSelect('p');
 
     if ($username) {
