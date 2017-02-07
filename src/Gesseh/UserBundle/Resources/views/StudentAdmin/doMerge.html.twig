@@ -44,6 +44,8 @@
                 <div>Téléphone : {{ dest.phone }}</div>
                 <div>ECN {{ dest.graduate }} : {{ dest.ranking }}e</div>
                 <div>Semestre : {{ dest.grade.name }}</div>
+                <hr>
+                <div>Stages :</div>
                 <ul>
                     {% for placement in dest.placements %}
                         <li>{{ placement }}</li>
@@ -56,7 +58,7 @@
     </div>
     <div class="col-sm-6">
         <div class="panel panel-primary">
-            <div class="panel-heading">{{ orig }}</div>
+            <div class="panel-heading">{{ orig }} (les informations personnelles seront supprimées)</div>
             <div class="panel-body">
                 <div>Nom complet : {{ orig.title }} {{ orig.name }} {{ orig.surname }}</div>
                 <div>Né(e) le {{ orig.birthday|date('d-m-Y') }} à {{ orig.birthplace }} </div>
@@ -71,6 +73,8 @@
                 <div>Téléphone : {{ orig.phone }}</div>
                 <div>ECN {{ orig.graduate }} : {{ orig.ranking }}e</div>
                 <div>Semestre : {{ orig.grade.name }}</div>
+                <hr>
+                <div>Stages :</div>
                 <ul>
                     {% for placement in orig.placements %}
                         <li>{{ placement }}</li>
