@@ -11,15 +11,18 @@
 
 namespace Gesseh\UserBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
-use Gesseh\UserBundle\Entity\Student;
-use Gesseh\UserBundle\Form\StudentType;
-use Gesseh\UserBundle\Form\StudentHandler;
-use Gesseh\UserBundle\Entity\User;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\Validator\Constraints\File;
+use JMS\DiExtraBundle\Annotation as DI,
+    JMS\SecurityExtraBundle\Annotation as Security;
+use Gesseh\UserBundle\Entity\Student,
+    Gesseh\UserBundle\Form\StudentType,
+    Gesseh\UserBundle\Form\StudentHandler,
+    Gesseh\UserBundle\Entity\User,
+    Gesseh\UserBundle\Entity\Grade;
 
 /**
  * StudentAdmin controller.
@@ -28,30 +31,39 @@ use Symfony\Component\Validator\Constraints\File;
  */
 class StudentAdminController extends Controller
 {
+    /** @DI\Inject */
+    private $session;
+
+    /** @DI\Inject("doctrine.orm.entity_manager") */
+    private $em;
+
+    /** @DI\Inject("fos_user.user_manager") */
+    private $um;
+
+    /** @DI\Inject("kdb_parameters.manager") */
+    private $pm;
+
     /**
      * Affiche la liste des student
      *
      * @Route("/", name="GUser_SAIndex")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $pm = $this->container->get('kdb_parameters.manager');
-        $um = $this->container->get('fos_user.user_manager');
         $username = $this->get('security.token_storage')->getToken()->getUsername();
-        $user = $um->findUserByUsername($username);
-        $search = $this->get('request')->query->get('search', null);
+        $user = $this->um->findUserByUsername($username);
+        $search = $request->query->get('search', null);
         $paginator = $this->get('knp_paginator');
-        $students_query = $em->getRepository('GessehUserBundle:Student')->getAll($search);
-        $students_count = $em->getRepository('GessehUserBundle:Student')->countAll(true, $search);
-        $students = $paginator->paginate( $students_query, $this->get('request')->query->get('page', 1), 20);
+        $students_query = $this->em->getRepository('GessehUserBundle:Student')->getAll($search);
+        $students_count = $this->em->getRepository('GessehUserBundle:Student')->countAll(true, $search);
+        $students = $paginator->paginate( $students_query, $request->query->get('page', 1), 20);
 
         $member_list = null;
-        if ($pm->findParamByName('reg_active')->getValue())
+        if ($this->pm->findParamByName('reg_active')->getValue())
         {
-            if ($user->hasRole('ROLE_ADMIN') or ($user->hasRole('ROLE_SUPERTEACHER') and $pm->findParamByName('reg_teacher_access')->getValue())) {
-                foreach ($members = $em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudentArray() as $member) {
+            if ($user->hasRole('ROLE_ADMIN') or ($user->hasRole('ROLE_SUPERTEACHER') and $this->pm->findParamByName('reg_teacher_access')->getValue())) {
+                foreach ($members = $this->em->getRepository('GessehRegisterBundle:Membership')->getCurrentForStudentArray() as $member) {
                     $member_list[] = $member['id'];
                 }
             }
@@ -62,6 +74,7 @@ class StudentAdminController extends Controller
       'students_count' => $students_count,
       'search'         => $search,
       'members'        => $member_list,
+      'merge'          => $this->session->get('merge', null),
     );
   }
 
@@ -71,18 +84,17 @@ class StudentAdminController extends Controller
    * @Route("/new", name="GUser_SANew")
    * @Template("GessehUserBundle:StudentAdmin:edit.html.twig")
    */
-  public function newAction()
+  public function newAction(Request $request)
   {
-    $em = $this->getDoctrine()->getManager();
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
 
     $student = new Student();
     $form = $this->createForm(new StudentType($mod_simul->getValue()), $student);
-    $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
+    $formHandler = new StudentHandler($form, $request, $this->em, $this->um);
 
     if ( $formHandler->process() ) {
-      $this->get('session')->getFlashBag()->add('notice', 'Étudiant "' . $student . '" enregistré.');
+      $this->session->getFlashBag()->add('notice', 'Étudiant "' . $student . '" enregistré.');
 
       return $this->redirect($this->generateUrl('GUser_SAIndex'));
     }
@@ -99,22 +111,16 @@ class StudentAdminController extends Controller
    * @Route("/{id}/edit", name="GUser_SAEdit", requirements={"id" = "\d+"})
    * @Template("GessehUserBundle:StudentAdmin:edit.html.twig")
    */
-  public function editAction($id)
+  public function editAction(Student $student, Request $request)
   {
-    $em = $this->getDoctrine()->getManager();
     $manager = $this->container->get('kdb_parameters.manager');
     $mod_simul = $manager->findParamByName('simul_active');
 
-    $student = $em->getRepository('GessehUserBundle:Student')->find($id);
-
-    if( !$student )
-      throw $this->createNotFoundException('Unable to find Student entity.');
-
     $form = $this->createForm(new StudentType($mod_simul->getValue()), $student);
-    $formHandler = new StudentHandler($form, $this->get('request'), $em, $this->container->get('fos_user.user_manager'));
+    $formHandler = new StudentHandler($form, $request, $this->em, $this->um);
 
     if ( $formHandler->process() ) {
-      $this->get('session')->getFlashBag()->add('notice', 'Étudiant "' . $student . '" modifié.');
+      $this->session->getFlashBag()->add('notice', 'Étudiant "' . $student . '" modifié.');
 
       return $this->redirect($this->generateUrl('GUser_SAIndex'));
     }
@@ -128,28 +134,22 @@ class StudentAdminController extends Controller
   /**
    * @Route("/{id}/delete", name="GUser_SADelete", requirements={"id" = "\d+"})
    */
-  public function deleteAction($id)
+  public function deleteAction(Student $student, Request $request)
   {
-      $em = $this->getDoctrine()->getManager();
-      $pm = $this->container->get('kdb_parameters.manager');
-    $search = $this->get('request')->query->get('search', null);
-    $student = $em->getRepository('GessehUserBundle:Student')->find($id);
+    $search = $request->query->get('search', null);
 
-    if( !$student )
-        throw $this->createNotFoundException('Unable to find Student entity.');
-
-    if(true == $pm->findParamByName('reg_active')->getValue()) {
-        if($memberships = $em->getRepository('GessehRegisterBundle:Membership')->findBy(array('student' => $student))) {
+    if(true == $this->pm->findParamByName('reg_active')->getValue()) {
+        if($memberships = $this->em->getRepository('GessehRegisterBundle:Membership')->findBy(array('student' => $student))) {
             foreach($memberships as $membership) {
-                $em->remove($membership);
+                $this->em->remove($membership);
             }
         }
     }
 
-    $em->remove($student);
-    $em->flush();
+    $this->em->remove($student);
+    $this->em->flush();
 
-    $this->get('session')->getFlashBag()->add('notice', 'Etudiant "' . $student . '" supprimé.');
+    $this->session->getFlashBag()->add('notice', 'Etudiant "' . $student . '" supprimé.');
 
     return $this->redirect($this->generateUrl('GUser_SAIndex', array('search' => $search)));
   }
@@ -157,46 +157,29 @@ class StudentAdminController extends Controller
   /**
    * @Route("/{id}/promote", name="GUser_SAPromote", requirements={"id" = "\d+"})
    */
-  public function promoteAction($id)
+  public function promoteAction(Student $student, Request $request)
   {
-    $em = $this->getDoctrine()->getManager();
-    $um = $this->container->get('fos_user.user_manager');
-    $search = $this->get('request')->query->get('search', null);
-    $student = $em->getRepository('GessehUserBundle:Student')->find($id);
-
-    if( !$student )
-      throw $this->createNotFoundException('Unable to find Student entity.');
-
+    $search = $request->query->get('search', null);
     $user = $student->getUser();
     $user->addRole('ROLE_ADMIN');
+    $this->um->updateUser($user);
 
-    $um->updateUser($user);
-
-    $this->get('session')->getFlashBag()->add('notice', 'Droits d\'administration donnés à l\'étudiant "' . $student . '"');
-
+    $this->session->getFlashBag()->add('notice', 'Droits d\'administration donnés à l\'étudiant "' . $student . '"');
     return $this->redirect($this->generateUrl('GUser_SAIndex', array('search' => $search)));
   }
 
   /**
    * @Route("/{id}/demote", name="GUser_SADemote", requirements={"id" = "\d+"})
    */
-  public function demoteAction($id)
+  public function demoteAction(Student $student, Request $request)
   {
-    $em = $this->getDoctrine()->getManager();
-    $um = $this->container->get('fos_user.user_manager');
-    $search = $this->get('request')->query->get('search', null);
-    $student = $em->getRepository('GessehUserBundle:Student')->find($id);
-
-    if( !$student )
-      throw $this->createNotFoundException('Unable to find Student entity.');
-
+    $search = $request->query->get('search', null);
     $user = $student->getUser();
     if( $user->hasRole('ROLE_ADMIN') )
       $user->removeRole('ROLE_ADMIN');
-    $um->updateUser($user);
+    $this->um->updateUser($user);
 
-    $this->get('session')->getFlashBag()->add('notice', 'Droits d\'administration retirés à l\'étudiant "' . $student . '"');
-
+    $this->session->getFlashBag()->add('notice', 'Droits d\'administration retirés à l\'étudiant "' . $student . '"');
     return $this->redirect($this->generateUrl('GUser_SAIndex', array('search' => $search)));
   }
 
@@ -208,10 +191,8 @@ class StudentAdminController extends Controller
    */
   public function importAction(Request $request)
   {
-    $em = $this->getDoctrine()->getManager();
-    $um = $this->container->get('fos_user.user_manager');
     $error = null;
-    $listUsers = $em->getRepository('GessehUserBundle:User')->getAllEmail();
+    $listUsers = $this->em->getRepository('GessehUserBundle:User')->getAllEmail();
     $choices = array(
         '0'  => '1re colonne (A)',
         '1'  => '2e colonne (B)',
@@ -375,7 +356,7 @@ class StudentAdminController extends Controller
                 $student->setAnonymous(false);
                 $student->setGrade($form['grade']->getData());
                 $user = new User();
-                $um->createUser();
+                $this->um->createUser();
                 $user->setEmail($objPHPExcel->getCellByColumnAndRow($form['email']->getData(), $students_count)->getValue());
                 $user->setUsername($user->getEmail());
                 $user->setConfirmationToken(null);
@@ -385,17 +366,17 @@ class StudentAdminController extends Controller
                 $student->setUser($user);
 
                 if (!(in_array(array("emailCanonical" => $user->getEmail()), $listUsers) || in_array($user->getEmail(), $newUsers))) {
-                    $em->persist($student);
-                    $um->updateUser($user);
+                    $this->em->persist($student);
+                    $this->um->updateUser($user);
                     $newUsers[] = $user->getEmail();
                 } else {
-                    $this->get('session')->getFlashBag()->add('error', $student->getName() . ' ' . $student->getSurname() . ' (' . $student->getUser()->getEmail() . ') : l\'utilisateur existe déjà dans la base de données.');
+                    $this->session->getFlashBag()->add('error', $student->getName() . ' ' . $student->getSurname() . ' (' . $student->getUser()->getEmail() . ') : l\'utilisateur existe déjà dans la base de données.');
                     $students_error++;
                 }
                 $students_count++;
             }
 
-            $em->flush();
+            $this->em->flush();
 
             if ($students_count - $first_row > 1) {
                 $message = $students_count - $first_row . " lignes ont été traitées. ";
@@ -420,7 +401,7 @@ class StudentAdminController extends Controller
             } else {
                 $message .= $students_count - $first_row . " étudiants ont été enregistrés dans la base de données. Il n'y a pas de doublons traités.";
             }
-            $this->get('session')->getFlashBag()->add('notice', $message);
+            $this->session->getFlashBag()->add('notice', $message);
 
             return $this->redirect($this->generateUrl('GUser_SAIndex'));
         } else {
@@ -437,19 +418,119 @@ class StudentAdminController extends Controller
     /**
      * Exporter les adresses mail des étudiants par promotion
      *
-     * @Route("/export/{grade_id}/mail", name="GUser_SAExportMail", requirements={"grade_id" = "\d+"})
+     * @Route("/export/{id}/mail", name="GUser_SAExportMail", requirements={"id" = "\d+"})
      * @Template()
      */
-    public function exportMailAction($grade_id)
+    public function exportMailAction(Grade $grade)
     {
-        $em = $this->getDoctrine()->getManager();
-        $mails = $em->getRepository('GessehUserBundle:Student')->getMailsByGrade($grade_id);
-        $grade = $em->getRepository('GessehUserBundle:Grade')->find($grade_id);
+        $mails = $this->em->getRepository('GessehUserBundle:Student')->getMailsByGrade($grade->getId());
 
         return array(
-            'mails'  => $mails,
+            'mails' => $mails,
             'grade' => $grade,
         );
     }
 
+    /**
+     * Set merging flag for student
+     *
+     * @Route("/merge/{id}/merge", name="GUser_SAMergeSet", requirements={"id" = "\d+"})
+     */
+    public function setMergeAction(Student $student)
+    {
+        $mergeArray = $this->session->get('merge', array(
+            'dest' => $student->getId(),
+            'name' => $student->getName() . ' ' . $student->getSurname(),
+            'orig' => null,
+        ));
+        if ($mergeArray['dest'] != $student->getId())
+            $mergeArray['orig'] = $student->getId();
+
+        $this->session->set('merge', $mergeArray);
+
+        if ($mergeArray['orig']) {
+            $this->session->getFlashBag()->add('notice', 'Comparaison de ' . $mergeArray['name'] . ' avec ' . $student);
+            return $this->redirect($this->generateUrl('GUser_SAMerge'));
+        } else {
+            $this->session->getFlashBag()->add('notice', 'Recherche de doublons de l\'étudiant ' . $student);
+            return $this->redirect($this->generateUrl('GUser_SAIndex'));
+        }
+    }
+
+    /**
+     * View and do merge for student
+     *
+     * @Route("/merge", name="GUser_SAMerge")
+     * @Template()
+     */
+    public function doMergeAction(Request $request)
+    {
+        $mergeArray = $this->session->get('merge', null);
+
+        if (!$mergeArray or !$mergeArray['orig']) {
+            $this->session->getFlashBag()->add('error', 'Il n\'y a pas de fusion d\'étudiant en cours');
+            return $this->redirect($this->generateUrl('GUser_SAIndex'));
+        }
+
+        $student_orig = $this->em->getRepository('GessehUserBundle:Student')->find($mergeArray['orig']);
+        $student_dest = $this->em->getRepository('GessehUserBundle:Student')->find($mergeArray['dest']);
+
+        if ($request->get('confirm', false)) {
+            /* Placement */
+            $placements = $this->em->getRepository('GessehCoreBundle:Placement')->findBy(array('student' => $mergeArray['orig']));
+            foreach ($placements as $placement) {
+                $placement->setStudent($student_dest);
+                $this->em->persist($placement);
+            }
+
+            /* Membership */
+            $memberships = $this->em->getRepository('GessehRegisterBundle:Membership')->findBy(array('student' => $mergeArray['orig']));
+            foreach ($memberships as $membership) {
+                $membership->setStudent($student_dest);
+                $this->em->persist($membership);
+            }
+
+            /* Simstudent */
+            $simulation = $this->em->getRepository('GessehSimulationBundle:Simulation')->findOneBy(array('student' => $mergeArray['orig']));
+            if (isset($simulation)) {
+                $simulation->setStudent($student_dest);
+                $this->em->persist($simulation);
+            }
+
+            $this->em->flush();
+
+            /* Delete student_orig */
+            $this->em->remove($student_orig);
+            $this->em->remove($student_orig->getUser());
+            $this->em->flush();
+
+            $mergeArray['orig'] = null;
+            $this->session->set('merge', $mergeArray);
+
+            return $this->redirect($this->generateUrl('GUser_SAIndex'));
+        }
+
+        return array(
+            'orig'  => $student_orig,
+            'dest'  => $student_dest,
+            'merge' => $mergeArray,
+        );
+    }
+
+    /**
+     * Cancel merging and delete session's flags
+     *
+     * @Route("/merge/cancel", name="GUser_SAMergeCancel")
+     */
+    public function cancelMergeAction()
+    {
+        $mergeArray = $this->session->remove('merge');
+
+        if (!$mergeArray)
+            $this->session->getFlashBag()->add('warning', 'Aucun jeton de fusion d\'étudiants retrouvés');
+        else
+            $this->session->getFlashBag()->add('notice', 'Jetons de fusion d\'étudiants supprimés.');
+
+        return $this->redirect($this->generateUrl('GUser_SAIndex'));
+    }
 }

@@ -1,0 +1,84 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Fusion
+{% endblock %}
+
+{% block titlecontent %}
+    Fusionner deux étudiants
+{% endblock %}
+
+{% block actionscontent %}
+    <li class="btn btn-primary">
+        <a href="{{ path('GUser_SAIndex') }}?{{ app.request.querystring }}" title="Retour à la liste des internes">
+            {{ icon('arrow-left') }} Étudiants
+        </a>
+    </li>
+    <li class="btn btn-primary">
+        <a href="{{ path('GUser_SAEdit', {'id': merge['dest']}) }}" title="Modifier {{ merge['name'] }}">
+            {{ icon('edit') }} Modifier
+        </a>
+    </li>
+    <li class="btn btn-primary">
+        <a href="{{ path('GUser_SAMerge') }}?confirm=true" title="Fusionner !">
+            {{ icon('resize-small') }} Fusionner
+        </a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">{{ dest }}</div>
+            <div class="panel-body">
+                <div>Nom complet : {{ dest.title }} {{ dest.name }} {{ dest.surname }}</div>
+                <div>Né(e) le {{ dest.birthday|date('d-m-Y') }} à {{ dest.birthplace }} </div>
+                <div>Adresse e-mail : {{ dest.user.email }}</div>
+                <div>Adresse postale :
+                    {% for item in dest.address %}
+                        {{ item }}
+                    {% else %}
+                        Pas d'adresse
+                    {% endfor %}
+                </div>
+                <div>Téléphone : {{ dest.phone }}</div>
+                <div>ECN {{ dest.graduate }} : {{ dest.ranking }}e</div>
+                <div>Semestre : {{ dest.grade.name }}</div>
+                <ul>
+                    {% for placement in dest.placements %}
+                        <li>{{ placement }}</li>
+                    {% else %}
+                        <li>Aucun stage</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">{{ orig }}</div>
+            <div class="panel-body">
+                <div>Nom complet : {{ orig.title }} {{ orig.name }} {{ orig.surname }}</div>
+                <div>Né(e) le {{ orig.birthday|date('d-m-Y') }} à {{ orig.birthplace }} </div>
+                <div>Adresse e-mail : {{ orig.user.email }}</div>
+                <div>Adresse postale :
+                    {% for item in orig.address %}
+                        {{ item }}
+                    {% else %}
+                        Pas d'adresse
+                    {% endfor %}
+                </div>
+                <div>Téléphone : {{ orig.phone }}</div>
+                <div>ECN {{ orig.graduate }} : {{ orig.ranking }}e</div>
+                <div>Semestre : {{ orig.grade.name }}</div>
+                <ul>
+                    {% for placement in orig.placements %}
+                        <li>{{ placement }}</li>
+                    {% else %}
+                        <li>Aucun stage</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

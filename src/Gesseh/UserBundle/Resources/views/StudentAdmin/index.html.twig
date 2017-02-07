@@ -9,6 +9,13 @@
 
 {% block actionscontent %}
     {% if is_granted('ROLE_ADMIN') %}
+        {% if merge is not null %}
+            <li class="btn btn-warning">
+                <a href="{{ path('GUser_SAMergeCancel') }}" title="Annuler la fusion">
+                    {{ icon('resize-small') }} {{ merge['name'] }}
+                </a>
+            </li>
+        {% endif %}
         <li class="btn btn-primary">
             <a href="{{ path('GUser_SAImport') }}" title="Importer une promotion d'internes">
                 {{ icon('folder-open') }} Importer
@@ -46,7 +53,7 @@
                             </a>
                         </li>
                         <li class="action">
-                            <a href="{{ path('GUser_SAEdit', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Modifier l'étudiant '{{ student }}'" class="edit">
+                            <a href="{{ path('GUser_SAEdit', {'id': student.id}) }}?{{ app.request.queryString }}" title="Modifier l'étudiant '{{ student }}'" class="edit">
                                 {{ icon('pencil') }} Modifier
                             </a>
                         </li>
@@ -58,13 +65,13 @@
                         {% if is_granted('ROLE_ADMIN') %}
                             {% if 'ROLE_ADMIN' in student.user.roles %}
                                 <li class="action">
-                                    <a href="{{ path('GUser_SADemote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Démettre l'étudiant '{{ student }}'">
+                                    <a href="{{ path('GUser_SADemote', {'id': student.id}) }}?{{ app.request.queryString }}" title="Démettre l'étudiant '{{ student }}'">
                                         {{ icon('star') }} Démettre
                                     </a>
                                 </li>
                             {% else %}
                                 <li class="action">
-                                    <a href="{{ path('GUser_SAPromote', {'id': student.id}) }}?{{ app.request.queryString }}#student_{{ student.id }}" title="Promouvoir l'étudiant '{{ student }}'">
+                                    <a href="{{ path('GUser_SAPromote', {'id': student.id}) }}?{{ app.request.queryString }}" title="Promouvoir l'étudiant '{{ student }}'">
                                         {{ icon('star-empty') }} Promouvoir
                                     </a>
                                 </li>
@@ -79,8 +86,15 @@
                                     </a>
                                 </li>
                             {% endif %}
+                            <li class="action">
+                                <a href="{{ path('GUser_SAMergeSet', {'id': student.id}) }}?{{ app.request.queryString }}" title="Fusionner l'étudiant avec un autre">
+                                    {{ icon('resize-small') }} Fusionner
+                                </a>
+                            </li>
                         {% else %}
-                            <li class="action"><img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Adhésions" title="{{ student }} est adhérent." /></li>
+                            <li class="action">
+                                <img src="{{ asset('bundles/gessehcore/images/File_List.png') }}" alt="Adhésions" title="{{ student }} est adhérent." />
+                            </li>
                         {% endif %}
                     </ul>
                 </span>
