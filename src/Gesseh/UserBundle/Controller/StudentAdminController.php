@@ -21,6 +21,7 @@ use JMS\DiExtraBundle\Annotation as DI,
 use Gesseh\UserBundle\Entity\Student,
     Gesseh\UserBundle\Form\StudentType,
     Gesseh\UserBundle\Form\StudentHandler,
+    Gesseh\UserBundle\Form\ImportType,
     Gesseh\UserBundle\Entity\User,
     Gesseh\UserBundle\Entity\Grade;
 
@@ -193,139 +194,28 @@ class StudentAdminController extends Controller
   {
     $error = null;
     $listUsers = $this->em->getRepository('GessehUserBundle:User')->getAllEmail();
-    $choices = array(
-        '0'  => '1re colonne (A)',
-        '1'  => '2e colonne (B)',
-        '2'  => '3e colonne (C)',
-        '3'  => '4e colonne (D)',
-        '4'  => '5e colonne (E)',
-        '5'  => '6e colonne (F)',
-        '6'  => '7e colonne (G)',
-        '7'  => '8e colonne (H)',
-        '8'  => '9e colonne (I)',
-        '9'  => '10e colonne (J)',
-        '10' => '11e colonne (K)',
-        '11' => '12e colonne (L)',
-        '12' => '13e colonne (M)',
-        '13' => '14e colonne (N)',
-        '14' => '15e colonne (O)',
-        '15' => '16e colonne (P)',
-        '16' => '17e colonne (Q)',
-        '17' => '18e colonne (R)',
-        '18' => '19e colonne (S)',
-        '19' => '20e colonne (T)',
-        '20' => '21e colonne (U)',
-        '21' => '22e colonne (V)',
-    );
-
-    $form = $this->createFormBuilder()
-        ->add('file', 'file', array(
-            'label'    => 'Fichier',
-            'required' => true,
-        ))
-        ->add('first_row', 'checkbox', array(
-            'label'    => 'Le fichier contient une ligne de titre de colonnes',
-            'required' => false,
-            'data'     => true,
-        ))
-        ->add('title', 'choice', array(
-            'label' => 'Titre',
-            'required' => false,
-            'expanded' => false,
-            'multiple' => false,
-            'choices'  => $choices,
-            'placeholder' => 'aucune',
-            'empty_data'  => null,
-        ))
-        ->add('surname', 'choice', array(
-            'label'    => 'Nom',
-            'required' => true,
-            'expanded' => false,
-            'multiple' => false,
-            'choices'  => $choices,
-        ))
-        ->add('name', 'choice', array(
-            'label'    => 'Prénom',
-            'required' => true,
-            'expanded' => false,
-            'multiple' => false,
-            'choices'  => $choices,
-        ))
-        ->add('email', 'choice', array(
-            'label'    => 'E-mail',
-            'required' => true,
-            'expanded' => false,
-            'multiple' => false,
-            'choices'  => $choices,
-        ))
-        ->add('birthday', 'choice', array(
-            'label'    => 'Date de naissance',
-            'required' => false,
-            'expanded' => false,
-            'multiple' => false,
-            'choices'  => $choices,
-            'placeholder' => 'aucune',
-            'empty_data'  => null,
-        ))
-        ->add('birthplace', 'choice', array(
-            'label'    => 'Lieu de naissance',
-            'required' => false,
-            'expanded' => false,
-            'multiple' => false,
-            'choices'  => $choices,
-            'placeholder' => 'aucune',
-            'empty_data'  => null,
-        ))
-        ->add('phone', 'choice', array(
-            'label'    => 'Téléphone',
-            'required' => false,
-            'expanded' => false,
-            'multiple' => false,
-            'choices'  => $choices,
-            'placeholder' => 'aucune',
-            'empty_data'  => null,
-        ))
-        ->add('ranking', 'choice', array(
-            'label'    => 'Classement ECN',
-            'required' => false,
-            'expanded' => false,
-            'multiple' => false,
-            'choices'  => $choices,
-            'placeholder' => 'aucune',
-            'empty_data'  => null,
-        ))
-        ->add('graduate', 'choice', array(
-            'label'    => 'Année ECN',
-            'required' => false,
-            'expanded' => false,
-            'multiple' => false,
-            'choices'  => $choices,
-            'placeholder' => 'aucune',
-            'empty_data'  => null,
-        ))
-        ->add('grade', 'entity', array(
-            'label'    => 'Promotion',
-            'required' => true,
-            'class'    => 'GessehUserBundle:Grade',
-        ))
-        ->add('Envoyer', 'submit')
-        ->getForm();
-
+    $form = $this->createForm(new ImportType());
     $form->handleRequest($request);
 
     if ($form->isValid()) {
         $fileConstraint = new File();
-        $fileConstraint->mimeTypesMessage = "Invalid mime type : ODS or XLS required.";
         $fileConstraint->mimeTypes = array(
             'application/vnd.oasis.opendocument.spreadsheet',
-            'application/vnd.ms-excel',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'application/octet-stream',
+            'application/vnd.ms-excel',
+            'application/msexcel',
+            'application/x-msexcel',
+            'application/x-ms-excel',
+            'application/x-excel',
+            'application/x-dos_ms_excel',
+            'application/xls',
+            'application/x-xls',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-office',
         );
-        $errorList = $this->get('validator')->validateValue($form['file']->getData(), $fileConstraint);
+        $errorList = $this->get('validator')->validate($form['file']->getData(), $fileConstraint);
 
         if(count($errorList) == 0) {
-
             $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($form['file']->getData())->setActiveSheetIndex();
             if ($form['first_row']->getData() == true)
                 $first_row = 2;
