@@ -31,7 +31,7 @@
             <li class="noentity placement list-group-item">Aucun stage à afficher</li>
         {% endfor %}
     </ul>
-    <div class="pagination centered">{{ knp_pagination_render(placements) }}</div>
+    <div class="pagination">{{ knp_pagination_render(placements) }}</div>
     {% if placement_form is not empty %}{{ form_end(placement_form) }}{% endif %}
 {% endblock %}
 
