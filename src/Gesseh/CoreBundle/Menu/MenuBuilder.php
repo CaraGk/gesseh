@@ -54,6 +54,10 @@ class MenuBuilder
                 $menu->addChild('Myself', array('route' => 'GUser_SShow', 'label' => 'Mon profil', 'attributes' => array('title' => 'Mes informations personnelles, mes stages en cours ou effectués, etc.')));
             }
 
+            if ($security->isGranted('ROLE_PARTNER')) {
+                $menu->addChild('Memberships', array('route' => 'GRegister_AIndex', 'label' => 'Adhésions', 'attributes' => array('title' => 'Afficher les adhésions en cours')));
+            }
+
             if ($security->isGranted('ROLE_ADMIN')) {
                 $adminMenu = $menu->addChild('Adminstration', array('label' => 'Administrer', 'dropdown' => true, 'caret' => true, 'icon' => 'king'));
                 $adminMenu->addChild('Sectors', array('route' => 'GCore_FSASector', 'label' => 'Catégories', 'attributes' => array('title' => 'Gérer les catégories')));
@@ -69,6 +73,7 @@ class MenuBuilder
                     $adminMenu->addChild('EvalForms', array('route' => 'GEval_AIndex', 'label' => 'Formulaires d\'évaluation', 'attributes' => array('title' => 'Gérer les formulaires d\'évaluation de stage')));
                     $adminMenu->addChild('Moderation', array('route' => 'GEval_ATextIndex', 'label' => 'Modérer', 'attributes' => array('title' => 'Modérer les évaluations de stage')));
                 }
+                $adminMenu->addChild('Partners', array('route' => 'GRegister_PaIndex', 'label' => 'Partenaires', 'attributes' => array('title' => 'Gérer les accès des partenaires')));
                 $adminMenu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres', 'attributes' => array('title' => 'Gérer les paramètres du site')));
             }
 

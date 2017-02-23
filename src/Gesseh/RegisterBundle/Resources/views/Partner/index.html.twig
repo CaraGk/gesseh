@@ -1,0 +1,42 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Partenaires{% endblock %}
+
+{% block titlecontent %}Accès partenaires{% endblock %}
+
+{% block actionscontent %}
+{% endblock %}
+
+{% block content %}
+    <ul class="list-group">
+    {% for partner in partners %}
+        <li class="entity partner list-group-item row">
+            <span class="btn-group pull-right">
+                <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li class="action">
+                        <a href="{{ path('GRegister_PaEdit', {'id': partner.id}) }}" title="Modifier le partenaire">
+                            {{ icon('edit') }} Modifier
+                        </a>
+                    </li>
+                    <li class="action">
+                        <a href="{{ path('GRegister_PaDelete', {'id': partner.id}) }}" title="Supprimer le partenaire">
+                            {{ icon('remove') }} Supprimer
+                        </a>
+                    </li>
+                </ul>
+            </span>
+
+            <div class="col-sm-3">{{ partner.name }}</div>
+            <div class="col-sm-8">
+            </div>
+        </li>
+    {% else %}
+        <li>Aucun accès partenaire enregistré.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

@@ -95,9 +95,9 @@ class MembershipController extends Controller
     /**
      * List active memberships
      *
-     * @Route("/admin/membership", name="GRegister_AIndex")
+     * @Route("/memberships", name="GRegister_AIndex")
      * @Template()
-     * @Security\Secure(roles="ROLE_ADMIN")
+     * @Security\Secure(roles="ROLE_ADMIN, ROLE_PARTNER")
      */
     public function indexAction(Request $request)
     {
@@ -107,6 +107,25 @@ class MembershipController extends Controller
             'valid'     => null,
             'questions' => null,
         ));
+
+        $user = $this->getUser();
+        if ($user->hasRole('ROLE_PARTNER') and $membership_filters['valid'] == null) {
+            $partner = $this->em->getRepository('GessehRegisterBundle:Partner')->findOneBy(array('user' => $user->getId()));
+            if (!$partner)
+                throw $this->createNotFoundException('Impossible de trouver le partenaire.');
+
+            if ($partner->getFilters()) {
+                foreach($partner->getFilters() as $partner_filter) {
+                    $partner_filters = array($partner_filter['column'] => $partner_filter['value']);
+                }
+
+                $membership_filters['questions'] = $partner_filters;
+            }
+
+            $membership_filters['valid'] = true;
+            $this->session->set('gregister_membership_filter', $membership_filters);
+        }
+
         $memberships = $this->em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll($membership_filters);
 
         return array(
@@ -120,12 +139,17 @@ class MembershipController extends Controller
     /**
      * Export active memberships
      *
-     * @Route("/admin/membership/export", name="GRegister_AExport")
-     * @Security\Secure(roles="ROLE_ADMIN")
+     * @Route("/memberships/export", name="GRegister_AExport")
+     * @Security\Secure(roles="ROLE_ADMIN, ROLE_PARTNER")
      */
     public function exportAction()
     {
-        $memberships = $this->em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll();
+        $user = $this->getUser();
+        $membership_filters = $this->session->get('gregister_membership_filter', array(
+            'valid'     => null,
+            'questions' => null,
+        ));
+        $memberships = $this->em->getRepository('GessehRegisterBundle:Membership')->getCurrentForAll($membership_filters);
         $sectors = $this->em->getRepository('GessehCoreBundle:Sector')->findAll();
         $memberquestions = $this->em->getRepository('GessehRegisterBundle:MemberQuestion')->findAll();
         $memberinfos = $this->em->getRepository('GessehRegisterBundle:MemberInfo')->getCurrentInArray();
@@ -196,29 +220,36 @@ class MembershipController extends Controller
                 ->setCellValue('K'.$i, $address['complement'])
                 ->setCellValue('L'.$i, $address['code'])
                 ->setCellValue('M'.$i, $address['city'])
-                ->setCellValue('N'.$i, $address['country'])
-                ->setCellValue('P'.$i, $membership->getStudent()->getRanking())
-                ->setCellValue('Q'.$i, $membership->getStudent()->getGraduate())
-                ->setCellValue($columns['Mode de paiement'].$i, $membership->getMethod()->getDescription())
-                ->setCellValue($columns['Date d\'adhésion'].$i, $membership->getPayedOn())
+                ->setCellValue('N'.$i, $address['country']);
             ;
-            $count = 0;
-            foreach ($membership->getStudent()->getPlacements() as $placement) {
-                if ($placement->getRepartition()->getPeriod()->getEnd() < new \DateTime('now')) {
-                    $count++;
-                    foreach ($placement->getRepartition()->getDepartment()->getAccreditations() as $accreditation) {
-                        $phpExcelObject->setActiveSheetIndex(0)
-                            ->setCellValue($columns[$accreditation->getSector()->getName()].$i, 'oui')
-                        ;
+
+            if ($user->hasRole('ROLE_ADMIN')) {
+                $phpExcelObject->setActiveSheetIndex(0)
+                    ->setCellValue('P'.$i, $membership->getStudent()->getRanking())
+                    ->setCellValue('Q'.$i, $membership->getStudent()->getGraduate())
+                    ->setCellValue($columns['Mode de paiement'].$i, $membership->getMethod()->getDescription())
+                    ->setCellValue($columns['Date d\'adhésion'].$i, $membership->getPayedOn())
+                ;
+
+                $count = 0;
+                foreach ($membership->getStudent()->getPlacements() as $placement) {
+                    if ($placement->getRepartition()->getPeriod()->getEnd() < new \DateTime('now')) {
+                        $count++;
+                        foreach ($placement->getRepartition()->getDepartment()->getAccreditations() as $accreditation) {
+                            $phpExcelObject->setActiveSheetIndex(0)
+                                ->setCellValue($columns[$accreditation->getSector()->getName()].$i, 'oui')
+                            ;
+                        }
                     }
                 }
-            }
-            $phpExcelObject->setActiveSheetIndex(0)
-                ->setCellValue('R'.$i, $count);
-            if (isset($memberinfos[$membership->getId()])) {
-                foreach ($memberinfos[$membership->getId()] as $question => $info) {
-                    $phpExcelObject->setActiveSheetIndex(0)
-                        ->setCellValue($columns[$question].$i, $info);
+                $phpExcelObject->setActiveSheetIndex(0)
+                    ->setCellValue('R'.$i, $count);
+
+                if (isset($memberinfos[$membership->getId()])) {
+                    foreach ($memberinfos[$membership->getId()] as $question => $info) {
+                        $phpExcelObject->setActiveSheetIndex(0)
+                            ->setCellValue($columns[$question].$i, $info);
+                    }
                 }
             }
             $i++;

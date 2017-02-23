@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block content %}
+    {% if is_granted('ROLE_ADMIN') %}
     <ul class="list-group col-sm-3">
         <li class="list-group-item">
             <div class="title list-group-item-heading">Validation</div>
@@ -37,6 +38,9 @@
         {% endfor %}
     </ul>
     <ul class="col-sm-9 list-group">
+    {% else %}
+    <ul class="list-group">
+    {% endif %}
     {% for membership in memberships %}
         <li class="entity student list-group-item row">
             <span class="btn-group pull-right">
@@ -62,10 +66,15 @@
                 </ul>
             </span>
 
-            <div class="col-sm-3">{{ membership.student }}</div>
-            <div class="col-sm-8">
+            <div class="col-sm-5">
+                <div class="field title">{{ membership.student }}</div>
+                <div class="field">({{ membership.student.birthday|date('d/m/Y') }})</div>
+                <div class="">Téléphone : {{ membership.student.phone }}</div>
+                <div class="">Adresse : {% for address in membership.student.address %} {{ address }} {% endfor %}</div>
+            </div>
+            <div class="col-sm-5">
                 {% if membership.payedOn is not null %}
-                    Paiement par {% if membership.method is not null %}{{ membership.method.description|lower }}{% else %}un moyen inconnu{% endif %} effectué ({{ membership.payedOn|date('d/m/Y') }})
+                    Adhésion par {% if membership.method is not null %}{{ membership.method.description|lower }}{% else %}un moyen inconnu{% endif %} effectuée le ({{ membership.payedOn|date('d/m/Y') }})
                 {% else %}
                 {% endif %}
             </div>
