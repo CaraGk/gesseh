@@ -232,7 +232,8 @@ class StudentAdminController extends Controller
                 $student->setSurname($objPHPExcel->getCellByColumnAndRow($form['surname']->getData(), $students_count)->getValue());
                 $student->setName($objPHPExcel->getCellByColumnAndRow($form['name']->getData(), $students_count)->getValue());
                 if ($form['birthday']->getData() != null) {
-                    $birthday = new \DateTime($objPHPExcel->getCellByColumnAndRow($form['birthday']->getData(), $students_count)->getValue());
+                    $date = $objPHPExcel->getCellByColumnAndRow($form['birthday']->getData(), $students_count)->getValue();
+                    $birthday = \PHPExcel_Shared_Date::ExcelToPHPObject($date);
                     $student->setBirthday($birthday);
                 }
                 if ($form['birthplace']->getData() != null)
