@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2016 Pierre-François Angrand
+ * @copyright: Copyright 2017 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -34,7 +34,7 @@ class RepartitionsType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('Repartitions', 'collection', array(
+        $builder->add('Repartitions', CollectionType::class, array(
             'type' => new RepartitionType($this->type),
             'data' => $this->repartitions,
         ));
