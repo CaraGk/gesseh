@@ -118,7 +118,7 @@ class PlacementAdminController extends Controller
 
       return array(
         'periods'        => $periods,
-        'period_id'      => $id,
+        'period_id'      => $period->getId(),
         'period_form'    => $form->createView(),
       );
     }
@@ -194,7 +194,7 @@ class PlacementAdminController extends Controller
 
       return array(
         'placements'     => $placements,
-        'placement_id'   => $id,
+        'placement_id'   => $placement->getId(),
         'placement_form' => $form->createView(),
         'evaluated'      => $evaluated,
         'limit'          => $limit,
