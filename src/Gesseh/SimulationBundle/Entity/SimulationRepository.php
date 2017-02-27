@@ -244,7 +244,6 @@ class SimulationRepository extends EntityRepository
                       ->addSelect('r')
                       ->andWhere('p.id = :period_id')
                       ->setParameter('period_id', $period_id)
-                      ->groupBy('t.department')
                       ->orderBy('t.rank', 'desc')
         ;
         return $query;
