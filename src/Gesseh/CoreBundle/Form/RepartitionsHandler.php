@@ -50,7 +50,9 @@ class RepartitionsHandler
 
     public function onSuccess($data)
     {
-        foreach($data['Repartitions'] as $repartition) {
+        foreach($this->repartitions as $repartition) {
+            $repartition->setNumber(isset($data['number_' . $repartition->getId()])?$data['number_' . $repartition->getId()]:0);
+            $repartition->setCluster(isset($data['cluster_' . $repartition->getId()])?$data['cluster_' . $repartition->getId()]:null);
             $this->em->persist($repartition);
         }
         $this->em->flush();

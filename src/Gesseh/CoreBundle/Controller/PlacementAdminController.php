@@ -255,7 +255,7 @@ class PlacementAdminController extends Controller
     }
 
     /**
-     * @Route("/period/{period_id}/repartitions", name="GCore_PARepartitionsPeriod", requirements={"period_id" = "\d+"})
+     * @Route("/period/{id}/repartitions", name="GCore_PARepartitionsPeriod", requirements={"id" = "\d+"})
      * @Template("GessehCoreBundle:PlacementAdmin:repartitionsEdit.html.twig")
      */
     public function repartitionsForPeriodEditAction(Request $request, Period $period)
@@ -279,7 +279,7 @@ class PlacementAdminController extends Controller
             $this->session->getFlashBag()->add('notice', 'Répartition pour la période "' . $period . '" enregistrée (' . $hospital_count . '/' . $hospital_total . ').');
 
             return $this->redirect($this->generateUrl('GCore_PARepartitionsPeriod', array(
-                'period_id'      => $period_id,
+                'id'      => $period->getId(),
                 'hospital_id'    => $next_hospital->getId(),
                 'hospital_count' => $hospital_count,
             )));

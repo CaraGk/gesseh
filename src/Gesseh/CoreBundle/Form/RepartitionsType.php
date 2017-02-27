@@ -14,7 +14,9 @@ namespace Gesseh\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType,
     Symfony\Component\Form\FormBuilderInterface,
     Symfony\Component\OptionsResolver\OptionsResolver;
-use Gesseh\CoreBundle\Form\RepartitionType,
+use Gesseh\CoreBundle\Form\RepartitionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType,
+    Symfony\Component\Form\Extension\Core\Type\TextType,
     Symfony\Component\Form\Extension\Core\Type\SubmitType,
     Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -34,10 +36,27 @@ class RepartitionsType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('Repartitions', CollectionType::class, array(
-            'type' => new RepartitionType($this->type),
-            'data' => $this->repartitions,
-        ));
+        foreach($this->repartitions as $repartition) {
+            if ($this->type == 'period')
+                $label = $repartition->getDepartment()->getName();
+            elseif ($this->type == 'department')
+                $label = $repartition->getPeriod();
+            $id = $repartition->getId();
+
+            $builder
+                ->add('number_' . $id, IntegerType::class, array(
+                    'label'    => $label,
+                    'required' => true,
+                    'data'     => $repartition->getNumber(),
+                ))
+                ->add('cluster_' . $id, TextType::class, array(
+                    'label'    => 'Stage couplé',
+                    'required' => false,
+                    'data'     => $repartition->getCluster(),
+                ))
+            ;
+        }
+
         $builder->add('Enregistrer', SubmitType::class);
     }
 
