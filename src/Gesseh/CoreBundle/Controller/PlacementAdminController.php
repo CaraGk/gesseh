@@ -46,7 +46,7 @@ class PlacementAdminController extends Controller
     /** @DI\Inject("kdb_parameters.manager") */
     private $pm;
 
-      /**
+    /**
      * @Route("/period", name="GCore_PAPeriodIndex")
      * @Template()
      */

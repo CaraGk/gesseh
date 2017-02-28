@@ -4,31 +4,33 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013-2016 Pierre-François Angrand
+ * @copyright: Copyright 2013-2017 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
 
 namespace Gesseh\SimulationBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Gesseh\SimulationBundle\Entity\Wish;
-use Gesseh\SimulationBundle\Form\WishType;
-use Gesseh\SimulationBundle\Form\WishHandler;
-use Gesseh\SimulationBundle\Entity\Simulation;
-use Gesseh\CoreBundle\Entity\Placement;
-use Gesseh\SimulationBundle\Entity\SimulPeriod;
-use Gesseh\SimulationBundle\Form\SimulPeriodType;
-use Gesseh\SimulationBundle\Form\SimulPeriodHandler;
-use Gesseh\SimulationBundle\Entity\SectorRule;
-use Gesseh\SimulationBundle\Form\SectorRuleType;
-use Gesseh\SimulationBundle\Form\SectorRuleHandler;
-use Gesseh\SimulationBundle\Form\SimulationType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Constraints\File;
+use JMS\DiExtraBundle\Annotation as DI,
+    JMS\SecurityExtraBundle\Annotation as Security;
+use Gesseh\SimulationBundle\Entity\Wish,
+    Gesseh\SimulationBundle\Form\WishType,
+    Gesseh\SimulationBundle\Form\WishHandler,
+    Gesseh\SimulationBundle\Entity\Simulation,
+    Gesseh\CoreBundle\Entity\Placement,
+    Gesseh\SimulationBundle\Entity\SimulPeriod,
+    Gesseh\SimulationBundle\Form\SimulPeriodType,
+    Gesseh\SimulationBundle\Form\SimulPeriodHandler,
+    Gesseh\SimulationBundle\Entity\SectorRule,
+    Gesseh\SimulationBundle\Form\SectorRuleType,
+    Gesseh\SimulationBundle\Form\SectorRuleHandler,
+    Gesseh\SimulationBundle\Form\SimulationType;
 
 /**
  * Simulation admin controller
@@ -37,17 +39,28 @@ use Symfony\Component\Validator\Constraints\File;
  */
 class SimulationAdminController extends Controller
 {
+    /** @DI\Inject */
+    private $session;
+
+    /** @DI\Inject("doctrine.orm.entity_manager") */
+    private $em;
+
+    /** @DI\Inject("fos_user.user_manager") */
+    private $um;
+
+    /** @DI\Inject("kdb_parameters.manager") */
+    private $pm;
+
     /**
      * @Route("/", name="GSimul_SAList")
      * @Template()
      */
     public function listAction()
     {
-        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
-        $simul_missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing();
-        $simul_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
+        $simulations_query = $this->em->getRepository('GessehSimulationBundle:Simulation')->getAll();
+        $simul_missing = $this->em->getRepository('GessehSimulationBundle:Simulation')->countMissing();
+        $simul_total = $this->em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
 
         return array(
             'simulations'   => $simulations_query->getResult(),
@@ -61,27 +74,24 @@ class SimulationAdminController extends Controller
      *
      * @Route("/{id}/up", name="GSimul_SAUp", requirements={"id" = "\d+"})
      */
-    public function setRankUpAction($id)
+    public function setRankUpAction(Simulation $simulation)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $simulation = $em->getRepository('GessehSimulationBundle:Simulation')->find($id);
         $rank = $simulation->getRank();
 
         if ($rank > 1) {
-            $simulation_before = $em->getRepository('GessehSimulationBundle:Simulation')->findOneByRank($rank - 1);
+            $simulation_before = $this->em->getRepository('GessehSimulationBundle:Simulation')->findOneByRank($rank - 1);
 
             $simulation_before->setRank($rank);
             $simulation->setRank($rank - 1);
 
-            $em->persist($simulation);
-            $em->persist($simulation_before);
-            $em->flush();
+            $this->em->persist($simulation);
+            $this->em->persist($simulation_before);
+            $this->em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Étudiant ' . $simulation->getStudent() . ' déplacé au rang ' . $simulation->getRank() . '.');
-            $this->get('session')->getFlashBag()->add('notice', 'Étudiant ' . $simulation_before->getStudent() . ' déplacé au rang ' . $simulation_before->getRank() . '.');
+            $this->session->getFlashBag()->add('notice', 'Étudiant ' . $simulation->getStudent() . ' déplacé au rang ' . $simulation->getRank() . '.');
+            $this->session->getFlashBag()->add('notice', 'Étudiant ' . $simulation_before->getStudent() . ' déplacé au rang ' . $simulation_before->getRank() . '.');
         } else {
-            $this->get('session')->getFlashBag()->add('error', 'Étudiant ' . $simulation->getStudent() . ' est déjà le premier de la liste !');
+            $this->session->getFlashBag()->add('error', 'Étudiant ' . $simulation->getStudent() . ' est déjà le premier de la liste !');
         }
 
         return $this->redirect($this->generateUrl('GSimul_SAList'));
@@ -92,28 +102,25 @@ class SimulationAdminController extends Controller
      *
      * @Route("/{id}/down", name="GSimul_SADown", requirements={"id" = "\d+"})
      */
-    public function setRankDownAction($id)
+    public function setRankDownAction(Simulation $simulation)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $simulation = $em->getRepository('GessehSimulationBundle:Simulation')->find($id);
         $rank = $simulation->getRank();
-        $simulation_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
+        $simulation_total = $this->em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
 
         if ($rank < $simulation_total) {
-            $simulation_after = $em->getRepository('GessehSimulationBundle:Simulation')->findOneByRank($rank + 1);
+            $simulation_after = $this->em->getRepository('GessehSimulationBundle:Simulation')->findOneByRank($rank + 1);
 
             $simulation_after->setRank($rank);
             $simulation->setRank($rank + 1);
 
-            $em->persist($simulation);
-            $em->persist($simulation_after);
-            $em->flush();
+            $this->em->persist($simulation);
+            $this->em->persist($simulation_after);
+            $this->em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Étudiant ' . $simulation->getStudent() . ' déplacé au rang ' . $simulation->getRank() . '.');
-            $this->get('session')->getFlashBag()->add('notice', 'Étudiant ' . $simulation_after->getStudent() . ' déplacé au rang ' . $simulation_after->getRank() . '.');
+            $this->session->getFlashBag()->add('notice', 'Étudiant ' . $simulation->getStudent() . ' déplacé au rang ' . $simulation->getRank() . '.');
+            $this->session->getFlashBag()->add('notice', 'Étudiant ' . $simulation_after->getStudent() . ' déplacé au rang ' . $simulation_after->getRank() . '.');
         } else {
-            $this->get('session')->getFlashBag()->add('error', 'Étudiant ' . $simulation->getStudent() . ' est déjà le dernier de la liste !');
+            $this->session->getFlashBag()->add('error', 'Étudiant ' . $simulation->getStudent() . ' est déjà le dernier de la liste !');
         }
 
         return $this->redirect($this->generateUrl('GSimul_SAList'));
@@ -125,11 +132,10 @@ class SimulationAdminController extends Controller
      */
     public function liveRepartAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $simulations_query = $em->getRepository('GessehSimulationBundle:Simulation')->getAll();
-        $simul_missing = $em->getRepository('GessehSimulationBundle:Simulation')->countMissing();
-        $simul_total = $em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
+        $simulations_query = $this->em->getRepository('GessehSimulationBundle:Simulation')->getAll();
+        $simul_missing = $this->em->getRepository('GessehSimulationBundle:Simulation')->countMissing();
+        $simul_total = $this->em->getRepository('GessehSimulationBundle:Simulation')->countTotal();
         $simulations = $paginator->paginate( $simulations_query, $this->get('request')->query->get('page', 1), 20);
 
         return array(
@@ -144,12 +150,10 @@ class SimulationAdminController extends Controller
      */
     public function liveSimulAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
         if ($request->isXmlHttpRequest()) {
             $response = null;
             $id = $request->get('id');
-            $simulation = $em->getRepository('GessehSimulationBundle:Simulation')->find($id);
+            $simulation = $this->em->getRepository('GessehSimulationBundle:Simulation')->find($id);
             if (!$simulation) {
                 $response = new JsonResponse(array('message' => 'Error: Unknown entity.'), 412);
             }
@@ -161,8 +165,8 @@ class SimulationAdminController extends Controller
                 if ($form->isValid()) {
                     $simul = $form->getData();
                     $simul->setIsValidated(true);
-                    $em->persist($simul);
-                    $em->flush();
+                    $this->em->persist($simul);
+                    $this->em->flush();
 
                     $response = new JsonResponse(array(
                         'message'=> 'Success !',
@@ -202,23 +206,21 @@ class SimulationAdminController extends Controller
      */
     public function liveLeftAction(Request $request)
     {
-      $em = $this->getDoctrine()->getManager();
-
-      $last_period = $em->getRepository('GessehCoreBundle:Period')->getLast();
-      $sector = $em->getRepository('GessehCoreBundle:Sector')->find($request->get('sector', 0));
+      $last_period = $this->em->getRepository('GessehCoreBundle:Period')->getLast();
+      $sector = $this->em->getRepository('GessehCoreBundle:Sector')->find($request->get('sector', 0));
       if (!$sector)
-          $sector = $em->getRepository('GessehCoreBundle:Sector')->getNext();
+          $sector = $this->em->getRepository('GessehCoreBundle:Sector')->getNext();
       $left = array();
 
-      $sectors = $em->getRepository('GessehCoreBundle:Sector')->findAll();
-      $repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getAvailableForSector($last_period, $sector->getId());
-      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentLeftForSector($sector->getId(), $last_period);
+      $sectors = $this->em->getRepository('GessehCoreBundle:Sector')->findAll();
+      $repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getAvailableForSector($last_period, $sector->getId());
+      $sims = $this->em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentLeftForSector($sector->getId(), $last_period);
 
       foreach($sims as $sim) {
         $extra = $sim->getExtra();
         foreach($sim->getDepartment()->getRepartitions() as $repartition) {
           if($cluster_name = $repartition->getCluster()) {
-            foreach($em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($last_period, $cluster_name) as $other_repartition) {
+            foreach($this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($last_period, $cluster_name) as $other_repartition) {
               $left[$other_repartition->getDepartment()->getId()] = $extra;
             }
           }
@@ -239,11 +241,9 @@ class SimulationAdminController extends Controller
      * @Route("/period/simul/{id}", name="GSimul_SAPeriod", requirements={"id" = "\d+"})
      * @Template()
      */
-    public function periodAction($id)
+    public function periodAction(Period $period)
     {
-        $em = $this->getDoctrine()->getManager();
-        $period = $em->getRepository('GessehCoreBundle:Period')->find($id);
-        $simul_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->findOneByPeriod($id);
+        $simul_period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->findOneByPeriod($period->getId());
 
         if (!$simul_period) {
             $simul_period = new SimulPeriod();
@@ -251,10 +251,10 @@ class SimulationAdminController extends Controller
         }
 
         $form = $this->createForm(new SimulPeriodType(), $simul_period);
-        $form_handler = new SimulPeriodHandler($form, $this->get('request'), $em, $period);
+        $form_handler = new SimulPeriodHandler($form, $this->get('request'), $this->em, $period);
 
         if ($form_handler->process()) {
-            $this->get('session')->getFlashBag()->add('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" modifiée.');
+            $this->session->getFlashBag()->add('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" modifiée.');
             return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
         }
 
@@ -268,18 +268,12 @@ class SimulationAdminController extends Controller
     /**
      * @Route("/period/simul/{id}/delete", name="GSimul_SAPeriodDelete", requirements={"id" = "\d+"})
      */
-    public function deletePeriodAction($id)
+    public function deletePeriodAction(SimulPeriod $simul_period)
     {
-      $em = $this->getDoctrine()->getManager();
-      $simul_period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->find($id);
+      $this->em->remove($simul_period);
+      $this->em->flush();
 
-      if (!$simul_period)
-        throw $this->createNotFoundException('Unable to find simul_period entity.');
-
-      $em->remove($simul_period);
-      $em->flush();
-
-      $this->get('session')->getFlashBag()->add('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" supprimée.');
+      $this->session->getFlashBag()->add('notice', 'Session de simulations du "' . $simul_period->getBegin()->format('d-m-Y') . '" au "' . $simul_period->getEnd()->format('d-m-Y') . '" supprimée.');
 
       return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
     }
@@ -289,14 +283,13 @@ class SimulationAdminController extends Controller
      */
     public function defineAction()
     {
-      $em = $this->getDoctrine()->getManager();
-      $students = $em->getRepository('GessehUserBundle:Student')->getRankingOrder();
-      $count = $em->getRepository('GessehSimulationBundle:Simulation')->setSimulationTable($students, $em);
+      $students = $this->em->getRepository('GessehUserBundle:Student')->getRankingOrder();
+      $count = $this->em->getRepository('GessehSimulationBundle:Simulation')->setSimulationTable($students, $this->em);
 
       if ($count) {
-        $this->get('session')->getFlashBag()->add('notice', $count . ' étudiants enregistrés dans la table de simulation.');
+        $this->session->getFlashBag()->add('notice', $count . ' étudiants enregistrés dans la table de simulation.');
       } else {
-        $this->get('session')->getFlashBag()->add('error', 'Attention : Aucun étudiant enregistré dans la table de simulation.');
+        $this->session->getFlashBag()->add('error', 'Attention : Aucun étudiant enregistré dans la table de simulation.');
       }
 
       return $this->redirect($this->generateUrl('GSimul_SAList'));
@@ -308,7 +301,7 @@ class SimulationAdminController extends Controller
      */
     public function importAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $this->em = $this->getDoctrine()->getManager();
         $error = 0;
         $form = $this->createFormBuilder()
             ->add('file', 'file', array(
@@ -333,7 +326,7 @@ class SimulationAdminController extends Controller
             if(count($errorList) == 0) {
                 $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($form['file']->getData())->setActiveSheetIndex();
 
-                if ($student_rank = $em->getRepository('GessehSimulationBundle:Simulation')->getLast())
+                if ($student_rank = $this->em->getRepository('GessehSimulationBundle:Simulation')->getLast())
                     $count = (int) $student_rank->getRank() + 1;
                 else
                     $count = 2;
@@ -345,7 +338,7 @@ class SimulationAdminController extends Controller
                     $name['alt'] = strtolower($objPHPExcel->getCellByColumnAndRow(2, $count));
                     $name['first'] = strtolower($objPHPExcel->getCellByColumnAndRow(3, $count));
 
-                    if ($students = $em->getRepository('GessehUserBundle:Student')->searchExact($name))
+                    if ($students = $this->em->getRepository('GessehUserBundle:Student')->searchExact($name))
                     {
                         if (count($students) < 2) {
                             $simulation = new Simulation();
@@ -353,7 +346,7 @@ class SimulationAdminController extends Controller
                             $simulation->setStudent($students[0]);
                             $simulation->setRank($rank);
                             $simulation->setActive(true);
-                            $em->persist($simulation);
+                            $this->em->persist($simulation);
                             $student_count++;
                         } else {
                             $error++;
@@ -362,16 +355,16 @@ class SimulationAdminController extends Controller
                         $error++;
                     }
                     if (in_array($count, array(200, 400, 600, 800))) {
-                        $em->flush();
-                        $this->get('session')->getFlashBag()->add('notice', $student_count . ' étudiants enregistrés dans la table de simulation.');
-                        $this->get('session')->getFlashBag()->add('error', $error . ' étudiants ont posé problème.');
+                        $this->em->flush();
+                        $this->session->getFlashBag()->add('notice', $student_count . ' étudiants enregistrés dans la table de simulation.');
+                        $this->session->getFlashBag()->add('error', $error . ' étudiants ont posé problème.');
                         $this->redirect('GSimul_SAImport');
                     }
                     $count++;
                 }
 
-                $this->get('session')->getFlashBag()->add('notice', $student_count . ' étudiants enregistrés dans la table de simulation.');
-                $this->get('session')->getFlashBag()->add('error', $error . ' étudiants ont posé problème.');
+                $this->session->getFlashBag()->add('notice', $student_count . ' étudiants enregistrés dans la table de simulation.');
+                $this->session->getFlashBag()->add('error', $error . ' étudiants ont posé problème.');
                 $this->redirect('GSimul_SAList');
             }
         }
@@ -387,16 +380,16 @@ class SimulationAdminController extends Controller
      */
     public function purgeAction()
     {
-      $em = $this->getDoctrine()->getManager();
-      $sims = $em->getRepository('GessehSimulationBundle:Simulation')->findAll();
+      $this->em = $this->getDoctrine()->getManager();
+      $sims = $this->em->getRepository('GessehSimulationBundle:Simulation')->findAll();
 
       foreach ($sims as $sim) {
-        $em->remove($sim);
+        $this->em->remove($sim);
       }
 
-      $em->flush();
+      $this->em->flush();
 
-      $this->get('session')->getFlashBag()->add('notice', "Les données de la simulation ont été supprimées.");
+      $this->session->getFlashBag()->add('notice', "Les données de la simulation ont été supprimées.");
 
       return $this->redirect($this->generateUrl('GSimul_SAList'));
     }
@@ -406,18 +399,18 @@ class SimulationAdminController extends Controller
      */
     public function saveAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $this->em = $this->getDoctrine()->getManager();
 
-        if ($em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
-            $this->get('session')->getFlashBag()->add('error', 'La simulation est toujours active ! Vous ne pourrez la valider qu\'une fois qu\'elle sera inactive. Aucune donnée n\'a été copiée.');
+        if ($this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
+            $this->session->getFlashBag()->add('error', 'La simulation est toujours active ! Vous ne pourrez la valider qu\'une fois qu\'elle sera inactive. Aucune donnée n\'a été copiée.');
 
             return $this->redirect($this->generateUrl('GSimul_SAList'));
         }
 
-        $sims = $em->getRepository('GessehSimulationBundle:Simulation')->getAllValid();
-        $simulPeriod = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getLastActive();
+        $sims = $this->em->getRepository('GessehSimulationBundle:Simulation')->getAllValid();
+        $simulPeriod = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getLastActive();
         if (!$simulPeriod) {
-            $this->get('session')->getFlashBag()->add('error', 'Il n\'y a aucune simulation antérieure retrouvée.');
+            $this->session->getFlashBag()->add('error', 'Il n\'y a aucune simulation antérieure retrouvée.');
 
             return $this->redirect($this->generateUrl('GSimul_SAList'));
         } else {
@@ -428,30 +421,30 @@ class SimulationAdminController extends Controller
         foreach ($sims as $sim) {
             if ($current_repartition = $sim->getDepartment()->findRepartition($period)) {
                 if($cluster_name = $current_repartition->getCluster()) {
-                    $other_repartitions = $em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period, $cluster_name);
+                    $other_repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period, $cluster_name);
 
                     foreach ($other_repartitions as $repartition) {
                         $placement = new Placement();
                         $placement->setStudent($sim->getStudent());
                         $placement->setRepartition($repartition);
-                        $em->persist($placement);
+                        $this->em->persist($placement);
                     }
                 }
                 $placement = new Placement();
                 $placement->setStudent($sim->getStudent());
                 $placement->setRepartition($current_repartition);
-                $em->persist($placement);
+                $this->em->persist($placement);
             } else {
                 $error['total']++;
                 $error['details'] .= ' [' . $sim->getStudent() . '|' . $sim->getDepartment() . ':' . $sim->getExtra() . '] ';
             }
         }
 
-        $em->flush();
+        $this->em->flush();
 
-        $this->get('session')->getFlashBag()->add('notice', 'Les données de la simulation ont été copiées dans les stages.');
+        $this->session->getFlashBag()->add('notice', 'Les données de la simulation ont été copiées dans les stages.');
         if ($error['total'])
-            $this->get('session')->getFlashBag()->add('warning', 'Il y a eu ' . $error['total'] . ' erreurs d\'enregistrement.' . $error['details']);
+            $this->session->getFlashBag()->add('warning', 'Il y a eu ' . $error['total'] . ' erreurs d\'enregistrement.' . $error['details']);
 
         return $this->redirect($this->generateUrl('GSimul_SAPurge'));
     }
@@ -464,8 +457,8 @@ class SimulationAdminController extends Controller
      */
     public function ruleAction()
     {
-      $em = $this->getDoctrine()->getManager();
-      $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getAll();
+      $this->em = $this->getDoctrine()->getManager();
+      $rules = $this->em->getRepository('GessehSimulationBundle:SectorRule')->getAll();
 
       return array(
         'rules'     => $rules,
@@ -481,15 +474,15 @@ class SimulationAdminController extends Controller
      */
     public function newRuleAction()
     {
-      $em = $this->getDoctrine()->getManager();
-      $rules = $em->getRepository('GessehSimulationBundle:SectorRule')->getAll();
+      $this->em = $this->getDoctrine()->getManager();
+      $rules = $this->em->getRepository('GessehSimulationBundle:SectorRule')->getAll();
 
       $sector_rule = new SectorRule();
       $form = $this->createForm(new SectorRuleType(), $sector_rule);
-      $form_handler = new SectorRuleHandler($form, $this->get('request'), $em);
+      $form_handler = new SectorRuleHandler($form, $this->get('request'), $this->em);
 
       if ($form_handler->process()) {
-        $this->get('session')->getFlashBag()->add('notice', 'Relation entre "' . $sector_rule->getSector()->getName() . '" et "' . $sector_rule->getGrade()->getName() . '" ajoutée.');
+        $this->session->getFlashBag()->add('notice', 'Relation entre "' . $sector_rule->getSector()->getName() . '" et "' . $sector_rule->getGrade()->getName() . '" ajoutée.');
 
         return $this->redirect($this->generateUrl('GSimul_SARule'));
       }
@@ -507,16 +500,16 @@ class SimulationAdminController extends Controller
      */
     public function deleteRuleAction($id)
     {
-      $em = $this->getDoctrine()->getManager();
-      $rule = $em->getRepository('GessehSimulationBundle:SectorRule')->find($id);
+      $this->em = $this->getDoctrine()->getManager();
+      $rule = $this->em->getRepository('GessehSimulationBundle:SectorRule')->find($id);
 
       if (!$rule)
         throw $this->createNotFoundException('Unable to find sector_rule entity.');
 
-      $em->remove($rule);
-      $em->flush();
+      $this->em->remove($rule);
+      $this->em->flush();
 
-      $this->get('session')->getFlashBag()->add('notice', 'Règle de simulation pour "' . $rule . '" supprimée.');
+      $this->session->getFlashBag()->add('notice', 'Règle de simulation pour "' . $rule . '" supprimée.');
 
       return $this->redirect($this->generateUrl('GSimul_SARule'));
     }
