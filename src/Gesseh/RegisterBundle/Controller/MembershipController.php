@@ -181,8 +181,9 @@ class MembershipController extends Controller
             ->setCellValue('P1', 'Rang de classement')
             ->setCellValue('Q1', 'ECN')
             ->setCellValue('R1', 'Stages validés')
+            ->setCellValue('S1', 'Promotion')
             ;
-        $column = array('S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AZ');
+        $column = array('T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AZ');
         foreach ($sectors as $sector) {
             $key = each($column);
             $phpExcelObject->setActiveSheetIndex(0)
@@ -220,7 +221,8 @@ class MembershipController extends Controller
                 ->setCellValue('K'.$i, $address['complement'])
                 ->setCellValue('L'.$i, $address['code'])
                 ->setCellValue('M'.$i, $address['city'])
-                ->setCellValue('N'.$i, $address['country']);
+                ->setCellValue('N'.$i, $address['country'])
+                ->setCellValue('S'.$i, $membership->getStudent()->getGrade()->getName())
             ;
 
             if ($user->hasRole('ROLE_ADMIN')) {

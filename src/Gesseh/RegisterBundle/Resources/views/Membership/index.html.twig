@@ -67,16 +67,24 @@
             </span>
 
             <div class="col-sm-5">
-                <div class="field title">{{ membership.student }}</div>
+                <div class="field title">
+                    {% if is_granted('ROLE_ADMIN') and 'ROLE_ADMIN' in membership.student.user.roles %}
+                        <span class="admin" style="color:red;">{{ icon('king') }}</span>
+                    {% endif %}
+                    {{ membership.student }}
+                </div>
                 <div class="field">({{ membership.student.birthday|date('d/m/Y') }})</div>
                 <div class="">Téléphone : {{ membership.student.phone }}</div>
                 <div class="">Adresse : {% for address in membership.student.address %} {{ address }} {% endfor %}</div>
             </div>
             <div class="col-sm-5">
+                <div>
                 {% if membership.payedOn is not null %}
                     Adhésion par {% if membership.method is not null %}{{ membership.method.description|lower }}{% else %}un moyen inconnu{% endif %} effectuée le ({{ membership.payedOn|date('d/m/Y') }})
                 {% else %}
                 {% endif %}
+                </div>
+                <div>{{ membership.student.grade }}</div>
             </div>
         </li>
     {% else %}
