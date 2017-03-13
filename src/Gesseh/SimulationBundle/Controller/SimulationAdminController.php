@@ -30,7 +30,8 @@ use Gesseh\SimulationBundle\Entity\Wish,
     Gesseh\SimulationBundle\Entity\SectorRule,
     Gesseh\SimulationBundle\Form\SectorRuleType,
     Gesseh\SimulationBundle\Form\SectorRuleHandler,
-    Gesseh\SimulationBundle\Form\SimulationType;
+    Gesseh\SimulationBundle\Form\SimulationType,
+    Gesseh\CoreBundle\Entity\Period;
 
 /**
  * Simulation admin controller
