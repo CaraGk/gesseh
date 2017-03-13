@@ -108,6 +108,34 @@
             <li class="noentity hospital">Aucun hôpital enregistré</li>
         {% endfor %}
     </ul>
+    {% if is_granted('ROLE_ADMIN') %}
+        <ul class="entities hospitals list-group">
+            {% for hospital in orphaneds %}{% if hospital not in hospitals %}
+                <li class="entity hospital row list-group-item notactive">
+                    <span class="btn-group pull-right">
+                        <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li class="edit">
+                                <a href="{{ path('GCore_FSAEditHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Modifier l'hôpital '{{ hospital.name }}'" class="edit">
+                                    {{ icon('pencil') }} Modifier
+                                </a>
+                            </li>
+                            <li class="list">
+                                <a href="{{ path('GCore_PAPlacementIndex', { 'limit': { 'type': 'h.id', 'value': hospital.id, 'description': hospital.name }}) }}" title="Afficher les stages dans l'hôpital '{{ hospital.name }}'">
+                                    {{ icon('list-alt') }} Stages
+                                </a>
+                            </li>
+                            <li class="delete">
+                                <a href="{{ path('GCore_FSADeleteHospital', { 'id': hospital.id, 'limit': limit }) }}" title="Supprimer l'hôpital '{{ hospital.name }}'" class="confirm delete" confirm="Attention ! Supprimer cet hôpital supprimera également tous les terrains de stage qui lui sont liés ainsi que les données qui s'y rapportent. Confirmez-vous la suppression ?">
+                                    {{ icon('trash') }} Supprimer
+                                </a>
+                            </li>
+                        </ul>
+                    </span>
+                <div class="field entity_title hospital_name">{{ hospital }}</div>
+            {% endif %}{% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

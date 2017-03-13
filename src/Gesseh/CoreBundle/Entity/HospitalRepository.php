@@ -49,7 +49,7 @@ class HospitalRepository extends EntityRepository
         ;
     }
 
-    public function getAll(array $arg)
+    public function getAllWithDepartments(array $arg)
     {
         $query = $this->getHospitalQuery();
 
@@ -103,6 +103,14 @@ class HospitalRepository extends EntityRepository
                     ->select('COUNT(h.id)')
                     ->getQuery()
                     ->getSingleScalarResult()
+        ;
+    }
+
+    public function getAll()
+    {
+        return $this->createQueryBuilder('h')
+            ->getQuery()
+            ->getResult()
         ;
     }
 }
