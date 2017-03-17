@@ -37,8 +37,8 @@ class RepartitionRepository extends EntityRepository
     {
         $query = $this->getBaseQuery();
         return $query->where('p.id = :period')
-            ->andWhere('a.begin < :period_begin')
-            ->andWhere('a.end > :period_end')
+            ->andWhere('a.begin <= :period_begin')
+            ->andWhere('a.end >= :period_end')
             ->setParameter('period', $period->getId())
             ->setParameter('period_begin', $period->getBegin())
             ->setParameter('period_end', $period->getEnd())
