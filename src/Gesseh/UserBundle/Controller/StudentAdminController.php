@@ -246,6 +246,7 @@ class StudentAdminController extends Controller
                     $student->setGraduate($objPHPExcel->getCellByColumnAndRow($form['graduate']->getData(), $students_count)->getValue());
                 $student->setAnonymous(false);
                 $student->setGrade($form['grade']->getData());
+
                 $user = new User();
                 $this->um->createUser();
                 $user->setEmail($objPHPExcel->getCellByColumnAndRow($form['email']->getData(), $students_count)->getValue());
@@ -253,7 +254,7 @@ class StudentAdminController extends Controller
                 $user->setConfirmationToken(null);
                 $user->setEnabled(true);
                 $user->addRole('ROLE_STUDENT');
-                $user->setPlainPassword('tatatatata');
+                $user->generatePassword();
                 $student->setUser($user);
 
                 if (!(in_array(array("emailCanonical" => $user->getEmail()), $listUsers) || in_array($user->getEmail(), $newUsers))) {

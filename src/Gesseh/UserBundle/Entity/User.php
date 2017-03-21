@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013 Pierre-François Angrand
+ * @copyright: Copyright 2013-2017 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -76,4 +76,19 @@ class User extends BaseUser
 
     return $this;
   }
+
+    public function generatePassword()
+    {
+        $characters = array ('a','z','e','r','t','y','u','p','q','s','d','f','g','h','j','k','m','w','x','c','v','b','n','2','3','4','5','6','7','8','9','A','Z','E','R','T','Y','U','P','S','D','F','G','H','J','K','L','M','W','X','C','V','B','N');
+        $password = '';
+
+        for ($i = 0 ; $i < $length ; $i++) {
+            $rand = array_rand($characters);
+            $password .= $characters[$rand];
+        }
+
+        $this->setPlainPassword($password);
+
+        return $password;
+    }
 }
