@@ -117,6 +117,9 @@ mopa_bootstrap:
         show_legend: false
         show_child_legend: false
         render_required_asterisk: true
+        render_optional_text: false
+        checkbox_label: 'widget'
+        error_type: 'block'
         collection:
             widget_remove_btn:
                 icon: trash
