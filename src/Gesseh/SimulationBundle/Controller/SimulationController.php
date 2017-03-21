@@ -16,7 +16,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\DiExtraBundle\Annotation as DI,
     JMS\SecurityExtraBundle\Annotation as Security;
-use Gesseh\SimulationBundle\Entity\Wish,
+use Gesseh\CoreBundle\Entity\Department,
+    Gesseh\SimulationBundle\Entity\Wish,
     Gesseh\SimulationBundle\Form\WishType,
     Gesseh\SimulationBundle\Form\WishHandler;
 
@@ -240,7 +241,7 @@ class SimulationController extends Controller
         if (!$this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
             throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
 
-        $last_period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getLastActive()->getPeriod();
+        $last_period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getLast()->getPeriod();
         $repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($last_period);
 
         foreach ($repartitions as $repartition) {
@@ -275,16 +276,14 @@ class SimulationController extends Controller
 
       $sims = $this->em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentLeftForRank($simstudent->getRank(), $last_period);
       foreach($sims as $sim) {
-        $extra = $sim['postes'];
-        $sim = $sim[0];
         foreach($sim->getDepartment()->getRepartitions() as $repartition) {
           if($cluster_name = $repartition->getCluster()) {
             foreach($this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($last_period, $cluster_name) as $other_repartition) {
-              $left[$other_repartition->getDepartment()->getId()] = $extra;
+              $left[$other_repartition->getDepartment()->getId()] = $sim->getExtra();
             }
           }
         }
-        $left[$repartition->getDepartment()->getId()] = $extra;
+        $left[$repartition->getDepartment()->getId()] = $sim->getExtra();
       }
 
       if ($simid != null) {

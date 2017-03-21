@@ -253,8 +253,9 @@ class SimulationRepository extends EntityRepository
     {
         $query = $this->getDepartmentLeftQuery($period_id);
         $query->andWhere('t.rank < :rank')
-              ->setParameter('rank', $rank)
-              ->addSelect('MIN(t.extra) AS postes')
+            ->setParameter('rank', $rank)
+            ->andWhere('t.extra is not null')
+            ->orderBy('t.rank', 'asc')
         ;
 
         return $query->getQuery()
