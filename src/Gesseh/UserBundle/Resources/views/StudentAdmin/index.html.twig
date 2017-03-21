@@ -43,13 +43,13 @@
 {% block content %}
     <ul class="entities list-group">
         {% for student in students %}
-            <li class="entity student list-group-item">
+            <li class="entity student list-group-item row">
                 <span class="btn-group pull-right">
                     <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         <li class="action">
-                            <a href="{{ path('GCore_PAPlacementIndex', {'limit': {'type': 's.id', 'value': student.id, 'description': student.surname ~ ' ' ~ student.name}}) }}" title="Afficher les stages de l'étudiant '{{ student }}'">
-                                {{ icon('list-alt') }} Stages
+                            <a href="{{ path('GUser_SShow', {'userid': student.user.id}) }}" title="Afficher le détail des adhésions de l'étudiant">
+                                {{ icon('user') }} Informations
                             </a>
                         </li>
                         <li class="action">
@@ -76,16 +76,6 @@
                                     </a>
                                 </li>
                             {% endif %}
-                            {% if kparam('reg_active') == true %}
-                                <li class="action">
-                                    <a href="{{ path('GRegister_UIndex', {'userid': student.user.id}) }}" title="Afficher les adhésions de '{{ student }}'">
-                                            {{ icon('list') }} Adhésions
-                                        {% if members is not null and student.id in members %}
-                                            {{ icon('thumbs-up')}}
-                                        {% endif %}
-                                    </a>
-                                </li>
-                            {% endif %}
                             <li class="action">
                                 <a href="{{ path('GUser_SAMergeSet', {'id': student.id}) }}?{{ app.request.queryString }}" title="Fusionner l'étudiant avec un autre">
                                     {{ icon('resize-small') }} Fusionner
@@ -98,19 +88,27 @@
                         {% endif %}
                     </ul>
                 </span>
-                <div class="field">
-                    <div class="contact">
-                        <div class="entity_title student_name">{{ student.surname }} {{ student.name }}</div>
-                        <div class="entity_item student_email"><a href="mailto:{{ student.user.email }}" title="Envoyer un email à {{ student.name }} {{ student.surname }}">{{ student.user.email }}</a></div>
-                        <div class="entity_item student_phone"><a href="tel:{{ student.phone }}" title="Téléphoner à {{ student.name }} {{ student.surname }}">{{ student.phone }}</a></div>
-                    </div>
-                    <div class="studies">
-                        <div class="entity_item student_grade">{{ student.grade }}</div>
-                        {% if kparam('simul_active') == true %}
-                            <div class="entity_item student_rank">Classement ECN : {{ student.ranking }} | Année ECN : {{ student.graduate }}</div>
+
+                <div class="col-sm-5">
+                    <div class="field entity_title">
+                        {% if is_granted('ROLE_ADMIN') and 'ROLE_ADMIN' in student.user.roles %}
+                            <span class="admin" style="color:red;">{{ icon('king') }}</span>
                         {% endif %}
+                        {{ student }}
                     </div>
+                    <div class="field">({{ student.birthday|date('d/m/Y') }})</div>
+                    <div class=""><a href="mailto:{{ student.user.email }}" title="Envoyer un email à {{ student.name }} {{ student.surname }}">{{ student.user.email }}</a></div>
                 </div>
+                <div class="col-sm-3">
+                    <div>{{ student.grade }}</div>
+                    {% if kparam('simul_active') == true %}
+                        <div class="entity_item student_rank">Classement ECN : {{ student.ranking }} | Année ECN : {{ student.graduate }}</div>
+                    {% endif %}
+                </div>
+                <div class="col-sm-2">
+                    {% if members is not null and student.id in members %}
+                        <div class="">{{ icon('thumbs-up')}} Adhésion à jour</div>
+                    {% endif %}
             </li>
         {% endfor %}
     </ul>
