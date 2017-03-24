@@ -91,21 +91,32 @@ class SimulationRepository extends EntityRepository
       $sim->setExtra(null);
       if(false == $sim->getActive())
         continue;
-      foreach ($sim->getWishes() as $wish) {
-        if (null === $sim->getDepartment() and $department_table[$wish->getDepartment()->getId()] > 0) {
-          if($current_repartition = $wish->getDepartment()->findRepartition($period)) {
-            if ($cluster_name = $current_repartition->getCluster()) {
-              foreach ($department_table['cl_' . $cluster_name] as $department_id) {
-                $department_table[$department_id]--;
-              }
-            } else {
-              $department_table[$wish->getDepartment()->getId()]--;
+        if (false == $sim->getValidated()) {
+            foreach ($sim->getWishes() as $wish) {
+                if (null === $sim->getDepartment() and $department_table[$wish->getDepartment()->getId()] > 0) {
+                    if($current_repartition = $wish->getDepartment()->findRepartition($period)) {
+                        if ($cluster_name = $current_repartition->getCluster()) {
+                            foreach ($department_table['cl_' . $cluster_name] as $department_id) {
+                                $department_table[$department_id]--;
+                            }
+                        } else {
+                            $department_table[$wish->getDepartment()->getId()]--;
+                        }
+                    }
+                    $sim->setDepartment($wish->getDepartment());
+                    $sim->setExtra($department_table[$wish->getDepartment()->getId()]);
+                }
             }
-          }
-          $sim->setDepartment($wish->getDepartment());
-          $sim->setExtra($department_table[$wish->getDepartment()->getId()]);
+        } else {
+            if ($cluster_name = $current_repartition->getCluster()) {
+                foreach ($department_table['cl_' . $cluster_name] as $department_id) {
+                    $department_table[$department_id]--;
+                }
+            } else {
+                $department_table[$wish->getDepartment()->getId()]--;
+            }
+            $sim->setExtra($department_table[$wish->getDepartment()->getId()]);
         }
-      }
       $em->persist($sim);
     }
     $em->flush();
@@ -268,10 +279,13 @@ class SimulationRepository extends EntityRepository
         $query = $this->getDepartmentLeftQuery($period_id);
         $query->join('d.accreditations', 'a')
               ->join('a.sector', 'u')
+              ->andWhere('t.extra is not null')
               ->andWhere('u.id = :sector_id')
               ->setParameter('sector_id', $sector_id)
               ->andWhere('t.is_validated = true')
+              ->orderBy('t.rank', 'asc')
         ;
+
         return $query->getQuery()
                      ->getResult()
         ;
