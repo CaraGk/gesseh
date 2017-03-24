@@ -169,7 +169,7 @@ class SimulationAdminController extends Controller
 
                     $left = $this->em->getRepository('GessehSimulationBundle:Simulation')->getNumberLeft($simulation->getDepartment()->getId(), $simulation->getRank());
                     if (null === $left)
-                        $extra = $simulation->getDepartment()->getRepartitions()->getNumber() - 1;
+                        $extra = $simul->getDepartment()->getRepartitions()->getNumber() - 1;
                     else
                         $extra = $left->getExtra() - 1;
                     $simul->setExtra($extra);
