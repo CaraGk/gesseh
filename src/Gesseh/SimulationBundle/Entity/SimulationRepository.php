@@ -78,20 +78,20 @@ class SimulationRepository extends EntityRepository
 
   public function doSimulation($department_table, \Doctrine\ORM\EntityManager $em, $period)
   {
-    $query = $this->createQueryBuilder('t')
-                  ->join('t.wishes', 'w')
-                  ->join('w.department', 'd')
-                  ->addOrderBy('t.rank', 'asc');
+      $query = $this->createQueryBuilder('t')
+          ->join('t.wishes', 'w')
+          ->join('w.department', 'd')
+          ->addOrderBy('t.rank', 'asc');
 
     $sims = $query->getQuery()->getResult();
 
     foreach ($sims as $sim) {
-      $student = $sim->getStudent();
-      $sim->setDepartment(null);
-      $sim->setExtra(null);
-      if(false == $sim->getActive())
-        continue;
-        if (false == $sim->getValidated()) {
+        $student = $sim->getStudent();
+        if(false == $sim->getActive())
+            continue;
+        if (null == $sim->isValidated()) {
+            $sim->setDepartment(null);
+            $sim->setExtra(null);
             foreach ($sim->getWishes() as $wish) {
                 if (null === $sim->getDepartment() and $department_table[$wish->getDepartment()->getId()] > 0) {
                     if($current_repartition = $wish->getDepartment()->findRepartition($period)) {
@@ -108,16 +108,22 @@ class SimulationRepository extends EntityRepository
                 }
             }
         } else {
-            if ($cluster_name = $current_repartition->getCluster()) {
-                foreach ($department_table['cl_' . $cluster_name] as $department_id) {
-                    $department_table[$department_id]--;
+            if($current_repartition = $sim->getDepartment()->findRepartition($period)) {
+                if ($cluster_name = $current_repartition->getCluster()) {
+                    foreach ($department_table['cl_' . $cluster_name] as $department_id) {
+                        $department_table[$department_id]--;
+                    }
+                } else {
+                    if (isset($department_table[$sim->getDepartment()->getId()]))
+                        $department_table[$sim->getDepartment()->getId()]--;
                 }
-            } else {
-                $department_table[$wish->getDepartment()->getId()]--;
             }
-            $sim->setExtra($department_table[$wish->getDepartment()->getId()]);
+            if (isset($department_table[$sim->getDepartment()->getId()]))
+                $sim->setExtra($department_table[$sim->getDepartment()->getId()]);
+            else
+                $sim->setExtra(0);
         }
-      $em->persist($sim);
+        $em->persist($sim);
     }
     $em->flush();
   }

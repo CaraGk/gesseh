@@ -167,11 +167,17 @@ class SimulationAdminController extends Controller
                     $simul = $form->getData();
                     $simul->setIsValidated(true);
 
-                    $left = $this->em->getRepository('GessehSimulationBundle:Simulation')->getNumberLeft($simulation->getDepartment()->getId(), $simulation->getRank());
-                    if (null === $left)
-                        $extra = $simul->getDepartment()->getRepartitions()->getNumber() - 1;
-                    else
+                    $left = $this->em->getRepository('GessehSimulationBundle:Simulation')->getNumberLeft($simul->getDepartment()->getId(), $simulation->getRank());
+                    if (null === $left) {
+                        $simul_period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getLast()->getPeriod();
+                        $repartition = $this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndDepartment($simul_period, $simul->getDepartment()->getId());
+                        if (isset($repartition))
+                            $extra = (int) $repartition->getNumber() - 1;
+                        else
+                            $extra = 0;
+                    } else {
                         $extra = $left->getExtra() - 1;
+                    }
                     $simul->setExtra($extra);
 
                     $this->em->persist($simul);
