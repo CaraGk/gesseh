@@ -21,8 +21,8 @@ class SimulPeriodRepository extends EntityRepository
   public function isSimulationActive()
   {
     $query = $this->createQueryBuilder('s')
-                  ->where('s.begin < :now')
-                  ->andWhere('s.end > :now')
+                  ->where('s.begin <= :now')
+                  ->andWhere('s.end >= :now')
                     ->setParameter('now', new \DateTime('now'));
 
     if ($query->getQuery()->getResult())
