@@ -77,7 +77,7 @@ class User extends BaseUser
     return $this;
   }
 
-    public function generatePassword()
+    public function generatePassword($length = 8)
     {
         $characters = array ('a','z','e','r','t','y','u','p','q','s','d','f','g','h','j','k','m','w','x','c','v','b','n','2','3','4','5','6','7','8','9','A','Z','E','R','T','Y','U','P','S','D','F','G','H','J','K','L','M','W','X','C','V','B','N');
         $password = '';
