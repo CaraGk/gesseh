@@ -133,6 +133,19 @@
                         </ul>
                     </span>
                 <div class="field entity_title hospital_name">{{ hospital }}</div>
+                <ul class="subentities departments">
+                    {% for department in hospital.departments %}
+                        <li class="row subentity department notactive">
+                            <div class="col-sm-3 field subentity_title department_name">
+                                <a href="{{ path('GCore_FSShowDepartment', { 'id': department.id, 'limit': limit }) }}" title="Afficher les informations du service '{{ department.name }}'">
+                                    {{ department.name }}
+                                </a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="noentity department">Aucun service enregistré.</li>
+                    {% endfor %}
+                </ul>
             {% endif %}{% endfor %}
         </ul>
     {% endif %}

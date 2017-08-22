@@ -24,7 +24,7 @@ class HospitalRepository extends EntityRepository
     public function getHospitalQuery()
     {
         return $this->createQueryBuilder('h')
-                    ->join('h.departments', 'd')
+                    ->leftJoin('h.departments', 'd')
                     ->leftJoin('d.accreditations', 'a')
                     ->leftJoin('a.sector', 's')
                     ->addSelect('d')
@@ -109,6 +109,8 @@ class HospitalRepository extends EntityRepository
     public function getAll()
     {
         return $this->createQueryBuilder('h')
+            ->leftJoin('h.departments', 'd')
+            ->addSelect('d')
             ->getQuery()
             ->getResult()
         ;

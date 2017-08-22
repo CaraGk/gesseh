@@ -303,7 +303,8 @@ class PlacementAdminController extends Controller
             throw $this->createNotFoundException('Unable to find department entity.');
 
         $repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getByDepartment($department_id);
-        if (!$repartitions) {
+        $periods = $this->em->getRepository('GessehCoreBundle:Period')->findAll();
+        if (count($repartitions) < count($periods)) {
             return $this->redirect($this->generateUrl('GCore_PARepartitionsDepartmentMaintenance', array(
                 'department_id' => $department->getId(),
             )));
@@ -360,7 +361,6 @@ class PlacementAdminController extends Controller
      */
     public function repartitionsForDepartmentMaintenanceAction($department_id)
     {
-        $this->em = $this->getDoctrine()->getManager();
         $periods = $this->em->getRepository('GessehCoreBundle:Period')->findAll();
         $department = $this->em->getRepository('GessehCoreBundle:Department')->find($department_id);
 

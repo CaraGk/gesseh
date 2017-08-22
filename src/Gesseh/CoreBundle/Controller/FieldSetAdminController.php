@@ -133,7 +133,7 @@ class FieldSetAdminController extends Controller
 
     $this->get('session')->getFlashBag()->add('notice', 'Hôpital "' . $hospital->getName() . '" supprimé.');
 
-    return $this->redirect($this->generateUrl('GCore_FSAIndex', array('limit' => $limit)));
+    return $this->redirect($this->generateUrl('GCore_FSIndex', array('limit' => $limit)));
   }
 
   /**
