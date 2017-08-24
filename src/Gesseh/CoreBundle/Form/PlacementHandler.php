@@ -38,18 +38,22 @@ class PlacementHandler
       $this->form->bind($this->request);
 
       if ($this->form->isValid()) {
-        $this->onSuccess(($this->form->getData()));
-
-        return true;
+        return $this->onSuccess(($this->form->getData()));
       }
     }
 
     return false;
   }
 
-  public function onSuccess(Placement $placement)
+  public function onSuccess($results)
   {
-    $period = $placement->getRepartition()->getPeriod();
+      $repartition = $this->em->getRepository('GessehCoreBundle:Repartition')->findOneBy(array('period' => $results['period'], 'department' => $results['department']));
+      $period = $this->em->getRepository('GessehCoreBundle:Period')->findOneBy(array('id' => $results['period']));
+      $department = $this->em->getRepository('GessehCoreBundle:Department')->findOneBy(array('id' => $results['department']));
+      $student = $this->em->getRepository('GessehUserBundle:Student')->findOneBy(array('id' => $results['student']));
+      $placement = new Placement();
+      $placement->setRepartition($repartition);
+      $placement->setStudent($student);
     if($cluster_name = $placement->getRepartition()->getCluster()) {
         $other_repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndCluster($period, $cluster_name);
         foreach ($other_repartitions as $repartition) {
@@ -65,5 +69,7 @@ class PlacementHandler
     }
 
     $this->em->flush();
+
+    return $placement;
   }
 }

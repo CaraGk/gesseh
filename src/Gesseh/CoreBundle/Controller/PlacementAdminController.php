@@ -212,12 +212,11 @@ class PlacementAdminController extends Controller
       $placements_query = $this->em->getRepository('GessehCoreBundle:Placement')->getAll($limit);
       $placements = $paginator->paginate( $placements_query, $request->query->get('page', 1), 20);
 
-      $placement = new Placement();
-      $form = $this->createForm(new PlacementType(), $placement);
+      $form = $this->createForm(new PlacementType());
       $formHandler = new PlacementHandler($form, $request, $this->em);
 
-      if ( $formHandler->process() ) {
-        $this->session->getFlashBag()->add('notice', 'Stage "' . $placement->getStudent() . ' : ' . $placement->getRepartition()->getDepartment() . $placement->getRepartition()->getPeriod() . '" enregistré.');
+      if ( $placement = $formHandler->process() ) {
+        $this->session->getFlashBag()->add('notice', 'Stage de '. $placement->getStudent() . ' à ' . $placement->getRepartition()->getDepartment() . ' en ' . $placement->getRepartition()->getPeriod() . '" enregistré.');
 
         return $this->redirect($this->generateUrl('GCore_PAPlacementIndex'));
       }

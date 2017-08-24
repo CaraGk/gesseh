@@ -23,7 +23,10 @@ class PlacementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('student', EntityType::class, array(
+        $builder->add('period', EntityType::class, array(
+            'class' => 'GessehCoreBundle:Period',
+        ))
+                ->add('student', EntityType::class, array(
             'class'         => 'GessehUserBundle:Student',
             'query_builder' => function (\Gesseh\UserBundle\Entity\StudentRepository $er) {
                 return $er->createQueryBuilder('s')
@@ -31,7 +34,15 @@ class PlacementType extends AbstractType
                           ->addOrderBy('s.name', 'ASC');
             },
         ))
-                ->add('repartition')
+                ->add('department', EntityType::class, array(
+            'class'    => 'GessehCoreBundle:Department',
+            'query_builder' => function (\Gesseh\CoreBundle\Entity\DepartmentRepository $er) {
+                return $er->createQueryBuilder('d')
+                          ->join('d.hospital', 'h')
+                          ->addOrderBy('h.name', 'ASC')
+                          ->addOrderBy('d.name', 'ASC');
+            },
+        ))
                 ->add('Enregistrer', SubmitType::class)
         ;
     }
@@ -39,7 +50,6 @@ class PlacementType extends AbstractType
     public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Gesseh\CoreBundle\Entity\Placement',
         ));
 
         $resolver->setAllowedValues(array(
