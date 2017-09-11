@@ -35,6 +35,7 @@ class MenuBuilder
     /**
      * @param RequestStack $requestStack
      * @param AuthorizationChecker $security
+     * @param ParameterManager $pm
      */
     public function createMainMenu(RequestStack $requestStack, AuthorizationChecker $security, ParameterManager $pm)
     {
@@ -60,9 +61,7 @@ class MenuBuilder
 
             if ($security->isGranted('ROLE_ADMIN')) {
                 $adminMenu = $menu->addChild('Adminstration', array('label' => 'Administrer', 'dropdown' => true, 'caret' => true, 'icon' => 'king'));
-                $adminMenu->addChild('Sectors', array('route' => 'GCore_FSASector', 'label' => 'Catégories', 'attributes' => array('title' => 'Gérer les catégories')));
                 $adminMenu->addChild('Students', array('route' => 'GUser_SAIndex', 'label' => 'Étudiants', 'attributes' => array('title' => 'Gérer les étudiants')));
-                $adminMenu->addChild('Grades', array('route' => 'GUser_GAIndex', 'label' => 'Promotions', 'attributes' => array('title' => 'Gérer les promotions')));
                 $adminMenu->addChild('Placements', array('route' => 'GCore_PAPlacementIndex', 'label' => 'Stages', 'attributes' => array('title' => 'Gérer les stages')));
                 $adminMenu->addChild('Periods', array('route' => 'GCore_PAPeriodIndex', 'label' => 'Périodes de stage', 'attributes' => array('title' => 'Gérer les périodes de stage')));
                 if ($pm->findParamByName('simul_active')->getValue()) {
@@ -73,7 +72,6 @@ class MenuBuilder
                     $adminMenu->addChild('EvalForms', array('route' => 'GEval_AIndex', 'label' => 'Formulaires d\'évaluation', 'attributes' => array('title' => 'Gérer les formulaires d\'évaluation de stage')));
                     $adminMenu->addChild('Moderation', array('route' => 'GEval_ATextIndex', 'label' => 'Modérer', 'attributes' => array('title' => 'Modérer les évaluations de stage')));
                 }
-                $adminMenu->addChild('Partners', array('route' => 'GRegister_PaIndex', 'label' => 'Partenaires', 'attributes' => array('title' => 'Gérer les accès des partenaires')));
                 $adminMenu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres', 'attributes' => array('title' => 'Gérer les paramètres du site')));
             }
 
@@ -90,6 +88,24 @@ class MenuBuilder
 
             $menu->addChild('Logout', array('route' => 'fos_user_security_logout', 'label' => 'Se déconnecter', 'attributes' => array('title' => 'Se déconnecter du site'), 'icon' => 'log-out'));
         }
+
+        return $menu;
+    }
+
+    /**
+     * @param RequestStack $requestStack
+     * @param ParameterManager $pm
+     */
+    public function createParameterMenu(RequestStack $requestStack, ParameterManager $pm)
+    {
+        $menu = $this->factory->createItem('parameter', array('navbar' => false, 'childrenAttributes' => array('class' => 'btn-group')));
+        $session = $requestStack->getCurrentRequest()->getSession();
+
+        $menu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres généraux', 'attributes' => array('title' => 'Modifier les paramètres généraux du site', 'class' => 'btn btn-primary'), 'icon' => 'cog'));
+        $menu->addChild('Sectors', array('route' => 'GCore_FSASector', 'label' => 'Catégories', 'attributes' => array('title' => 'Gérer les catégories', 'class' => 'btn btn-primary')));
+        $menu->addChild('Grades', array('route' => 'GUser_GAIndex', 'label' => 'Promotions', 'attributes' => array('title' => 'Gérer les promotions', 'class' => 'btn btn-primary')));
+        $menu->addChild('Gateway', array('route' => 'GRegister_PIndex', 'label' => 'Moyens de paiement', 'attributes' => array('title' => 'Afficher les moyens de paiement', 'class' => 'btn btn-primary'), 'icon' => 'piggy-bank'));
+        $menu->addChild('Partners', array('route' => 'GRegister_PaIndex', 'label' => 'Partenaires', 'attributes' => array('title' => 'Gérer les accès des partenaires', 'class' => 'btn btn-primary')));
 
         return $menu;
     }

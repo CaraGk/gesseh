@@ -11,6 +11,13 @@ services:
     tags:
       - { name: knp_menu.menu, alias: main }
 
+  gesseh_core.menu.parameter:
+    class: Knp\Menu\MenuItem
+    factory: ["@gesseh_core.menu_builder", createParameterMenu]
+    arguments: ["@request_stack", "@kdb_parameters.manager"]
+    tags:
+      - { name: knp_menu.menu, alias: parameter }
+
   gesseh_core.menu.anon:
     class: Knp\Menu\MenuItem
     factory_service: gesseh_core.menu_builder
