@@ -1,0 +1,71 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Signataires
+{% endblock %}
+
+{% block titlecontent %}
+    Signataires
+{% endblock %}
+
+{% block actionscontent %}
+        {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <li class="panel panel-primary">
+                <div class="panel-heading">Pour adhérer, veuillez cliquer sur la receipt de votre région, et vous enregistrer en 3 étapes : validation du formulaire, confirmation de l'adresse e-mail et paiement de la cotisation.</div>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <li class="btn btn-primary">
+                <a href="{{ path('GRegister_RNew') }}" title="Ajouter un nouveau signataire">
+                    {{ icon('plus') }} Ajouter
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+    {{ mopa_bootstrap_menu('parameter') }}
+{% endblock %}
+
+{% block content %}
+    <ul class="entities receipts list-group panel panel-default">
+        {% for receipt in receipts %}
+            <li class="entity receipt list-group-item row">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <span class="btn-group pull-right">
+                        <button class="btn btn-primary dropdown-toogle" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li class="action">
+                                <a href="{{ path('GRegister_REdit', {'id': receipt.id}) }}" title="Modifier l'émetteur de reçu fiscal '{{ receipt.imageName }}'" class="edit">
+                                    {{ icon('pencil') }} Modifier
+                                </a>
+                            </li>
+                            <li class="action">
+                                <a href="{{ path('GRegister_RDelete', {'id': receipt.id}) }}" title="Supprimer l'émetteur de reçu fiscal '{{ receipt.imageName }}'" class="confirm delete" confirm="Attention, vous allez supprimer la receipt et toutes les informations s'y rapportant ! Voulez-vous continuer ?">
+                                    {{ icon('trash') }} Supprimer
+                                </a>
+                            </li>
+                        </ul>
+                    </span>
+                {% endif %}
+
+                <div class="col-sm-2">
+                    <div class="title">Du {{ receipt.begin|date('m/Y') }} au {{ receipt.end|date('m/Y') }}</div>
+                    <div>{{ receipt.student }}</div>
+                    <div>{{ receipt.position }}</div>
+                </div>
+                <div class="col-sm-2">
+                    <img src="{{ asset(vich_uploader_asset(receipt, 'image')) }}" alt="Signature de {{ receipt.student }}" class="logo" />
+                </div>
+            </li>
+        {% else %}
+            <li class="noentity receipt list-group-item">
+                Aucun émetteur de reçu fiscal enregistré. <a href="{{ path('GRegister_RNew') }}" title="Ajouter un émetteur de reçu fiscal">Ajouter un émetteur de reçu fiscal</a>.
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gessehcore/js/confirm.js') }}" type="text/javascript"></script>
+{% endblock %}

@@ -104,7 +104,8 @@ class MenuBuilder
         $menu->addChild('Parameters', array('route' => 'GParameter_PAIndex', 'label' => 'Paramètres généraux', 'attributes' => array('title' => 'Modifier les paramètres généraux du site', 'class' => 'btn btn-primary'), 'icon' => 'cog'));
         $menu->addChild('Sectors', array('route' => 'GCore_FSASector', 'label' => 'Catégories', 'attributes' => array('title' => 'Gérer les catégories', 'class' => 'btn btn-primary')));
         $menu->addChild('Grades', array('route' => 'GUser_GAIndex', 'label' => 'Promotions', 'attributes' => array('title' => 'Gérer les promotions', 'class' => 'btn btn-primary')));
-        $menu->addChild('Gateway', array('route' => 'GRegister_PIndex', 'label' => 'Moyens de paiement', 'attributes' => array('title' => 'Afficher les moyens de paiement', 'class' => 'btn btn-primary'), 'icon' => 'piggy-bank'));
+        $menu->addChild('Gateways', array('route' => 'GRegister_PIndex', 'label' => 'Moyens de paiement', 'attributes' => array('title' => 'Afficher les moyens de paiement', 'class' => 'btn btn-primary'), 'icon' => 'piggy-bank'));
+        $menu->addChild('Receipts', array('route' => 'GRegister_RIndex', 'label' => 'Signataires', 'attributes' => array('title' => 'Afficher les signataires de reçu', 'class' => 'btn btn-primary'), 'icon' => 'pencil'));
         $menu->addChild('Partners', array('route' => 'GRegister_PaIndex', 'label' => 'Partenaires', 'attributes' => array('title' => 'Gérer les accès des partenaires', 'class' => 'btn btn-primary')));
 
         return $menu;

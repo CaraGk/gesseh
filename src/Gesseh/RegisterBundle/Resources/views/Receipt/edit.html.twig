@@ -1,0 +1,15 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - {% if receipt is not null %}{{ receipt.imageName }} - Modification {% else %} Signataire - Ajout {% endif %}
+{% endblock %}
+
+{% block titlecontent %}
+    {% if receipt is not null %}{{ receipt.imageName }} - Modification {% else %} Signataire - Ajout {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        {{ form(form) }}
+    </div>
+{% endblock %}

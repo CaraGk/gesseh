@@ -1,0 +1,66 @@
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bulletin d'adhesion à {{ kparam('reg_name') }}</title>
+        <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <style>
+            div { padding: 5px; }
+            div.radio, div.form-group div, label { display: inline-block; }
+            div.form-group { padding: 0; margin: 0; }
+            button, button.btn { display: none; }
+            .title {}
+            .value { font-weight: bold; }
+            .jumbotron { width: 100%; margin: 0; }
+            .centered { text-align: center; }
+            img.sign { display: block; max-width: 150px; max-height: 100px; }
+            img.logo { display: block; max-width: 60px; max-height: 40px; }
+            img.logo-small { display: block; max-width: 40px; max-height: 40px; }
+            img.logo-large { display: block; max-width: 150px; max-height: 100px; }
+        </style>
+
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{{ absolute_url(asset('bundles/mopabootstrap/js/modernizr-2.7.1-respond-1.4.2.min.js')) }}"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-header jumbotron row">
+                    <div class="col-xs-2"><img src="{{ absolute_url(kparam('reg_logo')) }}" alt="Logo de {{ kparam('reg_name') }}" class="logo-large" /></div>
+                    <h1 class="col-xs-10 centered">Reçu fiscal {% if receipt.end|date('Y') != receipt.begin|date('Y') %}{{ receipt.begin|date('Y') }} - {% endif %}{{ receipt.end|date('Y') }}</h1>
+                </div>
+                <div class="panel-body row">
+                    <div class="col-xs-2 title">Nom :</div>
+                    <div class="col-xs-4 value">{{ membership.student.surname }}</div>
+                    <div class="col-xs-2 title">Prénom :</div>
+                    <div class="col-xs-4 value">{{ membership.student.name }}</div>
+                    <div class="col-xs-2 title">Né{% if membership.student.title != 'M.' %}e{% endif %} le :</div>
+                    <div class="col-xs-4 value">{{ membership.student.birthday|date('d/m/Y') }}</div>
+                    <div class="col-xs-2 title">à :</div>
+                    <div class="col-xs-4 value">{{ membership.student.birthplace }}</div>
+                    <div class="col-xs-12 blank">&nbsp;</div>
+                    <div class="col-xs-12">Je, soussigné {{ receipt.student }}, {{ receipt.position }} de {{ kparam('reg_name') }}{% if kparam('reg_fullname') is not null %}, {{ kparam('reg_fullname') }}{% endif %}, certifie que {{ membership.student.title }} {{ membership.student }} a bien adhéré au syndicat {{ kparam('reg_name') }} pour l'année {% if receipt.begin|date('Y') != receipt.end|date('Y') %}{{ receipt.begin|date('Y') }} - {% endif %}{{ receipt.end|date('Y') }} en payant la somme de {{ membership.amount|number_format(2,',',' ') }} €.</div>
+                    <div class="col-xs-12 blank">&nbsp;</div>
+                    <div class="col-xs-12">
+                        <div class="pull-right">
+                            <div class="title">Le {{ "now"|date('d/m/Y') }}</div>
+                            <div><img src="{{ absolute_url(asset(vich_uploader_asset(receipt, 'image'))) }}" alt="signature électronique" class="sign"></div>
+                            <div>{{ receipt.student }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer jumbotron row">
+                    <span class="pull-right"><img src="{{ absolute_url(kparam('reg_logo')) }}" alt="Logo de {{ kparam('reg_name') }}" class="logo-large" /></span>
+                    {% if kparam('reg_fullname') is not null %}
+                        {{ kparam('reg_fullname') }}
+                    {% else %}
+                        {{ kparam('reg_name') }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

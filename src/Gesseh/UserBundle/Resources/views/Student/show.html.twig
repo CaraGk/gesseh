@@ -146,6 +146,12 @@
                                             </a>
                                         </li>
                                     {% endif %}
+                                {% else %}
+                                    <li>
+                                        <a href="{{ path('GRegister_RBuild', {'id': membership.id}) }}" title="Télécharger le reçu fical">
+                                            {{ icon('piggy-bank') }} Reçu fiscal
+                                        </a>
+                                    </li>
                                 {% endif %}
                             </ul>
                         </span>
