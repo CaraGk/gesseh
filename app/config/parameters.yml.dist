@@ -14,8 +14,3 @@ parameters:
 
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt
-
-    payment_secret:      ThisTokenIsNotSoSecretChangeIt # Do not change it later, you would'nt read old encoded transactions anymore !
-    payment_paypal_user: username
-    payment_paypal_pswd: password
-    payment_paypal_sign: signature

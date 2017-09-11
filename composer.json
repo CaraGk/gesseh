@@ -28,8 +28,6 @@
         "whiteoctober/tcpdf-bundle": "^1.0",
         "jms/di-extra-bundle": "^1.8",
         "jms/security-extra-bundle": "^1.6",
-        "jms/payment-core-bundle": "master-dev",
-        "jms/payment-paypal-bundle": "master-dev",
         "mopa/bootstrap-bundle": "^3.2",
         "twbs/bootstrap": "^3.3",
         "craue/formflow-bundle": "~3.0@dev",
