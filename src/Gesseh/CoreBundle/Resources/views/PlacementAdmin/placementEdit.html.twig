@@ -1,4 +1,4 @@
 <li id="placement_{% if placement is defined %}{{ placement.id }}{% else %}new{% endif %}">
-    {{ form_widget(placement_form) }}
+    {{ form(placement_form) }}
     {% if kparam('eval_active') == true %}<td class="small"></td>{% endif %}
 </li>

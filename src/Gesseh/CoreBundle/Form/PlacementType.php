@@ -24,24 +24,34 @@ class PlacementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('period', EntityType::class, array(
-            'class' => 'GessehCoreBundle:Period',
+            'class'    => 'GessehCoreBundle:Period',
+            'label'    => 'Période de stage',
+            'required' => true,
         ))
                 ->add('student', EntityType::class, array(
             'class'         => 'GessehUserBundle:Student',
+            'label'         => 'Étudiant',
             'query_builder' => function (\Gesseh\UserBundle\Entity\StudentRepository $er) {
                 return $er->createQueryBuilder('s')
                           ->addOrderBy('s.surname', 'ASC')
                           ->addOrderBy('s.name', 'ASC');
             },
+            'attr'          => array('class' => 'ui-widget combobox'),
+            'placeholder'   => 'Choisissez un étudiant...',
+            'required'      => true,
         ))
                 ->add('department', EntityType::class, array(
-            'class'    => 'GessehCoreBundle:Department',
+            'class'         => 'GessehCoreBundle:Department',
+            'label'         => 'Terrain de stage',
             'query_builder' => function (\Gesseh\CoreBundle\Entity\DepartmentRepository $er) {
                 return $er->createQueryBuilder('d')
                           ->join('d.hospital', 'h')
                           ->addOrderBy('h.name', 'ASC')
                           ->addOrderBy('d.name', 'ASC');
             },
+            'attr'          => array('class' => 'ui-widget combobox'),
+            'placeholder'   => 'Choisissez un terrain de stage...',
+            'required'      => true,
         ))
                 ->add('Enregistrer', SubmitType::class)
         ;

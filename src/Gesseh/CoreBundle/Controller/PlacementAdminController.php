@@ -166,7 +166,7 @@ class PlacementAdminController extends Controller
 
     /**
      * @Route("/placement/{id}/edit", name="GCore_PAPlacementEdit", requirements={"id" = "\d+"})
-     * @Template("GessehCoreBundle:PlacementAdmin:placement.html.twig")
+     * @Template("GessehCoreBundle:PlacementAdmin:edit.html.twig")
      */
     public function editPlacementAction(Request $request, Placement $placement)
     {
@@ -203,7 +203,7 @@ class PlacementAdminController extends Controller
 
     /**
      * @Route("/placement/new", name="GCore_PAPlacementNew")
-     * @Template("GessehCoreBundle:PlacementAdmin:placement.html.twig")
+     * @Template("GessehCoreBundle:PlacementAdmin:edit.html.twig")
      */
     public function newPlacementAction(Request $request)
     {

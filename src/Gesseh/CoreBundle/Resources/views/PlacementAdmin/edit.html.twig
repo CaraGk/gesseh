@@ -16,23 +16,10 @@
 {% endblock %}
 
 {% block content %}
-    {% if placement_form is not empty %}
-        {% form_theme placement_form 'GessehCoreBundle:Form:fields.html.twig' %}
-        <div>{{ form_errors(placement_form) }}</div>
-        {{ form_start(placement_form) }}
-    {% endif %}
-    {% if placement_form is not empty and placement_id is empty %}
-        <ul class="entities placements list-group">{% include 'GessehCoreBundle:PlacementAdmin:placementEdit.html.twig' %}</ul>
-    {% endif %}
-    <ul class="entities placements list-group">
-        {% for placement in placements %}
-            {% include placement_id == placement.id ? 'GessehCoreBundle:PlacementAdmin:placementEdit.html.twig' : 'GessehCoreBundle:PlacementAdmin:placementIndex.html.twig' %}
-        {% else %}
-            <li class="noentity placement list-group-item">Aucun stage à afficher</li>
-        {% endfor %}
-    </ul>
-    <div class="pagination">{{ knp_pagination_render(placements) }}</div>
-    {% if placement_form is not empty %}{{ form_end(placement_form) }}{% endif %}
+    <li id="placement_{% if placement is defined %}{{ placement.id }}{% else %}new{% endif %}">
+        {{ form(placement_form) }}
+        {% if kparam('eval_active') == true %}<td class="small"></td>{% endif %}
+    </li>
 {% endblock %}
 
 {% block stylesheets %}
