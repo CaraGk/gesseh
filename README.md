@@ -26,20 +26,7 @@ Pour son installation, vous aurez besoin d'un serveur web (apache, lighttpd, ...
 3) Téléchargement et installation
 ---------------------------------
 
-###Via une archive snapshot
-
-1. Récupérer la dernière version sur [GitHub](https://github.com/CaraGk/gesseh/releases).
-2. Extraire les fichiers (BZip ou 7zip) dans un répertoire.
-3. Copier le fichier *app/config/parameters.yml.dist* vers *app/config/parameters.yml* et le modifier selon les besoins (connexion MySQL, etc).
-4. Envoyer les fichiers via FTP (ou autre) dans le répertoire web du serveur.
-5. Pour mettre à jour la base de donnée : *http://ipduserverweb/gesseh/web/update* ; la base de donnée est automatiquement créée et un formulaire demande à créer le premier utilisateur.
-6. Les accès ultérieurs se font via l’URL : *http://ipduserverweb/gesseh/web/*.
-
-Pour les mises à jour, il faut suivre les mêmes étapes sauf que le fichier *app/config/parameters.yml* est déjà configuré et qu’il n’y aura pas de création du premier utilisateur.
-
 ###Via les dépots Git
-
-Il est conseillé, hors développeurs, d'utiliser une archive stable mais si vous souhaitez vraiment l'installer depuis Git, lancez les commandes suivantes :
 
     git clone http://github.com/CaraGk/gesseh.git gesseh
     cd gesseh
@@ -47,11 +34,12 @@ Il est conseillé, hors développeurs, d'utiliser une archive stable mais si vou
 Copiez le fichier *parameters.yml.dist* sur *parameters.yml* et adaptez-le à vos besoins (connexion MySQL, etc).
 
     cp app/config/parameters.yml.dist app/config/parameters.yml
-    ./composer.phar install
-
-Installez la base de données :
-
+    export SYMFONY_ENV=prod
+    ./composer.phar install --no-dev --optimize-autoloader
     ./app/console doctrine:migrations:migrate
+    ./app/console assetic:dump
+
+Rendez-vous sur  `http://adresseserveurweb/web/firstuser` pour créer le compte administrateur et finaliser votre installation.
 
 4) Pour en savoir plus
 ----------------------
