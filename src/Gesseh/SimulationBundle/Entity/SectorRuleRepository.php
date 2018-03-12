@@ -44,7 +44,7 @@ class SectorRuleRepository extends EntityRepository
       ;
   }
 
-  public function getForStudent($simstudent, $em)
+  public function getForStudent($simstudent, $period, $em)
   {
     $query = $this->createQueryBuilder('r')
                   ->join('r.sector', 's')
@@ -55,7 +55,6 @@ class SectorRuleRepository extends EntityRepository
 
     $results = $query->getQuery()->getResult();
     $rules['sector']['NOT'] = $rules['department']['NOT'] = $rules['department']['IN'] = array();
-    $period = $em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
 
     foreach ($results as $result) {
       if ($result->getRelation() == "NOT") {  /* sector forbidden for the student's prom' */

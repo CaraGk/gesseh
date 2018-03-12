@@ -50,12 +50,14 @@ class SimulationController extends Controller
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($user, $simid);
 
-        if(!$simstudent)
-            throw $this->createNotFoundException('Vous ne participez pas aux simulations. Contacter l\'administrateur du site si vous pensez que cette situation est anormale.');
+        if(!$simstudent) {
+            $this->session->getFlashBag()->add('error', 'Vous ne participez pas aux simulations. Contacter l\'administrateur du site si vous pensez que cette situation est anormale.');
+            return $this->redirect($this->generateUrl('GUser_SShow'));
+        }
 
         $last_period = $this->em->getRepository('GessehCoreBundle:Period')->getLast();
         $wishes = $this->em->getRepository('GessehSimulationBundle:Wish')->getByStudent($simstudent->getStudent(), $last_period->getId());
-        $rules = $this->em->getRepository('GessehSimulationBundle:SectorRule')->getForStudent($simstudent, $this->em);
+        $rules = $this->em->getRepository('GessehSimulationBundle:SectorRule')->getForStudent($simstudent, $last_period, $this->em);
         $missing = $this->em->getRepository('GessehSimulationBundle:Simulation')->countMissing($simstudent);
 
         $new_wish = new Wish();
@@ -238,8 +240,10 @@ class SimulationController extends Controller
         $simid = $this->getRequest()->get('simid');
         $simstudent = $this->testAdminTakeOver($user, $simid);
 
-        if (!$this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
-            throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+        if (!$this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
+            $this->session->getFlashBag()->add('error', 'Aucune session de simulation en cours actuellement. Repassez plus tard.');
+            return $this->redirect($this->getRequest()->headers->get('referer'));
+        }
 
         $last_period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getLast()->getPeriod();
         $repartitions = $this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriod($last_period);
@@ -308,8 +312,10 @@ class SimulationController extends Controller
      */
     public function listSimulationsAction()
     {
-      if (!$this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
-        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+        if (!$this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
+            $this->session->getFlashBag()->add('error', 'Aucune session de simulation en cours actuellement. Repassez plus tard.');
+            return $this->redirect($this->generateUrl('GSimul_SIndex', array('simid' => $simid)));
+        }
 
       $simulations = $this->em->getRepository('GessehSimulationBundle:Simulation')->getAll()->getResult();
 
@@ -326,8 +332,10 @@ class SimulationController extends Controller
      */
     public function listSimulDeptAction(Department $department)
     {
-      if (!$this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
-        throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
+        if (!$this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive()) {
+            $this->session->getFlashBag()->add('error', 'Aucune session de simulation en cours actuellement. Repassez plus tard.');
+            return $this->redirect($this->generateUrl('GSimul_SIndex', array('simid' => $simid)));
+        }
 
       $simulations = $this->em->getRepository('GessehSimulationBundle:Simulation')->findByDepartment($department->getId());
 
@@ -346,9 +354,6 @@ class SimulationController extends Controller
         if ($user->hasRole('ROLE_ADMIN') and $simid) {
             return $this->em->getRepository('GessehSimulationBundle:Simulation')->getSimStudent($simid);
         } else {
-            if (!$this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
-                throw $this->createNotFoundException('Aucune session de simulation en cours actuellement. Repassez plus tard.');
-
             return $this->em->getRepository('GessehSimulationBundle:Simulation')->getByUser($user);
         }
     }
