@@ -106,7 +106,7 @@ class EvaluationRepository extends EntityRepository
             $calc[$criteria_id]['total'][$period_id] ++;
 
             if ($criteria->getType() == 2) {
-                $calc[$criteria_id]['text'][$period_id] = $value;
+                $calc[$criteria_id]['text'][] = $value;
 
             } elseif ($criteria->getType() == 1 or $criteria->getType() == 4 or $criteria->getType() == 7) {
                 if (!isset($calc[$criteria_id]['count'][0])) {
