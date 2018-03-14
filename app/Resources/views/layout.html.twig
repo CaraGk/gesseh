@@ -1,25 +1,15 @@
 {% extends 'MopaBootstrapBundle::base_initializr.html.twig' %}
 
 {% block head_style %}
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    {{ parent() }}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    {% stylesheets
-        '@GessehCoreBundle/Resources/public/css/main.css'
-        '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'
+    {% stylesheets filter="cssrewrite,lessphp" output="css/main.css"
+        '@GessehCoreBundle/Resources/public/less/main.less'
     %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
     {% endstylesheets %}
+    {% if diagnostic_mode %}
+        <link href="{{ asset('bundles/mopabootstrap/css/diagnostic.css') }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endif %}
 {% endblock head_style %}
-
-{% block head_script %}
-    {% javascripts
-        'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
-    %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    {% endjavascripts %}
-{% endblock head_script %}
 
 {% block title %}
     {{ kparam('title') }}
@@ -89,12 +79,14 @@
 {% endblock footer %}
 
 {% block foot_script_assetic %}
-
+{{ parent() }}
 {% block javascripts %}
 {% javascripts
-'@MopaBootstrapBundle/Resources/public/js/*.js'
-'@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.js'
-'@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js'
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/tooltip.js'
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/*.js'
+    '@MopaBootstrapBundle/Resources/public/js/*.js'
+    '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.js'
+    '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js'
 %}
 <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}

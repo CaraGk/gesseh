@@ -19,7 +19,7 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "friendsofsymfony/user-bundle": "2.0.2",
         "knplabs/knp-menu-bundle": "^2.0",
         "knplabs/knp-paginator-bundle": "^2.6",
         "stfalcon/tinymce-bundle": "1.0",
@@ -28,8 +28,8 @@
         "whiteoctober/tcpdf-bundle": "^1.0",
         "jms/di-extra-bundle": "^1.8",
         "jms/security-extra-bundle": "^1.6",
-        "mopa/bootstrap-bundle": "^3.2",
-        "twbs/bootstrap": "^3.3",
+        "mopa/bootstrap-bundle": "~3.2",
+        "twbs/bootstrap": "~3.3.0",
         "craue/formflow-bundle": "~3.0@dev",
         "php-http/guzzle6-adapter": "^1.1",
         "payum/payum-bundle": "^2.1",
@@ -38,7 +38,8 @@
         "doctrine/doctrine-migrations-bundle": "^1.0",
         "vich/uploader-bundle": "^1.4",
         "knplabs/knp-snappy-bundle": "^1.4",
-        "h4cc/wkhtmltopdf-amd64": "^0.12.3"
+        "h4cc/wkhtmltopdf-amd64": "^0.12.3",
+        "oyejorge/less.php": "v1.7.0.14"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
@@ -53,7 +54,8 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -61,7 +63,8 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
         ]
     },
     "config": {
