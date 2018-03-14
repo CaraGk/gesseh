@@ -166,4 +166,12 @@ class DepartmentRepository extends EntityRepository
         return $query->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function getAllInArray()
+    {
+        return $this->createQueryBuilder('d')
+            ->getQuery()
+            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY)
+        ;
+    }
 }

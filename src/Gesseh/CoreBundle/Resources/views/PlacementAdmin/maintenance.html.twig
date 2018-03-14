@@ -1,0 +1,49 @@
+{% extends 'GessehCoreBundle::layout.html.twig' %}
+
+{% block titlecontent %}Maintenance{% endblock %}
+
+{% block content %}
+    <div class="panel panel-primary" id="repartitions" data-departments="{{ departments|json_encode }}">
+        <div class="panel-heading">Maintenance des répartitions</div>
+        <div class="panel-body">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="0"   aria-valuemin="0" aria-valuemax="100" style="width:0%">0 %</div>
+            </div>
+            <div class="info"></div>
+        </div>
+        <div class="panel-footer">Aucune erreur</div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var departments = $('#repartitions').data('departments');
+            var count = 0, ongoing = 0, repartitions = 0;
+            for (let d of departments) {
+                $.ajax({
+                    url: "{{ path('GCore_PARepartitionsDepartmentMaintenance') }}",
+                    method: "GET",
+                    data: {department_id: d.id},
+                    success: function(response) {
+                        $('#repartitions .info').text(d.id + ': ' + d.name);
+                        repartitions = repartitions + parseInt(response.message);
+                        if (repartitions > 0)
+                            $('#repartitions panel.heading').text('Maintenance des répartitions : ' + repartitions + ' répartitions ajoutées');
+                        count++;
+                        ongoing = Math.round(count*100/departments.length);
+                        $('#repartitions .progress-bar').attr('aria-valuenow', ongoing).css('width', ongoing + '%').text(ongoing + '%');
+                    },
+                    error: function(response) {
+                        console.log(response);
+                        $('#repartitions .panel-footer').append(d.id + ': ' + d.name + ' (' + response.message +')<br />');
+                        count++;
+                        ongoing = Math.round(count*100/departments.length);
+                        $('#repartitions .progress-bar').attr('aria-valuenow', ongoing).css('width', ongoing + '%').text(ongoing + '%');
+                    },
+                });
+            }
+        });
+    </script>
+{% endblock %}

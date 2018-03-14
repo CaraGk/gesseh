@@ -130,7 +130,8 @@ class RepartitionRepository extends EntityRepository
     {
         $query = $this->getByPeriodQuery($period);
         $query->andWhere('d.id = :department_id')
-              ->setParameter('department_id', $department_id)
+            ->setParameter('department_id', $department_id)
+            ->setMaxResults(1)
         ;
 
         return $query->getQuery()

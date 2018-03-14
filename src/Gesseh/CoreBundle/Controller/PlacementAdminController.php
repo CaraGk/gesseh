@@ -4,7 +4,7 @@
  * This file is part of GESSEH project
  *
  * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2013-2017 Pierre-François Angrand
+ * @copyright: Copyright 2013-2018 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -14,7 +14,8 @@ namespace Gesseh\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpFoundation\JsonResponse;
 use JMS\DiExtraBundle\Annotation as DI,
     JMS\SecurityExtraBundle\Annotation as Security;
 use Gesseh\CoreBundle\Entity\Period,
@@ -324,18 +325,37 @@ class PlacementAdminController extends Controller
     }
 
     /**
-     * Maintenance for repartitions
+     * Maintenance tasks
      *
-     * @Route("/maintenance/repartition", name="GCore_PAMaintenanceRepartition")
+     * @Route("/maintenance/", name="GCore_PAMaintenance")
+     * @Template()
      */
-    public function maintenanceRepartitionAction(Request $request)
+    public function maintenanceAction(Request $request)
+    {
+        $departments = $this->em->getRepository('GessehCoreBundle:Department')->getAllInArray();
+
+        return array(
+            'departments' => $departments,
+        );
+    }
+
+    /**
+     * Maintenance for department's repartitions
+     *
+     * @Route("/department/repartitions/", name="GCore_PARepartitionsDepartmentMaintenance")
+     */
+    public function repartitionsForDepartmentMaintenanceAction(Request $request)
     {
         $periods = $this->em->getRepository('GessehCoreBundle:Period')->findAll();
-        $department = $this->em->getRepository('GessehCoreBundle:Department')->getNext($request->query->get('department', 0));
-        if (!$department) {
-            $this->session->getFlashBag()->add('notice', 'Maintenance terminée !');
-            return $this->redirect($this->generateUrl('GCore_PAPeriodIndex'));
+        $department = $this->em->getRepository('GessehCoreBundle:Department')->find($request->get('department_id'));
+
+        if(!$department) {
+            if ($request->isXmlHttpRequest())
+                return new JsonResponse(array('message' => 'Error: Unknown entity.'), 404);
+            else
+                throw $this->createNotFoundException('Unable to find department entity.');
         }
+
         $count = 0;
         foreach ($periods as $period) {
             if (!$this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndDepartment($period, $department->getId())) {
@@ -349,39 +369,16 @@ class PlacementAdminController extends Controller
         }
         $this->em->flush();
 
-        $this->session->getFlashBag()->add('notice', 'Maintenance en cours : Terrain : ' . $department . ' = ' . $count . ' répartition(s) ajoutée(s)');
-        return $this->redirect($this->generateUrl('GCore_PAMaintenanceRepartition', array('department' => $department->getId())));
-    }
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(array(
+                'message' => $count,
+            ), 200);
+        } else {
+            $this->session->getFlashBag()->add('notice', 'Maintenance : ' . $department . ' -> ' . $count . ' répartition(s) ajoutée(s)');
 
-    /**
-     * Maintenance for department's repartitions
-     *
-     * @Route("/department/{department_id}/repartitions/maintenance", name="GCore_PARepartitionsDepartmentMaintenance")
-     */
-    public function repartitionsForDepartmentMaintenanceAction($department_id)
-    {
-        $periods = $this->em->getRepository('GessehCoreBundle:Period')->findAll();
-        $department = $this->em->getRepository('GessehCoreBundle:Department')->find($department_id);
-
-        if(!$department)
-            throw $this->createNotFoundException('Unable to find department entity.');
-
-        $count = 0;
-        foreach ($periods as $period) {
-            if (!$this->em->getRepository('GessehCoreBundle:Repartition')->getByPeriodAndDepartment($period, $department_id)) {
-                $repartition = new Repartition();
-                $repartition->setDepartment($department);
-                $repartition->setPeriod($period);
-                $repartition->setNumber(0);
-                $this->em->persist($repartition);
-                $count++;
-            }
+            return $this->redirect($this->generateUrl('GCore_PARepartitionsDepartment', array(
+                'department_id' => $department->getId(),
+            )));
         }
-        $this->em->flush();
-
-        $this->session->getFlashBag()->add('notice', 'Maintenance : ' . $department . ' -> ' . $count . ' répartition(s) ajoutée(s)');
-        return $this->redirect($this->generateUrl('GCore_PARepartitionsDepartment', array(
-            'department_id' => $department->getId(),
-        )));
     }
 }
