@@ -100,7 +100,10 @@ class SimulationController extends Controller
         if(!$wish)
             throw $this->createNotFoundException('Unable to find Wish entity');
 
-        $period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
+        if (!$this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+            $period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getLast()->getPeriod();
+        else
+            $period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
 
         $rank = $wish->getRank();
         if ($rank > 1) {
@@ -135,7 +138,10 @@ class SimulationController extends Controller
         if(!$wish)
           throw $this->createNotFoundException('Unable to find Wish entity');
 
-        $period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
+        if (!$this->em->getRepository('GessehSimulationBundle:SimulPeriod')->isSimulationActive())
+            $period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getLast()->getPeriod();
+        else
+            $period = $this->em->getRepository('GessehSimulationBundle:SimulPeriod')->getActive()->getPeriod();
 
         $rank = $wish->getRank();
         $max_rank = $this->em->getRepository('GessehSimulationBundle:Wish')->getMaxRank($simstudent->getStudent());

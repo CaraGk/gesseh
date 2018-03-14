@@ -36,8 +36,10 @@
                         $('#repartitions .progress-bar').attr('aria-valuenow', ongoing).css('width', ongoing + '%').text(ongoing + '%');
                     },
                     error: function(response) {
-                        console.log(response);
-                        $('#repartitions .panel-footer').append(d.id + ': ' + d.name + ' (' + response.message +')<br />');
+                        if ($('#repartitions .panel-footer').text() != 'Aucune erreur')
+                            $('#repartitions .panel-footer').append(d.id + ': ' + d.name + ' (' + response.message +')<br />');
+                        else
+                            $('#repartitions .panel-footer').text(d.id + ': ' + d.name + ' (' + response.message +')<br />');
                         count++;
                         ongoing = Math.round(count*100/departments.length);
                         $('#repartitions .progress-bar').attr('aria-valuenow', ongoing).css('width', ongoing + '%').text(ongoing + '%');
