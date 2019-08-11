@@ -64,6 +64,14 @@ class Repartition
      */
     private $cluster;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Structure", inversedBy="receipts", cascade={"persist"})
+     * @ORM\JoinColumn(name="structure_id", referencedColumnName="id")
+     *
+     * @var Structure $structure
+     */
+    private $structure;
+
     public function __toString()
     {
         return $this->department->getName() . " à " . $this->department->getHospital()->getName() . " (" . $this->period->getBegin()->format('d/m/Y') . "-" . $this->period->getEnd()->format('d/m/Y') . ")";
@@ -195,4 +203,28 @@ class Repartition
     {
         return $this->cluster;
     }
+    /**
+     * Set structure
+     *
+     * @param \Gesseh\RegisterBundle\Entity\Structure $structure
+     *
+     * @return Fee
+     */
+    public function setStructure(\Gesseh\RegisterBundle\Entity\Structure $structure = null)
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
+
+    /**
+     * Get structure
+     *
+     * @return \Gesseh\RegisterBundle\Entity\Structure
+     */
+    public function getStructure()
+    {
+        return $this->structure;
+    }
+
 }

@@ -51,6 +51,14 @@ class Sector
      */
     private $accreditations;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Structure", inversedBy="receipts", cascade={"persist"})
+     * @ORM\JoinColumn(name="structure_id", referencedColumnName="id")
+     *
+     * @var Structure $structure
+     */
+    private $structure;
+
     public function __construct()
     {
         $this->accreditations = new \Doctrine\Common\Collections\ArrayCollection();
@@ -146,4 +154,28 @@ class Sector
     {
         return $this->accreditations;
     }
+    /**
+     * Set structure
+     *
+     * @param \Gesseh\RegisterBundle\Entity\Structure $structure
+     *
+     * @return Fee
+     */
+    public function setStructure(\Gesseh\RegisterBundle\Entity\Structure $structure = null)
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
+
+    /**
+     * Get structure
+     *
+     * @return \Gesseh\RegisterBundle\Entity\Structure
+     */
+    public function getStructure()
+    {
+        return $this->structure;
+    }
+
 }

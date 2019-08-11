@@ -1,10 +1,10 @@
 <?php
 
 /**
- * This file is part of GESSEH project
+ * This file is part of PIGASS project
  *
- * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2017 Pierre-François Angrand
+ * @author: Pierre-François ANGRAND <pigass@medlibre.fr>
+ * @copyright: Copyright 2017-2018 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * Gesseh\RegisterBundle\Entity\Receipt
+ * App\Entity\Receipt
  *
  * @ORM\Table(name="receipt")
  * @ORM\Entity(repositoryClass="Gesseh\RegisterBundle\Entity\ReceiptRepository")
@@ -51,11 +51,11 @@ class Receipt
 
     /**
      * @ORM\ManyToOne(targetEntity="\Gesseh\UserBundle\Entity\Student", inversedBy="receipts", cascade={"persist"})
-     * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      *
-     * @var Student $student
+     * @var Person $person
      */
-    private $student;
+    private $person;
 
     /**
      * @ORM\Column(name="position", type="string", length=50, nullable=false)
@@ -66,19 +66,31 @@ class Receipt
     private $position;
 
     /**
-     * @Vich\UploadableField(mapping="receipt_sign", fieldNameProperty="imageName")
+     * @Vich\UploadableField(mapping="receipt_sign", fileNameProperty="imageName")
+     * @Assert\File(
+     *     maxSize = "1000k",
+     *     mimeTypes = {"image/jpeg", "image/gif", "image/png"},
+     *     mimeTypesMessage = "Le fichier doit être une image (PNG, JPEG, GIF)"
+     * )
      *
      * @var File $image
      */
-    private $image;
+    private $imageFile;
 
     /**
      * @ORM\Column(name="sign", type="string", length=255, nullable=true)
-     * @Assert\Image()
      *
      * @var string $imageName
      */
     private $imageName;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Structure", inversedBy="receipts", cascade={"persist"})
+     * @ORM\JoinColumn(name="structure_id", referencedColumnName="id")
+     *
+     * @var Structure $structure
+     */
+    private $structure;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
@@ -90,7 +102,7 @@ class Receipt
 
     public function __toString()
     {
-        return $this->begin->format('Y') . ' - ' . $this->end->format('Y');
+        return $this->structure->getName() . ' : ' . $this->begin->format('Y') . ' - ' . $this->end->format('Y');
     }
 
     /**
@@ -104,6 +116,17 @@ class Receipt
     {
         $this->image = $image;
 
+        if ($image) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
         if ($image)
             $this->updatedAt = new \DateTimeImmutable();
     }
@@ -116,6 +139,11 @@ class Receipt
     public function getImage()
     {
         return $this->image;
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 
     /**
@@ -207,7 +235,7 @@ class Receipt
      *
      * @return Receipt
      */
-    public function setImageName($imageName)
+    public function setImageName(string $imageName = null)
     {
         $this->imageName = $imageName;
 
@@ -249,26 +277,55 @@ class Receipt
     }
 
     /**
-     * Set student
+     * Set person
      *
-     * @param \Gesseh\UserBundle\Entity\Student $student
+     * @param \Gesseh\RegisterBundle\Entity\Person $person
      *
      * @return Receipt
      */
-    public function setStudent(\Gesseh\UserBundle\Entity\Student $student = null)
+    public function setPerson(\Gesseh\UserBundle\Entity\Student $person = null)
     {
-        $this->student = $student;
+        $this->person = $person;
 
         return $this;
     }
 
     /**
-     * Get student
+     * Get person
      *
-     * @return \Gesseh\UserBundle\Entity\Student
+     * @return \Gesseh\RegisterBundle\Entity\Person
      */
-    public function getStudent()
+    public function getPerson()
     {
-        return $this->student;
+        return $this->person;
+    }
+
+    /**
+     * Set structure
+     *
+     * @param \Gesseh\RegisterBundle\Entity\Structure $structure
+     *
+     * @return Receipt
+     */
+    public function setStructure(\Gesseh\RegisterBundle\Entity\Structure $structure = null)
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
+
+    /**
+     * Get structure
+     *
+     * @return \Gesseh\RegisterBundle\Entity\Structure
+     */
+    public function getStructure()
+    {
+        return $this->structure;
+    }
+
+    public function getFilename()
+    {
+        return $this->structure->getSlug() . "_" . uniqid();
     }
 }

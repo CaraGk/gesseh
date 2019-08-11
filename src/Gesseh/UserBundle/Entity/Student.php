@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Gesseh\UserBundle\Entity\Student
  *
- * @ORM\Table(name="student")
+ * @ORM\Table(name="person")
  * @ORM\Entity(repositoryClass="Gesseh\UserBundle\Entity\StudentRepository")
  */
 class Student
@@ -122,6 +122,14 @@ class Student
    * @ORM\OneToMany(targetEntity="Gesseh\CoreBundle\Entity\Placement", mappedBy="student", cascade={"remove", "persist"}, orphanRemoval=true)
    */
   private $placements;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Structure", inversedBy="receipts", cascade={"persist"})
+     * @ORM\JoinColumn(name="structure_id", referencedColumnName="id")
+     *
+     * @var Structure $structure
+     */
+    private $structure;
 
   public function __toString()
   {
@@ -477,6 +485,30 @@ class Student
     public function getBirthplace()
     {
         return $this->birthplace;
+    }
+
+    /**
+     * Set structure
+     *
+     * @param \Gesseh\RegisterBundle\Entity\Structure $structure
+     *
+     * @return Fee
+     */
+    public function setStructure(\Gesseh\RegisterBundle\Entity\Structure $structure = null)
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
+
+    /**
+     * Get structure
+     *
+     * @return \Gesseh\RegisterBundle\Entity\Structure
+     */
+    public function getStructure()
+    {
+        return $this->structure;
     }
 
 }

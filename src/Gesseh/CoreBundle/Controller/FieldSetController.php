@@ -124,11 +124,10 @@ class FieldSetController extends Controller
      */
     public function updateAction()
     {
+        $em = $this->getDoctrine()->getManager();
         /** Update database if some migrations are pending */
         if ($this->hasToMigrate($this->getDoctrine()->getConnection())) {
             $this->get('session')->getFlashBag()->add('notice', 'Mise à jour de la base de donnée effectuée.');
-
-            $em = $this->getDoctrine()->getManager();
 
             /** Go to first user form if repository User is empty */
             if(!$em->getRepository('GessehUserBundle:User')->findAll()){
@@ -137,6 +136,35 @@ class FieldSetController extends Controller
         } else {
             $this->get('session')->getFlashBag()->add('notice', 'Toutes les mises à jour de la base de donnée ont déjà été effectuées.');
         }
+
+        $parameters = $em->getRepository('GessehParameterBundle:Parameter')->findAll();
+        foreach ($parameters as $parameter) {
+            $name = $parameter->getName();
+            $t = explode('_', $name);
+            if (count($t) == 2) {
+                $name = $t[0] . '_site_' . $t[1];
+                $parameter->setName($name);
+                $em->persist($parameter);
+            } else {
+                var_dump($t);
+            }
+        }
+
+
+        $gateways = $em->getRepository('GessehRegisterBundle:Gateway')->findAll();
+        foreach ($gateways as $gateway) {
+            $name = $gateway->getGatewayName();
+            $t = explode('_', $name);
+            if (count($t) == 2) {
+                $name = $t[0] . '_site_' . $t[1];
+                $gateway->setGatewayName($name);
+                $em->persist($gateway);
+            } else {
+                var_dump($t);
+            }
+        }
+
+        $em->flush();
 
         return $this->redirect($this->generateUrl('GCore_FSIndex'));
     }

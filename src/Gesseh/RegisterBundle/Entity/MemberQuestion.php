@@ -1,10 +1,10 @@
 <?php
 
 /**
- * This file is part of GESSEH project
+ * This file is part of PIGASS project
  *
- * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2015 Pierre-François Angrand
+ * @author: Pierre-François ANGRAND <pigass@medlibre.fr>
+ * @copyright: Copyright 2015-2018 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -63,6 +63,33 @@ class MemberQuestion
      * @ORM\OneToMany(targetEntity="MemberInfo", mappedBy="question", cascade={"remove", "persist"}, orphanRemoval=true)
      */
     private $infos;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="required", type="boolean", nullable=true)
+     */
+    private $required;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="short", type="string", length=40)
+     */
+    private $short;
+
+    /**
+     * @var Structure
+     *
+     * @ORM\ManyToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Structure")
+     * @ORM\JoinColumn(name="structure_id", referencedColumnName="id")
+     */
+    private $structure;
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get id
@@ -234,5 +261,86 @@ class MemberQuestion
     public function getInfos()
     {
         return $this->infos;
+    }
+
+    /**
+     * Set structure
+     *
+     * @param \Gesseh\RegisterBundle\Entity\Structure $structure
+     *
+     * @return MemberQuestion
+     */
+    public function setStructure(\Gesseh\RegisterBundle\Entity\Structure $structure = null)
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
+
+    /**
+     * Get structure
+     *
+     * @return \Gesseh\RegisterBundle\Entity\Structure
+     */
+    public function getStructure()
+    {
+        return $this->structure;
+    }
+
+    /**
+     * Set required
+     *
+     * @param  boolean  $required
+     * @return Question
+     */
+    public function setRequired($required)
+    {
+        $this->required = $required;
+
+        return $this;
+    }
+
+    /**
+     * Is required
+     *
+     * @return boolean
+     */
+    public function isRequired()
+    {
+        return $this->required;
+    }
+
+    /**
+     * Get required
+     *
+     * @return boolean
+     */
+    public function getRequired()
+    {
+        return $this->required;
+    }
+
+    /**
+     * Set short
+     *
+     * @param string $short
+     *
+     * @return MemberQuestion
+     */
+    public function setShort($short)
+    {
+        $this->short = $short;
+
+        return $this;
+    }
+
+    /**
+     * Get short
+     *
+     * @return string
+     */
+    public function getShort()
+    {
+        return $this->short;
     }
 }

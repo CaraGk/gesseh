@@ -64,6 +64,12 @@ class Parameter extends BaseParameter
      */
     private $more;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Structure")
+     * @ORM\JoinColumn(name="structure_id", referencedColumnName="id")
+     */
+    private $structure;
+
     public function __construct()
     {
       parent::__construct();
@@ -171,5 +177,15 @@ class Parameter extends BaseParameter
     public function getMore()
     {
         return $this->more;
+    }
+
+    public function getStructure()
+    {
+        return $this->structure;
+    }
+    public function setStructure(\Gesseh\RegisterBundle\Entity\Structure $structure)
+    {
+        $this->structure = $structure;
+        return $this;
     }
 }

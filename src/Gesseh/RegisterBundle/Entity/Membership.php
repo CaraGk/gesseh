@@ -1,10 +1,10 @@
 <?php
 
 /**
- * This file is part of GESSEH project
+ * This file is part of PIGASS project
  *
- * @author: Pierre-François ANGRAND <gesseh@medlibre.fr>
- * @copyright: Copyright 2015 Pierre-François Angrand
+ * @author: Pierre-François ANGRAND <pigass@medlibre.fr>
+ * @copyright: Copyright 2015-2018 Pierre-François Angrand
  * @license: GPLv3
  * See LICENSE file or http://www.gnu.org/licenses/gpl.html
  */
@@ -32,23 +32,39 @@ class Membership
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Gesseh\UserBundle\Entity\Student", cascade={"persist"})
-     * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="\Gesseh\UserBundle\Entity\Student", inversedBy="memberships", cascade={"persist"})
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
-    private $student;
+    private $person;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="amount", type="decimal", precision=2)
+     * @ORM\Column(name="amount", type="smallint")
      */
     private $amount;
 
     /**
+     * @ORM\ManyToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Fee")
+     * @ORM\JoinColumn(name="fee_id", referencedColumnName="id")
+     */
+    private $fee;
+
+    /**
+     * @var string
+     *
      * @ORM\ManyToOne(targetEntity="Gateway", cascade={"persist"})
      * @ORM\JoinColumn(name="method_id", referencedColumnName="id")
      */
     private $method;
+
+    /**
+     * @var Structure $structure
+     *
+     * @ORM\ManyToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Structure", cascade={"persist"})
+     * @ORM\JoinColumn(name="structure_id", referencedColumnName="id")
+     */
+    private $structure;
 
     /**
      * @var \DateTime
@@ -71,6 +87,27 @@ class Membership
     private $payment;
 
     /**
+     * @var string $status
+     *
+     * @ORM\Column(name="status", type="string", length=10)
+     */
+    private $status;
+
+    /**
+     * @var string $ref
+     *
+     * @ORM\Column(name="ref", type="string", length=50, nullable=true)
+     */
+    private $ref;
+
+    /**
+     * @var boolean $privacy
+     *
+     * @ORM\Column(name="privacy", type="boolean")
+     */
+    private $privacy;
+
+    /**
      * @ORM\OneToMany(targetEntity="MemberInfo", mappedBy="membership", cascade={"remove", "persist"}, orphanRemoval=true)
      */
     private $infos;
@@ -87,26 +124,26 @@ class Membership
     }
 
     /**
-     * Set student
+     * Set person
      *
-     * @param Gesseh\UserBundle\Entity\Student $student
+     * @param App\Entity\Person $person
      * @return Membership
      */
-    public function setStudent(\Gesseh\UserBundle\Entity\Student $student = null)
+    public function setPerson(\Gesseh\UserBundle\Person $person = null)
     {
-        $this->student = $student;
+        $this->person = $person;
 
         return $this;
     }
 
     /**
-     * Get student
+     * Get person
      *
-     * @return Gesseh\UserBundle\Entity\Student
+     * @return App\Entity\Person
      */
-    public function getStudent()
+    public function getPerson()
     {
-        return $this->student;
+        return $this->person;
     }
 
     /**
@@ -125,20 +162,24 @@ class Membership
     /**
      * Get amount
      *
+     * @param boolean $humanReadable
      * @return integer
      */
-    public function getAmount()
+    public function getAmount($humanReadable = false)
     {
-        return $this->amount;
+        if ($humanReadable)
+            return number_format($this->amount / 100, 2,',',' ') . ' €';
+        else
+            return $this->amount;
     }
 
     /**
      * Set method
      *
-     * @param string $method
+     * @param Gateway $method
      * @return Membership
      */
-    public function setMethod($method)
+    public function setMethod(Gateway $method)
     {
         $this->method = $method;
 
@@ -148,26 +189,11 @@ class Membership
     /**
      * Get method
      *
-     * @return string
+     * @return Gateway
      */
     public function getMethod()
     {
         return $this->method;
-    }
-
-    /**
-     * Get readable method
-     *
-     * @return string
-     */
-    public function getReadableMethod()
-    {
-        if ($this->method == 1 or $this->method == 'offline')
-            return 'Chèque';
-        elseif ($this->method == 2 or $this->method == 'paypal')
-            return 'Paypal';
-        elseif ($this->method == 3 or $this->method == 'sips')
-            return 'Carte bancaire';
     }
 
     /**
@@ -264,5 +290,133 @@ class Membership
     public function getInfos()
     {
         return $this->infos;
+    }
+
+    /**
+     * Set structure
+     *
+     * @param \Gesseh\RegisterBundle\Entity\Structure $structure
+     *
+     * @return Membership
+     */
+    public function setStructure(\Gesseh\RegisterBundle\Entity\Structure $structure = null)
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
+
+    /**
+     * Get structure
+     *
+     * @return \Gesseh\RegisterBundle\Entity\Structure
+     */
+    public function getStructure()
+    {
+        return $this->structure;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Membership
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set fee
+     *
+     * @param \Gesseh\RegisterBundle\Entity\Fee $fee
+     *
+     * @return Membership
+     */
+    public function setFee(\Gesseh\RegisterBundle\Entity\Fee $fee = null)
+    {
+        $this->fee = $fee;
+
+        return $this;
+    }
+
+    /**
+     * Get fee
+     *
+     * @return \Gesseh\RegisterBundle\Entity\Fee
+     */
+    public function getFee()
+    {
+        return $this->fee;
+    }
+
+    /**
+     * Set ref
+     *
+     * @param string $ref
+     *
+     * @return Membership
+     */
+    public function setRef($ref)
+    {
+        $this->ref = $ref;
+
+        return $this;
+    }
+
+    /**
+     * Get ref
+     *
+     * @return string
+     */
+    public function getRef()
+    {
+        return $this->ref;
+    }
+
+    /**
+     * Set privacy
+     *
+     * @param boolean $privacy
+     *
+     * @return Membership
+     */
+    public function setPrivacy($privacy)
+    {
+        $this->privacy = $privacy;
+    }
+
+    /**
+     * Get privacy
+     *
+     * @return boolean
+     */
+    public function getPrivacy()
+    {
+        return $this->privacy;
+    }
+
+    /**
+     * Is Rejoinable
+     *
+     * @return boolean
+     */
+    public function isRejoinable($date)
+    {
+        return ($this->status != 'registered' or $this->expiredOn <= $date)?true:false;
     }
 }
