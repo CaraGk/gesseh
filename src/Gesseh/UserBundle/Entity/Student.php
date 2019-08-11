@@ -15,12 +15,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Gesseh\UserBundle\Entity\Student
+ * Gesseh\UserBundle\Entity\Person
  *
  * @ORM\Table(name="person")
- * @ORM\Entity(repositoryClass="Gesseh\UserBundle\Entity\StudentRepository")
+ * @ORM\Entity(repositoryClass="Gesseh\UserBundle\Entity\PersonRepository")
  */
-class Student
+class Person
 {
   /**
    * @var integer $id
@@ -92,7 +92,7 @@ class Student
   private $user;
 
   /**
-   * @ORM\ManyToOne(targetEntity="Grade", inversedBy="students")
+   * @ORM\ManyToOne(targetEntity="Grade", inversedBy="persons")
    * @ORM\JoinColumn(name="grade_id", referencedColumnName="id")
    */
   private $grade;
@@ -119,7 +119,7 @@ class Student
   private $anonymous;
 
   /**
-   * @ORM\OneToMany(targetEntity="Gesseh\CoreBundle\Entity\Placement", mappedBy="student", cascade={"remove", "persist"}, orphanRemoval=true)
+   * @ORM\OneToMany(targetEntity="Gesseh\CoreBundle\Entity\Placement", mappedBy="person", cascade={"remove", "persist"}, orphanRemoval=true)
    */
   private $placements;
 
@@ -351,7 +351,7 @@ class Student
      * Set address
      *
      * @param  string  $address
-     * @return Student
+     * @return Person
      */
     public function setAddress($address)
     {
@@ -377,7 +377,7 @@ class Student
     public function addPlacement(\Gesseh\CoreBundle\Entity\Placement $placement)
     {
         $this->placements[] = $placement;
-        $placement->setStudent($this);
+        $placement->setPerson($this);
     }
 
     /**
@@ -398,7 +398,7 @@ class Student
     {
       $this->placements = $placements;
       foreach($placements as $placement)
-        $placement->setStudent($this);
+        $placement->setPerson($this);
     }
 
     /**
@@ -422,7 +422,7 @@ class Student
      * Set title
      *
      * @param $title
-     * @return Student
+     * @return Person
      */
     public function setTitle($title)
     {
@@ -445,7 +445,7 @@ class Student
      * Set birthday
      *
      * @param $birthday
-     * @return Student
+     * @return Person
      */
     public function setBirthday($birthday)
     {
@@ -468,7 +468,7 @@ class Student
      * Set birthplace
      *
      * @param $birthplace
-     * @return Student
+     * @return Person
      */
     public function setBirthplace($birthplace)
     {

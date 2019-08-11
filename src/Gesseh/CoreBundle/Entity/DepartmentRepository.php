@@ -74,13 +74,13 @@ class DepartmentRepository extends EntityRepository
         ;
     }
 
-  public function getByStudent($student_id)
+  public function getByPerson($person_id)
   {
     $query = $this->getBaseQueryWithRepartitions();
     $query->join('r.placements', 'p')
-          ->join('p.student', 't')
-          ->where('t.id = :student_id')
-          ->setParameter('student_id', $student_id);
+          ->join('p.person', 't')
+          ->where('t.id = :person_id')
+          ->setParameter('person_id', $person_id);
 
     return $query->getQuery()
                  ->getResult()

@@ -21,7 +21,7 @@ class SimulationRepository extends EntityRepository
   public function getAll()
   {
     $query = $this->createQueryBuilder('t')
-                  ->join('t.student', 's')
+                  ->join('t.person', 's')
                   ->addSelect('s')
                   ->orderBy('t.rank', 'asc');
 
@@ -31,7 +31,7 @@ class SimulationRepository extends EntityRepository
   public function getSimulationQuery()
   {
     return $this->createQueryBuilder('t')
-                  ->join('t.student', 's')
+                  ->join('t.person', 's')
                   ->join('s.grade', 'g')
                   ->join('s.user', 'u')
                   ->addSelect('s')
@@ -47,7 +47,7 @@ class SimulationRepository extends EntityRepository
     return $query->getQuery()->getOneOrNullResult();
   }
 
-  public function getSimStudent($id)
+  public function getSimPerson($id)
   {
     $query = $this->getSimulationQuery();
     $query->where('t.id = :id')
@@ -56,15 +56,15 @@ class SimulationRepository extends EntityRepository
     return $query->getQuery()->getSingleResult();
   }
 
-  public function setSimulationTable($students, $em)
+  public function setSimulationTable($persons, $em)
   {
     $count = 1;
 
-    foreach ($students as $student) {
+    foreach ($persons as $person) {
       $simulation = new Simulation();
       $simulation->setId($count);
       $simulation->setRank($count);
-      $simulation->setStudent($student);
+      $simulation->setPerson($person);
       $simulation->setActive(true);
       $simulation->setDepartment(null);
       $em->persist($simulation);
@@ -86,7 +86,7 @@ class SimulationRepository extends EntityRepository
     $sims = $query->getQuery()->getResult();
 
     foreach ($sims as $sim) {
-        $student = $sim->getStudent();
+        $person = $sim->getPerson();
         if(false == $sim->getActive())
             continue;
         if (null == $sim->isValidated()) {
@@ -136,54 +136,54 @@ class SimulationRepository extends EntityRepository
       return $query->getQuery()->getSingleScalarResult();
   }
 
-  public function countMissing($simstudent = null)
+  public function countMissing($simperson = null)
   {
     $query = $this->createQueryBuilder('t')
                   ->select('COUNT(t.id)')
                   ->where('t.department IS NULL');
 
-    if ($simstudent !== null) {
+    if ($simperson !== null) {
       $query->andWhere('t.rank < :rank')
-              ->setParameter('rank', $simstudent->getRank());
+              ->setParameter('rank', $simperson->getRank());
     }
 
     return $query->getQuery()->getSingleScalarResult();
   }
 
-  public function countNotActive($simstudent = null)
+  public function countNotActive($simperson = null)
   {
     $query = $this->createQueryBuilder('t')
                   ->select('COUNT(t.id)')
                   ->where('t.active = false');
 
-    if ($simstudent !== null) {
+    if ($simperson !== null) {
       $query->andWhere('t.rank < :rank')
-              ->setParameter('rank', $simstudent->getRank());
+              ->setParameter('rank', $simperson->getRank());
     }
 
     return $query->getQuery()->getSingleScalarResult();
   }
 
-  public function countFromGradeAfter($simstudent)
+  public function countFromGradeAfter($simperson)
   {
     $query = $this->createQueryBuilder('t')
-                  ->join('t.student', 's')
+                  ->join('t.person', 's')
                   ->select('COUNT(t.id)')
-                  ->where('t.rank > :simstudent_rank')
-                    ->setParameter('simstudent_rank', $simstudent->getRank())
+                  ->where('t.rank > :simperson_rank')
+                    ->setParameter('simperson_rank', $simperson->getRank())
                   ->andWhere('s.grade = :grade_id')
-                    ->setParameter('grade_id', $simstudent->getStudent()->getGrade()->getId());
+                    ->setParameter('grade_id', $simperson->getPerson()->getGrade()->getId());
 
     return $query->getQuery()->getSingleScalarResult();
   }
 
-  public function countValidStudentAfter($simstudent, $not_grades_rule = null)
+  public function countValidPersonAfter($simperson, $not_grades_rule = null)
   {
     $query = $this->createQueryBuilder('t')
-                  ->join('t.student', 's')
+                  ->join('t.person', 's')
                   ->select('COUNT(t.id)')
-                  ->where('t.rank > :simstudent_rank')
-                    ->setParameter('simstudent_rank', $simstudent->getRank())
+                  ->where('t.rank > :simperson_rank')
+                    ->setParameter('simperson_rank', $simperson->getRank())
                   ->andWhere('t.active = true');
 
     if (isset($not_grades_rule)) {
@@ -195,11 +195,11 @@ class SimulationRepository extends EntityRepository
     return $query->getQuery()->getSingleScalarResult();
   }
 
-  public function getDepartmentExtraForStudent($simstudent, $department)
+  public function getDepartmentExtraForPerson($simperson, $department)
   {
     $query = $this->createQueryBuilder('t')
-                  ->where('t.rank < :simstudent_rank')
-                    ->setParameter('simstudent_rank', $simstudent->getRank())
+                  ->where('t.rank < :simperson_rank')
+                    ->setParameter('simperson_rank', $simperson->getRank())
                   ->andWhere('t.department = :department_id')
                     ->setParameter('department_id', $department->getId())
                   ->orderBy('t.extra', 'asc')
@@ -208,9 +208,9 @@ class SimulationRepository extends EntityRepository
     return $query->getQuery()->getOneOrNullResult();
   }
 
-  public function checkNotFullInSector($simstudent, $sector)
+  public function checkNotFullInSector($simperson, $sector)
   {
-    $student_after = $this->countFromGradeAfterWithValidSector($simstudent, $sector);
+    $person_after = $this->countFromGradeAfterWithValidSector($simperson, $sector);
 
     $query = $this->createQueryBuilder('t')
                   ->join('t.department', 'd')
@@ -220,8 +220,8 @@ class SimulationRepository extends EntityRepository
                   ->setParameter('now', new \DateTime('now'))
                   ->andWhere('s.id = :sector_id')
                     ->setParameter('sector_id', $sector->getId())
-                  ->andWhere('t.extra > :student_after')
-                    ->setParameter('student_after', $student_after)
+                  ->andWhere('t.extra > :person_after')
+                    ->setParameter('person_after', $person_after)
                   ->addSelect('d');
 
     return $query->getQuery()->getResult();
@@ -230,7 +230,7 @@ class SimulationRepository extends EntityRepository
   public function getAllValid()
   {
     $query = $this->createQueryBuilder('t')
-                  ->join('t.student', 's')
+                  ->join('t.person', 's')
                   ->join('t.department', 'd')
                   ->addSelect('s')
                   ->addSelect('d');

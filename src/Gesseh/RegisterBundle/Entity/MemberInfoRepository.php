@@ -21,25 +21,25 @@ use Doctrine\ORM\EntityRepository;
  */
 class MemberInfoRepository extends EntityRepository
 {
-    public function getByStudentQuery($student)
+    public function getByPersonQuery($person)
     {
         return $this->getBaseQuery()
-            ->where('s.id = :student')
-            ->setParameter('student', $student->getId());
+            ->where('s.id = :person')
+            ->setParameter('person', $person->getId());
     }
 
-    public function getByMembershipQuery($student, $membership)
+    public function getByMembershipQuery($person, $membership)
     {
-        $query = $this->getByStudentQuery($student);
+        $query = $this->getByPersonQuery($person);
         $query->andWhere('m.id = :membership')
             ->setParameter('membership', $membership->getId());
 
         return $query;
     }
 
-    public function countByMembership($student, $membership)
+    public function countByMembership($person, $membership)
     {
-        $query = $this->getByStudentQuery($student, $membership)
+        $query = $this->getByPersonQuery($person, $membership)
             ->select('COUNT(i)');
 
         return $query->getQuery()->getSingleScalarResult();
@@ -50,7 +50,7 @@ class MemberInfoRepository extends EntityRepository
         return $this->createQueryBuilder('i')
             ->join('i.membership', 'm')
             ->addSelect('m')
-            ->join('m.student', 's')
+            ->join('m.person', 's')
             ->addSelect('s')
             ->join('i.question', 'q')
             ->addSelect('q')
@@ -78,9 +78,9 @@ class MemberInfoRepository extends EntityRepository
         return $array;
     }
 
-    public function getByMembership($student, $membership)
+    public function getByMembership($person, $membership)
     {
-        $query = $this->getByMembershipQuery($student, $membership);
+        $query = $this->getByMembershipQuery($person, $membership);
 
         return $query->getQuery()->getResult();
     }

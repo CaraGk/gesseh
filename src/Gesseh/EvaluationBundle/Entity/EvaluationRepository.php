@@ -182,7 +182,7 @@ class EvaluationRepository extends EntityRepository
                   ->addSelect('p');
 
     if ($username) {
-      $query->join('p.student', 's')
+      $query->join('p.person', 's')
             ->join('s.user', 'u')
             ->where('u.username = :username')
               ->setParameter('username', $username);
@@ -221,12 +221,12 @@ class EvaluationRepository extends EntityRepository
         }
     }
 
-    public function studentHasNonEvaluated($student, $current_period, $count_placements)
+    public function personHasNonEvaluated($person, $current_period, $count_placements)
     {
         $query = $this->getBaseQuery();
         $query->select('COUNT(DISTINCT p.id)')
-              ->where('p.student = :student')
-              ->setParameter('student', $student);
+              ->where('p.person = :person')
+              ->setParameter('person', $person);
 
         if ($current_period != null) {
             $query->andWhere('r.period != :current_period')

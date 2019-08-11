@@ -24,7 +24,7 @@ class MembershipRepository extends EntityRepository
     public function getLastByUsername($username)
     {
         $query = $this->createQueryBuilder('m');
-        $query->join('m.student', 's')
+        $query->join('m.person', 's')
             ->join('s.user', 'u')
             ->addSelect('s')
             ->addSelect('u')
@@ -37,11 +37,11 @@ class MembershipRepository extends EntityRepository
         return $query->getQuery()->getSingleResult();
     }
 
-    public function getCurrentForStudent($student, $payed = false)
+    public function getCurrentForPerson($person, $payed = false)
     {
         $query = $this->createQueryBuilder('m');
-        $query->where('m.student = :student')
-            ->setParameter('student', $student)
+        $query->where('m.person = :person')
+            ->setParameter('person', $person)
             ->andWhere('m.expiredOn > :now')
             ->setParameter('now', new \DateTime('now'))
             ->setMaxResults(1)
@@ -56,7 +56,7 @@ class MembershipRepository extends EntityRepository
     public function getCurrentForAll($filter = null)
     {
         $query = $this->createQueryBuilder('m')
-            ->join('m.student', 's')
+            ->join('m.person', 's')
             ->addSelect('s')
             ->join('s.user', 'u')
             ->addSelect('u')
@@ -92,7 +92,7 @@ class MembershipRepository extends EntityRepository
     public function getCurrentForAllComplete()
     {
         $query = $this->createQueryBuilder('m')
-            ->join('m.student', 's')
+            ->join('m.person', 's')
             ->addSelect('s')
             ->join('s.user', 'u')
             ->addSelect('u')
@@ -125,10 +125,10 @@ class MembershipRepository extends EntityRepository
         return $query->getQuery()->getResult();
     }
 
-    public function getCurrentForStudentArray()
+    public function getCurrentForPersonArray()
     {
         $query = $this->createQueryBuilder('m')
-                      ->join('m.student', 's')
+                      ->join('m.person', 's')
                       ->where('m.expiredOn > :now')
                       ->setParameter('now', new \DateTime('now'))
                       ->andWhere('m.payedOn is not NULL')

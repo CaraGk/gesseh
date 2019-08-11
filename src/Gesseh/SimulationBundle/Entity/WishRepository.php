@@ -18,18 +18,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class WishRepository extends EntityRepository
 {
-  public function getWishStudentQuery($student_id)
+  public function getWishPersonQuery($person_id)
   {
     return $this->createQueryBuilder('w')
-                ->join('w.simstudent', 't')
-                ->where('t.student = :student')
-                  ->setParameter('student', $student_id);
+                ->join('w.simperson', 't')
+                ->where('t.person = :person')
+                  ->setParameter('person', $person_id);
   }
 
   public function getWishQuery()
   {
     return $this->createQueryBuilder('w')
-                ->join('w.simstudent', 't')
+                ->join('w.simperson', 't')
                 ->join('w.department', 'd')
                 ->join('d.hospital', 'h')
                 ->join('d.accreditations', 'a')
@@ -44,11 +44,11 @@ class WishRepository extends EntityRepository
     ;
   }
 
-  public function getByStudent($student_id, $period_id)
+  public function getByPerson($person_id, $period_id)
   {
     $query = $this->getWishQuery();
-    $query->andWhere('t.student = :student')
-          ->setParameter('student', $student_id)
+    $query->andWhere('t.person = :person')
+          ->setParameter('person', $person_id)
           ->join('d.repartitions', 'r')
           ->join('r.period', 'p')
           ->addSelect('r')
@@ -62,7 +62,7 @@ class WishRepository extends EntityRepository
   public function findByUsername($username)
   {
     $query = $this->getWishQuery();
-    $query->join('t.student', 's')
+    $query->join('t.person', 's')
           ->join('s.user', 'v')
           ->andWhere('v.username = :username')
             ->setParameter('username', $username);
@@ -70,14 +70,14 @@ class WishRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
-  public function getStudentWishList($simstudent_id)
+  public function getPersonWishList($simperson_id)
   {
     $query = $this->createQueryBuilder('w')
                   ->join('w.department', 'd')
                   ->join('d.accreditations', 'a')
                   ->join('a.sector', 's')
-                  ->where('w.simstudent = :simstudent_id')
-                  ->setParameter('simstudent_id', $simstudent_id)
+                  ->where('w.simperson = :simperson_id')
+                  ->setParameter('simperson_id', $simperson_id)
                   ->andWhere('a.end > :now')
                   ->setParameter('now', new \DateTime('now'))
                   ->addSelect('d')
@@ -87,9 +87,9 @@ class WishRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
-  public function findByStudentAndRank($student_id, $rank, $period)
+  public function findByPersonAndRank($person_id, $rank, $period)
   {
-    $query = $this->getWishStudentQuery($student_id);
+    $query = $this->getWishPersonQuery($person_id);
     $query->join('w.department', 'd')
           ->addSelect('d')
           ->andWhere('w.rank = :rank')
@@ -99,8 +99,8 @@ class WishRepository extends EntityRepository
     if ($current_repartition = $wish->getDepartment()->findRepartition($period)) {
         if($cluster_name = $current_repartition->getCluster()) {
             $query = $this->getWishQuery();
-            $query->andWhere('t.student = :student_id')
-                  ->setParameter('student_id', $student_id)
+            $query->andWhere('t.person = :person_id')
+                  ->setParameter('person_id', $person_id)
                   ->andWhere('r.cluster = :cluster')
                   ->setParameter('cluster', $cluster_name);
 
@@ -112,18 +112,18 @@ class WishRepository extends EntityRepository
     }
   }
 
-  public function findByStudentAndId($student_id, $id)
+  public function findByPersonAndId($person_id, $id)
   {
-    $query = $this->getWishStudentQuery($student_id);
+    $query = $this->getWishPersonQuery($person_id);
     $query->andWhere('w.id = :id')
             ->setParameter('id', $id);
 
     return $query->getQuery()->getSingleResult();
   }
 
-  public function findByRankAfter($student_id, $rank)
+  public function findByRankAfter($person_id, $rank)
   {
-    $query = $this->getWishStudentQuery($student_id);
+    $query = $this->getWishPersonQuery($person_id);
     $query->andWhere('w.rank > :rank')
             ->setParameter('rank', $rank)
           ->addOrderBy('w.rank', 'asc');
@@ -131,28 +131,28 @@ class WishRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
-  public function getMaxRank($student_id)
+  public function getMaxRank($person_id)
   {
-    $query = $this->getWishStudentQuery($student_id)
+    $query = $this->getWishPersonQuery($person_id)
                   ->select('COUNT(w.id)');
 
     return $query->getQuery()->getSingleScalarResult();
   }
 
-  public function getWishCluster($student_id, $wish_id, $period)
+  public function getWishCluster($person_id, $wish_id, $period)
   {
       $query = $this->getWishQuery();
       $query->andWhere('w.id = :wish_id')
             ->setParameter('wish_id', $wish_id)
-            ->andWhere('t.student = :student_id')
-            ->setParameter('student_id', $student_id);
+            ->andWhere('t.person = :person_id')
+            ->setParameter('person_id', $person_id);
       $wish = $query->getQuery()->getSingleResult();
 
       if($current_repartition = $wish->getDepartment()->findRepartition($period)) {
           if($cluster_name = $current_repartition->getCluster()) {
               $query = $this->getWishQuery();
-              $query->andWhere('t.student = :student_id')
-                    ->setParameter('student_id', $student_id)
+              $query->andWhere('t.person = :person_id')
+                    ->setParameter('person_id', $person_id)
                     ->andWhere('r.cluster = :cluster')
                     ->setParameter('cluster', $cluster_name())
               ;

@@ -54,9 +54,9 @@ class Grade
   private $isActive;
 
   /**
-   * @ORM\OneToMany(targetEntity="Student", mappedBy="grade")
+   * @ORM\OneToMany(targetEntity="Person", mappedBy="grade")
    */
-  private $students;
+  private $persons;
 
     /**
      * @ORM\ManyToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Structure", inversedBy="receipts", cascade={"persist"})
@@ -68,7 +68,7 @@ class Grade
 
   public function __construct()
   {
-    $this->students = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->persons = new \Doctrine\Common\Collections\ArrayCollection();
   }
 
   public function __toString()
@@ -147,32 +147,32 @@ class Grade
     }
 
     /**
-     * Add students
+     * Add persons
      *
-     * @param Gesseh\UserBundle\Entity\Student $students
+     * @param Gesseh\UserBundle\Entity\Person $persons
      */
-    public function addStudent(\Gesseh\UserBundle\Entity\Student $students)
+    public function addPerson(\Gesseh\UserBundle\Entity\Person $persons)
     {
-        $this->students[] = $students;
+        $this->persons[] = $persons;
     }
 
     /**
-     * Remove students
+     * Remove persons
      *
-     * @param Gesseh\UserBundle\Entity\Student $students
+     * @param Gesseh\UserBundle\Entity\Person $persons
      */
-    public function removeStudent(\Gesseh\UserBundle\Entity\Student $students)
+    public function removePerson(\Gesseh\UserBundle\Entity\Person $persons)
     {
     }
 
     /**
-     * Get students
+     * Get persons
      *
      * @return Doctrine\Common\Collections\Collection
      */
-    public function getStudents()
+    public function getPersons()
     {
-        return $this->students;
+        return $this->persons;
     }
     /**
      * Set structure

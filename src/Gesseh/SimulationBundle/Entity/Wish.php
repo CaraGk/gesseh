@@ -48,10 +48,10 @@ class Wish
 
     /**
      * @ORM\ManyToOne(targetEntity="Gesseh\SimulationBundle\Entity\Simulation", inversedBy="wishes", cascade={"persist"})
-     * @ORM\JoinColumn(name="simstudent", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="sim_id", referencedColumnName="id", nullable=false)
      * @Assert\Type(type="Gesseh\SimulationBundle\Entity\Simulation")
      */
-    private $simstudent;
+    private $simulation;
 
     /**
      * @ORM\ManyToOne(targetEntity="\Gesseh\RegisterBundle\Entity\Structure", inversedBy="receipts", cascade={"persist"})
@@ -117,23 +117,23 @@ class Wish
     }
 
     /**
-     * Set simstudent
+     * Set simulation
      *
-     * @param Gesseh\SimulationBundle\Entity\Simulation $simstudent
+     * @param Gesseh\SimulationBundle\Entity\Simulation $simulation
      */
-    public function setSimstudent(\Gesseh\SimulationBundle\Entity\Simulation $simstudent)
+    public function setSimulation(\Gesseh\SimulationBundle\Entity\Simulation $simulation)
     {
-      $this->simstudent = $simstudent;
+      $this->simulation = $simulation;
     }
 
     /**
-     * Get simstudent
+     * Get simulation
      *
      * @return Gesseh\SimulationBundle\Entity\Simulation
      */
-    public function getSimstudent()
+    public function getSimulation()
     {
-      return $this->simstudent;
+      return $this->simulation;
     }
     /**
      * Set structure

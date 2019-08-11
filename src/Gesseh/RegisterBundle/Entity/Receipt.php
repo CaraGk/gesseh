@@ -50,7 +50,7 @@ class Receipt
     private $end;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Gesseh\UserBundle\Entity\Student", inversedBy="receipts", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="\Gesseh\UserBundle\Entity\Person", inversedBy="receipts", cascade={"persist"})
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      *
      * @var Person $person
@@ -283,7 +283,7 @@ class Receipt
      *
      * @return Receipt
      */
-    public function setPerson(\Gesseh\UserBundle\Entity\Student $person = null)
+    public function setPerson(\Gesseh\UserBundle\Entity\Person $person = null)
     {
         $this->person = $person;
 

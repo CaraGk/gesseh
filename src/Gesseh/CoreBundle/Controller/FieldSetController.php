@@ -155,8 +155,8 @@ class FieldSetController extends Controller
         foreach ($gateways as $gateway) {
             $name = $gateway->getGatewayName();
             $t = explode('_', $name);
-            if (count($t) == 2) {
-                $name = $t[0] . '_site_' . $t[1];
+            if (count($t) == 1) {
+                $name = 'site_' . $t[0];
                 $gateway->setGatewayName($name);
                 $em->persist($gateway);
             } else {

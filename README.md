@@ -3,6 +3,8 @@ GESSEH
 
 G.E.S.S.E.H. est un acronyme qui signifie : **Gestionnaire d'Évaluation et de Sélection des Stages d'Étudiant Hospitalier**.
 
+<span style="color:red;">**Attention : Ce logiciel n'est plus maintenu !!! La suite de l'aventure se passe sur [PIGASS](https://github.com/CaraGk/pigass/)**</span>
+
 1) Contexte
 -----------
 

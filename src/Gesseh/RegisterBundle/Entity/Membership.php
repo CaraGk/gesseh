@@ -32,7 +32,7 @@ class Membership
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Gesseh\UserBundle\Entity\Student", inversedBy="memberships", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="\Gesseh\UserBundle\Entity\Person", inversedBy="memberships", cascade={"persist"})
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
     private $person;

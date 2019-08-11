@@ -40,12 +40,12 @@ class Simulation
     private $rank;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gesseh\UserBundle\Entity\Student")
-     * @ORM\JoinColumn(name="student_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Gesseh\UserBundle\Entity\Person")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="id", nullable=false)
      * @Assert\NotBlank()
-     * @Assert\Type(type="Gesseh\UserBundle\Entity\Student")
+     * @Assert\Type(type="Gesseh\UserBundle\Entity\Person")
      */
-    private $student;
+    private $person;
 
     /**
      * @ORM\ManyToOne(targetEntity="Gesseh\CoreBundle\Entity\Department")
@@ -81,7 +81,7 @@ class Simulation
     private $is_validated;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gesseh\SimulationBundle\Entity\Wish", mappedBy="simstudent", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Gesseh\SimulationBundle\Entity\Wish", mappedBy="simperson", cascade={"remove"})
      * @ORM\OrderBy({"rank" = "asc"})
      */
     private $wishes;
@@ -142,23 +142,23 @@ class Simulation
         return $this;
     }
     /**
-     * Set student
+     * Set person
      *
-     * @param Gesseh\UserBundle\Entity\Student $student
+     * @param Gesseh\UserBundle\Entity\Person $person
      */
-    public function setStudent(\Gesseh\UserBundle\Entity\Student $student)
+    public function setPerson(\Gesseh\UserBundle\Entity\Person $person)
     {
-        $this->student = $student;
+        $this->person = $person;
     }
 
     /**
-     * Get student
+     * Get person
      *
-     * @return Gesseh\UserBundle\Entity\Student
+     * @return Gesseh\UserBundle\Entity\Person
      */
-    public function getStudent()
+    public function getPerson()
     {
-        return $this->student;
+        return $this->person;
     }
 
     /**

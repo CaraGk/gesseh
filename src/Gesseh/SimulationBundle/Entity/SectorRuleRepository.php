@@ -44,38 +44,38 @@ class SectorRuleRepository extends EntityRepository
       ;
   }
 
-  public function getForStudent($simstudent, $period, $em)
+  public function getForPerson($simperson, $period, $em)
   {
     $query = $this->createQueryBuilder('r')
                   ->join('r.sector', 's')
                   ->addSelect('s')
                   ->where('r.grade = :grade_id')
-                    ->setParameter('grade_id', $simstudent->getStudent()->getGrade()->getId())
+                    ->setParameter('grade_id', $simperson->getPerson()->getGrade()->getId())
                   ->orderBy('r.relation', 'desc');
 
     $results = $query->getQuery()->getResult();
     $rules['sector']['NOT'] = $rules['department']['NOT'] = $rules['department']['IN'] = array();
 
     foreach ($results as $result) {
-      if ($result->getRelation() == "NOT") {  /* sector forbidden for the student's prom' */
+      if ($result->getRelation() == "NOT") {  /* sector forbidden for the person's prom' */
         array_push($rules['sector']['NOT'], $result->getSector()->getId());
-      } elseif ($result->getRelation() == "FULL") {  /* sector must be complete after the student's prom' */
+      } elseif ($result->getRelation() == "FULL") {  /* sector must be complete after the person's prom' */
         $sector_id = $result->getSector()->getId();
 
         $departments = $em->getRepository('GessehCoreBundle:Department')->getBySectorForPeriod($sector_id, $period->getId());  /* departments from sector */
-        $placements = $em->getRepository('GessehCoreBundle:Department')->getByStudent($simstudent->getStudent()->getId()); /* student's placements */
+        $placements = $em->getRepository('GessehCoreBundle:Department')->getByPerson($simperson->getPerson()->getId()); /* person's placements */
 
-        if (array_intersect($placements, $departments)) { /* if student did allready go to a department from sector, she don't have to do it again */
+        if (array_intersect($placements, $departments)) { /* if person did allready go to a department from sector, she don't have to do it again */
           continue;
         }
 
         $not_grades_rule = $this->getNOTGradeBySector($sector_id);  /* prom's that can't do that sector */
-        $count_student_after = $em->getRepository('GessehSimulationBundle:Simulation')->countValidStudentAfter($simstudent, $not_grades_rule);
+        $count_person_after = $em->getRepository('GessehSimulationBundle:Simulation')->countValidPersonAfter($simperson, $not_grades_rule);
         $total_extra = 0;
         $list = array();
 
         foreach ($departments as $department) {
-          $simul_extra = $em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentExtraForStudent($simstudent, $department);
+          $simul_extra = $em->getRepository('GessehSimulationBundle:Simulation')->getDepartmentExtraForPerson($simperson, $department);
           if (isset($simul_extra)) {
             $total_extra += $simul_extra->getExtra();
           } else {
@@ -86,13 +86,13 @@ class SectorRuleRepository extends EntityRepository
           array_push($list, $department->getId());
         }
 
-        if ($total_extra > (int) $count_student_after) {
+        if ($total_extra > (int) $count_person_after) {
           $rules['department']['IN'] = array_merge($rules['department']['IN'], $list);
         }
       }
     }
 
-    $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getStudentWishList($simstudent->getId()); /* student's wish list */
+    $wishes = $em->getRepository('GessehSimulationBundle:Wish')->getPersonWishList($simperson->getId()); /* person's wish list */
 
     foreach ($wishes as $wish) {
         array_push($rules['department']['NOT'], $wish->getDepartment()->getId()); /* don't choose again a department you've already chosen */

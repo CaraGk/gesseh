@@ -21,7 +21,7 @@ class PlacementRepository extends EntityRepository
   public function getBaseQuery()
   {
     return $this->createQueryBuilder('p')
-                ->join('p.student', 's')
+                ->join('p.person', 's')
                 ->join('p.repartition', 'r')
                 ->join('r.period', 'q')
                 ->join('r.department', 'd')
@@ -59,11 +59,11 @@ class PlacementRepository extends EntityRepository
     return $query->getQuery()->getResult();
   }
 
-    public function getByStudent($student_id)
+    public function getByPerson($person_id)
     {
         $query = $this->getBaseQuery();
-        $query->where('s.id = :student_id')
-            ->setParameter('student_id', $student_id)
+        $query->where('s.id = :person_id')
+            ->setParameter('person_id', $person_id)
             ->andWhere('a.begin <= q.begin')
             ->andWhere('a.end >= q.end')
             ->addOrderBy('q.begin', 'desc')
@@ -111,12 +111,12 @@ class PlacementRepository extends EntityRepository
     return $query->getQuery();
   }
 
-  public function getCountByStudentWithoutCurrentPeriod($student, $current_period = null)
+  public function getCountByPersonWithoutCurrentPeriod($person, $current_period = null)
   {
       $query = $this->createQueryBuilder('p')
                     ->select('COUNT(p)')
-                    ->where('p.student = :student')
-                    ->setParameter('student', $student)
+                    ->where('p.person = :person')
+                    ->setParameter('person', $person)
       ;
 
     if ($current_period != null) {
@@ -131,16 +131,16 @@ class PlacementRepository extends EntityRepository
       ;
   }
 
-    public function getByStudentAndDepartment($student_id, $department_id)
+    public function getByPersonAndDepartment($person_id, $department_id)
     {
         $query = $this->createQueryBuilder('p')
-            ->join('p.student', 's')
+            ->join('p.person', 's')
             ->join('p.repartition', 'r')
             ->join('r.period', 'q')
             ->join('r.department', 'd')
-            ->where('s.id = :student_id')
+            ->where('s.id = :person_id')
             ->andWhere('d.id = :department_id')
-            ->setParameter('student_id', $student_id)
+            ->setParameter('person_id', $person_id)
             ->setParameter('department_id', $department_id)
         ;
 
