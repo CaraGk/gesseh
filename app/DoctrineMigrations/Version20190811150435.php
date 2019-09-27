@@ -67,7 +67,7 @@ class Version20190811150435 extends AbstractMigration
      */
     public function postUp(Schema $schema)
     {
-        $this->connection->exec('INSERT INTO structure (id, name, fullname, slug, activated, address, email, url, phone, area, areamap) VALUES (1, "site", "site", "site", 1, "", "", "", "", "", "")');
+        $this->connection->exec('INSERT INTO structure (id, name, fullname, slug, activated, address, email, url, phone, area, areamap) VALUES (1, "site", "site", "site", 1, NULL, "", "", "", "", NULL)');
         $this->connection->exec('UPDATE repartition SET structure_id = "1" WHERE true');
         $this->connection->exec('UPDATE period SET structure_id = "1" WHERE true');
         $this->connection->exec('UPDATE sector SET structure_id = "1" WHERE true');

@@ -67,7 +67,7 @@ class Structure
     private $email;
 
     /**
-     * @ORM\Column(name="address", type="array")
+     * @ORM\Column(name="address", type="array", nullable=true)
      *
      * @var array $address
      */
