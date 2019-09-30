@@ -74,6 +74,7 @@ final class Version20190811174523 extends AbstractMigration
         $this->connection->exec("DELETE FROM parameter WHERE name = 'reg_name'");
         $this->connection->exec("DELETE FROM parameter WHERE name = 'reg_fullname'");
         $this->connection->exec("DELETE FROM parameter WHERE name = 'reg_logo'");
+        $this->connection->exec('UPDATE membership SET status = "validated" WHERE status = ""');
     }
 
     /**
